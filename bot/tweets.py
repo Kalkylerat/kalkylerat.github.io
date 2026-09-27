@@ -10,7 +10,6 @@ LIMIT = 280
 # twitter-text ağırlıklandırması: bu aralıklar 1, diğer karakterler 2 sayılır.
 _TEK = ((0, 4351), (8192, 8205), (8208, 8223), (8242, 8247))
 ANSVAR = "18+ | Play responsibly"
-TUR = {"guvenli": "Safe pick (high chance)", "deger": "Value pick (odds above the real chance)"}
 
 
 def uzunluk(metin: str) -> int:
@@ -90,11 +89,12 @@ def gun_tweeti(gun: dict, ozet: dict) -> str:
 
 
 def analiz_tweetleri(gun: dict) -> list[str]:
+    kisa_tur = {"guvenli": "safe pick", "deger": "value pick"}
     return [
         kirp(f'{i}) {s["ev"]} v {s["dep"]} · {s["saat"]}\n'
-             f'Pick: {s["etiket"]} @{s["oran"]:.2f} ({yuzde(s["adil_olasilik"])} chance)\n'
-             f'{TUR[s["tur"]]} · stake {para(s["stake"], gun["para"])}\n'
-             f'Most likely score: {s["olasi_skor"].replace("-", "–")}\n\n{s["yorum"]}')
+             f'{s["etiket"]} @{s["oran"]:.2f}\n'
+             f'{yuzde(s["adil_olasilik"])} chance · {kisa_tur[s["tur"]]} · stake {para(s["stake"], gun["para"])}\n'
+             f'Likely score: {s["olasi_skor"].replace("-", "–")}\n\n{s["yorum"]}')
         for i, s in enumerate(gun["secimler"], 1)
     ]
 

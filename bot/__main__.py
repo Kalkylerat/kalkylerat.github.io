@@ -31,11 +31,14 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime) -> d
     print(f"{len(maclar)} uygun maç bulundu.")
     mac_map, adaylar = {}, []
     for m in maclar:
-        bahisciler = football.oranlari_al(api, m["fixture_id"])
-        if not bahisciler:
-            continue
-        ist = football.istatistik_al(api, m["fixture_id"])
-        if not ist:
+        try:
+            bahisciler = football.oranlari_al(api, m["fixture_id"])
+            ist = football.istatistik_al(api, m["fixture_id"]) if bahisciler else None
+        except football.ApiHatasi as e:
+            # Günlük istek sınırı dolarsa o ana kadar taranan maçlarla devam edilir.
+            print(f"Tarama erken bitti: {e}")
+            break
+        if not bahisciler or not ist:
             continue
         mac_adaylari = adaylari_uret(m, bahisciler, ist, ayar)
         if mac_adaylari:
@@ -51,7 +54,11 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime) -> d
            "para": ayar.para_birimi, "yuzde": ayar.oyun_yuzdesi}
     if adaylar:
         for fid in {a["fixture_id"] for a in adaylar}:
-            mac_map[fid]["sakatlar"] = football.sakatlari_al(api, fid)
+            try:
+                mac_map[fid]["sakatlar"] = football.sakatlari_al(api, fid)
+            except football.ApiHatasi as e:
+                print(f"Sakat listesi alınamadı: {e}")
+                break
         karar = sec(mac_map, adaylar, ayar)
     else:
         karar = {"secimler": [], "gerekce_yoksa": "Kriterleri geçen yüksek ihtimalli oyun yok."}

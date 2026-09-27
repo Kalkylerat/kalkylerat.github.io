@@ -276,3 +276,19 @@ def test_bet_builder_birlestirme_ve_sonuclandirma():
     kayit.sonuclandir([g], {1: {"durum": "bitti", "skor": (1, 0)}, 2: {"durum": "bitti", "skor": (2, 0)}}, SIMDI)
     assert bb["durum"] == "kaybetti" and [x["durum"] for x in bb["bacaklar"]] == ["kazandi", "kaybetti"]
     assert secimler[1]["durum"] == "kazandi"
+
+
+def test_istek_siniri_dolarsa_toplananlarla_devam_eder(monkeypatch, capsys):
+    from bot.__main__ import tahmin
+    api = football.DemoApi(config.ROOT / "ornek" / "api_football.json")
+    asil = api.get
+
+    def sinirli(path, **params):
+        if path == "odds" and params.get("fixture") == 9104:
+            raise football.ApiHatasi("request limit")
+        return asil(path, **params)
+
+    api.get = sinirli
+    simdi = datetime.fromisoformat(api.data["simdi"])
+    gun = tahmin(AYAR, api, editor.basit_sec, [], "2026-10-03", simdi)
+    assert gun and gun["secimler"] and "Tarama erken bitti" in capsys.readouterr().out

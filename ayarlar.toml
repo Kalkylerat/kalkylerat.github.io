@@ -7,8 +7,8 @@ saat_dilimi = "Europe/Stockholm"
 # API-Football lig ID'leri. Sıra önceliği belirler (ücretsiz planda ilk ligler taranır).
 # 113 Allsvenskan, 39 Premier League, 114 Superettan, 40 Championship, 140 La Liga, 135 Serie A,
 # 78 Bundesliga, 61 Ligue 1, 2 Şampiyonlar Ligi, 3 Avrupa Ligi, 848 Konferans Ligi,
-# 103 Eliteserien (Norveç), 119 Superliga (Danimarka), 88 Eredivisie
-izinli = [113, 39, 2, 3, 848, 114, 40, 140, 135, 78, 61, 103, 119, 88]
+# 103 Eliteserien (Norveç), 119 Superliga (Danimarka), 88 Eredivisie, 5 UEFA Nations League (milli maç araları)
+izinli = [113, 39, 2, 3, 848, 5, 114, 40, 140, 135, 78, 61, 103, 119, 88]
 # Günlük en fazla kaç maç analiz edilsin. Ücretsiz API-Football planı (100 istek/gün) için 60 civarı kalın.
 max_mac_tarama = 60
 

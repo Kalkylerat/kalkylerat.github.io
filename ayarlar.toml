@@ -63,4 +63,4 @@ effort = "high"
 [yayin]
 # false: oyunlar taslak olarak kaydedilir, siz "yayinla" komutunu çalıştırınca paylaşılır.
 # true: oyunlar hazırlanır hazırlanmaz X'te paylaşılır.
-otomatik_paylas = false
+otomatik_paylas = true

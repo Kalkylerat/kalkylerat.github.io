@@ -13,7 +13,7 @@ Candidates already passed the data checks. Each has:
 Markets include match result, double chance, goal lines, both teams to score, half-time result, first-half goals and corners.
 
 Your job:
-1. Pick at most the requested number of picks. Mix safe and value picks when both are good; prefer quality over quantity. Spread picks across different matches (this also allows a combo); take a second pick from the same match only when it is clearly stronger than the best pick from another match. If nothing is convincing, return an empty list and explain why in gerekce_yoksa.
+1. Pick at most the requested number of picks. Mix safe and value picks when both are good; prefer quality over quantity. Spread picks across different matches (this also allows a combo); take a second pick from the same match only when it is clearly stronger than the best pick from another match. Two picks from the same match are shown together as one bet builder with one estimated price; in that case write the explanation on the first of them and leave yorum empty on the second. If nothing is convincing, return an empty list and explain why in gerekce_yoksa.
 2. For each pick, write a short explanation (max 150 characters, one or two short sentences) in plain, simple English, like a stats expert telling a friend how the match will most likely go and why. Use only the data given (form, home/away scoring, goals conceded, expected goals, head-to-head, injuries, chances). Never invent news, line-ups, referees, weather or corner statistics that are not in the data; for corner picks, lean on the market chance and the expected attacking pressure.
 3. Write a short headline (max 50 characters).
 

@@ -5,7 +5,7 @@ from html import escape
 from pathlib import Path
 
 from .kayit import gun_kar, kar, kombi_durumu, kombi_olasilik, kombi_oran, ozet
-from .tweets import para
+from .tweets import oran_metni, para
 
 DURUM = {"kazandi": "Won", "kaybetti": "Lost", "iptal": "Void", "bekliyor": "Pending"}
 
@@ -48,7 +48,7 @@ footer {{ color:var(--muted); font-size:13px; margin-top:32px; }}
 <div class="tile"><b>{vantande}</b><span>Pending</span></div>
 </div>
 {gunler}
-<footer>18+ | For information only, not an invitation to gamble. Gambling can be addictive – never bet money you cannot afford to lose. Sweden: Stödlinjen 020-81 91 00. Chances are fair probabilities from a sharp betting market with the bookmaker margin removed. Value picks are picks where the best available odds are higher than that fair chance. Odds are taken at posting time and may have changed.</footer>
+<footer>18+ | For information only, not an invitation to gamble. Gambling can be addictive – never bet money you cannot afford to lose. Sweden: Stödlinjen 020-81 91 00. Chances are fair probabilities from a sharp betting market with the bookmaker margin removed. Odds are the median of major bookmakers. Value picks are picks whose odds are higher than the fair chance. Bet builder odds (≈) are estimated from the goal model because bookmakers price them individually. Odds are taken at posting time and may have changed.</footer>
 </main></body></html>
 """
 
@@ -58,9 +58,9 @@ def _gun_html(g: dict) -> str:
     tur = {"guvenli": "safe", "deger": "value"}
     satirlar = "".join(
         f'<tr><td>{escape(s["ev"])} v {escape(s["dep"])}<div class="yorum">{escape(s["yorum"])}</div></td>'
-        f'<td>{escape(s["kisa"])}<div class="yorum">{100 * s["adil_olasilik"]:.0f}% chance · {tur[s["tur"]]}'
+        f'<td>{escape(s["kisa"])}<div class="yorum">{100 * s["adil_olasilik"]:.0f}% chance · {"bet builder · " if s.get("bet_builder") else ""}{tur[s["tur"]]}'
         f' · stake {para(s["stake"], birim)}</div></td>'
-        f'<td class="num">{s["oran"]:.2f}</td><td class="num">{escape((s.get("skor") or "").replace("-", "–"))}</td>'
+        f'<td class="num">{oran_metni(s)}</td><td class="num">{escape((s.get("skor") or "").replace("-", "–"))}</td>'
         f'<td class="num {s["durum"]}">{DURUM[s["durum"]]}<br>{para(kar(s), birim) if s["durum"] in ("kazandi", "kaybetti") else ""}</td></tr>'
         for s in g["secimler"]
     )

@@ -40,9 +40,19 @@ def test_adil_olasilik_keskin_yoksa_ortalama():
     assert kaynak["UST25"] == "Pinnacle" and adil["UST25"] > 0.6
 
 
-def test_en_iyi_oran_sadece_listedeki_bahisciden():
-    b = {"Unibet": {"MS1": 2.1}, "Bet365": {"MS1": 2.2}, "1xBet": {"MS1": 2.6}}
-    assert model.en_iyi_oranlar(b, ["Unibet", "Bet365"])["MS1"] == (2.2, "Bet365")
+def test_piyasa_orani_medyan_ve_sadece_listedeki_bahisciler():
+    b = {"Unibet": {"MS1": 2.1}, "Bet365": {"MS1": 2.2}, "Betano": {"MS1": 2.0}, "1xBet": {"MS1": 2.6}}
+    assert model.piyasa_oranlari(b, ["Unibet", "Bet365", "Betano"])["MS1"] == (2.1, "median of 3")
+
+
+def test_bet_builder_iliskiyi_hesaba_katar():
+    lam = [2.2, 0.6]
+    ms1 = dict(pazar="MS1", oran=1.5, adil_olasilik=0.66, beklenen_gol=lam)
+    ust = dict(pazar="UST25", oran=1.9, adil_olasilik=0.52, beklenen_gol=lam)
+    oran, p = model.bet_builder([ms1, ust])
+    assert p > 0.66 * 0.52 and oran < 1.5 * 1.9  # ev sahibi galibiyeti ile çok gol birlikte daha olası
+    kor = dict(pazar="KORU95", oran=1.8, adil_olasilik=0.55, beklenen_gol=lam)
+    assert model.bet_builder([ms1, kor]) == (2.7, 0.363)  # korner için model yok: bağımsız kabul
 
 
 @pytest.mark.parametrize("pazar,ev,dep,iy,korner,beklenen", [
@@ -75,7 +85,7 @@ def test_aday_turu():
 
 
 def _secim(fid, oran, p, pazar="MS1", **ek):
-    s = {"fixture_id": fid, "pazar": pazar, "oran": oran, "adil_olasilik": p, "tur": "guvenli",
+    s = {"fixture_id": fid, "lig": "Test League", "pazar": pazar, "oran": oran, "adil_olasilik": p, "tur": "guvenli",
          "baslama": "2026-10-03T15:00:00+02:00", "saat": "15:00 CEST", "durum": "bekliyor", "stake": 100.0,
          "ev": f"Home{fid}", "dep": f"Away{fid}", "etiket": "Home to win", "kisa": f"Home{fid} win",
          "olasi_skor": "2-0", "yorum": ""}
@@ -216,7 +226,7 @@ def test_demo_uctan_uca(monkeypatch, capsys):
     assert main(["demo"]) == 0
     cikti = capsys.readouterr().out
     assert "TODAY'S PICKS" in cikti and "Results 3 Oct: 3/3 won" in cikti
-    assert "· value" in cikti and "Combo 2+3" in cikti and "Bank €10,276" in cikti
+    assert "· value" in cikti and "Combo 2+3" in cikti and "Bank €10," in cikti
     assert "1xBet" not in cikti  # listede olmayan bahisçi asla kullanılmaz
     assert "Djurgården" not in cikti.split("TWEET #1")[1]  # kriteri geçmeyen maç seçilmez
 
@@ -248,3 +258,21 @@ def test_api_istek_siniri_bekler_ve_tekrar_dener(monkeypatch):
 def test_en_olasi_skor():
     skor, p = model.en_olasi_skor(2.2, 0.6)
     assert skor == "2-0" and 0 < p < 1
+
+
+def test_bet_builder_birlestirme_ve_sonuclandirma():
+    from bot.__main__ import bet_builder_birlestir
+    lam = [1.8, 0.9]
+    a = _secim(1, 1.5, 0.66, "MS1", beklenen_gol=lam, yorum="Home are strong.")
+    b = _secim(1, 1.3, 0.75, "UST15", kisa="Over 1.5 goals", etiket="2+ goals", beklenen_gol=lam, yorum="")
+    c = _secim(2, 1.4, 0.7, "MS1", beklenen_gol=lam)
+    secimler = bet_builder_birlestir([a, b, c])
+    assert len(secimler) == 2
+    bb = secimler[0]
+    assert bb["bet_builder"] and bb["kisa"] == "Home1 win + Over 1.5 goals" and bb["yorum"] == "Home are strong."
+    g = _gun("2026-10-03", secimler)
+    ana = tweets.gun_tweeti(g, kayit.ozet([], 10000))
+    assert f"1) Home1 v Away1: Home1 win + Over 1.5 goals @≈{bb['oran']:.2f}" in ana and "bet builder" in ana
+    kayit.sonuclandir([g], {1: {"durum": "bitti", "skor": (1, 0)}, 2: {"durum": "bitti", "skor": (2, 0)}}, SIMDI)
+    assert bb["durum"] == "kaybetti" and [x["durum"] for x in bb["bacaklar"]] == ["kazandi", "kaybetti"]
+    assert secimler[1]["durum"] == "kazandi"

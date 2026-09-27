@@ -1,7 +1,8 @@
 """Olasılık motoru: keskin piyasanın (Pinnacle) marjı arındırılmış adil olasılığı, büyük bahisçilerdeki en iyi oran
-ve Poisson gol modeli. Adaylar iki türdür: "guvenli" (yüksek ihtimal) ve "deger" (oran gerçek ihtimalden yüksek)."""
+(listedeki bahisçilerin medyan oranı) ve Poisson gol modeli. Adaylar iki türdür: "guvenli" (yüksek ihtimal) ve "deger" (oran gerçek ihtimalden yüksek)."""
 
 import math
+import statistics
 
 MAX_GOL = 10
 IY_ORANI = 0.45  # maçtaki gollerin yaklaşık %45'i ilk yarıda atılır
@@ -106,21 +107,46 @@ def en_olasi_skor(lam_ev: float, lam_dep: float) -> tuple[str, float]:
     return f"{i}-{j}", _poisson(i, lam_ev) * _poisson(j, lam_dep)
 
 
+def _skor_dagilimi(lam_ev: float, lam_dep: float, ust: int = 8):
+    """İlk yarı ve ikinci yarı gollerini ayrı Poisson olarak dolaşır: (ilk yarı skoru, maç sonu skoru, olasılık)."""
+    iy_ev, iy_dep = lam_ev * IY_ORANI, lam_dep * IY_ORANI
+    iky_ev, iky_dep = lam_ev - iy_ev, lam_dep - iy_dep
+    iy = [(i, j, _poisson(i, iy_ev) * _poisson(j, iy_dep)) for i in range(ust) for j in range(ust)]
+    iky = [(k, l, _poisson(k, iky_ev) * _poisson(l, iky_dep)) for k in range(ust) for l in range(ust)]
+    for i, j, p1 in iy:
+        for k, l, p2 in iky:
+            yield (i, j), (i + k, j + l), p1 * p2
+
+
 def model_olasiliklari(lam_ev: float, lam_dep: float) -> dict[str, float]:
     """Tam maç ve ilk yarı pazarları için Poisson olasılıkları. Korner için model yok."""
     p = {k: 0.0 for k in TAM_MAC + ILK_YARI}
-    ht_ev, ht_dep = lam_ev * IY_ORANI, lam_dep * IY_ORANI
-    for i in range(MAX_GOL + 1):
-        for j in range(MAX_GOL + 1):
-            tam = _poisson(i, lam_ev) * _poisson(j, lam_dep)
-            ilk = _poisson(i, ht_ev) * _poisson(j, ht_dep)
-            for pazar in TAM_MAC:
-                if kazandi_mi(pazar, i, j):
-                    p[pazar] += tam
-            for pazar in ILK_YARI:
-                if kazandi_mi(pazar, 0, 0, iy=(i, j)):
-                    p[pazar] += ilk
+    for iy, (ev, dep), olas in _skor_dagilimi(lam_ev, lam_dep):
+        for pazar in p:
+            if kazandi_mi(pazar, ev, dep, iy=iy):
+                p[pazar] += olas
     return p
+
+
+def ortak_olasilik(pazarlar: list[str], lam_ev: float, lam_dep: float) -> float:
+    """Aynı maçtaki gol/ilk yarı pazarlarının birlikte gerçekleşme olasılığı (korner hariç)."""
+    return sum(olas for iy, (ev, dep), olas in _skor_dagilimi(lam_ev, lam_dep)
+               if all(kazandi_mi(pz, ev, dep, iy=iy) for pz in pazarlar))
+
+
+def bet_builder(bacaklar: list[dict]) -> tuple[float, float]:
+    """Aynı maçtaki seçimler için (tahmini oran, tahmini adil olasılık).
+    Piyasa olasılıkları çarpılır, gol modelinin gösterdiği ilişki (korelasyon) oranıyla düzeltilir."""
+    gol = [b for b in bacaklar if not b["pazar"].startswith("KOR")]
+    carpan = 1.0
+    if len(gol) >= 2:
+        lam_ev, lam_dep = gol[0]["beklenen_gol"]
+        tekil = math.prod(model_olasiliklari(lam_ev, lam_dep)[b["pazar"]] for b in gol)
+        if tekil > 0:
+            carpan = min(max(ortak_olasilik([b["pazar"] for b in gol], lam_ev, lam_dep) / tekil, 0.5), 2.0)
+    olasilik = min(math.prod(b["adil_olasilik"] for b in bacaklar) * carpan, 0.99)
+    oran = math.prod(b["oran"] for b in bacaklar) / carpan
+    return round(oran, 2), round(olasilik, 3)
 
 
 def piyasa_olasiliklari(oranlar: dict[str, float]) -> dict[str, float]:
@@ -162,16 +188,15 @@ def adil_olasiliklar(bahisciler: dict[str, dict[str, float]], keskin: str) -> tu
     return adil, kaynak
 
 
-def en_iyi_oranlar(bahisciler: dict[str, dict[str, float]], izinli: list[str]) -> dict[str, tuple[float, str]]:
+def piyasa_oranlari(bahisciler: dict[str, dict[str, float]], izinli: list[str]) -> dict[str, tuple[float, str]]:
+    """Listedeki bahisçilerin medyan oranı: takipçinin çoğu sitede bulabileceği gerçekçi fiyat."""
     izin = {ad.lower() for ad in izinli}
-    en_iyi: dict[str, tuple[float, str]] = {}
-    for ad, oranlar in bahisciler.items():
-        if ad.lower() not in izin:
-            continue
-        for pazar, oran in oranlar.items():
-            if pazar not in en_iyi or oran > en_iyi[pazar][0]:
-                en_iyi[pazar] = (oran, ad)
-    return en_iyi
+    oranlar: dict[str, list[float]] = {}
+    for ad, o in bahisciler.items():
+        if ad.lower() in izin:
+            for pazar, oran in o.items():
+                oranlar.setdefault(pazar, []).append(oran)
+    return {pazar: (round(statistics.median(liste), 2), f"median of {len(liste)}") for pazar, liste in oranlar.items()}
 
 
 def aday_turu(p: float, deger: float, ayar) -> str | None:
@@ -190,7 +215,7 @@ def adaylari_uret(mac: dict, bahisciler: dict[str, dict[str, float]], ist: dict,
     model = model_olasiliklari(lam_ev, lam_dep)
     skor, skor_p = en_olasi_skor(lam_ev, lam_dep)
     adaylar = []
-    for pazar, (oran, bolag) in en_iyi_oranlar(bahisciler, ayar.oran_bahiscileri).items():
+    for pazar, (oran, bolag) in piyasa_oranlari(bahisciler, ayar.oran_bahiscileri).items():
         if pazar not in adil or not (ayar.oran_min <= oran <= ayar.oran_max):
             continue
         p = adil[pazar]

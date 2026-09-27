@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
 from . import config, editor, football, kayit, panel, tweets
-from .model import adaylari_uret, kombi_kur
+from .model import adaylari_uret, bet_builder, kombi_kur
 
 GUVENLI_LIMIT = 10
 DEGER_LIMIT = 6
@@ -75,9 +75,10 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime) -> d
             "olasi_skor": a["olasi_skor"], "pazar": a["pazar"], "tur": a["tur"], "etiket": a["etiket"],
             "kisa": a["kisa"], "oran": a["oran"], "stake": stake,
             "bolag": a["bolag"], "adil_olasilik": a["adil_olasilik"], "adil_kaynak": a["adil_kaynak"],
-            "model_olasilik": a["model_olasilik"], "deger": a["deger"], "yorum": s["yorum"].strip(),
-            "durum": "bekliyor", "skor": None,
+            "model_olasilik": a["model_olasilik"], "deger": a["deger"], "beklenen_gol": a["beklenen_gol"],
+            "yorum": s["yorum"].strip(), "durum": "bekliyor", "skor": None,
         })
+    gun["secimler"] = bet_builder_birlestir(gun["secimler"])
     gun["secimler"].sort(key=lambda s: s["baslama"])
     ayaklar = kombi_kur(gun["secimler"], ayar)
     if ayaklar:
@@ -88,6 +89,33 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime) -> d
     taslak = "\n\n".join([tweets.gun_tweeti(gun, kayit.ozet(gunler, ayar.kasa_baslangic))] + tweets.analiz_tweetleri(gun))
     _ozet_yaz(f"### {bugun} taslak\n```\n{taslak}\n```")
     return gun
+
+
+def bet_builder_birlestir(secimler: list[dict]) -> list[dict]:
+    """Aynı maçtaki seçimleri tek bir bet builder oyununa çevirir (tek oran, tek yatırım)."""
+    gruplar: dict[int, list[dict]] = {}
+    for s in secimler:
+        gruplar.setdefault(s["fixture_id"], []).append(s)
+    sonuc = []
+    for bacaklar in gruplar.values():
+        if len(bacaklar) == 1:
+            sonuc.append(bacaklar[0])
+            continue
+        oran, olasilik = bet_builder(bacaklar)
+        ilk = bacaklar[0]
+        sonuc.append({
+            **{k: ilk[k] for k in ("fixture_id", "lig", "ev", "dep", "baslama", "saat", "olasi_skor", "stake", "beklenen_gol")},
+            "pazar": "BB", "bet_builder": True,
+            "tur": "deger" if any(b["tur"] == "deger" for b in bacaklar) else "guvenli",
+            "etiket": " + ".join(b["etiket"] for b in bacaklar),
+            "kisa": " + ".join(b["kisa"] for b in bacaklar),
+            "oran": oran, "adil_olasilik": olasilik, "deger": round(olasilik * oran - 1, 3),
+            "yorum": " ".join(b["yorum"] for b in bacaklar if b["yorum"]),
+            "bacaklar": [{k: b[k] for k in ("pazar", "etiket", "kisa", "oran", "adil_olasilik")} | {"durum": "bekliyor"}
+                         for b in bacaklar],
+            "durum": "bekliyor", "skor": None,
+        })
+    return sonuc
 
 
 def yayinla(ayar, gun: dict, x, gunler: list[dict], simdi: datetime) -> bool:

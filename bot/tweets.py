@@ -32,6 +32,11 @@ def para(x: float, birim: str) -> str:
     return f"{'-' if x < 0 else ''}{birim}{abs(x):,.0f}"
 
 
+def oran_metni(s: dict) -> str:
+    """Bet builder oranı bahisçiden değil modelden tahmin edildiği için ≈ ile gösterilir."""
+    return f'{"≈" if s.get("bet_builder") else ""}{s["oran"]:.2f}'
+
+
 def rekor(o: dict) -> str:
     if not o["spel"]:
         return "📈 Record: starts today"
@@ -53,10 +58,10 @@ def _kombi_satiri(gun: dict) -> str:
 def _secim_satiri(i: int, s: dict, takim_max: int) -> str:
     """Takım adı etikette geçiyorsa ("Arsenal win") maç adı yazılmaz; geçmiyorsa ("Over 2.5 goals") başa eklenir."""
     kisa = s["kisa"]
-    if s["ev"] not in kisa and s["dep"] not in kisa:
+    if s.get("bet_builder") or (s["ev"] not in kisa and s["dep"] not in kisa):
         kisa = f'{s["ev"][:takim_max]} v {s["dep"][:takim_max]}: {kisa}'
-    deger = " · value" if s["tur"] == "deger" else ""
-    return f'{i}) {kisa} @{s["oran"]:.2f} · {yuzde(s["adil_olasilik"])}{deger}'
+    ek = (" · bet builder" if s.get("bet_builder") else "") + (" · value" if s["tur"] == "deger" else "")
+    return f'{i}) {kisa} @{oran_metni(s)} · {yuzde(s["adil_olasilik"])}{ek}'
 
 
 def gun_tweeti(gun: dict, ozet: dict) -> str:
@@ -90,10 +95,13 @@ def gun_tweeti(gun: dict, ozet: dict) -> str:
 
 def analiz_tweetleri(gun: dict) -> list[str]:
     kisa_tur = {"guvenli": "safe pick", "deger": "value pick"}
+
+    def tur(s: dict) -> str:
+        return ("bet builder, " if s.get("bet_builder") else "") + kisa_tur[s["tur"]]
     return [
         kirp(f'{i}) {s["ev"]} v {s["dep"]} · {s["saat"]}\n'
-             f'{s["etiket"]} @{s["oran"]:.2f}\n'
-             f'{yuzde(s["adil_olasilik"])} chance · {kisa_tur[s["tur"]]} · stake {para(s["stake"], gun["para"])}\n'
+             f'{s["etiket"]} @{oran_metni(s)}\n'
+             f'{yuzde(s["adil_olasilik"])} chance · {tur(s)} · stake {para(s["stake"], gun["para"])}\n'
              f'Likely score: {s["olasi_skor"].replace("-", "–")}\n\n{s["yorum"]}')
         for i, s in enumerate(gun["secimler"], 1)
     ]

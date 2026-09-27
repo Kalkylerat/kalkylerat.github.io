@@ -79,7 +79,19 @@ def bekleyen_fixturelar(gunler: list[dict], simdi: datetime) -> list[int]:
 
 def korner_fixturelari(gunler: list[dict]) -> set[int]:
     return {s["fixture_id"] for g in gunler if g["sonuc"] is None for s in g["secimler"]
-            if s["durum"] == "bekliyor" and s["pazar"].startswith("KOR")}
+            if s["durum"] == "bekliyor" and any(b["pazar"].startswith("KOR") for b in s.get("bacaklar") or [s])}
+
+
+def _durum(s: dict, ev: int, dep: int, iy, korner) -> str:
+    """Tekli oyun ya da bet builder için kazandi / kaybetti / iptal (veri yoksa iptal)."""
+    bacaklar = s.get("bacaklar") or [s]
+    sonuclar = [kazandi_mi(b["pazar"], ev, dep, iy, korner) for b in bacaklar]
+    if s.get("bacaklar"):
+        for b, r in zip(s["bacaklar"], sonuclar):
+            b["durum"] = "iptal" if r is None else ("kazandi" if r else "kaybetti")
+    if any(r is None for r in sonuclar):
+        return "iptal"
+    return "kazandi" if all(sonuclar) else "kaybetti"
 
 
 def sonuclandir(gunler: list[dict], sonuclar: dict[int, dict], simdi: datetime) -> list[dict]:
@@ -95,8 +107,7 @@ def sonuclandir(gunler: list[dict], sonuclar: dict[int, dict], simdi: datetime) 
             if r and r["durum"] == "bitti":
                 ev, dep = r["skor"]
                 s["skor"] = f"{ev}-{dep}"
-                sonuc = kazandi_mi(s["pazar"], ev, dep, r.get("iy"), r.get("korner"))
-                s["durum"] = "iptal" if sonuc is None else ("kazandi" if sonuc else "kaybetti")
+                s["durum"] = _durum(s, ev, dep, r.get("iy"), r.get("korner"))
             elif (r and r["durum"] == "iptal") or datetime.fromisoformat(s["baslama"]) < simdi - timedelta(days=3):
                 s["durum"] = "iptal"
         if all(s["durum"] != "bekliyor" for s in g["secimler"]):

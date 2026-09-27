@@ -4,42 +4,63 @@
 saat_dilimi = "Europe/Stockholm"
 
 [ligler]
-# API-Football lig ID'leri. Sıra önceliği belirler (ücretsiz planda ilk ligler taranır).
-# 113 Allsvenskan, 39 Premier League, 114 Superettan, 40 Championship, 140 La Liga, 135 Serie A,
-# 78 Bundesliga, 61 Ligue 1, 2 Şampiyonlar Ligi, 3 Avrupa Ligi, 848 Konferans Ligi,
-# 103 Eliteserien (Norveç), 119 Superliga (Danimarka), 88 Eredivisie, 5 UEFA Nations League (milli maç araları)
-izinli = [113, 39, 2, 3, 848, 5, 114, 40, 140, 135, 78, 61, 103, 119, 88]
-# Günlük en fazla kaç maç analiz edilsin. Maç başına 2 istek; ücretsiz plan (100 istek/gün) için 30 civarı kalın.
+# API-Football lig ID'leri; sıra önceliktir (günlük tarama sınırı dolarsa sondakiler atlanır).
+# Sadece takım istatistiği ve güvenilir oranı olan maçlar seçilir.
+izinli = [
+  39, 140, 135, 78, 61,        # Premier League, La Liga, Serie A, Bundesliga, Ligue 1
+  2, 3, 848, 5,                # Şampiyonlar Ligi, Avrupa Ligi, Konferans Ligi, Nations League
+  40, 79, 136, 141, 62,        # Championship, 2. Bundesliga, Serie B, La Liga 2, Ligue 2
+  88, 94, 144, 179, 203,       # Eredivisie, Portekiz, Belçika, İskoçya, Süper Lig
+  113, 103, 119, 218, 207,     # Allsvenskan, Norveç, Danimarka, Avusturya, İsviçre
+  41, 89, 204, 219, 114,       # League One, Eerste Divisie, TFF 1. Lig, Avusturya 2. Liga, Superettan
+]
+# Günlük en fazla kaç maç analiz edilsin (maç başına 2 istek).
+# Ücretsiz plan (100 istek/gün): 30. Pro plan: 150.
 max_mac_tarama = 30
+# İstekler arası bekleme (sn). Ücretsiz plan dakikada 10 istek: 6.5. Pro plan: 0.3.
+istek_araligi_sn = 6.5
 
-[spel]
-# Günlük en fazla kaç tekli (singel) oyun. Uygun oyun yoksa o gün paylaşım yapılmaz.
-max_spel = 3
-# Strateji: en yüksek kazanma ihtimali. Bu ihtimalin altındaki oyunlar aday olmaz (0.65 = %65).
-min_olasilik = 0.65
-# Önerilen oranın aralığı. Yüksek ihtimal = düşük oran.
+[strateji]
+# Günde en fazla kaç tekli oyun ve bir maçtan en fazla kaç oyun.
+max_oyun = 3
+max_oyun_mac_basina = 2
+# GÜVENLİ oyun: yüksek kazanma ihtimali; oran adil fiyattan en fazla %4 kötü olabilir.
+guvenli_min_olasilik = 0.65
+guvenli_min_deger = -0.04
+# DEĞER oyunu (kasayı büyüten): oran gerçek ihtimalden en az %3 yüksek, ihtimal en az %45.
+deger_min_olasilik = 0.45
+deger_min_deger = 0.03
 oran_min = 1.20
-oran_max = 1.75
-# Bahisçinin oranı adil fiyattan en fazla bu kadar kötü olabilir (-0.05 = en fazla %5 kötü).
-# Daha kötüyse oyun elenir; böylece "çok tutan ama çok kaybettiren" oyunlar alınmaz.
-min_deger = -0.05
+oran_max = 2.60
 # Gol modeli (Poisson) adil olasılıktan bu kadar düşükse oyuna güvenilmez.
-model_tolerans = 0.06
+model_tolerans = 0.08
 # Maça bu kadar dakikadan az kaldıysa oyuna alınmaz.
 min_dakika_once = 60
 
+[kombine]
+# Farklı maçlardan, en yüksek ihtimalli seçimlerle kurulur.
+max_ayak = 3
+max_oran = 3.50
+# Kombinenin gerçek tutma ihtimali bunun altındaysa kurulmaz.
+min_olasilik = 0.40
+
+[kasa]
+# Sanal kasa: her oyuna (kombine dahil) güncel kasanın bu yüzdesi yatırılır.
+baslangic = 10000
+oyun_yuzdesi = 1.0
+para_birimi = "€"
+
 [bahisciler]
-# "Adil" olasılık için referans alınan keskin (sharp) bahisçi. Yoksa tüm bahisçilerin ortalaması kullanılır.
+# "Adil" olasılık için referans alınan keskin bahisçi. Yoksa en az 3 bahisçinin ortalaması kullanılır.
 keskin = "Pinnacle"
-# Oranı önerilen, İsveç lisanslı bahisçiler (API-Football'daki adlarıyla).
-# Lisansları spelinspektionen.se üzerindeki licensregister'dan kontrol edin.
-isvec_lisansli = ["Unibet", "Betsson", "NordicBet", "Bet365", "ComeOn", "Betway", "888Sport", "Expekt"]
+# Oranın alınacağı büyük bahisçiler (en iyi oran kullanılır). Tweetlerde bahisçi adı yazılmaz.
+oran_bahiscileri = ["Bet365", "William Hill", "Betano", "BetVictor", "Unibet", "Betway", "888Sport", "Bwin", "Betsson", "NordicBet", "ComeOn"]
 
 [claude]
 model = "claude-opus-5-5"
 effort = "high"
 
 [yayin]
-# false: oyunlar taslak olarak kaydedilir, siz "Yayınla" iş akışını çalıştırınca paylaşılır.
+# false: oyunlar taslak olarak kaydedilir, siz "yayinla" komutunu çalıştırınca paylaşılır.
 # true: oyunlar hazırlanır hazırlanmaz X'te paylaşılır.
 otomatik_paylas = false

@@ -4,7 +4,8 @@ from datetime import datetime
 from html import escape
 from pathlib import Path
 
-from .kayit import kar, kombi_durumu, kombi_olasilik, kombi_oran, ozet
+from .kayit import gun_kar, kar, kombi_durumu, kombi_olasilik, kombi_oran, ozet
+from .tweets import para
 
 DURUM = {"kazandi": "Won", "kaybetti": "Lost", "iptal": "Void", "bekliyor": "Pending"}
 
@@ -38,51 +39,54 @@ footer {{ color:var(--muted); font-size:13px; margin-top:32px; }}
 </head>
 <body><main>
 <h1>Kalkyl<span>erat</span> – record</h1>
-<p class="alt">Every pick is posted on X before kick-off and logged here automatically. Nothing is deleted. Stake: 1 unit per pick. Updated {guncelleme}.</p>
+<p class="alt">A public, virtual {baslangic} bankroll. Every pick risks {yuzde}% of the current bank, is posted on X before kick-off and logged here automatically. Nothing is deleted. Updated {guncelleme}.</p>
 <div class="tiles">
+<div class="tile"><b>{kasa}</b><span>Bank ({kasa_degisim}%)</span></div>
 <div class="tile"><b>{traff}%</b><span>Picks won ({vunna}–{forlorade})</span></div>
 <div class="tile"><b>{kombi_tuttu}/{kombi}</b><span>Combos won</span></div>
-<div class="tile"><b>{enheter}</b><span>Units (singles)</span></div>
 <div class="tile"><b>{snittodds}</b><span>Average odds</span></div>
 <div class="tile"><b>{vantande}</b><span>Pending</span></div>
 </div>
 {gunler}
-<footer>18+ | For information only, not an invitation to gamble. Gambling can be addictive – never bet money you cannot afford to lose. Sweden: Stödlinjen 020-81 91 00. Chances are fair probabilities from a sharp betting market with the bookmaker margin removed. Odds are taken at posting time and may have changed.</footer>
+<footer>18+ | For information only, not an invitation to gamble. Gambling can be addictive – never bet money you cannot afford to lose. Sweden: Stödlinjen 020-81 91 00. Chances are fair probabilities from a sharp betting market with the bookmaker margin removed. Value picks are picks where the best available odds are higher than that fair chance. Odds are taken at posting time and may have changed.</footer>
 </main></body></html>
 """
 
 
-def _isaretli(x: float) -> str:
-    return f"{x:+.2f}"
-
-
 def _gun_html(g: dict) -> str:
+    birim = g.get("para", "€")
+    tur = {"guvenli": "safe", "deger": "value"}
     satirlar = "".join(
         f'<tr><td>{escape(s["ev"])} v {escape(s["dep"])}<div class="yorum">{escape(s["yorum"])}</div></td>'
-        f'<td>{escape(s["kisa"])}<div class="yorum">{100 * s["adil_olasilik"]:.0f}% chance</div></td>'
+        f'<td>{escape(s["kisa"])}<div class="yorum">{100 * s["adil_olasilik"]:.0f}% chance · {tur[s["tur"]]}'
+        f' · stake {para(s["stake"], birim)}</div></td>'
         f'<td class="num">{s["oran"]:.2f}</td><td class="num">{escape((s.get("skor") or "").replace("-", "–"))}</td>'
-        f'<td class="num {s["durum"]}">{DURUM[s["durum"]]}</td></tr>'
+        f'<td class="num {s["durum"]}">{DURUM[s["durum"]]}<br>{para(kar(s), birim) if s["durum"] in ("kazandi", "kaybetti") else ""}</td></tr>'
         for s in g["secimler"]
     )
     kombi = ""
-    if len(g["secimler"]) >= 2:
+    if g.get("kombi"):
         durum = kombi_durumu(g)
-        etiket = {"tuttu": "won", "yatti": "lost", None: "pending"}[durum]
-        kombi = (f'<tr><td colspan="5" class="{durum or "bekliyor"}">Combo @{kombi_oran(g):.2f} · '
-                 f'chance all win {100 * kombi_olasilik(g):.0f}% · {etiket}</td></tr>')
-    gunluk = f"{_isaretli(sum(kar(s) for s in g['secimler']))} units" if g["sonuc"] else "In play"
+        etiket = {"tuttu": "won", "yatti": "lost", "iptal": "void", None: "pending"}[durum]
+        numaralar = "+".join(str(i + 1) for i in g["kombi"]["ayaklar"])
+        kombi = (f'<tr><td colspan="5" class="{durum or "bekliyor"}">Combo {numaralar} @{kombi_oran(g):.2f} · '
+                 f'chance all win {100 * kombi_olasilik(g):.0f}% · stake {para(g["kombi"]["stake"], birim)} · {etiket}</td></tr>')
+    kar_g = gun_kar(g)
+    gunluk = f"{'+' if kar_g >= 0 else ''}{para(kar_g, birim)}" if g["sonuc"] else "In play"
     return (f'<section class="dag"><header><span>{escape(g["tarih"])}</span><span>{gunluk}</span></header>'
             f'<table>{satirlar}{kombi}</table></section>')
 
 
-def olustur(gunler: list[dict], path: Path) -> None:
+def olustur(gunler: list[dict], path: Path, ayar) -> None:
     yayinlanan = sorted((g for g in gunler if g.get("tweet_id")), key=lambda g: g["tarih"], reverse=True)
-    o = ozet(gunler)
+    o = ozet(gunler, ayar.kasa_baslangic)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(SABLON.format(
         guncelleme=datetime.now().strftime("%Y-%m-%d %H:%M"),
+        baslangic=para(ayar.kasa_baslangic, ayar.para_birimi), yuzde=f"{ayar.oyun_yuzdesi:g}",
         gunler="".join(_gun_html(g) for g in yayinlanan) or "<p>No published picks yet.</p>",
+        kasa=para(o["kasa"], ayar.para_birimi), kasa_degisim=f'{o["kasa_degisim"]:+.1f}',
         vunna=o["vunna"], forlorade=o["forlorade"], traff=f'{o["traff"]:.0f}',
         kombi=o["kombi"], kombi_tuttu=o["kombi_tuttu"],
-        enheter=_isaretli(o["enheter"]), snittodds=f'{o["snittodds"]:.2f}', vantande=o["vantande"],
+        snittodds=f'{o["snittodds"]:.2f}', vantande=o["vantande"],
     ), encoding="utf-8")

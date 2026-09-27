@@ -4,13 +4,17 @@ import json
 
 import anthropic
 
-SISTEM = """You are a football statistician writing for a broad, general audience on X (Twitter). The account shares a few calm, high-probability picks each day. Most readers are casual fans, not betting experts.
+SISTEM = """You are a football statistician running a public, virtual EUR 10,000 bankroll on X (Twitter). Each pick risks 1% of the bank. The audience is broad: casual fans, not betting experts.
 
-You receive candidates that already passed the checks: a high fair win probability from a sharp betting market (margin removed), odds that are not much worse than that fair price, and a Poisson goal model used as a safety check. Each candidate also has the model's expected goals and most likely score.
+Candidates already passed the data checks. Each has:
+- tur "guvenli" (safe): high fair win chance from a sharp betting market (margin removed), odds close to fair.
+- tur "deger" (value): the odds are higher than the real chance, so it grows the bank over time even if it wins less often.
+- the Poisson model's expected goals, most likely score and (for goal and half-time markets) its own probability.
+Markets include match result, double chance, goal lines, both teams to score, half-time result, first-half goals and corners.
 
 Your job:
-1. Pick at most the requested number of picks (one per match). Prefer the picks most likely to win. Picking fewer is better than adding shaky ones. If nothing is convincing, return an empty list and explain why in gerekce_yoksa.
-2. For each pick, write a short explanation (max 190 characters) in plain, simple English, like a stats expert telling a friend how the match will most likely go and why. Use only the data you were given: form, home/away scoring, goals conceded, expected goals, head-to-head, injuries, probability. Never invent news, line-ups, referees or weather.
+1. Pick at most the requested number of picks. Mix safe and value picks when both are good; prefer quality over quantity. You may take up to the allowed number of picks from one match if they tell one clear story. If nothing is convincing, return an empty list and explain why in gerekce_yoksa.
+2. For each pick, write a short explanation (max 190 characters) in plain, simple English, like a stats expert telling a friend how the match will most likely go and why. Use only the data given (form, home/away scoring, goals conceded, expected goals, head-to-head, injuries, chances). Never invent news, line-ups, referees, weather or corner statistics that are not in the data; for corner picks, lean on the market chance and the expected attacking pressure.
 3. Write a short headline (max 50 characters).
 
 Rules:
@@ -46,21 +50,25 @@ class EditorHatasi(RuntimeError):
 
 
 def secimi_dogrula(secimler: list[dict], adaylar: dict[str, dict], ayar) -> str | None:
-    if len(secimler) > ayar.max_spel:
-        return f"{len(secimler)} picks chosen; at most {ayar.max_spel} allowed."
+    if len(secimler) > ayar.max_oyun:
+        return f"{len(secimler)} picks chosen; at most {ayar.max_oyun} allowed."
     ids = [s["aday_id"] for s in secimler]
     bilinmeyen = [i for i in ids if i not in adaylar]
     if bilinmeyen:
         return f"Unknown aday_id: {bilinmeyen}"
-    if len({adaylar[i]["fixture_id"] for i in ids}) != len(ids):
-        return "More than one pick from the same match."
+    if len(set(ids)) != len(ids):
+        return "The same pick is listed twice."
+    maclar = [adaylar[i]["fixture_id"] for i in ids]
+    if any(maclar.count(m) > ayar.max_oyun_mac_basina for m in maclar):
+        return f"More than {ayar.max_oyun_mac_basina} picks from the same match."
     return None
 
 
 def _baglam(maclar: dict[int, dict], adaylar: list[dict], ayar) -> str:
     fixture_ids = sorted({a["fixture_id"] for a in adaylar})
     return json.dumps({
-        "max_picks": ayar.max_spel,
+        "max_picks": ayar.max_oyun,
+        "max_picks_per_match": ayar.max_oyun_mac_basina,
         "matches": [maclar[f] for f in fixture_ids],
         "candidates": adaylar,
     }, ensure_ascii=False, indent=1)
@@ -100,14 +108,14 @@ def claude_ile_sec(maclar: dict[int, dict], adaylar: list[dict], ayar, client=No
 
 
 def basit_sec(maclar: dict[int, dict], adaylar: list[dict], ayar) -> dict:
-    """Claude anahtarı olmadan demo için kural tabanlı seçim."""
+    """Claude anahtarı olmadan demo için kural tabanlı seçim: maç başına bir oyun, en yüksek ihtimal önce."""
     secilen, kullanilan = [], set()
     for a in sorted(adaylar, key=lambda x: x["adil_olasilik"], reverse=True):
         if a["fixture_id"] in kullanilan:
             continue
         secilen.append(a)
         kullanilan.add(a["fixture_id"])
-        if len(secilen) == ayar.max_spel:
+        if len(secilen) == ayar.max_oyun:
             break
     return {
         "baslik": "Today's picks",

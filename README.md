@@ -1,6 +1,6 @@
 # Kalkylerat — yüksek ihtimalli futbol oyunları botu
 
-Bot her gün maçları tarar, keskin piyasanın (Pinnacle) adil olasılığına göre **kazanma ihtimali en yüksek** 0–3 tekli (singel) oyunu seçer ve oranıyla birlikte, Claude'un yazdığı sade İngilizce gerekçeler ve kombinenin gerçek tutma ihtimaliyle X'te paylaşır. Maçlar bitince sonuçları yazar ve herkese açık rekor panelini günceller.
+Bot her gün maçları tarar, keskin piyasanın (Pinnacle) adil olasılığına göre **kazanma ihtimali en yüksek** 0–3 oyunu (güvenli + değer) seçer, farklı maçlardan kombine kurar, €10.000'lık sanal kasanın %1'iyle oynar ve oranıyla birlikte, Claude'un yazdığı sade İngilizce gerekçeler ve kombinenin gerçek tutma ihtimaliyle X'te paylaşır. Maçlar bitince sonuçları yazar ve herkese açık rekor panelini günceller.
 
 - Görseller ve profil metinleri: **[marka/](marka/)** (`PROFIL.md` içinde kopyala-yapıştır metinler)
 
@@ -86,15 +86,21 @@ Bot içeriği üretir; takipçiyi etkileşim getirir:
 
 ## Ayarlar (`ayarlar.toml`)
 
+GitHub'da dosyaya tıklayın → kalem ikonu → değiştirin → Commit.
+
 | Ayar | Anlamı |
 |---|---|
-| `izinli` | Taranacak ligler (Allsvenskan önde) |
-| `max_spel` | Günlük en fazla oyun sayısı (3) |
-| `min_olasilik` | En düşük kazanma ihtimali (0,65 = %65) |
-| `oran_min` / `oran_max` | Oran aralığı (1,20–1,75) |
-| `min_deger` | Oranın adil fiyattan en fazla ne kadar kötü olabileceği (-0,05 = %5) |
-| `isvec_lisansli` | Oranı önerilecek bahisçiler. spelinspektionen.se'den lisansları kontrol edin |
+| `izinli` | Taranacak ligler (1. ve 2. ligler dahil ~30 lig) |
+| `max_mac_tarama` / `istek_araligi_sn` | Ücretsiz plan: 30 / 6.5 — API-Football Pro: 150 / 0.3 |
+| `max_oyun` / `max_oyun_mac_basina` | Günlük en fazla oyun ve bir maçtan en fazla oyun |
+| `guvenli_min_olasilik` / `guvenli_min_deger` | Güvenli oyun: en az %65 ihtimal, oran adil fiyattan en fazla %4 kötü |
+| `deger_min_olasilik` / `deger_min_deger` | Değer oyunu: en az %45 ihtimal, oran gerçek ihtimalden en az %3 iyi |
+| `[kombine]` | Kombine en fazla 3 maç, en fazla 3.50 oran, en az %40 gerçek tutma ihtimali |
+| `[kasa]` | Sanal kasa (€10.000) ve her oyuna yatırılan yüzde (%1) |
+| `oran_bahiscileri` | Oranın alındığı büyük bahisçiler (tweetlerde isim geçmez) |
 | `otomatik_paylas` | `true` ise onay beklemeden paylaşır |
+
+Pazarlar: maç sonucu, çifte şans, 1.5/2.5/3.5 gol, karşılıklı gol, ilk yarı sonucu, ilk yarı golleri, korner 8.5/9.5/10.5.
 
 ## Anahtarsız deneme
 ```bash

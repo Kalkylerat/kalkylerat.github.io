@@ -7,9 +7,10 @@ from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
 from . import config, editor, football, kayit, panel, tweets
-from .model import adaylari_uret
+from .model import adaylari_uret, kombi_kur
 
-ADAY_LIMIT = 12
+GUVENLI_LIMIT = 10
+DEGER_LIMIT = 6
 
 
 def _ozet_yaz(metin: str) -> None:
@@ -40,11 +41,14 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime) -> d
         if mac_adaylari:
             mac_map[m["fixture_id"]] = {**m, "istatistik": ist}
             adaylar += mac_adaylari
-    adaylar = sorted(adaylar, key=lambda a: (a["adil_olasilik"], a["deger"]), reverse=True)[:ADAY_LIMIT]
-    print(f"{len(adaylar)} aday, API isteği: {api.istek_sayisi}")
+    guvenli = sorted((a for a in adaylar if a["tur"] == "guvenli"), key=lambda a: a["adil_olasilik"], reverse=True)
+    deger = sorted((a for a in adaylar if a["tur"] == "deger"), key=lambda a: a["deger"], reverse=True)
+    adaylar = guvenli[:GUVENLI_LIMIT] + deger[:DEGER_LIMIT]
+    print(f"{len(guvenli)} güvenli, {len(deger)} değer adayı; API isteği: {api.istek_sayisi}")
 
     gun = {"id": bugun, "tarih": bugun, "olusturma": simdi.isoformat(timespec="seconds"),
-           "baslik": "", "secimler": [], "sonuc": None, "tweet_id": None}
+           "baslik": "", "secimler": [], "sonuc": None, "tweet_id": None,
+           "para": ayar.para_birimi, "yuzde": ayar.oyun_yuzdesi}
     if adaylar:
         for fid in {a["fixture_id"] for a in adaylar}:
             mac_map[fid]["sakatlar"] = football.sakatlari_al(api, fid)
@@ -60,6 +64,7 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime) -> d
         return None
 
     aday_map = {a["aday_id"]: a for a in adaylar}
+    stake = round(kayit.kasa(gunler, ayar.kasa_baslangic) * ayar.oyun_yuzdesi / 100, 2)
     for s in karar["secimler"]:
         a = aday_map[s["aday_id"]]
         m = mac_map[a["fixture_id"]]
@@ -67,28 +72,32 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime) -> d
             "fixture_id": a["fixture_id"], "lig": m["lig"], "ev": m["ev"], "dep": m["dep"],
             "baslama": m["baslama"],
             "saat": datetime.fromisoformat(m["baslama"]).astimezone(ZoneInfo(ayar.saat_dilimi)).strftime("%H:%M %Z"),
-            "olasi_skor": a["olasi_skor"], "pazar": a["pazar"], "etiket": a["etiket"], "kisa": a["kisa"], "oran": a["oran"],
+            "olasi_skor": a["olasi_skor"], "pazar": a["pazar"], "tur": a["tur"], "etiket": a["etiket"],
+            "kisa": a["kisa"], "oran": a["oran"], "stake": stake,
             "bolag": a["bolag"], "adil_olasilik": a["adil_olasilik"], "adil_kaynak": a["adil_kaynak"],
             "model_olasilik": a["model_olasilik"], "deger": a["deger"], "yorum": s["yorum"].strip(),
             "durum": "bekliyor", "skor": None,
         })
     gun["secimler"].sort(key=lambda s: s["baslama"])
+    ayaklar = kombi_kur(gun["secimler"], ayar)
+    if ayaklar:
+        gun["kombi"] = {"ayaklar": ayaklar, "stake": stake, "durum": None}
     gun["baslik"] = karar["baslik"].strip()
     gunler.append(gun)
 
-    taslak = "\n\n".join([tweets.gun_tweeti(gun, kayit.ozet(gunler))] + tweets.analiz_tweetleri(gun))
+    taslak = "\n\n".join([tweets.gun_tweeti(gun, kayit.ozet(gunler, ayar.kasa_baslangic))] + tweets.analiz_tweetleri(gun))
     _ozet_yaz(f"### {bugun} taslak\n```\n{taslak}\n```")
     return gun
 
 
-def yayinla(gun: dict, x, gunler: list[dict], simdi: datetime) -> bool:
+def yayinla(ayar, gun: dict, x, gunler: list[dict], simdi: datetime) -> bool:
     if gun.get("tweet_id") or not gun["secimler"]:
         return False
     ilk = min(datetime.fromisoformat(s["baslama"]) for s in gun["secimler"])
     if ilk <= simdi:
         print("İlk maç başlamış; şeffaflık için bu oyunlar artık yayınlanmaz.")
         return False
-    gun["tweet_id"] = x.gonder(tweets.gun_tweeti(gun, kayit.ozet(gunler)))
+    gun["tweet_id"] = x.gonder(tweets.gun_tweeti(gun, kayit.ozet(gunler, ayar.kasa_baslangic)))
     gun["yayin"] = simdi.isoformat(timespec="seconds")
     onceki = gun["tweet_id"]
     gun["analiz_tweet_idleri"] = []
@@ -99,15 +108,21 @@ def yayinla(gun: dict, x, gunler: list[dict], simdi: datetime) -> bool:
     return True
 
 
-def sonuc(api, x, gunler: list[dict], simdi: datetime) -> None:
+def sonuc(ayar, api, x, gunler: list[dict], simdi: datetime) -> None:
     ids = kayit.bekleyen_fixturelar(gunler, simdi)
     if not ids:
         print("Sonuç bekleyen maç yok.")
         return
-    for g in kayit.sonuclandir(gunler, football.sonuclari_al(api, ids), simdi):
+    sonuclar = football.sonuclari_al(api, ids, kayit.korner_fixturelari(gunler))
+    for g in kayit.sonuclandir(gunler, sonuclar, simdi):
         print(f"{g['id']} sonuçlandı.")
         if g.get("tweet_id") and not g.get("sonuc_tweet_id"):
-            g["sonuc_tweet_id"] = x.gonder(tweets.sonuc_tweeti(g, kayit.ozet(gunler)), yanit=g["tweet_id"])
+            ozet = kayit.ozet(gunler, ayar.kasa_baslangic)
+            g["sonuc_tweet_id"] = x.gonder(tweets.sonuc_tweeti(g, ozet), yanit=g["tweet_id"])
+
+
+def _api(ayar):
+    return football.ApiFootball(config.env("API_FOOTBALL_KEY"), aralik=ayar.istek_araligi_sn)
 
 
 def _x_client():
@@ -128,14 +143,16 @@ def onizleme(ayar) -> None:
     yerel = simdi.astimezone(ZoneInfo(ayar.saat_dilimi))
     gun = (yerel if yerel.hour < 10 else yerel + timedelta(days=1)).date().isoformat()
     _ozet_yaz(f"## ÖNİZLEME – {gun} (kaydedilmez, paylaşılmaz)")
-    tahmin(ayar, football.ApiFootball(config.env("API_FOOTBALL_KEY")), _secici(), [], gun, simdi)
+    gunler = kayit.yukle(config.DATA_FILE)
+    gunler = [g for g in gunler if g["id"] != gun]
+    tahmin(ayar, _api(ayar), _secici(), gunler, gun, simdi)
 
 
 def tani(ayar) -> None:
     """Tweet atmadan tüm bağlantıları ve veri kapsamını kontrol eder."""
     import anthropic
     satirlar = ["### Tanı"]
-    api = football.ApiFootball(config.env("API_FOOTBALL_KEY"))
+    api = _api(ayar)
     try:
         durum = api.session.get(f"{football.BASE_URL}/status", timeout=30).json().get("response", {})
         plan = (durum.get("subscription") or {}).get("plan")
@@ -168,10 +185,12 @@ def tani(ayar) -> None:
         bahisciler = football.oranlari_al(api, ornek_fixture["fixture_id"])
         adlar = sorted(bahisciler)
         keskin = any(a.lower() == ayar.keskin_bahisci.lower() for a in adlar)
-        isvec = [a for a in adlar if a.lower() in {b.lower() for b in ayar.isvec_bahisciler}]
+        secili = [a for a in adlar if a.lower() in {b.lower() for b in ayar.oran_bahiscileri}]
+        pazarlar = sorted({k for o in bahisciler.values() for k in o})
         satirlar.append(f"- Oran örneği ({ornek_fixture['ev']} – {ornek_fixture['dep']}): {len(adlar)} bahisçi; "
-                        f"{ayar.keskin_bahisci} {'VAR' if keskin else 'YOK'}; İsveç lisanslı: {', '.join(isvec) or 'YOK'}")
+                        f"{ayar.keskin_bahisci} {'VAR' if keskin else 'YOK'}; oran bahisçileri: {', '.join(secili) or 'YOK'}")
         satirlar.append(f"  - Tüm bahisçiler: {', '.join(adlar) or '-'}")
+        satirlar.append(f"  - Okunan pazarlar: {', '.join(pazarlar) or '-'}")
     try:
         r = _x_client().session.get("https://api.x.com/2/users/me", timeout=30)
         satirlar.append(f"- X: {r.status_code} {r.json().get('data', {}).get('username') or r.text[:200]}")
@@ -194,10 +213,10 @@ def demo(ayar) -> None:
     x = tweets.KonsolClient()
     gun = tahmin(ayar, api, _secici(), gunler, bugun, simdi)
     if gun:
-        yayinla(gun, x, gunler, simdi)
-        sonuc(api, x, gunler, simdi + timedelta(days=1))
-    panel.olustur(gunler, ornek / "demo_panel.html")
-    print(f"\nÖzet: {kayit.ozet(gunler)}\nPanel önizlemesi: ornek/demo_panel.html")
+        yayinla(ayar, gun, x, gunler, simdi)
+        sonuc(ayar, api, x, gunler, simdi + timedelta(days=1))
+    panel.olustur(gunler, ornek / "demo_panel.html", ayar)
+    print(f"\nÖzet: {kayit.ozet(gunler, ayar.kasa_baslangic)}\nPanel önizlemesi: ornek/demo_panel.html")
 
 
 def main(argv=None) -> int:
@@ -221,20 +240,19 @@ def main(argv=None) -> int:
     bugun = simdi.astimezone(ZoneInfo(ayar.saat_dilimi)).date().isoformat()
     try:
         if args.komut in ("otomatik", "sonuc"):
-            sonuc(football.ApiFootball(config.env("API_FOOTBALL_KEY")), _x_client(), gunler, simdi)
+            sonuc(ayar, _api(ayar), _x_client(), gunler, simdi)
         if args.komut in ("otomatik", "tahmin"):
-            api = football.ApiFootball(config.env("API_FOOTBALL_KEY"))
-            gun = tahmin(ayar, api, _secici(), gunler, bugun, simdi)
+            gun = tahmin(ayar, _api(ayar), _secici(), gunler, bugun, simdi)
             if gun and ayar.otomatik_paylas:
-                yayinla(gun, _x_client(), gunler, simdi)
+                yayinla(ayar, gun, _x_client(), gunler, simdi)
         if args.komut == "yayinla":
             gun = kayit.bul(gunler, bugun)
-            if not gun or not yayinla(gun, _x_client(), gunler, simdi):
+            if not gun or not yayinla(ayar, gun, _x_client(), gunler, simdi):
                 print("Yayınlanacak bugünkü taslak yok.")
     finally:
         # Tweet atıldıktan sonra hata olsa bile kimlikler kaydedilir; tekrar paylaşım olmaz.
         kayit.kaydet(config.DATA_FILE, gunler)
-        panel.olustur(gunler, config.PANEL_FILE)
+        panel.olustur(gunler, config.PANEL_FILE, ayar)
     return 0
 
 

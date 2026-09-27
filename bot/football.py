@@ -13,12 +13,29 @@ BITMIS = {"FT", "AET", "PEN"}
 IPTAL = {"PST", "CANC", "ABD", "AWD", "WO"}
 
 # API-Football bahis adı -> (değer -> pazar kodu)
-PAZAR_ESLEME = {
+SABIT_PAZARLAR = {
     "Match Winner": {"Home": "MS1", "Draw": "MSX", "Away": "MS2"},
     "Double Chance": {"Home/Draw": "CS1X", "Draw/Away": "CSX2", "Home/Away": "CS12"},
-    "Goals Over/Under": {"Over 2.5": "UST25", "Under 2.5": "ALT25"},
     "Both Teams Score": {"Yes": "KGVAR", "No": "KGYOK"},
+    "First Half Winner": {"Home": "IY1", "Draw": "IYX", "Away": "IY2"},
 }
+# Alt/üst pazarları: bahis adı -> (üst öneki, alt öneki, izinli çizgiler)
+CIZGILI_PAZARLAR = {
+    "Goals Over/Under": ("UST", "ALT", {"1.5", "2.5", "3.5"}),
+    "Goals Over/Under First Half": ("IYU", "IYA", {"0.5", "1.5"}),
+    "Corners Over Under": ("KORU", "KORA", {"8.5", "9.5", "10.5"}),
+}
+
+
+def pazar_kodu(bahis: str, deger: str) -> str | None:
+    if bahis in SABIT_PAZARLAR:
+        return SABIT_PAZARLAR[bahis].get(deger)
+    if bahis in CIZGILI_PAZARLAR:
+        ust, alt, cizgiler = CIZGILI_PAZARLAR[bahis]
+        yon, _, c = deger.partition(" ")
+        if c in cizgiler and yon in ("Over", "Under"):
+            return (ust if yon == "Over" else alt) + c.replace(".", "")
+    return None
 
 
 class ApiHatasi(RuntimeError):
@@ -26,10 +43,9 @@ class ApiHatasi(RuntimeError):
 
 
 class ApiFootball:
-    # Ücretsiz plan dakikada 10 istek kabul eder; istekler arası en az bu kadar saniye beklenir.
-    ARALIK = 6.5
-
-    def __init__(self, key: str, session: requests.Session | None = None):
+    def __init__(self, key: str, session: requests.Session | None = None, aralik: float = 6.5):
+        # Ücretsiz plan dakikada 10 istek kabul eder; istekler arası en az bu kadar saniye beklenir.
+        self.aralik = aralik
         self.session = session or requests.Session()
         self.session.headers["x-apisports-key"] = key
         self.istek_sayisi = 0
@@ -37,7 +53,7 @@ class ApiFootball:
 
     def get(self, path: str, **params) -> list:
         for deneme in range(4):
-            bekle = self.ARALIK - (time.monotonic() - self._son)
+            bekle = self.aralik - (time.monotonic() - self._son)
             if bekle > 0:
                 time.sleep(bekle)
             r = self.session.get(f"{BASE_URL}/{path}", params=params, timeout=30)
@@ -115,11 +131,8 @@ def oranlari_al(api, fixture_id: int) -> dict[str, dict[str, float]]:
         for bm in kayit.get("bookmakers", []):
             oranlar = sonuc.setdefault(bm["name"], {})
             for bet in bm.get("bets", []):
-                esleme = PAZAR_ESLEME.get(bet["name"])
-                if not esleme:
-                    continue
                 for v in bet["values"]:
-                    kod = esleme.get(str(v["value"]))
+                    kod = pazar_kodu(bet["name"], str(v["value"]))
                     if kod and _f(v["odd"]) > 1.0:
                         oranlar[kod] = _f(v["odd"])
     return {ad: o for ad, o in sonuc.items() if o}
@@ -173,18 +186,36 @@ def sakatlari_al(api, fixture_id: int) -> list[str]:
     ]
 
 
-def sonuclari_al(api, fixture_ids: list[int]) -> dict[int, dict]:
-    """fixture_id -> {"durum": "bitti"|"iptal"|"bekliyor", "skor": (ev, dep) | None}"""
+def korner_sayisi(api, fixture_id: int) -> int | None:
+    toplam, bulundu = 0, False
+    for takim in api.get("fixtures/statistics", fixture=fixture_id):
+        for st in takim.get("statistics", []):
+            if st.get("type") == "Corner Kicks" and st.get("value") is not None:
+                toplam += int(st["value"])
+                bulundu = True
+    return toplam if bulundu else None
+
+
+def sonuclari_al(api, fixture_ids: list[int], korner_idleri: set[int] = frozenset()) -> dict[int, dict]:
+    """fixture_id -> {"durum": "bitti"|"iptal"|"bekliyor", "skor": (ev, dep), "iy": (ev, dep), "korner": int}"""
     sonuc: dict[int, dict] = {}
     for i in range(0, len(fixture_ids), 20):
         parca = fixture_ids[i:i + 20]
         for f in api.get("fixtures", ids="-".join(str(x) for x in parca)):
+            fid = f["fixture"]["id"]
             kisa = f["fixture"]["status"]["short"]
-            ft = (f.get("score") or {}).get("fulltime") or {}
+            skorlar = f.get("score") or {}
+            ft = skorlar.get("fulltime") or {}
+            ht = skorlar.get("halftime") or {}
             if kisa in BITMIS and ft.get("home") is not None:
-                sonuc[f["fixture"]["id"]] = {"durum": "bitti", "skor": (int(ft["home"]), int(ft["away"]))}
+                sonuc[fid] = {
+                    "durum": "bitti",
+                    "skor": (int(ft["home"]), int(ft["away"])),
+                    "iy": (int(ht["home"]), int(ht["away"])) if ht.get("home") is not None else None,
+                    "korner": korner_sayisi(api, fid) if fid in korner_idleri else None,
+                }
             elif kisa in IPTAL:
-                sonuc[f["fixture"]["id"]] = {"durum": "iptal", "skor": None}
+                sonuc[fid] = {"durum": "iptal", "skor": None}
             else:
-                sonuc[f["fixture"]["id"]] = {"durum": "bekliyor", "skor": None}
+                sonuc[fid] = {"durum": "bekliyor", "skor": None}
     return sonuc

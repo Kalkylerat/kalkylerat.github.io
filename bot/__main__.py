@@ -123,11 +123,12 @@ def _secici():
 
 
 def onizleme(ayar) -> None:
-    """Yarının paylaşımlarını gerçek veriyle hazırlar ama kaydetmez ve paylaşmaz."""
+    """Sıradaki paylaşım gününü (sabah 10'dan önce bugün, sonra yarın) gerçek veriyle hazırlar; kaydetmez, paylaşmaz."""
     simdi = kayit.simdi_utc()
-    yarin = (simdi.astimezone(ZoneInfo(ayar.saat_dilimi)) + timedelta(days=1)).date().isoformat()
-    _ozet_yaz(f"## ÖNİZLEME – {yarin} (kaydedilmez, paylaşılmaz)")
-    tahmin(ayar, football.ApiFootball(config.env("API_FOOTBALL_KEY")), _secici(), [], yarin, simdi)
+    yerel = simdi.astimezone(ZoneInfo(ayar.saat_dilimi))
+    gun = (yerel if yerel.hour < 10 else yerel + timedelta(days=1)).date().isoformat()
+    _ozet_yaz(f"## ÖNİZLEME – {gun} (kaydedilmez, paylaşılmaz)")
+    tahmin(ayar, football.ApiFootball(config.env("API_FOOTBALL_KEY")), _secici(), [], gun, simdi)
 
 
 def tani(ayar) -> None:

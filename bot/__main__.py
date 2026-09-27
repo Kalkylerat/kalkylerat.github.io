@@ -1,4 +1,4 @@
-"""Kullanım: python -m bot [otomatik|tahmin|yayinla|sonuc|panel|demo]"""
+"""Kullanım: python -m bot [otomatik|tahmin|yayinla|sonuc|panel|demo|tani]"""
 
 import argparse
 import os
@@ -120,6 +120,49 @@ def _secici():
     return editor.basit_sec
 
 
+def tani(ayar) -> None:
+    """Tweet atmadan tüm bağlantıları ve veri kapsamını kontrol eder."""
+    import anthropic
+    satirlar = ["### Tanı"]
+    api = football.ApiFootball(config.env("API_FOOTBALL_KEY"))
+    try:
+        durum = api.session.get(f"{football.BASE_URL}/status", timeout=30).json().get("response", {})
+        plan = (durum.get("subscription") or {}).get("plan")
+        istek = durum.get("requests") or {}
+        satirlar.append(f"- API-Football: plan **{plan}**, bugün {istek.get('current')}/{istek.get('limit_day')} istek")
+    except Exception as e:
+        satirlar.append(f"- API-Football durum okunamadı: {e}")
+    simdi = kayit.simdi_utc()
+    tz = ZoneInfo(ayar.saat_dilimi)
+    ornek_fixture = None
+    for gun in (0, 1):
+        tarih = (simdi.astimezone(tz) + timedelta(days=gun)).date().isoformat()
+        maclar = football.gunun_maclari(api, tarih, ayar.ligler, ayar.saat_dilimi, 0, 999, simdi)
+        ligler = sorted({m["lig"] for m in maclar})
+        satirlar.append(f"- {tarih}: izlenen liglerde başlamamış **{len(maclar)}** maç ({', '.join(ligler) or '-'})")
+        if maclar and not ornek_fixture:
+            ornek_fixture = maclar[0]
+    if ornek_fixture:
+        bahisciler = football.oranlari_al(api, ornek_fixture["fixture_id"])
+        adlar = sorted(bahisciler)
+        keskin = any(a.lower() == ayar.keskin_bahisci.lower() for a in adlar)
+        isvec = [a for a in adlar if a.lower() in {b.lower() for b in ayar.isvec_bahisciler}]
+        satirlar.append(f"- Oran örneği ({ornek_fixture['ev']} – {ornek_fixture['dep']}): {len(adlar)} bahisçi; "
+                        f"{ayar.keskin_bahisci} {'VAR' if keskin else 'YOK'}; İsveç lisanslı: {', '.join(isvec) or 'YOK'}")
+        satirlar.append(f"  - Tüm bahisçiler: {', '.join(adlar) or '-'}")
+    try:
+        r = _x_client().session.get("https://api.x.com/2/users/me", timeout=30)
+        satirlar.append(f"- X: {r.status_code} {r.json().get('data', {}).get('username') or r.text[:200]}")
+    except Exception as e:
+        satirlar.append(f"- X hatası: {e}")
+    try:
+        m = anthropic.Anthropic().models.retrieve(ayar.claude_model)
+        satirlar.append(f"- Anthropic: model {m.id} erişilebilir")
+    except Exception as e:
+        satirlar.append(f"- Anthropic hatası: {e}")
+    _ozet_yaz("\n".join(satirlar))
+
+
 def demo(ayar) -> None:
     ornek = config.ROOT / "ornek"
     api = football.DemoApi(ornek / "api_football.json")
@@ -137,12 +180,15 @@ def demo(ayar) -> None:
 
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="bot")
-    p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo"])
+    p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani"])
     args = p.parse_args(argv)
     ayar = config.yukle()
 
     if args.komut == "demo":
         demo(ayar)
+        return 0
+    if args.komut == "tani":
+        tani(ayar)
         return 0
 
     gunler = kayit.yukle(config.DATA_FILE)

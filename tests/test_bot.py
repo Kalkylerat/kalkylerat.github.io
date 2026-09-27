@@ -172,3 +172,28 @@ def test_kombine_ihtimal_ve_rekor():
 def test_en_olasi_skor():
     skor, p = model.en_olasi_skor(2.2, 0.6)
     assert skor == "2-0" and 0 < p < 1
+
+
+def test_api_istek_siniri_bekler_ve_tekrar_dener(monkeypatch):
+    from bot import football
+    beklemeler = []
+    monkeypatch.setattr(football.time, "sleep", beklemeler.append)
+
+    class Yanit:
+        def __init__(self, kod, govde):
+            self.status_code, self._govde = kod, govde
+
+        def raise_for_status(self):
+            if self.status_code >= 400:
+                raise RuntimeError(self.status_code)
+
+        def json(self):
+            return self._govde
+
+    yanitlar = [Yanit(429, {}), Yanit(200, {"errors": [], "response": [1, 2]}), Yanit(200, {"errors": [], "response": [3]})]
+    oturum = SimpleNamespace(headers={}, get=lambda *a, **k: yanitlar.pop(0))
+    api = football.ApiFootball("anahtar", session=oturum)
+    assert api.get("fixtures") == [1, 2]
+    assert 60 in beklemeler
+    assert api.get("odds") == [3]
+    assert any(0 < b <= football.ApiFootball.ARALIK for b in beklemeler)

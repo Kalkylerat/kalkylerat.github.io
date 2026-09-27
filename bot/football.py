@@ -1,6 +1,7 @@
 """API-Football (api-sports.io) üzerinden maç, oran, istatistik ve sonuç toplama."""
 
 import json
+import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -25,20 +26,36 @@ class ApiHatasi(RuntimeError):
 
 
 class ApiFootball:
+    # Ücretsiz plan dakikada 10 istek kabul eder; istekler arası en az bu kadar saniye beklenir.
+    ARALIK = 6.5
+
     def __init__(self, key: str, session: requests.Session | None = None):
         self.session = session or requests.Session()
         self.session.headers["x-apisports-key"] = key
         self.istek_sayisi = 0
+        self._son = 0.0
 
     def get(self, path: str, **params) -> list:
-        r = self.session.get(f"{BASE_URL}/{path}", params=params, timeout=30)
-        self.istek_sayisi += 1
-        r.raise_for_status()
-        body = r.json()
-        errors = body.get("errors")
-        if errors:
-            raise ApiHatasi(f"API-Football hatası ({path}): {errors}")
-        return body.get("response", [])
+        for deneme in range(4):
+            bekle = self.ARALIK - (time.monotonic() - self._son)
+            if bekle > 0:
+                time.sleep(bekle)
+            r = self.session.get(f"{BASE_URL}/{path}", params=params, timeout=30)
+            self._son = time.monotonic()
+            self.istek_sayisi += 1
+            if r.status_code == 429 and deneme < 3:
+                time.sleep(60)
+                continue
+            r.raise_for_status()
+            body = r.json()
+            errors = body.get("errors")
+            if errors and "rateLimit" in str(errors) and deneme < 3:
+                time.sleep(60)
+                continue
+            if errors:
+                raise ApiHatasi(f"API-Football hatası ({path}): {errors}")
+            return body.get("response", [])
+        raise ApiHatasi(f"API-Football: {path} için istek sınırı aşıldı")
 
 
 class DemoApi:

@@ -135,7 +135,7 @@ def tani(ayar) -> None:
     simdi = kayit.simdi_utc()
     tz = ZoneInfo(ayar.saat_dilimi)
     ornek_fixture = None
-    for gun in range(8):
+    for gun in range(2):
         tarih = (simdi.astimezone(tz) + timedelta(days=gun)).date().isoformat()
         ham = api.session.get(f"{football.BASE_URL}/fixtures",
                               params={"date": tarih, "timezone": ayar.saat_dilimi}, timeout=30).json()

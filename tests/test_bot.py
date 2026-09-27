@@ -51,7 +51,7 @@ def _gun(gid, oranlar, tweet_id="t1"):
     return {"id": gid, "tarih": gid, "sonuc": None, "tweet_id": tweet_id, "secimler": [
         {"fixture_id": i, "pazar": "MS1", "oran": o, "baslama": "2026-10-03T15:00:00+02:00", "durum": "bekliyor",
          "ev": "Hammarby", "dep": "AIK", "etiket": "1 (hemmaseger)", "kisa": "1", "bolag": "Unibet",
-         "deger": 0.04, "yorum": ""} for i, o in enumerate(oranlar, 1)]}
+         "deger": 0.04, "adil_olasilik": 0.7, "yorum": ""} for i, o in enumerate(oranlar, 1)]}
 
 
 def test_sonuclandirma_ve_birim_hesabi():
@@ -150,6 +150,6 @@ def test_demo_uctan_uca(monkeypatch, capsys):
     monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
     assert main(["demo"]) == 0
     cikti = capsys.readouterr().out
-    assert "DAGENS SPEL" in cikti and "Resultat: 2 av 3 vann" in cikti
+    assert "DAGENS SPEL" in cikti and "Resultat: 1 av 1 vann" in cikti and "68 % chans" in cikti
     assert "1xBet" not in cikti  # lisanssız bahisçi asla önerilmez
-    assert "Djurgården" not in cikti.split("TWEET #1")[1]  # değersiz maç seçilmez
+    assert "Djurgården" not in cikti.split("TWEET #1")[1]  # düşük ihtimalli maç seçilmez

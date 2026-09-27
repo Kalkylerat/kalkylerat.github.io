@@ -1,6 +1,6 @@
 # Kalkylerat — otomatik İsveççe futbol "değer" oyunları botu
 
-Bot her gün maçları tarar ve İsveç lisanslı bahisçilerdeki oranları keskin piyasanın (Pinnacle) adil olasılığıyla karşılaştırır. Değeri olan 0–3 tekli (singel) oyunu Claude ile seçip İsveççe gerekçeleriyle X'te paylaşır. Maçlar bitince sonuçları yazar ve herkese açık rekor panelini günceller.
+Bot her gün maçları tarar, keskin piyasanın (Pinnacle) adil olasılığına göre **kazanma ihtimali en yüksek** 0–3 tekli (singel) oyunu seçer ve İsveç lisanslı bahisçideki oranla birlikte, Claude'un yazdığı İsveççe gerekçelerle X'te paylaşır. Maçlar bitince sonuçları yazar ve herkese açık rekor panelini günceller.
 
 - Görseller ve profil metinleri: **[marka/](marka/)** (`PROFIL.md` içinde kopyala-yapıştır metinler)
 
@@ -8,12 +8,12 @@ Bot her gün maçları tarar ve İsveç lisanslı bahisçilerdeki oranları kesk
 
 ```
 10:00  dünkü sonuçlar → sonuç tweetleri → bugünün maçları → tüm bahisçilerin oranları
-       → adil olasılık (Pinnacle) × İsveç lisanslı en iyi oran = değer → Poisson gol modeli kontrolü
-       → Claude en iyi 0–3 oyunu seçer, İsveççe gerekçe yazar → taslak veya doğrudan X paylaşımı
+       → adil olasılık (Pinnacle) ≥ %65 ve oran adil fiyattan en fazla %5 kötü → Poisson gol modeli kontrolü
+       → Claude en yüksek ihtimalli 0–3 oyunu seçer, İsveççe gerekçe yazar → taslak veya doğrudan X paylaşımı
 23:30  akşam maçlarının sonuçları → sonuç tweeti → rekor paneli güncellenir
 ```
 
-Değer yoksa o gün paylaşım yapılmaz. Bu bilinçli bir tercih: az ama sağlam oyun.
+Yeterince yüksek ihtimalli oyun yoksa o gün paylaşım yapılmaz. Bu bilinçli bir tercih: az ama sağlam oyun.
 
 ## Kurulum (bir kerelik, ~45 dakika)
 
@@ -90,8 +90,9 @@ Bot içeriği üretir; takipçiyi etkileşim getirir:
 |---|---|
 | `izinli` | Taranacak ligler (Allsvenskan önde) |
 | `max_spel` | Günlük en fazla oyun sayısı (3) |
-| `oran_min` / `oran_max` | Oran aralığı. 1,45–2,30 istikrar için seçildi |
-| `min_deger` | En az avantaj (0,02 = %2) |
+| `min_olasilik` | En düşük kazanma ihtimali (0,65 = %65) |
+| `oran_min` / `oran_max` | Oran aralığı (1,20–1,75) |
+| `min_deger` | Oranın adil fiyattan en fazla ne kadar kötü olabileceği (-0,05 = %5) |
 | `isvec_lisansli` | Oranı önerilecek bahisçiler. spelinspektionen.se'den lisansları kontrol edin |
 | `otomatik_paylas` | `true` ise onay beklemeden paylaşır |
 
@@ -107,4 +108,4 @@ python -m pytest -q
 - **"API-Football hatası … plan/season"** → Ücretsiz plan güncel sezonu vermiyorsa Pro'ya (19$) geçin.
 - **"X API hatası 401/403"** → App izni "Read and write" değil ya da Access Token izin değişikliğinden önce üretilmiş. Tokeni yeniden üretip secret'ı güncelleyin.
 - **"X API hatası 402"** → X geliştirici kredisi bitmiş olabilir.
-- **"Bugün oyun yok"** → O gün değerli oyun bulunamadı; bilinçli bir davranış.
+- **"Bugün oyun yok"** → O gün yeterince yüksek ihtimalli oyun bulunamadı; bilinçli bir davranış.

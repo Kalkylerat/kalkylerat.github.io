@@ -6,18 +6,17 @@ import anthropic
 
 from .tweets import sayi
 
-SISTEM = """Du är en datadriven, ärlig fotbollsanalytiker som skriver på svenska för ett X-konto (Twitter) med speltips. Kontots löfte: stabila singelspel med värde, inga lotterikuponger, full transparens.
+SISTEM = """Du är en datadriven, ärlig fotbollsanalytiker som skriver på svenska för ett X-konto (Twitter) med speltips. Kontots löfte: stabila singelspel med hög sannolikhet, inga skrällar, inga lotterikuponger, full transparens.
 
-Du får kandidater som redan klarat en värdekontroll: den bästa oddset hos ett svensklicensierat spelbolag jämförs med en skarp marknads rättvisa sannolikhet (marginal borträknad), och en Poisson-målmodell har fungerat som säkerhetskontroll.
+Du får kandidater som redan klarat kontrollerna: hög rättvis sannolikhet enligt en skarp marknad (marginal borträknad), ett odds hos ett svensklicensierat spelbolag som inte är mycket sämre än det rättvisa priset, och en Poisson-målmodell som säkerhetskontroll.
 
 Din uppgift:
-1. Välj högst det antal spel som anges (singlar, ett per match). Välj hellre färre än att ta med svaga spel. Om inget känns övertygande, returnera en tom lista och förklara varför i gerekce_yoksa.
-2. Skriv för varje spel en kort motivering på svenska (max 200 tecken) som bara bygger på den data du fått: form, hemma/borta-målsnitt, förväntade mål, inbördes möten, skador, rättvis sannolikhet jämfört med oddset. Hitta inte på något som inte står i datan (laguttagningar, nyheter, domare, väder).
+1. Välj högst det antal spel som anges (singlar, ett per match). Prioritera de spel som med störst sannolikhet går in. Välj hellre färre än att ta med osäkra spel. Om inget känns tillräckligt säkert, returnera en tom lista och förklara varför i gerekce_yoksa.
+2. Skriv för varje spel en kort motivering på svenska (max 200 tecken) som bara bygger på den data du fått: form, hemma/borta-målsnitt, förväntade mål, inbördes möten, skador, sannolikhet. Hitta inte på något som inte står i datan (laguttagningar, nyheter, domare, väder).
 3. Skriv en kort rubrik (max 50 tecken).
 
 Regler:
-- Använd aldrig ord som "säker", "spik", "garanterad" eller "gratis pengar". Använd sannolikhetsspråk.
-- Du får nämna värdet i procent och den rättvisa sannolikheten.
+- Använd aldrig ord som "säker", "spik", "garanterad" eller "gratis pengar". Använd sannolikhetsspråk (t.ex. "cirka 72 % chans").
 - aday_id ska kopieras exakt från kandidatens aday_id."""
 
 SEMA = {
@@ -104,7 +103,7 @@ def claude_ile_sec(maclar: dict[int, dict], adaylar: list[dict], ayar, client=No
 def basit_sec(maclar: dict[int, dict], adaylar: list[dict], ayar) -> dict:
     """Claude anahtarı olmadan demo için kural tabanlı seçim."""
     secilen, kullanilan = [], set()
-    for a in sorted(adaylar, key=lambda x: x["deger"], reverse=True):
+    for a in sorted(adaylar, key=lambda x: x["adil_olasilik"], reverse=True):
         if a["fixture_id"] in kullanilan:
             continue
         secilen.append(a)
@@ -112,8 +111,8 @@ def basit_sec(maclar: dict[int, dict], adaylar: list[dict], ayar) -> dict:
         if len(secilen) == ayar.max_spel:
             break
     return {
-        "baslik": "Dagens värdespel",
-        "gerekce_yoksa": "" if secilen else "Inga spel med tillräckligt värde idag.",
+        "baslik": "Dagens spel",
+        "gerekce_yoksa": "" if secilen else "Inga tillräckligt säkra spel idag.",
         "secimler": [{
             "aday_id": s["aday_id"],
             "yorum": (f'Förväntade mål {sayi(s["beklenen_gol"][0], 1)}–{sayi(s["beklenen_gol"][1], 1)}. '

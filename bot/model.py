@@ -1,5 +1,5 @@
-"""Değer (value) tespiti: keskin piyasanın adil olasılığı × İsveç lisanslı bahisçideki en iyi oran.
-Poisson gol modeli yalnızca güvenlik kontrolü olarak kullanılır."""
+"""Yüksek ihtimalli oyun seçimi: keskin piyasanın adil olasılığı en yüksek seçimler, İsveç lisanslı
+bahisçideki oranın adil fiyattan fazla kötü olmaması şartıyla. Poisson gol modeli güvenlik kontrolüdür."""
 
 import math
 
@@ -125,5 +125,5 @@ def adaylari_uret(mac: dict, bahisciler: dict[str, dict[str, float]], ist: dict,
             "deger": round(deger, 3),
             "beklenen_gol": [round(lam_ev, 2), round(lam_dep, 2)],
         })
-    adaylar.sort(key=lambda a: a["deger"], reverse=True)
+    adaylar.sort(key=lambda a: (a["adil_olasilik"], a["deger"]), reverse=True)
     return adaylar[:2]

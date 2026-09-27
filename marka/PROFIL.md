@@ -15,7 +15,7 @@ Bu dosyadaki metinleri olduğu gibi kopyalayın. Görseller bu klasörde: `logo.
 ## Biyografi (Bio)
 
 ```
-Datadrivna singelspel på fotboll. Värde, inte skrällar. Allt publiceras före avspark – inget raderas. 18+ | Stödlinjen 020-81 91 00
+Datadrivna singelspel på fotboll med hög sannolikhet. Inga skrällar. Allt publiceras före avspark – inget raderas. 18+ | Stödlinjen 020-81 91 00
 ```
 
 ## Sabitlenmiş tweet (hesabı açınca elle atıp profilde sabitleyin)
@@ -23,7 +23,7 @@ Datadrivna singelspel på fotboll. Värde, inte skrällar. Allt publiceras före
 ```
 Välkommen till Kalkylerat 📊
 
-Varje dag 0–3 singelspel där oddset hos ett svensklicensierat bolag är högre än det rättvisa priset.
+Varje dag 0–3 singelspel med högst sannolikhet enligt marknaden och vår målmodell.
 
 ✅ Publiceras före avspark
 ✅ Allt räknas, inget raderas

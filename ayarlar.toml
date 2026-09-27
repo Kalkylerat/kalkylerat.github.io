@@ -13,15 +13,16 @@ izinli = [113, 39, 2, 3, 848, 5, 114, 40, 140, 135, 78, 61, 103, 119, 88]
 max_mac_tarama = 60
 
 [spel]
-# Günlük en fazla kaç tekli (singel) oyun. Değerli oyun yoksa o gün paylaşım yapılmaz.
+# Günlük en fazla kaç tekli (singel) oyun. Uygun oyun yoksa o gün paylaşım yapılmaz.
 max_spel = 3
-# Önerilen oranın aralığı. Düşük-orta oranlar = daha istikrarlı sonuç.
-oran_min = 1.45
-oran_max = 2.30
-# Minimum "değer" (beklenen getiri). 0.02 = adil orana göre %2 avantaj.
-min_deger = 0.02
-# Adil olasılık bu değerin altındaysa oyun adayı olmaz.
-min_olasilik = 0.45
+# Strateji: en yüksek kazanma ihtimali. Bu ihtimalin altındaki oyunlar aday olmaz (0.65 = %65).
+min_olasilik = 0.65
+# Önerilen oranın aralığı. Yüksek ihtimal = düşük oran.
+oran_min = 1.20
+oran_max = 1.75
+# Bahisçinin oranı adil fiyattan en fazla bu kadar kötü olabilir (-0.05 = en fazla %5 kötü).
+# Daha kötüyse oyun elenir; böylece "çok tutan ama çok kaybettiren" oyunlar alınmaz.
+min_deger = -0.05
 # Gol modeli (Poisson) adil olasılıktan bu kadar düşükse oyuna güvenilmez.
 model_tolerans = 0.06
 # Maça bu kadar dakikadan az kaldıysa oyuna alınmaz.

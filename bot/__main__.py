@@ -40,8 +40,8 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime) -> d
         if mac_adaylari:
             mac_map[m["fixture_id"]] = {**m, "istatistik": ist}
             adaylar += mac_adaylari
-    adaylar = sorted(adaylar, key=lambda a: a["deger"], reverse=True)[:ADAY_LIMIT]
-    print(f"{len(adaylar)} değerli aday, API isteği: {api.istek_sayisi}")
+    adaylar = sorted(adaylar, key=lambda a: (a["adil_olasilik"], a["deger"]), reverse=True)[:ADAY_LIMIT]
+    print(f"{len(adaylar)} aday, API isteği: {api.istek_sayisi}")
 
     gun = {"id": bugun, "tarih": bugun, "olusturma": simdi.isoformat(timespec="seconds"),
            "baslik": "", "secimler": [], "sonuc": None, "tweet_id": None}
@@ -50,7 +50,7 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime) -> d
             mac_map[fid]["sakatlar"] = football.sakatlari_al(api, fid)
         karar = sec(mac_map, adaylar, ayar)
     else:
-        karar = {"secimler": [], "gerekce_yoksa": "Değer kriterini geçen oyun yok."}
+        karar = {"secimler": [], "gerekce_yoksa": "Kriterleri geçen yüksek ihtimalli oyun yok."}
 
     if not karar["secimler"]:
         gun["sonuc"] = "pas"

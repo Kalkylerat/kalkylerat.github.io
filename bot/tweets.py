@@ -35,7 +35,7 @@ def isaretli(x: float, basamak: int = 1) -> str:
 def _rekor(o: dict) -> str:
     if not o["spel"]:
         return "📈 Rekord: start idag"
-    return f'📈 Rekord: {o["vunna"]}–{o["forlorade"]} | {isaretli(o["enheter"])} e | ROI {isaretli(o["roi"])} %'
+    return f'📈 Rekord: {o["vunna"]}–{o["forlorade"]} ({sayi(o["traff"], 0)} %) | {isaretli(o["enheter"])} e'
 
 
 def gun_tweeti(gun: dict, ozet: dict) -> str:
@@ -45,7 +45,7 @@ def gun_tweeti(gun: dict, ozet: dict) -> str:
         satirlar = [f"📊 DAGENS SPEL | {tarih.day}/{tarih.month}", ""]
         for i, s in enumerate(gun["secimler"], 1):
             saat = datetime.fromisoformat(s["baslama"]).strftime("%H:%M")
-            deger = f' · värde {isaretli(100 * s["deger"], 0)} %' if seviye < 1 else ""
+            deger = f' · {100 * s["adil_olasilik"]:.0f} % chans' if seviye < 1 else ""
             satirlar.append(f'{i}) {s["ev"][:takim_max]} – {s["dep"][:takim_max]} ({saat})')
             satirlar.append(f'   {s["kisa"]} @ {sayi(s["oran"])} · {s["bolag"]}{deger}')
         satirlar.append("")

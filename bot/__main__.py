@@ -137,6 +137,14 @@ def tani(ayar) -> None:
     ornek_fixture = None
     for gun in (0, 1):
         tarih = (simdi.astimezone(tz) + timedelta(days=gun)).date().isoformat()
+        ham = api.session.get(f"{football.BASE_URL}/fixtures",
+                              params={"date": tarih, "timezone": ayar.saat_dilimi}, timeout=30).json()
+        tum = ham.get("response", [])
+        sezonlar = sorted({f["league"]["season"] for f in tum})
+        izlenen = [f for f in tum if f["league"]["id"] in ayar.ligler]
+        satirlar.append(f"- {tarih} ham yanıt: tüm dünyada {len(tum)} maç, sezonlar {sezonlar[:5]}, "
+                        f"izlenen liglerde {len(izlenen)} (durumlar: {sorted({f['fixture']['status']['short'] for f in izlenen})}), "
+                        f"hatalar: {ham.get('errors') or '-'}")
         maclar = football.gunun_maclari(api, tarih, ayar.ligler, ayar.saat_dilimi, 0, 999, simdi)
         ligler = sorted({m["lig"] for m in maclar})
         satirlar.append(f"- {tarih}: izlenen liglerde başlamamış **{len(maclar)}** maç ({', '.join(ligler) or '-'})")

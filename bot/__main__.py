@@ -135,13 +135,16 @@ def tani(ayar) -> None:
     simdi = kayit.simdi_utc()
     tz = ZoneInfo(ayar.saat_dilimi)
     ornek_fixture = None
-    for gun in (0, 1):
+    for gun in range(8):
         tarih = (simdi.astimezone(tz) + timedelta(days=gun)).date().isoformat()
         ham = api.session.get(f"{football.BASE_URL}/fixtures",
                               params={"date": tarih, "timezone": ayar.saat_dilimi}, timeout=30).json()
         tum = ham.get("response", [])
         sezonlar = sorted({f["league"]["season"] for f in tum})
         izlenen = [f for f in tum if f["league"]["id"] in ayar.ligler]
+        from collections import Counter
+        populer = Counter(f'{f["league"]["name"]} ({f["league"]["country"]}, id {f["league"]["id"]})' for f in tum).most_common(6)
+        satirlar.append(f"  - {tarih} en çok maçı olan ligler: {populer}")
         satirlar.append(f"- {tarih} ham yanıt: tüm dünyada {len(tum)} maç, sezonlar {sezonlar[:5]}, "
                         f"izlenen liglerde {len(izlenen)} (durumlar: {sorted({f['fixture']['status']['short'] for f in izlenen})}), "
                         f"hatalar: {ham.get('errors') or '-'}")

@@ -51,7 +51,7 @@ def _gun(gid, oranlar, tweet_id="t1"):
     return {"id": gid, "tarih": gid, "sonuc": None, "tweet_id": tweet_id, "secimler": [
         {"fixture_id": i, "pazar": "MS1", "oran": o, "baslama": "2026-10-03T15:00:00+02:00", "durum": "bekliyor",
          "ev": "Hammarby", "dep": "AIK", "etiket": "1 (hemmaseger)", "kisa": "1", "bolag": "Unibet",
-         "deger": 0.04, "adil_olasilik": 0.7, "yorum": ""} for i, o in enumerate(oranlar, 1)]}
+         "deger": 0.04, "adil_olasilik": 0.7, "saat": "15:00 CEST", "olasi_skor": "2-0", "yorum": ""} for i, o in enumerate(oranlar, 1)]}
 
 
 def test_sonuclandirma_ve_birim_hesabi():
@@ -93,7 +93,6 @@ def test_tweetler_sinirda_ve_ansvar_satiri_kalir():
     g["sonuc"] = "tamam"
     assert tweets.uzunluk(tweets.sonuc_tweeti(g, kayit.ozet([g]))) <= 280
     assert tweets.uzunluk("⚽") == 2 and tweets.uzunluk("ö") == 1
-    assert tweets.sayi(1.5) == "1,50" and tweets.isaretli(-2.345, 2) == "−2,35"
 
 
 class _Ctx:
@@ -131,7 +130,7 @@ def test_claude_hatali_secimi_duzeltir():
     assert len(c.cagrilar) == 2
     assert c.cagrilar[0]["model"] == AYAR.claude_model
     assert c.cagrilar[0]["output_config"]["format"]["type"] == "json_schema"
-    assert "Okänt aday_id" in c.cagrilar[1]["messages"][-1]["content"]
+    assert "Unknown aday_id" in c.cagrilar[1]["messages"][-1]["content"]
 
 
 def test_claude_pas_gecebilir():
@@ -142,7 +141,7 @@ def test_claude_pas_gecebilir():
 def test_dogrulama():
     a = {x["aday_id"]: x for x in _adaylar()}
     a["1-UST25"] = {"aday_id": "1-UST25", "fixture_id": 1, "oran": 1.8}
-    assert "samma match" in editor.secimi_dogrula([{"aday_id": "1-MS1"}, {"aday_id": "1-UST25"}], a, AYAR)
+    assert "same match" in editor.secimi_dogrula([{"aday_id": "1-MS1"}, {"aday_id": "1-UST25"}], a, AYAR)
     assert editor.secimi_dogrula([{"aday_id": "1-MS1"}, {"aday_id": "2-MS1"}], a, AYAR) is None
 
 
@@ -150,6 +149,26 @@ def test_demo_uctan_uca(monkeypatch, capsys):
     monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
     assert main(["demo"]) == 0
     cikti = capsys.readouterr().out
-    assert "DAGENS SPEL" in cikti and "Resultat: 1 av 1 vann" in cikti and "68 % chans" in cikti
+    assert "TODAY'S PICKS" in cikti and "Results 3 Oct: 1/1 won" in cikti and "68% chance" in cikti
     assert "1xBet" not in cikti  # lisanssız bahisçi asla önerilmez
     assert "Djurgården" not in cikti.split("TWEET #1")[1]  # düşük ihtimalli maç seçilmez
+
+
+def test_kombine_ihtimal_ve_rekor():
+    g = _gun("2026-10-03", [1.5, 1.4])
+    g["secimler"][0]["adil_olasilik"], g["secimler"][1]["adil_olasilik"] = 0.8, 0.7
+    ana = tweets.gun_tweeti(g, kayit.ozet([]))
+    assert "Combo @2.10 · all win: 56%" in ana
+    simdi = datetime(2026, 10, 4, tzinfo=timezone.utc)
+    kayit.sonuclandir([g], {1: {"durum": "bitti", "skor": (2, 0)}, 2: {"durum": "bitti", "skor": (1, 0)}}, simdi)
+    o = kayit.ozet([g])
+    assert (o["kombi"], o["kombi_tuttu"]) == (1, 1) and o["kombi_birim"] == pytest.approx(1.1)
+    assert "Combos 1/1" in tweets.sonuc_tweeti(g, o)
+    g2 = _gun("2026-10-04", [1.5, 1.4])
+    kayit.sonuclandir([g2], {1: {"durum": "bitti", "skor": (0, 1)}, 2: {"durum": "iptal", "skor": None}}, simdi)
+    assert kayit.kombi_durumu(g2) is None  # iptal sonrası tek seçim kalırsa kombine sayılmaz
+
+
+def test_en_olasi_skor():
+    skor, p = model.en_olasi_skor(2.2, 0.6)
+    assert skor == "2-0" and 0 < p < 1

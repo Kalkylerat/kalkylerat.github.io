@@ -1,4 +1,4 @@
-"""Kullanım: python -m bot [otomatik|tahmin|yayinla|sonuc|panel|demo|tani]"""
+"""Kullanım: python -m bot [otomatik|tahmin|yayinla|sonuc|panel|demo|tani|onizleme]"""
 
 import argparse
 import os
@@ -65,7 +65,9 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime) -> d
         m = mac_map[a["fixture_id"]]
         gun["secimler"].append({
             "fixture_id": a["fixture_id"], "lig": m["lig"], "ev": m["ev"], "dep": m["dep"],
-            "baslama": m["baslama"], "pazar": a["pazar"], "etiket": a["etiket"], "kisa": a["kisa"], "oran": a["oran"],
+            "baslama": m["baslama"],
+            "saat": datetime.fromisoformat(m["baslama"]).astimezone(ZoneInfo(ayar.saat_dilimi)).strftime("%H:%M %Z"),
+            "olasi_skor": a["olasi_skor"], "pazar": a["pazar"], "etiket": a["etiket"], "kisa": a["kisa"], "oran": a["oran"],
             "bolag": a["bolag"], "adil_olasilik": a["adil_olasilik"], "adil_kaynak": a["adil_kaynak"],
             "model_olasilik": a["model_olasilik"], "deger": a["deger"], "yorum": s["yorum"].strip(),
             "durum": "bekliyor", "skor": None,
@@ -74,8 +76,8 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime) -> d
     gun["baslik"] = karar["baslik"].strip()
     gunler.append(gun)
 
-    onizleme = "\n\n".join([tweets.gun_tweeti(gun, kayit.ozet(gunler))] + tweets.analiz_tweetleri(gun))
-    _ozet_yaz(f"### {bugun} taslak\n```\n{onizleme}\n```")
+    taslak = "\n\n".join([tweets.gun_tweeti(gun, kayit.ozet(gunler))] + tweets.analiz_tweetleri(gun))
+    _ozet_yaz(f"### {bugun} taslak\n```\n{taslak}\n```")
     return gun
 
 
@@ -118,6 +120,14 @@ def _secici():
         return editor.claude_ile_sec
     print("ANTHROPIC_API_KEY yok: kural tabanlı basit seçim kullanılıyor (yalnızca demo).")
     return editor.basit_sec
+
+
+def onizleme(ayar) -> None:
+    """Yarının paylaşımlarını gerçek veriyle hazırlar ama kaydetmez ve paylaşmaz."""
+    simdi = kayit.simdi_utc()
+    yarin = (simdi.astimezone(ZoneInfo(ayar.saat_dilimi)) + timedelta(days=1)).date().isoformat()
+    _ozet_yaz(f"## ÖNİZLEME – {yarin} (kaydedilmez, paylaşılmaz)")
+    tahmin(ayar, football.ApiFootball(config.env("API_FOOTBALL_KEY")), _secici(), [], yarin, simdi)
 
 
 def tani(ayar) -> None:
@@ -191,7 +201,7 @@ def demo(ayar) -> None:
 
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="bot")
-    p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani"])
+    p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme"])
     args = p.parse_args(argv)
     ayar = config.yukle()
 
@@ -200,6 +210,9 @@ def main(argv=None) -> int:
         return 0
     if args.komut == "tani":
         tani(ayar)
+        return 0
+    if args.komut == "onizleme":
+        onizleme(ayar)
         return 0
 
     gunler = kayit.yukle(config.DATA_FILE)

@@ -3,17 +3,21 @@ bahisçideki oranın adil fiyattan fazla kötü olmaması şartıyla. Poisson go
 
 import math
 
-ETIKET = {
-    "MS1": "1 (hemmaseger)", "MSX": "X (oavgjort)", "MS2": "2 (bortaseger)",
-    "CS1X": "1X", "CSX2": "X2", "CS12": "12",
-    "UST25": "Över 2,5 mål", "ALT25": "Under 2,5 mål",
-    "KGVAR": "Båda lagen gör mål", "KGYOK": "Inte båda lagen gör mål",
-}
+def etiketler(pazar: str, ev: str, dep: str) -> tuple[str, str]:
+    """(uzun, kısa) sade İngilizce etiket."""
+    return {
+        "MS1": (f"{ev} to win", f"{ev} win"),
+        "MSX": ("Draw", "Draw"),
+        "MS2": (f"{dep} to win", f"{dep} win"),
+        "CS1X": (f"{ev} win or draw", f"{ev} or draw"),
+        "CSX2": (f"{dep} win or draw", f"{dep} or draw"),
+        "CS12": ("Either team wins (no draw)", "No draw"),
+        "UST25": ("Over 2.5 goals (3+ goals)", "Over 2.5 goals"),
+        "ALT25": ("Under 2.5 goals (0-2 goals)", "Under 2.5 goals"),
+        "KGVAR": ("Both teams score", "Both teams score"),
+        "KGYOK": ("At least one team fails to score", "Not both score"),
+    }[pazar]
 
-KISA = {
-    "MS1": "1", "MSX": "X", "MS2": "2", "CS1X": "1X", "CSX2": "X2", "CS12": "12",
-    "UST25": "Över 2,5", "ALT25": "Under 2,5", "KGVAR": "BLGM Ja", "KGYOK": "BLGM Nej",
-}
 
 MAX_GOL = 10
 UC_YOLLU = ("MS1", "MSX", "MS2")
@@ -44,8 +48,17 @@ def beklenen_goller(ist: dict) -> tuple[float, float]:
     return kirp(lam_ev), kirp(lam_dep)
 
 
+PAZARLAR = ("MS1", "MSX", "MS2", "CS1X", "CSX2", "CS12", "UST25", "ALT25", "KGVAR", "KGYOK")
+
+
+def en_olasi_skor(lam_ev: float, lam_dep: float) -> tuple[str, float]:
+    i, j = max(((i, j) for i in range(6) for j in range(6)),
+               key=lambda s: _poisson(s[0], lam_ev) * _poisson(s[1], lam_dep))
+    return f"{i}-{j}", _poisson(i, lam_ev) * _poisson(j, lam_dep)
+
+
 def model_olasiliklari(lam_ev: float, lam_dep: float) -> dict[str, float]:
-    p = {k: 0.0 for k in ETIKET}
+    p = {k: 0.0 for k in PAZARLAR}
     for i in range(MAX_GOL + 1):
         for j in range(MAX_GOL + 1):
             olas = _poisson(i, lam_ev) * _poisson(j, lam_dep)
@@ -76,7 +89,7 @@ def adil_olasiliklar(bahisciler: dict[str, dict[str, float]], keskin: str) -> tu
     keskin_p = piyasa_olasiliklari(bahisciler[keskin_ad]) if keskin_ad else {}
     tum = [piyasa_olasiliklari(o) for o in bahisciler.values()]
     adil, kaynak = {}, {}
-    for pazar in ETIKET:
+    for pazar in PAZARLAR:
         if pazar in keskin_p:
             adil[pazar], kaynak[pazar] = keskin_p[pazar], keskin_ad
         else:
@@ -102,6 +115,7 @@ def adaylari_uret(mac: dict, bahisciler: dict[str, dict[str, float]], ist: dict,
     adil, kaynak = adil_olasiliklar(bahisciler, ayar.keskin_bahisci)
     lam_ev, lam_dep = beklenen_goller(ist)
     model = model_olasiliklari(lam_ev, lam_dep)
+    skor, skor_p = en_olasi_skor(lam_ev, lam_dep)
     adaylar = []
     for pazar, (oran, bolag) in en_iyi_oranlar(bahisciler, ayar.isvec_bahisciler).items():
         if pazar not in adil or not (ayar.oran_min <= oran <= ayar.oran_max):
@@ -114,8 +128,8 @@ def adaylari_uret(mac: dict, bahisciler: dict[str, dict[str, float]], ist: dict,
             "aday_id": f'{mac["fixture_id"]}-{pazar}',
             "fixture_id": mac["fixture_id"],
             "pazar": pazar,
-            "etiket": ETIKET[pazar],
-            "kisa": KISA[pazar],
+            "etiket": etiketler(pazar, mac["ev"], mac["dep"])[0],
+            "kisa": etiketler(pazar, mac["ev"], mac["dep"])[1],
             "oran": oran,
             "bolag": bolag,
             "adil_olasilik": round(p, 3),
@@ -124,6 +138,8 @@ def adaylari_uret(mac: dict, bahisciler: dict[str, dict[str, float]], ist: dict,
             "model_olasilik": round(model[pazar], 3),
             "deger": round(deger, 3),
             "beklenen_gol": [round(lam_ev, 2), round(lam_dep, 2)],
+            "olasi_skor": skor,
+            "olasi_skor_olasilik": round(skor_p, 3),
         })
     adaylar.sort(key=lambda a: (a["adil_olasilik"], a["deger"]), reverse=True)
     return adaylar[:2]

@@ -10,27 +10,27 @@ Bu dosyadaki metinleri olduğu gibi kopyalayın. Görseller bu klasörde: `logo.
 | Kullanıcı adı (@) | `@Kalkylerat` — alınmışsa sırayla: `@KalkyleratSE`, `@Kalkylerat_`, `@KalkyleratSpel` |
 | Konum | `Sverige` |
 | Web sitesi | `https://kalkylerat.github.io/` (taşıma adımlarından sonra) |
-| Dil | Svenska |
+| Dil | English |
 
 ## Biyografi (Bio)
 
 ```
-Datadrivna singelspel på fotboll med hög sannolikhet. Inga skrällar. Allt publiceras före avspark – inget raderas. 18+ | Stödlinjen 020-81 91 00
+Data-driven football picks with high win chances. No long shots. Every pick posted before kick-off – nothing deleted. 18+ | Play responsibly
 ```
 
-## Sabitlenmiş tweet (hesabı açınca elle atıp profilde sabitleyin)
+## Sabitlenmiş tweet (elle atıp profilde sabitleyin)
 
 ```
-Välkommen till Kalkylerat 📊
+Welcome to Kalkylerat 📊
 
-Varje dag 0–3 singelspel med högst sannolikhet enligt marknaden och vår målmodell.
+Every day: 0–3 football picks with the highest win chance, plus a combo with its real chance.
 
-✅ Publiceras före avspark
-✅ Allt räknas, inget raderas
-✅ 1 enhet per spel
+✅ Posted before kick-off
+✅ Every pick counted, nothing deleted
+✅ Simple, data-based reasons
 
-Rekord: https://kalkylerat.github.io/
-18+ | Stödlinjen 020-81 91 00
+Record: https://kalkylerat.github.io/
+18+ | Play responsibly
 ```
 
 271/280 karakter (X her linki 23 karakter sayar), Premium olmadan da atılabilir. Link, GitHub Pages açılınca çalışır (README 5. adım); açmadan önce atmayın. Bu tweeti siz elle attığınız için link ücreti yoktur (bot tweetlerinde link kullanılmaz, çünkü API'de linkli gönderi pahalı).

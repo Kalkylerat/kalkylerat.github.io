@@ -1,15 +1,15 @@
-"""İsveççe tweet metinleri ve X API v2 istemcisi."""
+"""Sade İngilizce tweet metinleri ve X API v2 istemcisi."""
 
 from datetime import datetime
 
 from requests_oauthlib import OAuth1Session
 
-from .kayit import kar
+from .kayit import kombi_durumu, kombi_olasilik, kombi_oran
 
 LIMIT = 280
 # twitter-text ağırlıklandırması: bu aralıklar 1, diğer karakterler 2 sayılır.
 _TEK = ((0, 4351), (8192, 8205), (8208, 8223), (8242, 8247))
-ANSVAR = "18+ | Stödlinjen 020-81 91 00"
+ANSVAR = "18+ | Play responsibly"
 
 
 def uzunluk(metin: str) -> int:
@@ -24,54 +24,57 @@ def kirp(metin: str, limit: int = LIMIT) -> str:
     return metin.rstrip() + "…"
 
 
-def sayi(x: float, basamak: int = 2) -> str:
-    return f"{x:.{basamak}f}".replace(".", ",")
+def yuzde(p: float) -> str:
+    return f"{100 * p:.0f}%"
 
 
-def isaretli(x: float, basamak: int = 1) -> str:
-    return ("+" if x >= 0 else "−") + sayi(abs(x), basamak)
-
-
-def _rekor(o: dict) -> str:
+def rekor(o: dict) -> str:
     if not o["spel"]:
-        return "📈 Rekord: start idag"
-    return f'📈 Rekord: {o["vunna"]}–{o["forlorade"]} ({sayi(o["traff"], 0)} %) | {isaretli(o["enheter"])} e'
+        return "📈 Record: starts today"
+    metin = f'📈 Record: {o["vunna"]}–{o["forlorade"]} ({o["traff"]:.0f}%)'
+    if o["kombi"]:
+        metin += f' · Combos {o["kombi_tuttu"]}/{o["kombi"]}'
+    return metin
+
+
+def _tarih(gun: dict) -> str:
+    return datetime.fromisoformat(gun["tarih"]).strftime("%-d %b")
 
 
 def gun_tweeti(gun: dict, ozet: dict) -> str:
-    tarih = datetime.fromisoformat(gun["tarih"])
-
     def yaz(seviye: int, takim_max: int = 40) -> str:
-        satirlar = [f"📊 DAGENS SPEL | {tarih.day}/{tarih.month}", ""]
+        satirlar = [f"⚽ TODAY'S PICKS | {_tarih(gun)}", ""]
         for i, s in enumerate(gun["secimler"], 1):
-            saat = datetime.fromisoformat(s["baslama"]).strftime("%H:%M")
-            deger = f' · {100 * s["adil_olasilik"]:.0f} % chans' if seviye < 1 else ""
-            satirlar.append(f'{i}) {s["ev"][:takim_max]} – {s["dep"][:takim_max]} ({saat})')
-            satirlar.append(f'   {s["kisa"]} @ {sayi(s["oran"])} · {s["bolag"]}{deger}')
+            saat = s["saat"] if seviye < 2 else s["saat"].split()[0]
+            sans = f'{yuzde(s["adil_olasilik"])} chance' if seviye < 3 else yuzde(s["adil_olasilik"])
+            satirlar.append(f'{i}) {s["ev"][:takim_max]} v {s["dep"][:takim_max]} · {saat}')
+            satirlar.append(f'   {s["kisa"]} @{s["oran"]:.2f} · {sans}')
         satirlar.append("")
-        if seviye < 2:
-            satirlar.append("Insats: 1 enhet per spel")
-        satirlar.append(_rekor(ozet))
-        if seviye < 3:
-            satirlar.append("Motivering i tråden 👇")
+        if len(gun["secimler"]) >= 2:
+            satirlar.append(f'🎯 Combo @{kombi_oran(gun):.2f} · all win: {yuzde(kombi_olasilik(gun))}')
+        satirlar.append(rekor(ozet))
+        if seviye < 1:
+            satirlar.append("Why these picks? 👇")
         satirlar.append(ANSVAR)
         return "\n".join(satirlar)
 
-    # Önce süsler atılır; ansvar (18+ / Stödlinjen) satırı asla kesilmez.
+    # Önce süsler atılır; sorumlu oyun satırı asla kesilmez.
     for seviye in range(4):
         metin = yaz(seviye)
         if uzunluk(metin) <= LIMIT:
             return metin
-    for takim_max in range(30, 5, -2):
+    for takim_max in range(24, 3, -2):
         metin = yaz(3, takim_max)
         if uzunluk(metin) <= LIMIT:
             return metin
-    return metin
+    return kirp(metin)
 
 
 def analiz_tweetleri(gun: dict) -> list[str]:
     return [
-        kirp(f'{i}) {s["ev"]} – {s["dep"]} | {s["etiket"]} @ {sayi(s["oran"])}\n\n{s["yorum"]}')
+        kirp(f'{i}) {s["ev"]} v {s["dep"]}\n'
+             f'Pick: {s["etiket"]} @{s["oran"]:.2f} ({yuzde(s["adil_olasilik"])} chance)\n'
+             f'Most likely score: {s["olasi_skor"].replace("-", "–")}\n\n{s["yorum"]}')
         for i, s in enumerate(gun["secimler"], 1)
     ]
 
@@ -80,14 +83,14 @@ def sonuc_tweeti(gun: dict, ozet: dict) -> str:
     ikon = {"kazandi": "✅", "kaybetti": "❌", "iptal": "➖"}
     biten = [s for s in gun["secimler"] if s["durum"] in ("kazandi", "kaybetti")]
     vunna = sum(s["durum"] == "kazandi" for s in biten)
-    dag = sum(kar(s) for s in gun["secimler"])
-    satirlar = [f"Resultat: {vunna} av {len(biten)} vann", ""]
+    satirlar = [f"📊 Results {_tarih(gun)}: {vunna}/{len(biten)} won", ""]
     for s in gun["secimler"]:
-        skor = (s.get("skor") or "inställd").replace("-", "–")
-        satirlar.append(f'{ikon[s["durum"]]} {s["ev"]} {skor} {s["dep"]} ({s["kisa"]}) {isaretli(kar(s), 2)} e')
-    satirlar += ["", f"Dagen: {isaretli(dag, 2)} enheter",
-                 f'📈 Totalt: {ozet["vunna"]}–{ozet["forlorade"]} ({sayi(ozet["traff"], 0)} %) | '
-                 f'{isaretli(ozet["enheter"])} e | ROI {isaretli(ozet["roi"])} %']
+        skor = (s.get("skor") or "postponed").replace("-", "–")
+        satirlar.append(f'{ikon[s["durum"]]} {s["ev"]} {skor} {s["dep"]} · {s["kisa"]}')
+    kombi = kombi_durumu(gun)
+    if kombi:
+        satirlar.append(f'🎯 Combo @{kombi_oran(gun):.2f}: {"✅ won" if kombi == "tuttu" else "❌ lost"}')
+    satirlar += ["", rekor(ozet)]
     return kirp("\n".join(satirlar))
 
 

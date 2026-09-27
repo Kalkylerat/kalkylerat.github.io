@@ -2,6 +2,7 @@
 Her seçim ayrı bir tekli (singel) oyundur ve 1 birim (enhet) ile sayılır."""
 
 import json
+import math
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -21,6 +22,24 @@ def kaydet(path: Path, gunler: list[dict]) -> None:
 
 def bul(gunler: list[dict], gun_id: str) -> dict | None:
     return next((g for g in gunler if g["id"] == gun_id), None)
+
+
+def kombi_durumu(gun: dict) -> str | None:
+    """"tuttu" / "yatti" / None (kombine yok ya da sonuçlanmadı). İptal seçimler kombineden düşer."""
+    if len(gun["secimler"]) < 2 or any(s["durum"] == "bekliyor" for s in gun["secimler"]):
+        return None
+    gecerli = [s for s in gun["secimler"] if s["durum"] != "iptal"]
+    if len(gecerli) < 2:
+        return None
+    return "tuttu" if all(s["durum"] == "kazandi" for s in gecerli) else "yatti"
+
+
+def kombi_oran(gun: dict) -> float:
+    return math.prod(s["oran"] for s in gun["secimler"] if s["durum"] != "iptal")
+
+
+def kombi_olasilik(gun: dict) -> float:
+    return math.prod(s["adil_olasilik"] for s in gun["secimler"] if s["durum"] != "iptal")
 
 
 def kar(secim: dict) -> float:
@@ -65,7 +84,13 @@ def ozet(gunler: list[dict]) -> dict:
     biten = [s for s in oyunlar if s["durum"] in ("kazandi", "kaybetti")]
     kazanan = [s for s in biten if s["durum"] == "kazandi"]
     toplam_kar = sum(kar(s) for s in biten)
+    kombiler = [(g, kombi_durumu(g)) for g in gunler if g.get("tweet_id")]
+    kombiler = [(g, d) for g, d in kombiler if d]
+    kombi_tuttu = [g for g, d in kombiler if d == "tuttu"]
     return {
+        "kombi": len(kombiler),
+        "kombi_tuttu": len(kombi_tuttu),
+        "kombi_birim": round(sum(kombi_oran(g) - 1 for g in kombi_tuttu) - (len(kombiler) - len(kombi_tuttu)), 2),
         "spel": len(biten),
         "vunna": len(kazanan),
         "forlorade": len(biten) - len(kazanan),

@@ -1,6 +1,6 @@
-# Kalkylerat — otomatik İsveççe futbol "değer" oyunları botu
+# Kalkylerat — yüksek ihtimalli futbol oyunları botu
 
-Bot her gün maçları tarar, keskin piyasanın (Pinnacle) adil olasılığına göre **kazanma ihtimali en yüksek** 0–3 tekli (singel) oyunu seçer ve İsveç lisanslı bahisçideki oranla birlikte, Claude'un yazdığı İsveççe gerekçelerle X'te paylaşır. Maçlar bitince sonuçları yazar ve herkese açık rekor panelini günceller.
+Bot her gün maçları tarar, keskin piyasanın (Pinnacle) adil olasılığına göre **kazanma ihtimali en yüksek** 0–3 tekli (singel) oyunu seçer ve oranıyla birlikte, Claude'un yazdığı sade İngilizce gerekçeler ve kombinenin gerçek tutma ihtimaliyle X'te paylaşır. Maçlar bitince sonuçları yazar ve herkese açık rekor panelini günceller.
 
 - Görseller ve profil metinleri: **[marka/](marka/)** (`PROFIL.md` içinde kopyala-yapıştır metinler)
 

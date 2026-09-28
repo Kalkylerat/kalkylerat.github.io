@@ -1,1 +1,109 @@
-[]
+[
+  {
+    "id": "2026-09-28",
+    "tarih": "2026-09-28",
+    "olusturma": "2026-09-28T10:51:39+00:00",
+    "baslik": "Tight games and an in-form Castellón",
+    "secimler": [
+      {
+        "fixture_id": 1528902,
+        "lig": "UEFA Nations League",
+        "ev": "Georgia",
+        "dep": "Ukraine",
+        "baslama": "2026-09-28T18:00:00+02:00",
+        "saat": "18:00 CEST",
+        "olasi_skor": "0-0",
+        "pazar": "ALT35",
+        "tur": "guvenli",
+        "etiket": "3 or fewer goals in the match",
+        "kisa": "Under 3.5 goals",
+        "oran": 1.25,
+        "stake": 100.0,
+        "bolag": "median of 3",
+        "adil_olasilik": 0.76,
+        "adil_kaynak": "Pinnacle",
+        "model_olasilik": 0.966,
+        "deger": -0.051,
+        "beklenen_gol": [
+          0.2,
+          1.0
+        ],
+        "yorum": "Low-scoring history: 1-1 and 1-0 in recent meetings, and the model expects only about 1.2 goals. Roughly a 3 in 4 chance of 3 or fewer.",
+        "durum": "bekliyor",
+        "skor": null
+      },
+      {
+        "fixture_id": 1569943,
+        "lig": "Segunda División",
+        "ev": "Leganes",
+        "dep": "Castellón",
+        "baslama": "2026-09-28T20:30:00+02:00",
+        "saat": "20:30 CEST",
+        "olasi_skor": "0-1",
+        "pazar": "CSX2",
+        "tur": "guvenli",
+        "etiket": "Castellón win or draw",
+        "kisa": "Castellón or draw",
+        "oran": 1.35,
+        "stake": 100.0,
+        "bolag": "median of 4",
+        "adil_olasilik": 0.706,
+        "adil_kaynak": "Pinnacle",
+        "model_olasilik": 0.826,
+        "deger": -0.047,
+        "beklenen_gol": [
+          0.7,
+          1.5
+        ],
+        "yorum": "Castellón have won 5 of their last 6 and are unbeaten in 4 meetings with Leganes without conceding. About a 7 in 10 chance they avoid defeat.",
+        "durum": "bekliyor",
+        "skor": null
+      },
+      {
+        "fixture_id": 1528906,
+        "lig": "UEFA Nations League",
+        "ev": "Northern Ireland",
+        "dep": "Hungary",
+        "baslama": "2026-09-28T20:45:00+02:00",
+        "saat": "20:45 CEST",
+        "olasi_skor": "0-0",
+        "pazar": "IYA15",
+        "tur": "guvenli",
+        "etiket": "1 or fewer goals in the first half",
+        "kisa": "1st half under 1.5",
+        "oran": 1.27,
+        "stake": 100.0,
+        "bolag": "median of 4",
+        "adil_olasilik": 0.739,
+        "adil_kaynak": "average of 7",
+        "model_olasilik": 0.897,
+        "deger": -0.062,
+        "beklenen_gol": [
+          1.0,
+          0.2
+        ],
+        "yorum": "Their last meeting ended 0-1 and neither side scored more than once in their latest games. About a 3 in 4 chance of 0 or 1 first-half goals.",
+        "durum": "bekliyor",
+        "skor": null
+      }
+    ],
+    "sonuc": null,
+    "tweet_id": "2104525155481346346",
+    "para": "€",
+    "yuzde": 1.0,
+    "kombi": {
+      "ayaklar": [
+        0,
+        2
+      ],
+      "stake": 100.0,
+      "durum": null
+    },
+    "yayin": "2026-09-28T10:51:39+00:00",
+    "analiz_tweet_idleri": [
+      "2104525156588626164",
+      "2104525157825953866",
+      "2104525159021400413"
+    ]
+  }
+]

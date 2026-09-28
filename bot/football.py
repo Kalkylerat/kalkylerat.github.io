@@ -100,9 +100,8 @@ class DemoApi:
     def get(self, path: str, _sayma: bool = False, **params) -> list:
         if not _sayma:
             self.istek_sayisi += 1
-        if path == "fixtures" and "ids" in params:
-            ids = {int(i) for i in str(params["ids"]).split("-")}
-            return [f for f in self.data["sonuclar"] if f["fixture"]["id"] in ids]
+        if path == "fixtures" and "id" in params:
+            return [f for f in self.data["sonuclar"] if f["fixture"]["id"] == int(params["id"])]
         if path == "fixtures":
             return self.data["fixtures"]
         return self.data.get(f"{path}:{params.get('fixture')}", [])
@@ -250,25 +249,24 @@ def korner_sayisi(api, fixture_id: int) -> int | None:
 
 
 def sonuclari_al(api, fixture_ids: list[int], korner_idleri: set[int] = frozenset()) -> dict[int, dict]:
-    """fixture_id -> {"durum": "bitti"|"iptal"|"bekliyor", "skor": (ev, dep), "iy": (ev, dep), "korner": int}"""
+    """fixture_id -> {"durum": "bitti"|"iptal"|"bekliyor", "skor": (ev, dep), "iy": (ev, dep), "korner": int}
+    Ücretsiz plan toplu "ids" parametresine izin vermediği için maç başına bir istek atılır."""
     sonuc: dict[int, dict] = {}
-    for i in range(0, len(fixture_ids), 20):
-        parca = fixture_ids[i:i + 20]
-        for f in api.get("fixtures", ids="-".join(str(x) for x in parca)):
-            fid = f["fixture"]["id"]
-            kisa = f["fixture"]["status"]["short"]
-            skorlar = f.get("score") or {}
-            ft = skorlar.get("fulltime") or {}
-            ht = skorlar.get("halftime") or {}
-            if kisa in BITMIS and ft.get("home") is not None:
-                sonuc[fid] = {
-                    "durum": "bitti",
-                    "skor": (int(ft["home"]), int(ft["away"])),
-                    "iy": (int(ht["home"]), int(ht["away"])) if ht.get("home") is not None else None,
-                    "korner": korner_sayisi(api, fid) if fid in korner_idleri else None,
-                }
-            elif kisa in IPTAL:
-                sonuc[fid] = {"durum": "iptal", "skor": None}
-            else:
-                sonuc[fid] = {"durum": "bekliyor", "skor": None}
+    for f in (kayit for fid in fixture_ids for kayit in api.get("fixtures", id=fid)):
+        fid = f["fixture"]["id"]
+        kisa = f["fixture"]["status"]["short"]
+        skorlar = f.get("score") or {}
+        ft = skorlar.get("fulltime") or {}
+        ht = skorlar.get("halftime") or {}
+        if kisa in BITMIS and ft.get("home") is not None:
+            sonuc[fid] = {
+                "durum": "bitti",
+                "skor": (int(ft["home"]), int(ft["away"])),
+                "iy": (int(ht["home"]), int(ht["away"])) if ht.get("home") is not None else None,
+                "korner": korner_sayisi(api, fid) if fid in korner_idleri else None,
+            }
+        elif kisa in IPTAL:
+            sonuc[fid] = {"durum": "iptal", "skor": None}
+        else:
+            sonuc[fid] = {"durum": "bekliyor", "skor": None}
     return sonuc

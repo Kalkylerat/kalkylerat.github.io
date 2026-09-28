@@ -653,6 +653,9 @@ class SahteGitHub:
     def kapat(self, no, mesaj):
         self.kapatilan.append((no, mesaj))
 
+    def yorum(self, no, mesaj):
+        self.yorumlanan = getattr(self, "yorumlanan", []) + [(no, mesaj)]
+
 
 def _onayli_gun(son):
     g = _gun("2026-10-03", [_secim(1, 1.5, 0.8), _secim(2, 1.4, 0.7)], tweet_id=None, kuponlar=[[0, 1]])
@@ -683,9 +686,21 @@ def test_onay_iptal_ok_ve_sure_dolumu(monkeypatch, tmp_path):
     gh = SahteGitHub(issue, {7: [{"body": "ok", "user": {"login": "yabanci"}}]})
     onay.kontrol(AYAR, gh, None, [g], simdi, yayinla)
     assert not yayinlanan and not gh.kapatilan
-    # sahibin "iptal"i: paylaşılmaz, gün pas
+    # sahibin "iptal"i: paylaşım durur (hata var); süre dolsa bile otomatik paylaşılmaz
     gh = SahteGitHub(issue, {7: [{"body": "iptal", "user": {"login": "sahip"}}]})
     onay.kontrol(AYAR, gh, None, [g], simdi, yayinla)
+    assert not yayinlanan and g["onay"]["durum"] == "durduruldu" and gh.yorumlanan and not gh.kapatilan
+    onay.kontrol(AYAR, gh, None, [g], datetime(2026, 10, 3, 11, tzinfo=timezone.utc), yayinla)
+    assert not yayinlanan and g["onay"]["durum"] == "durduruldu"
+    # sonra "ok" gelirse bu haliyle paylaşılır
+    gh._yorumlar[7].append({"body": "ok", "user": {"login": "sahip"}})
+    onay.kontrol(AYAR, gh, None, [g], datetime(2026, 10, 3, 11, tzinfo=timezone.utc), yayinla)
+    assert yayinlanan == ["2026-10-03"]
+    yayinlanan.clear()
+    # düzeltme maçtan 1 saat öncesine kadar gelmezse gün pas
+    g = _onayli_gun(son)
+    gh = SahteGitHub(issue, {7: [{"body": "iptal", "user": {"login": "sahip"}}]})
+    onay.kontrol(AYAR, gh, None, [g], datetime(2026, 10, 3, 12, 5, tzinfo=timezone.utc), yayinla)
     assert not yayinlanan and g["sonuc"] == "pas" and g["onay"]["durum"] == "iptal" and gh.kapatilan
     # sahibin "ok"u: hemen paylaşılır
     g = _onayli_gun(son)
@@ -717,7 +732,7 @@ def test_otomatik_onay_istegi_acar(monkeypatch, tmp_path):
     onay.onay_iste(g, [g], AYAR, simdi)
     metin = (tmp_path / "istek.md").read_text()
     assert metin.startswith("Onay: 2026-10-03 kuponu\n") and "`ok`" in metin and "TODAY'S COUPON" in metin
-    assert "raw.githubusercontent.com" in metin and (tmp_path / "2026-10-03-1.png").exists()
+    assert "raw.githubusercontent.com" in metin and (tmp_path / "2026-10-03-1-v1.png").exists()
     # son: en fazla 90 dk sonra, en geç ilk maçtan (13:00 UTC) 2 saat önce
     assert g["onay"]["son"] == "2026-10-03T09:30:00+00:00"
 
@@ -731,7 +746,7 @@ def test_onayli_paylasim_onizlemenin_aynisi(monkeypatch, tmp_path):
     g = _gun("2026-10-03", [_secim(1, 1.5, 0.8), _secim(2, 1.4, 0.7)], tweet_id=None, kuponlar=[[0, 1]])
     simdi = datetime(2026, 10, 3, 8, tzinfo=timezone.utc)
     onay.onay_iste(g, [g], AYAR, simdi)
-    onizleme_png = (tmp_path / "2026-10-03-1.png").read_bytes()
+    onizleme_png = (tmp_path / "2026-10-03-1-v1.png").read_bytes()
     beklenen = list(g["onay"]["metinler"])
     # arada başka bir gün sonuçlandı, kasa değişti
     eski = _gun("2026-10-02", [_secim(9, 2.0, 0.5)], kuponlar=[[0]])
@@ -812,3 +827,19 @@ def test_elle_kapatilan_istek_iptal_sayilmaz_sure_dolunca_paylasilir(monkeypatch
     assert not yayinlanan and g["onay"]["durum"] == "bekliyor"
     onay.kontrol(AYAR, gh, None, [g], datetime(2026, 10, 3, 10, 31, tzinfo=timezone.utc), yayinla)
     assert yayinlanan and g["onay"]["durum"] == "otomatik"
+
+
+def test_duzeltme_sonrasi_yeni_onizleme_gecerli_eskisi_kapanir(monkeypatch, tmp_path):
+    from bot import onay
+    monkeypatch.setattr(onay, "ONIZLEME_KLASORU", tmp_path)
+    monkeypatch.setattr(onay, "ISTEK_DOSYASI", tmp_path / "istek.md")
+    g = _gun("2026-10-03", [_secim(1, 1.5, 0.8), _secim(2, 1.4, 0.7)], tweet_id=None, kuponlar=[[0, 1]])
+    simdi = datetime(2026, 10, 3, 8, tzinfo=timezone.utc)
+    onay.onay_iste(g, [g], AYAR, simdi)
+    g["onay"]["durum"] = "durduruldu"
+    onay.onay_iste(g, [g], AYAR, simdi + timedelta(minutes=20))  # düzeltildi, yeni önizleme
+    assert g["onay"]["durum"] == "bekliyor" and g["onay"]["surum"] == 2 and (tmp_path / "2026-10-03-1-v2.png").exists()
+    istekler = [{"number": 7, "title": "Onay: 2026-10-03 kuponu"}, {"number": 8, "title": "Onay: 2026-10-03 kuponu"}]
+    gh = SahteGitHub(istekler, {7: [{"body": "iptal", "user": {"login": "sahip"}}]})
+    onay.kontrol(AYAR, gh, None, [g], simdi + timedelta(minutes=25), lambda *a, **k: pytest.fail("erken paylaşım"))
+    assert gh.kapatilan == [(7, "Yerine yeni önizleme açıldı.")] and g["onay"]["durum"] == "bekliyor"

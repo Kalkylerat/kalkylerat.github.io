@@ -526,7 +526,7 @@ def demo(ayar) -> None:
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="bot")
     p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt", "sabit", "hafta", "yenile", "oran_testi",
-                                          "onay_kontrol", "onay_testi"])
+                                          "onay_kontrol", "onay_testi", "onay_yenile"])
     args = p.parse_args(argv)
     ayar = config.yukle()
 
@@ -587,6 +587,17 @@ def main(argv=None) -> int:
                 onay.kontrol(ayar, onay.GitHub(), _x_client(), gunler, simdi, yayinla)
             except Exception as e:
                 _hata("Onay kontrolü", e)
+        if args.komut == "onay_yenile":
+            # Hata düzeltildikten sonra: bugünün kuponu güncel kodla yeniden hazırlanır, yeni önizleme gelir.
+            gun = kayit.bul(gunler, bugun)
+            if not gun or gun.get("tweet_id") or not gun["secimler"] or \
+                    (gun.get("onay") or {}).get("durum") not in ("bekliyor", "durduruldu"):
+                raise RuntimeError("Yenilenecek, paylaşılmamış bir onay isteği yok.")
+            for s in gun["secimler"]:
+                for b in s.get("bacaklar") or [s]:
+                    b["etiket"], b["kisa"] = etiketler(b["pazar"], s["ev"], s["dep"])
+            onay.onizlemeleri_sil(gun["id"])
+            onay.onay_iste(gun, gunler, ayar, simdi)
         if args.komut == "onay_testi":
             kaynak = kayit.bul(gunler, bugun) if kayit.kuponlar(kayit.bul(gunler, bugun) or {}) else None
             kaynak = kaynak or next((g for g in reversed(gunler) if kayit.kuponlar(g)), None)

@@ -880,3 +880,24 @@ def test_kasa_seyri_ve_grafik():
     seyir = kayit.kasa_seyri([g2, g1, taslak], 10000)
     assert seyir == [("2026-09-27", 10000), ("2026-09-28", 10100.0), ("2026-09-29", 10000.0)]
     assert gorsel.kasa_grafigi(seyir, 10000, "€")[:4] == b"\x89PNG"
+
+
+def test_sonuc_yalnizca_bitmis_olmasi_gereken_yayinlanmis_maclar_icin_sorulur():
+    g = _gun("2026-10-03", [_secim(1, 1.5, 0.8), _secim(2, 1.4, 0.7, baslama="2026-10-03T20:45:00+02:00")],
+             kuponlar=[[0, 1]])
+    taslak = _gun("2026-10-03", [_secim(3, 1.5, 0.8)], tweet_id=None, kuponlar=[[0]])
+    # 15:00 CEST başlayan maç 16:50'de bitmiş sayılır; 20:45 maçı henüz sorulmaz, taslak hiç sorulmaz
+    simdi = datetime(2026, 10, 3, 15, 0, tzinfo=timezone.utc)  # 17:00 CEST
+    assert kayit.bekleyen_fixturelar([g, taslak], simdi) == [1]
+    assert kayit.bekleyen_fixturelar([g, taslak], datetime(2026, 10, 3, 14, 30, tzinfo=timezone.utc)) == []
+
+
+def test_sonuc_sorusu_kazanca_ve_kayba_gore():
+    kazanan = _gun("2026-10-03", [_secim(1, 1.5, 0.8)], kuponlar=[[0]])
+    kaybeden = _gun("2026-10-03", [_secim(1, 1.5, 0.8)], kuponlar=[[0]])
+    kayit.sonuclandir([kazanan], {1: {"durum": "bitti", "skor": (1, 0)}}, SIMDI)
+    kayit.sonuclandir([kaybeden], {1: {"durum": "bitti", "skor": (0, 1)}}, SIMDI)
+    k = "\n".join(tweets.sonuc_tweetleri(kazanan, kayit.ozet([kazanan], 10000)))
+    y = "\n".join(tweets.sonuc_tweetleri(kaybeden, kayit.ozet([kaybeden], 10000)))
+    assert any(s in k for s in tweets.SONUC_SORULARI["tuttu"])
+    assert any(s in y for s in tweets.SONUC_SORULARI["yatti"])

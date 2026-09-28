@@ -107,6 +107,16 @@ class DemoApi:
         return self.data.get(f"{path}:{params.get('fixture')}", [])
 
 
+def kalan_istek(api) -> int | None:
+    """Bugün kalan API-Football isteği (/status hakka sayılmaz). Okunamazsa None."""
+    try:
+        durum = api.session.get(f"{BASE_URL}/status", timeout=30).json().get("response") or {}
+        istek = durum.get("requests") or {}
+        return int(istek["limit_day"]) - int(istek["current"])
+    except Exception:
+        return None
+
+
 def _f(x) -> float:
     try:
         return float(str(x).rstrip("%"))

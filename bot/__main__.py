@@ -16,6 +16,7 @@ from .model import adaylari_uret, bet_builder, etiketler
 HATALAR: list[str] = []
 
 GUVENLI_LIMIT = 10
+API_YEDEK = 25  # sabah taramasından sonra gün içi sonuç kontrolleri ve elle komutlar için ayrılan istek
 DEGER_LIMIT = 6
 
 
@@ -129,7 +130,15 @@ def _incele(ayar, api, m: dict, bahisciler: dict, mac_map: dict, adaylar: list) 
 
 def _toplu_tara(ayar, api, maclar: list[dict], bugun: str) -> tuple[dict, list]:
     """1) Günün bütün oranları toplu çekilir, 2) piyasaya göre en umut vadeden maçlar detaylı incelenir."""
-    oranlar = football.toplu_oranlar(api, bugun, ayar.saat_dilimi, ayar.max_oran_sayfasi)
+    # Günlük hak koruması: gün içindeki sonuç kontrolleri ve elle komutlar için en az API_YEDEK istek kalsın.
+    kalan = football.kalan_istek(api) if hasattr(api, "session") else None
+    sayfa = ayar.max_oran_sayfasi
+    if kalan is not None:
+        sayfa = max(0, min(sayfa, kalan - API_YEDEK - 2 * ayar.max_detay_mac - 1))
+        print(f"API-Football: bugün {kalan} istek kalmış, toplu taramaya {sayfa} sayfa ayrıldı.")
+    if sayfa == 0:
+        raise football.ApiHatasi("günlük istek hakkı toplu tarama için yetmiyor")
+    oranlar = football.toplu_oranlar(api, bugun, ayar.saat_dilimi, sayfa)
     if not oranlar:
         raise football.ApiHatasi("toplu taramada hiç oran gelmedi")
     puanli = []
@@ -535,7 +544,7 @@ def demo(ayar) -> None:
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="bot")
     p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt", "sabit", "hafta", "yenile", "oran_testi",
-                                          "onay_kontrol", "onay_testi", "onay_yenile"])
+                                          "onay_kontrol", "onay_testi", "onay_yenile", "nabiz"])
     args = p.parse_args(argv)
     ayar = config.yukle()
 
@@ -560,9 +569,21 @@ def main(argv=None) -> int:
     bugun = simdi.astimezone(ZoneInfo(ayar.saat_dilimi)).date().isoformat()
     try:
         # Her adım ayrı: sonuç ya da haftalık özet hatası günün kuponunu engellemez.
-        if args.komut in ("otomatik", "sonuc"):
+        if args.komut == "nabiz":
+            # 15 dakikada bir: onay bekleyen kupon, bitmiş maçların sonuçları, haftalık özet.
+            try:
+                onay.kontrol(ayar, onay.GitHub(), _x_client(), gunler, simdi, yayinla)
+            except Exception as e:
+                _hata("Onay kontrolü", e)
+        if args.komut in ("otomatik", "sonuc", "nabiz"):
             try:
                 sonuc(ayar, _api(ayar), _x_client(), gunler, simdi)
+            except football.ApiHatasi as e:
+                if "limit" in str(e).lower():
+                    # Günlük hak dolmuş: hata e-postası yağmasın, gece yarısı (UTC) sıfırlanınca sonraki kontrol dener.
+                    _ozet_yaz(f"⏳ Sonuçlar ertelendi, API-Football günlük hakkı dolu: {e}")
+                else:
+                    _hata("Sonuçlar", e)
             except Exception as e:
                 _hata("Sonuçlar", e)
             try:

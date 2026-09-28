@@ -6,9 +6,9 @@ on:
     # hafta sonu erken (öğleden sonra başlayan maçlar için). Tam saat yerine :47/:17 = GitHub'ın yoğun saatinde gecikme azalır.
     - cron: "47 10 * * 1-5"  # 12:47 İsveç yaz saati (kışın 11:47)
     - cron: "17 8 * * 0,6"   # 10:17 İsveç yaz saati (kışın 09:17)
-    - cron: "30 21 * * *"  # 23:30 İsveç (yaz saati): akşam maçlarının sonuçları
-    - cron: "15 0 * * *"   # 02:15 / 01:15 İsveç: geç biten maçlar (kış saatinde 21:00 maçları dahil)
-    - cron: "7,37 8-16 * * *"  # onay bekleyen kupon: süre dolduysa otomatik paylaşım
+    # Nabız, 15 dakikada bir: süresi dolan onaylı kuponu paylaşır, biten maçların sonucunu (son maçtan ~15 dk
+    # sonra) paylaşır, Pazar akşamı haftalık özeti atar. API isteği yalnızca bitmiş olması gereken maçlar için.
+    - cron: "*/15 * * * *"
   issue_comment:
     types: [created]  # onay isteğine "ok" / "iptal" cevabı
   workflow_dispatch:
@@ -17,7 +17,7 @@ on:
         description: "Ne yapılsın?"
         type: choice
         default: yayinla
-        options: [yayinla, onay_yenile, onay_testi, onay_kontrol, onizleme, duzelt, yenile, sabit, hafta, oran_testi, otomatik, tahmin, sonuc, panel, tani]
+        options: [yayinla, nabiz, onay_yenile, onay_testi, onay_kontrol, onizleme, duzelt, yenile, sabit, hafta, oran_testi, otomatik, tahmin, sonuc, panel, tani]
 
 permissions:
   contents: write
@@ -64,8 +64,7 @@ jobs:
         run: |
           case "$OLAY|$ZAMAN" in
             issue_comment\|*) KOMUT=onay_kontrol ;;
-            "schedule|30 21 * * *"|"schedule|15 0 * * *") KOMUT=sonuc ;;
-            "schedule|7,37 8-16 * * *") KOMUT=onay_kontrol ;;
+            "schedule|*/15 * * * *") KOMUT=nabiz ;;
             schedule\|*) KOMUT=otomatik ;;
             *) KOMUT="$SECIM" ;;
           esac

@@ -103,11 +103,12 @@ KUPON_SORULARI = [
     "Which match are you watching today? 👇",
     "Would you play this one? Let us know below 👇",
 ]
-SONUC_SORULARI = [
-    "Did you follow it? 👇",
-    "What did you back today? 👇",
-    "How did your picks do? 👇",
-]
+SONUC_SORULARI = {  # kazanan ve kaybeden kuponda farklı: ikisinde de yoruma davet
+    "tuttu": ["Did you follow it? 👇", "Who else had this one? 👇", "Which leg did you trust most? 👇"],
+    "yatti": ["Tough one. Which result surprised you most? 👇", "Not our day. How did your picks go? 👇",
+              "What did we miss? Tell us below 👇"],
+    None: ["How did your picks do? 👇"],
+}
 
 
 def _gunun(sorular: list[str], gun: dict) -> str:
@@ -196,7 +197,9 @@ def sonuc_tweetleri(gun: dict, ozet: dict) -> list[str]:
                               f'{isaretli_para(sum(kar(s) for s in tekliler), birim)}')
     para_satirlari += [f'💰 Bank: {para(ozet["kasa"], birim)} ({ozet["kasa_degisim"]:+.1f}%)', rekor(ozet)]
 
-    soru = _gunun(SONUC_SORULARI, gun)
+    durumlar = [kupon_durumu(gun, k) for k in liste]
+    genel = "tuttu" if "tuttu" in durumlar else ("yatti" if "yatti" in durumlar else None)
+    soru = _gunun(SONUC_SORULARI[genel], gun)
     for tek in ("\n".join(satirlar + [""] + para_satirlari + ["", soru]), "\n".join(satirlar + [""] + para_satirlari)):
         if uzunluk(tek) <= LIMIT:
             return [tek]

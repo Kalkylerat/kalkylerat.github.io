@@ -75,12 +75,19 @@ def kasa(gunler: list[dict], baslangic: float) -> float:
     return baslangic + sum(gun_kar(g) for g in gunler if g.get("tweet_id"))
 
 
+# Başlama + bu kadar dakika sonra maçın bitmiş olması beklenir (90 + devre arası + uzatmalar).
+MAC_BITIS_DK = 110
+
+
 def bekleyen_fixturelar(gunler: list[dict], simdi: datetime) -> list[int]:
+    """Sonucu sorulacak maçlar: yayınlanmış günlerin, bitmiş olması gereken ve henüz sonuçlanmamış oyunları.
+    Devam eden maçlar sorulmaz (günlük API hakkı boşa harcanmasın)."""
     return sorted({
         s["fixture_id"]
-        for g in gunler if g["sonuc"] is None
+        for g in gunler if g["sonuc"] is None and g.get("tweet_id")
         for s in g["secimler"]
-        if s["durum"] == "bekliyor" and datetime.fromisoformat(s["baslama"]) < simdi
+        if s["durum"] == "bekliyor"
+        and datetime.fromisoformat(s["baslama"]) + timedelta(minutes=MAC_BITIS_DK) < simdi
     })
 
 

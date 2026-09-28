@@ -165,7 +165,9 @@ def test_tweetler_sinirda_ve_ansvar_satiri_kalir():
 def test_ana_tweet_icerigi():
     g = _gun("2026-10-03", [_secim(1, 2.0, 0.52, tur="deger"), _secim(2, 1.4, 0.7, "UST25", kisa="Over 2.5 goals"),
                             _secim(3, 1.3, 0.75)], kuponlar=[[0], [1, 2]])
-    assert tweets.gorselli_gun_tweeti(g) == "TODAY'S 2 COUPONS | 3 Oct\n\nWhy these picks 👇\n18+ | Play responsibly"
+    ana = tweets.gorselli_gun_tweeti(g)
+    assert ana.startswith("TODAY'S 2 COUPONS | 3 Oct\n\n") and ana.endswith("in the thread 🧵\n18+ | Play responsibly")
+    assert any(soru in ana for soru in tweets.KUPON_SORULARI) and tweets.uzunluk(ana) <= 280
     metin = tweets.gun_tweeti(g, kayit.ozet([], 10000))
     assert "💰 Bank €10,000 · 1% per coupon" in metin
     assert "🎫 Coupon 1: odds 2.00 · 52% chance\n€100 → €200\n• Home1 v Away1: Home1 win" in metin
@@ -438,7 +440,7 @@ def test_yayinla_her_kupon_icin_gorsel_ekler(capsys):
     assert yayinla(AYAR, g, tweets.KonsolClient(), [g], datetime(2026, 10, 3, 8, tzinfo=timezone.utc))
     cikti = capsys.readouterr().out
     ana = cikti.split("TWEET #1")[1].split("TWEET #2")[0]
-    assert ana.count("gorsel-") == 2 and "TODAY'S 2 COUPONS | 3 Oct" in ana and "Why these picks 👇" in ana
+    assert ana.count("gorsel-") == 2 and "TODAY'S 2 COUPONS | 3 Oct" in ana and "in the thread 🧵" in ana
     assert len(g["analiz_tweet_idleri"]) == 3 and g["gorselli"]
 
 

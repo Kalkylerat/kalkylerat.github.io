@@ -92,9 +92,32 @@ def kupon_no(gun: dict, secim_sira: int) -> int | None:
     return next((n for n, k in enumerate(liste, 1) if secim_sira in k["ayaklar"]), None)
 
 
+# Yorum yapmaya davet eden sorular (etkileşim algoritmada öne çıkarır). Her gün sırayla biri seçilir;
+# "RT yap / beğen" gibi X'in cezalandırdığı etkileşim tuzakları kullanılmaz, gerçek bir fikir sorulur.
+KUPON_SORULARI = [
+    "Which pick do you trust most? Tell us below 👇",
+    "Would you back this coupon? Reply with your take 👇",
+    "Which leg worries you most? 👇",
+    "What would you add or change? Drop your pick below 👇",
+    "Agree with the picks? Tell us why (or why not) 👇",
+    "Which match are you watching today? 👇",
+    "Would you play this one? Let us know below 👇",
+]
+SONUC_SORULARI = [
+    "Did you follow it? 👇",
+    "What did you back today? 👇",
+    "How did your picks do? 👇",
+]
+
+
+def _gunun(sorular: list[str], gun: dict) -> str:
+    return sorular[datetime.fromisoformat(gun["tarih"]).toordinal() % len(sorular)]
+
+
 def gorselli_gun_tweeti(gun: dict) -> str:
-    """Kupon görselleriyle giden ana tweet: her şey görselde, gerekçeler yanıtlarda."""
-    return f"{_baslik(gun)} | {_tarih(gun)}\n\nWhy these picks 👇\n{ANSVAR}"
+    """Kupon görselleriyle giden ana tweet: her şey görselde; bir soru yorumlara davet eder, gerekçeler yanıtlarda."""
+    return (f"{_baslik(gun)} | {_tarih(gun)}\n\n{_gunun(KUPON_SORULARI, gun)}\n\n"
+            f"Why these picks: in the thread 🧵\n{ANSVAR}")
 
 
 def gun_tweeti(gun: dict, ozet: dict | None = None) -> str:
@@ -173,10 +196,12 @@ def sonuc_tweetleri(gun: dict, ozet: dict) -> list[str]:
                               f'{isaretli_para(sum(kar(s) for s in tekliler), birim)}')
     para_satirlari += [f'💰 Bank: {para(ozet["kasa"], birim)} ({ozet["kasa_degisim"]:+.1f}%)', rekor(ozet)]
 
-    tek = "\n".join(satirlar + [""] + para_satirlari)
-    if uzunluk(tek) <= LIMIT:
-        return [tek]
-    return [kirp("\n".join(satirlar)), kirp("\n".join(para_satirlari))]
+    soru = _gunun(SONUC_SORULARI, gun)
+    for tek in ("\n".join(satirlar + [""] + para_satirlari + ["", soru]), "\n".join(satirlar + [""] + para_satirlari)):
+        if uzunluk(tek) <= LIMIT:
+            return [tek]
+    ikinci = "\n".join(para_satirlari + ["", soru])
+    return [kirp("\n".join(satirlar)), ikinci if uzunluk(ikinci) <= LIMIT else kirp("\n".join(para_satirlari))]
 
 
 def hafta_tweeti(h: dict, ozet: dict, birim: str) -> str:

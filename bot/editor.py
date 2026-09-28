@@ -20,6 +20,7 @@ Your job:
 1. Pick at most max_picks picks and group them into at most max_coupons coupons. A coupon is either one pick on its own (typically a value pick, odds around 1.7–2.5) or a combination of 2–3 high-chance picks from different matches (total odds around 1.8–3.5). Every coupon risks 1% of the bank, so only build coupons you would really back; one strong coupon is better than three weak ones. Every pick must be in exactly one coupon. Take a second pick from the same match only when it is clearly stronger than the best pick from another match; two picks from the same match become one bet builder with one estimated price, must be in the same coupon, and the explanation goes on the first of them (leave yorum empty on the second). If nothing is convincing, return empty lists and explain why in gerekce_yoksa.
 2. For each pick, write a short explanation (max 150 characters, one or two short sentences) in plain, simple English, like a stats expert telling a friend how the match will most likely go and why. Use only the data given (form, home/away scoring, goals conceded, expected goals, head-to-head, injuries, chances). Do not explain what the market means (everyone knows "Under 1.5 goals" or "Double chance X2"); explain why the pick is likely. Never invent news, line-ups, referees, weather or corner statistics that are not in the data; for corner picks, lean on the market chance and the expected attacking pressure.
 3. Write a short headline (max 50 characters).
+4. Write 3 to 5 reply suggestions (yanit_onerileri) that the account owner will post BY HAND under other people's tweets about today's matches in the data (prefer the best-known teams and leagues). Each is max 200 characters: one genuinely useful, specific stat insight about that match in plain English (form, goals, head-to-head, expected goals), friendly and conversational, like a fan who knows the numbers. It may end with our view as a chance ("we make it about 70%"). No "@", no hashtags, no links, no bookmaker names, no "bet"/"tip"/"lock", no self-promotion ("follow us"). Use a different match for each when possible. Only use facts from the data.
 
 Rules:
 - Simple words, no betting jargon, no hype, no emojis.
@@ -53,8 +54,17 @@ SEMA = {
         },
         "baslik": {"type": "string"},
         "gerekce_yoksa": {"type": "string"},
+        "yanit_onerileri": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {"fixture_id": {"type": "integer"}, "metin": {"type": "string"}},
+                "required": ["fixture_id", "metin"],
+                "additionalProperties": False,
+            },
+        },
     },
-    "required": ["secimler", "kuponlar", "baslik", "gerekce_yoksa"],
+    "required": ["secimler", "kuponlar", "baslik", "gerekce_yoksa", "yanit_onerileri"],
     "additionalProperties": False,
 }
 
@@ -156,6 +166,24 @@ def claude_ile_sec(maclar: dict[int, dict], adaylar: list[dict], ayar, client=No
     raise EditorHatasi(f"Claude iki denemede geçerli seçim üretemedi: {hata}")
 
 
+_BAHIS_DILI = re.compile(r"\b(bet|bets|betting|tip|tips|tipster|lock|guaranteed|follow)\b", re.IGNORECASE)
+
+
+def yanit_onerilerini_hazirla(oneriler: list[dict], maclar: dict[int, dict], yasakli: list[str]) -> list[dict]:
+    """Elle atılacak yanıt önerilerini süzer: yalnızca verideki maçlar, kurallara uyan metin, en fazla 5.
+    Her öneriye o maçın X araması eklenir (sahibi ilgili tweetleri bulup yanıtlasın)."""
+    from urllib.parse import quote
+    temiz = []
+    for o in oneriler:
+        m = maclar.get(o.get("fixture_id"))
+        metin = temiz_yorum(o.get("metin") or "", yasakli)
+        if not m or not metin or len(metin) > 240 or _BAHIS_DILI.search(metin):
+            continue
+        temiz.append({"mac": f'{m["ev"]} v {m["dep"]}', "metin": metin,
+                      "arama": f'https://x.com/search?q={quote(m["ev"] + " " + m["dep"])}&f=live'})
+    return temiz[:5]
+
+
 def basit_sec(maclar: dict[int, dict], adaylar: list[dict], ayar) -> dict:
     """Claude anahtarı olmadan demo için kural tabanlı seçim: maç başına bir oyun, en yüksek ihtimal önce."""
     secilen, kullanilan = [], set()
@@ -170,6 +198,11 @@ def basit_sec(maclar: dict[int, dict], adaylar: list[dict], ayar) -> dict:
         "baslik": "Today's picks",
         "gerekce_yoksa": "" if secilen else "No picks with a high enough chance today.",
         "kuponlar": [{"aday_idler": [s["aday_id"] for s in secilen]}] if secilen else [],
+        "yanit_onerileri": [{
+            "fixture_id": s["fixture_id"],
+            "metin": (f'The numbers point one way here: expected goals around {s["beklenen_gol"][0]:.1f}–{s["beklenen_gol"][1]:.1f}, '
+                      f'most likely {s["olasi_skor"]}. We make it about a {100 * s["adil_olasilik"]:.0f}% chance.'),
+        } for s in secilen],
         "secimler": [{
             "aday_id": s["aday_id"],
             "yorum": (f'Expected goals {s["beklenen_gol"][0]:.1f}–{s["beklenen_gol"][1]:.1f}, most likely score '

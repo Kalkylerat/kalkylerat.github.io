@@ -845,3 +845,38 @@ def test_duzeltme_sonrasi_yeni_onizleme_gecerli_eskisi_kapanir(monkeypatch, tmp_
     gh = SahteGitHub(istekler, {7: [{"body": "iptal", "user": {"login": "sahip"}}]})
     onay.kontrol(AYAR, gh, None, [g], simdi + timedelta(minutes=25), lambda *a, **k: pytest.fail("erken paylaşım"))
     assert gh.kapatilan == [(7, "Yerine yeni önizleme açıldı.")] and g["onay"]["durum"] == "bekliyor"
+
+
+def test_yanit_onerileri_suzulur_ve_onizlemede_gorunur(monkeypatch, tmp_path):
+    from bot import onay
+    maclar = {1: {"ev": "Arsenal", "dep": "Everton"}, 2: {"ev": "Hammarby", "dep": "AIK"}}
+    oneriler = [
+        {"fixture_id": 1, "metin": "Arsenal have scored in 11 straight home games, better than anyone. We make it about 80%."},
+        {"fixture_id": 2, "metin": "Great bet here, follow us!"},        # bahis dili / kendini tanıtma: atılır
+        {"fixture_id": 99, "metin": "Unknown match."},                     # veride yok: atılır
+        {"fixture_id": 2, "metin": "Check Bet365 for this one. AIK lost 4 of 5 away."},  # bahisçi cümlesi silinir
+    ]
+    temiz = editor.yanit_onerilerini_hazirla(oneriler, maclar, ["Bet365"])
+    assert [o["metin"] for o in temiz] == [oneriler[0]["metin"], "AIK lost 4 of 5 away."]
+    assert temiz[0]["arama"] == "https://x.com/search?q=Arsenal%20Everton&f=live"
+    monkeypatch.setattr(onay, "ONIZLEME_KLASORU", tmp_path)
+    monkeypatch.setattr(onay, "ISTEK_DOSYASI", tmp_path / "istek.md")
+    g = _gun("2026-10-03", [_secim(1, 1.5, 0.8), _secim(2, 1.4, 0.7)], tweet_id=None, kuponlar=[[0, 1]])
+    g["yanit_onerileri"] = temiz
+    onay.onay_iste(g, [g], AYAR, datetime(2026, 10, 3, 8, tzinfo=timezone.utc))
+    metin = (tmp_path / "istek.md").read_text()
+    assert "Elle yazabileceğin yanıtlar" in metin and "AIK lost 4 of 5 away." in metin and "@kalkylerat" in metin
+
+
+def test_kasa_seyri_ve_grafik():
+    from bot import gorsel
+    g1 = _gun("2026-09-28", [_secim(1, 2.0, 0.5)], kuponlar=[[0]])
+    g1["secimler"][0].update(durum="kazandi", skor="1-0")
+    g1["sonuc"] = "tamam"
+    g2 = _gun("2026-09-29", [_secim(2, 1.5, 0.7)], kuponlar=[[0]])
+    g2["secimler"][0].update(durum="kaybetti", skor="0-1")
+    g2["sonuc"] = "tamam"
+    taslak = _gun("2026-09-30", [_secim(3, 1.5, 0.7)], tweet_id=None, kuponlar=[[0]])
+    seyir = kayit.kasa_seyri([g2, g1, taslak], 10000)
+    assert seyir == [("2026-09-27", 10000), ("2026-09-28", 10100.0), ("2026-09-29", 10000.0)]
+    assert gorsel.kasa_grafigi(seyir, 10000, "€")[:4] == b"\x89PNG"

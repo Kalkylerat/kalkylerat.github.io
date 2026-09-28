@@ -116,3 +116,64 @@ def kupon_gorseli(gun: dict, kupon: dict, kasa: float, sira: int = 1, toplam: in
     tampon = io.BytesIO()
     im.save(tampon, "PNG", optimize=True)
     return tampon.getvalue()
+
+
+def kasa_grafigi(seyir: list[tuple[str, float]], baslangic: float, birim: str) -> bytes:
+    """Haftalık özet için kasa grafiği: tek seri (başlığı kendisi adlandırır), başlangıç çizgisi, son değer etiketi."""
+    G_, Y_ = 1200, 675
+    im = Image.new("RGB", (G_, Y_), ARKA)
+    d = ImageDraw.Draw(im)
+    son = seyir[-1][1]
+    degisim = 100 * (son - baslangic) / baslangic
+    d.text((KENAR, 48), "KALKYLERAT · VIRTUAL BANK", font=_font(26, True), fill=SOLUK)
+    d.text((KENAR, 86), f"{_para(son, birim)}", font=_font(64, True), fill=YAZI)
+    f = _font(34, True)
+    x0 = KENAR + d.textlength(_para(son, birim), font=_font(64, True)) + 24
+    d.text((x0, 110), f"{degisim:+.1f}% since start", font=f, fill=VURGU if degisim >= 0 else (255, 107, 97))
+
+    sol, sag, ust, alt = KENAR + 110, G_ - KENAR - 150, 210, Y_ - 110
+    degerler = [k for _, k in seyir] + [baslangic]
+    aralik = max(max(degerler) - min(degerler), baslangic * 0.01)
+    adim_y = next(a for a in (10, 20, 25, 50, 100, 200, 250, 500, 1000, 2000, 2500, 5000, 10000) if aralik / a <= 4)
+    lo = (min(degerler) // adim_y) * adim_y
+    hi = -(-max(degerler) // adim_y) * adim_y
+    if hi - lo < 2 * adim_y:
+        hi += adim_y
+    cizgiler = [lo + adim_y * k for k in range(int((hi - lo) / adim_y) + 1)]
+
+    def y(v):
+        return alt - (v - lo) / (hi - lo) * (alt - ust)
+
+    def x(i):
+        return sol + (sag - sol) * (i / max(len(seyir) - 1, 1))
+
+    izgara = (27, 44, 70)
+    fk = _font(22)
+    for v in cizgiler:  # sessiz ızgara, yuvarlak eksen değerleri
+        d.line((sol, y(v), sag, y(v)), fill=izgara, width=1)
+        etiket = _para(v, birim)
+        d.text((sol - 16 - d.textlength(etiket, font=fk), y(v) - 13), etiket, font=fk, fill=SOLUK)
+    # başlangıç çizgisi (kesikli)
+    yb = y(baslangic)
+    for xx in range(int(sol), int(sag), 18):
+        d.line((xx, yb, min(xx + 9, sag), yb), fill=SOLUK, width=2)
+    d.text((sag + 12, yb - 13), "start", font=fk, fill=SOLUK)
+    noktalar = [(x(i), y(k)) for i, (_, k) in enumerate(seyir)]
+    d.line(noktalar, fill=VURGU, width=5, joint="curve")
+    for px, py in noktalar:
+        d.ellipse((px - 7, py - 7, px + 7, py + 7), fill=VURGU, outline=ARKA, width=3)
+    px, py = noktalar[-1]
+    d.text((px + 14, py - 16), _para(son, birim), font=_font(26, True), fill=YAZI)
+    # tarih etiketleri: ilk, son ve arada birkaç tane
+    adim = max(1, len(seyir) // 6)
+    for i, (t, _) in enumerate(seyir):
+        if i % adim == 0 or i == len(seyir) - 1:
+            e = datetime.fromisoformat(t).strftime("%-d %b")
+            d.text((x(i) - d.textlength(e, font=fk) / 2, alt + 14), e, font=fk, fill=SOLUK)
+    altyazi = "Every coupon posted before kick-off · all results counted · 18+ | Play responsibly"
+    altyazi, f = _sigdir(d, altyazi, G_ - 2 * KENAR, 22)
+    d.text(((G_ - d.textlength(altyazi, font=f)) / 2, Y_ - 48), altyazi, font=f, fill=SOLUK)
+    tampon = io.BytesIO()
+    im.save(tampon, "PNG", optimize=True)
+    return tampon.getvalue()
+

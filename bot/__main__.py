@@ -108,6 +108,8 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime) -> d
     gun["kuponlar"] = [{"ayaklar": [i for i, s in enumerate(gun["secimler"]) if s["kupon_no"] == n],
                         "stake": stake, "durum": None} for n in nolar]
     gun["baslik"] = karar["baslik"].strip()
+    gun["yanit_onerileri"] = editor.yanit_onerilerini_hazirla(
+        karar.get("yanit_onerileri") or [], mac_map, ayar.oran_bahiscileri + [ayar.keskin_bahisci])
     gunler.append(gun)
 
     taslak = "\n\n".join(tweets.gun_floodu(gun, kayit.ozet(gunler, ayar.kasa_baslangic)))
@@ -383,7 +385,14 @@ def haftalik(ayar, x, gunler: list[dict], simdi: datetime, zorla: bool = False) 
         print(f"{anahtar}: haftalık özet için yeterli oyun yok ({h['gun']} gün, {h['oyun']} oyun).")
         return False
     metin = tweets.hafta_tweeti(h, kayit.ozet(gunler, ayar.kasa_baslangic), ayar.para_birimi)
-    kayitlar[anahtar] = x.gonder(metin)
+    medya = None
+    seyir = kayit.kasa_seyri(gunler, ayar.kasa_baslangic, pazar.isoformat())
+    if len(seyir) >= 3:
+        try:
+            medya = [x.medya_yukle(gorsel.kasa_grafigi(seyir, ayar.kasa_baslangic, ayar.para_birimi))]
+        except Exception as e:
+            print(f"Kasa grafiği eklenemedi: {e}")  # özet metin olarak yine gider
+    kayitlar[anahtar] = x.gonder(metin, medya=medya)
     config.HAFTA_FILE.parent.mkdir(parents=True, exist_ok=True)
     config.HAFTA_FILE.write_text(json.dumps(kayitlar, indent=2) + "\n")
     _ozet_yaz(f"Haftalık özet paylaşıldı ({anahtar}):\n```\n{metin}\n```")

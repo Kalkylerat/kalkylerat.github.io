@@ -63,6 +63,11 @@ def istek_hazirla(gun: dict, gunler: list[dict], ayar, simdi: datetime, test: bo
     ]
     for i, metin in enumerate(yanitlar, 2):
         parcalar += [f"### Tweet {i} (yanıt)", "```", metin, "```"]
+    if gun.get("yanit_onerileri"):
+        parcalar += ["", "---", "## 💬 Elle yazabileceğin yanıtlar",
+                     "Arama linkinden o maçın tweetlerini aç, büyük hesapların tweetlerine @kalkylerat'tan yapıştır:"]
+        for o in gun["yanit_onerileri"]:
+            parcalar += [f"**{o['mac']}** · [X'te ara]({o['arama']})", "```", o["metin"], "```"]
     ISTEK_DOSYASI.write_text(f"{baslik}\n" + "\n".join(parcalar) + "\n", encoding="utf-8")
     return baslik
 

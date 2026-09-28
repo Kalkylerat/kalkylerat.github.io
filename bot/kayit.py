@@ -173,3 +173,17 @@ def hafta_ozeti(gunler: list[dict], bitis: str) -> dict:
         "kar": sum(gun_kar(g) for g in hafta),
     }
 
+
+def kasa_seyri(gunler: list[dict], baslangic: float, bitis: str | None = None) -> list[tuple[str, float]]:
+    """(tarih, o günün sonundaki kasa): başlangıç noktası + sonuçlanmış her yayın günü."""
+    gunler_ = sorted((g for g in gunler if g.get("tweet_id") and g["sonuc"] == "tamam"
+                      and (bitis is None or g["tarih"] <= bitis)), key=lambda g: g["tarih"])
+    if not gunler_:
+        return []
+    ilk = (datetime.fromisoformat(gunler_[0]["tarih"]) - timedelta(days=1)).date().isoformat()
+    seyir, kasa_ = [(ilk, baslangic)], baslangic
+    for g in gunler_:
+        kasa_ += gun_kar(g)
+        seyir.append((g["tarih"], round(kasa_, 2)))
+    return seyir
+

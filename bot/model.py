@@ -247,18 +247,6 @@ def adaylari_uret(mac: dict, bahisciler: dict[str, dict[str, float]], ist: dict,
     return adaylar[:4]
 
 
-def kombi_kur(secimler: list[dict], ayar) -> list[int] | None:
-    """Farklı maçlardan, en yüksek ihtimalli seçimlerle kombine kurar. Seçim indekslerini döndürür."""
-    sirali = sorted(range(len(secimler)), key=lambda i: secimler[i]["adil_olasilik"], reverse=True)
-    ayaklar, maclar, oran, olasilik = [], set(), 1.0, 1.0
-    for i in sirali:
-        s = secimler[i]
-        if s["fixture_id"] in maclar or len(ayaklar) >= ayar.kombi_max_ayak:
-            continue
-        if oran * s["oran"] > ayar.kombi_max_oran or olasilik * s["adil_olasilik"] < ayar.kombi_min_olasilik:
-            continue
-        ayaklar.append(i)
-        maclar.add(s["fixture_id"])
-        oran *= s["oran"]
-        olasilik *= s["adil_olasilik"]
-    return sorted(ayaklar) if len(ayaklar) >= 2 else None
+def kombi_kur(secimler: list[dict]) -> list[int] | None:
+    """Kombine günün bütün oyunlarıdır (aynı maçtaki seçimler zaten tek bet builder olarak birleştirilmiştir)."""
+    return list(range(len(secimler))) if len(secimler) >= 2 else None

@@ -10,7 +10,7 @@ on:
         description: "Ne yapılsın?"
         type: choice
         default: yayinla
-        options: [yayinla, onizleme, otomatik, tahmin, sonuc, panel, tani]
+        options: [yayinla, onizleme, duzelt, otomatik, tahmin, sonuc, panel, tani]
 
 permissions:
   contents: write

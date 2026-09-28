@@ -38,12 +38,7 @@ model_tolerans = 0.08
 # Maça bu kadar dakikadan az kaldıysa oyuna alınmaz.
 min_dakika_once = 60
 
-[kombine]
-# Farklı maçlardan, en yüksek ihtimalli seçimlerle kurulur.
-max_ayak = 3
-max_oran = 3.50
-# Kombinenin gerçek tutma ihtimali bunun altındaysa kurulmaz.
-min_olasilik = 0.40
+# Kombine: günün bütün oyunları birlikte (toplam oran = oranların çarpımı, gerçek ihtimal = ihtimallerin çarpımı).
 
 [kasa]
 # Sanal kasa: her oyuna (kombine dahil) güncel kasanın bu yüzdesi yatırılır.

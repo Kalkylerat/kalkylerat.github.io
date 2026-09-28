@@ -51,8 +51,8 @@ def _tarih(gun: dict) -> str:
 
 
 def _kombi_satiri(gun: dict) -> str:
-    numaralar = "+".join(str(i + 1) for i in gun["kombi"]["ayaklar"])
-    return f'🎯 Combo {numaralar} @{kombi_oran(gun):.2f} · {yuzde(kombi_olasilik(gun))} all win'
+    """Kombine her zaman günün bütün oyunlarıdır; X'te "@" etiket sanıldığı için oranlar "odds" ile yazılır."""
+    return f'🎯 All {len(gun["secimler"])}: odds {kombi_oran(gun):.2f} · {yuzde(kombi_olasilik(gun))} chance'
 
 
 def _secim_satiri(i: int, s: dict, takim_max: int) -> str:
@@ -61,7 +61,15 @@ def _secim_satiri(i: int, s: dict, takim_max: int) -> str:
     if s.get("bet_builder") or (s["ev"] not in kisa and s["dep"] not in kisa):
         kisa = f'{s["ev"][:takim_max]} v {s["dep"][:takim_max]}: {kisa}'
     ek = (" · bet builder" if s.get("bet_builder") else "") + (" · value" if s["tur"] == "deger" else "")
-    return f'{i}) {kisa} @{oran_metni(s)} · {yuzde(s["adil_olasilik"])}{ek}'
+    return f'{i}) {kisa} ({oran_metni(s)}) · {yuzde(s["adil_olasilik"])}{ek}'
+
+
+def _kasa_satiri(gun: dict, o: dict) -> str:
+    kasa = f'💰 Bank {para(o["kasa"], gun["para"])}'
+    if not o["spel"]:
+        return f'{kasa} · {gun["yuzde"]:g}%/bet'
+    metin = f'{kasa} · 📈 {o["vunna"]}–{o["forlorade"]} ({o["traff"]:.0f}%)'
+    return metin + (f' · combos {o["kombi_tuttu"]}/{o["kombi"]}' if o["kombi"] else "")
 
 
 def gun_tweeti(gun: dict, ozet: dict) -> str:
@@ -72,26 +80,23 @@ def gun_tweeti(gun: dict, ozet: dict) -> str:
             satirlar.append("")
         if gun.get("kombi"):
             satirlar.append(_kombi_satiri(gun))
-        if seviye < 2:
-            satirlar.append(f'💰 Bank {para(ozet["kasa"], gun["para"])} · {gun["yuzde"]:g}%/bet')
-        satirlar.append(rekor(ozet))
+        satirlar.append(_kasa_satiri(gun, ozet))
         if seviye < 1:
             satirlar.append("Why? Thread 👇")
+        satirlar.append(ANSVAR)
         return "\n".join(satirlar)
 
-    def tamamla(govde: str) -> str:
-        return f"{govde}\n{ANSVAR}"
-
-    # Önce süsler atılır; sorumlu oyun satırı asla kesilmez.
-    for seviye in range(3):
-        metin = tamamla(yaz(seviye))
+    # Önce süsler atılır, sonra takım adları kısalır; kasa ve sorumlu oyun satırları asla atılmaz.
+    for seviye in range(2):
+        metin = yaz(seviye)
         if uzunluk(metin) <= LIMIT:
             return metin
     for takim_max in range(20, 5, -2):
-        metin = tamamla(yaz(2, takim_max))
+        metin = yaz(1, takim_max)
         if uzunluk(metin) <= LIMIT:
             return metin
-    return tamamla(kirp(yaz(2, 6), LIMIT - uzunluk(ANSVAR) - 1))
+    govde = "\n".join(yaz(1, 6).split("\n")[:-1])
+    return f"{kirp(govde, LIMIT - uzunluk(ANSVAR) - 1)}\n{ANSVAR}"
 
 
 def analiz_tweetleri(gun: dict) -> list[str]:
@@ -101,7 +106,7 @@ def analiz_tweetleri(gun: dict) -> list[str]:
         return ("bet builder, " if s.get("bet_builder") else "") + kisa_tur[s["tur"]]
     return [
         kirp(f'{i}) {s["ev"]} v {s["dep"]} · {s["saat"]}\n'
-             f'{s["etiket"]} @{oran_metni(s)}\n'
+             f'{s["etiket"]} · odds {oran_metni(s)}\n'
              f'{yuzde(s["adil_olasilik"])} chance · {tur(s)} · stake {para(s["stake"], gun["para"])}\n'
              f'Likely score: {s["olasi_skor"].replace("-", "–")}\n\n{s["yorum"]}')
         for i, s in enumerate(gun["secimler"], 1)
@@ -118,7 +123,7 @@ def sonuc_tweeti(gun: dict, ozet: dict) -> str:
         satirlar.append(f'{ikon[s["durum"]]} {s["ev"]} {skor} {s["dep"]} · {s["kisa"]}')
     kombi = kombi_durumu(gun) if gun.get("kombi") else None
     if kombi in ("tuttu", "yatti"):
-        satirlar.append(f'🎯 Combo @{kombi_oran(gun):.2f}: {"✅ won" if kombi == "tuttu" else "❌ lost"}')
+        satirlar.append(f'🎯 All together (odds {kombi_oran(gun):.2f}): {"✅ won" if kombi == "tuttu" else "❌ lost"}')
     kar = gun_kar(gun)
     satirlar += ["", f'💰 Day {"+" if kar >= 0 else ""}{para(kar, gun["para"])} · Bank {para(ozet["kasa"], gun["para"])} '
                      f'({ozet["kasa_degisim"]:+.1f}%)', rekor(ozet)]
@@ -140,6 +145,11 @@ class XClient:
             raise RuntimeError(f"X API hatası {r.status_code}: {r.text}")
         return r.json()["data"]["id"]
 
+    def sil(self, tweet_id: str) -> None:
+        r = self.session.delete(f"{self.URL}/{tweet_id}", timeout=30)
+        if r.status_code >= 400 and r.status_code != 404:
+            raise RuntimeError(f"X API silme hatası {r.status_code}: {r.text}")
+
 
 class KonsolClient:
     """Paylaşmadan ekrana yazar (demo / taslak önizleme)."""
@@ -151,3 +161,6 @@ class KonsolClient:
         self.sayac += 1
         print(f"\n----- TWEET #{self.sayac}{' (yanıt)' if yanit else ''} [{uzunluk(metin)}/280] -----\n{metin}")
         return f"demo-{self.sayac}"
+
+    def sil(self, tweet_id: str) -> None:
+        print(f"----- SİLİNDİ: {tweet_id} -----")

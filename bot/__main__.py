@@ -1,4 +1,4 @@
-"""Kullanım: python -m bot [otomatik|tahmin|yayinla|sonuc|panel|demo|tani|onizleme]"""
+"""Kullanım: python -m bot [otomatik|tahmin|yayinla|sonuc|panel|demo|tani|onizleme|duzelt]"""
 
 import argparse
 import os
@@ -87,7 +87,7 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime) -> d
         })
     gun["secimler"] = bet_builder_birlestir(gun["secimler"])
     gun["secimler"].sort(key=lambda s: s["baslama"])
-    ayaklar = kombi_kur(gun["secimler"], ayar)
+    ayaklar = kombi_kur(gun["secimler"])
     if ayaklar:
         gun["kombi"] = {"ayaklar": ayaklar, "stake": stake, "durum": None}
     gun["baslik"] = karar["baslik"].strip()
@@ -141,6 +141,25 @@ def yayinla(ayar, gun: dict, x, gunler: list[dict], simdi: datetime) -> bool:
         gun["analiz_tweet_idleri"].append(onceki)
     print(f"Yayınlandı: tweet {gun['tweet_id']}")
     return True
+
+
+def duzelt(ayar, gun: dict, x, gunler: list[dict], simdi: datetime) -> bool:
+    """Bugünün tweetlerini siler, kombineyi yeniden kurar ve güncel biçimle tekrar paylaşır (maçlar başlamadıysa)."""
+    if not gun.get("tweet_id"):
+        return False
+    ilk = min(datetime.fromisoformat(s["baslama"]) for s in gun["secimler"])
+    if ilk <= simdi:
+        print("İlk maç başlamış; yayınlanmış oyunlar değiştirilemez.")
+        return False
+    for tid in reversed([gun["tweet_id"]] + gun.get("analiz_tweet_idleri", [])):
+        x.sil(tid)
+    gun["tweet_id"], gun["analiz_tweet_idleri"] = None, []
+    ayaklar = kombi_kur(gun["secimler"])
+    if ayaklar:
+        gun["kombi"] = {"ayaklar": ayaklar, "stake": gun["secimler"][0]["stake"], "durum": None}
+    else:
+        gun.pop("kombi", None)
+    return yayinla(ayar, gun, x, gunler, simdi)
 
 
 def sonuc(ayar, api, x, gunler: list[dict], simdi: datetime) -> None:
@@ -256,7 +275,7 @@ def demo(ayar) -> None:
 
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="bot")
-    p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme"])
+    p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt"])
     args = p.parse_args(argv)
     ayar = config.yukle()
 
@@ -280,6 +299,10 @@ def main(argv=None) -> int:
             gun = tahmin(ayar, _api(ayar), _secici(), gunler, bugun, simdi)
             if gun and ayar.otomatik_paylas:
                 yayinla(ayar, gun, _x_client(), gunler, simdi)
+        if args.komut == "duzelt":
+            gun = kayit.bul(gunler, bugun)
+            if not gun or not duzelt(ayar, gun, _x_client(), gunler, simdi):
+                print("Düzeltilecek bugünkü paylaşım yok.")
         if args.komut == "yayinla":
             gun = kayit.bul(gunler, bugun)
             if not gun or not yayinla(ayar, gun, _x_client(), gunler, simdi):

@@ -101,11 +101,13 @@ def _gun(gid, secimler, tweet_id="t1", kombi=None):
     return g
 
 
-def test_kombi_kur_farkli_maclardan_ve_sinirlar_icinde():
-    secimler = [_secim(1, 1.30, 0.78), _secim(1, 1.40, 0.72, "UST15"), _secim(2, 1.45, 0.68), _secim(3, 2.2, 0.48)]
-    ayaklar = model.kombi_kur(secimler, AYAR)
-    assert ayaklar == [0, 2]  # aynı maçtan ikinci seçim ve düşük ihtimalli üçüncü alınmaz
-    assert model.kombi_kur([_secim(1, 1.3, 0.8)], AYAR) is None
+def test_kombi_gunun_butun_oyunlari():
+    secimler = [_secim(1, 1.25, 0.76), _secim(2, 1.35, 0.706), _secim(3, 1.27, 0.739)]
+    assert model.kombi_kur(secimler) == [0, 1, 2]
+    assert model.kombi_kur([_secim(1, 1.3, 0.8)]) is None
+    g = _gun("2026-09-28", secimler, kombi=[0, 1, 2])
+    assert kayit.kombi_oran(g) == pytest.approx(2.14, abs=0.01)
+    assert kayit.kombi_olasilik(g) == pytest.approx(0.397, abs=0.001)
 
 
 def test_sonuclandirma_ve_kasa():
@@ -152,10 +154,10 @@ def test_ana_tweet_icerigi():
     g = _gun("2026-10-03", [_secim(1, 1.5, 0.8), _secim(2, 1.4, 0.7, "UST25", kisa="Over 2.5 goals", tur="deger")],
              kombi=[0, 1])
     ana = tweets.gun_tweeti(g, kayit.ozet([], 10000))
-    assert "1) Home1 win @1.50 · 80%" in ana
-    assert "2) Home2 v Away2: Over 2.5 goals @1.40 · 70% · value" in ana
-    assert "Combo 1+2 @2.10 · 56% all win" in ana
-    assert "Bank €10,000 · 1%/bet" in ana
+    assert "1) Home1 win (1.50) · 80%" in ana
+    assert "2) Home2 v Away2: Over 2.5 goals (1.40) · 70% · value" in ana
+    assert "All 2: odds 2.10 · 56% chance" in ana
+    assert "💰 Bank €10,000 · 1%/bet" in ana
 
 
 def test_sonuc_tweeti_kasa_ve_kombine():
@@ -164,7 +166,7 @@ def test_sonuc_tweeti_kasa_ve_kombine():
     o = kayit.ozet([g], 10000)
     assert o["kasa"] == pytest.approx(10000 + 50 + 40 + 110)
     metin = tweets.sonuc_tweeti(g, o)
-    assert "Combo @2.10: ✅ won" in metin and "Day +€200" in metin and "Combos 1/1" in metin
+    assert "All together (odds 2.10): ✅ won" in metin and "Day +€200" in metin and "Combos 1/1" in metin
 
 
 class _Ctx:
@@ -227,7 +229,7 @@ def test_demo_uctan_uca(monkeypatch, capsys):
     assert main(["demo"]) == 0
     cikti = capsys.readouterr().out
     assert "TODAY'S PICKS" in cikti and "Results 3 Oct: 3/3 won" in cikti
-    assert "· value" in cikti and "Combo 2+3" in cikti and "Bank €10," in cikti
+    assert "· value" in cikti and "All 3: odds" in cikti and "Bank €10," in cikti
     assert "1xBet" not in cikti  # listede olmayan bahisçi asla kullanılmaz
     assert "Djurgården" not in cikti.split("TWEET #1")[1]  # kriteri geçmeyen maç seçilmez
 
@@ -273,7 +275,7 @@ def test_bet_builder_birlestirme_ve_sonuclandirma():
     assert bb["bet_builder"] and bb["kisa"] == "Home1 win + Over 1.5 goals" and bb["yorum"] == "Home are strong."
     g = _gun("2026-10-03", secimler)
     ana = tweets.gun_tweeti(g, kayit.ozet([], 10000))
-    assert f"1) Home1 v Away1: Home1 win + Over 1.5 goals @≈{bb['oran']:.2f}" in ana and "bet builder" in ana
+    assert f"1) Home1 v Away1: Home1 win + Over 1.5 goals (≈{bb['oran']:.2f})" in ana and "bet builder" in ana
     kayit.sonuclandir([g], {1: {"durum": "bitti", "skor": (1, 0)}, 2: {"durum": "bitti", "skor": (2, 0)}}, SIMDI)
     assert bb["durum"] == "kaybetti" and [x["durum"] for x in bb["bacaklar"]] == ["kazandi", "kaybetti"]
     assert secimler[1]["durum"] == "kazandi"
@@ -301,3 +303,12 @@ def test_uc_oyunlu_gunde_kasa_satiri_kalir():
     secimler = [_secim(i, o, p, "UST15", ev=e, dep=d, kisa=k) for i, (e, d, k, o, p) in enumerate(ms, 1)]
     ana = tweets.gun_tweeti(_gun("2026-09-29", secimler, kombi=[0, 1, 2]), kayit.ozet([], 10000))
     assert "💰 Bank" in ana and tweets.uzunluk(ana) <= 280
+
+
+def test_tweetlerde_at_isareti_yok():
+    """X "@" ile başlayan her şeyi kullanıcı etiketi sanar; oranlar asla "@1.25" gibi yazılmamalı."""
+    g = _gun("2026-10-03", [_secim(1, 1.5, 0.8), _secim(2, 1.4, 0.7, "UST25", kisa="Over 2.5 goals")], kombi=[0, 1])
+    metinler = [tweets.gun_tweeti(g, kayit.ozet([], 10000))] + tweets.analiz_tweetleri(g)
+    kayit.sonuclandir([g], {1: {"durum": "bitti", "skor": (2, 0)}, 2: {"durum": "bitti", "skor": (1, 2)}}, SIMDI)
+    metinler.append(tweets.sonuc_tweeti(g, kayit.ozet([g], 10000)))
+    assert not any("@" in m for m in metinler)

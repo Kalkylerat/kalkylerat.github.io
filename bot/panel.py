@@ -43,7 +43,7 @@ footer {{ color:var(--muted); font-size:13px; margin-top:32px; }}
 <div class="tiles">
 <div class="tile"><b>{kasa}</b><span>Bank ({kasa_degisim}%)</span></div>
 <div class="tile"><b>{traff}%</b><span>Picks won ({vunna}–{forlorade})</span></div>
-<div class="tile"><b>{kombi_tuttu}/{kombi}</b><span>Combos won</span></div>
+<div class="tile"><b>{kombi_tuttu}/{kombi}</b><span>Coupons won</span></div>
 <div class="tile"><b>{snittodds}</b><span>Average odds</span></div>
 <div class="tile"><b>{vantande}</b><span>Pending</span></div>
 </div>
@@ -69,7 +69,7 @@ def _gun_html(g: dict) -> str:
         durum = kombi_durumu(g)
         etiket = {"tuttu": "won", "yatti": "lost", "iptal": "void", None: "pending"}[durum]
         numaralar = "+".join(str(i + 1) for i in g["kombi"]["ayaklar"])
-        kombi = (f'<tr><td colspan="5" class="{durum or "bekliyor"}">All picks together · odds {kombi_oran(g):.2f} · '
+        kombi = (f'<tr><td colspan="5" class="{durum or "bekliyor"}">Coupon (all picks) · odds {kombi_oran(g):.2f} · '
                  f'chance all win {100 * kombi_olasilik(g):.0f}% · stake {para(g["kombi"]["stake"], birim)} · {etiket}</td></tr>')
     kar_g = gun_kar(g)
     gunluk = f"{'+' if kar_g >= 0 else ''}{para(kar_g, birim)}" if g["sonuc"] else "In play"

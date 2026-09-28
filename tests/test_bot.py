@@ -73,8 +73,9 @@ def test_pazar_kodlari_ve_etiketler():
     assert football.pazar_kodu("Goals Over/Under", "Over 5.5") is None
     assert football.pazar_kodu("Asian Handicap", "Home -1") is None
     assert model.etiketler("KORA105", "A", "B")[1] == "Under 10.5 corners"
-    assert model.etiketler("UST35", "A", "B")[0] == "4+ goals in the match"
-    assert model.etiketler("IYA15", "A", "B")[0] == "1 or fewer goals in the first half"
+    assert model.etiketler("UST35", "A", "B") == ("Over 3.5 goals (4 or more goals)", "Over 3.5 goals")
+    assert model.etiketler("IYA15", "A", "B")[0] == "Under 1.5 goals in 1st half (0 or 1 goal before half-time)"
+    assert model.etiketler("CSX2", "A", "B")[1] == "B win or draw"
 
 
 def test_aday_turu():
@@ -146,18 +147,23 @@ def test_tweetler_sinirda_ve_ansvar_satiri_kalir():
     for s in g["secimler"]:
         s.update(durum="kazandi", skor="2-1")
     g["sonuc"] = "tamam"
-    assert tweets.uzunluk(tweets.sonuc_tweeti(g, kayit.ozet([g], 10000))) <= 280
+    assert all(tweets.uzunluk(t) <= 280 for t in tweets.gun_floodu(g, kayit.ozet([], 10000)))
+    assert all(tweets.uzunluk(t) <= 280 for t in tweets.sonuc_tweetleri(g, kayit.ozet([g], 10000)))
     assert tweets.uzunluk("⚽") == 2 and tweets.uzunluk("ö") == 1
 
 
 def test_ana_tweet_icerigi():
     g = _gun("2026-10-03", [_secim(1, 1.5, 0.8), _secim(2, 1.4, 0.7, "UST25", kisa="Over 2.5 goals", tur="deger")],
              kombi=[0, 1])
-    ana = tweets.gun_tweeti(g, kayit.ozet([], 10000))
-    assert "1) Home1 win (1.50) · 80%" in ana
-    assert "2) Home2 v Away2: Over 2.5 goals (1.40) · 70% · value" in ana
-    assert "All 2: odds 2.10 · 56% chance" in ana
-    assert "💰 Bank €10,000 · 1%/bet" in ana
+    ana, kasa, *analiz = tweets.gun_floodu(g, kayit.ozet([], 10000))
+    assert "⚽ TODAY'S COUPON | 3 Oct" in ana
+    assert "1) Home1 v Away1\nHome1 win · odds 1.50" in ana
+    assert "2) Home2 v Away2\nOver 2.5 goals · odds 1.40" in ana
+    assert "Total odds 2.10 · real chance 56%" in ana and "€100 stake → €210 return" in ana
+    assert "💰 Bank €10,000 (virtual) · 1% per bet" in kasa
+    assert "€100 → €210 if all win" in kasa and "1) Home1 win → €150" in kasa
+    assert len(analiz) == 2 and analiz[1].startswith("2) Home2 v Away2 · 15:00 CEST\nPick: ")
+    assert "value pick" in analiz[1]
 
 
 def test_sonuc_tweeti_kasa_ve_kombine():
@@ -165,8 +171,10 @@ def test_sonuc_tweeti_kasa_ve_kombine():
     kayit.sonuclandir([g], {1: {"durum": "bitti", "skor": (2, 0)}, 2: {"durum": "bitti", "skor": (1, 0)}}, SIMDI)
     o = kayit.ozet([g], 10000)
     assert o["kasa"] == pytest.approx(10000 + 50 + 40 + 110)
-    metin = tweets.sonuc_tweeti(g, o)
-    assert "All together (odds 2.10): ✅ won" in metin and "Day +€200" in metin and "Combos 1/1" in metin
+    sonuclar, para = tweets.sonuc_tweetleri(g, o)
+    assert "✅ Home1 2–0 Away1" in sonuclar and "🎯 Coupon: ✅ won" in sonuclar
+    assert "🎯 Coupon: +€110" in para and "Singles: 2/2 won, +€90" in para
+    assert "💰 Bank: €10,200" in para and "coupons 1/1" in para
 
 
 class _Ctx:
@@ -228,8 +236,8 @@ def test_demo_uctan_uca(monkeypatch, capsys):
     monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
     assert main(["demo"]) == 0
     cikti = capsys.readouterr().out
-    assert "TODAY'S PICKS" in cikti and "Results 3 Oct: 3/3 won" in cikti
-    assert "· value" in cikti and "All 3: odds" in cikti and "Bank €10," in cikti
+    assert "TODAY'S COUPON" in cikti and "RESULTS | 3 Oct" in cikti
+    assert "value pick" in cikti and "Total odds" in cikti and "Bank €10," in cikti
     assert "1xBet" not in cikti  # listede olmayan bahisçi asla kullanılmaz
     assert "Djurgården" not in cikti.split("TWEET #1")[1]  # kriteri geçmeyen maç seçilmez
 
@@ -273,9 +281,10 @@ def test_bet_builder_birlestirme_ve_sonuclandirma():
     assert len(secimler) == 2
     bb = secimler[0]
     assert bb["bet_builder"] and bb["kisa"] == "Home1 win + Over 1.5 goals" and bb["yorum"] == "Home are strong."
-    g = _gun("2026-10-03", secimler)
+    g = _gun("2026-10-03", secimler, kombi=model.kombi_kur(secimler))
     ana = tweets.gun_tweeti(g, kayit.ozet([], 10000))
-    assert f"1) Home1 v Away1: Home1 win + Over 1.5 goals (≈{bb['oran']:.2f})" in ana and "bet builder" in ana
+    assert f"1) Home1 v Away1\nHome1 win + Over 1.5 goals · odds ≈{bb['oran']:.2f}" in ana
+    assert "bet builder" in tweets.analiz_tweetleri(g)[0]
     kayit.sonuclandir([g], {1: {"durum": "bitti", "skor": (1, 0)}, 2: {"durum": "bitti", "skor": (2, 0)}}, SIMDI)
     assert bb["durum"] == "kaybetti" and [x["durum"] for x in bb["bacaklar"]] == ["kazandi", "kaybetti"]
     assert secimler[1]["durum"] == "kazandi"
@@ -301,16 +310,17 @@ def test_uc_oyunlu_gunde_kasa_satiri_kalir():
     ms = [("Bulgaria", "Estonia", "Under 3.5 goals", 1.20, 0.79), ("Czechia", "England", "Over 1.5 goals", 1.22, 0.78),
           ("Spain", "Croatia", "1st-half goal", 1.25, 0.76)]
     secimler = [_secim(i, o, p, "UST15", ev=e, dep=d, kisa=k) for i, (e, d, k, o, p) in enumerate(ms, 1)]
-    ana = tweets.gun_tweeti(_gun("2026-09-29", secimler, kombi=[0, 1, 2]), kayit.ozet([], 10000))
-    assert "💰 Bank" in ana and tweets.uzunluk(ana) <= 280
+    flood = tweets.gun_floodu(_gun("2026-09-29", secimler, kombi=[0, 1, 2]), kayit.ozet([], 10000))
+    assert all(f"{e} v {d}" in flood[0] for e, d, *_ in ms)  # her oyunda maç adı olmalı
+    assert "💰 Bank" in flood[1] and all(tweets.uzunluk(t) <= 280 for t in flood)
 
 
 def test_tweetlerde_at_isareti_yok():
     """X "@" ile başlayan her şeyi kullanıcı etiketi sanar; oranlar asla "@1.25" gibi yazılmamalı."""
     g = _gun("2026-10-03", [_secim(1, 1.5, 0.8), _secim(2, 1.4, 0.7, "UST25", kisa="Over 2.5 goals")], kombi=[0, 1])
-    metinler = [tweets.gun_tweeti(g, kayit.ozet([], 10000))] + tweets.analiz_tweetleri(g)
+    metinler = tweets.gun_floodu(g, kayit.ozet([], 10000))
     kayit.sonuclandir([g], {1: {"durum": "bitti", "skor": (2, 0)}, 2: {"durum": "bitti", "skor": (1, 2)}}, SIMDI)
-    metinler.append(tweets.sonuc_tweeti(g, kayit.ozet([g], 10000)))
+    metinler += tweets.sonuc_tweetleri(g, kayit.ozet([g], 10000))
     assert not any("@" in m for m in metinler)
 
 
@@ -332,3 +342,16 @@ def test_sabit_tweetler_sinirda_ve_eskileri_siler():
     x = SahteX()
     sabit_tweet(x)
     assert x.silinen == ["1"] and x.sayac == 2
+
+
+def test_uzun_isim_ve_aciklama_kesilmez():
+    """Takım adı ve açıklama cümle ortasından kesilmemeli; sığmazsa önce gereksiz satırlar düşer."""
+    yorum = "Their last meeting ended 0-1 and neither side scored more than once lately. About a 3 in 4 chance of it."
+    ms = [("Georgia", "Ukraine", "Under 3.5 goals"), ("Leganes", "Castellón", "Castellón win or draw"),
+          ("Northern Ireland", "Hungary", "Under 1.5 goals in 1st half")]
+    secimler = [_secim(i, 1.27, 0.74, "IYA15", ev=e, dep=d, kisa=k, yorum=yorum,
+                       etiket="Under 1.5 goals in 1st half (0 or 1 goal before half-time)")
+                for i, (e, d, k) in enumerate(ms, 1)]
+    flood = tweets.gun_floodu(_gun("2026-09-28", secimler, kombi=[0, 1, 2]), kayit.ozet([], 10000))
+    assert "3) Northern Ireland v Hungary" in flood[0]
+    assert not any("…" in t for t in flood) and all(tweets.uzunluk(t) <= 280 for t in flood)

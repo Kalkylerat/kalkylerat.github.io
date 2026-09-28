@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
 from . import config, editor, football, kayit, panel, tweets
-from .model import adaylari_uret, bet_builder, kombi_kur
+from .model import adaylari_uret, bet_builder, etiketler, kombi_kur
 
 GUVENLI_LIMIT = 10
 DEGER_LIMIT = 6
@@ -93,7 +93,7 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime) -> d
     gun["baslik"] = karar["baslik"].strip()
     gunler.append(gun)
 
-    taslak = "\n\n".join([tweets.gun_tweeti(gun, kayit.ozet(gunler, ayar.kasa_baslangic))] + tweets.analiz_tweetleri(gun))
+    taslak = "\n\n".join(tweets.gun_floodu(gun, kayit.ozet(gunler, ayar.kasa_baslangic)))
     _ozet_yaz(f"### {bugun} taslak\n```\n{taslak}\n```")
     return gun
 
@@ -132,11 +132,12 @@ def yayinla(ayar, gun: dict, x, gunler: list[dict], simdi: datetime) -> bool:
     if ilk <= simdi:
         print("İlk maç başlamış; şeffaflık için bu oyunlar artık yayınlanmaz.")
         return False
-    gun["tweet_id"] = x.gonder(tweets.gun_tweeti(gun, kayit.ozet(gunler, ayar.kasa_baslangic)))
+    ana, *devam = tweets.gun_floodu(gun, kayit.ozet(gunler, ayar.kasa_baslangic))
+    gun["tweet_id"] = x.gonder(ana)
     gun["yayin"] = simdi.isoformat(timespec="seconds")
     onceki = gun["tweet_id"]
     gun["analiz_tweet_idleri"] = []
-    for metin in tweets.analiz_tweetleri(gun):
+    for metin in devam:
         onceki = x.gonder(metin, yanit=onceki)
         gun["analiz_tweet_idleri"].append(onceki)
     print(f"Yayınlandı: tweet {gun['tweet_id']}")
@@ -154,6 +155,13 @@ def duzelt(ayar, gun: dict, x, gunler: list[dict], simdi: datetime) -> bool:
     for tid in reversed([gun["tweet_id"]] + gun.get("analiz_tweet_idleri", [])):
         x.sil(tid)
     gun["tweet_id"], gun["analiz_tweet_idleri"] = None, []
+    for s in gun["secimler"]:
+        # Eski kayıtlardaki etiketler güncel, sade ifadelerle yenilenir.
+        for b in s.get("bacaklar") or [s]:
+            b["etiket"], b["kisa"] = etiketler(b["pazar"], s["ev"], s["dep"])
+        if s.get("bet_builder"):
+            s["etiket"] = " + ".join(b["etiket"] for b in s["bacaklar"])
+            s["kisa"] = " + ".join(b["kisa"] for b in s["bacaklar"])
     ayaklar = kombi_kur(gun["secimler"])
     if ayaklar:
         gun["kombi"] = {"ayaklar": ayaklar, "stake": gun["secimler"][0]["stake"], "durum": None}
@@ -183,7 +191,12 @@ def sonuc(ayar, api, x, gunler: list[dict], simdi: datetime) -> None:
         print(f"{g['id']} sonuçlandı.")
         if g.get("tweet_id") and not g.get("sonuc_tweet_id"):
             ozet = kayit.ozet(gunler, ayar.kasa_baslangic)
-            g["sonuc_tweet_id"] = x.gonder(tweets.sonuc_tweeti(g, ozet), yanit=g["tweet_id"])
+            onceki = g["tweet_id"]
+            g["sonuc_tweet_idleri"] = []
+            for metin in tweets.sonuc_tweetleri(g, ozet):
+                onceki = x.gonder(metin, yanit=onceki)
+                g["sonuc_tweet_idleri"].append(onceki)
+            g["sonuc_tweet_id"] = g["sonuc_tweet_idleri"][0]
 
 
 def _api(ayar):

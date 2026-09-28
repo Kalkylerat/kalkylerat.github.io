@@ -422,6 +422,32 @@ def tani(ayar) -> None:
     _ozet_yaz("\n".join(satirlar))
 
 
+def oran_testi(ayar) -> None:
+    """Toplu oran taramasının ücretsiz planda çalışıp çalışmadığını ölçer (paylaşım yok, ~4 istek)."""
+    from collections import Counter
+    api = _api(ayar)
+    tz = ZoneInfo(ayar.saat_dilimi)
+    yarin = (kayit.simdi_utc().astimezone(tz) + timedelta(days=1)).date().isoformat()
+    satirlar = [f"### Toplu oran testi ({yarin})"]
+    for params in ({"date": yarin, "page": 1}, {"date": yarin, "page": 2},
+                   {"date": yarin, "bookmaker": 4, "page": 1}):  # 4 = Pinnacle
+        try:
+            body = api.session.get(f"{football.BASE_URL}/odds", params=params, timeout=30).json()
+            resp = body.get("response", [])
+            ligler = Counter(f'{r["league"]["name"]} ({r["league"]["country"]})' for r in resp)
+            bm = sorted({b["name"] for r in resp for b in r.get("bookmakers", [])})
+            satirlar.append(f"- {params}: sonuç {body.get('results')}, sayfa {body.get('paging')}, "
+                            f"hata {body.get('errors') or '-'}; bahisçiler {bm[:15]}; ligler {ligler.most_common(8)}")
+        except Exception as e:
+            satirlar.append(f"- {params}: HATA {e}")
+    try:
+        durum = api.session.get(f"{football.BASE_URL}/status", timeout=30).json().get("response", {})
+        satirlar.append(f"- İstek sayacı: {(durum.get('requests') or {})}")
+    except Exception as e:
+        satirlar.append(f"- durum okunamadı: {e}")
+    _ozet_yaz("\n".join(satirlar))
+
+
 def demo(ayar) -> None:
     ornek = config.ROOT / "ornek"
     api = football.DemoApi(ornek / "api_football.json")
@@ -439,7 +465,7 @@ def demo(ayar) -> None:
 
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="bot")
-    p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt", "sabit", "hafta", "yenile"])
+    p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt", "sabit", "hafta", "yenile", "oran_testi"])
     args = p.parse_args(argv)
     ayar = config.yukle()
 
@@ -448,6 +474,9 @@ def main(argv=None) -> int:
         return 0
     if args.komut == "tani":
         tani(ayar)
+        return 0
+    if args.komut == "oran_testi":
+        oran_testi(ayar)
         return 0
     if args.komut == "onizleme":
         onizleme(ayar)

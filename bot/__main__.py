@@ -137,8 +137,11 @@ def _toplu_tara(ayar, api, maclar: list[dict], bugun: str) -> tuple[dict, list]:
                 puanli.append((puan, m))
     puanli.sort(key=lambda x: x[0], reverse=True)
     secilen = puanli[:ayar.max_detay_mac]
-    _ozet_yaz(f"Tarama: {len(maclar)} maç, {len(oranlar)} maçın oranı okundu, {len(puanli)} maç ön elemeyi geçti, "
-              f"{len(secilen)} maç detaylı incelendi.")
+    izinli = [m for m in maclar if m["lig_id"] in ayar.ligler]
+    kapsanan = sum(m["fixture_id"] in oranlar for m in izinli)
+    _ozet_yaz(f"Tarama: {len(maclar)} maç, {len(oranlar)} maçın oranı okundu (izinli liglerden {kapsanan}/{len(izinli)}), "
+              f"{len(puanli)} maç ön elemeyi geçti, {len(secilen)} maç detaylı incelendi: "
+              + ", ".join(f'{m["ev"]} v {m["dep"]} ({m["lig"]})' for _, m in secilen))
     mac_map, adaylar = {}, []
     for _, m in secilen:
         try:

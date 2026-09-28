@@ -1,6 +1,7 @@
 """API-Football (api-sports.io) üzerinden maç, oran, istatistik ve sonuç toplama."""
 
 import json
+import re
 import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -10,6 +11,9 @@ import requests
 BASE_URL = "https://v3.football.api-sports.io"
 
 BITMIS = {"FT", "AET", "PEN"}
+# İzinli liste dışındaki liglerde alınmayan maçlar: hazırlık, genç ve kadın maçlarında veri ve piyasa güvenilmez.
+_GUVENILMEZ = re.compile(r"friendl|u1[6-9]\b|u2[0-3]\b|under[- ]?(1[6-9]|2[0-3])|youth|junior|women|femin|reserve|\bii\b| b$| w$",
+                         re.IGNORECASE)
 IPTAL = {"PST", "CANC", "ABD", "AWD", "WO"}
 
 # API-Football bahis adı -> (değer -> pazar kodu)
@@ -122,6 +126,9 @@ def gunun_maclari(api, tarih: str, ligler: list[int], saat_dilimi: str,
     for f in api.get("fixtures", date=tarih, timezone=saat_dilimi):
         lig_id = f["league"]["id"]
         if (lig_id not in sira and not tum_ligler) or f["fixture"]["status"]["short"] != "NS":
+            continue
+        if lig_id not in sira and any(_GUVENILMEZ.search(ad or "") for ad in
+                                      (f["league"]["name"], f["teams"]["home"]["name"], f["teams"]["away"]["name"])):
             continue
         baslama = datetime.fromisoformat(f["fixture"]["date"])
         if baslama < esik:

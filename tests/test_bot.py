@@ -621,3 +621,16 @@ def test_metin_kuponda_sorumluluk_satiri_hep_kalir():
     g = _gun("2026-10-03", secimler, kuponlar=[[0], [1], [2]])
     metin = tweets.gun_tweeti(g, kayit.ozet([], 10000))
     assert metin.endswith(tweets.ANSVAR) and tweets.uzunluk(metin) <= 280
+
+
+def test_liste_disi_hazirlik_genc_kadin_maclari_alinmaz():
+    def f(fid, lig_id, lig, ev, dep):
+        return {"fixture": {"id": fid, "date": "2026-10-03T18:00:00+02:00", "status": {"short": "NS"}},
+                "league": {"id": lig_id, "name": lig, "country": "X"}, "teams": {"home": {"name": ev}, "away": {"name": dep}}}
+    api = SimpleNamespace(get=lambda *a, **k: [
+        f(1, 999, "Club Friendlies", "A", "B"), f(2, 998, "Premier League U21", "C U21", "D U21"),
+        f(3, 997, "Damallsvenskan Women", "E", "F"), f(4, 996, "Czech 3. liga", "G", "H"),
+        f(5, 39, "Premier League", "Arsenal", "Everton")])
+    maclar = football.gunun_maclari(api, "2026-10-03", [39], "Europe/Stockholm", 60, 100,
+                                   datetime(2026, 10, 3, 8, tzinfo=timezone.utc), tum_ligler=True)
+    assert [m["fixture_id"] for m in maclar] == [5, 4]  # izinli lig önce; hazırlık/genç/kadın maçları elenir

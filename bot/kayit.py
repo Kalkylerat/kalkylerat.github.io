@@ -144,3 +144,22 @@ def ozet(gunler: list[dict], baslangic: float = 10000.0) -> dict:
 
 def simdi_utc() -> datetime:
     return datetime.now(timezone.utc)
+
+
+def hafta_ozeti(gunler: list[dict], bitis: str) -> dict:
+    """bitis dahil son 7 günün yayınlanmış oyunları."""
+    son = datetime.fromisoformat(bitis).date()
+    bas = son - timedelta(days=6)
+    hafta = [g for g in gunler if g.get("tweet_id") and bas <= datetime.fromisoformat(g["tarih"]).date() <= son]
+    biten = [s for g in hafta for s in g["secimler"] if s["durum"] in ("kazandi", "kaybetti")]
+    kazanan = sum(s["durum"] == "kazandi" for s in biten)
+    kuponlar = [kombi_durumu(g) for g in hafta if g.get("kombi")]
+    kuponlar = [d for d in kuponlar if d in ("tuttu", "yatti")]
+    return {
+        "baslangic": bas.isoformat(), "bitis": son.isoformat(),
+        "gun": len(hafta), "oyun": len(biten), "kazanan": kazanan, "kaybeden": len(biten) - kazanan,
+        "isabet": 100 * kazanan / len(biten) if biten else 0.0,
+        "kupon": len(kuponlar), "kupon_tuttu": kuponlar.count("tuttu"),
+        "kar": sum(gun_kar(g) for g in hafta),
+    }
+

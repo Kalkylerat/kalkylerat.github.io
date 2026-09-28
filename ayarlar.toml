@@ -49,8 +49,14 @@ para_birimi = "€"
 [bahisciler]
 # "Adil" olasılık için referans alınan keskin bahisçi. Yoksa en az 3 bahisçinin ortalaması kullanılır.
 keskin = "Pinnacle"
-# Oranın alınacağı büyük bahisçiler (en iyi oran kullanılır). Tweetlerde bahisçi adı yazılmaz.
+# Keskin bahisçinin fiyatlamadığı pazarlarda ihtimal daha az güvenilir: değer sınırları bu kadar sıkılaşır
+# (güvenli oyunda -%7 yerine -%4, değer oyununda +%3 yerine +%6).
+keskinsiz_ek_marj = 0.03
+# Oranın alınacağı büyük bahisçiler (oran = medyanları). Tweetlerde bahisçi adı yazılmaz.
 oran_bahiscileri = ["Bet365", "William Hill", "Betano", "BetVictor", "Unibet", "Betway", "888Sport", "Bwin", "Betsson", "NordicBet", "ComeOn"]
+# Takipçinin bulabileceği pazar: bu listede en az bu kadar sitede oran olmalı ve zorunlu siteler mutlaka olmalı.
+min_oran_bahiscisi = 3
+zorunlu_bahisciler = ["Bet365"]
 
 [claude]
 model = "claude-opus-5-5"

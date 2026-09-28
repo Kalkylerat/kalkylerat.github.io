@@ -172,21 +172,30 @@ def adil_olasiliklar(bahisciler: dict[str, dict[str, float]], keskin: str) -> tu
     return adil, kaynak
 
 
-def piyasa_oranlari(bahisciler: dict[str, dict[str, float]], izinli: list[str]) -> dict[str, tuple[float, str]]:
-    """Listedeki bahisçilerin medyan oranı: takipçinin çoğu sitede bulabileceği gerçekçi fiyat."""
+def piyasa_oranlari(bahisciler: dict[str, dict[str, float]], izinli: list[str]) -> dict[str, tuple[float, str, dict[str, float]]]:
+    """Listedeki bahisçilerin medyan oranı: takipçinin çoğu sitede bulabileceği gerçekçi fiyat.
+    Kontrol edilebilsin diye bahisçi bahisçi oranlar da döner."""
     izin = {ad.lower() for ad in izinli}
-    oranlar: dict[str, list[float]] = {}
+    oranlar: dict[str, dict[str, float]] = {}
     for ad, o in bahisciler.items():
         if ad.lower() in izin:
             for pazar, oran in o.items():
-                oranlar.setdefault(pazar, []).append(oran)
-    return {pazar: (round(statistics.median(liste), 2), f"median of {len(liste)}") for pazar, liste in oranlar.items()}
+                oranlar.setdefault(pazar, {})[ad] = oran
+    return {pazar: (round(statistics.median(d.values()), 2), f"median of {len(d)}", d) for pazar, d in oranlar.items()}
 
 
-def aday_turu(p: float, deger: float, ayar) -> str | None:
-    if p >= ayar.guvenli_min_olasilik and deger >= ayar.guvenli_min_deger:
+def oran_yeterli(bahisci_oranlari: dict[str, float], ayar) -> bool:
+    """Seçim takipçinin gerçekten bulabileceği bir pazar olmalı: zorunlu bahisçide ve yeterince sitede var."""
+    adlar = {ad.lower() for ad in bahisci_oranlari}
+    return (len(adlar) >= ayar.min_oran_bahiscisi
+            and all(z.lower() in adlar for z in ayar.zorunlu_bahisciler))
+
+
+def aday_turu(p: float, deger: float, ayar, ek_marj: float = 0.0) -> str | None:
+    """ek_marj: keskin bahisçinin fiyatlamadığı pazarlarda ihtimal daha az güvenilir, sınırlar bu kadar sıkılaşır."""
+    if p >= ayar.guvenli_min_olasilik and deger >= ayar.guvenli_min_deger + ek_marj:
         return "guvenli"
-    if p >= ayar.deger_min_olasilik and deger >= ayar.deger_min_deger:
+    if p >= ayar.deger_min_olasilik and deger >= ayar.deger_min_deger + ek_marj:
         return "deger"
     return None
 
@@ -199,12 +208,13 @@ def adaylari_uret(mac: dict, bahisciler: dict[str, dict[str, float]], ist: dict,
     model = model_olasiliklari(lam_ev, lam_dep)
     skor, skor_p = en_olasi_skor(lam_ev, lam_dep)
     adaylar = []
-    for pazar, (oran, bolag) in piyasa_oranlari(bahisciler, ayar.oran_bahiscileri).items():
-        if pazar not in adil or not (ayar.oran_min <= oran <= ayar.oran_max):
+    for pazar, (oran, bolag, bahisci_oranlari) in piyasa_oranlari(bahisciler, ayar.oran_bahiscileri).items():
+        if pazar not in adil or not (ayar.oran_min <= oran <= ayar.oran_max) or not oran_yeterli(bahisci_oranlari, ayar):
             continue
         p = adil[pazar]
         deger = p * oran - 1
-        tur = aday_turu(p, deger, ayar)
+        keskin_var = kaynak[pazar].lower() == ayar.keskin_bahisci.lower()
+        tur = aday_turu(p, deger, ayar, 0.0 if keskin_var else ayar.keskinsiz_ek_marj)
         if not tur or (pazar in model and model[pazar] < p - ayar.model_tolerans):
             continue
         uzun, kisa = etiketler(pazar, mac["ev"], mac["dep"])
@@ -217,6 +227,7 @@ def adaylari_uret(mac: dict, bahisciler: dict[str, dict[str, float]], ist: dict,
             "kisa": kisa,
             "oran": oran,
             "bolag": bolag,
+            "oranlar": bahisci_oranlari,
             "adil_olasilik": round(p, 3),
             "adil_oran": round(1 / p, 2),
             "adil_kaynak": kaynak[pazar],

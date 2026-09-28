@@ -1,12 +1,13 @@
 """Kullanım: python -m bot [otomatik|tahmin|yayinla|sonuc|panel|demo|tani|onizleme|duzelt|sabit]"""
 
 import argparse
+import json
 import os
 import sys
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-from . import config, editor, football, kayit, panel, tweets
+from . import config, editor, football, gorsel, kayit, panel, tweets
 from .model import adaylari_uret, bet_builder, etiketler, kombi_kur
 
 GUVENLI_LIMIT = 10
@@ -81,7 +82,7 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime) -> d
             "saat": datetime.fromisoformat(m["baslama"]).astimezone(ZoneInfo(ayar.saat_dilimi)).strftime("%H:%M %Z"),
             "olasi_skor": a["olasi_skor"], "pazar": a["pazar"], "tur": a["tur"], "etiket": a["etiket"],
             "kisa": a["kisa"], "oran": a["oran"], "stake": stake,
-            "bolag": a["bolag"], "adil_olasilik": a["adil_olasilik"], "adil_kaynak": a["adil_kaynak"],
+            "bolag": a["bolag"], "oranlar": a.get("oranlar", {}), "adil_olasilik": a["adil_olasilik"], "adil_kaynak": a["adil_kaynak"],
             "model_olasilik": a["model_olasilik"], "deger": a["deger"], "beklenen_gol": a["beklenen_gol"],
             "yorum": s["yorum"].strip(), "durum": "bekliyor", "skor": None,
         })
@@ -133,7 +134,13 @@ def yayinla(ayar, gun: dict, x, gunler: list[dict], simdi: datetime) -> bool:
         print("İlk maç başlamış; şeffaflık için bu oyunlar artık yayınlanmaz.")
         return False
     ana, *devam = tweets.gun_floodu(gun, kayit.ozet(gunler, ayar.kasa_baslangic))
-    gun["tweet_id"] = x.gonder(ana)
+    medya = None
+    try:
+        medya = x.medya_yukle(gorsel.kupon_gorseli(gun))
+    except Exception as e:
+        # Görsel yüklenemezse kupon yine de metin olarak paylaşılır.
+        print(f"Kupon görseli eklenemedi: {e}")
+    gun["tweet_id"] = x.gonder(ana, medya=medya)
     gun["yayin"] = simdi.isoformat(timespec="seconds")
     onceki = gun["tweet_id"]
     gun["analiz_tweet_idleri"] = []
@@ -197,6 +204,32 @@ def sonuc(ayar, api, x, gunler: list[dict], simdi: datetime) -> None:
                 onceki = x.gonder(metin, yanit=onceki)
                 g["sonuc_tweet_idleri"].append(onceki)
             g["sonuc_tweet_id"] = g["sonuc_tweet_idleri"][0]
+
+
+HAFTA_MIN_OYUN = 3
+HAFTA_MIN_GUN = 3
+
+
+def haftalik(ayar, x, gunler: list[dict], simdi: datetime, zorla: bool = False) -> bool:
+    """Pazar akşamı (ya da kaçarsa Pazartesi) biten haftanın özetini bir kez paylaşır."""
+    yerel = simdi.astimezone(ZoneInfo(ayar.saat_dilimi))
+    if not zorla and not (yerel.weekday() == 6 and yerel.hour >= 21 or yerel.weekday() == 0):
+        return False
+    pazar = (yerel - timedelta(days=(yerel.weekday() + 1) % 7)).date()
+    anahtar = f"{pazar.isocalendar().year}-W{pazar.isocalendar().week:02d}"
+    kayitlar = json.loads(config.HAFTA_FILE.read_text()) if config.HAFTA_FILE.exists() else {}
+    if anahtar in kayitlar:
+        return False
+    h = kayit.hafta_ozeti(gunler, pazar.isoformat())
+    if h["oyun"] < HAFTA_MIN_OYUN or h["gun"] < HAFTA_MIN_GUN:
+        print(f"{anahtar}: haftalık özet için yeterli oyun yok ({h['gun']} gün, {h['oyun']} oyun).")
+        return False
+    metin = tweets.hafta_tweeti(h, kayit.ozet(gunler, ayar.kasa_baslangic), ayar.para_birimi)
+    kayitlar[anahtar] = x.gonder(metin)
+    config.HAFTA_FILE.parent.mkdir(parents=True, exist_ok=True)
+    config.HAFTA_FILE.write_text(json.dumps(kayitlar, indent=2) + "\n")
+    _ozet_yaz(f"Haftalık özet paylaşıldı ({anahtar}):\n```\n{metin}\n```")
+    return True
 
 
 def _api(ayar):
@@ -272,6 +305,12 @@ def tani(ayar) -> None:
     try:
         r = _x_client().session.get("https://api.x.com/2/users/me", timeout=30)
         satirlar.append(f"- X: {r.status_code} {r.json().get('data', {}).get('username') or r.text[:200]}")
+        ornek_gun = next((g for g in reversed(kayit.yukle(config.DATA_FILE)) if g["secimler"]), None)
+        if ornek_gun:
+            try:
+                satirlar.append(f"- X görsel yükleme (paylaşılmaz): medya {_x_client().medya_yukle(gorsel.kupon_gorseli(ornek_gun))}")
+            except Exception as e:
+                satirlar.append(f"- X görsel yükleme hatası: {e}")
     except Exception as e:
         satirlar.append(f"- X hatası: {e}")
     try:
@@ -288,7 +327,7 @@ def demo(ayar) -> None:
     simdi = datetime.fromisoformat(api.data["simdi"])
     bugun = simdi.astimezone(ZoneInfo(ayar.saat_dilimi)).date().isoformat()
     gunler: list[dict] = []
-    x = tweets.KonsolClient()
+    x = tweets.KonsolClient(ornek)
     gun = tahmin(ayar, api, _secici(), gunler, bugun, simdi)
     if gun:
         yayinla(ayar, gun, x, gunler, simdi)
@@ -299,7 +338,7 @@ def demo(ayar) -> None:
 
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="bot")
-    p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt", "sabit"])
+    p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt", "sabit", "hafta"])
     args = p.parse_args(argv)
     ayar = config.yukle()
 
@@ -322,6 +361,9 @@ def main(argv=None) -> int:
     try:
         if args.komut in ("otomatik", "sonuc"):
             sonuc(ayar, _api(ayar), _x_client(), gunler, simdi)
+            haftalik(ayar, _x_client(), gunler, simdi)
+        if args.komut == "hafta" and not haftalik(ayar, _x_client(), gunler, simdi, zorla=True):
+            print("Haftalık özet paylaşılmadı (zaten var ya da yeterli oyun yok).")
         if args.komut in ("otomatik", "tahmin"):
             gun = tahmin(ayar, _api(ayar), _secici(), gunler, bugun, simdi)
             if gun and ayar.otomatik_paylas:

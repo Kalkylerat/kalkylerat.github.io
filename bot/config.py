@@ -6,6 +6,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 DATA_FILE = ROOT / "data" / "spel.json"
 PANEL_FILE = ROOT / "docs" / "index.html"
+HAFTA_FILE = ROOT / "data" / "haftalik.json"
 
 
 @dataclass(frozen=True)
@@ -29,6 +30,9 @@ class Ayarlar:
     para_birimi: str
     keskin_bahisci: str
     oran_bahiscileri: list[str]
+    min_oran_bahiscisi: int
+    zorunlu_bahisciler: list[str]
+    keskinsiz_ek_marj: float
     claude_model: str
     claude_effort: str
     otomatik_paylas: bool
@@ -58,6 +62,9 @@ def yukle(path: Path = ROOT / "ayarlar.toml") -> Ayarlar:
         para_birimi=kasa["para_birimi"],
         keskin_bahisci=t["bahisciler"]["keskin"],
         oran_bahiscileri=list(t["bahisciler"]["oran_bahiscileri"]),
+        min_oran_bahiscisi=int(t["bahisciler"]["min_oran_bahiscisi"]),
+        zorunlu_bahisciler=list(t["bahisciler"]["zorunlu_bahisciler"]),
+        keskinsiz_ek_marj=float(t["bahisciler"]["keskinsiz_ek_marj"]),
         claude_model=t["claude"]["model"],
         claude_effort=t["claude"]["effort"],
         otomatik_paylas=bool(t["yayin"]["otomatik_paylas"]),

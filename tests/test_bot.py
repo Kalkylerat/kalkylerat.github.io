@@ -1,5 +1,5 @@
 import json
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from types import SimpleNamespace
 
 import pytest
@@ -42,7 +42,8 @@ def test_adil_olasilik_keskin_yoksa_ortalama():
 
 def test_piyasa_orani_medyan_ve_sadece_listedeki_bahisciler():
     b = {"Unibet": {"MS1": 2.1}, "Bet365": {"MS1": 2.2}, "Betano": {"MS1": 2.0}, "1xBet": {"MS1": 2.6}}
-    assert model.piyasa_oranlari(b, ["Unibet", "Bet365", "Betano"])["MS1"] == (2.1, "median of 3")
+    oran, bolag, detay = model.piyasa_oranlari(b, ["Unibet", "Bet365", "Betano"])["MS1"]
+    assert (oran, bolag) == (2.1, "median of 3") and len(detay) == 3
 
 
 def test_bet_builder_iliskiyi_hesaba_katar():
@@ -358,3 +359,54 @@ def test_uzun_isim_ve_aciklama_kesilmez():
     flood = tweets.gun_floodu(_gun("2026-09-28", secimler, kombi=[0, 1, 2]), kayit.ozet([], 10000))
     assert "3) Northern Ireland v Hungary" in flood[0]
     assert not any("…" in t for t in flood) and all(tweets.uzunluk(t) <= 280 for t in flood)
+
+
+def test_oran_takipcinin_bulabilecegi_pazardan_olmali():
+    assert model.oran_yeterli({"Bet365": 1.3, "Unibet": 1.28, "Betano": 1.27}, AYAR)
+    assert not model.oran_yeterli({"Bet365": 1.3, "Unibet": 1.28}, AYAR)  # çok az site
+    assert not model.oran_yeterli({"Unibet": 1.3, "Betano": 1.28, "Betsson": 1.27}, AYAR)  # zorunlu site yok
+
+
+def test_keskin_bahisci_yoksa_sinir_sikilasir():
+    assert model.aday_turu(0.74, -0.062, AYAR) == "guvenli"
+    assert model.aday_turu(0.74, -0.062, AYAR, AYAR.keskinsiz_ek_marj) is None
+    assert model.aday_turu(0.74, -0.03, AYAR, AYAR.keskinsiz_ek_marj) == "guvenli"
+
+
+def test_kupon_gorseli_png():
+    from bot import gorsel
+    g = _gun("2026-10-03", [_secim(1, 1.5, 0.8), _secim(2, 1.4, 0.7, "UST25", kisa="Over 2.5 goals",
+                                                        ev="Borussia Mönchengladbach", dep="Wolverhampton Wanderers")],
+             kombi=[0, 1])
+    png = gorsel.kupon_gorseli(g)
+    assert png[:8] == b"\x89PNG\r\n\x1a\n" and len(png) < 5_000_000
+
+
+def test_yayinla_gorseli_ana_tweete_ekler(capsys):
+    from bot.__main__ import yayinla
+    g = _gun("2026-10-03", [_secim(1, 1.5, 0.8), _secim(2, 1.4, 0.7)], tweet_id=None, kombi=[0, 1])
+    assert yayinla(AYAR, g, tweets.KonsolClient(), [g], datetime(2026, 10, 3, 8, tzinfo=timezone.utc))
+    cikti = capsys.readouterr().out
+    assert "TWEET #1 + gorsel-" in cikti and "TWEET #2 (yanıt) [" in cikti
+
+
+def test_haftalik_ozet_bir_kez_ve_yeterli_veriyle(monkeypatch, tmp_path):
+    from bot.__main__ import haftalik
+    monkeypatch.setattr(config, "HAFTA_FILE", tmp_path / "haftalik.json")
+    gunler = []
+    for i, gun in enumerate(["2026-09-22", "2026-09-24", "2026-09-27"]):
+        g = _gun(gun, [_secim(10 * i + 1, 1.5, 0.7), _secim(10 * i + 2, 1.3, 0.75)], kombi=[0, 1])
+        g["secimler"][0].update(durum="kazandi", skor="2-0")
+        g["secimler"][1].update(durum="kaybetti" if i == 0 else "kazandi", skor="0-1")
+        g["sonuc"] = "tamam"
+        gunler.append(g)
+    pazar_aksam = datetime(2026, 9, 27, 21, 30, tzinfo=timezone.utc)
+    x = tweets.KonsolClient()
+    assert not haftalik(AYAR, x, gunler[:1], pazar_aksam)  # tek gün: özet yok
+    assert not haftalik(AYAR, x, gunler, datetime(2026, 9, 26, 21, 30, tzinfo=timezone.utc))  # Cumartesi
+    assert haftalik(AYAR, x, gunler, pazar_aksam)
+    assert not haftalik(AYAR, x, gunler, pazar_aksam + timedelta(hours=11))  # Pazartesi tekrar atmaz
+    h = kayit.hafta_ozeti(gunler, "2026-09-27")
+    metin = tweets.hafta_tweeti(h, kayit.ozet(gunler, 10000), "€")
+    assert "WEEKLY RECAP | 21–27 Sep" in metin and "✅ 5 won · ❌ 1 lost (83%)" in metin
+    assert "Coupons: 2 of 3 won" in metin and tweets.uzunluk(metin) <= 280 and "@" not in metin

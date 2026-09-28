@@ -179,6 +179,21 @@ def sonuc_tweetleri(gun: dict, ozet: dict) -> list[str]:
     return [ilk, kirp("\n".join(para_satirlari))]
 
 
+def hafta_tweeti(h: dict, ozet: dict, birim: str) -> str:
+    """Haftalık özet (Pazar akşamı): haftanın rekoru, kuponlar, kâr/zarar ve kasa."""
+    bas = datetime.fromisoformat(h["baslangic"])
+    bit = datetime.fromisoformat(h["bitis"])
+    aralik = f'{bas.day}–{bit.strftime("%-d %b")}' if bas.month == bit.month else f'{bas.strftime("%-d %b")} – {bit.strftime("%-d %b")}'
+    satirlar = [f"📅 WEEKLY RECAP | {aralik}", "",
+                f'✅ {h["kazanan"]} won · ❌ {h["kaybeden"]} lost ({h["isabet"]:.0f}%)']
+    if h["kupon"]:
+        satirlar.append(f'🎯 Coupons: {h["kupon_tuttu"]} of {h["kupon"]} won')
+    satirlar += [f'This week: {isaretli_para(h["kar"], birim)}', "",
+                 f'💰 Bank: {para(ozet["kasa"], birim)} ({ozet["kasa_degisim"]:+.1f}% since start)', rekor(ozet), "",
+                 "Every pick posted before kick-off.", ANSVAR]
+    return kirp("\n".join(satirlar))
+
+
 SABIT_TWEETLER = [
     """Day 1 of the €10,000 challenge 📊
 
@@ -206,10 +221,22 @@ class XClient:
     def __init__(self, api_key: str, api_secret: str, access_token: str, access_secret: str):
         self.session = OAuth1Session(api_key, api_secret, access_token, access_secret)
 
-    def gonder(self, metin: str, yanit: str | None = None) -> str:
+    def medya_yukle(self, png: bytes) -> str:
+        """Görseli yükler (tek başına paylaşılmaz); tweete eklemek için medya kimliği döner."""
+        r = self.session.post("https://api.x.com/2/media/upload",
+                              files={"media": ("kupon.png", png, "image/png")},
+                              data={"media_category": "tweet_image", "media_type": "image/png"}, timeout=60)
+        if r.status_code >= 400:
+            raise RuntimeError(f"X medya yükleme hatası {r.status_code}: {r.text[:300]}")
+        veri = r.json().get("data") or r.json()
+        return str(veri.get("id") or veri["media_id_string"])
+
+    def gonder(self, metin: str, yanit: str | None = None, medya: str | None = None) -> str:
         body: dict = {"text": metin}
         if yanit:
             body["reply"] = {"in_reply_to_tweet_id": yanit}
+        if medya:
+            body["media"] = {"media_ids": [medya]}
         r = self.session.post(self.URL, json=body, timeout=30)
         if r.status_code >= 400:
             raise RuntimeError(f"X API hatası {r.status_code}: {r.text}")
@@ -231,12 +258,19 @@ class XClient:
 class KonsolClient:
     """Paylaşmadan ekrana yazar (demo / taslak önizleme)."""
 
-    def __init__(self):
+    def __init__(self, gorsel_klasoru=None):
         self.sayac = 0
+        self.gorsel_klasoru = gorsel_klasoru
 
-    def gonder(self, metin: str, yanit: str | None = None) -> str:
+    def medya_yukle(self, png: bytes) -> str:
+        if self.gorsel_klasoru:
+            (self.gorsel_klasoru / "demo_kupon.png").write_bytes(png)
+        return f"gorsel-{len(png) // 1024}KB"
+
+    def gonder(self, metin: str, yanit: str | None = None, medya: str | None = None) -> str:
         self.sayac += 1
-        print(f"\n----- TWEET #{self.sayac}{' (yanıt)' if yanit else ''} [{uzunluk(metin)}/280] -----\n{metin}")
+        ek = f" + {medya}" if medya else ""
+        print(f"\n----- TWEET #{self.sayac}{' (yanıt)' if yanit else ''}{ek} [{uzunluk(metin)}/280] -----\n{metin}")
         return f"demo-{self.sayac}"
 
     def sil(self, tweet_id: str) -> None:

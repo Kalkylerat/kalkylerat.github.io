@@ -2,3 +2,4 @@ __pycache__/
 .pytest_cache/
 .env
 ornek/demo_panel.html
+ornek/demo_kupon.png

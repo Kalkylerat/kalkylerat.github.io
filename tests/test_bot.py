@@ -412,3 +412,20 @@ def test_haftalik_ozet_bir_kez_ve_yeterli_veriyle(monkeypatch, tmp_path):
     metin = tweets.hafta_tweeti(h, kayit.ozet(gunler, 10000), "€")
     assert "WEEKLY RECAP | 21–27 Sep" in metin and "✅ 5 won · ❌ 1 lost (83%)" in metin
     assert "Coupons: 2 of 3 won" in metin and tweets.uzunluk(metin) <= 280 and "@" not in metin
+
+
+def test_gorsel_yukleme_tekrar_dener():
+    from bot.__main__ import _gorsel_yukle
+    g = _gun("2026-10-03", [_secim(1, 1.5, 0.8), _secim(2, 1.4, 0.7)], kombi=[0, 1])
+    hatalar = [RuntimeError("503"), RuntimeError("timeout")]
+
+    class X:
+        def medya_yukle(self, png):
+            if hatalar:
+                raise hatalar.pop(0)
+            return "m1"
+
+    bekleme = []
+    assert _gorsel_yukle(X(), g, bekleme.append) == "m1" and len(bekleme) == 2 and "gorsel_eksik" not in g
+    hatalar.extend(RuntimeError("x") for _ in range(9))
+    assert _gorsel_yukle(X(), g, bekleme.append) is None and g["gorsel_eksik"]

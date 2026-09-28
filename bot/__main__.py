@@ -4,6 +4,7 @@ import argparse
 import json
 import os
 import sys
+import time
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
@@ -133,12 +134,7 @@ def yayinla(ayar, gun: dict, x, gunler: list[dict], simdi: datetime) -> bool:
     if ilk <= simdi:
         print("İlk maç başlamış; şeffaflık için bu oyunlar artık yayınlanmaz.")
         return False
-    medya = None
-    try:
-        medya = x.medya_yukle(gorsel.kupon_gorseli(gun))
-    except Exception as e:
-        # Görsel yüklenemezse kupon yine de tam metin olarak paylaşılır.
-        print(f"Kupon görseli eklenemedi: {e}")
+    medya = _gorsel_yukle(x, gun)
     ana, *devam = tweets.gun_floodu(gun, kayit.ozet(gunler, ayar.kasa_baslangic), gorselli=bool(medya))
     gun["tweet_id"] = x.gonder(ana, medya=medya)
     gun["yayin"] = simdi.isoformat(timespec="seconds")
@@ -149,6 +145,25 @@ def yayinla(ayar, gun: dict, x, gunler: list[dict], simdi: datetime) -> bool:
         gun["analiz_tweet_idleri"].append(onceki)
     print(f"Yayınlandı: tweet {gun['tweet_id']}")
     return True
+
+
+GORSEL_DENEME = 4
+
+
+def _gorsel_yukle(x, gun: dict, bekle=time.sleep) -> str | None:
+    """Kupon görselini X'e yükler; geçici hatalarda (ağ, X yoğunluğu) birkaç kez tekrar dener.
+    Hepsi başarısız olursa kupon maç başlamadan metin olarak gider ve durum özet sayfasına yazılır."""
+    png = gorsel.kupon_gorseli(gun)
+    for deneme in range(1, GORSEL_DENEME + 1):
+        try:
+            return x.medya_yukle(png)
+        except Exception as e:
+            print(f"Görsel yükleme denemesi {deneme}/{GORSEL_DENEME} başarısız: {e}")
+            if deneme < GORSEL_DENEME:
+                bekle(15 * deneme)
+    gun["gorsel_eksik"] = True
+    _ozet_yaz("⚠️ Kupon görseli X'e yüklenemedi; kupon metin olarak paylaşıldı.")
+    return None
 
 
 def duzelt(ayar, gun: dict, x, gunler: list[dict], simdi: datetime) -> bool:

@@ -1,5 +1,6 @@
 """Herkese açık doğruluk paneli (İngilizce): docs/index.html (GitHub Pages)."""
 
+import re
 from datetime import datetime
 from html import escape
 from pathlib import Path
@@ -83,7 +84,7 @@ def olustur(gunler: list[dict], path: Path, ayar) -> None:
     yayinlanan = sorted((g for g in gunler if g.get("tweet_id")), key=lambda g: g["tarih"], reverse=True)
     o = ozet(gunler, ayar.kasa_baslangic)
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(SABLON.format(
+    yeni = SABLON.format(
         guncelleme=datetime.now(ZoneInfo(ayar.saat_dilimi)).strftime("%Y-%m-%d %H:%M"),
         baslangic=para(ayar.kasa_baslangic, ayar.para_birimi), yuzde=f"{ayar.oyun_yuzdesi:g}",
         gunler="".join(_gun_html(g) for g in yayinlanan) or "<p>No published picks yet.</p>",
@@ -91,4 +92,9 @@ def olustur(gunler: list[dict], path: Path, ayar) -> None:
         vunna=o["vunna"], forlorade=o["forlorade"], traff=f'{o["traff"]:.0f}',
         kombi=o["kombi"], kombi_tuttu=o["kombi_tuttu"],
         snittodds=f'{o["snittodds"]:.2f}', vantande=o["vantande"],
-    ), encoding="utf-8")
+    )
+    # Veri değişmediyse dosyaya dokunulmaz (her 15 dakikada boş commit ve Pages derlemesi olmasın).
+    zamansiz = lambda metin: re.sub(r"Updated [^(]*\(Swedish time\)", "", metin)
+    if path.exists() and zamansiz(path.read_text(encoding="utf-8")) == zamansiz(yeni):
+        return
+    path.write_text(yeni, encoding="utf-8")

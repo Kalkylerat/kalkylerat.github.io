@@ -17,6 +17,10 @@ HATALAR: list[str] = []
 
 GUVENLI_LIMIT = 10
 API_YEDEK = 25  # sabah taramasından sonra gün içi sonuç kontrolleri ve elle komutlar için ayrılan istek
+
+
+class HakYetmiyor(RuntimeError):
+    """Günlük API hakkı taramaya yetmiyor; yedeğe dokunulmaz."""
 DEGER_LIMIT = 6
 
 
@@ -47,10 +51,16 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime) -> d
     print(f"{len(maclar)} uygun maç bulundu.")
     try:
         mac_map, adaylar = _toplu_tara(ayar, api, maclar, bugun)
+    except HakYetmiyor as e:
+        # Hak azken eski yönteme geçmek kalanı da bitirir; sonuçlar için yedek korunur, bugün kupon çıkmaz.
+        _hata("Tarama", e)
+        return None
     except football.ApiHatasi as e:
-        # Toplu tarama çalışmazsa eski yöntem: izinli liglerden maç maç.
+        # Toplu tarama çalışmazsa eski yöntem: izinli liglerden maç maç (maç başına 2 istek, yedeğe dokunmadan).
         print(f"Toplu oran taraması yapılamadı ({e}); maç maç taramaya geçiliyor.")
-        izinli = [m for m in maclar if m["lig_id"] in ayar.ligler][:ayar.max_mac_tarama]
+        kalan = football.kalan_istek(api) if hasattr(api, "session") else None
+        adet = ayar.max_mac_tarama if kalan is None else max(0, min(ayar.max_mac_tarama, (kalan - API_YEDEK) // 2))
+        izinli = [m for m in maclar if m["lig_id"] in ayar.ligler][:adet]
         mac_map, adaylar = _mac_mac_tara(ayar, api, izinli)
     guvenli = sorted((a for a in adaylar if a["tur"] == "guvenli"), key=lambda a: a["adil_olasilik"], reverse=True)
     deger = sorted((a for a in adaylar if a["tur"] == "deger"), key=lambda a: a["deger"], reverse=True)
@@ -90,7 +100,7 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime) -> d
         a = aday_map[s["aday_id"]]
         m = mac_map[a["fixture_id"]]
         gun["secimler"].append({
-            "fixture_id": a["fixture_id"], "lig": m["lig"], "ev": m["ev"], "dep": m["dep"],
+            "fixture_id": a["fixture_id"], "lig": _lig_adi(m, ayar), "ev": m["ev"], "dep": m["dep"],
             "baslama": m["baslama"],
             "saat": datetime.fromisoformat(m["baslama"]).astimezone(ZoneInfo(ayar.saat_dilimi)).strftime("%H:%M %Z"),
             "olasi_skor": a["olasi_skor"], "pazar": a["pazar"], "tur": a["tur"], "etiket": a["etiket"],
@@ -137,7 +147,7 @@ def _toplu_tara(ayar, api, maclar: list[dict], bugun: str) -> tuple[dict, list]:
         sayfa = max(0, min(sayfa, kalan - API_YEDEK - 2 * ayar.max_detay_mac - 1))
         print(f"API-Football: bugün {kalan} istek kalmış, toplu taramaya {sayfa} sayfa ayrıldı.")
     if sayfa == 0:
-        raise football.ApiHatasi("günlük istek hakkı toplu tarama için yetmiyor")
+        raise HakYetmiyor(f"günlük istek hakkı toplu tarama için yetmiyor (kalan {kalan})")
     oranlar = football.toplu_oranlar(api, bugun, ayar.saat_dilimi, sayfa)
     if not oranlar:
         raise football.ApiHatasi("toplu taramada hiç oran gelmedi")
@@ -176,6 +186,14 @@ def _mac_mac_tara(ayar, api, maclar: list[dict]) -> tuple[dict, list]:
             print(f"Tarama erken bitti: {e}")
             break
     return mac_map, adaylar
+
+
+def _lig_adi(m: dict, ayar) -> str:
+    """Sponsor adında bahis sitesi geçen ligler görselde/tweette ülke adıyla gösterilir."""
+    yasakli = [b.lower() for b in ayar.oran_bahiscileri + [ayar.keskin_bahisci]] + ["bet", "casino"]
+    if any(y in m["lig"].lower() for y in yasakli):
+        return f'{m.get("ulke") or "League"} league'
+    return m["lig"]
 
 
 def bet_builder_birlestir(secimler: list[dict]) -> list[dict]:
@@ -379,8 +397,8 @@ HAFTA_MIN_GUN = 3
 def haftalik(ayar, x, gunler: list[dict], simdi: datetime, zorla: bool = False) -> bool:
     """Pazar akşamı (ya da kaçarsa Pazartesi) biten haftanın özetini bir kez paylaşır."""
     yerel = simdi.astimezone(ZoneInfo(ayar.saat_dilimi))
-    if not zorla and not (yerel.weekday() == 6 and yerel.hour >= 21 or yerel.weekday() == 0):
-        return False
+    if not zorla and not (yerel.weekday() == 6 and yerel.hour >= 21 or yerel.weekday() in (0, 1, 2)):
+        return False  # Pazar akşamı; maçı sonuçlanmayan hafta Çarşamba'ya kadar beklenir
     pazar = (yerel - timedelta(days=(yerel.weekday() + 1) % 7)).date()
     anahtar = f"{pazar.isocalendar().year}-W{pazar.isocalendar().week:02d}"
     kayitlar = json.loads(config.HAFTA_FILE.read_text()) if config.HAFTA_FILE.exists() else {}
@@ -406,6 +424,14 @@ def haftalik(ayar, x, gunler: list[dict], simdi: datetime, zorla: bool = False) 
     config.HAFTA_FILE.write_text(json.dumps(kayitlar, indent=2) + "\n")
     _ozet_yaz(f"Haftalık özet paylaşıldı ({anahtar}):\n```\n{metin}\n```")
     return True
+
+
+def _sabah_penceresi(simdi: datetime, ayar) -> bool:
+    """Planlı sabah çalışmasından 20 dk sonra ile 2,5 saat sonrası arası (yerel saat, yaz/kış aynı kalır)."""
+    yerel = simdi.astimezone(ZoneInfo(ayar.saat_dilimi))
+    bas = (12 * 60 + 47) if yerel.weekday() < 5 else (10 * 60 + 17)
+    dk = yerel.hour * 60 + yerel.minute
+    return bas + 20 <= dk <= bas + 150
 
 
 def _api(ayar):
@@ -592,6 +618,10 @@ def main(argv=None) -> int:
                 _hata("Haftalık özet", e)
         if args.komut == "hafta" and not haftalik(ayar, _x_client(), gunler, simdi, zorla=True):
             print("Haftalık özet paylaşılmadı (zaten var ya da yeterli oyun yok).")
+        if args.komut == "nabiz" and kayit.bul(gunler, bugun) is None and _sabah_penceresi(simdi, ayar):
+            # Sabah çalışması GitHub tarafından iptal edildi/atlandıysa nabız günün kuponunu hazırlar.
+            _ozet_yaz("Sabah çalışması bulunamadı; nabız günün kuponunu hazırlıyor.")
+            args.komut = "otomatik"
         if args.komut in ("otomatik", "tahmin"):
             kayitli = kayit.bul(gunler, bugun)
             onceki = None

@@ -200,10 +200,12 @@ def sonuc_tweetleri(gun: dict, ozet: dict) -> list[str]:
     durumlar = [kupon_durumu(gun, k) for k in liste]
     genel = "tuttu" if "tuttu" in durumlar else ("yatti" if "yatti" in durumlar else None)
     soru = _gunun(SONUC_SORULARI[genel], gun)
-    for tek in ("\n".join(satirlar + [""] + para_satirlari + ["", soru]), "\n".join(satirlar + [""] + para_satirlari)):
+    para_satirlari.append(ANSVAR)
+    for tek in ("\n".join(satirlar + [""] + para_satirlari[:-1] + ["", soru, ANSVAR]),
+                "\n".join(satirlar + [""] + para_satirlari)):
         if uzunluk(tek) <= LIMIT:
             return [tek]
-    ikinci = "\n".join(para_satirlari + ["", soru])
+    ikinci = "\n".join(para_satirlari[:-1] + ["", soru, ANSVAR])
     return [kirp("\n".join(satirlar)), ikinci if uzunluk(ikinci) <= LIMIT else kirp("\n".join(para_satirlari))]
 
 

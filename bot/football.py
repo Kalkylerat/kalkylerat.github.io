@@ -14,7 +14,7 @@ BITMIS = {"FT", "AET", "PEN"}
 # İzinli liste dışındaki liglerde alınmayan maçlar: hazırlık, genç ve kadın maçlarında veri ve piyasa güvenilmez.
 _GUVENILMEZ = re.compile(r"friendl|u1[6-9]\b|u2[0-3]\b|under[- ]?(1[6-9]|2[0-3])|youth|junior|women|femin|reserve|\bii\b| b$| w$",
                          re.IGNORECASE)
-IPTAL = {"PST", "CANC", "ABD", "AWD", "WO"}
+IPTAL = {"PST", "CANC", "ABD", "AWD", "WO"}  # SUSP/INT/TBD beklemede kalır; 3 gün sonra kayit iptal sayar
 
 # API-Football bahis adı -> (değer -> pazar kodu)
 SABIT_PAZARLAR = {

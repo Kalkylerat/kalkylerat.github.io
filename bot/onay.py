@@ -21,10 +21,11 @@ YETKILI = {"OWNER", "MEMBER", "COLLABORATOR"}
 
 def karar(metin: str) -> str | None:
     """Mesajdaki kelimelere bakar; "iptal" her zaman önceliklidir (yanlışlıkla paylaşmaktansa paylaşmamak)."""
-    kelimeler = {k.strip(".!,?:;") for k in metin.lower().split()}
-    if kelimeler & IPTAL:
+    kelimeler = [k.strip(".!,?:;") for k in metin.lower().split()]
+    if set(kelimeler) & IPTAL:
         return "iptal"
-    if kelimeler & OK:
+    # Onay yalnızca mesaj "ok" ile başlıyorsa: "not ok", "ok değil" onay sayılmaz.
+    if kelimeler and kelimeler[0] in OK and not {"değil", "degil", "not", "no"} & set(kelimeler):
         return "ok"
     return None
 
@@ -77,6 +78,8 @@ def onay_iste(gun: dict, gunler: list[dict], ayar, simdi: datetime) -> None:
     ilk = min(datetime.fromisoformat(s["baslama"]) for s in gun["secimler"])
     # En geç ilk maçtan 2 saat önce paylaşılsın; sahibe en fazla onay_suresi_dk süre tanınır.
     son = min(simdi + timedelta(minutes=ayar.onay_suresi_dk), ilk - timedelta(minutes=120))
+    # Düzeltme sonrası da sahibine en az 30 dk bakma süresi (ama ilk maçtan en geç 1 saat önce).
+    son = min(max(son, simdi + timedelta(minutes=30)), ilk - timedelta(minutes=60))
     surum = (gun.get("onay") or {}).get("surum", 0) + 1
     gun["onay"] = {"durum": "bekliyor", "son": max(son, simdi).isoformat(timespec="seconds"), "surum": surum}
     istek_hazirla(gun, gunler, ayar, simdi)
@@ -161,6 +164,14 @@ def kontrol(ayar, gh, x, gunler: list[dict], simdi: datetime, yayinla) -> None:
         _isle(ayar, gh, x, gunler, gun, no, sahibin_karari(gh, no) if no else None, simdi, yayinla)
 
 
+def _zaten_var(x, gun: dict) -> str | None:
+    from .__main__ import zaten_paylasildi
+    try:
+        return zaten_paylasildi(x, gun["tarih"])
+    except Exception:
+        return None
+
+
 def _isle(ayar, gh, x, gunler, gun, no, k, simdi, yayinla) -> None:
     def bildir(mesaj):
         if no:
@@ -192,6 +203,11 @@ def _isle(ayar, gh, x, gunler, gun, no, k, simdi, yayinla) -> None:
         # Önizlemedeki görsellerle paylaşılır; görsel yüklenemezse sonraki kontrolde tekrar denenir.
         # Ancak ilk maça 1 saatten az kaldıysa kupon hiç çıkmamaktansa metin olarak paylaşılır.
         gorsel_sart = simdi < ilk - timedelta(minutes=60)
+        onceki = _zaten_var(x, gun)
+        if onceki:  # kayıt kaybolmuş ama kupon X'te: ikinci kez atılmaz, kayıt düzeltilir
+            gun["tweet_id"], gun["onay"]["durum"] = onceki, yeni_durum
+            bildir(f"🚀 Zaten paylaşılmış: https://x.com/kalkylerat/status/{onceki}")
+            return
         sonuc = yayinla(ayar, gun, x, gunler, simdi, gorsel_sart=gorsel_sart)
         if sonuc == "gorsel_bekle":
             print("Görsel yüklenemedi; önizlemeyle aynı olsun diye sonraki kontrolde tekrar denenecek.")

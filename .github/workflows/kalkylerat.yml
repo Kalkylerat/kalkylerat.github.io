@@ -8,7 +8,7 @@ on:
     - cron: "17 8 * * 0,6"   # 10:17 İsveç yaz saati (kışın 09:17)
     # Nabız, 15 dakikada bir: süresi dolan onaylı kuponu paylaşır, biten maçların sonucunu (son maçtan ~15 dk
     # sonra) paylaşır, Pazar akşamı haftalık özeti atar. API isteği yalnızca bitmiş olması gereken maçlar için.
-    - cron: "*/15 * * * *"
+    - cron: "7,22,37,52 * * * *"  # çeyrek başları GitHub'ın en yoğun anı, gecikmesin
   issue_comment:
     types: [created]  # onay isteğine "ok" / "iptal" cevabı
   workflow_dispatch:
@@ -17,15 +17,12 @@ on:
         description: "Ne yapılsın?"
         type: choice
         default: yayinla
-        options: [yayinla, nabiz, onay_yenile, onay_testi, onay_kontrol, onizleme, duzelt, yenile, sabit, hafta, oran_testi, otomatik, tahmin, sonuc, panel, tani]
+        options: [yayinla, demo, nabiz, onay_yenile, onay_testi, onay_kontrol, onizleme, duzelt, yenile, sabit, hafta, oran_testi, otomatik, tahmin, sonuc, panel, tani]
 
 permissions:
   contents: write
   issues: write
 
-concurrency:
-  group: kalkylerat-botu
-  cancel-in-progress: false
 
 jobs:
   calistir:
@@ -36,6 +33,10 @@ jobs:
       (contains(github.event.issue.labels.*.name, 'onay') &&
        contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association))
     runs-on: ubuntu-latest
+    # İş düzeyinde: atlanan işler (yabancı yorumlar) sıradaki çalışmayı iptal edemez.
+    concurrency:
+      group: kalkylerat-botu
+      cancel-in-progress: false
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
@@ -64,7 +65,7 @@ jobs:
         run: |
           case "$OLAY|$ZAMAN" in
             issue_comment\|*) KOMUT=onay_kontrol ;;
-            "schedule|*/15 * * * *") KOMUT=nabiz ;;
+            "schedule|7,22,37,52 * * * *") KOMUT=nabiz ;;
             schedule\|*) KOMUT=otomatik ;;
             *) KOMUT="$SECIM" ;;
           esac

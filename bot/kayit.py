@@ -86,9 +86,16 @@ def bekleyen_fixturelar(gunler: list[dict], simdi: datetime) -> list[int]:
         s["fixture_id"]
         for g in gunler if g["sonuc"] is None and g.get("tweet_id")
         for s in g["secimler"]
-        if s["durum"] == "bekliyor"
-        and datetime.fromisoformat(s["baslama"]) + timedelta(minutes=MAC_BITIS_DK) < simdi
+        if s["durum"] == "bekliyor" and _sorulmali(datetime.fromisoformat(s["baslama"]), simdi)
     })
+
+
+def _sorulmali(baslama: datetime, simdi: datetime) -> bool:
+    """Bitiş+ilk saat: her kontrolde; sonrası (ertelenen/askıya alınan maç): saatte bir, hak boşa gitmesin."""
+    gecen = simdi - baslama
+    if gecen < timedelta(minutes=MAC_BITIS_DK):
+        return False
+    return gecen < timedelta(hours=3) or simdi.minute < 15
 
 
 def korner_fixturelari(gunler: list[dict]) -> set[int]:

@@ -772,7 +772,9 @@ def test_onayli_paylasim_onizlemenin_aynisi(monkeypatch, tmp_path):
 def test_onay_hata_ve_kacirma_durumlari(monkeypatch, tmp_path):
     from bot import onay
     monkeypatch.setattr(onay, "ONIZLEME_KLASORU", tmp_path)
-    assert onay.karar("No problem, ok") == "ok" and onay.karar("ok ama iptal") == "iptal"
+    assert onay.karar("ok ama iptal") == "iptal" and onay.karar("Ok, paylaş") == "ok"
+    # olumsuzluk ya da "ok" ile başlamayan mesaj onay sayılmaz (yanlışlıkla paylaşmaktansa beklemek)
+    assert onay.karar("not ok") is None and onay.karar("ok değil") is None and onay.karar("No problem, ok") is None
     issue = [{"number": 7, "title": "Onay: 2026-10-03 kuponu"}]
     ok = {7: [{"body": "ok", "user": {"login": "biri"}, "author_association": "MEMBER"}]}
     simdi = datetime(2026, 10, 3, 9, tzinfo=timezone.utc)
@@ -901,3 +903,31 @@ def test_sonuc_sorusu_kazanca_ve_kayba_gore():
     y = "\n".join(tweets.sonuc_tweetleri(kaybeden, kayit.ozet([kaybeden], 10000)))
     assert any(s in k for s in tweets.SONUC_SORULARI["tuttu"])
     assert any(s in y for s in tweets.SONUC_SORULARI["yatti"])
+
+
+def test_takilan_mac_saatte_bir_sorulur():
+    bas = datetime(2026, 10, 3, 13, 0, tzinfo=timezone.utc)
+    assert not kayit._sorulmali(bas, bas + timedelta(minutes=100))
+    assert kayit._sorulmali(bas, bas + timedelta(minutes=115))
+    assert kayit._sorulmali(bas, bas + timedelta(hours=4, minutes=7))       # saat başı: sorulur
+    assert not kayit._sorulmali(bas, bas + timedelta(hours=4, minutes=22))  # diğer çeyrekler: sorulmaz
+
+
+def test_sabah_penceresi_ve_sponsorlu_lig_adi():
+    from bot.__main__ import _sabah_penceresi, _lig_adi
+    assert _sabah_penceresi(datetime(2026, 9, 29, 11, 20, tzinfo=timezone.utc), AYAR)      # Salı 13:20 CEST
+    assert not _sabah_penceresi(datetime(2026, 9, 29, 10, 50, tzinfo=timezone.utc), AYAR)  # planlı çalışma daha yeni
+    assert not _sabah_penceresi(datetime(2026, 9, 29, 15, 0, tzinfo=timezone.utc), AYAR)
+    assert _lig_adi({"lig": "Betsson Superettan", "ulke": "Sweden"}, AYAR) == "Sweden league"
+    assert _lig_adi({"lig": "Premier League", "ulke": "England"}, AYAR) == "Premier League"
+
+
+def test_hak_yetmezse_mac_mac_taramaya_gecilmez(monkeypatch):
+    import bot.__main__ as ana
+    monkeypatch.setattr(ana, "HATALAR", [])
+    api = football.DemoApi(config.ROOT / "ornek" / "api_football.json")
+    api.session = SimpleNamespace()
+    monkeypatch.setattr(football, "kalan_istek", lambda api: 30)
+    monkeypatch.setattr(ana, "_mac_mac_tara", lambda *a: pytest.fail("yedek hak harcanmamalı"))
+    simdi = datetime.fromisoformat(api.data["simdi"])
+    assert ana.tahmin(AYAR, api, editor.basit_sec, [], "2026-10-03", simdi) is None and ana.HATALAR

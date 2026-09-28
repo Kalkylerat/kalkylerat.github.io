@@ -8,7 +8,7 @@ import time
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-from . import config, editor, football, gorsel, kayit, panel, tweets
+from . import config, editor, football, gorsel, kayit, model, panel, tweets
 from .model import adaylari_uret, bet_builder, etiketler
 
 # Çalışma sırasında yakalanan hatalar: iş sonunda "başarısız" işaretlenir, GitHub sahibine e-posta atar.
@@ -38,26 +38,18 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime) -> d
         return None
     try:
         maclar = football.gunun_maclari(api, bugun, ayar.ligler, ayar.saat_dilimi,
-                                        ayar.min_dakika_once, ayar.max_mac_tarama, simdi)
+                                        ayar.min_dakika_once, 10_000, simdi, tum_ligler=ayar.tum_ligler)
     except football.ApiHatasi as e:
         _hata("Maç listesi (API-Football)", e)
         return None
     print(f"{len(maclar)} uygun maç bulundu.")
-    mac_map, adaylar = {}, []
-    for m in maclar:
-        try:
-            bahisciler = football.oranlari_al(api, m["fixture_id"])
-            ist = football.istatistik_al(api, m["fixture_id"]) if bahisciler else None
-        except football.ApiHatasi as e:
-            # Günlük istek sınırı dolarsa o ana kadar taranan maçlarla devam edilir.
-            print(f"Tarama erken bitti: {e}")
-            break
-        if not bahisciler or not ist:
-            continue
-        mac_adaylari = adaylari_uret(m, bahisciler, ist, ayar)
-        if mac_adaylari:
-            mac_map[m["fixture_id"]] = {**m, "istatistik": ist}
-            adaylar += mac_adaylari
+    try:
+        mac_map, adaylar = _toplu_tara(ayar, api, maclar, bugun)
+    except football.ApiHatasi as e:
+        # Toplu tarama çalışmazsa eski yöntem: izinli liglerden maç maç.
+        print(f"Toplu oran taraması yapılamadı ({e}); maç maç taramaya geçiliyor.")
+        izinli = [m for m in maclar if m["lig_id"] in ayar.ligler][:ayar.max_mac_tarama]
+        mac_map, adaylar = _mac_mac_tara(ayar, api, izinli)
     guvenli = sorted((a for a in adaylar if a["tur"] == "guvenli"), key=lambda a: a["adil_olasilik"], reverse=True)
     deger = sorted((a for a in adaylar if a["tur"] == "deger"), key=lambda a: a["deger"], reverse=True)
     adaylar = guvenli[:GUVENLI_LIMIT] + deger[:DEGER_LIMIT]
@@ -120,6 +112,55 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime) -> d
     taslak = "\n\n".join(tweets.gun_floodu(gun, kayit.ozet(gunler, ayar.kasa_baslangic)))
     _ozet_yaz(f"### {bugun} taslak\n```\n{taslak}\n```")
     return gun
+
+
+def _incele(ayar, api, m: dict, bahisciler: dict, mac_map: dict, adaylar: list) -> None:
+    ist = football.istatistik_al(api, m["fixture_id"])
+    if not ist:
+        return
+    mac_adaylari = adaylari_uret(m, bahisciler, ist, ayar, guvenilir_lig=m["lig_id"] in ayar.ligler)
+    if mac_adaylari:
+        mac_map[m["fixture_id"]] = {**m, "istatistik": ist}
+        adaylar += mac_adaylari
+
+
+def _toplu_tara(ayar, api, maclar: list[dict], bugun: str) -> tuple[dict, list]:
+    """1) Günün bütün oranları toplu çekilir, 2) piyasaya göre en umut vadeden maçlar detaylı incelenir."""
+    oranlar = football.toplu_oranlar(api, bugun, ayar.saat_dilimi, ayar.max_oran_sayfasi)
+    if not oranlar:
+        raise football.ApiHatasi("toplu taramada hiç oran gelmedi")
+    puanli = []
+    for m in maclar:
+        if m["fixture_id"] in oranlar:
+            puan = model.on_eleme_puani(oranlar[m["fixture_id"]], ayar, m["lig_id"] in ayar.ligler)
+            if puan is not None:
+                puanli.append((puan, m))
+    puanli.sort(key=lambda x: x[0], reverse=True)
+    secilen = puanli[:ayar.max_detay_mac]
+    _ozet_yaz(f"Tarama: {len(maclar)} maç, {len(oranlar)} maçın oranı okundu, {len(puanli)} maç ön elemeyi geçti, "
+              f"{len(secilen)} maç detaylı incelendi.")
+    mac_map, adaylar = {}, []
+    for _, m in secilen:
+        try:
+            _incele(ayar, api, m, oranlar[m["fixture_id"]], mac_map, adaylar)
+        except football.ApiHatasi as e:
+            print(f"Detaylı inceleme erken bitti: {e}")
+            break
+    return mac_map, adaylar
+
+
+def _mac_mac_tara(ayar, api, maclar: list[dict]) -> tuple[dict, list]:
+    mac_map, adaylar = {}, []
+    for m in maclar:
+        try:
+            bahisciler = football.oranlari_al(api, m["fixture_id"])
+            if bahisciler:
+                _incele(ayar, api, m, bahisciler, mac_map, adaylar)
+        except football.ApiHatasi as e:
+            # Günlük istek sınırı dolarsa o ana kadar taranan maçlarla devam edilir.
+            print(f"Tarama erken bitti: {e}")
+            break
+    return mac_map, adaylar
 
 
 def bet_builder_birlestir(secimler: list[dict]) -> list[dict]:
@@ -429,8 +470,7 @@ def oran_testi(ayar) -> None:
     tz = ZoneInfo(ayar.saat_dilimi)
     yarin = (kayit.simdi_utc().astimezone(tz) + timedelta(days=1)).date().isoformat()
     satirlar = [f"### Toplu oran testi ({yarin})"]
-    for params in ({"date": yarin, "page": 1}, {"date": yarin, "page": 2},
-                   {"date": yarin, "bookmaker": 4, "page": 1}):  # 4 = Pinnacle
+    for params in ({"date": yarin, "timezone": ayar.saat_dilimi, "page": 1}, {"date": yarin, "page": 2}):
         try:
             body = api.session.get(f"{football.BASE_URL}/odds", params=params, timeout=30).json()
             resp = body.get("response", [])
@@ -442,7 +482,7 @@ def oran_testi(ayar) -> None:
             satirlar.append(f"- {params}: HATA {e}")
     try:
         durum = api.session.get(f"{football.BASE_URL}/status", timeout=30).json().get("response", {})
-        satirlar.append(f"- İstek sayacı: {(durum.get('requests') or {})}")
+        satirlar.append(f"- İstek sayacı: {(durum.get('requests') or {}) if isinstance(durum, dict) else durum}")
     except Exception as e:
         satirlar.append(f"- durum okunamadı: {e}")
     _ozet_yaz("\n".join(satirlar))

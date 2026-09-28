@@ -200,22 +200,39 @@ def aday_turu(p: float, deger: float, ayar, ek_marj: float = 0.0) -> str | None:
     return None
 
 
-def adaylari_uret(mac: dict, bahisciler: dict[str, dict[str, float]], ist: dict, ayar) -> list[dict]:
+def _piyasa_adaylari(bahisciler: dict[str, dict[str, float]], ayar, guvenilir_lig: bool):
+    """İstatistiksiz, yalnızca piyasadan: (pazar, oran, bolag, bahisçi oranları, p, değer, tür, kaynak).
+    İzinli liste dışındaki liglerde keskin bahisçinin o pazarı fiyatlaması şarttır (likit, güvenilir piyasa)."""
+    adil, kaynak = adil_olasiliklar(bahisciler, ayar.keskin_bahisci)
+    for pazar, (oran, bolag, bahisci_oranlari) in piyasa_oranlari(bahisciler, ayar.oran_bahiscileri).items():
+        if pazar not in adil or not (ayar.oran_min <= oran <= ayar.oran_max) or not oran_yeterli(bahisci_oranlari, ayar):
+            continue
+        keskin_var = kaynak[pazar].lower() == ayar.keskin_bahisci.lower()
+        if not guvenilir_lig and not keskin_var:
+            continue
+        p = adil[pazar]
+        deger = p * oran - 1
+        tur = aday_turu(p, deger, ayar, 0.0 if keskin_var else ayar.keskinsiz_ek_marj)
+        if tur:
+            yield pazar, oran, bolag, bahisci_oranlari, p, deger, tur, kaynak[pazar]
+
+
+def on_eleme_puani(bahisciler: dict[str, dict[str, float]], ayar, guvenilir_lig: bool) -> float | None:
+    """Toplu taramada detaylı incelemeye (istatistik isteği) değer maçları sıralamak için puan; aday yoksa None."""
+    puanlar = [p + 2 * deger for _, _, _, _, p, deger, _, _ in _piyasa_adaylari(bahisciler, ayar, guvenilir_lig)]
+    return max(puanlar) if puanlar else None
+
+
+def adaylari_uret(mac: dict, bahisciler: dict[str, dict[str, float]], ist: dict, ayar,
+                  guvenilir_lig: bool = True) -> list[dict]:
     if not veri_yeterli(ist):
         return []
-    adil, kaynak = adil_olasiliklar(bahisciler, ayar.keskin_bahisci)
     lam_ev, lam_dep = beklenen_goller(ist)
     model = model_olasiliklari(lam_ev, lam_dep)
     skor, skor_p = en_olasi_skor(lam_ev, lam_dep)
     adaylar = []
-    for pazar, (oran, bolag, bahisci_oranlari) in piyasa_oranlari(bahisciler, ayar.oran_bahiscileri).items():
-        if pazar not in adil or not (ayar.oran_min <= oran <= ayar.oran_max) or not oran_yeterli(bahisci_oranlari, ayar):
-            continue
-        p = adil[pazar]
-        deger = p * oran - 1
-        keskin_var = kaynak[pazar].lower() == ayar.keskin_bahisci.lower()
-        tur = aday_turu(p, deger, ayar, 0.0 if keskin_var else ayar.keskinsiz_ek_marj)
-        if not tur or (pazar in model and model[pazar] < p - ayar.model_tolerans):
+    for pazar, oran, bolag, bahisci_oranlari, p, deger, tur, adil_kaynak in _piyasa_adaylari(bahisciler, ayar, guvenilir_lig):
+        if pazar in model and model[pazar] < p - ayar.model_tolerans:
             continue
         uzun, kisa = etiketler(pazar, mac["ev"], mac["dep"])
         adaylar.append({
@@ -230,7 +247,7 @@ def adaylari_uret(mac: dict, bahisciler: dict[str, dict[str, float]], ist: dict,
             "oranlar": bahisci_oranlari,
             "adil_olasilik": round(p, 3),
             "adil_oran": round(1 / p, 2),
-            "adil_kaynak": kaynak[pazar],
+            "adil_kaynak": adil_kaynak,
             "model_olasilik": round(model[pazar], 3) if pazar in model else None,
             "deger": round(deger, 3),
             "beklenen_gol": [round(lam_ev, 2), round(lam_dep, 2)],

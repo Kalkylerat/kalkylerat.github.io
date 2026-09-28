@@ -326,20 +326,39 @@ def test_bet_builder_birlestirme_ve_sonuclandirma():
 
 
 def test_istek_siniri_dolarsa_toplananlarla_devam_eder(monkeypatch, capsys):
+    """Toplu tarama çalışmazsa maç maç taramaya geçilir; o da sınıra takılırsa toplananlarla devam edilir."""
     from bot.__main__ import tahmin
     api = football.DemoApi(config.ROOT / "ornek" / "api_football.json")
     asil = api.get
 
-    def sinirli(path, **params):
+    def sinirli(path, _sayma=False, **params):
         if path == "odds" and params.get("fixture") == 9104:
             raise football.ApiHatasi("request limit")
-        return asil(path, **params)
+        return asil(path, _sayma=_sayma, **params)
+
+    def toplu_yok(path, **params):
+        raise football.ApiHatasi("request limit")
 
     api.get = sinirli
+    api.get_body = toplu_yok
     simdi = datetime.fromisoformat(api.data["simdi"])
     gun = tahmin(AYAR, api, editor.basit_sec, [], "2026-10-03", simdi)
-    assert gun and gun["secimler"] and "Tarama erken bitti" in capsys.readouterr().out
+    cikti = capsys.readouterr().out
+    assert gun and gun["secimler"] and "maç maç taramaya geçiliyor" in cikti and "Tarama erken bitti" in cikti
 
+
+def test_toplu_tarama_az_istekle_cok_mac(capsys):
+    from bot.__main__ import tahmin
+    api = football.DemoApi(config.ROOT / "ornek" / "api_football.json")
+    simdi = datetime.fromisoformat(api.data["simdi"])
+    gun = tahmin(AYAR, api, editor.basit_sec, [], "2026-10-03", simdi)
+    assert gun and gun["secimler"] and "oranı okundu" in capsys.readouterr().out
+
+
+def test_liste_disi_ligde_keskin_fiyat_sart():
+    b = {"Bet365": {"MS1": 1.40, "MSX": 4.5, "MS2": 8.0}, "Unibet": {"MS1": 1.41, "MSX": 4.6, "MS2": 8.2},
+         "Betano": {"MS1": 1.42, "MSX": 4.4, "MS2": 7.9}}
+    assert model.on_eleme_puani(b, AYAR, guvenilir_lig=False) is None  # Pinnacle yok: güvenilmez lig elenir
 
 def test_metin_kuponda_her_macin_adi_var():
     ms = [("Bulgaria", "Estonia", "Under 3.5 goals", 1.20, 0.79), ("Czechia", "England", "Over 1.5 goals", 1.22, 0.78),

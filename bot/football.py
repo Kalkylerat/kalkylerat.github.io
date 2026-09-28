@@ -52,6 +52,10 @@ class ApiFootball:
         self._son = 0.0
 
     def get(self, path: str, **params) -> list:
+        return self.get_body(path, **params).get("response", [])
+
+    def get_body(self, path: str, **params) -> dict:
+        """Yanıtın tamamı (sayfalama bilgisi dahil)."""
         for deneme in range(4):
             bekle = self.aralik - (time.monotonic() - self._son)
             if bekle > 0:
@@ -70,7 +74,7 @@ class ApiFootball:
                 continue
             if errors:
                 raise ApiHatasi(f"API-Football hatası ({path}): {errors}")
-            return body.get("response", [])
+            return body
         raise ApiHatasi(f"API-Football: {path} için istek sınırı aşıldı")
 
 
@@ -81,8 +85,17 @@ class DemoApi:
         self.data = json.loads(path.read_text(encoding="utf-8"))
         self.istek_sayisi = 0
 
-    def get(self, path: str, **params) -> list:
+    def get_body(self, path: str, **params) -> dict:
         self.istek_sayisi += 1
+        if path == "odds" and "date" in params:
+            kayitlar = [{**k[0], "fixture": {"id": int(ad.split(":")[1])}}
+                        for ad, k in self.data.items() if ad.startswith("odds:") and k]
+            return {"response": kayitlar, "paging": {"current": 1, "total": 1}}
+        return {"response": self.get(path, **params, _sayma=True)}
+
+    def get(self, path: str, _sayma: bool = False, **params) -> list:
+        if not _sayma:
+            self.istek_sayisi += 1
         if path == "fixtures" and "ids" in params:
             ids = {int(i) for i in str(params["ids"]).split("-")}
             return [f for f in self.data["sonuclar"] if f["fixture"]["id"] in ids]
@@ -99,14 +112,16 @@ def _f(x) -> float:
 
 
 def gunun_maclari(api, tarih: str, ligler: list[int], saat_dilimi: str,
-                  min_dakika_once: int, limit: int, simdi: datetime | None = None) -> list[dict]:
+                  min_dakika_once: int, limit: int, simdi: datetime | None = None,
+                  tum_ligler: bool = False) -> list[dict]:
+    """Başlamamış maçlar; önce izinli ligler (listedeki sırayla). tum_ligler: diğer ligler de sona eklenir."""
     simdi = simdi or datetime.now(timezone.utc)
     esik = simdi + timedelta(minutes=min_dakika_once)
     sira = {lig: i for i, lig in enumerate(ligler)}
     maclar = []
     for f in api.get("fixtures", date=tarih, timezone=saat_dilimi):
         lig_id = f["league"]["id"]
-        if lig_id not in sira or f["fixture"]["status"]["short"] != "NS":
+        if (lig_id not in sira and not tum_ligler) or f["fixture"]["status"]["short"] != "NS":
             continue
         baslama = datetime.fromisoformat(f["fixture"]["date"])
         if baslama < esik:
@@ -120,14 +135,14 @@ def gunun_maclari(api, tarih: str, ligler: list[int], saat_dilimi: str,
             "dep": f["teams"]["away"]["name"],
             "baslama": baslama.isoformat(),
         })
-    maclar.sort(key=lambda m: (sira[m["lig_id"]], m["baslama"]))
+    maclar.sort(key=lambda m: (sira.get(m["lig_id"], len(sira)), m["baslama"]))
     return maclar[:limit]
 
 
-def oranlari_al(api, fixture_id: int) -> dict[str, dict[str, float]]:
-    """bahisçi adı -> {pazar kodu -> oran}. Tek istekte tüm bahisçiler gelir."""
+def _bahisci_oranlari(kayitlar: list[dict]) -> dict[str, dict[str, float]]:
+    """API odds kayıtları -> bahisçi adı -> {pazar kodu -> oran}."""
     sonuc: dict[str, dict[str, float]] = {}
-    for kayit in api.get("odds", fixture=fixture_id):
+    for kayit in kayitlar:
         for bm in kayit.get("bookmakers", []):
             oranlar = sonuc.setdefault(bm["name"], {})
             for bet in bm.get("bets", []):
@@ -136,6 +151,37 @@ def oranlari_al(api, fixture_id: int) -> dict[str, dict[str, float]]:
                     if kod and _f(v["odd"]) > 1.0:
                         oranlar[kod] = _f(v["odd"])
     return {ad: o for ad, o in sonuc.items() if o}
+
+
+def oranlari_al(api, fixture_id: int) -> dict[str, dict[str, float]]:
+    """bahisçi adı -> {pazar kodu -> oran}. Tek istekte tüm bahisçiler gelir."""
+    return _bahisci_oranlari(api.get("odds", fixture=fixture_id))
+
+
+def toplu_oranlar(api, tarih: str, saat_dilimi: str, max_sayfa: int) -> dict[int, dict[str, dict[str, float]]]:
+    """Günün bütün maçlarının oranları, sayfa başına 10 maç (maç başına ayrı istek yerine).
+    fixture_id -> bahisçi oranları. Sayfa sınırı ya da istek hakkı biterse o ana kadar toplananlar döner."""
+    sonuc: dict[int, dict[str, dict[str, float]]] = {}
+    sayfa, toplam = 1, 1
+    tz = {"timezone": saat_dilimi}
+    while sayfa <= min(toplam, max_sayfa):
+        try:
+            body = api.get_body("odds", date=tarih, page=sayfa, **tz)
+        except ApiHatasi as e:
+            if tz and "timezone" in str(e).lower():
+                tz = {}  # bu uçta saat dilimi desteklenmiyorsa UTC tarihiyle devam
+                continue
+            if not sonuc:
+                raise
+            break
+        toplam = int((body.get("paging") or {}).get("total") or 1)
+        for kayit in body.get("response", []):
+            oranlar = _bahisci_oranlari([kayit])
+            if oranlar:
+                sonuc[kayit["fixture"]["id"]] = oranlar
+        sayfa += 1
+    print(f"Toplu oran taraması: {sayfa - 1}/{toplam} sayfa, {len(sonuc)} maç")
+    return sonuc
 
 
 def _takim_ozeti(t: dict) -> dict:

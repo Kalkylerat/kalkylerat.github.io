@@ -14,8 +14,16 @@ izinli = [
   113, 103, 119, 218, 207,     # Allsvenskan, Norveç, Danimarka, Avusturya, İsviçre
   41, 89, 204, 219, 114,       # League One, Eerste Divisie, TFF 1. Lig, Avusturya 2. Liga, Superettan
 ]
-# Günlük en fazla kaç maç analiz edilsin (maç başına 2 istek).
-# Ücretsiz plan (100 istek/gün): 30. Pro plan: 150.
+# İki aşamalı tarama: 1) günün bütün maçlarının oranları toplu çekilir (istek başına 10 maç),
+# 2) yalnızca piyasaya göre umut vadeden maçlar için istatistik istenir.
+# tum_ligler: izinli liste dışındaki ligler de taranır; bu liglerde oyun ancak keskin bahisçi (Pinnacle)
+# o pazarı fiyatlıyorsa, Bet365 ve en az 3 büyük sitede oran varsa ve takım istatistiği yeterliyse seçilir.
+tum_ligler = true
+# Toplu oran taramasında en fazla kaç sayfa (her sayfa 1 istek, 10 maç). Ücretsiz plan: 55. Pro plan: 300.
+max_oran_sayfasi = 55
+# Detaylı incelenecek en fazla maç sayısı (her biri 1 istek).
+max_detay_mac = 12
+# Toplu tarama çalışmazsa eski yöntem: izinli liglerden en fazla kaç maç (maç başına 2 istek).
 max_mac_tarama = 30
 # İstekler arası bekleme (sn). Ücretsiz plan dakikada 10 istek: 6.5. Pro plan: 0.3.
 istek_araligi_sn = 6.5

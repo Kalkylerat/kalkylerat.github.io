@@ -14,6 +14,9 @@ class Ayarlar:
     saat_dilimi: str
     ligler: list[int]
     max_mac_tarama: int
+    tum_ligler: bool
+    max_oran_sayfasi: int
+    max_detay_mac: int
     istek_araligi_sn: float
     max_oyun: int
     max_oyun_mac_basina: int
@@ -47,6 +50,9 @@ def yukle(path: Path = ROOT / "ayarlar.toml") -> Ayarlar:
         saat_dilimi=t["genel"]["saat_dilimi"],
         ligler=list(t["ligler"]["izinli"]),
         max_mac_tarama=int(t["ligler"]["max_mac_tarama"]),
+        tum_ligler=bool(t["ligler"]["tum_ligler"]),
+        max_oran_sayfasi=int(t["ligler"]["max_oran_sayfasi"]),
+        max_detay_mac=int(t["ligler"]["max_detay_mac"]),
         istek_araligi_sn=float(t["ligler"]["istek_araligi_sn"]),
         max_oyun=int(s["max_oyun"]),
         max_oyun_mac_basina=int(s["max_oyun_mac_basina"]),

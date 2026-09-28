@@ -47,8 +47,8 @@ oran_min = 1.20
 oran_max = 2.60
 # Gol modeli (Poisson) adil olasılıktan bu kadar düşükse oyuna güvenilmez.
 model_tolerans = 0.08
-# Maça bu kadar dakikadan az kaldıysa oyuna alınmaz.
-min_dakika_once = 60
+# Maça bu kadar dakikadan az kaldıysa oyuna alınmaz (takipçinin oynamaya vakti olsun: 2,5 saat).
+min_dakika_once = 150
 
 # Kupon oranı = ayakların oranlarının çarpımı, gerçek ihtimal = ihtimallerin çarpımı.
 

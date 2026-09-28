@@ -2,7 +2,10 @@ name: Kalkylerat Botu
 
 on:
   schedule:
-    - cron: "0 8 * * *"    # 10:00 İsveç (yaz saati): dünkü sonuçlar + günün oyunları
+    # Günün kuponu (dünkü sonuçlar da): hafta içi öğle (akşam maçlarından saatler önce, öğle etkileşim zirvesi),
+    # hafta sonu erken (öğleden sonra başlayan maçlar için). Tam saat yerine :47/:17 = GitHub'ın yoğun saatinde gecikme azalır.
+    - cron: "47 10 * * 1-5"  # 12:47 İsveç yaz saati (kışın 11:47)
+    - cron: "17 8 * * 0,6"   # 10:17 İsveç yaz saati (kışın 09:17)
     - cron: "30 21 * * *"  # 23:30 İsveç (yaz saati): akşam maçlarının sonuçları
     - cron: "15 0 * * *"   # 02:15 / 01:15 İsveç: geç biten maçlar (kış saatinde 21:00 maçları dahil)
   workflow_dispatch:

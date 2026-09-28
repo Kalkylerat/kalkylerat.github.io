@@ -1,8 +1,12 @@
 """Editör ajanı: yüksek ihtimalli adaylar arasından günün oyunlarını Claude ile seçer ve sade İngilizce gerekçe yazar."""
 
 import json
+import re
 
 import anthropic
+
+# Claude'a gönderilmeyen alanlar: bahisçi adları tweetlere sızmasın.
+GIZLI_ALANLAR = ("adil_kaynak", "oranlar", "bolag")
 
 SISTEM = """You are a football statistician running a public, virtual EUR 10,000 bankroll on X (Twitter). Each pick risks 1% of the bank. The audience is broad: casual fans, not betting experts.
 
@@ -20,6 +24,7 @@ Your job:
 Rules:
 - Simple words, no betting jargon, no hype, no emojis.
 - Never say "lock", "sure", "guaranteed", "banker" or "free money". Talk in chances (e.g. "about a 3 in 4 chance").
+- Never name bookmakers or betting sites, never use "@", hashtags or links.
 - Copy aday_id exactly from the candidate."""
 
 SEMA = {
@@ -70,7 +75,7 @@ def _baglam(maclar: dict[int, dict], adaylar: list[dict], ayar) -> str:
         "max_picks": ayar.max_oyun,
         "max_picks_per_match": ayar.max_oyun_mac_basina,
         "matches": [maclar[f] for f in fixture_ids],
-        "candidates": adaylar,
+        "candidates": [{k: v for k, v in a.items() if k not in GIZLI_ALANLAR} for a in adaylar],
     }, ensure_ascii=False, indent=1)
 
 
@@ -79,7 +84,17 @@ def _metin(msg) -> str:
         raise EditorHatasi("Claude isteği reddetti.")
     if msg.stop_reason == "max_tokens":
         raise EditorHatasi("Claude yanıtı max_tokens sınırında kesildi.")
-    return next(b.text for b in msg.content if b.type == "text")
+    metin = next((b.text for b in msg.content if b.type == "text"), None)
+    if metin is None:
+        raise EditorHatasi("Claude yanıtında metin yok.")
+    return metin
+
+
+def temiz_yorum(yorum: str, yasakli: list[str]) -> str:
+    """Bahisçi adı, "@", hashtag ya da link içeren cümleleri atar (X kuralları ve bahis reklamı yasağı)."""
+    cumleler = re.split(r"(?<=[.!?])\s+", yorum.strip())
+    kotu = [y.lower() for y in yasakli] + ["@", "#", "http", "www."]
+    return " ".join(c for c in cumleler if c and not any(k in c.lower() for k in kotu))
 
 
 def claude_ile_sec(maclar: dict[int, dict], adaylar: list[dict], ayar, client=None) -> dict:
@@ -96,7 +111,10 @@ def claude_ile_sec(maclar: dict[int, dict], adaylar: list[dict], ayar, client=No
             output_config={"effort": ayar.claude_effort, "format": {"type": "json_schema", "schema": SEMA}},
         ) as stream:
             msg = stream.get_final_message()
-        sonuc = json.loads(_metin(msg))
+        try:
+            sonuc = json.loads(_metin(msg))
+        except json.JSONDecodeError as e:
+            raise EditorHatasi(f"Claude geçersiz JSON döndürdü: {e}") from e
         hata = secimi_dogrula(sonuc["secimler"], aday_map, ayar)
         if hata is None:
             return sonuc

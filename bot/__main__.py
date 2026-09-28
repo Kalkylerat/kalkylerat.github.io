@@ -11,8 +11,16 @@ from zoneinfo import ZoneInfo
 from . import config, editor, football, gorsel, kayit, panel, tweets
 from .model import adaylari_uret, bet_builder, etiketler, kombi_kur
 
+# Çalışma sırasında yakalanan hatalar: iş sonunda "başarısız" işaretlenir, GitHub sahibine e-posta atar.
+HATALAR: list[str] = []
+
 GUVENLI_LIMIT = 10
 DEGER_LIMIT = 6
+
+
+def _hata(adim: str, e: Exception) -> None:
+    HATALAR.append(f"{adim}: {e}")
+    _ozet_yaz(f"❌ {adim} başarısız: {e}")
 
 
 def _ozet_yaz(metin: str) -> None:
@@ -61,7 +69,12 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime) -> d
             except football.ApiHatasi as e:
                 print(f"Sakat listesi alınamadı: {e}")
                 break
-        karar = sec(mac_map, adaylar, ayar)
+        try:
+            karar = sec(mac_map, adaylar, ayar)
+        except Exception as e:
+            # Kayıt oluşturulmaz: sorun geçince aynı gün elle "otomatik" çalıştırılabilir.
+            _hata("Seçim (Claude)", e)
+            return None
     else:
         karar = {"secimler": [], "gerekce_yoksa": "Kriterleri geçen yüksek ihtimalli oyun yok."}
 
@@ -85,7 +98,8 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime) -> d
             "kisa": a["kisa"], "oran": a["oran"], "stake": stake,
             "bolag": a["bolag"], "oranlar": a.get("oranlar", {}), "adil_olasilik": a["adil_olasilik"], "adil_kaynak": a["adil_kaynak"],
             "model_olasilik": a["model_olasilik"], "deger": a["deger"], "beklenen_gol": a["beklenen_gol"],
-            "yorum": s["yorum"].strip(), "durum": "bekliyor", "skor": None,
+            "yorum": editor.temiz_yorum(s["yorum"], ayar.oran_bahiscileri + [ayar.keskin_bahisci]),
+            "durum": "bekliyor", "skor": None,
         })
     gun["secimler"] = bet_builder_birlestir(gun["secimler"])
     gun["secimler"].sort(key=lambda s: s["baslama"])
@@ -127,24 +141,50 @@ def bet_builder_birlestir(secimler: list[dict]) -> list[dict]:
     return sonuc
 
 
+def _zincir(x, metinler: list[str], ilk_yanit: str, idler: list[str]) -> None:
+    """Metinleri art arda yanıt olarak atar; önceki denemede atılanları (idler) atlar, kaldığı yerden sürer."""
+    onceki = idler[-1] if idler else ilk_yanit
+    for metin in metinler[len(idler):]:
+        onceki = x.gonder(metin, yanit=onceki)
+        idler.append(onceki)
+
+
 def yayinla(ayar, gun: dict, x, gunler: list[dict], simdi: datetime) -> bool:
-    if gun.get("tweet_id") or not gun["secimler"]:
+    """Günün floodunu atar. Önceki çalışma floodun ortasında kesildiyse eksik yanıtları tamamlar."""
+    if not gun["secimler"]:
         return False
     ilk = min(datetime.fromisoformat(s["baslama"]) for s in gun["secimler"])
     if ilk <= simdi:
         print("İlk maç başlamış; şeffaflık için bu oyunlar artık yayınlanmaz.")
         return False
+    if gun.get("tweet_id"):
+        ana, *devam = tweets.gun_floodu(gun, kayit.ozet(gunler, ayar.kasa_baslangic), gorselli=gun.get("gorselli", False))
+        idler = gun.setdefault("analiz_tweet_idleri", [])
+        if len(idler) >= len(devam):
+            return False
+        print(f"Yarım kalan flood tamamlanıyor ({len(idler)}/{len(devam)}).")
+        _zincir(x, devam, gun["tweet_id"], idler)
+        return True
     medya = _gorsel_yukle(x, gun)
     ana, *devam = tweets.gun_floodu(gun, kayit.ozet(gunler, ayar.kasa_baslangic), gorselli=bool(medya))
     gun["tweet_id"] = x.gonder(ana, medya=medya)
+    gun["gorselli"] = bool(medya)
     gun["yayin"] = simdi.isoformat(timespec="seconds")
-    onceki = gun["tweet_id"]
     gun["analiz_tweet_idleri"] = []
-    for metin in devam:
-        onceki = x.gonder(metin, yanit=onceki)
-        gun["analiz_tweet_idleri"].append(onceki)
+    _zincir(x, devam, gun["tweet_id"], gun["analiz_tweet_idleri"])
     print(f"Yayınlandı: tweet {gun['tweet_id']}")
     return True
+
+
+def zaten_paylasildi(x, tarih: str) -> str | None:
+    """Kayıt kaybolduysa (ör. push başarısız) aynı günün kuponunu ikinci kez atmamak için hesabın son
+    ana tweetlerine bakar. Bulunursa tweet kimliğini döndürür."""
+    etiket = f'| {datetime.fromisoformat(tarih).strftime("%-d %b")}'
+    for t in x.son_tweetler(adet=5, yanitsiz=True):
+        metin = t["text"].lstrip("⚽ ")
+        if metin.startswith("TODAY'S") and etiket in metin.splitlines()[0]:
+            return t["id"]
+    return None
 
 
 GORSEL_DENEME = 4
@@ -205,20 +245,18 @@ def sabit_tweet(x) -> None:
 
 def sonuc(ayar, api, x, gunler: list[dict], simdi: datetime) -> None:
     ids = kayit.bekleyen_fixturelar(gunler, simdi)
-    if not ids:
+    if ids:
+        sonuclar = football.sonuclari_al(api, ids, kayit.korner_fixturelari(gunler))
+        for g in kayit.sonuclandir(gunler, sonuclar, simdi):
+            print(f"{g['id']} sonuçlandı.")
+    else:
         print("Sonuç bekleyen maç yok.")
-        return
-    sonuclar = football.sonuclari_al(api, ids, kayit.korner_fixturelari(gunler))
-    for g in kayit.sonuclandir(gunler, sonuclar, simdi):
-        print(f"{g['id']} sonuçlandı.")
-        if g.get("tweet_id") and not g.get("sonuc_tweet_id"):
-            ozet = kayit.ozet(gunler, ayar.kasa_baslangic)
-            onceki = g["tweet_id"]
-            g["sonuc_tweet_idleri"] = []
-            for metin in tweets.sonuc_tweetleri(g, ozet):
-                onceki = x.gonder(metin, yanit=onceki)
-                g["sonuc_tweet_idleri"].append(onceki)
-            g["sonuc_tweet_id"] = g["sonuc_tweet_idleri"][0]
+    # Sonuçlanıp sonuç floodu atılmamış (ya da yarım kalmış) her gün: X hatası olsa bile sonraki çalışmada tamamlanır.
+    for g in gunler:
+        if g.get("tweet_id") and g["sonuc"] == "tamam" and not g.get("sonuc_tweet_id"):
+            idler = g.setdefault("sonuc_tweet_idleri", [])
+            _zincir(x, tweets.sonuc_tweetleri(g, kayit.ozet(gunler, ayar.kasa_baslangic)), g["tweet_id"], idler)
+            g["sonuc_tweet_id"] = idler[0]
 
 
 HAFTA_MIN_OYUN = 3
@@ -236,6 +274,9 @@ def haftalik(ayar, x, gunler: list[dict], simdi: datetime, zorla: bool = False) 
     if anahtar in kayitlar:
         return False
     h = kayit.hafta_ozeti(gunler, pazar.isoformat())
+    if h["bekleyen"]:
+        print(f"{anahtar}: haftanın {h['bekleyen']} oyunu henüz sonuçlanmadı; özet sonraki çalışmada.")
+        return False
     if h["oyun"] < HAFTA_MIN_OYUN or h["gun"] < HAFTA_MIN_GUN:
         print(f"{anahtar}: haftalık özet için yeterli oyun yok ({h['gun']} gün, {h['oyun']} oyun).")
         return False
@@ -377,15 +418,30 @@ def main(argv=None) -> int:
     simdi = kayit.simdi_utc()
     bugun = simdi.astimezone(ZoneInfo(ayar.saat_dilimi)).date().isoformat()
     try:
+        # Her adım ayrı: sonuç ya da haftalık özet hatası günün kuponunu engellemez.
         if args.komut in ("otomatik", "sonuc"):
-            sonuc(ayar, _api(ayar), _x_client(), gunler, simdi)
-            haftalik(ayar, _x_client(), gunler, simdi)
+            try:
+                sonuc(ayar, _api(ayar), _x_client(), gunler, simdi)
+            except Exception as e:
+                _hata("Sonuçlar", e)
+            try:
+                haftalik(ayar, _x_client(), gunler, simdi)
+            except Exception as e:
+                _hata("Haftalık özet", e)
         if args.komut == "hafta" and not haftalik(ayar, _x_client(), gunler, simdi, zorla=True):
             print("Haftalık özet paylaşılmadı (zaten var ya da yeterli oyun yok).")
         if args.komut in ("otomatik", "tahmin"):
-            gun = tahmin(ayar, _api(ayar), _secici(), gunler, bugun, simdi)
-            if gun and ayar.otomatik_paylas:
-                yayinla(ayar, gun, _x_client(), gunler, simdi)
+            kayitli = kayit.bul(gunler, bugun)
+            onceki = None
+            if args.komut == "otomatik" and not (kayitli and kayitli.get("tweet_id")):
+                onceki = zaten_paylasildi(_x_client(), bugun)
+            if onceki:
+                _hata("Kupon", RuntimeError(f"bugünün kuponu X'te zaten var (tweet {onceki}) ama kayıtta yok; "
+                                            "ikinci kez paylaşılmadı. Kayıt elle düzeltilmeli."))
+            else:
+                gun = tahmin(ayar, _api(ayar), _secici(), gunler, bugun, simdi) or kayit.bul(gunler, bugun)
+                if gun and ayar.otomatik_paylas:
+                    yayinla(ayar, gun, _x_client(), gunler, simdi)
         if args.komut == "duzelt":
             gun = kayit.bul(gunler, bugun)
             if not gun or not duzelt(ayar, gun, _x_client(), gunler, simdi):
@@ -398,7 +454,7 @@ def main(argv=None) -> int:
         # Tweet atıldıktan sonra hata olsa bile kimlikler kaydedilir; tekrar paylaşım olmaz.
         kayit.kaydet(config.DATA_FILE, gunler)
         panel.olustur(gunler, config.PANEL_FILE, ayar)
-    return 0
+    return 1 if HATALAR else 0
 
 
 if __name__ == "__main__":

@@ -89,9 +89,11 @@ def _durum(s: dict, ev: int, dep: int, iy, korner) -> str:
     if s.get("bacaklar"):
         for b, r in zip(s["bacaklar"], sonuclar):
             b["durum"] = "iptal" if r is None else ("kazandi" if r else "kaybetti")
+    if any(r is False for r in sonuclar):
+        return "kaybetti"  # bir ayak kaybettiyse, verisi olmayan ayak olsa bile oyun kaybedilmiştir
     if any(r is None for r in sonuclar):
         return "iptal"
-    return "kazandi" if all(sonuclar) else "kaybetti"
+    return "kazandi"
 
 
 def sonuclandir(gunler: list[dict], sonuclar: dict[int, dict], simdi: datetime) -> list[dict]:
@@ -157,7 +159,8 @@ def hafta_ozeti(gunler: list[dict], bitis: str) -> dict:
     kuponlar = [d for d in kuponlar if d in ("tuttu", "yatti")]
     return {
         "baslangic": bas.isoformat(), "bitis": son.isoformat(),
-        "gun": len(hafta), "oyun": len(biten), "kazanan": kazanan, "kaybeden": len(biten) - kazanan,
+        "gun": len(hafta), "oyun": len(biten), "kazanan": kazanan,
+        "bekleyen": sum(s["durum"] == "bekliyor" for g in hafta for s in g["secimler"]), "kaybeden": len(biten) - kazanan,
         "isabet": 100 * kazanan / len(biten) if biten else 0.0,
         "kupon": len(kuponlar), "kupon_tuttu": kuponlar.count("tuttu"),
         "kar": sum(gun_kar(g) for g in hafta),

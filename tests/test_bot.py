@@ -429,3 +429,95 @@ def test_gorsel_yukleme_tekrar_dener():
     assert _gorsel_yukle(X(), g, bekleme.append) == "m1" and len(bekleme) == 2 and "gorsel_eksik" not in g
     hatalar.extend(RuntimeError("x") for _ in range(9))
     assert _gorsel_yukle(X(), g, bekleme.append) is None and g["gorsel_eksik"]
+
+
+def test_bet_builder_kaybeden_ayak_varsa_kaybeder():
+    """Korner verisi yok ama gol ayağı kaybetti: oyun iptal değil, kayıp sayılmalı."""
+    bb = _secim(1, 3.0, 0.3, "BB", bet_builder=True,
+                bacaklar=[{"pazar": "UST25", "durum": "bekliyor"}, {"pazar": "KORU95", "durum": "bekliyor"}])
+    g = _gun("2026-10-03", [bb])
+    kayit.sonuclandir([g], {1: {"durum": "bitti", "skor": (0, 0), "korner": None}}, SIMDI)
+    assert bb["durum"] == "kaybetti"
+
+
+def test_sonuc_floodu_x_hatasinda_sonra_tamamlanir(monkeypatch):
+    from bot.__main__ import sonuc
+    g = _gun("2026-10-03", [_secim(1, 1.5, 0.8), _secim(2, 1.4, 0.7)], kombi=[0, 1])
+    monkeypatch.setattr(football, "sonuclari_al",
+                        lambda api, ids, korner: {1: {"durum": "bitti", "skor": (2, 0)}, 2: {"durum": "bitti", "skor": (1, 0)}})
+
+    class X:
+        def __init__(self, hata_sirasi=None):
+            self.atilan, self.hata_sirasi = [], hata_sirasi
+
+        def gonder(self, metin, yanit=None, medya=None):
+            if len(self.atilan) == self.hata_sirasi:
+                raise RuntimeError("X 503")
+            self.atilan.append((metin, yanit))
+            return f"s{len(self.atilan)}"
+
+    x1 = X(hata_sirasi=1)
+    with pytest.raises(RuntimeError):
+        sonuc(AYAR, None, x1, [g], SIMDI)
+    assert g["sonuc"] == "tamam" and not g.get("sonuc_tweet_id") and g["sonuc_tweet_idleri"] == ["s1"]
+    x2 = X()
+    sonuc(AYAR, None, x2, [g], SIMDI)  # yalnızca eksik ikinci tweet, ilkinin altına
+    assert len(x2.atilan) == 1 and x2.atilan[0][1] == "s1" and g["sonuc_tweet_id"] == "s1"
+    sonuc(AYAR, None, X(), [g], SIMDI)
+    assert len(g["sonuc_tweet_idleri"]) == 2
+
+
+def test_yarim_flood_tamamlanir():
+    from bot.__main__ import yayinla
+    g = _gun("2026-10-03", [_secim(1, 1.5, 0.8), _secim(2, 1.4, 0.7)], tweet_id="ana", kombi=[0, 1])
+    g["analiz_tweet_idleri"] = ["k1"]
+    x = tweets.KonsolClient()
+    simdi = datetime(2026, 10, 3, 8, tzinfo=timezone.utc)
+    assert yayinla(AYAR, g, x, [g], simdi) and len(g["analiz_tweet_idleri"]) == 3  # kasa + 2 analiz
+    assert not yayinla(AYAR, g, x, [g], simdi)  # tamamsa bir şey atılmaz
+
+
+def test_ayni_gunun_kuponu_ikinci_kez_atilmaz():
+    from bot.__main__ import zaten_paylasildi
+    x = SimpleNamespace(son_tweetler=lambda adet, yanitsiz: [
+        {"id": "9", "text": "📅 WEEKLY RECAP | 21–27 Sep"},
+        {"id": "7", "text": "TODAY'S COUPON | 28 Sep\n\n⚽ Georgia v Ukraine"}])
+    assert zaten_paylasildi(x, "2026-09-28") == "7"
+    assert zaten_paylasildi(x, "2026-09-29") is None
+
+
+def test_yorumda_bahisci_adi_ve_etiket_olmaz():
+    y = editor.temiz_yorum("Castellón won 5 of 6. Pinnacle gives 71%. Ask @someone! Unbeaten in 4.", ["Pinnacle", "Bet365"])
+    assert y == "Castellón won 5 of 6. Unbeaten in 4."
+    baglam = editor._baglam({1: {}}, [{"aday_id": "1-MS1", "fixture_id": 1, "adil_kaynak": "Pinnacle",
+                                      "oranlar": {"Bet365": 1.5}, "bolag": "median of 3"}], AYAR)
+    assert "Pinnacle" not in baglam and "Bet365" not in baglam
+
+
+def test_claude_metinsiz_yanit_editor_hatasi():
+    c = SimpleNamespace(messages=SimpleNamespace(stream=lambda **kw: _Ctx(
+        SimpleNamespace(stop_reason="end_turn", content=[SimpleNamespace(type="thinking")]))))
+    with pytest.raises(editor.EditorHatasi):
+        editor.claude_ile_sec({1: {}, 2: {}}, _adaylar(), AYAR, client=c)
+
+
+def test_sonuc_hatasi_gunun_kuponunu_engellemez(monkeypatch, tmp_path):
+    import bot.__main__ as ana
+    monkeypatch.setattr(config, "DATA_FILE", tmp_path / "spel.json")
+    monkeypatch.setattr(config, "PANEL_FILE", tmp_path / "index.html")
+    monkeypatch.setattr(ana, "HATALAR", [])
+    cagrilar = []
+    monkeypatch.setattr(ana, "sonuc", lambda *a: (_ for _ in ()).throw(RuntimeError("API limiti")))
+    monkeypatch.setattr(ana, "haftalik", lambda *a, **k: False)
+    monkeypatch.setattr(ana, "zaten_paylasildi", lambda x, t: None)
+    monkeypatch.setattr(ana, "tahmin", lambda *a: cagrilar.append("tahmin"))
+    monkeypatch.setattr(ana, "_api", lambda ayar: None)
+    monkeypatch.setattr(ana, "_x_client", lambda: None)
+    monkeypatch.setattr(ana, "_secici", lambda: None)
+    assert ana.main(["otomatik"]) == 1 and cagrilar == ["tahmin"]
+
+
+def test_bet_builder_kuponda_toplam_oran_tahmini():
+    bb = _secim(1, 2.0, 0.5, "BB", bet_builder=True, bacaklar=[])
+    g = _gun("2026-10-03", [bb, _secim(2, 1.4, 0.7)], kombi=[0, 1])
+    assert "Total odds ≈2.80" in tweets.gun_tweeti(g) and "Total odds ≈2.80" in tweets.gorselli_gun_tweeti(g)

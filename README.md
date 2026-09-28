@@ -8,7 +8,7 @@ Bot her gün maçları tarar, keskin piyasanın (Pinnacle) adil olasılığına 
 
 ```
 10:00  dünkü sonuçlar → sonuç tweetleri → bugünün maçları → tüm bahisçilerin oranları
-       → adil olasılık (Pinnacle) ≥ %65 ve oran adil fiyattan en fazla %5 kötü → Poisson gol modeli kontrolü
+       → adil olasılık (Pinnacle) ≥ %65 ve oran adil fiyattan en fazla %7 kötü (Pinnacle yoksa %4) → Poisson gol modeli kontrolü
        → Claude en yüksek ihtimalli 0–3 oyunu seçer, İsveççe gerekçe yazar → taslak veya doğrudan X paylaşımı
 23:30  akşam maçlarının sonuçları → sonuç tweeti → rekor paneli güncellenir
 ```

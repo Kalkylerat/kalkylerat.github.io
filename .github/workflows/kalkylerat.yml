@@ -4,6 +4,7 @@ on:
   schedule:
     - cron: "0 8 * * *"    # 10:00 İsveç (yaz saati): dünkü sonuçlar + günün oyunları
     - cron: "30 21 * * *"  # 23:30 İsveç (yaz saati): akşam maçlarının sonuçları
+    - cron: "15 0 * * *"   # 02:15 / 01:15 İsveç: geç biten maçlar (kış saatinde 21:00 maçları dahil)
   workflow_dispatch:
     inputs:
       komut:
@@ -25,15 +26,19 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
           cache: pip
+      # Sırada bekleyen çalışma, tetiklendiği andaki değil en güncel kayıtla başlamalı.
+      - run: git pull --ff-only origin "$GITHUB_REF_NAME"
       - run: pip install -r requirements.txt
       - run: python -m pytest -q
       - name: Botu çalıştır
         env:
-          KOMUT: ${{ github.event.schedule == '30 21 * * *' && 'sonuc' || inputs.komut || 'otomatik' }}
+          KOMUT: ${{ (github.event.schedule == '30 21 * * *' || github.event.schedule == '15 0 * * *') && 'sonuc' || inputs.komut || 'otomatik' }}
           API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           X_API_KEY: ${{ secrets.X_API_KEY }}
@@ -53,4 +58,11 @@ jobs:
           git config user.email "kalkylerat-botu@users.noreply.github.com"
           git add data docs
           git diff --cached --quiet || git commit -m "Spel-kaydı $(date -u '+%Y-%m-%d %H:%M') UTC"
-          git push
+          # Tweetler atıldı; kayıt kaybolursa ertesi gün tekrar paylaşım olur. Bu yüzden push mutlaka başarmalı.
+          for i in 1 2 3 4 5; do
+            git pull --rebase origin "$GITHUB_REF_NAME" && git push origin "HEAD:$GITHUB_REF_NAME" && exit 0
+            git rebase --abort 2>/dev/null || true
+            sleep $((i * 10))
+          done
+          echo "::error::Kayıt depoya gönderilemedi! data/spel.json elle kontrol edilmeli."
+          exit 1

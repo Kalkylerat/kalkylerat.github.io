@@ -7,6 +7,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 from .config import ROOT
 from .kayit import kombi_olasilik, kombi_oran
+from .tweets import kupon_oran_metni
 
 BOYUT = 1200
 KENAR = 70
@@ -89,7 +90,7 @@ def kupon_gorseli(gun: dict) -> bytes:
     # Özet şeridi
     if kupon:
         stake, toplam, p = gun["kombi"]["stake"], kombi_oran(gun), kombi_olasilik(gun)
-        kutular = [("TOTAL ODDS", f"{toplam:.2f}"), ("REAL CHANCE", f"{100 * p:.0f}%"),
+        kutular = [("TOTAL ODDS", kupon_oran_metni(gun)), ("REAL CHANCE", f"{100 * p:.0f}%"),
                    ("STAKE → RETURN", f"{_para(stake, birim)} → {_para(stake * toplam, birim)}")]
     else:
         s = secimler[0]

@@ -54,6 +54,12 @@ def oran_metni(s: dict) -> str:
     return f'{"≈" if s.get("bet_builder") else ""}{s["oran"]:.2f}'
 
 
+def kupon_oran_metni(gun: dict) -> str:
+    """Kuponda bet builder varsa toplam oran da tahminidir: ≈ ile gösterilir."""
+    tahmini = any(gun["secimler"][i].get("bet_builder") for i in gun["kombi"]["ayaklar"])
+    return f'{"≈" if tahmini else ""}{kombi_oran(gun):.2f}'
+
+
 def rekor(o: dict) -> str:
     if not o["spel"]:
         return "📈 Record: starts today"
@@ -79,7 +85,7 @@ def gorselli_gun_tweeti(gun: dict) -> str:
     maclar = [f"⚽ {_mac(s)}" for s in secimler]
     if kupon:
         stake, oran = gun["kombi"]["stake"], kombi_oran(gun)
-        ozet_satir = [f"Total odds {oran:.2f} · real chance {yuzde(kombi_olasilik(gun))}",
+        ozet_satir = [f"Total odds {kupon_oran_metni(gun)} · real chance {yuzde(kombi_olasilik(gun))}",
                       f"{para(stake, birim)} stake → {para(stake * oran, birim)} return"]
     else:
         s = secimler[0]
@@ -106,7 +112,7 @@ def gun_tweeti(gun: dict, ozet: dict | None = None) -> str:
         satirlar.append("")
         if kupon:
             stake = gun["kombi"]["stake"]
-            satirlar.append(f"Total odds {kombi_oran(gun):.2f} · real chance {yuzde(kombi_olasilik(gun))}")
+            satirlar.append(f"Total odds {kupon_oran_metni(gun)} · real chance {yuzde(kombi_olasilik(gun))}")
             satirlar.append(f"{para(stake, birim)} stake → {para(stake * kombi_oran(gun), birim)} return")
         elif tek:
             s = secimler[0]
@@ -262,9 +268,10 @@ class XClient:
             raise RuntimeError(f"X API hatası {r.status_code}: {r.text}")
         return r.json()["data"]["id"]
 
-    def son_tweetler(self, adet: int = 30) -> list[dict]:
+    def son_tweetler(self, adet: int = 30, yanitsiz: bool = False) -> list[dict]:
         me = self.session.get("https://api.x.com/2/users/me", timeout=30).json()["data"]["id"]
-        r = self.session.get(f"https://api.x.com/2/users/{me}/tweets", params={"max_results": adet}, timeout=30)
+        params = {"max_results": adet} | ({"exclude": "replies,retweets"} if yanitsiz else {})
+        r = self.session.get(f"https://api.x.com/2/users/{me}/tweets", params=params, timeout=30)
         if r.status_code >= 400:
             raise RuntimeError(f"X API okuma hatası {r.status_code}: {r.text}")
         return r.json().get("data", [])
@@ -295,3 +302,6 @@ class KonsolClient:
 
     def sil(self, tweet_id: str) -> None:
         print(f"----- SİLİNDİ: {tweet_id} -----")
+
+    def son_tweetler(self, adet: int = 30, yanitsiz: bool = False) -> list[dict]:
+        return []

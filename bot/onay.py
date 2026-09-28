@@ -149,7 +149,15 @@ def kontrol(ayar, gh, x, gunler: list[dict], simdi: datetime, yayinla) -> None:
         elif k == "ok" or simdi >= datetime.fromisoformat(gun["onay"]["son"]):
             yeni_durum = "onaylandi" if k == "ok" else "otomatik"
             gun["onay"]["sonuc_durumu"] = yeni_durum  # X hatası olursa durum "bekliyor" kalır, sonraki kontrol tekrar dener
-            if yayinla(ayar, gun, x, gunler, simdi):
+            ilk = min(datetime.fromisoformat(s["baslama"]) for s in gun["secimler"])
+            # Önizlemedeki görsellerle paylaşılır; görsel yüklenemezse sonraki kontrolde tekrar denenir.
+            # Ancak ilk maça 1 saatten az kaldıysa kupon hiç çıkmamaktansa metin olarak paylaşılır.
+            gorsel_sart = simdi < ilk - timedelta(minutes=60)
+            sonuc = yayinla(ayar, gun, x, gunler, simdi, gorsel_sart=gorsel_sart)
+            if sonuc == "gorsel_bekle":
+                print("Görsel yüklenemedi; önizlemeyle aynı olsun diye sonraki kontrolde tekrar denenecek.")
+                continue
+            if sonuc:
                 gun["onay"]["durum"] = yeni_durum
                 onizlemeleri_sil(gun["id"])
                 gh.kapat(no, f"🚀 Paylaşıldı ({'onayla' if k == 'ok' else 'süre dolduğu için otomatik'}): "

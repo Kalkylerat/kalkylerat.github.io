@@ -671,7 +671,7 @@ def test_onay_iptal_ok_ve_sure_dolumu(monkeypatch, tmp_path):
     son = "2026-10-03T10:30:00+00:00"
     yayinlanan = []
 
-    def yayinla(ayar, gun, x, gunler, simdi):
+    def yayinla(ayar, gun, x, gunler, simdi, **k):
         gun["tweet_id"] = "T"
         yayinlanan.append(gun["id"])
         return True
@@ -760,7 +760,7 @@ def test_onay_hata_ve_kacirma_durumlari(monkeypatch, tmp_path):
     simdi = datetime(2026, 10, 3, 9, tzinfo=timezone.utc)
     # X hatası: durum "bekliyor" kalır, sonraki kontrol tekrar dener
     g = _onayli_gun("2026-10-03T10:30:00+00:00")
-    def hatali(*a):
+    def hatali(*a, **k):
         raise RuntimeError("X 503")
     with pytest.raises(RuntimeError):
         onay.kontrol(AYAR, SahteGitHub(issue, ok), None, [g], simdi, hatali)
@@ -769,10 +769,27 @@ def test_onay_hata_ve_kacirma_durumlari(monkeypatch, tmp_path):
     g["tweet_id"] = "T"
     tamamlanan = []
     gh = SahteGitHub(issue, ok)
-    onay.kontrol(AYAR, gh, None, [g], simdi, lambda *a: tamamlanan.append(1) or True)
+    onay.kontrol(AYAR, gh, None, [g], simdi, lambda *a, **k: tamamlanan.append(1) or True)
     assert tamamlanan and g["onay"]["durum"] == "onaylandi" and gh.kapatilan
     # maç başlamış, paylaşılamıyor: gün pas, hata bildirilir
     g = _onayli_gun("2026-10-03T10:30:00+00:00")
     with pytest.raises(RuntimeError):
-        onay.kontrol(AYAR, SahteGitHub(issue, ok), None, [g], simdi, lambda *a: False)
+        onay.kontrol(AYAR, SahteGitHub(issue, ok), None, [g], simdi, lambda *a, **k: False)
     assert g["onay"]["durum"] == "kacirildi" and g["sonuc"] == "pas"
+
+
+def test_onayli_kupon_gorselsiz_paylasilmaz_ama_son_saatte_metinle_gider(monkeypatch, tmp_path):
+    from bot import onay
+    import bot.__main__ as ana
+    monkeypatch.setattr(onay, "ONIZLEME_KLASORU", tmp_path)
+    monkeypatch.setattr(ana, "_gorsel_yukle", lambda x, gun, kasa: None)
+    issue = [{"number": 7, "title": "Onay: 2026-10-03 kuponu"}]
+    ok = {7: [{"body": "ok", "user": {"login": "biri"}, "author_association": "OWNER"}]}
+    atilan = []
+    x = SimpleNamespace(gonder=lambda metin, yanit=None, medya=None: atilan.append(metin) or f"t{len(atilan)}")
+    g = _onayli_gun("2026-10-03T10:30:00+00:00")  # ilk maç 13:00 UTC
+    gh = SahteGitHub(issue, ok)
+    onay.kontrol(AYAR, gh, x, [g], datetime(2026, 10, 3, 9, tzinfo=timezone.utc), ana.yayinla)
+    assert not atilan and g["onay"]["durum"] == "bekliyor" and not gh.kapatilan
+    onay.kontrol(AYAR, gh, x, [g], datetime(2026, 10, 3, 12, 10, tzinfo=timezone.utc), ana.yayinla)
+    assert atilan and atilan[0].startswith("⚽ TODAY'S COUPON") and g["onay"]["durum"] == "onaylandi"

@@ -203,7 +203,11 @@ def _zincir(x, metinler: list[str], ilk_yanit: str, idler: list[str]) -> None:
         idler.append(onceki)
 
 
-def yayinla(ayar, gun: dict, x, gunler: list[dict], simdi: datetime) -> bool:
+GORSEL_BEKLE = "gorsel_bekle"
+
+
+def yayinla(ayar, gun: dict, x, gunler: list[dict], simdi: datetime, gorsel_sart: bool = False) -> bool | str:
+    """gorsel_sart: onaylı kupon görselsiz (önizlemeden farklı) paylaşılmasın; görsel yüklenemezse GORSEL_BEKLE döner."""
     """Günün floodunu atar. Önceki çalışma floodun ortasında kesildiyse eksik yanıtları tamamlar."""
     if not gun["secimler"]:
         return False
@@ -226,6 +230,9 @@ def yayinla(ayar, gun: dict, x, gunler: list[dict], simdi: datetime) -> bool:
     onayli = (gun.get("onay") or {}).get("metinler")
     kasa = (gun.get("onay") or {}).get("kasa", kayit.ozet(gunler, ayar.kasa_baslangic)["kasa"])
     medya = _gorsel_yukle(x, gun, kasa)
+    if gorsel_sart and not medya:
+        gun.pop("gorsel_eksik", None)
+        return GORSEL_BEKLE
     if medya and onayli:
         ana, *devam = onayli  # önizlemede onaylanan (ya da gösterilen) metinlerin birebir aynısı
     else:

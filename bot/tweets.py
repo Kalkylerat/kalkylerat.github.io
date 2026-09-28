@@ -111,10 +111,14 @@ def gun_tweeti(gun: dict, ozet: dict | None = None) -> str:
             satirlar += ["", f'🎫 {ad}: odds {kupon_oran_metni(gun, k)} · {yuzde(kupon_olasilik(gun, k))} chance',
                          f'{para(k["stake"], birim)} → {para(k["stake"] * kupon_oran(gun, k), birim)}']
             satirlar += [f'• {_mac(s, takim_max)}: {s["kisa"]}' for s in kupon_ayaklari(gun, k)]
-        satirlar += ["", ANSVAR]
         return "\n".join(satirlar)
 
-    return ilk_sigan(yaz(True), yaz(False), *(yaz(False, n) for n in range(24, 5, -2)))
+    son = f"\n\n{ANSVAR}"
+    for govde in (yaz(True), yaz(False), *(yaz(False, n) for n in range(24, 5, -2))):
+        if uzunluk(govde + son) <= LIMIT:
+            return govde + son
+    # Hiçbiri sığmazsa kuponlar kısalır ama sorumluluk satırı her zaman kalır.
+    return kirp(govde, LIMIT - uzunluk(son)) + son
 
 
 def _cumleler(metin: str) -> list[str]:

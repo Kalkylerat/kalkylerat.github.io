@@ -36,8 +36,12 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime) -> d
     if kayit.bul(gunler, bugun):
         print(f"{bugun} için kayıt zaten var, atlanıyor.")
         return None
-    maclar = football.gunun_maclari(api, bugun, ayar.ligler, ayar.saat_dilimi,
-                                    ayar.min_dakika_once, ayar.max_mac_tarama, simdi)
+    try:
+        maclar = football.gunun_maclari(api, bugun, ayar.ligler, ayar.saat_dilimi,
+                                        ayar.min_dakika_once, ayar.max_mac_tarama, simdi)
+    except football.ApiHatasi as e:
+        _hata("Maç listesi (API-Football)", e)
+        return None
     print(f"{len(maclar)} uygun maç bulundu.")
     mac_map, adaylar = {}, []
     for m in maclar:
@@ -247,12 +251,18 @@ def yenile(ayar, api, sec, x, gunler: list[dict], bugun: str, simdi: datetime) -
         if ilk <= simdi:
             print("Bugünün ilk maçı başlamış; paylaşım silinemez.")
             return False
+    # Önce yeni seçim bir kopya üzerinde yapılır; eskisi ancak geçerli bir sonuç (yeni kupon ya da
+    # "bugün kurallara uyan oyun yok") çıkarsa silinir. Hata olursa hiçbir şeye dokunulmaz.
+    kopya = [g for g in gunler if g is not gun]
+    yeni = tahmin(ayar, api, sec, kopya, bugun, simdi)
+    if not kayit.bul(kopya, bugun):
+        print("Yeni seçim yapılamadı; bugünkü paylaşım olduğu gibi bırakıldı.")
+        return False
     if gun:
         for tid in reversed([gun.get("tweet_id")] + gun.get("analiz_tweet_idleri", [])):
             if tid:
                 x.sil(tid)
-        gunler.remove(gun)
-    yeni = tahmin(ayar, api, sec, gunler, bugun, simdi)
+    gunler[:] = kopya
     return bool(yeni) and yayinla(ayar, yeni, x, gunler, simdi)
 
 
@@ -478,8 +488,12 @@ def main(argv=None) -> int:
                 gun = tahmin(ayar, _api(ayar), _secici(), gunler, bugun, simdi) or kayit.bul(gunler, bugun)
                 if gun and ayar.otomatik_paylas:
                     yayinla(ayar, gun, _x_client(), gunler, simdi)
-        if args.komut == "yenile" and not yenile(ayar, _api(ayar), _secici(), _x_client(), gunler, bugun, simdi):
-            print("Bugün için yeni kupon paylaşılmadı (maç başlamış ya da kurallara uyan oyun yok).")
+        if args.komut == "yenile":
+            try:
+                if not yenile(ayar, _api(ayar), _secici(), _x_client(), gunler, bugun, simdi):
+                    print("Bugün için yeni kupon paylaşılmadı (maç başlamış, hata ya da kurallara uyan oyun yok).")
+            except Exception as e:
+                _hata("Yenile", e)
         if args.komut == "duzelt":
             gun = kayit.bul(gunler, bugun)
             if not gun or not duzelt(ayar, gun, _x_client(), gunler, simdi):

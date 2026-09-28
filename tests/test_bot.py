@@ -579,9 +579,26 @@ def test_yenile_bugunu_silip_yeniden_secer(monkeypatch):
     x = SimpleNamespace(sil=silinen.append)
     yeni = _gun("2026-10-03", [_secim(2, 1.9, 0.56)], tweet_id=None, kuponlar=[[0]])
     monkeypatch.setattr(ana, "tahmin", lambda ayar, api, sec, g, bugun, simdi: g.append(yeni) or yeni)
+    hatali = []
+    monkeypatch.setattr(ana, "yayinla", lambda *a: True)
+    # önce: seçim başarısızsa (kayıt yok) hiçbir şey silinmez
+    orijinal = ana.tahmin
+    monkeypatch.setattr(ana, "tahmin", lambda *a: None)
+    assert not ana.yenile(AYAR, None, None, x, gunler, "2026-10-03", datetime(2026, 10, 3, 8, tzinfo=timezone.utc))
+    assert silinen == [] and gunler == [eski]
+    monkeypatch.setattr(ana, "tahmin", orijinal)
     monkeypatch.setattr(ana, "yayinla", lambda *a: True)
     assert ana.yenile(AYAR, None, None, x, gunler, "2026-10-03", datetime(2026, 10, 3, 8, tzinfo=timezone.utc))
     assert silinen == ["a1", "t1"] and gunler == [yeni]
     # maç başladıysa hiçbir şey silinmez
     assert not ana.yenile(AYAR, None, None, x, gunler, "2026-10-03", datetime(2026, 10, 3, 14, tzinfo=timezone.utc))
     assert silinen == ["a1", "t1"]
+
+
+def test_metin_kuponda_sorumluluk_satiri_hep_kalir():
+    uzun = dict(ev="Borussia Mönchengladbach", dep="Wolverhampton Wanderers",
+                kisa="1st half Under 1.5 goals + Both teams to score: No + Over 8.5 corners")
+    secimler = [_secim(i, 1.9, 0.55, bet_builder=True, **uzun) for i in range(1, 4)]
+    g = _gun("2026-10-03", secimler, kuponlar=[[0], [1], [2]])
+    metin = tweets.gun_tweeti(g, kayit.ozet([], 10000))
+    assert metin.endswith(tweets.ANSVAR) and tweets.uzunluk(metin) <= 280

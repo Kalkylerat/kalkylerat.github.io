@@ -238,6 +238,24 @@ def duzelt(ayar, gun: dict, x, gunler: list[dict], simdi: datetime) -> bool:
     return yayinla(ayar, gun, x, gunler, simdi)
 
 
+def yenile(ayar, api, sec, x, gunler: list[dict], bugun: str, simdi: datetime) -> bool:
+    """Bugünün paylaşımını siler ve günün seçimini güncel kurallarla baştan yapıp paylaşır.
+    Yalnızca bugünün hiçbir maçı başlamadıysa; başlamış maçın paylaşımı asla silinmez."""
+    gun = kayit.bul(gunler, bugun)
+    if gun and gun["secimler"]:
+        ilk = min(datetime.fromisoformat(s["baslama"]) for s in gun["secimler"])
+        if ilk <= simdi:
+            print("Bugünün ilk maçı başlamış; paylaşım silinemez.")
+            return False
+    if gun:
+        for tid in reversed([gun.get("tweet_id")] + gun.get("analiz_tweet_idleri", [])):
+            if tid:
+                x.sil(tid)
+        gunler.remove(gun)
+    yeni = tahmin(ayar, api, sec, gunler, bugun, simdi)
+    return bool(yeni) and yayinla(ayar, yeni, x, gunler, simdi)
+
+
 def sabit_tweet(x) -> None:
     """Eski karşılama tweetlerini siler, açıklayıcı iki tweeti (ana + yanıt) atar. Sabitleme X uygulamasından yapılır."""
     for t in x.son_tweetler():
@@ -411,7 +429,7 @@ def demo(ayar) -> None:
 
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="bot")
-    p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt", "sabit", "hafta"])
+    p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt", "sabit", "hafta", "yenile"])
     args = p.parse_args(argv)
     ayar = config.yukle()
 
@@ -460,6 +478,8 @@ def main(argv=None) -> int:
                 gun = tahmin(ayar, _api(ayar), _secici(), gunler, bugun, simdi) or kayit.bul(gunler, bugun)
                 if gun and ayar.otomatik_paylas:
                     yayinla(ayar, gun, _x_client(), gunler, simdi)
+        if args.komut == "yenile" and not yenile(ayar, _api(ayar), _secici(), _x_client(), gunler, bugun, simdi):
+            print("Bugün için yeni kupon paylaşılmadı (maç başlamış ya da kurallara uyan oyun yok).")
         if args.komut == "duzelt":
             gun = kayit.bul(gunler, bugun)
             if not gun or not duzelt(ayar, gun, _x_client(), gunler, simdi):

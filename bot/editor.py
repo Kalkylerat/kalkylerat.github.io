@@ -11,7 +11,7 @@ GIZLI_ALANLAR = ("adil_kaynak", "oranlar", "bolag")
 SISTEM = """You are a football statistician running a public, virtual EUR 10,000 bankroll on X (Twitter). The account posts coupons; each coupon risks 1% of the bank. The audience is broad: casual fans, not betting experts.
 
 Candidates already passed the data checks. Each has:
-- tur "guvenli" (high-chance): high fair win chance from a sharp betting market (margin removed), odds close to fair.
+- tur "guvenli" (high-chance): high fair win chance from a sharp betting market (margin removed), and odds at least fair.
 - tur "deger" (value): the odds are higher than the real chance, so it grows the bank over time even if it wins less often.
 - the Poisson model's expected goals, most likely score and (for goal and half-time markets) its own probability.
 Markets include match result, double chance, goal lines, both teams to score, half-time result, first-half goals and corners.

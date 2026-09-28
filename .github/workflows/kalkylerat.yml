@@ -11,7 +11,7 @@ on:
         description: "Ne yapılsın?"
         type: choice
         default: yayinla
-        options: [yayinla, onizleme, duzelt, sabit, hafta, otomatik, tahmin, sonuc, panel, tani]
+        options: [yayinla, onizleme, duzelt, yenile, sabit, hafta, otomatik, tahmin, sonuc, panel, tani]
 
 permissions:
   contents: write

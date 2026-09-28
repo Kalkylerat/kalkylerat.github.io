@@ -83,9 +83,9 @@ def test_pazar_kodlari_ve_etiketler():
 
 
 def test_aday_turu():
-    assert model.aday_turu(0.72, -0.03, AYAR) == "guvenli"
-    assert model.aday_turu(0.72, -0.06, AYAR) == "guvenli"
-    assert model.aday_turu(0.72, -0.08, AYAR) is None
+    assert model.aday_turu(0.72, 0.0, AYAR) == "guvenli"
+    assert model.aday_turu(0.72, 0.02, AYAR) == "guvenli"
+    assert model.aday_turu(0.72, -0.01, AYAR) is None  # adil fiyatın altı: uzun vadede kaybettirir
     assert model.aday_turu(0.50, 0.05, AYAR) == "deger"
     assert model.aday_turu(0.40, 0.10, AYAR) is None
 
@@ -398,9 +398,9 @@ def test_oran_takipcinin_bulabilecegi_pazardan_olmali():
 
 
 def test_keskin_bahisci_yoksa_sinir_sikilasir():
-    assert model.aday_turu(0.74, -0.062, AYAR) == "guvenli"
-    assert model.aday_turu(0.74, -0.062, AYAR, AYAR.keskinsiz_ek_marj) is None
-    assert model.aday_turu(0.74, -0.03, AYAR, AYAR.keskinsiz_ek_marj) == "guvenli"
+    assert model.aday_turu(0.74, 0.01, AYAR) == "guvenli"
+    assert model.aday_turu(0.74, 0.01, AYAR, AYAR.keskinsiz_ek_marj) is None
+    assert model.aday_turu(0.74, 0.04, AYAR, AYAR.keskinsiz_ek_marj) == "guvenli"
 
 
 def test_kupon_gorseli_png():
@@ -568,3 +568,20 @@ def test_x_okuma_hatasi_kuponu_engellemez(monkeypatch, tmp_path):
     monkeypatch.setattr(ana, "_x_client", lambda: None)
     monkeypatch.setattr(ana, "_secici", lambda: None)
     assert ana.main(["otomatik"]) == 0 and cagrilar == ["tahmin"]
+
+
+def test_yenile_bugunu_silip_yeniden_secer(monkeypatch):
+    import bot.__main__ as ana
+    eski = _gun("2026-10-03", [_secim(1, 1.25, 0.76)], tweet_id="t1", kuponlar=[[0]])
+    eski["analiz_tweet_idleri"] = ["a1"]
+    gunler = [eski]
+    silinen = []
+    x = SimpleNamespace(sil=silinen.append)
+    yeni = _gun("2026-10-03", [_secim(2, 1.9, 0.56)], tweet_id=None, kuponlar=[[0]])
+    monkeypatch.setattr(ana, "tahmin", lambda ayar, api, sec, g, bugun, simdi: g.append(yeni) or yeni)
+    monkeypatch.setattr(ana, "yayinla", lambda *a: True)
+    assert ana.yenile(AYAR, None, None, x, gunler, "2026-10-03", datetime(2026, 10, 3, 8, tzinfo=timezone.utc))
+    assert silinen == ["a1", "t1"] and gunler == [yeni]
+    # maç başladıysa hiçbir şey silinmez
+    assert not ana.yenile(AYAR, None, None, x, gunler, "2026-10-03", datetime(2026, 10, 3, 14, tzinfo=timezone.utc))
+    assert silinen == ["a1", "t1"]

@@ -26,10 +26,11 @@ istek_araligi_sn = 6.5
 max_oyun = 3
 max_oyun_mac_basina = 2
 max_kupon = 3
-# GÜVENLİ oyun: yüksek kazanma ihtimali. Oran (bahisçilerin medyanı) adil fiyattan en fazla %7 kötü olabilir;
-# bahisçilerin favorilere koyduğu normal kâr payı %5-7'dir.
+# YÜKSEK İHTİMALLİ oyun: en az %65 kazanma ihtimali VE oran (bahisçilerin medyanı) en az adil fiyat.
+# Kasanın uzun vadede büyümesi için her oyun artı (ya da sıfır) değerli olmalı: adil fiyatın altındaki oranlar
+# sık tutsa da ortalamada kaybettirir. Bu yüzden bazı günler kupon çıkmaz.
 guvenli_min_olasilik = 0.65
-guvenli_min_deger = -0.07
+guvenli_min_deger = 0.0
 # DEĞER oyunu (kasayı büyüten): oran gerçek ihtimalden en az %3 yüksek, ihtimal en az %45.
 deger_min_olasilik = 0.45
 deger_min_deger = 0.03
@@ -52,7 +53,7 @@ para_birimi = "€"
 # "Adil" olasılık için referans alınan keskin bahisçi. Yoksa en az 3 bahisçinin ortalaması kullanılır.
 keskin = "Pinnacle"
 # Keskin bahisçinin fiyatlamadığı pazarlarda ihtimal daha az güvenilir: değer sınırları bu kadar sıkılaşır
-# (güvenli oyunda -%7 yerine -%4, değer oyununda +%3 yerine +%6).
+# (yüksek ihtimalli oyunda %0 yerine +%3, değer oyununda +%3 yerine +%6).
 keskinsiz_ek_marj = 0.03
 # Oranın alınacağı büyük bahisçiler (oran = medyanları). Tweetlerde bahisçi adı yazılmaz.
 oran_bahiscileri = ["Bet365", "William Hill", "Betano", "BetVictor", "Unibet", "Betway", "888Sport", "Bwin", "Betsson", "NordicBet", "ComeOn"]

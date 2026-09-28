@@ -73,9 +73,12 @@ def test_pazar_kodlari_ve_etiketler():
     assert football.pazar_kodu("Goals Over/Under", "Over 5.5") is None
     assert football.pazar_kodu("Asian Handicap", "Home -1") is None
     assert model.etiketler("KORA105", "A", "B")[1] == "Under 10.5 corners"
-    assert model.etiketler("UST35", "A", "B") == ("Over 3.5 goals (4 or more goals)", "Over 3.5 goals")
-    assert model.etiketler("IYA15", "A", "B")[0] == "Under 1.5 goals in 1st half (0 or 1 goal before half-time)"
-    assert model.etiketler("CSX2", "A", "B")[1] == "B win or draw"
+    assert model.etiketler("UST35", "A", "B") == ("Over 3.5 goals", "Over 3.5 goals")
+    assert model.etiketler("ALT15", "A", "B")[0] == "Under 1.5 goals"
+    assert model.etiketler("IYA15", "A", "B")[0] == "1st half Under 1.5 goals"
+    assert model.etiketler("KORU85", "A", "B")[0] == "Over 8.5 corners"
+    assert model.etiketler("CSX2", "A", "B")[0] == "Double chance X2"
+    assert not any("(" in model.etiketler(k, "A", "B")[0] for k in ("IYU05", "KGYOK", "MS1", "ALT25"))
 
 
 def test_aday_turu():
@@ -350,7 +353,7 @@ def test_uzun_isim_ve_aciklama_kesilmez():
     ms = [("Georgia", "Ukraine", "Under 3.5 goals"), ("Leganes", "Castellón", "Castellón win or draw"),
           ("Northern Ireland", "Hungary", "Under 1.5 goals in 1st half")]
     secimler = [_secim(i, 1.27, 0.74, "IYA15", ev=e, dep=d, kisa=k, yorum=yorum,
-                       etiket="Under 1.5 goals in 1st half (0 or 1 goal before half-time)")
+                       etiket="1st half Under 1.5 goals")
                 for i, (e, d, k) in enumerate(ms, 1)]
     flood = tweets.gun_floodu(_gun("2026-09-28", secimler, kombi=[0, 1, 2]), kayit.ozet([], 10000))
     assert "3) Northern Ireland v Hungary" in flood[0]

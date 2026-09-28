@@ -20,39 +20,21 @@ def cizgi(pazar: str) -> float:
 
 
 def etiketler(pazar: str, ev: str, dep: str) -> tuple[str, str]:
-    """(açıklamalı, kısa) sade İngilizce etiket. Kısa hali listelerde, açıklamalı hali analiz tweetinde kullanılır."""
+    """(etiket, kısa) bahis sitelerindeki standart İngilizce ifade; açıklama eklenmez, herkes bu dili bilir."""
     sabit = {
-        "MS1": (f"{ev} to win", f"{ev} to win"),
-        "MSX": ("Draw", "Draw"),
-        "MS2": (f"{dep} to win", f"{dep} to win"),
-        "CS1X": (f"{ev} win or draw ({ev} don't lose)", f"{ev} win or draw"),
-        "CSX2": (f"{dep} win or draw ({dep} don't lose)", f"{dep} win or draw"),
-        "CS12": ("No draw (one of the teams wins)", "No draw"),
-        "KGVAR": ("Both teams score (each team scores at least 1)", "Both teams to score"),
-        "KGYOK": ("Not both teams score (at least one team scores 0)", "Not both teams to score"),
-        "IY1": (f"{ev} ahead at half-time", f"{ev} ahead at half-time"),
-        "IYX": ("Level at half-time", "Level at half-time"),
-        "IY2": (f"{dep} ahead at half-time", f"{dep} ahead at half-time"),
-        "IYU05": ("Goal in the 1st half (at least 1 goal before half-time)", "Goal in 1st half"),
-        "IYA05": ("No goal in the 1st half (0–0 at half-time)", "0–0 at half-time"),
+        "MS1": f"{ev} to win", "MSX": "Draw", "MS2": f"{dep} to win",
+        "CS1X": "Double chance 1X", "CSX2": "Double chance X2", "CS12": "Double chance 12",
+        "KGVAR": "Both teams to score", "KGYOK": "Both teams to score: No",
+        "IY1": f"1st half: {ev} to win", "IYX": "1st half: Draw", "IY2": f"1st half: {dep} to win",
     }
     if pazar in sabit:
-        return sabit[pazar]
+        return sabit[pazar], sabit[pazar]
     c = cizgi(pazar)
-    alt_sinir, ust_sinir = int(c), int(c) + 1
-    if pazar.startswith("IYU"):
-        return (f"Over {c} goals in 1st half ({ust_sinir} or more goals before half-time)", f"Over {c} goals in 1st half")
-    if pazar.startswith("IYA"):
-        adet = "0 or 1 goal" if alt_sinir == 1 else f"{alt_sinir} goals or fewer"
-        return (f"Under {c} goals in 1st half ({adet} before half-time)", f"Under {c} goals in 1st half")
-    if pazar.startswith("KORU"):
-        return (f"Over {c} corners ({ust_sinir} or more corners)", f"Over {c} corners")
-    if pazar.startswith("KORA"):
-        return (f"Under {c} corners ({alt_sinir} corners or fewer)", f"Under {c} corners")
-    if pazar.startswith("UST"):
-        return (f"Over {c} goals ({ust_sinir} or more goals)", f"Over {c} goals")
-    adet = "0 or 1 goal" if alt_sinir == 1 else f"{alt_sinir} goals or fewer"
-    return (f"Under {c} goals ({adet})", f"Under {c} goals")
+    on_ek = {"IYU": "1st half Over", "IYA": "1st half Under", "KORU": "Over", "KORA": "Under",
+             "UST": "Over", "ALT": "Under"}
+    kod = next(k for k in on_ek if pazar.startswith(k))
+    metin = f'{on_ek[kod]} {c} {"corners" if kod.startswith("KOR") else "goals"}'
+    return metin, metin
 
 
 def kazandi_mi(pazar: str, ev: int, dep: int, iy: tuple[int, int] | None = None,

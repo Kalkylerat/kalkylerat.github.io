@@ -24,9 +24,10 @@ istek_araligi_sn = 6.5
 # Günde en fazla kaç tekli oyun ve bir maçtan en fazla kaç oyun.
 max_oyun = 3
 max_oyun_mac_basina = 2
-# GÜVENLİ oyun: yüksek kazanma ihtimali; oran adil fiyattan en fazla %4 kötü olabilir.
+# GÜVENLİ oyun: yüksek kazanma ihtimali. Oran (bahisçilerin medyanı) adil fiyattan en fazla %7 kötü olabilir;
+# bahisçilerin favorilere koyduğu normal kâr payı %5-7'dir.
 guvenli_min_olasilik = 0.65
-guvenli_min_deger = -0.04
+guvenli_min_deger = -0.07
 # DEĞER oyunu (kasayı büyüten): oran gerçek ihtimalden en az %3 yüksek, ihtimal en az %45.
 deger_min_olasilik = 0.45
 deger_min_deger = 0.03

@@ -93,7 +93,7 @@ GitHub'da dosyaya tıklayın → kalem ikonu → değiştirin → Commit.
 | `izinli` | Taranacak ligler (1. ve 2. ligler dahil ~30 lig) |
 | `max_mac_tarama` / `istek_araligi_sn` | Ücretsiz plan: 30 / 6.5 — API-Football Pro: 150 / 0.3 |
 | `max_oyun` / `max_oyun_mac_basina` | Günlük en fazla oyun ve bir maçtan en fazla oyun |
-| `guvenli_min_olasilik` / `guvenli_min_deger` | Güvenli oyun: en az %65 ihtimal, oran adil fiyattan en fazla %4 kötü |
+| `guvenli_min_olasilik` / `guvenli_min_deger` | Güvenli oyun: en az %65 ihtimal, oran (medyan) adil fiyattan en fazla %7 kötü |
 | `deger_min_olasilik` / `deger_min_deger` | Değer oyunu: en az %45 ihtimal, oran gerçek ihtimalden en az %3 iyi |
 | `[kombine]` | Kombine en fazla 3 maç, en fazla 3.50 oran, en az %40 gerçek tutma ihtimali |
 | `[kasa]` | Sanal kasa (€10.000) ve her oyuna yatırılan yüzde (%1) |

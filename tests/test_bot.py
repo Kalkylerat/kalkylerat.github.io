@@ -79,7 +79,8 @@ def test_pazar_kodlari_ve_etiketler():
 
 def test_aday_turu():
     assert model.aday_turu(0.72, -0.03, AYAR) == "guvenli"
-    assert model.aday_turu(0.72, -0.06, AYAR) is None
+    assert model.aday_turu(0.72, -0.06, AYAR) == "guvenli"
+    assert model.aday_turu(0.72, -0.08, AYAR) is None
     assert model.aday_turu(0.50, 0.05, AYAR) == "deger"
     assert model.aday_turu(0.40, 0.10, AYAR) is None
 

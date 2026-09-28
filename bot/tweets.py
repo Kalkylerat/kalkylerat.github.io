@@ -71,8 +71,27 @@ def _mac(s: dict, takim_max: int = 40) -> str:
     return f'{s["ev"][:takim_max]} v {s["dep"][:takim_max]}'
 
 
+def gorselli_gun_tweeti(gun: dict) -> str:
+    """Kupon görseliyle giden kısa ana tweet: ayrıntı görselde, gerekçeler yanıtlarda."""
+    secimler, birim = gun["secimler"], gun["para"]
+    kupon = bool(gun.get("kombi"))
+    baslik = "COUPON" if kupon else ("PICK" if len(secimler) == 1 else "PICKS")
+    maclar = [f"⚽ {_mac(s)}" for s in secimler]
+    if kupon:
+        stake, oran = gun["kombi"]["stake"], kombi_oran(gun)
+        ozet_satir = [f"Total odds {oran:.2f} · real chance {yuzde(kombi_olasilik(gun))}",
+                      f"{para(stake, birim)} stake → {para(stake * oran, birim)} return"]
+    else:
+        s = secimler[0]
+        ozet_satir = [f'Odds {oran_metni(s)} · real chance {yuzde(s["adil_olasilik"])}',
+                      f'{para(s["stake"], birim)} stake → {para(s["stake"] * s["oran"], birim)} return']
+    return ilk_sigan("\n".join([f"TODAY'S {baslik} | {_tarih(gun)}", ""] + maclar + [""] + ozet_satir
+                               + ["", "Why these picks 👇", ANSVAR]),
+                     "\n".join([f"TODAY'S {baslik} | {_tarih(gun)}", ""] + ozet_satir + ["", "Why these picks 👇", ANSVAR]))
+
+
 def gun_tweeti(gun: dict, ozet: dict | None = None) -> str:
-    """Ana tweet: günün kuponu (tek oyunluk günde günün oyunu), yatırım ve dönüş."""
+    """Ana tweet (görsel yüklenemezse): günün kuponu, yatırım ve dönüş metin olarak."""
     secimler, birim = gun["secimler"], gun["para"]
     kupon = bool(gun.get("kombi"))
     tek = len(secimler) == 1
@@ -151,8 +170,9 @@ def analiz_tweetleri(gun: dict) -> list[str]:
     return [tweet(i, s) for i, s in enumerate(gun["secimler"], 1)]
 
 
-def gun_floodu(gun: dict, ozet: dict) -> list[str]:
-    return [gun_tweeti(gun, ozet), kasa_tweeti(gun, ozet)] + analiz_tweetleri(gun)
+def gun_floodu(gun: dict, ozet: dict, gorselli: bool = False) -> list[str]:
+    ana = gorselli_gun_tweeti(gun) if gorselli else gun_tweeti(gun, ozet)
+    return [ana, kasa_tweeti(gun, ozet)] + analiz_tweetleri(gun)
 
 
 def sonuc_tweetleri(gun: dict, ozet: dict) -> list[str]:

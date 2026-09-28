@@ -388,6 +388,8 @@ def test_yayinla_gorseli_ana_tweete_ekler(capsys):
     assert yayinla(AYAR, g, tweets.KonsolClient(), [g], datetime(2026, 10, 3, 8, tzinfo=timezone.utc))
     cikti = capsys.readouterr().out
     assert "TWEET #1 + gorsel-" in cikti and "TWEET #2 (yanıt) [" in cikti
+    ana = cikti.split("TWEET #1")[1].split("TWEET #2")[0]
+    assert "Why these picks 👇" in ana and "⚽ Home1 v Away1" in ana and "Total odds 2.10" in ana
 
 
 def test_haftalik_ozet_bir_kez_ve_yeterli_veriyle(monkeypatch, tmp_path):

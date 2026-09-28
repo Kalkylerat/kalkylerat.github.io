@@ -133,13 +133,13 @@ def yayinla(ayar, gun: dict, x, gunler: list[dict], simdi: datetime) -> bool:
     if ilk <= simdi:
         print("İlk maç başlamış; şeffaflık için bu oyunlar artık yayınlanmaz.")
         return False
-    ana, *devam = tweets.gun_floodu(gun, kayit.ozet(gunler, ayar.kasa_baslangic))
     medya = None
     try:
         medya = x.medya_yukle(gorsel.kupon_gorseli(gun))
     except Exception as e:
-        # Görsel yüklenemezse kupon yine de metin olarak paylaşılır.
+        # Görsel yüklenemezse kupon yine de tam metin olarak paylaşılır.
         print(f"Kupon görseli eklenemedi: {e}")
+    ana, *devam = tweets.gun_floodu(gun, kayit.ozet(gunler, ayar.kasa_baslangic), gorselli=bool(medya))
     gun["tweet_id"] = x.gonder(ana, medya=medya)
     gun["yayin"] = simdi.isoformat(timespec="seconds")
     onceki = gun["tweet_id"]
@@ -303,8 +303,11 @@ def tani(ayar) -> None:
         satirlar.append(f"  - Tüm bahisçiler: {', '.join(adlar) or '-'}")
         satirlar.append(f"  - Okunan pazarlar: {', '.join(pazarlar) or '-'}")
     try:
-        r = _x_client().session.get("https://api.x.com/2/users/me", timeout=30)
+        r = _x_client().session.get("https://api.x.com/2/users/me", params={"user.fields": "pinned_tweet_id",
+                                    "expansions": "pinned_tweet_id"}, timeout=30)
         satirlar.append(f"- X: {r.status_code} {r.json().get('data', {}).get('username') or r.text[:200]}")
+        sabit = (r.json().get("includes", {}).get("tweets") or [{}])[0]
+        satirlar.append(f"- Sabit tweet: {sabit.get('id', 'YOK')} {sabit.get('text', '')[:60]!r}")
         ornek_gun = next((g for g in reversed(kayit.yukle(config.DATA_FILE)) if g["secimler"]), None)
         if ornek_gun:
             try:

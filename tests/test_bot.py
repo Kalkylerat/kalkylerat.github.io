@@ -154,8 +154,8 @@ def test_ana_tweet_icerigi():
     ana = tweets.gun_tweeti(g, kayit.ozet([], 10000))
     assert "1) Home1 win @1.50 · 80%" in ana
     assert "2) Home2 v Away2: Over 2.5 goals @1.40 · 70% · value" in ana
-    assert "Combo 1+2 @2.10 · all win: 56%" in ana
-    assert "Bank €10,000 · 1% per bet" in ana
+    assert "Combo 1+2 @2.10 · 56% all win" in ana
+    assert "Bank €10,000 · 1%/bet" in ana
 
 
 def test_sonuc_tweeti_kasa_ve_kombine():
@@ -293,3 +293,11 @@ def test_istek_siniri_dolarsa_toplananlarla_devam_eder(monkeypatch, capsys):
     simdi = datetime.fromisoformat(api.data["simdi"])
     gun = tahmin(AYAR, api, editor.basit_sec, [], "2026-10-03", simdi)
     assert gun and gun["secimler"] and "Tarama erken bitti" in capsys.readouterr().out
+
+
+def test_uc_oyunlu_gunde_kasa_satiri_kalir():
+    ms = [("Bulgaria", "Estonia", "Under 3.5 goals", 1.20, 0.79), ("Czechia", "England", "Over 1.5 goals", 1.22, 0.78),
+          ("Spain", "Croatia", "1st-half goal", 1.25, 0.76)]
+    secimler = [_secim(i, o, p, "UST15", ev=e, dep=d, kisa=k) for i, (e, d, k, o, p) in enumerate(ms, 1)]
+    ana = tweets.gun_tweeti(_gun("2026-09-29", secimler, kombi=[0, 1, 2]), kayit.ozet([], 10000))
+    assert "💰 Bank" in ana and tweets.uzunluk(ana) <= 280

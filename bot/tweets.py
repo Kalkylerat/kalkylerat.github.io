@@ -52,7 +52,7 @@ def _tarih(gun: dict) -> str:
 
 def _kombi_satiri(gun: dict) -> str:
     numaralar = "+".join(str(i + 1) for i in gun["kombi"]["ayaklar"])
-    return f'🎯 Combo {numaralar} @{kombi_oran(gun):.2f} · all win: {yuzde(kombi_olasilik(gun))}'
+    return f'🎯 Combo {numaralar} @{kombi_oran(gun):.2f} · {yuzde(kombi_olasilik(gun))} all win'
 
 
 def _secim_satiri(i: int, s: dict, takim_max: int) -> str:
@@ -68,11 +68,12 @@ def gun_tweeti(gun: dict, ozet: dict) -> str:
     def yaz(seviye: int, takim_max: int = 40) -> str:
         satirlar = [f"⚽ TODAY'S PICKS | {_tarih(gun)}", ""]
         satirlar += [_secim_satiri(i, s, takim_max) for i, s in enumerate(gun["secimler"], 1)]
-        satirlar.append("")
+        if seviye < 1:
+            satirlar.append("")
         if gun.get("kombi"):
             satirlar.append(_kombi_satiri(gun))
         if seviye < 2:
-            satirlar.append(f'💰 Bank {para(ozet["kasa"], gun["para"])} · {gun["yuzde"]:g}% per bet')
+            satirlar.append(f'💰 Bank {para(ozet["kasa"], gun["para"])} · {gun["yuzde"]:g}%/bet')
         satirlar.append(rekor(ozet))
         if seviye < 1:
             satirlar.append("Why? Thread 👇")

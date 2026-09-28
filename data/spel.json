@@ -15,7 +15,7 @@
         "olasi_skor": "0-0",
         "pazar": "ALT35",
         "tur": "guvenli",
-        "etiket": "Under 3.5 goals (3 goals or fewer)",
+        "etiket": "Under 3.5 goals",
         "kisa": "Under 3.5 goals",
         "oran": 1.25,
         "stake": 100.0,
@@ -42,8 +42,8 @@
         "olasi_skor": "0-1",
         "pazar": "CSX2",
         "tur": "guvenli",
-        "etiket": "Castellón win or draw (Castellón don't lose)",
-        "kisa": "Castellón win or draw",
+        "etiket": "Double chance X2",
+        "kisa": "Double chance X2",
         "oran": 1.35,
         "stake": 100.0,
         "bolag": "median of 4",
@@ -69,8 +69,8 @@
         "olasi_skor": "0-0",
         "pazar": "IYA15",
         "tur": "guvenli",
-        "etiket": "Under 1.5 goals in 1st half (0 or 1 goal before half-time)",
-        "kisa": "Under 1.5 goals in 1st half",
+        "etiket": "1st half Under 1.5 goals",
+        "kisa": "1st half Under 1.5 goals",
         "oran": 1.27,
         "stake": 100.0,
         "bolag": "median of 4",
@@ -88,7 +88,7 @@
       }
     ],
     "sonuc": null,
-    "tweet_id": "2104543443565351104",
+    "tweet_id": "2104544101643305206",
     "para": "€",
     "yuzde": 1.0,
     "kombi": {
@@ -100,12 +100,12 @@
       "stake": 100.0,
       "durum": null
     },
-    "yayin": "2026-09-28T12:07:11+00:00",
+    "yayin": "2026-09-28T12:09:48+00:00",
     "analiz_tweet_idleri": [
-      "2104543444718747781",
-      "2104543445951901778",
-      "2104543447117939089",
-      "2104543448279740923"
+      "2104544102641508704",
+      "2104544103933341772",
+      "2104544105569177686",
+      "2104544106747687347"
     ]
   }
 ]

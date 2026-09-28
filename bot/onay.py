@@ -82,8 +82,9 @@ class GitHub:
     def _url(self, yol: str) -> str:
         return f"https://api.github.com/repos/{self.repo}/{yol}"
 
-    def acik_istekler(self) -> list[dict]:
-        r = self.s.get(self._url("issues"), params={"labels": ETIKET, "state": "open", "per_page": 20}, timeout=30)
+    def istekler(self) -> list[dict]:
+        """Son onay istekleri (açık ve kapalı; elle kapatılan istek de kontrol edilir)."""
+        r = self.s.get(self._url("issues"), params={"labels": ETIKET, "state": "all", "per_page": 20}, timeout=30)
         r.raise_for_status()
         return r.json()
 
@@ -120,53 +121,66 @@ def onizlemeleri_sil(gun_id: str) -> None:
 
 
 def kontrol(ayar, gh, x, gunler: list[dict], simdi: datetime, yayinla) -> None:
-    """Açık onay isteklerini işler: karar varsa uygular, yoksa ve süre dolduysa otomatik paylaşır."""
-    for issue in gh.acik_istekler():
-        baslik, no = issue["title"], issue["number"]
-        k = sahibin_karari(gh, no)
-        if baslik.startswith("TEST"):
+    """Onay bekleyen kuponları işler: karar varsa uygular, yoksa ve süre dolduysa otomatik paylaşır.
+    İstek elle kapatılmış olsa bile ("gördüm") kupon beklemede sayılır; kapatmak iptal demek değildir."""
+    istekler = gh.istekler()
+    for issue in istekler:
+        if issue["title"].startswith("TEST") and issue.get("state", "open") == "open":
+            k = sahibin_karari(gh, issue["number"])
             if k:
-                gh.kapat(no, f"✅ Test tamam: `{k}` alındı. Gerçek günde bu cevapla kupon "
-                             f"{'hemen paylaşılırdı' if k == 'ok' else 'paylaşılmazdı'}. Hiçbir şey paylaşılmadı.")
+                gh.kapat(issue["number"], f"✅ Test tamam: `{k}` alındı. Gerçek günde bu cevapla kupon "
+                                          f"{'hemen paylaşılırdı' if k == 'ok' else 'paylaşılmazdı'}. Hiçbir şey paylaşılmadı.")
                 onizlemeleri_sil("test")
-            continue
-        gun = next((g for g in gunler if g.get("onay") and baslik.endswith(f'{g["tarih"]} kuponu')), None)
-        if not gun or gun["onay"]["durum"] != "bekliyor":
-            gh.kapat(no, "Bu istek artık geçerli değil (kupon zaten paylaşıldı, iptal edildi ya da kayıt yok).")
-            continue
-        if gun.get("tweet_id"):
-            # Önceki deneme floodun ortasında kesildi: kararı beklemeden eksik yanıtlar tamamlanır.
-            yayinla(ayar, gun, x, gunler, simdi)
-            gun["onay"]["durum"] = gun["onay"].get("sonuc_durumu", "onaylandi")
-            gh.kapat(no, f"🚀 Paylaşıldı: https://x.com/kalkylerat/status/{gun['tweet_id']}")
-            continue
-        if k == "iptal":
-            gun["onay"]["durum"] = "iptal"
-            gun["sonuc"] = "pas"
-            gun["pas_nedeni"] = "Paylaşım öncesi iptal edildi."
+    bekleyenler = [g for g in gunler if (g.get("onay") or {}).get("durum") == "bekliyor"]
+    for issue in istekler:  # geçersiz kalmış açık istekler kapatılır
+        if (issue.get("state", "open") == "open" and not issue["title"].startswith("TEST")
+                and not any(issue["title"].endswith(f'{g["tarih"]} kuponu') for g in bekleyenler)):
+            gh.kapat(issue["number"], "Bu istek artık geçerli değil (kupon zaten paylaşıldı, iptal edildi ya da kayıt yok).")
+    for gun in bekleyenler:
+        issue = next((i for i in istekler if not i["title"].startswith("TEST")
+                      and i["title"].endswith(f'{gun["tarih"]} kuponu')), None)
+        no = issue["number"] if issue else None
+        _isle(ayar, gh, x, gunler, gun, no, sahibin_karari(gh, no) if no else None, simdi, yayinla)
+
+
+def _isle(ayar, gh, x, gunler, gun, no, k, simdi, yayinla) -> None:
+    def bildir(mesaj):
+        if no:
+            gh.kapat(no, mesaj)
+
+    if gun.get("tweet_id"):
+        # Önceki deneme floodun ortasında kesildi: kararı beklemeden eksik yanıtlar tamamlanır.
+        yayinla(ayar, gun, x, gunler, simdi)
+        gun["onay"]["durum"] = gun["onay"].get("sonuc_durumu", "onaylandi")
+        bildir(f"🚀 Paylaşıldı: https://x.com/kalkylerat/status/{gun['tweet_id']}")
+        return
+    if k == "iptal":
+        gun["onay"]["durum"] = "iptal"
+        gun["sonuc"] = "pas"
+        gun["pas_nedeni"] = "Paylaşım öncesi iptal edildi."
+        onizlemeleri_sil(gun["id"])
+        bildir("🛑 İptal edildi: bugün paylaşım yok. Oyunlar rekora girmez.")
+    elif k == "ok" or simdi >= datetime.fromisoformat(gun["onay"]["son"]):
+        yeni_durum = "onaylandi" if k == "ok" else "otomatik"
+        gun["onay"]["sonuc_durumu"] = yeni_durum  # X hatası olursa durum "bekliyor" kalır, sonraki kontrol tekrar dener
+        ilk = min(datetime.fromisoformat(s["baslama"]) for s in gun["secimler"])
+        # Önizlemedeki görsellerle paylaşılır; görsel yüklenemezse sonraki kontrolde tekrar denenir.
+        # Ancak ilk maça 1 saatten az kaldıysa kupon hiç çıkmamaktansa metin olarak paylaşılır.
+        gorsel_sart = simdi < ilk - timedelta(minutes=60)
+        sonuc = yayinla(ayar, gun, x, gunler, simdi, gorsel_sart=gorsel_sart)
+        if sonuc == "gorsel_bekle":
+            print("Görsel yüklenemedi; önizlemeyle aynı olsun diye sonraki kontrolde tekrar denenecek.")
+            return
+        if sonuc:
+            gun["onay"]["durum"] = yeni_durum
             onizlemeleri_sil(gun["id"])
-            gh.kapat(no, "🛑 İptal edildi: bugün paylaşım yok. Oyunlar rekora girmez.")
-        elif k == "ok" or simdi >= datetime.fromisoformat(gun["onay"]["son"]):
-            yeni_durum = "onaylandi" if k == "ok" else "otomatik"
-            gun["onay"]["sonuc_durumu"] = yeni_durum  # X hatası olursa durum "bekliyor" kalır, sonraki kontrol tekrar dener
-            ilk = min(datetime.fromisoformat(s["baslama"]) for s in gun["secimler"])
-            # Önizlemedeki görsellerle paylaşılır; görsel yüklenemezse sonraki kontrolde tekrar denenir.
-            # Ancak ilk maça 1 saatten az kaldıysa kupon hiç çıkmamaktansa metin olarak paylaşılır.
-            gorsel_sart = simdi < ilk - timedelta(minutes=60)
-            sonuc = yayinla(ayar, gun, x, gunler, simdi, gorsel_sart=gorsel_sart)
-            if sonuc == "gorsel_bekle":
-                print("Görsel yüklenemedi; önizlemeyle aynı olsun diye sonraki kontrolde tekrar denenecek.")
-                continue
-            if sonuc:
-                gun["onay"]["durum"] = yeni_durum
-                onizlemeleri_sil(gun["id"])
-                gh.kapat(no, f"🚀 Paylaşıldı ({'onayla' if k == 'ok' else 'süre dolduğu için otomatik'}): "
-                             f"https://x.com/kalkylerat/status/{gun['tweet_id']}")
-            else:
-                # Tek sebep: ilk maç başlamış (paylaşım artık şeffaf olmaz). Gün pas olur, hata bildirilir.
-                gun["onay"]["durum"] = "kacirildi"
-                gun["sonuc"] = "pas"
-                gun["pas_nedeni"] = "Onay süresi içinde paylaşılamadı."
-                onizlemeleri_sil(gun["id"])
-                gh.kapat(no, "⚠️ Paylaşılamadı: ilk maç başlamış. Bugün paylaşım yok.")
-                raise RuntimeError(f"{gun['id']} kuponu zamanında paylaşılamadı")
+            bildir(f"🚀 Paylaşıldı ({'onayla' if k == 'ok' else 'süre dolduğu için otomatik'}): "
+                   f"https://x.com/kalkylerat/status/{gun['tweet_id']}")
+        else:
+            # Tek sebep: ilk maç başlamış (paylaşım artık şeffaf olmaz). Gün pas olur, hata bildirilir.
+            gun["onay"]["durum"] = "kacirildi"
+            gun["sonuc"] = "pas"
+            gun["pas_nedeni"] = "Onay süresi içinde paylaşılamadı."
+            onizlemeleri_sil(gun["id"])
+            bildir("⚠️ Paylaşılamadı: ilk maç başlamış. Bugün paylaşım yok.")
+            raise RuntimeError(f"{gun['id']} kuponu zamanında paylaşılamadı")

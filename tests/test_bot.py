@@ -640,8 +640,9 @@ class SahteGitHub:
     def __init__(self, issues, yorumlar, yetkililer=("sahip",)):
         self.issues, self._yorumlar, self.yetkililer, self.kapatilan = issues, yorumlar, yetkililer, []
 
-    def acik_istekler(self):
-        return [i for i in self.issues if i["number"] not in [k[0] for k in self.kapatilan]]
+    def istekler(self):
+        kapali = [k[0] for k in self.kapatilan]
+        return [{**i, "state": "closed" if i["number"] in kapali else i.get("state", "open")} for i in self.issues]
 
     def yorumlar(self, no):
         return self._yorumlar.get(no, [])
@@ -793,3 +794,21 @@ def test_onayli_kupon_gorselsiz_paylasilmaz_ama_son_saatte_metinle_gider(monkeyp
     assert not atilan and g["onay"]["durum"] == "bekliyor" and not gh.kapatilan
     onay.kontrol(AYAR, gh, x, [g], datetime(2026, 10, 3, 12, 10, tzinfo=timezone.utc), ana.yayinla)
     assert atilan and atilan[0].startswith("⚽ TODAY'S COUPON") and g["onay"]["durum"] == "onaylandi"
+
+
+def test_elle_kapatilan_istek_iptal_sayilmaz_sure_dolunca_paylasilir(monkeypatch, tmp_path):
+    from bot import onay
+    monkeypatch.setattr(onay, "ONIZLEME_KLASORU", tmp_path)
+    g = _onayli_gun("2026-10-03T10:30:00+00:00")
+    gh = SahteGitHub([{"number": 9, "title": "Onay: 2026-10-03 kuponu", "state": "closed"}], {})
+    yayinlanan = []
+
+    def yayinla(ayar, gun, x, gunler, simdi, **k):
+        gun["tweet_id"] = "T"
+        yayinlanan.append(1)
+        return True
+
+    onay.kontrol(AYAR, gh, None, [g], datetime(2026, 10, 3, 9, tzinfo=timezone.utc), yayinla)
+    assert not yayinlanan and g["onay"]["durum"] == "bekliyor"
+    onay.kontrol(AYAR, gh, None, [g], datetime(2026, 10, 3, 10, 31, tzinfo=timezone.utc), yayinla)
+    assert yayinlanan and g["onay"]["durum"] == "otomatik"

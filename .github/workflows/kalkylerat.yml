@@ -60,9 +60,18 @@ jobs:
           git diff --cached --quiet || git commit -m "Spel-kaydı $(date -u '+%Y-%m-%d %H:%M') UTC"
           # Tweetler atıldı; kayıt kaybolursa ertesi gün tekrar paylaşım olur. Bu yüzden push mutlaka başarmalı.
           for i in 1 2 3 4 5; do
-            git pull --rebase origin "$GITHUB_REF_NAME" && git push origin "HEAD:$GITHUB_REF_NAME" && exit 0
+            # Çakışmada bu çalışmanın kaydı (en güncel olan) korunur.
+            git pull --rebase -X theirs origin "$GITHUB_REF_NAME" && git push origin "HEAD:$GITHUB_REF_NAME" && exit 0
             git rebase --abort 2>/dev/null || true
             sleep $((i * 10))
           done
-          echo "::error::Kayıt depoya gönderilemedi! data/spel.json elle kontrol edilmeli."
+          echo "::error::Kayıt depoya gönderilemedi! Çalışmanın 'kayit' dosyasından geri yüklenmeli."
           exit 1
+      - name: Kayıt yedeği (push başarısız olursa)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kayit
+          path: |
+            data/
+            docs/

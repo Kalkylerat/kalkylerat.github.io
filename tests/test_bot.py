@@ -521,3 +521,19 @@ def test_bet_builder_kuponda_toplam_oran_tahmini():
     bb = _secim(1, 2.0, 0.5, "BB", bet_builder=True, bacaklar=[])
     g = _gun("2026-10-03", [bb, _secim(2, 1.4, 0.7)], kombi=[0, 1])
     assert "Total odds ≈2.80" in tweets.gun_tweeti(g) and "Total odds ≈2.80" in tweets.gorselli_gun_tweeti(g)
+
+
+def test_x_okuma_hatasi_kuponu_engellemez(monkeypatch, tmp_path):
+    import bot.__main__ as ana
+    monkeypatch.setattr(config, "DATA_FILE", tmp_path / "spel.json")
+    monkeypatch.setattr(config, "PANEL_FILE", tmp_path / "index.html")
+    monkeypatch.setattr(ana, "HATALAR", [])
+    cagrilar = []
+    monkeypatch.setattr(ana, "sonuc", lambda *a: None)
+    monkeypatch.setattr(ana, "haftalik", lambda *a, **k: False)
+    monkeypatch.setattr(ana, "zaten_paylasildi", lambda x, t: (_ for _ in ()).throw(RuntimeError("403")))
+    monkeypatch.setattr(ana, "tahmin", lambda *a: cagrilar.append("tahmin"))
+    monkeypatch.setattr(ana, "_api", lambda ayar: None)
+    monkeypatch.setattr(ana, "_x_client", lambda: None)
+    monkeypatch.setattr(ana, "_secici", lambda: None)
+    assert ana.main(["otomatik"]) == 0 and cagrilar == ["tahmin"]

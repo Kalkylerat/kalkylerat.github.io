@@ -5,7 +5,7 @@ from html import escape
 from pathlib import Path
 
 from .kayit import gun_kar, kar, kombi_durumu, kombi_olasilik, kombi_oran, ozet
-from .tweets import oran_metni, para
+from .tweets import kupon_oran_metni, oran_metni, para
 
 DURUM = {"kazandi": "Won", "kaybetti": "Lost", "iptal": "Void", "bekliyor": "Pending"}
 
@@ -69,7 +69,7 @@ def _gun_html(g: dict) -> str:
         durum = kombi_durumu(g)
         etiket = {"tuttu": "won", "yatti": "lost", "iptal": "void", None: "pending"}[durum]
         numaralar = "+".join(str(i + 1) for i in g["kombi"]["ayaklar"])
-        kombi = (f'<tr><td colspan="5" class="{durum or "bekliyor"}">Coupon (all picks) · odds {kombi_oran(g):.2f} · '
+        kombi = (f'<tr><td colspan="5" class="{durum or "bekliyor"}">Coupon (all picks) · odds {kupon_oran_metni(g)} · '
                  f'chance all win {100 * kombi_olasilik(g):.0f}% · stake {para(g["kombi"]["stake"], birim)} · {etiket}</td></tr>')
     kar_g = gun_kar(g)
     gunluk = f"{'+' if kar_g >= 0 else ''}{para(kar_g, birim)}" if g["sonuc"] else "In play"

@@ -255,7 +255,14 @@ def sonuc(ayar, api, x, gunler: list[dict], simdi: datetime) -> None:
     for g in gunler:
         if g.get("tweet_id") and g["sonuc"] == "tamam" and not g.get("sonuc_tweet_id"):
             idler = g.setdefault("sonuc_tweet_idleri", [])
-            _zincir(x, tweets.sonuc_tweetleri(g, kayit.ozet(gunler, ayar.kasa_baslangic)), g["tweet_id"], idler)
+            try:
+                _zincir(x, tweets.sonuc_tweetleri(g, kayit.ozet(gunler, ayar.kasa_baslangic)), g["tweet_id"], idler)
+            except RuntimeError as e:
+                if "duplicate" not in str(e).lower():
+                    raise
+                # X tweeti almış ama yanıt kaybolmuş: aynı metin tekrar reddedilir, sonsuz denemeye girilmez.
+                _ozet_yaz(f"⚠️ {g['id']} sonuç tweeti X'te zaten var (yanıtı kaybolmuş); tekrar denenmeyecek.")
+                idler.append("x-mukerrer")
             g["sonuc_tweet_id"] = idler[0]
 
 
@@ -433,8 +440,12 @@ def main(argv=None) -> int:
         if args.komut in ("otomatik", "tahmin"):
             kayitli = kayit.bul(gunler, bugun)
             onceki = None
-            if args.komut == "otomatik" and not (kayitli and kayitli.get("tweet_id")):
-                onceki = zaten_paylasildi(_x_client(), bugun)
+            if args.komut == "otomatik" and kayitli is None:
+                # Kayıt varsa zaten güvendeyiz; yalnızca kayıt hiç yoksa (kaybolmuş olabilir) hesaba bakılır.
+                try:
+                    onceki = zaten_paylasildi(_x_client(), bugun)
+                except Exception as e:
+                    _ozet_yaz(f"⚠️ Mükerrer paylaşım kontrolü yapılamadı ({e}); kayda güvenilerek devam ediliyor.")
             if onceki:
                 _hata("Kupon", RuntimeError(f"bugünün kuponu X'te zaten var (tweet {onceki}) ama kayıtta yok; "
                                             "ikinci kez paylaşılmadı. Kayıt elle düzeltilmeli."))

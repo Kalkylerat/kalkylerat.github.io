@@ -94,7 +94,7 @@ def kupon_gorseli(gun: dict) -> bytes:
                    ("STAKE → RETURN", f"{_para(stake, birim)} → {_para(stake * toplam, birim)}")]
     else:
         s = secimler[0]
-        kutular = [("ODDS", f'{s["oran"]:.2f}'), ("REAL CHANCE", f'{100 * s["adil_olasilik"]:.0f}%'),
+        kutular = [("ODDS", f'{"≈" if s.get("bet_builder") else ""}{s["oran"]:.2f}'), ("REAL CHANCE", f'{100 * s["adil_olasilik"]:.0f}%'),
                    ("STAKE → RETURN", f'{_para(s["stake"], birim)} → {_para(s["stake"] * s["oran"], birim)}')]
     y = 935
     d.rounded_rectangle((KENAR, y, BOYUT - KENAR, y + 140), radius=22, outline=VURGU, width=3)

@@ -312,3 +312,23 @@ def test_tweetlerde_at_isareti_yok():
     kayit.sonuclandir([g], {1: {"durum": "bitti", "skor": (2, 0)}, 2: {"durum": "bitti", "skor": (1, 2)}}, SIMDI)
     metinler.append(tweets.sonuc_tweeti(g, kayit.ozet([g], 10000)))
     assert not any("@" in m for m in metinler)
+
+
+def test_sabit_tweetler_sinirda_ve_eskileri_siler():
+    from bot.__main__ import sabit_tweet
+    link_farki = len("https://kalkylerat.github.io/") - 23  # X her linki 23 karakter sayar
+    assert tweets.uzunluk(tweets.SABIT_TWEETLER[0]) - link_farki <= 280
+    assert tweets.uzunluk(tweets.SABIT_TWEETLER[1]) <= 280
+
+    class SahteX(tweets.KonsolClient):
+        silinen = []
+
+        def son_tweetler(self):
+            return [{"id": "1", "text": "Welcome to Kalkylerat 📊 ..."}, {"id": "2", "text": "⚽ TODAY'S PICKS | 28 Sep"}]
+
+        def sil(self, tid):
+            self.silinen.append(tid)
+
+    x = SahteX()
+    sabit_tweet(x)
+    assert x.silinen == ["1"] and x.sayac == 2

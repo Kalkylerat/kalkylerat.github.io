@@ -1,4 +1,4 @@
-"""Kullanım: python -m bot [otomatik|tahmin|yayinla|sonuc|panel|demo|tani|onizleme|duzelt]"""
+"""Kullanım: python -m bot [otomatik|tahmin|yayinla|sonuc|panel|demo|tani|onizleme|duzelt|sabit]"""
 
 import argparse
 import os
@@ -162,6 +162,17 @@ def duzelt(ayar, gun: dict, x, gunler: list[dict], simdi: datetime) -> bool:
     return yayinla(ayar, gun, x, gunler, simdi)
 
 
+def sabit_tweet(x) -> None:
+    """Eski karşılama tweetlerini siler, açıklayıcı iki tweeti (ana + yanıt) atar. Sabitleme X uygulamasından yapılır."""
+    for t in x.son_tweetler():
+        if t["text"].startswith(tweets.ESKI_KARSILAMA):
+            x.sil(t["id"])
+            print(f"Eski karşılama tweeti silindi: {t['id']}")
+    ana = x.gonder(tweets.SABIT_TWEETLER[0])
+    x.gonder(tweets.SABIT_TWEETLER[1], yanit=ana)
+    _ozet_yaz(f"Karşılama tweeti atıldı: https://x.com/kalkylerat/status/{ana} (X uygulamasından profile sabitleyin)")
+
+
 def sonuc(ayar, api, x, gunler: list[dict], simdi: datetime) -> None:
     ids = kayit.bekleyen_fixturelar(gunler, simdi)
     if not ids:
@@ -275,7 +286,7 @@ def demo(ayar) -> None:
 
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="bot")
-    p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt"])
+    p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt", "sabit"])
     args = p.parse_args(argv)
     ayar = config.yukle()
 
@@ -287,6 +298,9 @@ def main(argv=None) -> int:
         return 0
     if args.komut == "onizleme":
         onizleme(ayar)
+        return 0
+    if args.komut == "sabit":
+        sabit_tweet(_x_client())
         return 0
 
     gunler = kayit.yukle(config.DATA_FILE)

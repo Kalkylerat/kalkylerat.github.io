@@ -130,6 +130,27 @@ def sonuc_tweeti(gun: dict, ozet: dict) -> str:
     return kirp("\n".join(satirlar))
 
 
+SABIT_TWEETLER = [
+    """Day 1 of the €10,000 challenge 📊
+
+A public, virtual €10,000 bank run on data:
+• Each pick = 1% of the current bank
+• Safe picks + value picks
+• Posted before kick-off, all results counted
+
+Live record: https://kalkylerat.github.io/
+How it works 👇
+18+ | Play responsibly""",
+    """How it works:
+
+• Start: €10,000 (virtual money)
+• Stake = 1% of the bank at that moment. Win and stakes grow, lose and they shrink, so one bad day can't sink the bank
+• Chances: sharp market, margin removed, checked by our goal model
+• Odds: median of big bookmakers""",
+]
+ESKI_KARSILAMA = ("Welcome to Kalkylerat", "Välkommen till Kalkylerat", "Day 1 of the €10,000 challenge", "How it works:")
+
+
 class XClient:
     URL = "https://api.x.com/2/tweets"
 
@@ -144,6 +165,13 @@ class XClient:
         if r.status_code >= 400:
             raise RuntimeError(f"X API hatası {r.status_code}: {r.text}")
         return r.json()["data"]["id"]
+
+    def son_tweetler(self, adet: int = 30) -> list[dict]:
+        me = self.session.get("https://api.x.com/2/users/me", timeout=30).json()["data"]["id"]
+        r = self.session.get(f"https://api.x.com/2/users/{me}/tweets", params={"max_results": adet}, timeout=30)
+        if r.status_code >= 400:
+            raise RuntimeError(f"X API okuma hatası {r.status_code}: {r.text}")
+        return r.json().get("data", [])
 
     def sil(self, tweet_id: str) -> None:
         r = self.session.delete(f"{self.URL}/{tweet_id}", timeout=30)

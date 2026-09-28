@@ -20,20 +20,33 @@ Data-driven football picks with high win chances. No long shots. Every pick post
 
 ## Sabitlenmiş tweet (elle atıp profilde sabitleyin)
 
+**1. tweet (sabitlenecek):**
+
 ```
-Welcome to Kalkylerat 📊
+Day 1 of the €10,000 challenge 📊
 
-Every day: 0–3 football picks with the highest win chance, plus a combo with its real chance.
+A public, virtual €10,000 bank run on data:
+• Each pick = 1% of the current bank
+• Safe picks + value picks
+• Posted before kick-off, all results counted
 
-✅ Posted before kick-off
-✅ Every pick counted, nothing deleted
-✅ Simple, data-based reasons
-
-Record: https://kalkylerat.github.io/
+Live record: https://kalkylerat.github.io/
+How it works 👇
 18+ | Play responsibly
 ```
 
-271/280 karakter (X her linki 23 karakter sayar), Premium olmadan da atılabilir. Link, GitHub Pages açılınca çalışır (README 5. adım); açmadan önce atmayın. Bu tweeti siz elle attığınız için link ücreti yoktur (bot tweetlerinde link kullanılmaz, çünkü API'de linkli gönderi pahalı).
+**2. tweet (1. tweete yanıt olarak):**
+
+```
+How it works:
+
+• Start: €10,000 (virtual money)
+• Stake = 1% of the bank at that moment. Win and stakes grow, lose and they shrink, so one bad day can't sink the bank
+• Chances: sharp market, margin removed, checked by our goal model
+• Odds: median of big bookmakers
+```
+
+270/280 ve 271/280 karakter (X her linki 23 karakter sayar). Elle attığınız için link ücreti yoktur.
 
 ## Zorunlu ayar
 

@@ -8,16 +8,20 @@ on:
     - cron: "17 8 * * 0,6"   # 10:17 İsveç yaz saati (kışın 09:17)
     - cron: "30 21 * * *"  # 23:30 İsveç (yaz saati): akşam maçlarının sonuçları
     - cron: "15 0 * * *"   # 02:15 / 01:15 İsveç: geç biten maçlar (kış saatinde 21:00 maçları dahil)
+    - cron: "7,37 8-13 * * *"  # onay bekleyen kupon: süre dolduysa otomatik paylaşım
+  issue_comment:
+    types: [created]  # onay isteğine "ok" / "iptal" cevabı
   workflow_dispatch:
     inputs:
       komut:
         description: "Ne yapılsın?"
         type: choice
         default: yayinla
-        options: [yayinla, onizleme, duzelt, yenile, sabit, hafta, oran_testi, otomatik, tahmin, sonuc, panel, tani]
+        options: [yayinla, onay_testi, onay_kontrol, onizleme, duzelt, yenile, sabit, hafta, oran_testi, otomatik, tahmin, sonuc, panel, tani]
 
 permissions:
   contents: write
+  issues: write
 
 concurrency:
   group: kalkylerat-botu
@@ -25,6 +29,8 @@ concurrency:
 
 jobs:
   calistir:
+    # Yorumlarda yalnızca onay isteklerine tepki verilir.
+    if: github.event_name != 'issue_comment' || contains(github.event.issue.labels.*.name, 'onay')
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -41,7 +47,10 @@ jobs:
       - run: python -m pytest -q
       - name: Botu çalıştır
         env:
-          KOMUT: ${{ (github.event.schedule == '30 21 * * *' || github.event.schedule == '15 0 * * *') && 'sonuc' || inputs.komut || 'otomatik' }}
+          OLAY: ${{ github.event_name }}
+          ZAMAN: ${{ github.event.schedule }}
+          SECIM: ${{ inputs.komut }}
+          GH_TOKEN: ${{ github.token }}
           API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           X_API_KEY: ${{ secrets.X_API_KEY }}
@@ -49,6 +58,14 @@ jobs:
           X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
           X_ACCESS_SECRET: ${{ secrets.X_ACCESS_SECRET }}
         run: |
+          case "$OLAY|$ZAMAN" in
+            issue_comment\|*) KOMUT=onay_kontrol ;;
+            "schedule|30 21 * * *"|"schedule|15 0 * * *") KOMUT=sonuc ;;
+            "schedule|7,37 8-13 * * *") KOMUT=onay_kontrol ;;
+            schedule\|*) KOMUT=otomatik ;;
+            *) KOMUT="$SECIM" ;;
+          esac
+          echo "Komut: $KOMUT"
           if [ -z "$API_FOOTBALL_KEY" ] || [ -z "$X_ACCESS_TOKEN" ]; then
             echo "Anahtarlar henüz eklenmemiş (README > Kurulum). Bot çalıştırılmadı." | tee -a "$GITHUB_STEP_SUMMARY"
             exit 0
@@ -70,6 +87,15 @@ jobs:
           done
           echo "::error::Kayıt depoya gönderilemedi! Çalışmanın 'kayit' dosyasından geri yüklenmeli."
           exit 1
+      - name: Onay isteği aç
+        if: always() && hashFiles('onay_istegi.md') != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create onay --color 19c37d --description "Paylaşım onayı" --force
+          baslik=$(head -n 1 onay_istegi.md)
+          tail -n +2 onay_istegi.md > govde.md
+          gh issue create --title "$baslik" --label onay --body-file govde.md
       - name: Kayıt yedeği (push başarısız olursa)
         if: failure()
         uses: actions/upload-artifact@v4

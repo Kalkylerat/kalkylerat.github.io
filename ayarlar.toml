@@ -78,3 +78,7 @@ effort = "high"
 # false: oyunlar taslak olarak kaydedilir, siz "yayinla" komutunu çalıştırınca paylaşılır.
 # true: oyunlar hazırlanır hazırlanmaz X'te paylaşılır.
 otomatik_paylas = true
+# true: kupon önce GitHub'da önizlemeli bir onay isteği (issue) olarak gelir. "ok" → hemen paylaşılır,
+# "iptal" → paylaşılmaz, cevap yoksa onay_suresi_dk sonra (en geç ilk maçtan 2 saat önce) otomatik paylaşılır.
+onay_bekle = true
+onay_suresi_dk = 90

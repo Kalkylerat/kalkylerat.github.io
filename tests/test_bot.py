@@ -634,3 +634,88 @@ def test_liste_disi_hazirlik_genc_kadin_maclari_alinmaz():
     maclar = football.gunun_maclari(api, "2026-10-03", [39], "Europe/Stockholm", 60, 100,
                                    datetime(2026, 10, 3, 8, tzinfo=timezone.utc), tum_ligler=True)
     assert [m["fixture_id"] for m in maclar] == [5, 4]  # izinli lig önce; hazırlık/genç/kadın maçları elenir
+
+
+class SahteGitHub:
+    def __init__(self, issues, yorumlar, yetkililer=("sahip",)):
+        self.issues, self._yorumlar, self.yetkililer, self.kapatilan = issues, yorumlar, yetkililer, []
+
+    def acik_istekler(self):
+        return [i for i in self.issues if i["number"] not in [k[0] for k in self.kapatilan]]
+
+    def yorumlar(self, no):
+        return self._yorumlar.get(no, [])
+
+    def yetkili(self, kullanici):
+        return kullanici in self.yetkililer
+
+    def kapat(self, no, mesaj):
+        self.kapatilan.append((no, mesaj))
+
+
+def _onayli_gun(son):
+    g = _gun("2026-10-03", [_secim(1, 1.5, 0.8), _secim(2, 1.4, 0.7)], tweet_id=None, kuponlar=[[0, 1]])
+    g["onay"] = {"durum": "bekliyor", "son": son}
+    return g
+
+
+def test_onay_karar_kelimeleri():
+    from bot import onay
+    assert onay.karar("OK!") == "ok" and onay.karar("iptal edelim") == "iptal" and onay.karar("belki") is None
+
+
+def test_onay_iptal_ok_ve_sure_dolumu(monkeypatch, tmp_path):
+    from bot import onay
+    monkeypatch.setattr(onay, "ONIZLEME_KLASORU", tmp_path)
+    simdi = datetime(2026, 10, 3, 9, tzinfo=timezone.utc)
+    son = "2026-10-03T10:30:00+00:00"
+    yayinlanan = []
+
+    def yayinla(ayar, gun, x, gunler, simdi):
+        gun["tweet_id"] = "T"
+        yayinlanan.append(gun["id"])
+        return True
+
+    issue = [{"number": 7, "title": "Onay: 2026-10-03 kuponu"}]
+    # yetkisiz birinin "ok"u sayılmaz, süre de dolmadı: bir şey olmaz
+    g = _onayli_gun(son)
+    gh = SahteGitHub(issue, {7: [{"body": "ok", "user": {"login": "yabanci"}}]})
+    onay.kontrol(AYAR, gh, None, [g], simdi, yayinla)
+    assert not yayinlanan and not gh.kapatilan
+    # sahibin "iptal"i: paylaşılmaz, gün pas
+    gh = SahteGitHub(issue, {7: [{"body": "iptal", "user": {"login": "sahip"}}]})
+    onay.kontrol(AYAR, gh, None, [g], simdi, yayinla)
+    assert not yayinlanan and g["sonuc"] == "pas" and g["onay"]["durum"] == "iptal" and gh.kapatilan
+    # sahibin "ok"u: hemen paylaşılır
+    g = _onayli_gun(son)
+    gh = SahteGitHub(issue, {7: [{"body": "ok", "user": {"login": "sahip"}}]})
+    onay.kontrol(AYAR, gh, None, [g], simdi, yayinla)
+    assert yayinlanan == ["2026-10-03"] and g["onay"]["durum"] == "onaylandi"
+    # cevap yok, süre doldu: otomatik paylaşılır
+    g = _onayli_gun(son)
+    gh = SahteGitHub(issue, {})
+    onay.kontrol(AYAR, gh, None, [g], datetime(2026, 10, 3, 10, 31, tzinfo=timezone.utc), yayinla)
+    assert len(yayinlanan) == 2 and g["onay"]["durum"] == "otomatik"
+
+
+def test_onay_testi_hicbir_sey_paylasmaz(monkeypatch, tmp_path):
+    from bot import onay
+    monkeypatch.setattr(onay, "ONIZLEME_KLASORU", tmp_path)
+    gh = SahteGitHub([{"number": 3, "title": "TEST – Onay: 2026-09-28 kuponu"}],
+                     {3: [{"body": "iptal", "user": {"login": "sahip"}}]})
+    onay.kontrol(AYAR, gh, None, [], SIMDI, lambda *a: pytest.fail("test paylaşım yapmamalı"))
+    assert gh.kapatilan and "Hiçbir şey paylaşılmadı" in gh.kapatilan[0][1]
+
+
+def test_otomatik_onay_istegi_acar(monkeypatch, tmp_path):
+    from bot import onay
+    monkeypatch.setattr(onay, "ONIZLEME_KLASORU", tmp_path)
+    monkeypatch.setattr(onay, "ISTEK_DOSYASI", tmp_path / "istek.md")
+    g = _gun("2026-10-03", [_secim(1, 1.5, 0.8), _secim(2, 1.4, 0.7)], tweet_id=None, kuponlar=[[0, 1]])
+    simdi = datetime(2026, 10, 3, 8, tzinfo=timezone.utc)
+    onay.onay_iste(g, [g], AYAR, simdi)
+    metin = (tmp_path / "istek.md").read_text()
+    assert metin.startswith("Onay: 2026-10-03 kuponu\n") and "`ok`" in metin and "TODAY'S COUPON" in metin
+    assert "raw.githubusercontent.com" in metin and (tmp_path / "2026-10-03-1.png").exists()
+    # son: en fazla 90 dk sonra, en geç ilk maçtan (13:00 UTC) 2 saat önce
+    assert g["onay"]["son"] == "2026-10-03T09:30:00+00:00"

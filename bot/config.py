@@ -40,6 +40,8 @@ class Ayarlar:
     claude_model: str
     claude_effort: str
     otomatik_paylas: bool
+    onay_bekle: bool
+    onay_suresi_dk: int
 
 
 def yukle(path: Path = ROOT / "ayarlar.toml") -> Ayarlar:
@@ -76,6 +78,8 @@ def yukle(path: Path = ROOT / "ayarlar.toml") -> Ayarlar:
         claude_model=t["claude"]["model"],
         claude_effort=t["claude"]["effort"],
         otomatik_paylas=bool(t["yayin"]["otomatik_paylas"]),
+        onay_bekle=bool(t["yayin"]["onay_bekle"]),
+        onay_suresi_dk=int(t["yayin"]["onay_suresi_dk"]),
     )
 
 

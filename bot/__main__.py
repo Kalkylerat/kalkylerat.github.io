@@ -1,6 +1,7 @@
 """Kullanım: python -m bot [otomatik|tahmin|yayinla|sonuc|panel|demo|tani|onizleme|duzelt|sabit]"""
 
 import argparse
+import copy
 import json
 import os
 import sys
@@ -8,7 +9,7 @@ import time
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-from . import config, editor, football, gorsel, kayit, model, panel, tweets
+from . import config, editor, football, gorsel, kayit, model, onay, panel, tweets
 from .model import adaylari_uret, bet_builder, etiketler
 
 # Çalışma sırasında yakalanan hatalar: iş sonunda "başarısız" işaretlenir, GitHub sahibine e-posta atar.
@@ -508,7 +509,8 @@ def demo(ayar) -> None:
 
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="bot")
-    p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt", "sabit", "hafta", "yenile", "oran_testi"])
+    p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt", "sabit", "hafta", "yenile", "oran_testi",
+                                          "onay_kontrol", "onay_testi"])
     args = p.parse_args(argv)
     ayar = config.yukle()
 
@@ -558,8 +560,18 @@ def main(argv=None) -> int:
                                             "ikinci kez paylaşılmadı. Kayıt elle düzeltilmeli."))
             else:
                 gun = tahmin(ayar, _api(ayar), _secici(), gunler, bugun, simdi) or kayit.bul(gunler, bugun)
-                if gun and ayar.otomatik_paylas:
-                    yayinla(ayar, gun, _x_client(), gunler, simdi)
+                if gun and gun["secimler"] and ayar.otomatik_paylas:
+                    if gun.get("tweet_id") or not ayar.onay_bekle:
+                        yayinla(ayar, gun, _x_client(), gunler, simdi)  # yeni paylaşım ya da yarım floodu tamamlama
+                    elif not gun.get("onay") and gun["sonuc"] is None:
+                        onay.onay_iste(gun, gunler, ayar, simdi)
+                        _ozet_yaz(f"Onay istendi; cevap yoksa {gun['onay']['son']} (UTC) otomatik paylaşılacak.")
+        if args.komut == "onay_kontrol":
+            onay.kontrol(ayar, onay.GitHub(), _x_client(), gunler, simdi, yayinla)
+        if args.komut == "onay_testi":
+            ornek = copy.deepcopy(kayit.bul(gunler, bugun) or next(g for g in reversed(gunler) if kayit.kuponlar(g)))
+            ornek.update(id="test", onay={"durum": "test", "son": simdi.isoformat(timespec="seconds")})
+            onay.istek_hazirla(ornek, gunler, ayar, simdi, test=True)
         if args.komut == "yenile":
             try:
                 if not yenile(ayar, _api(ayar), _secici(), _x_client(), gunler, bugun, simdi):

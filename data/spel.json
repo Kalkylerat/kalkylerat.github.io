@@ -90,7 +90,7 @@
     "sonuc": null,
     "para": "€",
     "yuzde": 1.0,
-    "tweet_id": null,
+    "tweet_id": "2104561732790505808",
     "kuponlar": [
       {
         "ayaklar": [
@@ -101,6 +101,13 @@
         "stake": 100.0,
         "durum": null
       }
+    ],
+    "gorselli": true,
+    "yayin": "2026-09-28T13:19:51+00:00",
+    "analiz_tweet_idleri": [
+      "2104561734191296697",
+      "2104561735277617331",
+      "2104561736422756473"
     ]
   }
 ]

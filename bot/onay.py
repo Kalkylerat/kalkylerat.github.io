@@ -12,16 +12,18 @@ from . import config, gorsel, kayit, tweets
 ONIZLEME_KLASORU = config.ROOT / "docs" / "onizleme"
 ISTEK_DOSYASI = config.ROOT / "onay_istegi.md"  # iş akışı bu dosya varsa issue açar
 ETIKET = "onay"
-OK = ("ok", "okay", "onay", "onayla", "evet", "paylas", "paylaş", "yes")
-IPTAL = ("iptal", "hayir", "hayır", "cancel", "no")
+OK = {"ok", "okay", "onay", "onayla", "onaylıyorum", "evet", "tamam", "paylas", "paylaş", "yes"}
+IPTAL = {"iptal", "hayir", "hayır", "cancel"}
+YETKILI = {"OWNER", "MEMBER", "COLLABORATOR"}
 
 
 def karar(metin: str) -> str | None:
-    kelime = metin.strip().lower().split()[0].strip(".!,") if metin.strip() else ""
-    if kelime in OK:
-        return "ok"
-    if kelime in IPTAL:
+    """Mesajdaki kelimelere bakar; "iptal" her zaman önceliklidir (yanlışlıkla paylaşmaktansa paylaşmamak)."""
+    kelimeler = {k.strip(".!,?:;") for k in metin.lower().split()}
+    if kelimeler & IPTAL:
         return "iptal"
+    if kelimeler & OK:
+        return "ok"
     return None
 
 
@@ -42,6 +44,10 @@ def istek_hazirla(gun: dict, gunler: list[dict], ayar, simdi: datetime, test: bo
         (ONIZLEME_KLASORU / ad).write_bytes(gorsel.kupon_gorseli(gun, kupon, ozet["kasa"], sira, len(liste)))
         resimler.append(_ham_url(f"docs/onizleme/{ad}"))
     ana, *yanitlar = tweets.gun_floodu(gun, ozet, gorselli=True)
+    # Paylaşım, önizlemede gösterilenin birebir aynısı olsun: metinler ve görseldeki kasa burada sabitlenir.
+    if not test:
+        gun["onay"]["metinler"] = [ana, *yanitlar]
+        gun["onay"]["kasa"] = ozet["kasa"]
     son = datetime.fromisoformat(gun["onay"]["son"]).astimezone(ZoneInfo(ayar.saat_dilimi))
     baslik = f'{"TEST – " if test else ""}Onay: {gun["tarih"]} kuponu'
     parcalar = [
@@ -87,8 +93,11 @@ class GitHub:
         return r.json()
 
     def yetkili(self, kullanici: str) -> bool:
-        r = self.s.get(self._url(f"collaborators/{kullanici}/permission"), timeout=30)
-        return r.ok and r.json().get("permission") in ("admin", "maintain", "write")
+        try:
+            r = self.s.get(self._url(f"collaborators/{kullanici}/permission"), timeout=30)
+            return r.ok and r.json().get("permission") in ("admin", "maintain", "write")
+        except requests.RequestException:
+            return False
 
     def kapat(self, no: int, mesaj: str) -> None:
         self.s.post(self._url(f"issues/{no}/comments"), json={"body": mesaj}, timeout=30).raise_for_status()
@@ -96,11 +105,11 @@ class GitHub:
 
 
 def sahibin_karari(gh, no: int) -> str | None:
-    """Yazma yetkisi olan birinin son geçerli cevabı ("ok" / "iptal"); başkalarının yorumları sayılmaz."""
+    """Deponun sahibi/üyesi/ortağının son geçerli cevabı ("ok" / "iptal"); başkalarının yorumları sayılmaz."""
     sonuc = None
     for y in gh.yorumlar(no):
         k = karar(y.get("body") or "")
-        if k and gh.yetkili(y["user"]["login"]):
+        if k and (y.get("author_association") in YETKILI or gh.yetkili(y["user"]["login"])):
             sonuc = k
     return sonuc
 
@@ -122,8 +131,14 @@ def kontrol(ayar, gh, x, gunler: list[dict], simdi: datetime, yayinla) -> None:
                 onizlemeleri_sil("test")
             continue
         gun = next((g for g in gunler if g.get("onay") and baslik.endswith(f'{g["tarih"]} kuponu')), None)
-        if not gun or gun.get("tweet_id") or gun["onay"]["durum"] != "bekliyor":
-            gh.kapat(no, "Bu istek artık geçerli değil (kupon zaten paylaşıldı ya da kayıt yok).")
+        if not gun or gun["onay"]["durum"] != "bekliyor":
+            gh.kapat(no, "Bu istek artık geçerli değil (kupon zaten paylaşıldı, iptal edildi ya da kayıt yok).")
+            continue
+        if gun.get("tweet_id"):
+            # Önceki deneme floodun ortasında kesildi: kararı beklemeden eksik yanıtlar tamamlanır.
+            yayinla(ayar, gun, x, gunler, simdi)
+            gun["onay"]["durum"] = gun["onay"].get("sonuc_durumu", "onaylandi")
+            gh.kapat(no, f"🚀 Paylaşıldı: https://x.com/kalkylerat/status/{gun['tweet_id']}")
             continue
         if k == "iptal":
             gun["onay"]["durum"] = "iptal"
@@ -132,10 +147,18 @@ def kontrol(ayar, gh, x, gunler: list[dict], simdi: datetime, yayinla) -> None:
             onizlemeleri_sil(gun["id"])
             gh.kapat(no, "🛑 İptal edildi: bugün paylaşım yok. Oyunlar rekora girmez.")
         elif k == "ok" or simdi >= datetime.fromisoformat(gun["onay"]["son"]):
-            gun["onay"]["durum"] = "onaylandi" if k == "ok" else "otomatik"
+            yeni_durum = "onaylandi" if k == "ok" else "otomatik"
+            gun["onay"]["sonuc_durumu"] = yeni_durum  # X hatası olursa durum "bekliyor" kalır, sonraki kontrol tekrar dener
             if yayinla(ayar, gun, x, gunler, simdi):
+                gun["onay"]["durum"] = yeni_durum
                 onizlemeleri_sil(gun["id"])
                 gh.kapat(no, f"🚀 Paylaşıldı ({'onayla' if k == 'ok' else 'süre dolduğu için otomatik'}): "
                              f"https://x.com/kalkylerat/status/{gun['tweet_id']}")
             else:
-                gh.kapat(no, "⚠️ Paylaşılamadı (ilk maç başlamış olabilir). Ayrıntı için çalışmanın özet sayfasına bakın.")
+                # Tek sebep: ilk maç başlamış (paylaşım artık şeffaf olmaz). Gün pas olur, hata bildirilir.
+                gun["onay"]["durum"] = "kacirildi"
+                gun["sonuc"] = "pas"
+                gun["pas_nedeni"] = "Onay süresi içinde paylaşılamadı."
+                onizlemeleri_sil(gun["id"])
+                gh.kapat(no, "⚠️ Paylaşılamadı: ilk maç başlamış. Bugün paylaşım yok.")
+                raise RuntimeError(f"{gun['id']} kuponu zamanında paylaşılamadı")

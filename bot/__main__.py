@@ -212,15 +212,24 @@ def yayinla(ayar, gun: dict, x, gunler: list[dict], simdi: datetime) -> bool:
         print("İlk maç başlamış; şeffaflık için bu oyunlar artık yayınlanmaz.")
         return False
     if gun.get("tweet_id"):
-        ana, *devam = tweets.gun_floodu(gun, kayit.ozet(gunler, ayar.kasa_baslangic), gorselli=gun.get("gorselli", False))
+        onayli = (gun.get("onay") or {}).get("metinler")
+        if onayli and gun.get("gorselli"):
+            ana, *devam = onayli
+        else:
+            ana, *devam = tweets.gun_floodu(gun, kayit.ozet(gunler, ayar.kasa_baslangic), gorselli=gun.get("gorselli", False))
         idler = gun.setdefault("analiz_tweet_idleri", [])
         if len(idler) >= len(devam):
             return False
         print(f"Yarım kalan flood tamamlanıyor ({len(idler)}/{len(devam)}).")
         _zincir(x, devam, gun["tweet_id"], idler)
         return True
-    medya = _gorsel_yukle(x, gun, kayit.ozet(gunler, ayar.kasa_baslangic)["kasa"])
-    ana, *devam = tweets.gun_floodu(gun, kayit.ozet(gunler, ayar.kasa_baslangic), gorselli=bool(medya))
+    onayli = (gun.get("onay") or {}).get("metinler")
+    kasa = (gun.get("onay") or {}).get("kasa", kayit.ozet(gunler, ayar.kasa_baslangic)["kasa"])
+    medya = _gorsel_yukle(x, gun, kasa)
+    if medya and onayli:
+        ana, *devam = onayli  # önizlemede onaylanan (ya da gösterilen) metinlerin birebir aynısı
+    else:
+        ana, *devam = tweets.gun_floodu(gun, kayit.ozet(gunler, ayar.kasa_baslangic), gorselli=bool(medya))
     gun["tweet_id"] = x.gonder(ana, medya=medya)
     gun["gorselli"] = bool(medya)
     gun["yayin"] = simdi.isoformat(timespec="seconds")
@@ -567,9 +576,16 @@ def main(argv=None) -> int:
                         onay.onay_iste(gun, gunler, ayar, simdi)
                         _ozet_yaz(f"Onay istendi; cevap yoksa {gun['onay']['son']} (UTC) otomatik paylaşılacak.")
         if args.komut == "onay_kontrol":
-            onay.kontrol(ayar, onay.GitHub(), _x_client(), gunler, simdi, yayinla)
+            try:
+                onay.kontrol(ayar, onay.GitHub(), _x_client(), gunler, simdi, yayinla)
+            except Exception as e:
+                _hata("Onay kontrolü", e)
         if args.komut == "onay_testi":
-            ornek = copy.deepcopy(kayit.bul(gunler, bugun) or next(g for g in reversed(gunler) if kayit.kuponlar(g)))
+            kaynak = kayit.bul(gunler, bugun) if kayit.kuponlar(kayit.bul(gunler, bugun) or {}) else None
+            kaynak = kaynak or next((g for g in reversed(gunler) if kayit.kuponlar(g)), None)
+            if not kaynak:
+                raise RuntimeError("Önizleme testi için kuponlu bir gün yok.")
+            ornek = copy.deepcopy(kaynak)
             ornek.update(id="test", onay={"durum": "test", "son": simdi.isoformat(timespec="seconds")})
             onay.istek_hazirla(ornek, gunler, ayar, simdi, test=True)
         if args.komut == "yenile":

@@ -719,3 +719,60 @@ def test_otomatik_onay_istegi_acar(monkeypatch, tmp_path):
     assert "raw.githubusercontent.com" in metin and (tmp_path / "2026-10-03-1.png").exists()
     # son: en fazla 90 dk sonra, en geç ilk maçtan (13:00 UTC) 2 saat önce
     assert g["onay"]["son"] == "2026-10-03T09:30:00+00:00"
+
+
+def test_onayli_paylasim_onizlemenin_aynisi(monkeypatch, tmp_path):
+    """Önizleme ile paylaşım arasında kasa değişse bile gönderilen tweetler ve görsel önizlemedekiyle aynı olmalı."""
+    from bot import onay, gorsel
+    from bot.__main__ import yayinla
+    monkeypatch.setattr(onay, "ONIZLEME_KLASORU", tmp_path)
+    monkeypatch.setattr(onay, "ISTEK_DOSYASI", tmp_path / "istek.md")
+    g = _gun("2026-10-03", [_secim(1, 1.5, 0.8), _secim(2, 1.4, 0.7)], tweet_id=None, kuponlar=[[0, 1]])
+    simdi = datetime(2026, 10, 3, 8, tzinfo=timezone.utc)
+    onay.onay_iste(g, [g], AYAR, simdi)
+    onizleme_png = (tmp_path / "2026-10-03-1.png").read_bytes()
+    beklenen = list(g["onay"]["metinler"])
+    # arada başka bir gün sonuçlandı, kasa değişti
+    eski = _gun("2026-10-02", [_secim(9, 2.0, 0.5)], kuponlar=[[0]])
+    eski["secimler"][0].update(durum="kazandi", skor="1-0")
+    eski["sonuc"] = "tamam"
+    atilan, pngler = [], []
+
+    class X:
+        def medya_yukle(self, png):
+            pngler.append(png)
+            return "m"
+
+        def gonder(self, metin, yanit=None, medya=None):
+            atilan.append(metin)
+            return f"t{len(atilan)}"
+
+    assert yayinla(AYAR, g, X(), [eski, g], simdi + timedelta(minutes=30))
+    assert atilan == beklenen and pngler == [onizleme_png]
+
+
+def test_onay_hata_ve_kacirma_durumlari(monkeypatch, tmp_path):
+    from bot import onay
+    monkeypatch.setattr(onay, "ONIZLEME_KLASORU", tmp_path)
+    assert onay.karar("No problem, ok") == "ok" and onay.karar("ok ama iptal") == "iptal"
+    issue = [{"number": 7, "title": "Onay: 2026-10-03 kuponu"}]
+    ok = {7: [{"body": "ok", "user": {"login": "biri"}, "author_association": "MEMBER"}]}
+    simdi = datetime(2026, 10, 3, 9, tzinfo=timezone.utc)
+    # X hatası: durum "bekliyor" kalır, sonraki kontrol tekrar dener
+    g = _onayli_gun("2026-10-03T10:30:00+00:00")
+    def hatali(*a):
+        raise RuntimeError("X 503")
+    with pytest.raises(RuntimeError):
+        onay.kontrol(AYAR, SahteGitHub(issue, ok), None, [g], simdi, hatali)
+    assert g["onay"]["durum"] == "bekliyor"
+    # ana tweet atıldı ama flood yarım kaldı: sonraki kontrol tamamlar ve kapatır
+    g["tweet_id"] = "T"
+    tamamlanan = []
+    gh = SahteGitHub(issue, ok)
+    onay.kontrol(AYAR, gh, None, [g], simdi, lambda *a: tamamlanan.append(1) or True)
+    assert tamamlanan and g["onay"]["durum"] == "onaylandi" and gh.kapatilan
+    # maç başlamış, paylaşılamıyor: gün pas, hata bildirilir
+    g = _onayli_gun("2026-10-03T10:30:00+00:00")
+    with pytest.raises(RuntimeError):
+        onay.kontrol(AYAR, SahteGitHub(issue, ok), None, [g], simdi, lambda *a: False)
+    assert g["onay"]["durum"] == "kacirildi" and g["sonuc"] == "pas"

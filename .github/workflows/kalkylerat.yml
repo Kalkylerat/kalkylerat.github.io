@@ -8,7 +8,7 @@ on:
     - cron: "17 8 * * 0,6"   # 10:17 İsveç yaz saati (kışın 09:17)
     - cron: "30 21 * * *"  # 23:30 İsveç (yaz saati): akşam maçlarının sonuçları
     - cron: "15 0 * * *"   # 02:15 / 01:15 İsveç: geç biten maçlar (kış saatinde 21:00 maçları dahil)
-    - cron: "7,37 8-13 * * *"  # onay bekleyen kupon: süre dolduysa otomatik paylaşım
+    - cron: "7,37 8-16 * * *"  # onay bekleyen kupon: süre dolduysa otomatik paylaşım
   issue_comment:
     types: [created]  # onay isteğine "ok" / "iptal" cevabı
   workflow_dispatch:
@@ -30,7 +30,11 @@ concurrency:
 jobs:
   calistir:
     # Yorumlarda yalnızca onay isteklerine tepki verilir.
-    if: github.event_name != 'issue_comment' || contains(github.event.issue.labels.*.name, 'onay')
+    # Yalnızca onay isteklerine, sahibinin/üyenin/ortağın yorumlarında (yabancı yorumlar sıradaki işleri iptal edemesin).
+    if: >-
+      github.event_name != 'issue_comment' ||
+      (contains(github.event.issue.labels.*.name, 'onay') &&
+       contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association))
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -61,7 +65,7 @@ jobs:
           case "$OLAY|$ZAMAN" in
             issue_comment\|*) KOMUT=onay_kontrol ;;
             "schedule|30 21 * * *"|"schedule|15 0 * * *") KOMUT=sonuc ;;
-            "schedule|7,37 8-13 * * *") KOMUT=onay_kontrol ;;
+            "schedule|7,37 8-16 * * *") KOMUT=onay_kontrol ;;
             schedule\|*) KOMUT=otomatik ;;
             *) KOMUT="$SECIM" ;;
           esac

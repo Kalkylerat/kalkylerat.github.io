@@ -240,8 +240,3 @@ def adaylari_uret(mac: dict, bahisciler: dict[str, dict[str, float]], ist: dict,
     adaylar.sort(key=lambda a: (a["tur"] == "deger", a["deger"] if a["tur"] == "deger" else a["adil_olasilik"]),
                  reverse=True)
     return adaylar[:4]
-
-
-def kombi_kur(secimler: list[dict]) -> list[int] | None:
-    """Kombine günün bütün oyunlarıdır (aynı maçtaki seçimler zaten tek bet builder olarak birleştirilmiştir)."""
-    return list(range(len(secimler))) if len(secimler) >= 2 else None

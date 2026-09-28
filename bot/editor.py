@@ -8,16 +8,16 @@ import anthropic
 # Claude'a gönderilmeyen alanlar: bahisçi adları tweetlere sızmasın.
 GIZLI_ALANLAR = ("adil_kaynak", "oranlar", "bolag")
 
-SISTEM = """You are a football statistician running a public, virtual EUR 10,000 bankroll on X (Twitter). Each pick risks 1% of the bank. The audience is broad: casual fans, not betting experts.
+SISTEM = """You are a football statistician running a public, virtual EUR 10,000 bankroll on X (Twitter). The account posts coupons; each coupon risks 1% of the bank. The audience is broad: casual fans, not betting experts.
 
 Candidates already passed the data checks. Each has:
-- tur "guvenli" (safe): high fair win chance from a sharp betting market (margin removed), odds close to fair.
+- tur "guvenli" (high-chance): high fair win chance from a sharp betting market (margin removed), odds close to fair.
 - tur "deger" (value): the odds are higher than the real chance, so it grows the bank over time even if it wins less often.
 - the Poisson model's expected goals, most likely score and (for goal and half-time markets) its own probability.
 Markets include match result, double chance, goal lines, both teams to score, half-time result, first-half goals and corners.
 
 Your job:
-1. Pick at most the requested number of picks. Mix safe and value picks when both are good; prefer quality over quantity. Spread picks across different matches (this also allows a combo); take a second pick from the same match only when it is clearly stronger than the best pick from another match. Two picks from the same match are shown together as one bet builder with one estimated price; in that case write the explanation on the first of them and leave yorum empty on the second. If nothing is convincing, return an empty list and explain why in gerekce_yoksa.
+1. Pick at most max_picks picks and group them into at most max_coupons coupons. A coupon is either one pick on its own (typically a value pick, odds around 1.7–2.5) or a combination of 2–3 high-chance picks from different matches (total odds around 1.8–3.5). Every coupon risks 1% of the bank, so only build coupons you would really back; one strong coupon is better than three weak ones. Every pick must be in exactly one coupon. Take a second pick from the same match only when it is clearly stronger than the best pick from another match; two picks from the same match become one bet builder with one estimated price, must be in the same coupon, and the explanation goes on the first of them (leave yorum empty on the second). If nothing is convincing, return empty lists and explain why in gerekce_yoksa.
 2. For each pick, write a short explanation (max 150 characters, one or two short sentences) in plain, simple English, like a stats expert telling a friend how the match will most likely go and why. Use only the data given (form, home/away scoring, goals conceded, expected goals, head-to-head, injuries, chances). Do not explain what the market means (everyone knows "Under 1.5 goals" or "Double chance X2"); explain why the pick is likely. Never invent news, line-ups, referees, weather or corner statistics that are not in the data; for corner picks, lean on the market chance and the expected attacking pressure.
 3. Write a short headline (max 50 characters).
 
@@ -42,10 +42,19 @@ SEMA = {
                 "additionalProperties": False,
             },
         },
+        "kuponlar": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {"aday_idler": {"type": "array", "items": {"type": "string"}}},
+                "required": ["aday_idler"],
+                "additionalProperties": False,
+            },
+        },
         "baslik": {"type": "string"},
         "gerekce_yoksa": {"type": "string"},
     },
-    "required": ["secimler", "baslik", "gerekce_yoksa"],
+    "required": ["secimler", "kuponlar", "baslik", "gerekce_yoksa"],
     "additionalProperties": False,
 }
 
@@ -54,7 +63,7 @@ class EditorHatasi(RuntimeError):
     pass
 
 
-def secimi_dogrula(secimler: list[dict], adaylar: dict[str, dict], ayar) -> str | None:
+def secimi_dogrula(secimler: list[dict], adaylar: dict[str, dict], ayar, kuponlar: list[dict] | None = None) -> str | None:
     if len(secimler) > ayar.max_oyun:
         return f"{len(secimler)} picks chosen; at most {ayar.max_oyun} allowed."
     ids = [s["aday_id"] for s in secimler]
@@ -66,6 +75,27 @@ def secimi_dogrula(secimler: list[dict], adaylar: dict[str, dict], ayar) -> str 
     maclar = [adaylar[i]["fixture_id"] for i in ids]
     if any(maclar.count(m) > ayar.max_oyun_mac_basina for m in maclar):
         return f"More than {ayar.max_oyun_mac_basina} picks from the same match."
+    return kuponlari_dogrula(secimler, kuponlar or [], adaylar, ayar)
+
+
+def kuponlari_dogrula(secimler: list[dict], kuponlar: list[dict], adaylar: dict[str, dict], ayar) -> str | None:
+    ids = [s["aday_id"] for s in secimler]
+    if not ids:
+        return None if not kuponlar else "Coupons without picks."
+    if len(kuponlar) > ayar.max_kupon:
+        return f"{len(kuponlar)} coupons; at most {ayar.max_kupon} allowed."
+    kupondaki = [i for k in kuponlar for i in k["aday_idler"]]
+    if sorted(kupondaki) != sorted(ids):
+        return "Every pick must be in exactly one coupon, and coupons may only contain chosen picks."
+    for k in kuponlar:
+        if not k["aday_idler"]:
+            return "Empty coupon."
+        if len({adaylar[i]["fixture_id"] for i in k["aday_idler"]}) > 3:
+            return "A coupon may combine at most 3 matches."
+    hangi = {i: n for n, k in enumerate(kuponlar) for i in k["aday_idler"]}
+    for mac in {adaylar[i]["fixture_id"] for i in ids}:
+        if len({hangi[i] for i in ids if adaylar[i]["fixture_id"] == mac}) > 1:
+            return "Picks from the same match must be in the same coupon (they form one bet builder)."
     return None
 
 
@@ -73,6 +103,7 @@ def _baglam(maclar: dict[int, dict], adaylar: list[dict], ayar) -> str:
     fixture_ids = sorted({a["fixture_id"] for a in adaylar})
     return json.dumps({
         "max_picks": ayar.max_oyun,
+        "max_coupons": ayar.max_kupon,
         "max_picks_per_match": ayar.max_oyun_mac_basina,
         "matches": [maclar[f] for f in fixture_ids],
         "candidates": [{k: v for k, v in a.items() if k not in GIZLI_ALANLAR} for a in adaylar],
@@ -115,7 +146,7 @@ def claude_ile_sec(maclar: dict[int, dict], adaylar: list[dict], ayar, client=No
             sonuc = json.loads(_metin(msg))
         except json.JSONDecodeError as e:
             raise EditorHatasi(f"Claude geçersiz JSON döndürdü: {e}") from e
-        hata = secimi_dogrula(sonuc["secimler"], aday_map, ayar)
+        hata = secimi_dogrula(sonuc["secimler"], aday_map, ayar, sonuc["kuponlar"])
         if hata is None:
             return sonuc
         messages += [
@@ -138,6 +169,7 @@ def basit_sec(maclar: dict[int, dict], adaylar: list[dict], ayar) -> dict:
     return {
         "baslik": "Today's picks",
         "gerekce_yoksa": "" if secilen else "No picks with a high enough chance today.",
+        "kuponlar": [{"aday_idler": [s["aday_id"] for s in secilen]}] if secilen else [],
         "secimler": [{
             "aday_id": s["aday_id"],
             "yorum": (f'Expected goals {s["beklenen_gol"][0]:.1f}–{s["beklenen_gol"][1]:.1f}, most likely score '

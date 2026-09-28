@@ -6,7 +6,7 @@ from datetime import datetime
 from PIL import Image, ImageDraw, ImageFont
 
 from .config import ROOT
-from .kayit import kombi_olasilik, kombi_oran
+from .kayit import kupon_ayaklari, kupon_olasilik, kupon_oran
 from .tweets import kupon_oran_metni
 
 BOYUT = 1200
@@ -37,10 +37,15 @@ def _para(x: float, birim: str) -> str:
     return f"{birim}{x:,.0f}"
 
 
-def kupon_gorseli(gun: dict) -> bytes:
-    secimler, birim = gun["secimler"], gun["para"]
-    kupon = bool(gun.get("kombi"))
-    im = Image.new("RGB", (BOYUT, BOYUT), ARKA)
+def kupon_gorseli(gun: dict, kupon: dict, kasa: float, sira: int = 1, toplam: int = 1) -> bytes:
+    """Bir kuponun kartı. Kasa bakiyesi başlıkta, "kupon başına %1" altta yazar."""
+    secimler, birim = kupon_ayaklari(gun, kupon), gun["para"]
+    # Yükseklik maç sayısına göre: tek maçlık kuponda boşluk kalmaz (3 maçta kare).
+    yuk, bosluk, alan_ust = 170, 22, 340
+    kart_alt = alan_ust + len(secimler) * (yuk + bosluk) - bosluk
+    serit_y = kart_alt + 35
+    yukseklik = max(serit_y + 140 + 110, 700)
+    im = Image.new("RGB", (BOYUT, yukseklik), ARKA)
     d = ImageDraw.Draw(im)
     ic = BOYUT - 2 * KENAR
 
@@ -57,15 +62,15 @@ def kupon_gorseli(gun: dict) -> bytes:
     d.text((x, KENAR + 60), "Data-driven football picks", font=_font(24), fill=SOLUK)
     tarih = datetime.fromisoformat(gun["tarih"]).strftime("%-d %b %Y").upper()
     f = _font(30, True)
-    d.text((BOYUT - KENAR - d.textlength(tarih, font=f), KENAR + 30), tarih, font=f, fill=VURGU)
+    d.text((BOYUT - KENAR - d.textlength(tarih, font=f), KENAR + 8), tarih, font=f, fill=VURGU)
+    bakiye = f"BANK {_para(kasa, birim)}"
+    f = _font(30, True)
+    d.text((BOYUT - KENAR - d.textlength(bakiye, font=f), KENAR + 56), bakiye, font=f, fill=YAZI)
 
-    baslik = "TODAY'S COUPON" if kupon else ("TODAY'S PICK" if len(secimler) == 1 else "TODAY'S PICKS")
+    baslik = "TODAY'S COUPON" if toplam == 1 else f"COUPON {sira} OF {toplam}"
     d.text((KENAR, 230), baslik, font=_font(64, True), fill=YAZI)
 
     # Oyun kartları
-    alan_ust, alan_alt = 340, 900
-    bosluk = 22
-    yuk = min(170, (alan_alt - alan_ust - bosluk * (len(secimler) - 1)) // max(len(secimler), 1))
     oran_gen = 190
     for i, s in enumerate(secimler):
         y = alan_ust + i * (yuk + bosluk)
@@ -88,15 +93,11 @@ def kupon_gorseli(gun: dict) -> bytes:
         d.text((sag - d.textlength(sans, font=f), y + 104 * olcek), sans, font=f, fill=SOLUK)
 
     # Özet şeridi
-    if kupon:
-        stake, toplam, p = gun["kombi"]["stake"], kombi_oran(gun), kombi_olasilik(gun)
-        kutular = [("TOTAL ODDS", kupon_oran_metni(gun)), ("REAL CHANCE", f"{100 * p:.0f}%"),
-                   ("STAKE → RETURN", f"{_para(stake, birim)} → {_para(stake * toplam, birim)}")]
-    else:
-        s = secimler[0]
-        kutular = [("ODDS", f'{"≈" if s.get("bet_builder") else ""}{s["oran"]:.2f}'), ("REAL CHANCE", f'{100 * s["adil_olasilik"]:.0f}%'),
-                   ("STAKE → RETURN", f'{_para(s["stake"], birim)} → {_para(s["stake"] * s["oran"], birim)}')]
-    y = 935
+    stake, oran, p = kupon["stake"], kupon_oran(gun, kupon), kupon_olasilik(gun, kupon)
+    kutular = [("TOTAL ODDS" if len(secimler) > 1 else "ODDS", kupon_oran_metni(gun, kupon)),
+               ("REAL CHANCE", f"{100 * p:.0f}%"),
+               ("STAKE → RETURN", f"{_para(stake, birim)} → {_para(stake * oran, birim)}")]
+    y = serit_y
     d.rounded_rectangle((KENAR, y, BOYUT - KENAR, y + 140), radius=22, outline=VURGU, width=3)
     genislikler = [0.27, 0.27, 0.46]
     x = KENAR
@@ -108,9 +109,9 @@ def kupon_gorseli(gun: dict) -> bytes:
         d.text((x + (g - d.textlength(deger, font=f)) / 2, y + 62), deger, font=f, fill=YAZI)
         x += g
 
-    alt = f'Virtual {_para(10000, birim)} challenge · {gun["yuzde"]:g}% per bet · 18+ | Play responsibly'
+    alt = f'Virtual bank · stake {gun["yuzde"]:g}% of the bank per coupon · 18+ | Play responsibly'
     alt, f = _sigdir(d, alt, ic, 22)
-    d.text(((BOYUT - d.textlength(alt, font=f)) / 2, BOYUT - KENAR - 10), alt, font=f, fill=SOLUK)
+    d.text(((BOYUT - d.textlength(alt, font=f)) / 2, yukseklik - KENAR - 10), alt, font=f, fill=SOLUK)
 
     tampon = io.BytesIO()
     im.save(tampon, "PNG", optimize=True)

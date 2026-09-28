@@ -17,6 +17,7 @@ class Ayarlar:
     istek_araligi_sn: float
     max_oyun: int
     max_oyun_mac_basina: int
+    max_kupon: int
     guvenli_min_olasilik: float
     guvenli_min_deger: float
     deger_min_olasilik: float
@@ -49,6 +50,7 @@ def yukle(path: Path = ROOT / "ayarlar.toml") -> Ayarlar:
         istek_araligi_sn=float(t["ligler"]["istek_araligi_sn"]),
         max_oyun=int(s["max_oyun"]),
         max_oyun_mac_basina=int(s["max_oyun_mac_basina"]),
+        max_kupon=int(s["max_kupon"]),
         guvenli_min_olasilik=float(s["guvenli_min_olasilik"]),
         guvenli_min_deger=float(s["guvenli_min_deger"]),
         deger_min_olasilik=float(s["deger_min_olasilik"]),

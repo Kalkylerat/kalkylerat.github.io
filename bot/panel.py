@@ -3,8 +3,9 @@
 from datetime import datetime
 from html import escape
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
-from .kayit import gun_kar, kar, kombi_durumu, kombi_olasilik, kombi_oran, ozet
+from .kayit import gun_kar, kar, kupon_durumu, kupon_kar, kupon_olasilik, kuponlar, ozet
 from .tweets import kupon_oran_metni, oran_metni, para
 
 DURUM = {"kazandi": "Won", "kaybetti": "Lost", "iptal": "Void", "bekliyor": "Pending"}
@@ -39,38 +40,39 @@ footer {{ color:var(--muted); font-size:13px; margin-top:32px; }}
 </head>
 <body><main>
 <h1>Kalkyl<span>erat</span> – record</h1>
-<p class="alt">A public, virtual {baslangic} bankroll. Every pick risks {yuzde}% of the current bank, is posted on X before kick-off and logged here automatically. Nothing is deleted. Updated {guncelleme}.</p>
+<p class="alt">A public, virtual {baslangic} bankroll. Every coupon (one match or a combination) risks {yuzde}% of the current bank. Every pick is posted on X before kick-off, and all results are counted and logged here automatically. Updated {guncelleme} (Swedish time).</p>
 <div class="tiles">
 <div class="tile"><b>{kasa}</b><span>Bank ({kasa_degisim}%)</span></div>
-<div class="tile"><b>{traff}%</b><span>Picks won ({vunna}–{forlorade})</span></div>
 <div class="tile"><b>{kombi_tuttu}/{kombi}</b><span>Coupons won</span></div>
+<div class="tile"><b>{traff}%</b><span>Picks won ({vunna}–{forlorade})</span></div>
 <div class="tile"><b>{snittodds}</b><span>Average odds</span></div>
 <div class="tile"><b>{vantande}</b><span>Pending</span></div>
 </div>
 {gunler}
-<footer>18+ | For information only, not an invitation to gamble. Gambling can be addictive – never bet money you cannot afford to lose. Sweden: Stödlinjen 020-81 91 00. Chances are fair probabilities from a sharp betting market with the bookmaker margin removed. Odds are the median of major bookmakers. Value picks are picks whose odds are higher than the fair chance. Bet builder odds (≈) are estimated from the goal model because bookmakers price them individually. Odds are taken at posting time and may have changed.</footer>
+<footer>18+ | For information only, not an invitation to gamble. Gambling can be addictive – never bet money you cannot afford to lose. Sweden: Stödlinjen 020-81 91 00. Chances are fair probabilities from a sharp betting market with the bookmaker margin removed. Odds are the median of major bookmakers. High-chance picks are likely to win but are usually priced slightly below their fair chance. Value picks are picks whose odds are higher than the fair chance. Bet builder odds (≈) are estimated from the goal model because bookmakers price them individually. Odds are taken at posting time and may have changed.</footer>
 </main></body></html>
 """
 
 
 def _gun_html(g: dict) -> str:
     birim = g.get("para", "€")
-    tur = {"guvenli": "safe", "deger": "value"}
+    tur = {"guvenli": "high-chance", "deger": "value"}
     satirlar = "".join(
         f'<tr><td>{escape(s["ev"])} v {escape(s["dep"])}<div class="yorum">{escape(s["yorum"])}</div></td>'
         f'<td>{escape(s["kisa"])}<div class="yorum">{100 * s["adil_olasilik"]:.0f}% chance · {"bet builder · " if s.get("bet_builder") else ""}{tur[s["tur"]]}'
-        f' · stake {para(s["stake"], birim)}</div></td>'
+        f'{" · single stake " + para(s["stake"], birim) if s.get("stake") else ""}</div></td>'
         f'<td class="num">{oran_metni(s)}</td><td class="num">{escape((s.get("skor") or "").replace("-", "–"))}</td>'
-        f'<td class="num {s["durum"]}">{DURUM[s["durum"]]}<br>{para(kar(s), birim) if s["durum"] in ("kazandi", "kaybetti") else ""}</td></tr>'
+        f'<td class="num {s["durum"]}">{DURUM[s["durum"]]}<br>{para(kar(s), birim) if s.get("stake") and s["durum"] in ("kazandi", "kaybetti") else ""}</td></tr>'
         for s in g["secimler"]
     )
     kombi = ""
-    if g.get("kombi"):
-        durum = kombi_durumu(g)
+    for n, k in enumerate(kuponlar(g), 1):
+        durum = kupon_durumu(g, k)
         etiket = {"tuttu": "won", "yatti": "lost", "iptal": "void", None: "pending"}[durum]
-        numaralar = "+".join(str(i + 1) for i in g["kombi"]["ayaklar"])
-        kombi = (f'<tr><td colspan="5" class="{durum or "bekliyor"}">Coupon (all picks) · odds {kupon_oran_metni(g)} · '
-                 f'chance all win {100 * kombi_olasilik(g):.0f}% · stake {para(g["kombi"]["stake"], birim)} · {etiket}</td></tr>')
+        sonuc = f' {para(kupon_kar(g, k), birim)}' if durum in ("tuttu", "yatti") else ""
+        numaralar = "+".join(str(i + 1) for i in k["ayaklar"])
+        kombi += (f'<tr><td colspan="5" class="{durum or "bekliyor"}">Coupon {n} (picks {numaralar}) · odds {kupon_oran_metni(g, k)} · '
+                  f'chance {100 * kupon_olasilik(g, k):.0f}% · stake {para(k["stake"], birim)} · {etiket}{sonuc}</td></tr>')
     kar_g = gun_kar(g)
     gunluk = f"{'+' if kar_g >= 0 else ''}{para(kar_g, birim)}" if g["sonuc"] else "In play"
     return (f'<section class="dag"><header><span>{escape(g["tarih"])}</span><span>{gunluk}</span></header>'
@@ -82,7 +84,7 @@ def olustur(gunler: list[dict], path: Path, ayar) -> None:
     o = ozet(gunler, ayar.kasa_baslangic)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(SABLON.format(
-        guncelleme=datetime.now().strftime("%Y-%m-%d %H:%M"),
+        guncelleme=datetime.now(ZoneInfo(ayar.saat_dilimi)).strftime("%Y-%m-%d %H:%M"),
         baslangic=para(ayar.kasa_baslangic, ayar.para_birimi), yuzde=f"{ayar.oyun_yuzdesi:g}",
         gunler="".join(_gun_html(g) for g in yayinlanan) or "<p>No published picks yet.</p>",
         kasa=para(o["kasa"], ayar.para_birimi), kasa_degisim=f'{o["kasa_degisim"]:+.1f}',

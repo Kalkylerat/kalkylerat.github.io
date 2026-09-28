@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
 from . import config, editor, football, gorsel, kayit, panel, tweets
-from .model import adaylari_uret, bet_builder, etiketler, kombi_kur
+from .model import adaylari_uret, bet_builder, etiketler
 
 # Çalışma sırasında yakalanan hatalar: iş sonunda "başarısız" işaretlenir, GitHub sahibine e-posta atar.
 HATALAR: list[str] = []
@@ -87,6 +87,7 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime) -> d
 
     aday_map = {a["aday_id"]: a for a in adaylar}
     stake = round(kayit.kasa(gunler, ayar.kasa_baslangic) * ayar.oyun_yuzdesi / 100, 2)
+    kupon_nosu = {i: n for n, k in enumerate(karar["kuponlar"]) for i in k["aday_idler"]}
     for s in karar["secimler"]:
         a = aday_map[s["aday_id"]]
         m = mac_map[a["fixture_id"]]
@@ -95,7 +96,8 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime) -> d
             "baslama": m["baslama"],
             "saat": datetime.fromisoformat(m["baslama"]).astimezone(ZoneInfo(ayar.saat_dilimi)).strftime("%H:%M %Z"),
             "olasi_skor": a["olasi_skor"], "pazar": a["pazar"], "tur": a["tur"], "etiket": a["etiket"],
-            "kisa": a["kisa"], "oran": a["oran"], "stake": stake,
+            # Oyunlar tek tek oynanmaz (stake 0); yatırım kupon başınadır.
+            "kisa": a["kisa"], "oran": a["oran"], "stake": 0, "kupon_no": kupon_nosu[s["aday_id"]],
             "bolag": a["bolag"], "oranlar": a.get("oranlar", {}), "adil_olasilik": a["adil_olasilik"], "adil_kaynak": a["adil_kaynak"],
             "model_olasilik": a["model_olasilik"], "deger": a["deger"], "beklenen_gol": a["beklenen_gol"],
             "yorum": editor.temiz_yorum(s["yorum"], ayar.oran_bahiscileri + [ayar.keskin_bahisci]),
@@ -103,9 +105,11 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime) -> d
         })
     gun["secimler"] = bet_builder_birlestir(gun["secimler"])
     gun["secimler"].sort(key=lambda s: s["baslama"])
-    ayaklar = kombi_kur(gun["secimler"])
-    if ayaklar:
-        gun["kombi"] = {"ayaklar": ayaklar, "stake": stake, "durum": None}
+    # Kuponlar ilk maçlarının saatine göre sıralanır.
+    nolar = sorted({s["kupon_no"] for s in gun["secimler"]},
+                   key=lambda n: min(s["baslama"] for s in gun["secimler"] if s["kupon_no"] == n))
+    gun["kuponlar"] = [{"ayaklar": [i for i, s in enumerate(gun["secimler"]) if s["kupon_no"] == n],
+                        "stake": stake, "durum": None} for n in nolar]
     gun["baslik"] = karar["baslik"].strip()
     gunler.append(gun)
 
@@ -127,7 +131,8 @@ def bet_builder_birlestir(secimler: list[dict]) -> list[dict]:
         oran, olasilik = bet_builder(bacaklar)
         ilk = bacaklar[0]
         sonuc.append({
-            **{k: ilk[k] for k in ("fixture_id", "lig", "ev", "dep", "baslama", "saat", "olasi_skor", "stake", "beklenen_gol")},
+            **{k: ilk[k] for k in ("fixture_id", "lig", "ev", "dep", "baslama", "saat", "olasi_skor", "stake", "beklenen_gol",
+                                   "kupon_no") if k in ilk},
             "pazar": "BB", "bet_builder": True,
             "tur": "deger" if any(b["tur"] == "deger" for b in bacaklar) else "guvenli",
             "etiket": " + ".join(b["etiket"] for b in bacaklar),
@@ -165,7 +170,7 @@ def yayinla(ayar, gun: dict, x, gunler: list[dict], simdi: datetime) -> bool:
         print(f"Yarım kalan flood tamamlanıyor ({len(idler)}/{len(devam)}).")
         _zincir(x, devam, gun["tweet_id"], idler)
         return True
-    medya = _gorsel_yukle(x, gun)
+    medya = _gorsel_yukle(x, gun, kayit.ozet(gunler, ayar.kasa_baslangic)["kasa"])
     ana, *devam = tweets.gun_floodu(gun, kayit.ozet(gunler, ayar.kasa_baslangic), gorselli=bool(medya))
     gun["tweet_id"] = x.gonder(ana, medya=medya)
     gun["gorselli"] = bool(medya)
@@ -190,24 +195,30 @@ def zaten_paylasildi(x, tarih: str) -> str | None:
 GORSEL_DENEME = 4
 
 
-def _gorsel_yukle(x, gun: dict, bekle=time.sleep) -> str | None:
-    """Kupon görselini X'e yükler; geçici hatalarda (ağ, X yoğunluğu) birkaç kez tekrar dener.
-    Hepsi başarısız olursa kupon maç başlamadan metin olarak gider ve durum özet sayfasına yazılır."""
-    png = gorsel.kupon_gorseli(gun)
-    for deneme in range(1, GORSEL_DENEME + 1):
-        try:
-            return x.medya_yukle(png)
-        except Exception as e:
-            print(f"Görsel yükleme denemesi {deneme}/{GORSEL_DENEME} başarısız: {e}")
-            if deneme < GORSEL_DENEME:
-                bekle(15 * deneme)
-    gun["gorsel_eksik"] = True
-    _ozet_yaz("⚠️ Kupon görseli X'e yüklenemedi; kupon metin olarak paylaşıldı.")
-    return None
+def _gorsel_yukle(x, gun: dict, kasa: float, bekle=time.sleep) -> list[str] | None:
+    """Her kupon için bir görsel yükler; geçici hatalarda (ağ, X yoğunluğu) birkaç kez tekrar dener.
+    Biri bile yüklenemezse kuponlar maç başlamadan metin olarak gider ve durum özet sayfasına yazılır."""
+    liste = kayit.kuponlar(gun)
+    idler = []
+    for sira, kupon in enumerate(liste, 1):
+        png = gorsel.kupon_gorseli(gun, kupon, kasa, sira, len(liste))
+        for deneme in range(1, GORSEL_DENEME + 1):
+            try:
+                idler.append(x.medya_yukle(png))
+                break
+            except Exception as e:
+                print(f"Görsel {sira} yükleme denemesi {deneme}/{GORSEL_DENEME} başarısız: {e}")
+                if deneme < GORSEL_DENEME:
+                    bekle(15 * deneme)
+        else:
+            gun["gorsel_eksik"] = True
+            _ozet_yaz("⚠️ Kupon görseli X'e yüklenemedi; kuponlar metin olarak paylaşıldı.")
+            return None
+    return idler or None
 
 
 def duzelt(ayar, gun: dict, x, gunler: list[dict], simdi: datetime) -> bool:
-    """Bugünün tweetlerini siler, kombineyi yeniden kurar ve güncel biçimle tekrar paylaşır (maçlar başlamadıysa)."""
+    """Bugünün tweetlerini siler ve güncel biçimle tekrar paylaşır (maçlar başlamadıysa). Oyunlar ve kuponlar değişmez."""
     if not gun.get("tweet_id"):
         return False
     ilk = min(datetime.fromisoformat(s["baslama"]) for s in gun["secimler"])
@@ -224,11 +235,6 @@ def duzelt(ayar, gun: dict, x, gunler: list[dict], simdi: datetime) -> bool:
         if s.get("bet_builder"):
             s["etiket"] = " + ".join(b["etiket"] for b in s["bacaklar"])
             s["kisa"] = " + ".join(b["kisa"] for b in s["bacaklar"])
-    ayaklar = kombi_kur(gun["secimler"])
-    if ayaklar:
-        gun["kombi"] = {"ayaklar": ayaklar, "stake": gun["secimler"][0]["stake"], "durum": None}
-    else:
-        gun.pop("kombi", None)
     return yayinla(ayar, gun, x, gunler, simdi)
 
 
@@ -371,10 +377,11 @@ def tani(ayar) -> None:
         satirlar.append(f"- X: {r.status_code} {r.json().get('data', {}).get('username') or r.text[:200]}")
         sabit = (r.json().get("includes", {}).get("tweets") or [{}])[0]
         satirlar.append(f"- Sabit tweet: {sabit.get('id', 'YOK')} {sabit.get('text', '')[:60]!r}")
-        ornek_gun = next((g for g in reversed(kayit.yukle(config.DATA_FILE)) if g["secimler"]), None)
+        ornek_gun = next((g for g in reversed(kayit.yukle(config.DATA_FILE)) if kayit.kuponlar(g)), None)
         if ornek_gun:
             try:
-                satirlar.append(f"- X görsel yükleme (paylaşılmaz): medya {_x_client().medya_yukle(gorsel.kupon_gorseli(ornek_gun))}")
+                png = gorsel.kupon_gorseli(ornek_gun, kayit.kuponlar(ornek_gun)[0], ayar.kasa_baslangic)
+                satirlar.append(f"- X görsel yükleme (paylaşılmaz): medya {_x_client().medya_yukle(png)}")
             except Exception as e:
                 satirlar.append(f"- X görsel yükleme hatası: {e}")
     except Exception as e:

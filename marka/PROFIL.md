@@ -15,7 +15,7 @@ Bu dosyadaki metinleri olduğu gibi kopyalayın. Görseller bu klasörde: `logo.
 ## Biyografi (Bio)
 
 ```
-Data-driven football picks with high win chances. No long shots. Every pick posted before kick-off – nothing deleted. 18+ | Play responsibly
+Data-driven football coupons with high win chances. No long shots. Every pick posted before kick-off, all results counted. 18+ | Play responsibly
 ```
 
 ## Sabitlenmiş tweet (elle atıp profilde sabitleyin)
@@ -26,8 +26,8 @@ Data-driven football picks with high win chances. No long shots. Every pick post
 Day 1 of the €10,000 challenge 📊
 
 A public, virtual €10,000 bank run on data:
-• Each pick = 1% of the current bank
-• Safe picks + value picks
+• Each coupon = 1% of the current bank
+• High-chance picks + value picks
 • Posted before kick-off, all results counted
 
 Live record: https://kalkylerat.github.io/

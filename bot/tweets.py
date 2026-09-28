@@ -1,19 +1,19 @@
 """Sade İngilizce tweet floodları ve X API v2 istemcisi.
 
-Günlük paylaşım bir flood'dur: 1) günün kuponu, 2) para/kasa özeti, 3+) her maç için açıklama.
-Sonuçlar da ana tweetin altına iki tweetlik bir flood olarak gelir."""
+Günlük paylaşım bir flood'dur: 1) günün kupon görselleri, 2+) her maç için açıklama.
+Her kupon (tek maç ya da kombine) kasanın %1'iyle oynanır. Sonuçlar ana tweetin altına gelir."""
 
 from datetime import datetime
 
 from requests_oauthlib import OAuth1Session
 
-from .kayit import kar, kombi_durumu, kombi_kar, kombi_olasilik, kombi_oran
+from .kayit import kar, kupon_ayaklari, kupon_durumu, kupon_kar, kupon_olasilik, kupon_oran, kuponlar
 
 LIMIT = 280
 # twitter-text ağırlıklandırması: bu aralıklar 1, diğer karakterler 2 sayılır.
 _TEK = ((0, 4351), (8192, 8205), (8208, 8223), (8242, 8247))
 ANSVAR = "18+ | Play responsibly"
-TUR = {"guvenli": "safe pick", "deger": "value pick"}
+TUR = {"guvenli": "high-chance pick", "deger": "value pick"}
 
 
 def uzunluk(metin: str) -> int:
@@ -54,19 +54,21 @@ def oran_metni(s: dict) -> str:
     return f'{"≈" if s.get("bet_builder") else ""}{s["oran"]:.2f}'
 
 
-def kupon_oran_metni(gun: dict) -> str:
+def kupon_oran_metni(gun: dict, kupon: dict) -> str:
     """Kuponda bet builder varsa toplam oran da tahminidir: ≈ ile gösterilir."""
-    tahmini = any(gun["secimler"][i].get("bet_builder") for i in gun["kombi"]["ayaklar"])
-    return f'{"≈" if tahmini else ""}{kombi_oran(gun):.2f}'
+    tahmini = any(s.get("bet_builder") for s in kupon_ayaklari(gun, kupon))
+    return f'{"≈" if tahmini else ""}{kupon_oran(gun, kupon):.2f}'
 
 
 def rekor(o: dict) -> str:
-    if not o["spel"]:
+    if not o["spel"] and not o["kombi"]:
         return "📈 Record: starts today"
-    metin = f'📈 Record: {o["vunna"]}–{o["forlorade"]} ({o["traff"]:.0f}%)'
+    parcalar = []
     if o["kombi"]:
-        metin += f' · coupons {o["kombi_tuttu"]}/{o["kombi"]}'
-    return metin
+        parcalar.append(f'coupons {o["kombi_tuttu"]}/{o["kombi"]} won')
+    if o["spel"]:
+        parcalar.append(f'picks {o["vunna"]}–{o["forlorade"]} ({o["traff"]:.0f}%)')
+    return "📈 Record: " + " · ".join(parcalar)
 
 
 def _tarih(gun: dict) -> str:
@@ -77,81 +79,42 @@ def _mac(s: dict, takim_max: int = 40) -> str:
     return f'{s["ev"][:takim_max]} v {s["dep"][:takim_max]}'
 
 
+def _baslik(gun: dict) -> str:
+    n = len(kuponlar(gun))
+    return "TODAY'S COUPON" if n <= 1 else f"TODAY'S {n} COUPONS"
+
+
+def kupon_no(gun: dict, secim_sira: int) -> int | None:
+    """Oyunun kaçıncı kuponda olduğu (1'den başlar); tek kuponlu günde None."""
+    liste = kuponlar(gun)
+    if len(liste) < 2:
+        return None
+    return next((n for n, k in enumerate(liste, 1) if secim_sira in k["ayaklar"]), None)
+
+
 def gorselli_gun_tweeti(gun: dict) -> str:
-    """Kupon görseliyle giden kısa ana tweet: ayrıntı görselde, gerekçeler yanıtlarda."""
-    secimler, birim = gun["secimler"], gun["para"]
-    kupon = bool(gun.get("kombi"))
-    baslik = "COUPON" if kupon else ("PICK" if len(secimler) == 1 else "PICKS")
-    maclar = [f"⚽ {_mac(s)}" for s in secimler]
-    if kupon:
-        stake, oran = gun["kombi"]["stake"], kombi_oran(gun)
-        ozet_satir = [f"Total odds {kupon_oran_metni(gun)} · real chance {yuzde(kombi_olasilik(gun))}",
-                      f"{para(stake, birim)} stake → {para(stake * oran, birim)} return"]
-    else:
-        s = secimler[0]
-        ozet_satir = [f'Odds {oran_metni(s)} · real chance {yuzde(s["adil_olasilik"])}',
-                      f'{para(s["stake"], birim)} stake → {para(s["stake"] * s["oran"], birim)} return']
-    return ilk_sigan("\n".join([f"TODAY'S {baslik} | {_tarih(gun)}", ""] + maclar + [""] + ozet_satir
-                               + ["", "Why these picks 👇", ANSVAR]),
-                     "\n".join([f"TODAY'S {baslik} | {_tarih(gun)}", ""] + ozet_satir + ["", "Why these picks 👇", ANSVAR]))
+    """Kupon görselleriyle giden ana tweet: her şey görselde, gerekçeler yanıtlarda."""
+    return f"{_baslik(gun)} | {_tarih(gun)}\n\nWhy these picks 👇\n{ANSVAR}"
 
 
 def gun_tweeti(gun: dict, ozet: dict | None = None) -> str:
-    """Ana tweet (görsel yüklenemezse): günün kuponu, yatırım ve dönüş metin olarak."""
-    secimler, birim = gun["secimler"], gun["para"]
-    kupon = bool(gun.get("kombi"))
-    tek = len(secimler) == 1
+    """Görsel yüklenemezse ana tweet: kuponlar metin olarak."""
+    birim = gun["para"]
+    liste = kuponlar(gun)
 
-    def yaz(odds_kelimesi: bool, takim_max: int = 40, detay: bool = True) -> str:
-        o = "odds " if odds_kelimesi else ""
-        baslik = "COUPON" if kupon else ("PICK" if tek else "PICKS")
-        satirlar = [f"⚽ TODAY'S {baslik} | {_tarih(gun)}", ""]
-        for i, s in enumerate(secimler, 1):
-            satirlar.append(_mac(s, takim_max) if tek else f"{i}) {_mac(s, takim_max)}")
-            satirlar.append(f'{s["kisa"]} · {o}{oran_metni(s)}' + (f' · {yuzde(s["adil_olasilik"])} chance' if tek else ""))
-        satirlar.append("")
-        if kupon:
-            stake = gun["kombi"]["stake"]
-            satirlar.append(f"Total odds {kupon_oran_metni(gun)} · real chance {yuzde(kombi_olasilik(gun))}")
-            satirlar.append(f"{para(stake, birim)} stake → {para(stake * kombi_oran(gun), birim)} return")
-        elif tek:
-            s = secimler[0]
-            satirlar.append(f'{para(s["stake"], birim)} stake → {para(s["stake"] * s["oran"], birim)} return')
-        else:
-            satirlar.append(f'{para(secimler[0]["stake"], birim)} stake on each pick')
-        if detay:
-            satirlar.append("Details 👇")
-        satirlar.append(ANSVAR)
+    def yaz(kasa_satiri: bool, takim_max: int = 40) -> str:
+        satirlar = [f"⚽ {_baslik(gun)} | {_tarih(gun)}"]
+        if kasa_satiri and ozet:
+            satirlar.append(f'💰 Bank {para(ozet["kasa"], birim)} · {gun["yuzde"]:g}% per coupon')
+        for n, k in enumerate(liste, 1):
+            ad = f"Coupon {n}" if len(liste) > 1 else "Coupon"
+            satirlar += ["", f'🎫 {ad}: odds {kupon_oran_metni(gun, k)} · {yuzde(kupon_olasilik(gun, k))} chance',
+                         f'{para(k["stake"], birim)} → {para(k["stake"] * kupon_oran(gun, k), birim)}']
+            satirlar += [f'• {_mac(s, takim_max)}: {s["kisa"]}' for s in kupon_ayaklari(gun, k)]
+        satirlar += ["", ANSVAR]
         return "\n".join(satirlar)
 
-    # Sığmazsa sırayla: "odds" kelimesi, "Details" satırı düşer; takım adları en son çare olarak kısalır.
-    return ilk_sigan(yaz(True), yaz(False), yaz(False, detay=False),
-                     *(yaz(False, n, detay=False) for n in range(24, 5, -2)))
-
-
-def kasa_tweeti(gun: dict, ozet: dict) -> str:
-    """İkinci tweet: kasa ve hangi oyuna ne kadar yatırıldığı."""
-    secimler, birim = gun["secimler"], gun["para"]
-
-    def yaz(sanal: bool, sans: bool) -> str:
-        satirlar = [f'💰 Bank {para(ozet["kasa"], birim)}{" (virtual)" if sanal else ""} · {gun["yuzde"]:g}% per bet', ""]
-        if gun.get("kombi"):
-            stake = gun["kombi"]["stake"]
-            satirlar += [f"Coupon, all {len(secimler)} together: {para(stake, birim)} → "
-                         f"{para(stake * kombi_oran(gun), birim)} if all win ({yuzde(kombi_olasilik(gun))} chance)", ""]
-        if len(secimler) >= 2:
-            satirlar.append(f'Singles, {para(secimler[0]["stake"], birim)} each:')
-            for i, s in enumerate(secimler, 1):
-                ek = f' ({yuzde(s["adil_olasilik"])})' if sans else ""
-                satirlar.append(f'{i}) {s["kisa"]} → {para(s["stake"] * s["oran"], birim)}{ek}')
-            satirlar.append("")
-        else:
-            s = secimler[0]
-            satirlar += [f'Stake {para(s["stake"], birim)} → {para(s["stake"] * s["oran"], birim)} if it wins', ""]
-        satirlar.append(rekor(ozet))
-        return "\n".join(satirlar)
-
-    return ilk_sigan(yaz(True, True), yaz(False, True), yaz(False, False))
+    return ilk_sigan(yaz(True), yaz(False), *(yaz(False, n) for n in range(24, 5, -2)))
 
 
 def _cumleler(metin: str) -> list[str]:
@@ -165,7 +128,8 @@ def analiz_tweetleri(gun: dict) -> list[str]:
     cümle ortasından kesilmez."""
     def tweet(i: int, s: dict) -> str:
         tur = ("bet builder, " if s.get("bet_builder") else "") + TUR[s["tur"]]
-        bas = (f'{i}) {_mac(s)} · {s["saat"]}\nPick: {s["etiket"]}\n'
+        no = kupon_no(gun, i - 1)
+        bas = (f'{i}) {_mac(s)} · {s["saat"]}{f" · coupon {no}" if no else ""}\nPick: {s["etiket"]}\n'
                f'Odds {oran_metni(s)} · chance {yuzde(s["adil_olasilik"])} · {tur}')
         skor = f'\nMost likely score: {s["olasi_skor"].replace("-", "–")}'
         yorumlar = _cumleler(s["yorum"]) if s["yorum"] else [""]
@@ -178,43 +142,49 @@ def analiz_tweetleri(gun: dict) -> list[str]:
 
 def gun_floodu(gun: dict, ozet: dict, gorselli: bool = False) -> list[str]:
     ana = gorselli_gun_tweeti(gun) if gorselli else gun_tweeti(gun, ozet)
-    return [ana, kasa_tweeti(gun, ozet)] + analiz_tweetleri(gun)
+    return [ana] + analiz_tweetleri(gun)
 
 
 def sonuc_tweetleri(gun: dict, ozet: dict) -> list[str]:
+    """Sığarsa tek tweet, sığmazsa iki: önce maç maç sonuçlar, sonra kupon kâr/zararı ve kasa."""
     ikon = {"kazandi": "✅", "kaybetti": "❌", "iptal": "➖"}
+    kupon_ikon = {"tuttu": "✅ won", "yatti": "❌ lost", "iptal": "➖ void"}
     birim = gun["para"]
+    liste = kuponlar(gun)
     satirlar = [f"📊 RESULTS | {_tarih(gun)}", ""]
     for s in gun["secimler"]:
         skor = (s.get("skor") or "postponed").replace("-", "–")
         satirlar.append(f'{ikon[s["durum"]]} {s["ev"]} {skor} {s["dep"]}')
         satirlar.append(f'   {s["kisa"]}')
-    kombi = kombi_durumu(gun) if gun.get("kombi") else None
-    if kombi in ("tuttu", "yatti"):
-        satirlar += ["", f'🎯 Coupon: {"✅ won" if kombi == "tuttu" else "❌ lost"}']
-    ilk = kirp("\n".join(satirlar))
 
-    biten = [s for s in gun["secimler"] if s["durum"] in ("kazandi", "kaybetti")]
-    tekli_kar = sum(kar(s) for s in gun["secimler"])
     para_satirlari = []
-    if kombi in ("tuttu", "yatti"):
-        para_satirlari.append(f"🎯 Coupon: {isaretli_para(kombi_kar(gun), birim)}")
-    para_satirlari.append(f'Singles: {sum(s["durum"] == "kazandi" for s in biten)}/{len(biten)} won, '
-                          f'{isaretli_para(tekli_kar, birim)}')
+    for n, k in enumerate(liste, 1):
+        durum = kupon_durumu(gun, k)
+        ad = f"Coupon {n}" if len(liste) > 1 else "Coupon"
+        if durum:
+            para_satirlari.append(f"🎫 {ad}: {kupon_ikon[durum]}, {isaretli_para(kupon_kar(gun, k), birim)}")
+    tekliler = [s for s in gun["secimler"] if s.get("stake") and s["durum"] in ("kazandi", "kaybetti")]
+    if tekliler:  # eski kayıtlar: tekliler de oynanmıştı
+        para_satirlari.append(f'Singles: {sum(s["durum"] == "kazandi" for s in tekliler)}/{len(tekliler)} won, '
+                              f'{isaretli_para(sum(kar(s) for s in tekliler), birim)}')
     para_satirlari += [f'💰 Bank: {para(ozet["kasa"], birim)} ({ozet["kasa_degisim"]:+.1f}%)', rekor(ozet)]
-    return [ilk, kirp("\n".join(para_satirlari))]
+
+    tek = "\n".join(satirlar + [""] + para_satirlari)
+    if uzunluk(tek) <= LIMIT:
+        return [tek]
+    return [kirp("\n".join(satirlar)), kirp("\n".join(para_satirlari))]
 
 
 def hafta_tweeti(h: dict, ozet: dict, birim: str) -> str:
-    """Haftalık özet (Pazar akşamı): haftanın rekoru, kuponlar, kâr/zarar ve kasa."""
+    """Haftalık özet (Pazar akşamı): haftanın kuponları, oyunları, kâr/zarar ve kasa."""
     bas = datetime.fromisoformat(h["baslangic"])
     bit = datetime.fromisoformat(h["bitis"])
     aralik = f'{bas.day}–{bit.strftime("%-d %b")}' if bas.month == bit.month else f'{bas.strftime("%-d %b")} – {bit.strftime("%-d %b")}'
-    satirlar = [f"📅 WEEKLY RECAP | {aralik}", "",
-                f'✅ {h["kazanan"]} won · ❌ {h["kaybeden"]} lost ({h["isabet"]:.0f}%)']
+    satirlar = [f"📅 WEEKLY RECAP | {aralik}", ""]
     if h["kupon"]:
-        satirlar.append(f'🎯 Coupons: {h["kupon_tuttu"]} of {h["kupon"]} won')
-    satirlar += [f'This week: {isaretli_para(h["kar"], birim)}', "",
+        satirlar.append(f'🎫 Coupons: {h["kupon_tuttu"]} of {h["kupon"]} won')
+    satirlar += [f'✅ Picks: {h["kazanan"]} won · ❌ {h["kaybeden"]} lost ({h["isabet"]:.0f}%)',
+                 f'This week: {isaretli_para(h["kar"], birim)}', "",
                  f'💰 Bank: {para(ozet["kasa"], birim)} ({ozet["kasa_degisim"]:+.1f}% since start)', rekor(ozet), "",
                  "Every pick posted before kick-off.", ANSVAR]
     return kirp("\n".join(satirlar))
@@ -224,8 +194,8 @@ SABIT_TWEETLER = [
     """Day 1 of the €10,000 challenge 📊
 
 A public, virtual €10,000 bank run on data:
-• Each pick = 1% of the current bank
-• Safe picks + value picks
+• Each coupon = 1% of the current bank
+• High-chance picks + value picks
 • Posted before kick-off, all results counted
 
 Live record: https://kalkylerat.github.io/
@@ -257,12 +227,12 @@ class XClient:
         veri = r.json().get("data") or r.json()
         return str(veri.get("id") or veri["media_id_string"])
 
-    def gonder(self, metin: str, yanit: str | None = None, medya: str | None = None) -> str:
+    def gonder(self, metin: str, yanit: str | None = None, medya: list[str] | None = None) -> str:
         body: dict = {"text": metin}
         if yanit:
             body["reply"] = {"in_reply_to_tweet_id": yanit}
         if medya:
-            body["media"] = {"media_ids": [medya]}
+            body["media"] = {"media_ids": list(medya)[:4]}
         r = self.session.post(self.URL, json=body, timeout=30)
         if r.status_code >= 400:
             raise RuntimeError(f"X API hatası {r.status_code}: {r.text}")
@@ -290,13 +260,14 @@ class KonsolClient:
         self.gorsel_klasoru = gorsel_klasoru
 
     def medya_yukle(self, png: bytes) -> str:
+        self.gorsel_sayac = getattr(self, "gorsel_sayac", 0) + 1
         if self.gorsel_klasoru:
-            (self.gorsel_klasoru / "demo_kupon.png").write_bytes(png)
+            (self.gorsel_klasoru / f"demo_kupon{self.gorsel_sayac}.png").write_bytes(png)
         return f"gorsel-{len(png) // 1024}KB"
 
-    def gonder(self, metin: str, yanit: str | None = None, medya: str | None = None) -> str:
+    def gonder(self, metin: str, yanit: str | None = None, medya: list[str] | None = None) -> str:
         self.sayac += 1
-        ek = f" + {medya}" if medya else ""
+        ek = f" + {', '.join(medya)}" if medya else ""
         print(f"\n----- TWEET #{self.sayac}{' (yanıt)' if yanit else ''}{ek} [{uzunluk(metin)}/280] -----\n{metin}")
         return f"demo-{self.sayac}"
 

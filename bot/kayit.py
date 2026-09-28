@@ -24,43 +24,50 @@ def bul(gunler: list[dict], gun_id: str) -> dict | None:
     return next((g for g in gunler if g["id"] == gun_id), None)
 
 
-def kombi_ayaklari(gun: dict) -> list[dict]:
-    kombi = gun.get("kombi")
-    return [gun["secimler"][i] for i in kombi["ayaklar"]] if kombi else []
+def kuponlar(gun: dict) -> list[dict]:
+    """Günün kuponları. Her kupon (tek maç ya da kombine) kasanın %1'iyle oynanır.
+    Eski kayıtlarda tek "kombi" alanı kupon sayılır (o günlerde tekliler de ayrıca oynanmıştı)."""
+    if gun.get("kuponlar"):
+        return gun["kuponlar"]
+    return [gun["kombi"]] if gun.get("kombi") else []
 
 
-def kombi_durumu(gun: dict) -> str | None:
-    """"tuttu" / "yatti" / "iptal" / None (kombine yok ya da sonuçlanmadı). İptal ayaklar kombineden düşer."""
-    ayaklar = kombi_ayaklari(gun)
+def kupon_ayaklari(gun: dict, kupon: dict) -> list[dict]:
+    return [gun["secimler"][i] for i in kupon["ayaklar"]]
+
+
+def kupon_durumu(gun: dict, kupon: dict) -> str | None:
+    """"tuttu" / "yatti" / "iptal" / None (sonuçlanmadı). İptal ayaklar kupondan düşer."""
+    ayaklar = kupon_ayaklari(gun, kupon)
+    if any(s["durum"] == "kaybetti" for s in ayaklar):
+        return "yatti"
     if not ayaklar or any(s["durum"] == "bekliyor" for s in ayaklar):
         return None
-    gecerli = [s for s in ayaklar if s["durum"] != "iptal"]
-    if not gecerli:
-        return "iptal"
-    return "tuttu" if all(s["durum"] == "kazandi" for s in gecerli) else "yatti"
+    return "tuttu" if any(s["durum"] == "kazandi" for s in ayaklar) else "iptal"
 
 
-def kombi_oran(gun: dict) -> float:
-    return math.prod(s["oran"] for s in kombi_ayaklari(gun) if s["durum"] != "iptal")
+def kupon_oran(gun: dict, kupon: dict) -> float:
+    return math.prod(s["oran"] for s in kupon_ayaklari(gun, kupon) if s["durum"] != "iptal")
 
 
-def kombi_olasilik(gun: dict) -> float:
-    return math.prod(s["adil_olasilik"] for s in kombi_ayaklari(gun) if s["durum"] != "iptal")
+def kupon_olasilik(gun: dict, kupon: dict) -> float:
+    return math.prod(s["adil_olasilik"] for s in kupon_ayaklari(gun, kupon) if s["durum"] != "iptal")
 
 
 def kar(secim: dict) -> float:
+    """Tekli oyunun kârı. Yeni günlerde oyunlar yalnızca kuponlarda oynanır (stake 0)."""
     return {"kazandi": secim["stake"] * (secim["oran"] - 1), "kaybetti": -secim["stake"]}.get(secim["durum"], 0.0)
 
 
-def kombi_kar(gun: dict) -> float:
-    durum = kombi_durumu(gun)
+def kupon_kar(gun: dict, kupon: dict) -> float:
+    durum = kupon_durumu(gun, kupon)
     if durum == "tuttu":
-        return gun["kombi"]["stake"] * (kombi_oran(gun) - 1)
-    return -gun["kombi"]["stake"] if durum == "yatti" else 0.0
+        return kupon["stake"] * (kupon_oran(gun, kupon) - 1)
+    return -kupon["stake"] if durum == "yatti" else 0.0
 
 
 def gun_kar(gun: dict) -> float:
-    return sum(kar(s) for s in gun["secimler"]) + (kombi_kar(gun) if gun.get("kombi") else 0.0)
+    return sum(kar(s) for s in gun["secimler"]) + sum(kupon_kar(gun, k) for k in kuponlar(gun))
 
 
 def kasa(gunler: list[dict], baslangic: float) -> float:
@@ -115,8 +122,8 @@ def sonuclandir(gunler: list[dict], sonuclar: dict[int, dict], simdi: datetime) 
         if all(s["durum"] != "bekliyor" for s in g["secimler"]):
             g["sonuc"] = "tamam"
             g["sonuclanma"] = simdi.isoformat(timespec="seconds")
-            if g.get("kombi"):
-                g["kombi"]["durum"] = kombi_durumu(g)
+            for k in kuponlar(g):
+                k["durum"] = kupon_durumu(g, k)
             biten.append(g)
     return biten
 
@@ -127,7 +134,7 @@ def ozet(gunler: list[dict], baslangic: float = 10000.0) -> dict:
     oyunlar = [s for g in yayinlanan for s in g["secimler"]]
     biten = [s for s in oyunlar if s["durum"] in ("kazandi", "kaybetti")]
     kazanan = [s for s in biten if s["durum"] == "kazandi"]
-    kombiler = [kombi_durumu(g) for g in yayinlanan if g.get("kombi")]
+    kombiler = [kupon_durumu(g, k) for g in yayinlanan for k in kuponlar(g)]
     kombiler = [d for d in kombiler if d in ("tuttu", "yatti")]
     guncel = kasa(gunler, baslangic)
     return {
@@ -155,14 +162,14 @@ def hafta_ozeti(gunler: list[dict], bitis: str) -> dict:
     hafta = [g for g in gunler if g.get("tweet_id") and bas <= datetime.fromisoformat(g["tarih"]).date() <= son]
     biten = [s for g in hafta for s in g["secimler"] if s["durum"] in ("kazandi", "kaybetti")]
     kazanan = sum(s["durum"] == "kazandi" for s in biten)
-    kuponlar = [kombi_durumu(g) for g in hafta if g.get("kombi")]
-    kuponlar = [d for d in kuponlar if d in ("tuttu", "yatti")]
+    durumlar = [kupon_durumu(g, k) for g in hafta for k in kuponlar(g)]
+    durumlar = [d for d in durumlar if d in ("tuttu", "yatti")]
     return {
         "baslangic": bas.isoformat(), "bitis": son.isoformat(),
         "gun": len(hafta), "oyun": len(biten), "kazanan": kazanan,
         "bekleyen": sum(s["durum"] == "bekliyor" for g in hafta for s in g["secimler"]), "kaybeden": len(biten) - kazanan,
         "isabet": 100 * kazanan / len(biten) if biten else 0.0,
-        "kupon": len(kuponlar), "kupon_tuttu": kuponlar.count("tuttu"),
+        "kupon": len(durumlar), "kupon_tuttu": durumlar.count("tuttu"),
         "kar": sum(gun_kar(g) for g in hafta),
     }
 

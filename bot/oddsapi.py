@@ -6,6 +6,7 @@ Bu kaynakta takım istatistiği yok: beklenen goller piyasanın (maç sonucu + 2
 
 import math
 import re
+import time
 from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 
@@ -49,14 +50,27 @@ def fixture_id(odds_id: str) -> int:
 
 
 class OddsApi:
-    def __init__(self, key: str, session: requests.Session | None = None):
+    def __init__(self, key: str, session: requests.Session | None = None, aralik: float = 1.2, uyku=time.sleep):
         self.key = key
         self.session = session or requests.Session()
         self.kalan: int | None = None
         self.harcanan = 0
+        self.aralik = aralik
+        self.uyku = uyku
+        self._son = 0.0
 
     def get(self, path: str, **params):
-        r = self.session.get(f"{BASE_URL}/{path}", params={"apiKey": self.key, **params}, timeout=30)
+        # Ücretsiz plan art arda isteklere 429 ("Requests are too frequent") döner: istekler aralıklı atılır,
+        # 429 gelirse artan beklemeyle tekrar denenir.
+        for deneme in range(5):
+            bekle = self.aralik - (time.monotonic() - self._son)
+            if bekle > 0:
+                self.uyku(bekle)
+            r = self.session.get(f"{BASE_URL}/{path}", params={"apiKey": self.key, **params}, timeout=30)
+            self._son = time.monotonic()
+            if r.status_code != 429 or deneme == 4:
+                break
+            self.uyku(2 * (deneme + 1))
         if r.headers.get("x-requests-remaining") is not None:
             self.kalan = int(float(r.headers["x-requests-remaining"]))
         self.harcanan += int(float(r.headers.get("x-requests-last", 0) or 0))

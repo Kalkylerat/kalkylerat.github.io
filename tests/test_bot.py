@@ -1024,7 +1024,7 @@ def test_odds_tara_kredi_ve_yedek():
         "events": [{"id": "abcdef1234567890"}],
         "odds": [_odds_etkinlik()],
     })
-    api = oddsapi.OddsApi("x", session=oturum)
+    api = oddsapi.OddsApi("x", session=oturum, aralik=0)
     simdi = datetime(2026, 9, 29, 10, 0, tzinfo=timezone.utc)
     maclar, oranlar = oddsapi.tara(api, "2026-09-29", ayar, simdi)
     assert len(maclar) == 1 and maclar[0]["odds_spor"] == "soccer_epl" and maclar[0]["fixture_id"] in oranlar
@@ -1040,7 +1040,7 @@ def test_odds_hata_mesajinda_anahtar_yok():
     class Oturum:
         def get(self, url, params=None, timeout=None):
             return _OddsYanit({"message": "API key is not valid"}, status=401)
-    api = oddsapi.OddsApi("GIZLI-ANAHTAR", session=Oturum())
+    api = oddsapi.OddsApi("GIZLI-ANAHTAR", session=Oturum(), aralik=0)
     with pytest.raises(oddsapi.OddsApiHatasi) as e:
         api.get("sports")
     assert "GIZLI" not in str(e.value) and "401" in str(e.value)
@@ -1052,7 +1052,7 @@ def test_odds_sonuclari():
         {"id": "abcdef1234567890", "completed": True, "home_team": "Home FC", "away_team": "Away FC",
          "scores": [{"name": "Home FC", "score": "2"}, {"name": "Away FC", "score": "0"}]},
         {"id": "1234567890abcdef", "completed": False, "home_team": "A", "away_team": "B", "scores": None}]})
-    s = oddsapi.sonuclari_al(oddsapi.OddsApi("x", session=oturum), {"soccer_epl": ["abcdef1234567890", "1234567890abcdef"]})
+    s = oddsapi.sonuclari_al(oddsapi.OddsApi("x", session=oturum, aralik=0), {"soccer_epl": ["abcdef1234567890", "1234567890abcdef"]})
     assert s[oddsapi.fixture_id("abcdef1234567890")] == {"durum": "bitti", "skor": (2, 0), "iy": None, "korner": None}
     assert s[oddsapi.fixture_id("1234567890abcdef")]["durum"] == "bekliyor"
     assert oturum.cagrilar[0][1]["daysFrom"] == 3
@@ -1072,7 +1072,7 @@ def test_api_football_kapaliyken_yedek_kaynakla_kupon_ve_sonuc(monkeypatch):
         "scores": [{"id": "abcdef1234567890", "completed": True, "home_team": "Home FC", "away_team": "Away FC",
                     "scores": [{"name": "Home FC", "score": "3"}, {"name": "Away FC", "score": "1"}]}]})
     gercek = oddsapi.OddsApi
-    monkeypatch.setattr(oddsapi, "OddsApi", lambda key, session=None: gercek(key, session=oturum))
+    monkeypatch.setattr(oddsapi, "OddsApi", lambda key, session=None: gercek(key, session=oturum, aralik=0))
     gunler = []
     simdi = datetime(2026, 9, 29, 10, 0, tzinfo=timezone.utc)
     gun = ana.tahmin(ayar, SimpleNamespace(istek_sayisi=0), editor.basit_sec, gunler, "2026-09-29", simdi)
@@ -1082,3 +1082,15 @@ def test_api_football_kapaliyken_yedek_kaynakla_kupon_ve_sonuc(monkeypatch):
     gun["tweet_id"] = "1"
     ana.sonuc(ayar, SimpleNamespace(), tweets.KonsolClient(), gunler, simdi + timedelta(hours=12))
     assert gun["sonuc"] == "tamam" and s["skor"] == "3-1"
+
+
+def test_odds_429_tekrar_denenir():
+    from bot import oddsapi
+    yanitlar = [_OddsYanit({"message": "Requests are too frequent"}, status=429), _OddsYanit([{"key": "a"}])]
+
+    class Oturum:
+        def get(self, url, params=None, timeout=None):
+            return yanitlar.pop(0)
+    beklemeler = []
+    api = oddsapi.OddsApi("x", session=Oturum(), aralik=0, uyku=beklemeler.append)
+    assert api.get("sports") == [{"key": "a"}] and beklemeler == [2]

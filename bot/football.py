@@ -189,6 +189,7 @@ def toplu_oranlar(api, tarih: str, saat_dilimi: str, max_sayfa: int) -> dict[int
                 continue
             if not sonuc:
                 raise
+            print(f"Toplu oran taraması {sayfa}. sayfada durdu: {e}")
             break
         toplam = int((body.get("paging") or {}).get("total") or 1)
         for kayit in body.get("response", []):

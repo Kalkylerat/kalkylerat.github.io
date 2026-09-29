@@ -151,6 +151,25 @@ def _toplu_tara(ayar, api, maclar: list[dict], bugun: str) -> tuple[dict, list]:
     oranlar = football.toplu_oranlar(api, bugun, ayar.saat_dilimi, sayfa)
     if not oranlar:
         raise football.ApiHatasi("toplu taramada hiç oran gelmedi")
+    # Toplu tarama izinli liglerin maçlarını kaçırdıysa, hak yettiğince onların oranları tek tek tamamlanır.
+    eksik = [m for m in maclar if m["lig_id"] in ayar.ligler and m["fixture_id"] not in oranlar]
+    kalan = football.kalan_istek(api) if hasattr(api, "session") else None
+    butce = 0 if kalan is None else max(0, kalan - API_YEDEK - 2 * ayar.max_detay_mac)
+    for m in eksik[:butce]:
+        try:
+            b = football.oranlari_al(api, m["fixture_id"])
+        except football.ApiHatasi as e:
+            print(f"Eksik oran tamamlama durdu: {e}")
+            break
+        if b:
+            oranlar[m["fixture_id"]] = b
+    # Ön eleme teşhisi: neden elendiklerini görmek için
+    adlar = {b.lower() for b in ayar.oran_bahiscileri}
+    pin = sum(any(a.lower() == ayar.keskin_bahisci.lower() for a in o) for o in oranlar.values())
+    b365 = sum(any(a.lower() == "bet365" for a in o) for o in oranlar.values())
+    uc = sum(sum(a.lower() in adlar for a in o) >= ayar.min_oran_bahiscisi for o in oranlar.values())
+    _ozet_yaz(f"Oran teşhisi: {len(oranlar)} maçta Pinnacle {pin}, Bet365 {b365}, "
+              f"listeden ≥{ayar.min_oran_bahiscisi} site {uc}.")
     puanli = []
     for m in maclar:
         if m["fixture_id"] in oranlar:

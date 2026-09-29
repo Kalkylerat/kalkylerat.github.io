@@ -29,8 +29,9 @@
           1.0
         ],
         "yorum": "Low-scoring history: 1-1 and 1-0 in recent meetings, and the model expects only about 1.2 goals. Roughly a 3 in 4 chance of 3 or fewer.",
-        "durum": "bekliyor",
-        "skor": null
+        "durum": "kazandi",
+        "skor": "0-0",
+        "son_sorgu": "2026-09-29T00:42:07+00:00"
       },
       {
         "fixture_id": 1569943,
@@ -56,8 +57,9 @@
           1.5
         ],
         "yorum": "Castellón have won 5 of their last 6 and are unbeaten in 4 meetings with Leganes without conceding. About a 7 in 10 chance they avoid defeat.",
-        "durum": "bekliyor",
-        "skor": null
+        "durum": "kazandi",
+        "skor": "0-2",
+        "son_sorgu": "2026-09-29T00:42:07+00:00"
       },
       {
         "fixture_id": 1528906,
@@ -83,11 +85,12 @@
           0.2
         ],
         "yorum": "Their last meeting ended 0-1 and neither side scored more than once in their latest games. About a 3 in 4 chance of 0 or 1 first-half goals.",
-        "durum": "bekliyor",
-        "skor": null
+        "durum": "kazandi",
+        "skor": "0-0",
+        "son_sorgu": "2026-09-29T00:42:07+00:00"
       }
     ],
-    "sonuc": null,
+    "sonuc": "tamam",
     "para": "€",
     "yuzde": 1.0,
     "tweet_id": "2104561732790505808",
@@ -99,7 +102,7 @@
           2
         ],
         "stake": 100.0,
-        "durum": null
+        "durum": "tuttu"
       }
     ],
     "gorselli": true,
@@ -108,6 +111,12 @@
       "2104561734191296697",
       "2104561735277617331",
       "2104561736422756473"
-    ]
+    ],
+    "sonuclanma": "2026-09-29T00:42:07+00:00",
+    "sonuc_tweet_idleri": [
+      "2104733483176276217",
+      "2104733484338028967"
+    ],
+    "sonuc_tweet_id": "2104733483176276217"
   }
 ]

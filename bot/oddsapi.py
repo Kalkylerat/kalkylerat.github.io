@@ -38,8 +38,9 @@ _GUVENILMEZ = re.compile(r"friendl|women|youth|u1[6-9]\b|u2[0-3]\b|reserve", re.
 MAX_TARAMA_KREDISI = 20
 # Yüksek ihtimalli pazarlar (çifte şans, 1,5 üst/alt, karşılıklı gol) yalnızca maç başına istenebilir:
 # maç başına 3 kredi; favorisi en belirgin (ya da gol beklentisi en uç) en fazla EK_MAC maç için.
+# Aylık 500 kredi: günde ~2-6 (lig oranları) + 9 (ek pazar) + 2-4 (sonuç) ≈ 400-450.
 EK_PAZARLAR = "double_chance,alternate_totals,btts"
-EK_MAC = 5
+EK_MAC = 3
 YEDEK_KREDI = 40
 
 

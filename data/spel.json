@@ -198,7 +198,7 @@
       }
     ],
     "sonuc": null,
-    "tweet_id": null,
+    "tweet_id": "2104921369280733455",
     "para": "€",
     "yuzde": 1.0,
     "kuponlar": [
@@ -229,7 +229,7 @@
       }
     ],
     "onay": {
-      "durum": "bekliyor",
+      "durum": "onaylandi",
       "son": "2026-09-29T14:21:41+00:00",
       "surum": 1,
       "metinler": [
@@ -237,7 +237,14 @@
         "1) Spain v Croatia · 20:45 CEST\nPick: Spain to win\nOdds 1.23 · chance 80% · high-chance pick\nMost likely score: 2–0\n\nExpected goals put Spain around 2.7 against Croatia's 0.7. We see about an 8 in 10 chance of a home win, with 2-0 the likeliest score.",
         "2) Czech Republic v England · 20:45 CEST\nPick: England to win\nOdds 1.30 · chance 74% · high-chance pick\nMost likely score: 0–2\n\nEngland are expected to create far more, about 2.35 goals to 0.7. That makes an away win roughly a 3 in 4 chance, most likely 0-2."
       ],
-      "kasa": 10114.31
-    }
+      "kasa": 10114.31,
+      "sonuc_durumu": "onaylandi"
+    },
+    "gorselli": true,
+    "yayin": "2026-09-29T13:08:55+00:00",
+    "analiz_tweet_idleri": [
+      "2104921370681540685",
+      "2104921371759538561"
+    ]
   }
 ]

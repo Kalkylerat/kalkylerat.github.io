@@ -50,7 +50,7 @@ footer {{ color:var(--muted); font-size:13px; margin-top:32px; }}
 <div class="tile"><b>{vantande}</b><span>Pending</span></div>
 </div>
 {gunler}
-<footer>18+ | For information only, not an invitation to gamble. Gambling can be addictive – never bet money you cannot afford to lose. Sweden: Stödlinjen 020-81 91 00. Chances are fair probabilities from a sharp betting market with the bookmaker margin removed. Odds are the median of major bookmakers. Only picks whose odds are at least their fair chance are taken, so the bank can grow over time: high-chance picks win at least 65% of the time by the market's estimate, value picks pay more than their chance suggests. Bet builder odds (≈) are estimated from the goal model because bookmakers price them individually. Odds are taken at posting time and may have changed.</footer>
+<footer>18+ | For information only, not an invitation to gamble. Gambling can be addictive – never bet money you cannot afford to lose. Sweden: Stödlinjen 020-81 91 00. Chances are fair probabilities from a sharp betting market with the bookmaker margin removed. Odds are the best price available at a major bookmaker at posting time. Only picks whose odds are at least their fair chance are taken, so the bank can grow over time: high-chance picks win at least 65% of the time by the market's estimate, value picks pay more than their chance suggests. Bet builder odds (≈) are estimated from the goal model because bookmakers price them individually. Odds are taken at posting time and may have changed.</footer>
 </main></body></html>
 """
 

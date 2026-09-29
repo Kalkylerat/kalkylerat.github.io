@@ -172,15 +172,18 @@ def adil_olasiliklar(bahisciler: dict[str, dict[str, float]], keskin: str) -> tu
     return adil, kaynak
 
 
-def piyasa_oranlari(bahisciler: dict[str, dict[str, float]], izinli: list[str]) -> dict[str, tuple[float, str, dict[str, float]]]:
-    """Listedeki bahisçilerin medyan oranı: takipçinin çoğu sitede bulabileceği gerçekçi fiyat.
-    Kontrol edilebilsin diye bahisçi bahisçi oranlar da döner."""
+def piyasa_oranlari(bahisciler: dict[str, dict[str, float]], izinli: list[str],
+                    yontem: str = "medyan") -> dict[str, tuple[float, str, dict[str, float]]]:
+    """Listedeki büyük bahisçilerin oranı: "en_iyi" = içlerindeki en yüksek fiyat (takipçi o sitede gerçekten
+    bulabilir; değer bahsinde standart yöntem), "medyan" = ortanca. Bahisçi bahisçi oranlar da döner."""
     izin = {ad.lower() for ad in izinli}
     oranlar: dict[str, dict[str, float]] = {}
     for ad, o in bahisciler.items():
         if ad.lower() in izin:
             for pazar, oran in o.items():
                 oranlar.setdefault(pazar, {})[ad] = oran
+    if yontem == "en_iyi":
+        return {pazar: (round(max(d.values()), 2), f"best of {len(d)}", d) for pazar, d in oranlar.items()}
     return {pazar: (round(statistics.median(d.values()), 2), f"median of {len(d)}", d) for pazar, d in oranlar.items()}
 
 
@@ -204,7 +207,7 @@ def _piyasa_adaylari(bahisciler: dict[str, dict[str, float]], ayar, guvenilir_li
     """İstatistiksiz, yalnızca piyasadan: (pazar, oran, bolag, bahisçi oranları, p, değer, tür, kaynak).
     İzinli liste dışındaki liglerde keskin bahisçinin o pazarı fiyatlaması şarttır (likit, güvenilir piyasa)."""
     adil, kaynak = adil_olasiliklar(bahisciler, ayar.keskin_bahisci)
-    for pazar, (oran, bolag, bahisci_oranlari) in piyasa_oranlari(bahisciler, ayar.oran_bahiscileri).items():
+    for pazar, (oran, bolag, bahisci_oranlari) in piyasa_oranlari(bahisciler, ayar.oran_bahiscileri, ayar.oran_yontemi).items():
         if pazar not in adil or not (ayar.oran_min <= oran <= ayar.oran_max) or not oran_yeterli(bahisci_oranlari, ayar):
             continue
         keskin_var = kaynak[pazar].lower() == ayar.keskin_bahisci.lower()

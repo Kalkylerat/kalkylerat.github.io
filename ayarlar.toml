@@ -64,8 +64,11 @@ keskin = "Pinnacle"
 # Keskin bahisçinin fiyatlamadığı pazarlarda ihtimal daha az güvenilir: değer sınırları bu kadar sıkılaşır
 # (yüksek ihtimalli oyunda %0 yerine +%3, değer oyununda +%3 yerine +%6).
 keskinsiz_ek_marj = 0.03
-# Oranın alınacağı büyük bahisçiler (oran = medyanları). Tweetlerde bahisçi adı yazılmaz.
+# Oranın alınacağı büyük bahisçiler. Tweetlerde bahisçi adı yazılmaz.
 oran_bahiscileri = ["Bet365", "William Hill", "Betano", "BetVictor", "Unibet", "Betway", "888Sport", "Bwin", "Betsson", "NordicBet", "ComeOn"]
+# "en_iyi": bu sitelerdeki en yüksek fiyat (takipçi o sitede bulabilir; değer bahsinin standart yöntemi).
+# "medyan": ortanca fiyat (daha tutucu; yüksek ihtimalli oyunlarda adil fiyatı neredeyse hiç geçmez).
+oran_yontemi = "en_iyi"
 # Takipçinin bulabileceği pazar: bu listede en az bu kadar sitede oran olmalı ve zorunlu siteler mutlaka olmalı.
 min_oran_bahiscisi = 3
 zorunlu_bahisciler = ["Bet365"]

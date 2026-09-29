@@ -186,7 +186,8 @@ def _toplu_tara(ayar, api, maclar: list[dict], bugun: str) -> tuple[dict, list]:
             if m["fixture_id"] not in oranlar:
                 continue
             adil, _ = model.adil_olasiliklar(oranlar[m["fixture_id"]], ayar.keskin_bahisci)
-            for pazar, (oran, _, _d) in model.piyasa_oranlari(oranlar[m["fixture_id"]], ayar.oran_bahiscileri).items():
+            for pazar, (oran, _, _d) in model.piyasa_oranlari(oranlar[m["fixture_id"]], ayar.oran_bahiscileri,
+                                                               ayar.oran_yontemi).items():
                 if pazar in adil and adil[pazar] >= 0.6 and ayar.oran_min <= oran <= ayar.oran_max:
                     en_iyi = max(_d.values())
                     yakin.append((adil[pazar] * oran - 1, f'{m["ev"]} v {m["dep"]} {pazar} medyan {oran:.2f} '

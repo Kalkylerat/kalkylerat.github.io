@@ -34,6 +34,7 @@ class Ayarlar:
     para_birimi: str
     keskin_bahisci: str
     oran_bahiscileri: list[str]
+    oran_yontemi: str
     min_oran_bahiscisi: int
     zorunlu_bahisciler: list[str]
     keskinsiz_ek_marj: float
@@ -72,6 +73,7 @@ def yukle(path: Path = ROOT / "ayarlar.toml") -> Ayarlar:
         para_birimi=kasa["para_birimi"],
         keskin_bahisci=t["bahisciler"]["keskin"],
         oran_bahiscileri=list(t["bahisciler"]["oran_bahiscileri"]),
+        oran_yontemi=t["bahisciler"].get("oran_yontemi", "medyan"),
         min_oran_bahiscisi=int(t["bahisciler"]["min_oran_bahiscisi"]),
         zorunlu_bahisciler=list(t["bahisciler"]["zorunlu_bahisciler"]),
         keskinsiz_ek_marj=float(t["bahisciler"]["keskinsiz_ek_marj"]),

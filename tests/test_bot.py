@@ -43,6 +43,7 @@ def test_adil_olasilik_keskin_yoksa_ortalama():
 def test_piyasa_orani_medyan_ve_sadece_listedeki_bahisciler():
     b = {"Unibet": {"MS1": 2.1}, "Bet365": {"MS1": 2.2}, "Betano": {"MS1": 2.0}, "1xBet": {"MS1": 2.6}}
     oran, bolag, detay = model.piyasa_oranlari(b, ["Unibet", "Bet365", "Betano"])["MS1"]
+    assert model.piyasa_oranlari(b, ["Unibet", "Bet365", "Betano"], "en_iyi")["MS1"][:2] == (2.2, "best of 3")
     assert (oran, bolag) == (2.1, "median of 3") and len(detay) == 3
 
 

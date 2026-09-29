@@ -19,9 +19,9 @@ izinli = [
 # tum_ligler: izinli liste dışındaki ligler de taranır; bu liglerde oyun ancak keskin bahisçi (Pinnacle)
 # o pazarı fiyatlıyorsa, Bet365 ve en az 3 büyük sitede oran varsa ve takım istatistiği yeterliyse seçilir.
 tum_ligler = true
-# Toplu oran taramasında en fazla kaç sayfa (her sayfa 1 istek, 10 maç). Ücretsiz plan: 40 (günlük 100 istekte
-# sonuçlar, istatistik ve elle çalıştırılan komutlar için pay kalır). Pro plan: 300.
-max_oran_sayfasi = 40
+# Toplu oran taramasında en fazla kaç sayfa (her sayfa 1 istek, 10 maç). Ücretsiz plan en fazla 3 sayfaya izin
+# veriyor; kalan maçların oranı hak yettiğince tek tek çekilir. Pro plan: 100+.
+max_oran_sayfasi = 3
 # Detaylı incelenecek en fazla maç sayısı (her biri 1 istatistik + gerekirse 1 sakat listesi isteği).
 max_detay_mac = 10
 # Toplu tarama çalışmazsa eski yöntem: izinli liglerden en fazla kaç maç (maç başına 2 istek).

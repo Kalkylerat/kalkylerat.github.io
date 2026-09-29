@@ -141,20 +141,23 @@ def _incele(ayar, api, m: dict, bahisciler: dict, mac_map: dict, adaylar: list) 
 def _toplu_tara(ayar, api, maclar: list[dict], bugun: str) -> tuple[dict, list]:
     """1) Günün bütün oranları toplu çekilir, 2) piyasaya göre en umut vadeden maçlar detaylı incelenir."""
     # Günlük hak koruması: gün içindeki sonuç kontrolleri ve elle komutlar için en az API_YEDEK istek kalsın.
+    # Ücretsiz plan: tarihle toplu oran en fazla 3 sayfa (30 maç); lig filtresi güncel sezonda kapalı; maç başına
+    # oran açık (1 istek). Plan: 3 toplu sayfa + kalan haktan (yedek ve detay payı düşülerek) maç maç tamamlama.
     kalan = football.kalan_istek(api) if hasattr(api, "session") else None
-    sayfa = ayar.max_oran_sayfasi
+    detay_payi = 2 * ayar.max_detay_mac
     if kalan is not None:
-        sayfa = max(0, min(sayfa, kalan - API_YEDEK - 2 * ayar.max_detay_mac - 1))
-        print(f"API-Football: bugün {kalan} istek kalmış, toplu taramaya {sayfa} sayfa ayrıldı.")
-    if sayfa == 0:
-        raise HakYetmiyor(f"günlük istek hakkı toplu tarama için yetmiyor (kalan {kalan})")
-    oranlar = football.lig_lig_oranlar(api, maclar, bugun, ayar.saat_dilimi, sayfa, ayar.ligler)
+        print(f"API-Football: bugün {kalan} istek kalmış.")
+        if kalan - API_YEDEK < ayar.max_oran_sayfasi + 4:
+            raise HakYetmiyor(f"günlük istek hakkı tarama için yetmiyor (kalan {kalan})")
+        detay_payi = min(detay_payi, kalan - API_YEDEK - ayar.max_oran_sayfasi)
+    oranlar = football.toplu_oranlar(api, bugun, ayar.saat_dilimi, ayar.max_oran_sayfasi)
     if not oranlar:
         raise football.ApiHatasi("toplu taramada hiç oran gelmedi")
-    # Toplu tarama izinli liglerin maçlarını kaçırdıysa, hak yettiğince onların oranları tek tek tamamlanır.
-    eksik = [m for m in maclar if m["lig_id"] in ayar.ligler and m["fixture_id"] not in oranlar]
+    # Toplu taramaya girmeyen maçlar (önce izinli ligler) hak yettiğince tek tek tamamlanır.
+    eksik = [m for m in maclar if m["fixture_id"] not in oranlar]
     kalan = football.kalan_istek(api) if hasattr(api, "session") else None
-    butce = 0 if kalan is None else max(0, kalan - API_YEDEK - 2 * ayar.max_detay_mac)
+    butce = 0 if kalan is None else max(0, kalan - API_YEDEK - detay_payi)
+    print(f"Maç maç oran tamamlama: {min(butce, len(eksik))} maç")
     for m in eksik[:butce]:
         try:
             b = football.oranlari_al(api, m["fixture_id"])
@@ -185,7 +188,9 @@ def _toplu_tara(ayar, api, maclar: list[dict], bugun: str) -> tuple[dict, list]:
             adil, _ = model.adil_olasiliklar(oranlar[m["fixture_id"]], ayar.keskin_bahisci)
             for pazar, (oran, _, _d) in model.piyasa_oranlari(oranlar[m["fixture_id"]], ayar.oran_bahiscileri).items():
                 if pazar in adil and adil[pazar] >= 0.6 and ayar.oran_min <= oran <= ayar.oran_max:
-                    yakin.append((adil[pazar] * oran - 1, f'{m["ev"]} v {m["dep"]} {pazar} {oran:.2f} p={adil[pazar]:.2f}'))
+                    en_iyi = max(_d.values())
+                    yakin.append((adil[pazar] * oran - 1, f'{m["ev"]} v {m["dep"]} {pazar} medyan {oran:.2f} '
+                                  f'(en iyi {en_iyi:.2f}, değer {adil[pazar] * en_iyi - 1:+.3f}) p={adil[pazar]:.2f}'))
         yakin.sort(reverse=True)
         _ozet_yaz("Kurala en yakın 5 pazar: " + "; ".join(f"{d:+.3f} {t}" for d, t in yakin[:5]))
     secilen = puanli[:ayar.max_detay_mac]

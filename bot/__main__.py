@@ -371,6 +371,7 @@ def sonuc(ayar, api, x, gunler: list[dict], simdi: datetime) -> None:
     ids = kayit.bekleyen_fixturelar(gunler, simdi)
     if ids:
         sonuclar = football.sonuclari_al(api, ids, kayit.korner_fixturelari(gunler))
+        kayit.sorgulandi(gunler, ids, simdi)
         for g in kayit.sonuclandir(gunler, sonuclar, simdi):
             print(f"{g['id']} sonuçlandı.")
     else:

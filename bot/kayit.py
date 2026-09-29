@@ -86,16 +86,30 @@ def bekleyen_fixturelar(gunler: list[dict], simdi: datetime) -> list[int]:
         s["fixture_id"]
         for g in gunler if g["sonuc"] is None and g.get("tweet_id")
         for s in g["secimler"]
-        if s["durum"] == "bekliyor" and _sorulmali(datetime.fromisoformat(s["baslama"]), simdi)
+        if s["durum"] == "bekliyor"
+        and _sorulmali(datetime.fromisoformat(s["baslama"]), simdi,
+                       datetime.fromisoformat(s["son_sorgu"]) if s.get("son_sorgu") else None)
     })
 
 
-def _sorulmali(baslama: datetime, simdi: datetime) -> bool:
-    """Bitiş+ilk saat: her kontrolde; sonrası (ertelenen/askıya alınan maç): saatte bir, hak boşa gitmesin."""
+def _sorulmali(baslama: datetime, simdi: datetime, son_sorgu: datetime | None = None) -> bool:
+    """Bitişten sonra ilk kez hemen; başlamadan 3 saat sonrasına kadar her kontrolde; daha sonra
+    (ertelenen/askıya alınan maç) son sorgudan en az 1 saat geçtiyse, hak boşa gitmesin."""
     gecen = simdi - baslama
     if gecen < timedelta(minutes=MAC_BITIS_DK):
         return False
-    return gecen < timedelta(hours=3) or simdi.minute < 15
+    if son_sorgu is None or gecen < timedelta(hours=3):
+        return True
+    return simdi - son_sorgu >= timedelta(minutes=55)
+
+
+def sorgulandi(gunler: list[dict], fixture_ids: list[int], simdi: datetime) -> None:
+    """Sonucu sorulan (ama henüz bitmemiş) oyunlara sorgu zamanı yazılır."""
+    ids = set(fixture_ids)
+    for g in gunler:
+        for s in g["secimler"]:
+            if s["fixture_id"] in ids and s["durum"] == "bekliyor":
+                s["son_sorgu"] = simdi.isoformat(timespec="seconds")
 
 
 def korner_fixturelari(gunler: list[dict]) -> set[int]:

@@ -909,8 +909,10 @@ def test_takilan_mac_saatte_bir_sorulur():
     bas = datetime(2026, 10, 3, 13, 0, tzinfo=timezone.utc)
     assert not kayit._sorulmali(bas, bas + timedelta(minutes=100))
     assert kayit._sorulmali(bas, bas + timedelta(minutes=115))
-    assert kayit._sorulmali(bas, bas + timedelta(hours=4, minutes=7))       # saat başı: sorulur
-    assert not kayit._sorulmali(bas, bas + timedelta(hours=4, minutes=22))  # diğer çeyrekler: sorulmaz
+    # 3 saatten sonra: hiç sorulmadıysa hemen, sonra saatte bir (saatin dakikasından bağımsız)
+    assert kayit._sorulmali(bas, bas + timedelta(hours=11, minutes=24))
+    assert not kayit._sorulmali(bas, bas + timedelta(hours=4, minutes=22), bas + timedelta(hours=4))
+    assert kayit._sorulmali(bas, bas + timedelta(hours=5, minutes=1), bas + timedelta(hours=4))
 
 
 def test_sabah_penceresi_ve_sponsorlu_lig_adi():

@@ -131,8 +131,12 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime) -> d
 def _incele(ayar, api, m: dict, bahisciler: dict, mac_map: dict, adaylar: list) -> None:
     ist = football.istatistik_al(api, m["fixture_id"])
     if not ist:
+        _ozet_yaz(f'Elendi: {m["ev"]} v {m["dep"]} — takım istatistiği yok.')
         return
     mac_adaylari = adaylari_uret(m, bahisciler, ist, ayar, guvenilir_lig=m["lig_id"] in ayar.ligler)
+    if not mac_adaylari:
+        neden = "istatistik yetersiz (az maç)" if not model.veri_yeterli(ist) else "gol modeli piyasayla uyuşmadı"
+        _ozet_yaz(f'Elendi: {m["ev"]} v {m["dep"]} — {neden}.')
     if mac_adaylari:
         mac_map[m["fixture_id"]] = {**m, "istatistik": ist}
         adaylar += mac_adaylari
@@ -389,6 +393,9 @@ def yenile(ayar, api, sec, x, gunler: list[dict], bugun: str, simdi: datetime) -
             if tid:
                 x.sil(tid)
     gunler[:] = kopya
+    if yeni and ayar.onay_bekle:
+        onay.onay_iste(yeni, gunler, ayar, simdi)  # yeniden seçilen kupon da önce onaya gelir
+        return True
     return bool(yeni) and yayinla(ayar, yeni, x, gunler, simdi)
 
 

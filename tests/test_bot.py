@@ -950,3 +950,12 @@ def test_sonuc_kuponu_alintilayan_ayri_paylasim(monkeypatch):
     assert (yanit, alinti, medya) == (None, "t1", ["kart"]) and len(atilan) == 1  # tek, görselli, alıntılı paylaşım
     assert "✅ Coupon won: +€50" in metin and "💰 Bank: €10,050" in metin and metin.endswith(tweets.ANSVAR)
     assert tweets.uzunluk(metin) <= 280 and g["sonuc_tweet_id"] == "s1"
+
+
+def test_tek_calismalik_istisna(monkeypatch):
+    monkeypatch.setenv("BOT_EK", "guvenli_min_deger=-0.03 api_yedek=8 oran_min=5 zararli=1")
+    ayar = config.yukle()
+    assert ayar.guvenli_min_deger == -0.03 and ayar.oran_min == AYAR.oran_min  # yalnızca izinli alanlar
+    assert config.istisnalar()["api_yedek"] == 8
+    monkeypatch.delenv("BOT_EK")
+    assert config.yukle().guvenli_min_deger == 0.0

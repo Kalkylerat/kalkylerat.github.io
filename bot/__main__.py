@@ -16,7 +16,8 @@ from .model import adaylari_uret, bet_builder, etiketler
 HATALAR: list[str] = []
 
 GUVENLI_LIMIT = 10
-API_YEDEK = 25  # sabah taramasından sonra gün içi sonuç kontrolleri ve elle komutlar için ayrılan istek
+# Sabah taramasından sonra gün içi sonuç kontrolleri ve elle komutlar için ayrılan istek (tek çalışmalık istisnayla değişebilir).
+API_YEDEK = int(config.istisnalar().get("api_yedek", 25))
 
 
 class HakYetmiyor(RuntimeError):

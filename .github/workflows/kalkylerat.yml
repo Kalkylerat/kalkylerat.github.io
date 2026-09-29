@@ -18,6 +18,10 @@ on:
         type: choice
         default: yayinla
         options: [yayinla, profil, sonuc_yeniden, demo, nabiz, onay_yenile, onay_testi, onay_kontrol, onizleme, duzelt, yenile, sabit, hafta, oran_testi, otomatik, tahmin, sonuc, panel, tani]
+      ek:
+        description: "Tek çalışmalık istisna (ör. guvenli_min_deger=-0.03 api_yedek=8); boş bırakın"
+        type: string
+        default: ""
 
 permissions:
   contents: write
@@ -57,6 +61,7 @@ jobs:
           OLAY: ${{ github.event_name }}
           ZAMAN: ${{ github.event.schedule }}
           SECIM: ${{ inputs.komut }}
+          BOT_EK: ${{ inputs.ek }}
           GH_TOKEN: ${{ github.token }}
           API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}

@@ -45,7 +45,31 @@ class Ayarlar:
     onay_suresi_dk: int
 
 
+# Tek çalışmalık istisna (elle çalıştırmada "ek" alanı): ör. "guvenli_min_deger=-0.03 api_yedek=8".
+# Yalnızca bu sayısal ayarlar değiştirilebilir; ayarlar.toml'a dokunulmaz, sonraki çalışma normal kurallarla döner.
+ISTISNA_ALANLARI = {"guvenli_min_deger", "deger_min_deger", "keskinsiz_ek_marj", "model_tolerans", "api_yedek"}
+
+
+def istisnalar() -> dict[str, float]:
+    sonuc = {}
+    for parca in os.environ.get("BOT_EK", "").split():
+        ad, _, deger = parca.partition("=")
+        if ad in ISTISNA_ALANLARI:
+            sonuc[ad] = float(deger)
+    return sonuc
+
+
 def yukle(path: Path = ROOT / "ayarlar.toml") -> Ayarlar:
+    ayar = _yukle(path)
+    ek = {k: v for k, v in istisnalar().items() if k != "api_yedek"}
+    if ek:
+        from dataclasses import replace
+        print(f"Tek çalışmalık istisna: {ek}")
+        ayar = replace(ayar, **ek)
+    return ayar
+
+
+def _yukle(path: Path) -> Ayarlar:
     with open(path, "rb") as f:
         t = tomllib.load(f)
     s, kasa = t["strateji"], t["kasa"]

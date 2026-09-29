@@ -35,11 +35,11 @@ istek_araligi_sn = 6.5
 max_oyun = 3
 max_oyun_mac_basina = 2
 max_kupon = 3
-# YÜKSEK İHTİMALLİ oyun: en az %65 kazanma ihtimali VE oran (bahisçilerin medyanı) en az adil fiyat.
-# Kasanın uzun vadede büyümesi için her oyun artı (ya da sıfır) değerli olmalı: adil fiyatın altındaki oranlar
-# sık tutsa da ortalamada kaybettirir. Bu yüzden bazı günler kupon çıkmaz.
+# YÜKSEK İHTİMALLİ oyun: en az %65 kazanma ihtimali (keskin piyasanın marjsız fiyatından) VE oran adil fiyata
+# yakın: en fazla %4 altında (normal bahisçi marjı kadar). Öncelik her gün güvenilir, sık tutan bir kupon;
+# adil fiyatın çok altındaki (marjı yüksek) oranlar alınmaz. Kasayı asıl büyüten değer oyunlarıdır.
 guvenli_min_olasilik = 0.65
-guvenli_min_deger = 0.0
+guvenli_min_deger = -0.04
 # DEĞER oyunu (kasayı büyüten): oran gerçek ihtimalden en az %3 yüksek, ihtimal en az %45.
 deger_min_olasilik = 0.45
 deger_min_deger = 0.03

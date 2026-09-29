@@ -86,7 +86,8 @@ def test_pazar_kodlari_ve_etiketler():
 def test_aday_turu():
     assert model.aday_turu(0.72, 0.0, AYAR) == "guvenli"
     assert model.aday_turu(0.72, 0.02, AYAR) == "guvenli"
-    assert model.aday_turu(0.72, -0.01, AYAR) is None  # adil fiyatın altı: uzun vadede kaybettirir
+    assert model.aday_turu(0.72, -0.03, AYAR) == "guvenli"  # normal bahisçi marjı kadar altı kabul
+    assert model.aday_turu(0.72, -0.05, AYAR) is None  # marjı yüksek oran alınmaz
     assert model.aday_turu(0.50, 0.05, AYAR) == "deger"
     assert model.aday_turu(0.40, 0.10, AYAR) is None
 
@@ -421,7 +422,8 @@ def test_oran_takipcinin_bulabilecegi_pazardan_olmali():
 
 def test_keskin_bahisci_yoksa_sinir_sikilasir():
     assert model.aday_turu(0.74, 0.01, AYAR) == "guvenli"
-    assert model.aday_turu(0.74, 0.01, AYAR, AYAR.keskinsiz_ek_marj) is None
+    assert model.aday_turu(0.74, -0.02, AYAR) == "guvenli"
+    assert model.aday_turu(0.74, -0.02, AYAR, AYAR.keskinsiz_ek_marj) is None
     assert model.aday_turu(0.74, 0.04, AYAR, AYAR.keskinsiz_ek_marj) == "guvenli"
 
 
@@ -958,7 +960,7 @@ def test_tek_calismalik_istisna(monkeypatch):
     assert ayar.guvenli_min_deger == -0.03 and ayar.oran_min == AYAR.oran_min  # yalnızca izinli alanlar
     assert config.istisnalar()["api_yedek"] == 8
     monkeypatch.delenv("BOT_EK")
-    assert config.yukle().guvenli_min_deger == 0.0
+    assert config.yukle().guvenli_min_deger == AYAR.guvenli_min_deger
 
 
 # --- Yedek kaynak: The Odds API ---

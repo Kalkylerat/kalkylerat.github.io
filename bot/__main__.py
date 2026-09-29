@@ -9,7 +9,7 @@ import time
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-from . import config, editor, football, gorsel, kayit, model, onay, panel, tweets
+from . import config, editor, football, gorsel, kayit, model, oddsapi, onay, panel, tweets
 from .model import adaylari_uret, bet_builder, etiketler
 
 # Çalışma sırasında yakalanan hatalar: iş sonunda "başarısız" işaretlenir, GitHub sahibine e-posta atar.
@@ -47,15 +47,25 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime) -> d
         maclar = football.gunun_maclari(api, bugun, ayar.ligler, ayar.saat_dilimi,
                                         ayar.min_dakika_once, 10_000, simdi, tum_ligler=ayar.tum_ligler)
     except football.ApiHatasi as e:
-        _hata("Maç listesi (API-Football)", e)
-        return None
-    print(f"{len(maclar)} uygun maç bulundu.")
+        maclar = None
+        yedek_neden = f"API-Football maç listesi alınamadı: {e}"
+    if maclar is not None:
+        print(f"{len(maclar)} uygun maç bulundu.")
     try:
+        if maclar is None:
+            raise HakYetmiyor(yedek_neden)
         mac_map, adaylar = _toplu_tara(ayar, api, maclar, bugun)
     except HakYetmiyor as e:
-        # Hak azken eski yönteme geçmek kalanı da bitirir; sonuçlar için yedek korunur, bugün kupon çıkmaz.
-        _hata("Tarama", e)
-        return None
+        # API-Football kullanılamıyor (hak bitti / hesap sorunu): yedek kaynak The Odds API.
+        if not os.environ.get("ODDS_API_KEY"):
+            _hata("Tarama", e)
+            return None
+        _ozet_yaz(f"⚠️ {e} — yedek oran kaynağı (The Odds API) kullanılıyor.")
+        try:
+            mac_map, adaylar = _odds_tara(ayar, bugun, simdi)
+        except oddsapi.OddsApiHatasi as e2:
+            _hata("Tarama (The Odds API)", e2)
+            return None
     except football.ApiHatasi as e:
         # Toplu tarama çalışmazsa eski yöntem: izinli liglerden maç maç (maç başına 2 istek, yedeğe dokunmadan).
         print(f"Toplu oran taraması yapılamadı ({e}); maç maç taramaya geçiliyor.")
@@ -72,7 +82,7 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime) -> d
            "baslik": "", "secimler": [], "sonuc": None, "tweet_id": None,
            "para": ayar.para_birimi, "yuzde": ayar.oyun_yuzdesi}
     if adaylar:
-        for fid in {a["fixture_id"] for a in adaylar}:
+        for fid in {a["fixture_id"] for a in adaylar if "odds_id" not in mac_map[a["fixture_id"]]}:
             try:
                 mac_map[fid]["sakatlar"] = football.sakatlari_al(api, fid)
             except football.ApiHatasi as e:
@@ -111,6 +121,7 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime) -> d
             "model_olasilik": a["model_olasilik"], "deger": a["deger"], "beklenen_gol": a["beklenen_gol"],
             "yorum": editor.temiz_yorum(s["yorum"], ayar.oran_bahiscileri + [ayar.keskin_bahisci]),
             "durum": "bekliyor", "skor": None,
+            **{k: m[k] for k in ("odds_id", "odds_spor") if k in m},  # sonuç yedek kaynaktan sorulur
         })
     gun["secimler"] = bet_builder_birlestir(gun["secimler"])
     gun["secimler"].sort(key=lambda s: s["baslama"])
@@ -215,6 +226,24 @@ def _toplu_tara(ayar, api, maclar: list[dict], bugun: str) -> tuple[dict, list]:
     return mac_map, adaylar
 
 
+def _odds_tara(ayar, bugun: str, simdi: datetime) -> tuple[dict, list]:
+    """Yedek kaynak: bugünün oranları The Odds API'den; takım istatistiği olmadan piyasa tabanlı adaylar."""
+    api = oddsapi.OddsApi(config.env("ODDS_API_KEY"))
+    maclar, oranlar = oddsapi.tara(api, bugun, ayar, simdi, yaz=_ozet_yaz)
+    mac_map, adaylar = {}, []
+    for m in maclar:
+        if m["fixture_id"] not in oranlar:
+            continue
+        mac_adaylari = oddsapi.adaylar(m, oranlar[m["fixture_id"]], ayar)
+        if mac_adaylari:
+            mac_map[m["fixture_id"]] = {**m, "not": "No team form data today: expected goals and most likely score "
+                                                    "are implied by the sharp betting market."}
+            adaylar += mac_adaylari
+    _ozet_yaz(f"The Odds API taraması: {len(maclar)} maç, {len(oranlar)} maçın oranı, {len(mac_map)} maçta aday; "
+              f"harcanan kredi {api.harcanan}, kalan {api.kalan}.")
+    return mac_map, adaylar
+
+
 def _mac_mac_tara(ayar, api, maclar: list[dict]) -> tuple[dict, list]:
     mac_map, adaylar = {}, []
     for m in maclar:
@@ -251,7 +280,7 @@ def bet_builder_birlestir(secimler: list[dict]) -> list[dict]:
         ilk = bacaklar[0]
         sonuc.append({
             **{k: ilk[k] for k in ("fixture_id", "lig", "ev", "dep", "baslama", "saat", "olasi_skor", "stake", "beklenen_gol",
-                                   "kupon_no") if k in ilk},
+                                   "kupon_no", "odds_id", "odds_spor") if k in ilk},
             "pazar": "BB", "bet_builder": True,
             "tur": "deger" if any(b["tur"] == "deger" for b in bacaklar) else "guvenli",
             "etiket": " + ".join(b["etiket"] for b in bacaklar),
@@ -413,13 +442,31 @@ def sabit_tweet(x) -> None:
 
 def sonuc(ayar, api, x, gunler: list[dict], simdi: datetime) -> None:
     ids = kayit.bekleyen_fixturelar(gunler, simdi) if api is not None else []
-    if ids:
-        sonuclar = football.sonuclari_al(api, ids, kayit.korner_fixturelari(gunler))
-        kayit.sorgulandi(gunler, ids, simdi)
+    # Yedek kaynaktan (The Odds API) seçilen maçların sonucu da oradan sorulur.
+    yedek = {s["fixture_id"]: s for g in gunler for s in g["secimler"] if s.get("odds_id")}
+    yedek_ids = [i for i in ids if i in yedek]
+    af_ids = [i for i in ids if i not in yedek]
+    hata = None
+    if yedek_ids:
+        istekler: dict[str, list[str]] = {}
+        for i in yedek_ids:
+            istekler.setdefault(yedek[i]["odds_spor"], []).append(yedek[i]["odds_id"])
+        try:
+            sonuclar = oddsapi.sonuclari_al(oddsapi.OddsApi(config.env("ODDS_API_KEY")), istekler)
+            kayit.sorgulandi(gunler, yedek_ids, simdi)
+            for g in kayit.sonuclandir(gunler, sonuclar, simdi):
+                print(f"{g['id']} sonuçlandı.")
+        except Exception as e:
+            hata = e
+    if af_ids:
+        sonuclar = football.sonuclari_al(api, af_ids, kayit.korner_fixturelari(gunler))
+        kayit.sorgulandi(gunler, af_ids, simdi)
         for g in kayit.sonuclandir(gunler, sonuclar, simdi):
             print(f"{g['id']} sonuçlandı.")
-    else:
+    if not ids:
         print("Sonuç bekleyen maç yok.")
+    if hata:
+        _hata("Sonuçlar (The Odds API)", hata)
     # Sonuçlanıp sonuç floodu atılmamış (ya da yarım kalmış) her gün: X hatası olsa bile sonraki çalışmada tamamlanır.
     for g in gunler:
         if g.get("tweet_id") and g["sonuc"] == "tamam" and not g.get("sonuc_tweet_id"):

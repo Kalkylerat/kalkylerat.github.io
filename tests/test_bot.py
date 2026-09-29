@@ -959,3 +959,126 @@ def test_tek_calismalik_istisna(monkeypatch):
     assert config.istisnalar()["api_yedek"] == 8
     monkeypatch.delenv("BOT_EK")
     assert config.yukle().guvenli_min_deger == 0.0
+
+
+# --- Yedek kaynak: The Odds API ---
+
+class _OddsYanit:
+    def __init__(self, veri, status=200, kalan="450", son="2"):
+        self.veri, self.status_code = veri, status
+        self.headers = {"x-requests-remaining": kalan, "x-requests-last": son}
+        self.text = ""
+
+    def json(self):
+        return self.veri
+
+
+class _OddsOturum:
+    def __init__(self, yanitlar):
+        self.yanitlar, self.cagrilar = yanitlar, []
+
+    def get(self, url, params=None, timeout=None):
+        self.cagrilar.append((url, dict(params or {})))
+        for parca, veri in self.yanitlar.items():
+            if url.endswith(parca):
+                return _OddsYanit(veri, son="0" if parca in ("sports", "events") else "2")
+        raise AssertionError(url)
+
+
+def _odds_etkinlik(eid="abcdef1234567890", ev="Home FC", dep="Away FC"):
+    def bm(key, h, d, a, o25, u25):
+        return {"key": key, "title": key, "markets": [
+            {"key": "h2h", "outcomes": [{"name": ev, "price": h}, {"name": "Draw", "price": d}, {"name": dep, "price": a}]},
+            {"key": "totals", "outcomes": [{"name": "Over", "price": o25, "point": 2.5},
+                                           {"name": "Under", "price": u25, "point": 2.5}]}]}
+    return {"id": eid, "sport_key": "soccer_epl", "commence_time": "2026-09-29T19:00:00Z", "home_team": ev, "away_team": dep,
+            "bookmakers": [bm("pinnacle", 1.40, 5.0, 8.5, 1.70, 2.25), bm("williamhill", 1.45, 4.6, 7.0, 1.66, 2.2),
+                           bm("betsson", 1.47, 4.7, 7.2, 1.68, 2.2), bm("unibet_eu", 1.44, 4.8, 7.5, 1.69, 2.15)]}
+
+
+def test_odds_bahisci_oranlari_ve_kimlik():
+    from bot import oddsapi
+    b = oddsapi.bahisci_oranlari(_odds_etkinlik())
+    assert set(b) == {"Pinnacle", "William Hill", "Betsson", "Unibet"}
+    assert b["Pinnacle"] == {"MS1": 1.40, "MSX": 5.0, "MS2": 8.5, "UST25": 1.70, "ALT25": 2.25}
+    assert oddsapi.fixture_id("abcdef1234567890") == int("abcdef123456", 16) < 2 ** 53
+
+
+def test_odds_adaylar_bet365_sartsiz_ve_deger_kurali():
+    from bot import oddsapi
+    ayar = config.yukle()
+    m = {"fixture_id": 1, "lig_id": ayar.ligler[0], "ev": "Home FC", "dep": "Away FC"}
+    adaylar = oddsapi.adaylar(m, oddsapi.bahisci_oranlari(_odds_etkinlik()), ayar)
+    assert adaylar, "Bet365 olmadan da en az 3 sitede fiyat varsa aday çıkmalı"
+    for a in adaylar:
+        assert a["deger"] >= ayar.guvenli_min_deger and a["olasi_skor"] and len(a["beklenen_gol"]) == 2
+    assert any(a["pazar"] == "MS1" and a["oran"] == 1.47 for a in adaylar)  # en iyi fiyat
+
+
+def test_odds_tara_kredi_ve_yedek():
+    from bot import oddsapi
+    ayar = config.yukle()
+    oturum = _OddsOturum({
+        "sports": [{"key": "soccer_epl", "group": "Soccer", "title": "EPL", "active": True, "has_outrights": False},
+                   {"key": "soccer_fifa_world_cup_winner", "group": "Soccer", "title": "WC", "active": True, "has_outrights": True}],
+        "events": [{"id": "abcdef1234567890"}],
+        "odds": [_odds_etkinlik()],
+    })
+    api = oddsapi.OddsApi("x", session=oturum)
+    simdi = datetime(2026, 9, 29, 10, 0, tzinfo=timezone.utc)
+    maclar, oranlar = oddsapi.tara(api, "2026-09-29", ayar, simdi)
+    assert len(maclar) == 1 and maclar[0]["odds_spor"] == "soccer_epl" and maclar[0]["fixture_id"] in oranlar
+    assert maclar[0]["lig_id"] in ayar.ligler
+    odds = [p for u, p in oturum.cagrilar if u.endswith("/odds")][0]
+    assert odds["regions"] == "eu" and odds["markets"] == "h2h,totals" and odds["commenceTimeFrom"] == "2026-09-29T12:30:00Z"
+    assert api.harcanan == 2 and api.kalan == 450
+
+
+def test_odds_hata_mesajinda_anahtar_yok():
+    from bot import oddsapi
+
+    class Oturum:
+        def get(self, url, params=None, timeout=None):
+            return _OddsYanit({"message": "API key is not valid"}, status=401)
+    api = oddsapi.OddsApi("GIZLI-ANAHTAR", session=Oturum())
+    with pytest.raises(oddsapi.OddsApiHatasi) as e:
+        api.get("sports")
+    assert "GIZLI" not in str(e.value) and "401" in str(e.value)
+
+
+def test_odds_sonuclari():
+    from bot import oddsapi
+    oturum = _OddsOturum({"scores": [
+        {"id": "abcdef1234567890", "completed": True, "home_team": "Home FC", "away_team": "Away FC",
+         "scores": [{"name": "Home FC", "score": "2"}, {"name": "Away FC", "score": "0"}]},
+        {"id": "1234567890abcdef", "completed": False, "home_team": "A", "away_team": "B", "scores": None}]})
+    s = oddsapi.sonuclari_al(oddsapi.OddsApi("x", session=oturum), {"soccer_epl": ["abcdef1234567890", "1234567890abcdef"]})
+    assert s[oddsapi.fixture_id("abcdef1234567890")] == {"durum": "bitti", "skor": (2, 0), "iy": None, "korner": None}
+    assert s[oddsapi.fixture_id("1234567890abcdef")]["durum"] == "bekliyor"
+    assert oturum.cagrilar[0][1]["daysFrom"] == 3
+
+
+def test_api_football_kapaliyken_yedek_kaynakla_kupon_ve_sonuc(monkeypatch):
+    from bot import __main__ as ana, oddsapi
+    ayar = config.yukle()
+    monkeypatch.setenv("ODDS_API_KEY", "x")
+
+    def kapali(*a, **k):
+        raise football.ApiHatasi("Your account is suspended")
+    monkeypatch.setattr(football, "gunun_maclari", kapali)
+    oturum = _OddsOturum({
+        "sports": [{"key": "soccer_epl", "group": "Soccer", "title": "EPL", "active": True, "has_outrights": False}],
+        "events": [{"id": "abcdef1234567890"}], "odds": [_odds_etkinlik()],
+        "scores": [{"id": "abcdef1234567890", "completed": True, "home_team": "Home FC", "away_team": "Away FC",
+                    "scores": [{"name": "Home FC", "score": "3"}, {"name": "Away FC", "score": "1"}]}]})
+    gercek = oddsapi.OddsApi
+    monkeypatch.setattr(oddsapi, "OddsApi", lambda key, session=None: gercek(key, session=oturum))
+    gunler = []
+    simdi = datetime(2026, 9, 29, 10, 0, tzinfo=timezone.utc)
+    gun = ana.tahmin(ayar, SimpleNamespace(istek_sayisi=0), editor.basit_sec, gunler, "2026-09-29", simdi)
+    assert gun and gun["secimler"] and not ana.HATALAR
+    s = gun["secimler"][0]
+    assert s["odds_id"] == "abcdef1234567890" and s["odds_spor"] == "soccer_epl"
+    gun["tweet_id"] = "1"
+    ana.sonuc(ayar, SimpleNamespace(), tweets.KonsolClient(), gunler, simdi + timedelta(hours=12))
+    assert gun["sonuc"] == "tamam" and s["skor"] == "3-1"

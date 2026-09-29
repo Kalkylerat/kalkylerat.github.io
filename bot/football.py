@@ -145,6 +145,7 @@ def gunun_maclari(api, tarih: str, ligler: list[int], saat_dilimi: str,
         maclar.append({
             "fixture_id": f["fixture"]["id"],
             "lig_id": lig_id,
+            "sezon": f["league"].get("season"),
             "lig": f["league"]["name"],
             "ulke": f["league"].get("country", ""),
             "ev": f["teams"]["home"]["name"],
@@ -172,6 +173,40 @@ def _bahisci_oranlari(kayitlar: list[dict]) -> dict[str, dict[str, float]]:
 def oranlari_al(api, fixture_id: int) -> dict[str, dict[str, float]]:
     """bahisçi adı -> {pazar kodu -> oran}. Tek istekte tüm bahisçiler gelir."""
     return _bahisci_oranlari(api.get("odds", fixture=fixture_id))
+
+
+def lig_lig_oranlar(api, maclar: list[dict], tarih: str, saat_dilimi: str, max_istek: int,
+                    oncelikli: list[int]) -> dict[int, dict[str, dict[str, float]]]:
+    """Ücretsiz plan toplu taramada en fazla 3 sayfa (30 maç) veriyor. Bunun yerine lig lig: her lig için
+    o günün oranları tek istekte (lig başına genelde tek sayfa). Önce izinli ligler, sonra maçı çok olanlar."""
+    from collections import Counter
+    sayim = Counter((m["lig_id"], m.get("sezon")) for m in maclar)
+    sira = {lig: i for i, lig in enumerate(oncelikli)}
+    ligler = sorted(sayim, key=lambda k: (sira.get(k[0], len(sira)), -sayim[k]))
+    sonuc: dict[int, dict[str, dict[str, float]]] = {}
+    istek = 0
+    for lig, sezon in ligler:
+        sayfa, toplam = 1, 1
+        while sayfa <= min(toplam, 3) and istek < max_istek:
+            try:
+                body = api.get_body("odds", league=lig, season=sezon, date=tarih, timezone=saat_dilimi, page=sayfa)
+            except ApiHatasi as e:
+                if "limit" in str(e).lower() and "page" not in str(e).lower():
+                    print(f"Lig lig tarama durdu (hak): {e}")
+                    return sonuc
+                print(f"Lig {lig} atlandı: {e}")
+                break
+            istek += 1
+            toplam = int((body.get("paging") or {}).get("total") or 1)
+            for kayit in body.get("response", []):
+                oranlar = _bahisci_oranlari([kayit])
+                if oranlar:
+                    sonuc[kayit["fixture"]["id"]] = oranlar
+            sayfa += 1
+        if istek >= max_istek:
+            break
+    print(f"Lig lig oran taraması: {istek} istek, {len(ligler)} ligden {len(sonuc)} maç")
+    return sonuc
 
 
 def toplu_oranlar(api, tarih: str, saat_dilimi: str, max_sayfa: int) -> dict[int, dict[str, dict[str, float]]]:

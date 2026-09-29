@@ -148,7 +148,7 @@ def _toplu_tara(ayar, api, maclar: list[dict], bugun: str) -> tuple[dict, list]:
         print(f"API-Football: bugün {kalan} istek kalmış, toplu taramaya {sayfa} sayfa ayrıldı.")
     if sayfa == 0:
         raise HakYetmiyor(f"günlük istek hakkı toplu tarama için yetmiyor (kalan {kalan})")
-    oranlar = football.toplu_oranlar(api, bugun, ayar.saat_dilimi, sayfa)
+    oranlar = football.lig_lig_oranlar(api, maclar, bugun, ayar.saat_dilimi, sayfa, ayar.ligler)
     if not oranlar:
         raise football.ApiHatasi("toplu taramada hiç oran gelmedi")
     # Toplu tarama izinli liglerin maçlarını kaçırdıysa, hak yettiğince onların oranları tek tek tamamlanır.
@@ -177,6 +177,17 @@ def _toplu_tara(ayar, api, maclar: list[dict], bugun: str) -> tuple[dict, list]:
             if puan is not None:
                 puanli.append((puan, m))
     puanli.sort(key=lambda x: x[0], reverse=True)
+    if not puanli:  # teşhis: kurala en çok yaklaşan pazarlar (değer = oran × adil ihtimal − 1)
+        yakin = []
+        for m in maclar:
+            if m["fixture_id"] not in oranlar:
+                continue
+            adil, _ = model.adil_olasiliklar(oranlar[m["fixture_id"]], ayar.keskin_bahisci)
+            for pazar, (oran, _, _d) in model.piyasa_oranlari(oranlar[m["fixture_id"]], ayar.oran_bahiscileri).items():
+                if pazar in adil and adil[pazar] >= 0.6 and ayar.oran_min <= oran <= ayar.oran_max:
+                    yakin.append((adil[pazar] * oran - 1, f'{m["ev"]} v {m["dep"]} {pazar} {oran:.2f} p={adil[pazar]:.2f}'))
+        yakin.sort(reverse=True)
+        _ozet_yaz("Kurala en yakın 5 pazar: " + "; ".join(f"{d:+.3f} {t}" for d, t in yakin[:5]))
     secilen = puanli[:ayar.max_detay_mac]
     izinli = [m for m in maclar if m["lig_id"] in ayar.ligler]
     kapsanan = sum(m["fixture_id"] in oranlar for m in izinli)

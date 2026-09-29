@@ -158,7 +158,8 @@
         "durum": "bekliyor",
         "skor": null,
         "odds_id": "562098ccc1859420552f95039d168817",
-        "odds_spor": "soccer_uefa_nations_league"
+        "odds_spor": "soccer_uefa_nations_league",
+        "son_sorgu": "2026-09-29T20:35:05+00:00"
       },
       {
         "fixture_id": 28398731927836,
@@ -194,7 +195,8 @@
         "durum": "bekliyor",
         "skor": null,
         "odds_id": "19d41854211c2ad2a43283d92e9b8a44",
-        "odds_spor": "soccer_uefa_nations_league"
+        "odds_spor": "soccer_uefa_nations_league",
+        "son_sorgu": "2026-09-29T20:35:05+00:00"
       }
     ],
     "sonuc": null,

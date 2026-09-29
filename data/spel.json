@@ -117,5 +117,17 @@
       "2104823974098080029"
     ],
     "sonuc_tweet_id": "2104823974098080029"
+  },
+  {
+    "id": "2026-09-29",
+    "tarih": "2026-09-29",
+    "olusturma": "2026-09-29T08:35:55+00:00",
+    "baslik": "",
+    "secimler": [],
+    "sonuc": "pas",
+    "tweet_id": null,
+    "para": "€",
+    "yuzde": 1.0,
+    "pas_nedeni": "Kriterleri geçen yüksek ihtimalli oyun yok."
   }
 ]

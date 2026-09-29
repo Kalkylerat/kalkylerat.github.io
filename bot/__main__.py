@@ -551,6 +551,23 @@ def tani(ayar) -> None:
     _ozet_yaz("\n".join(satirlar))
 
 
+def profil() -> None:
+    """X profilini okur (paylaşım yok): kullanıcı adı, bio, sabit tweet, doğrulama."""
+    r = _x_client().session.get("https://api.x.com/2/users/me", params={
+        "user.fields": "description,pinned_tweet_id,verified,verified_type,public_metrics",
+        "expansions": "pinned_tweet_id", "tweet.fields": "text"}, timeout=30)
+    veri = r.json()
+    u = veri.get("data", {})
+    sabit = (veri.get("includes", {}).get("tweets") or [{}])[0]
+    _ozet_yaz("\n".join([
+        f"- Durum: {r.status_code}", f"- Kullanıcı: @{u.get('username')}",
+        f"- Doğrulama: {u.get('verified')} / {u.get('verified_type')}",
+        f"- Takipçi: {(u.get('public_metrics') or {}).get('followers_count')}",
+        f"- Bio: {u.get('description')!r}",
+        f"- Sabit tweet: {sabit.get('id', 'YOK')} {sabit.get('text', '')[:80]!r}",
+        f"- Ham: {str(veri)[:300] if r.status_code >= 400 else '-'}"]))
+
+
 def oran_testi(ayar) -> None:
     """Toplu oran taramasının ücretsiz planda çalışıp çalışmadığını ölçer (paylaşım yok, ~4 istek)."""
     from collections import Counter
@@ -595,7 +612,7 @@ def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="bot")
     p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt", "sabit", "hafta", "yenile", "oran_testi",
                                           "onay_kontrol", "onay_testi", "onay_yenile", "nabiz",
-                                          "sonuc_yeniden"])
+                                          "sonuc_yeniden", "profil"])
     args = p.parse_args(argv)
     ayar = config.yukle()
 
@@ -604,6 +621,9 @@ def main(argv=None) -> int:
         return 0
     if args.komut == "tani":
         tani(ayar)
+        return 0
+    if args.komut == "profil":
+        profil()
         return 0
     if args.komut == "oran_testi":
         oran_testi(ayar)

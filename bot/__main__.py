@@ -242,7 +242,7 @@ def _odds_tara(ayar, bugun: str, simdi: datetime) -> tuple[dict, list]:
     ligler = sorted({m["lig"] for m in maclar})
     _ozet_yaz(f"The Odds API taraması: {len(maclar)} maç ({', '.join(ligler)}), {len(oranlar)} maçın oranı, "
               f"{len(mac_map)} maçta aday; harcanan kredi {api.harcanan}, kalan {api.kalan}.")
-    if not adaylar:  # teşhis: kurala en çok yaklaşan pazarlar (değer = en iyi oran × adil ihtimal − 1)
+    if True:  # teşhis: yüksek ihtimalli pazarlar ve neden elendikleri (değer = en iyi oran × adil ihtimal − 1)
         yakin = []
         for m in maclar:
             b = oranlar.get(m["fixture_id"])
@@ -250,11 +250,13 @@ def _odds_tara(ayar, bugun: str, simdi: datetime) -> tuple[dict, list]:
                 continue
             adil, kaynak = model.adil_olasiliklar(b, ayar.keskin_bahisci)
             for pazar, (oran, _, d) in model.piyasa_oranlari(b, ayar.oran_bahiscileri, ayar.oran_yontemi).items():
-                if pazar in adil and adil[pazar] >= 0.6 and ayar.oran_min <= oran <= ayar.oran_max:
+                if pazar in adil and adil[pazar] >= 0.6:
+                    neden = ("oran düşük" if oran < ayar.oran_min else "oran yüksek" if oran > ayar.oran_max
+                             else f"{len(d)} site" if len(d) < ayar.min_oran_bahiscisi else "")
                     yakin.append((adil[pazar] * oran - 1, f'{m["ev"]} v {m["dep"]} {pazar} {oran:.2f} '
-                                  f'p={adil[pazar]:.2f} ({len(d)} site, {kaynak[pazar]})'))
+                                  f'p={adil[pazar]:.2f} ({len(d)} site, {kaynak[pazar]}{", " + neden if neden else ""})'))
         yakin.sort(reverse=True)
-        _ozet_yaz("Kurala en yakın 5 pazar: " + "; ".join(f"{v:+.3f} {t}" for v, t in yakin[:5]))
+        _ozet_yaz("Yüksek ihtimalli pazarlar (en iyi 12): " + "; ".join(f"{v:+.3f} {t}" for v, t in yakin[:12]))
     return mac_map, adaylar
 
 

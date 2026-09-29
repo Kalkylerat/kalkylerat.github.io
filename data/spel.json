@@ -155,11 +155,11 @@
           0.7
         ],
         "yorum": "Expected goals put Spain around 2.7 against Croatia's 0.7. We see about an 8 in 10 chance of a home win, with 2-0 the likeliest score.",
-        "durum": "bekliyor",
-        "skor": null,
+        "durum": "kazandi",
+        "skor": "4-1",
         "odds_id": "562098ccc1859420552f95039d168817",
         "odds_spor": "soccer_uefa_nations_league",
-        "son_sorgu": "2026-09-29T20:35:05+00:00"
+        "son_sorgu": "2026-09-29T20:47:38+00:00"
       },
       {
         "fixture_id": 28398731927836,
@@ -192,14 +192,14 @@
           2.35
         ],
         "yorum": "England are expected to create far more, about 2.35 goals to 0.7. That makes an away win roughly a 3 in 4 chance, most likely 0-2.",
-        "durum": "bekliyor",
-        "skor": null,
+        "durum": "kazandi",
+        "skor": "0-2",
         "odds_id": "19d41854211c2ad2a43283d92e9b8a44",
         "odds_spor": "soccer_uefa_nations_league",
-        "son_sorgu": "2026-09-29T20:35:05+00:00"
+        "son_sorgu": "2026-09-29T20:47:38+00:00"
       }
     ],
-    "sonuc": null,
+    "sonuc": "tamam",
     "tweet_id": "2104921369280733455",
     "para": "€",
     "yuzde": 1.0,
@@ -210,7 +210,7 @@
           1
         ],
         "stake": 101.14,
-        "durum": null
+        "durum": "tuttu"
       }
     ],
     "yanit_onerileri": [
@@ -247,6 +247,11 @@
     "analiz_tweet_idleri": [
       "2104921370681540685",
       "2104921371759538561"
-    ]
+    ],
+    "sonuclanma": "2026-09-29T20:47:38+00:00",
+    "sonuc_tweet_idleri": [
+      "2105036808593535223"
+    ],
+    "sonuc_tweet_id": "2105036808593535223"
   }
 ]

@@ -368,7 +368,7 @@ def sabit_tweet(x) -> None:
 
 
 def sonuc(ayar, api, x, gunler: list[dict], simdi: datetime) -> None:
-    ids = kayit.bekleyen_fixturelar(gunler, simdi)
+    ids = kayit.bekleyen_fixturelar(gunler, simdi) if api is not None else []
     if ids:
         sonuclar = football.sonuclari_al(api, ids, kayit.korner_fixturelari(gunler))
         kayit.sorgulandi(gunler, ids, simdi)
@@ -381,7 +381,11 @@ def sonuc(ayar, api, x, gunler: list[dict], simdi: datetime) -> None:
         if g.get("tweet_id") and g["sonuc"] == "tamam" and not g.get("sonuc_tweet_id"):
             idler = g.setdefault("sonuc_tweet_idleri", [])
             try:
-                _zincir(x, tweets.sonuc_tweetleri(g, kayit.ozet(gunler, ayar.kasa_baslangic)), g["tweet_id"], idler)
+                metinler = tweets.sonuc_tweetleri(g, kayit.ozet(gunler, ayar.kasa_baslangic))
+                if not idler:
+                    # Sonuç ayrı bir paylaşım olarak kuponu alıntılar: profilde ve akışta görünür (yanıtlar görünmez).
+                    idler.append(x.gonder(metinler[0], alinti=g["tweet_id"]))
+                _zincir(x, metinler, g["tweet_id"], idler)
             except RuntimeError as e:
                 if "duplicate" not in str(e).lower():
                     raise
@@ -571,7 +575,8 @@ def demo(ayar) -> None:
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="bot")
     p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt", "sabit", "hafta", "yenile", "oran_testi",
-                                          "onay_kontrol", "onay_testi", "onay_yenile", "nabiz"])
+                                          "onay_kontrol", "onay_testi", "onay_yenile", "nabiz",
+                                          "sonuc_yeniden"])
     args = p.parse_args(argv)
     ayar = config.yukle()
 
@@ -648,6 +653,17 @@ def main(argv=None) -> int:
                 onay.kontrol(ayar, onay.GitHub(), _x_client(), gunler, simdi, yayinla)
             except Exception as e:
                 _hata("Onay kontrolü", e)
+        if args.komut == "sonuc_yeniden":
+            # Son sonuç paylaşımını (eski biçim: kupon altında yanıt) silip yeni biçimle (alıntı) tekrar paylaşır.
+            g = next((g for g in sorted(gunler, key=lambda g: g["tarih"], reverse=True) if g.get("sonuc_tweet_idleri")), None)
+            if not g:
+                raise RuntimeError("Yeniden paylaşılacak sonuç yok.")
+            x = _x_client()
+            for tid in reversed(g["sonuc_tweet_idleri"]):
+                if tid != "x-mukerrer":
+                    x.sil(tid)
+            g["sonuc_tweet_idleri"], g["sonuc_tweet_id"] = [], None
+            sonuc(ayar, None, x, gunler, simdi)
         if args.komut == "onay_yenile":
             # Hata düzeltildikten sonra: bugünün kuponu güncel kodla yeniden hazırlanır, yeni önizleme gelir.
             gun = kayit.bul(gunler, bugun)

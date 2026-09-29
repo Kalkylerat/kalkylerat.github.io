@@ -261,10 +261,13 @@ class XClient:
         veri = r.json().get("data") or r.json()
         return str(veri.get("id") or veri["media_id_string"])
 
-    def gonder(self, metin: str, yanit: str | None = None, medya: list[str] | None = None) -> str:
+    def gonder(self, metin: str, yanit: str | None = None, medya: list[str] | None = None,
+               alinti: str | None = None) -> str:
         body: dict = {"text": metin}
         if yanit:
             body["reply"] = {"in_reply_to_tweet_id": yanit}
+        if alinti:
+            body["quote_tweet_id"] = alinti
         if medya:
             body["media"] = {"media_ids": list(medya)[:4]}
         r = self.session.post(self.URL, json=body, timeout=30)
@@ -299,9 +302,10 @@ class KonsolClient:
             (self.gorsel_klasoru / f"demo_kupon{self.gorsel_sayac}.png").write_bytes(png)
         return f"gorsel-{len(png) // 1024}KB"
 
-    def gonder(self, metin: str, yanit: str | None = None, medya: list[str] | None = None) -> str:
+    def gonder(self, metin: str, yanit: str | None = None, medya: list[str] | None = None,
+               alinti: str | None = None) -> str:
         self.sayac += 1
-        ek = f" + {', '.join(medya)}" if medya else ""
+        ek = (f" + {', '.join(medya)}" if medya else "") + (f" (alıntı: {alinti})" if alinti else "")
         print(f"\n----- TWEET #{self.sayac}{' (yanıt)' if yanit else ''}{ek} [{uzunluk(metin)}/280] -----\n{metin}")
         return f"demo-{self.sayac}"
 

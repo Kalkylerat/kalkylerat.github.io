@@ -503,19 +503,19 @@ def test_sonuc_floodu_x_hatasinda_sonra_tamamlanir(monkeypatch):
         def __init__(self, hata_sirasi=None):
             self.atilan, self.hata_sirasi = [], hata_sirasi
 
-        def gonder(self, metin, yanit=None, medya=None):
+        def gonder(self, metin, yanit=None, medya=None, alinti=None):
             if len(self.atilan) == self.hata_sirasi:
                 raise RuntimeError("X 503")
             self.atilan.append((metin, yanit))
             return f"s{len(self.atilan)}"
 
     with pytest.raises(RuntimeError):
-        sonuc(AYAR, None, X(hata_sirasi=1), [g], SIMDI)  # uzun: iki tweet; ikincisi başarısız
+        sonuc(AYAR, object(), X(hata_sirasi=1), [g], SIMDI)  # uzun: iki tweet; ikincisi başarısız
     assert g["sonuc"] == "tamam" and not g.get("sonuc_tweet_id") and g["sonuc_tweet_idleri"] == ["s1"]
     x2 = X()
-    sonuc(AYAR, None, x2, [g], SIMDI)  # yalnızca eksik ikinci tweet, ilkinin altına
+    sonuc(AYAR, object(), x2, [g], SIMDI)  # yalnızca eksik ikinci tweet, ilkinin altına
     assert len(x2.atilan) == 1 and x2.atilan[0][1] == "s1" and g["sonuc_tweet_id"] == "s1"
-    sonuc(AYAR, None, X(), [g], SIMDI)
+    sonuc(AYAR, object(), X(), [g], SIMDI)
     assert len(g["sonuc_tweet_idleri"]) == 2
 
 
@@ -761,7 +761,7 @@ def test_onayli_paylasim_onizlemenin_aynisi(monkeypatch, tmp_path):
             pngler.append(png)
             return "m"
 
-        def gonder(self, metin, yanit=None, medya=None):
+        def gonder(self, metin, yanit=None, medya=None, alinti=None):
             atilan.append(metin)
             return f"t{len(atilan)}"
 
@@ -806,7 +806,7 @@ def test_onayli_kupon_gorselsiz_paylasilmaz_ama_son_saatte_metinle_gider(monkeyp
     issue = [{"number": 7, "title": "Onay: 2026-10-03 kuponu"}]
     ok = {7: [{"body": "ok", "user": {"login": "biri"}, "author_association": "OWNER"}]}
     atilan = []
-    x = SimpleNamespace(gonder=lambda metin, yanit=None, medya=None: atilan.append(metin) or f"t{len(atilan)}")
+    x = SimpleNamespace(gonder=lambda metin, yanit=None, medya=None, alinti=None: atilan.append(metin) or f"t{len(atilan)}")
     g = _onayli_gun("2026-10-03T10:30:00+00:00")  # ilk maç 13:00 UTC
     gh = SahteGitHub(issue, ok)
     onay.kontrol(AYAR, gh, x, [g], datetime(2026, 10, 3, 9, tzinfo=timezone.utc), ana.yayinla)
@@ -933,3 +933,14 @@ def test_hak_yetmezse_mac_mac_taramaya_gecilmez(monkeypatch):
     monkeypatch.setattr(ana, "_mac_mac_tara", lambda *a: pytest.fail("yedek hak harcanmamalı"))
     simdi = datetime.fromisoformat(api.data["simdi"])
     assert ana.tahmin(AYAR, api, editor.basit_sec, [], "2026-10-03", simdi) is None and ana.HATALAR
+
+
+def test_sonuc_kuponu_alintilayan_ayri_paylasim(monkeypatch):
+    from bot.__main__ import sonuc
+    g = _gun("2026-10-03", [_secim(1, 1.5, 0.8)], kuponlar=[[0]])
+    monkeypatch.setattr(football, "sonuclari_al", lambda api, ids, korner: {1: {"durum": "bitti", "skor": (2, 0)}})
+    atilan = []
+    x = SimpleNamespace(gonder=lambda metin, yanit=None, medya=None, alinti=None:
+                        atilan.append((yanit, alinti)) or f"s{len(atilan)}")
+    sonuc(AYAR, object(), x, [g], SIMDI)
+    assert atilan[0] == (None, "t1") and g["sonuc_tweet_id"] == "s1"  # yanıt değil, kuponu alıntılayan paylaşım

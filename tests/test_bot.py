@@ -610,6 +610,7 @@ def test_yenile_bugunu_silip_yeniden_secer(monkeypatch):
     assert silinen == [] and gunler == [eski]
     monkeypatch.setattr(ana, "tahmin", orijinal)
     monkeypatch.setattr(ana, "yayinla", lambda *a: True)
+    monkeypatch.setattr(ana.onay, "onay_iste", lambda *a: None)  # testte gerçek onay dosyası yazılmasın
     assert ana.yenile(AYAR, None, None, x, gunler, "2026-10-03", datetime(2026, 10, 3, 8, tzinfo=timezone.utc))
     assert silinen == ["a1", "t1"] and gunler == [yeni]
     # maç başladıysa hiçbir şey silinmez

@@ -50,7 +50,8 @@ jobs:
       - run: git pull --ff-only origin "$GITHUB_REF_NAME"
       - run: pip install -r requirements.txt
       # Testler hiçbir zaman gerçek onay isteği/önizleme bırakmasın.
-      - run: python -m pytest -q && rm -f onay_istegi.md && git checkout -- docs 2>/dev/null; git clean -fdq docs/onizleme
+      - run: python -m pytest -q
+      - run: rm -f onay_istegi.md; git checkout -- docs; git clean -fdq docs/onizleme
       - name: Botu çalıştır
         env:
           OLAY: ${{ github.event_name }}

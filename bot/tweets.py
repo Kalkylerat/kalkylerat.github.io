@@ -209,6 +209,21 @@ def sonuc_tweetleri(gun: dict, ozet: dict) -> list[str]:
     return [kirp("\n".join(satirlar)), ikinci if uzunluk(ikinci) <= LIMIT else kirp("\n".join(para_satirlari))]
 
 
+def gorselli_sonuc_tweeti(gun: dict, ozet: dict) -> str:
+    """Sonuç kartıyla giden kısa metin: ayrıntılar görselde."""
+    birim, liste = gun["para"], kuponlar(gun)
+    durumlar = [kupon_durumu(gun, k) for k in liste]
+    kar_ = sum(kupon_kar(gun, k) for k in liste) + sum(kar(s) for s in gun["secimler"])
+    if len(liste) == 1:
+        ust = {"tuttu": "✅ Coupon won", "yatti": "❌ Coupon lost", "iptal": "➖ Coupon void"}.get(durumlar[0], "Results")
+    else:
+        ust = f'🎫 {durumlar.count("tuttu")} of {len(liste)} coupons won'
+    genel = "tuttu" if "tuttu" in durumlar else ("yatti" if "yatti" in durumlar else None)
+    return (f"📊 RESULTS | {_tarih(gun)}\n\n{ust}: {isaretli_para(kar_, birim)}\n"
+            f'💰 Bank: {para(ozet["kasa"], birim)} ({ozet["kasa_degisim"]:+.1f}% since start)\n\n'
+            f"{_gunun(SONUC_SORULARI[genel], gun)}\n{ANSVAR}")
+
+
 def hafta_tweeti(h: dict, ozet: dict, birim: str) -> str:
     """Haftalık özet (Pazar akşamı): haftanın kuponları, oyunları, kâr/zarar ve kasa."""
     bas = datetime.fromisoformat(h["baslangic"])

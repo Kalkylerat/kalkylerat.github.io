@@ -6,7 +6,7 @@ from datetime import datetime
 from PIL import Image, ImageDraw, ImageFont
 
 from .config import ROOT
-from .kayit import kupon_ayaklari, kupon_olasilik, kupon_oran
+from .kayit import kar, kupon_ayaklari, kupon_durumu, kupon_kar, kupon_olasilik, kupon_oran, kuponlar
 from .tweets import kupon_oran_metni
 
 BOYUT = 1200
@@ -37,6 +37,24 @@ def _para(x: float, birim: str) -> str:
     return f"{birim}{x:,.0f}"
 
 
+def _ust(im, d, tarih_iso: str, sag_alt: str) -> None:
+    """Ortak başlık: logo + marka solda, tarih ve (kasa gibi) bir bilgi sağda."""
+    logo_yolu = ROOT / "marka" / "logo.png"
+    x = KENAR
+    if logo_yolu.exists():
+        logo = Image.open(logo_yolu).convert("RGB").resize((96, 96))
+        maske = Image.new("L", (96, 96), 0)
+        ImageDraw.Draw(maske).ellipse((0, 0, 95, 95), fill=255)
+        im.paste(logo, (KENAR, KENAR), maske)
+        x += 120
+    d.text((x, KENAR + 8), "KALKYLERAT", font=_font(42, True), fill=YAZI)
+    d.text((x, KENAR + 60), "Data-driven football picks", font=_font(24), fill=SOLUK)
+    tarih = datetime.fromisoformat(tarih_iso).strftime("%-d %b %Y").upper()
+    f = _font(30, True)
+    d.text((BOYUT - KENAR - d.textlength(tarih, font=f), KENAR + 8), tarih, font=f, fill=VURGU)
+    d.text((BOYUT - KENAR - d.textlength(sag_alt, font=f), KENAR + 56), sag_alt, font=f, fill=YAZI)
+
+
 def kupon_gorseli(gun: dict, kupon: dict, kasa: float, sira: int = 1, toplam: int = 1) -> bytes:
     """Bir kuponun kartı. Kasa bakiyesi başlıkta, "kupon başına %1" altta yazar."""
     secimler, birim = kupon_ayaklari(gun, kupon), gun["para"]
@@ -49,23 +67,7 @@ def kupon_gorseli(gun: dict, kupon: dict, kasa: float, sira: int = 1, toplam: in
     d = ImageDraw.Draw(im)
     ic = BOYUT - 2 * KENAR
 
-    # Başlık: logo + marka + tarih
-    logo_yolu = ROOT / "marka" / "logo.png"
-    x = KENAR
-    if logo_yolu.exists():
-        logo = Image.open(logo_yolu).convert("RGB").resize((96, 96))
-        maske = Image.new("L", (96, 96), 0)
-        ImageDraw.Draw(maske).ellipse((0, 0, 95, 95), fill=255)
-        im.paste(logo, (KENAR, KENAR), maske)
-        x += 120
-    d.text((x, KENAR + 8), "KALKYLERAT", font=_font(42, True), fill=YAZI)
-    d.text((x, KENAR + 60), "Data-driven football picks", font=_font(24), fill=SOLUK)
-    tarih = datetime.fromisoformat(gun["tarih"]).strftime("%-d %b %Y").upper()
-    f = _font(30, True)
-    d.text((BOYUT - KENAR - d.textlength(tarih, font=f), KENAR + 8), tarih, font=f, fill=VURGU)
-    bakiye = f"BANK {_para(kasa, birim)}"
-    f = _font(30, True)
-    d.text((BOYUT - KENAR - d.textlength(bakiye, font=f), KENAR + 56), bakiye, font=f, fill=YAZI)
+    _ust(im, d, gun["tarih"], f"BANK {_para(kasa, birim)}")
 
     baslik = "TODAY'S COUPON" if toplam == 1 else f"COUPON {sira} OF {toplam}"
     d.text((KENAR, 230), baslik, font=_font(64, True), fill=YAZI)
@@ -173,6 +175,66 @@ def kasa_grafigi(seyir: list[tuple[str, float]], baslangic: float, birim: str) -
     altyazi = "Every coupon posted before kick-off · all results counted · 18+ | Play responsibly"
     altyazi, f = _sigdir(d, altyazi, G_ - 2 * KENAR, 22)
     d.text(((G_ - d.textlength(altyazi, font=f)) / 2, Y_ - 48), altyazi, font=f, fill=SOLUK)
+    tampon = io.BytesIO()
+    im.save(tampon, "PNG", optimize=True)
+    return tampon.getvalue()
+
+
+KAYIP = (255, 107, 97)
+
+
+def sonuc_gorseli(gun: dict, kasa: float, kasa_degisim: float) -> bytes:
+    """Sonuç kartı: maç maç skor ve ✔/✘, kupon kâr/zararı, güncel kasa. Kupon kartıyla aynı tasarım."""
+    birim, secimler, liste = gun["para"], gun["secimler"], kuponlar(gun)
+    yuk, bosluk, alan_ust = 150, 18, 340
+    kart_alt = alan_ust + len(secimler) * (yuk + bosluk) - bosluk
+    serit_y = kart_alt + 35
+    yukseklik = max(serit_y + 140 + 110, 700)
+    im = Image.new("RGB", (BOYUT, yukseklik), ARKA)
+    d = ImageDraw.Draw(im)
+    ic = BOYUT - 2 * KENAR
+    _ust(im, d, gun["tarih"], f"BANK {_para(kasa, birim)}")
+    durumlar = [kupon_durumu(gun, k) for k in liste]
+    if len(liste) == 1:
+        baslik = {"tuttu": "COUPON WON", "yatti": "COUPON LOST", "iptal": "COUPON VOID"}.get(durumlar[0], "RESULTS")
+    else:
+        baslik = f"RESULTS · {durumlar.count('tuttu')} OF {len(liste)} COUPONS WON"
+    renk = VURGU if "tuttu" in durumlar else (KAYIP if "yatti" in durumlar else YAZI)
+    b, f = _sigdir(d, baslik, ic, 64, True)
+    d.text((KENAR, 230), b, font=f, fill=renk)
+    isaret = {"kazandi": ("✔", VURGU), "kaybetti": ("✘", KAYIP), "iptal": ("–", SOLUK), "bekliyor": ("…", SOLUK)}
+    for i, s in enumerate(secimler):
+        y = alan_ust + i * (yuk + bosluk)
+        d.rounded_rectangle((KENAR, y, BOYUT - KENAR, y + yuk), radius=22, fill=KART)
+        sol, sag = KENAR + 34, BOYUT - KENAR - 34
+        skor = (s.get("skor") or "–").replace("-", " – ")
+        f_skor = _font(46, True)
+        skor_gen = d.textlength(skor, font=f_skor)
+        metin_gen = ic - 68 - skor_gen - 90
+        mac, f = _sigdir(d, f'{s["ev"]} v {s["dep"]}', metin_gen, 34, True)
+        d.text((sol, y + 22), mac, font=f, fill=YAZI)
+        secim, f = _sigdir(d, s["kisa"], metin_gen, 28)
+        d.text((sol, y + 82), secim, font=f, fill=SOLUK)
+        k, r = isaret[s["durum"]]
+        fk = _font(54, True)
+        d.text((sag - d.textlength(k, font=fk), y + 40), k, font=fk, fill=r)
+        d.text((sag - 80 - skor_gen, y + 46), skor, font=f_skor, fill=YAZI)
+    toplam_kar = sum(kupon_kar(gun, k_) for k_ in liste) + sum(kar(s_) for s_ in secimler)
+    kutular = [("COUPON" if len(liste) == 1 else "COUPONS", f'{"+" if toplam_kar >= 0 else "-"}{_para(abs(toplam_kar), birim)}'),
+               ("BANK", _para(kasa, birim)), ("SINCE START", f"{kasa_degisim:+.1f}%")]
+    y = serit_y
+    d.rounded_rectangle((KENAR, y, BOYUT - KENAR, y + 140), radius=22, outline=renk if renk != YAZI else VURGU, width=3)
+    x = KENAR
+    for (etiket, deger), oran in zip(kutular, [0.33, 0.37, 0.30]):
+        g = ic * oran
+        f = _font(22, True)
+        d.text((x + (g - d.textlength(etiket, font=f)) / 2, y + 24), etiket, font=f, fill=SOLUK)
+        deger, f = _sigdir(d, deger, g - 30, 44, True)
+        d.text((x + (g - d.textlength(deger, font=f)) / 2, y + 62), deger, font=f, fill=YAZI)
+        x += g
+    alt = f'Virtual bank · stake {gun["yuzde"]:g}% of the bank per coupon · 18+ | Play responsibly'
+    alt, f = _sigdir(d, alt, ic, 22)
+    d.text(((BOYUT - d.textlength(alt, font=f)) / 2, yukseklik - KENAR - 10), alt, font=f, fill=SOLUK)
     tampon = io.BytesIO()
     im.save(tampon, "PNG", optimize=True)
     return tampon.getvalue()

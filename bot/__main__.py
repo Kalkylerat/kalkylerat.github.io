@@ -381,10 +381,29 @@ def sonuc(ayar, api, x, gunler: list[dict], simdi: datetime) -> None:
         if g.get("tweet_id") and g["sonuc"] == "tamam" and not g.get("sonuc_tweet_id"):
             idler = g.setdefault("sonuc_tweet_idleri", [])
             try:
-                metinler = tweets.sonuc_tweetleri(g, kayit.ozet(gunler, ayar.kasa_baslangic))
+                ozet = kayit.ozet(gunler, ayar.kasa_baslangic)
+                metinler = tweets.sonuc_tweetleri(g, ozet)
                 if not idler:
-                    # Sonuç ayrı bir paylaşım olarak kuponu alıntılar: profilde ve akışta görünür (yanıtlar görünmez).
-                    idler.append(x.gonder(metinler[0], alinti=g["tweet_id"]))
+                    # Sonuç ayrı bir paylaşım (profilde ve akışta görünür; yanıtlar görünmez): sonuç kartı + kasa,
+                    # kupon tweetini alıntılar. Kart yüklenemezse metin olarak gider.
+                    medya = None
+                    for _ in range(3):
+                        try:
+                            medya = [x.medya_yukle(gorsel.sonuc_gorseli(g, ozet["kasa"], ozet["kasa_degisim"]))]
+                            break
+                        except Exception as e:
+                            print(f"Sonuç kartı yüklenemedi: {e}")
+                    if medya:
+                        metinler = [tweets.gorselli_sonuc_tweeti(g, ozet)]
+                        try:
+                            idler.append(x.gonder(metinler[0], medya=medya, alinti=g["tweet_id"]))
+                        except RuntimeError as e:
+                            if "duplicate" in str(e).lower():
+                                raise
+                            print(f"Alıntılı görselli paylaşım reddedildi ({e}); alıntısız deneniyor.")
+                            idler.append(x.gonder(metinler[0], medya=medya))
+                    else:
+                        idler.append(x.gonder(metinler[0], alinti=g["tweet_id"]))
                 _zincir(x, metinler, g["tweet_id"], idler)
             except RuntimeError as e:
                 if "duplicate" not in str(e).lower():

@@ -274,7 +274,7 @@ def test_demo_uctan_uca(monkeypatch, capsys):
     assert main(["demo"]) == 0
     cikti = capsys.readouterr().out
     assert "TWEET #1 + gorsel-" in cikti and "TODAY'S COUPON" in cikti and "RESULTS | 3 Oct" in cikti
-    assert "value pick" in cikti and "🎫 Coupon: ✅ won" in cikti and "Bank: €10," in cikti
+    assert "value pick" in cikti and "✅ Coupon won: +€" in cikti and "Bank: €10," in cikti
     assert "1xBet" not in cikti  # listede olmayan bahisçi asla kullanılmaz
     assert "Djurgården" not in cikti.split("TWEET #1")[1]  # kriteri geçmeyen maç seçilmez
 
@@ -941,6 +941,10 @@ def test_sonuc_kuponu_alintilayan_ayri_paylasim(monkeypatch):
     monkeypatch.setattr(football, "sonuclari_al", lambda api, ids, korner: {1: {"durum": "bitti", "skor": (2, 0)}})
     atilan = []
     x = SimpleNamespace(gonder=lambda metin, yanit=None, medya=None, alinti=None:
-                        atilan.append((yanit, alinti)) or f"s{len(atilan)}")
+                        atilan.append((yanit, alinti, medya, metin)) or f"s{len(atilan)}",
+                        medya_yukle=lambda png: "kart")
     sonuc(AYAR, object(), x, [g], SIMDI)
-    assert atilan[0] == (None, "t1") and g["sonuc_tweet_id"] == "s1"  # yanıt değil, kuponu alıntılayan paylaşım
+    yanit, alinti, medya, metin = atilan[0]
+    assert (yanit, alinti, medya) == (None, "t1", ["kart"]) and len(atilan) == 1  # tek, görselli, alıntılı paylaşım
+    assert "✅ Coupon won: +€50" in metin and "💰 Bank: €10,050" in metin and metin.endswith(tweets.ANSVAR)
+    assert tweets.uzunluk(metin) <= 280 and g["sonuc_tweet_id"] == "s1"

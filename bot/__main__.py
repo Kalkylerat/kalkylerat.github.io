@@ -656,6 +656,25 @@ def tani(ayar) -> None:
     _ozet_yaz("\n".join(satirlar))
 
 
+def odds_tani(ayar) -> None:
+    """The Odds API: aktif futbol ligleri ve bugün (penceredeki) maç sayıları. Kredi harcamaz."""
+    api = oddsapi.OddsApi(config.env("ODDS_API_KEY"))
+    simdi = kayit.simdi_utc()
+    bugun = simdi.astimezone(ZoneInfo(ayar.saat_dilimi)).date().isoformat()
+    bas, son = oddsapi.gun_penceresi(bugun, ayar.saat_dilimi, 0, simdi)
+    tum = [s for s in api.get("sports", all="true") if s.get("group") == "Soccer"]
+    aktif = oddsapi.futbol_sporlari(api)
+    satirlar = []
+    for spor in aktif:
+        e = api.get(f'sports/{spor["key"]}/events', commenceTimeFrom=oddsapi._zaman(bas), commenceTimeTo=oddsapi._zaman(son))
+        if e:
+            saatler = sorted(x["commence_time"][11:16] for x in e)
+            satirlar.append(f'- {spor["key"]} ({spor.get("title")}): {len(e)} maç, {saatler[0]}–{saatler[-1]} UTC')
+    _ozet_yaz(f"The Odds API: {len(tum)} futbol ligi tanımlı, {len(aktif)} aktif; kalan kredi {api.kalan}.\n"
+              f"Bugün {bas:%H:%M}–{son:%H:%M} UTC arası maçı olan ligler:\n" + ("\n".join(satirlar) or "yok"))
+    _ozet_yaz("Aktif ligler: " + ", ".join(s["key"] for s in aktif))
+
+
 def profil() -> None:
     """X profilini okur (paylaşım yok): kullanıcı adı, bio, sabit tweet, doğrulama."""
     r = _x_client().session.get("https://api.x.com/2/users/me", params={
@@ -717,7 +736,7 @@ def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="bot")
     p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt", "sabit", "hafta", "yenile", "oran_testi",
                                           "onay_kontrol", "onay_testi", "onay_yenile", "nabiz",
-                                          "sonuc_yeniden", "profil"])
+                                          "sonuc_yeniden", "profil", "odds_tani"])
     args = p.parse_args(argv)
     ayar = config.yukle()
 
@@ -729,6 +748,9 @@ def main(argv=None) -> int:
         return 0
     if args.komut == "profil":
         profil()
+        return 0
+    if args.komut == "odds_tani":
+        odds_tani(ayar)
         return 0
     if args.komut == "oran_testi":
         oran_testi(ayar)

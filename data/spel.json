@@ -121,13 +121,128 @@
   {
     "id": "2026-09-29",
     "tarih": "2026-09-29",
-    "olusturma": "2026-09-29T12:10:47+00:00",
-    "baslik": "",
-    "secimler": [],
-    "sonuc": "pas",
+    "olusturma": "2026-09-29T12:36:01+00:00",
+    "baslik": "Spain and England to win tonight",
+    "secimler": [
+      {
+        "fixture_id": 94698002497925,
+        "lig": "UEFA Nations League",
+        "ev": "Spain",
+        "dep": "Croatia",
+        "baslama": "2026-09-29T18:45:00+00:00",
+        "saat": "20:45 CEST",
+        "olasi_skor": "2-0",
+        "pazar": "MS1",
+        "tur": "guvenli",
+        "etiket": "Spain to win",
+        "kisa": "Spain to win",
+        "oran": 1.23,
+        "stake": 0,
+        "kupon_no": 0,
+        "bolag": "best of 4",
+        "oranlar": {
+          "William Hill": 1.2,
+          "Betsson": 1.23,
+          "NordicBet": 1.23,
+          "888Sport": 1.22
+        },
+        "adil_olasilik": 0.793,
+        "adil_kaynak": "Pinnacle",
+        "model_olasilik": 0.795,
+        "deger": -0.025,
+        "beklenen_gol": [
+          2.7,
+          0.7
+        ],
+        "yorum": "Spain expect around 2.7 goals to Croatia's 0.7. Close to an 8 in 10 chance they win, with 2-0 the likeliest score.",
+        "durum": "bekliyor",
+        "skor": null,
+        "odds_id": "562098ccc1859420552f95039d168817",
+        "odds_spor": "soccer_uefa_nations_league"
+      },
+      {
+        "fixture_id": 28398731927836,
+        "lig": "UEFA Nations League",
+        "ev": "Czech Republic",
+        "dep": "England",
+        "baslama": "2026-09-29T18:45:00+00:00",
+        "saat": "20:45 CEST",
+        "olasi_skor": "0-2",
+        "pazar": "MS2",
+        "tur": "guvenli",
+        "etiket": "England to win",
+        "kisa": "England to win",
+        "oran": 1.31,
+        "stake": 0,
+        "kupon_no": 0,
+        "bolag": "best of 4",
+        "oranlar": {
+          "William Hill": 1.3,
+          "Betsson": 1.31,
+          "NordicBet": 1.31,
+          "888Sport": 1.3
+        },
+        "adil_olasilik": 0.735,
+        "adil_kaynak": "Pinnacle",
+        "model_olasilik": 0.735,
+        "deger": -0.037,
+        "beklenen_gol": [
+          0.7,
+          2.3
+        ],
+        "yorum": "England expect around 2.3 goals to the Czechs' 0.7, even away. About a 3 in 4 chance they win, with 0-2 the likeliest score.",
+        "durum": "bekliyor",
+        "skor": null,
+        "odds_id": "19d41854211c2ad2a43283d92e9b8a44",
+        "odds_spor": "soccer_uefa_nations_league"
+      }
+    ],
+    "sonuc": null,
     "tweet_id": null,
     "para": "€",
     "yuzde": 1.0,
-    "pas_nedeni": "Today we have only one match and one candidate: a Spain win at 1.23. Spain are clear favourites, with about a 79% chance. The price is still slightly below its fair level of 1.26. It is also far too short to back on its own, and there is no second match to pair it with. Risking 1% of the bank on it makes no sense, so we sit this one out."
+    "kuponlar": [
+      {
+        "ayaklar": [
+          0,
+          1
+        ],
+        "stake": 101.14,
+        "durum": null
+      }
+    ],
+    "yanit_onerileri": [
+      {
+        "mac": "Spain v Croatia",
+        "metin": "The numbers make Spain clear favourites: around 2.7 expected goals against 0.7 for Croatia. 2-0 is the single likeliest score, and we make a Spain win about 79%.",
+        "arama": "https://x.com/search?q=Spain%20Croatia&f=live"
+      },
+      {
+        "mac": "Czech Republic v England",
+        "metin": "England look strong on paper even away from home: roughly 2.3 expected goals to 0.7 for the Czechs, with 0-2 the likeliest score. We make an England win about 73%.",
+        "arama": "https://x.com/search?q=Czech%20Republic%20England&f=live"
+      },
+      {
+        "mac": "Czech Republic v England",
+        "metin": "Czech Republic are expected to score only around 0.7 goals tonight. Getting anything from England would take a bit of an upset, roughly a 1 in 4 chance by our numbers.",
+        "arama": "https://x.com/search?q=Czech%20Republic%20England&f=live"
+      },
+      {
+        "mac": "Spain v Croatia",
+        "metin": "Spain v Croatia could be lively: about 3.4 goals expected in total, most of them from Spain. Croatia's chance of avoiding defeat looks like roughly 1 in 5.",
+        "arama": "https://x.com/search?q=Spain%20Croatia&f=live"
+      }
+    ],
+    "onay": {
+      "durum": "bekliyor",
+      "son": "2026-09-29T14:06:01+00:00",
+      "surum": 1,
+      "metinler": [
+        "TODAY'S COUPON | 29 Sep\n\nWhich leg worries you most? 👇\n\nWhy these picks: in the thread 🧵\n18+ | Play responsibly",
+        "1) Spain v Croatia · 20:45 CEST\nPick: Spain to win\nOdds 1.23 · chance 79% · high-chance pick\nMost likely score: 2–0\n\nSpain expect around 2.7 goals to Croatia's 0.7. Close to an 8 in 10 chance they win, with 2-0 the likeliest score.",
+        "2) Czech Republic v England · 20:45 CEST\nPick: England to win\nOdds 1.31 · chance 74% · high-chance pick\nMost likely score: 0–2\n\nEngland expect around 2.3 goals to the Czechs' 0.7, even away. About a 3 in 4 chance they win, with 0-2 the likeliest score."
+      ],
+      "kasa": 10114.31
+    }
   }
 ]

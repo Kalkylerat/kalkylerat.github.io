@@ -981,7 +981,7 @@ class _OddsOturum:
 
     def get(self, url, params=None, timeout=None):
         self.cagrilar.append((url, dict(params or {})))
-        for parca, veri in self.yanitlar.items():
+        for parca, veri in sorted(self.yanitlar.items(), key=lambda x: -len(x[0])):
             if url.endswith(parca):
                 return _OddsYanit(veri, son="0" if parca in ("sports", "events") else "2")
         raise AssertionError(url)
@@ -996,6 +996,25 @@ def _odds_etkinlik(eid="abcdef1234567890", ev="Home FC", dep="Away FC"):
     return {"id": eid, "sport_key": "soccer_epl", "commence_time": "2026-09-29T19:00:00Z", "home_team": ev, "away_team": dep,
             "bookmakers": [bm("pinnacle", 1.40, 5.0, 8.5, 1.70, 2.25), bm("williamhill", 1.45, 4.6, 7.0, 1.66, 2.2),
                            bm("betsson", 1.47, 4.7, 7.2, 1.68, 2.2), bm("unibet_eu", 1.44, 4.8, 7.5, 1.69, 2.15)]}
+
+
+def _ek_pazarlar(ev="Home FC", dep="Away FC"):
+    return {"id": "abcdef1234567890", "home_team": ev, "away_team": dep, "bookmakers": [
+        {"key": "pinnacle", "title": "Pinnacle", "markets": [
+            {"key": "double_chance", "outcomes": [{"name": f"{ev}/Draw", "price": 1.08},
+                                                  {"name": f"Draw/{dep}", "price": 3.2},
+                                                  {"name": f"{ev}/{dep}", "price": 1.2}]},
+            {"key": "alternate_totals", "outcomes": [{"name": "Over", "price": 1.25, "point": 1.5},
+                                                     {"name": "Under", "price": 3.9, "point": 1.5},
+                                                     {"name": "Over", "price": 3.0, "point": 4.5}]},
+            {"key": "btts", "outcomes": [{"name": "Yes", "price": 2.1}, {"name": "No", "price": 1.7}]}]}]}
+
+
+def test_odds_ek_pazarlar_ayristirma():
+    from bot import oddsapi
+    b = oddsapi.bahisci_oranlari(_ek_pazarlar())["Pinnacle"]
+    assert b == {"CS1X": 1.08, "CSX2": 3.2, "CS12": 1.2, "UST15": 1.25, "ALT15": 3.9, "KGVAR": 2.1, "KGYOK": 1.7}
+    assert oddsapi._cifte_sans("Draw or Away FC", "Home FC", "Away FC") == "CSX2"
 
 
 def test_odds_bahisci_oranlari_ve_kimlik():
@@ -1025,6 +1044,7 @@ def test_odds_tara_kredi_ve_yedek():
                    {"key": "soccer_fifa_world_cup_winner", "group": "Soccer", "title": "WC", "active": True, "has_outrights": True}],
         "events": [{"id": "abcdef1234567890"}],
         "odds": [_odds_etkinlik()],
+        "abcdef1234567890/odds": _ek_pazarlar(),
     })
     api = oddsapi.OddsApi("x", session=oturum, aralik=0)
     simdi = datetime(2026, 9, 29, 10, 0, tzinfo=timezone.utc)
@@ -1033,7 +1053,11 @@ def test_odds_tara_kredi_ve_yedek():
     assert maclar[0]["lig_id"] in ayar.ligler
     odds = [p for u, p in oturum.cagrilar if u.endswith("/odds")][0]
     assert odds["regions"] == "eu" and odds["markets"] == "h2h,totals" and odds["commenceTimeFrom"] == "2026-09-29T12:30:00Z"
-    assert api.harcanan == 2 and api.kalan == 450
+    assert api.harcanan == 4 and api.kalan == 450  # 2 lig oranı + 2 (sahte) ek pazar
+    ek = [p for u, p in oturum.cagrilar if u.endswith("abcdef1234567890/odds")][0]
+    assert ek["markets"] == "double_chance,alternate_totals,btts"
+    assert oranlar[maclar[0]["fixture_id"]]["Pinnacle"]["CS1X"] == 1.08
+    assert oranlar[maclar[0]["fixture_id"]]["Pinnacle"]["UST15"] == 1.25
 
 
 def test_odds_hata_mesajinda_anahtar_yok():
@@ -1070,7 +1094,7 @@ def test_api_football_kapaliyken_yedek_kaynakla_kupon_ve_sonuc(monkeypatch):
     monkeypatch.setattr(football, "gunun_maclari", kapali)
     oturum = _OddsOturum({
         "sports": [{"key": "soccer_epl", "group": "Soccer", "title": "EPL", "active": True, "has_outrights": False}],
-        "events": [{"id": "abcdef1234567890"}], "odds": [_odds_etkinlik()],
+        "events": [{"id": "abcdef1234567890"}], "odds": [_odds_etkinlik()], "abcdef1234567890/odds": _ek_pazarlar(),
         "scores": [{"id": "abcdef1234567890", "completed": True, "home_team": "Home FC", "away_team": "Away FC",
                     "scores": [{"name": "Home FC", "score": "3"}, {"name": "Away FC", "score": "1"}]}]})
     gercek = oddsapi.OddsApi

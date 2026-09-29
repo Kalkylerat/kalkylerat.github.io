@@ -36,6 +36,10 @@ IZINLI_SPORLAR = [
 _GUVENILMEZ = re.compile(r"friendl|women|youth|u1[6-9]\b|u2[0-3]\b|reserve", re.IGNORECASE)
 # Aylık 500 kredinin korunması: tarama başına en fazla bu kadar kredi, ve sonuçlar için hep bu kadar kredi kalır.
 MAX_TARAMA_KREDISI = 20
+# Yüksek ihtimalli pazarlar (çifte şans, 1,5 üst/alt, karşılıklı gol) yalnızca maç başına istenebilir:
+# maç başına 3 kredi; favorisi en belirgin (ya da gol beklentisi en uç) en fazla EK_MAC maç için.
+EK_PAZARLAR = "double_chance,alternate_totals,btts"
+EK_MAC = 5
 YEDEK_KREDI = 40
 
 
@@ -117,13 +121,24 @@ def bahisci_oranlari(etkinlik: dict) -> dict[str, dict[str, float]]:
                     continue
                 if pazar["key"] == "h2h":
                     kod = {ev: "MS1", dep: "MS2", "Draw": "MSX"}.get(o["name"])
-                elif pazar["key"] == "totals" and o.get("point") in (1.5, 2.5, 3.5):
+                elif pazar["key"] in ("totals", "alternate_totals") and o.get("point") in (1.5, 2.5, 3.5):
                     kod = ("UST" if o["name"] == "Over" else "ALT") + str(int(o["point"] * 10))
+                elif pazar["key"] == "btts":
+                    kod = {"Yes": "KGVAR", "No": "KGYOK"}.get(o["name"])
+                elif pazar["key"] == "double_chance":
+                    kod = _cifte_sans(o["name"], ev, dep)
                 else:
                     kod = None
                 if kod:
                     oranlar[kod] = fiyat
     return {ad: o for ad, o in sonuc.items() if o}
+
+
+def _cifte_sans(ad: str, ev: str, dep: str) -> str | None:
+    """"Spain/Draw", "Draw or Croatia" gibi adlardan çifte şans kodu (yazım biçiminden bağımsız)."""
+    ad = ad.lower()
+    var = (ev.lower() in ad, "draw" in ad, dep.lower() in ad)
+    return {(True, True, False): "CS1X", (False, True, True): "CSX2", (True, False, True): "CS12"}.get(var)
 
 
 def ima_edilen_goller(adil: dict[str, float]) -> tuple[float, float] | None:
@@ -184,7 +199,35 @@ def tara(api: OddsApi, tarih: str, ayar, simdi: datetime, kredi: int = MAX_TARAM
             b = bahisci_oranlari(e)
             if b:
                 oranlar[fid] = b
+    ek_pazarlari_ekle(api, maclar, oranlar, ayar, yaz)
     return maclar, oranlar
+
+
+def _belirginlik(bahisciler: dict, keskin: str) -> float:
+    """Maçın ne kadar "tek yönlü" olduğu: en büyük favori ihtimali ya da 2,5 gol üst/alt ihtimali."""
+    adil, _ = model.adil_olasiliklar(bahisciler, keskin)
+    return max([adil.get(k, 0) for k in ("MS1", "MS2", "UST25", "ALT25")] or [0])
+
+
+def ek_pazarlari_ekle(api: OddsApi, maclar: list[dict], oranlar: dict, ayar, yaz=print) -> None:
+    """En belirgin maçlar için çifte şans / alternatif gol çizgileri / karşılıklı gol oranlarını ekler."""
+    adaylar = sorted((m for m in maclar if m["fixture_id"] in oranlar),
+                     key=lambda m: _belirginlik(oranlar[m["fixture_id"]], ayar.keskin_bahisci), reverse=True)
+    eklenen = 0
+    for m in adaylar[:EK_MAC]:
+        if api.kalan is not None and api.kalan - 3 < YEDEK_KREDI:
+            yaz(f"The Odds API: kalan kredi {api.kalan}; ek pazarlar atlandı.")
+            break
+        try:
+            e = api.get(f'sports/{m["odds_spor"]}/events/{m["odds_id"]}/odds', regions=BOLGE, markets=EK_PAZARLAR,
+                        oddsFormat="decimal")
+        except OddsApiHatasi as h:
+            yaz(f"Ek pazarlar alınamadı ({m['ev']} v {m['dep']}): {h}")
+            continue
+        for ad, o in bahisci_oranlari(e).items():
+            oranlar[m["fixture_id"]].setdefault(ad, {}).update(o)
+        eklenen += 1
+    yaz(f"Ek pazarlar (çifte şans, gol çizgileri, karşılıklı gol): {eklenen} maç.")
 
 
 def adaylar(m: dict, bahisciler: dict, ayar) -> list[dict]:

@@ -55,7 +55,7 @@ jobs:
       - run: pip install -r requirements.txt
       # Testler hiçbir zaman gerçek onay isteği/önizleme bırakmasın.
       - run: python -m pytest -q
-      - run: rm -f onay_istegi.md; git checkout -- docs; git clean -fdq docs/onizleme
+      - run: rm -f onay_istegi.md; git checkout -- docs ornek; git clean -fdq docs/onizleme
       - name: Botu çalıştır
         env:
           OLAY: ${{ github.event_name }}

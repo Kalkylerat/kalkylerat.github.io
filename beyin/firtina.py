@@ -9,6 +9,7 @@ Akış (her adım ayrı Claude çağrısı; uzmanlar birbirinin yazdıklarını 
                    üç uzman onaylar ya da itiraz eder; itiraz varsa taslak düzeltilir (en fazla 2 kez).
 """
 
+import hashlib
 import json
 import tomllib
 from dataclasses import dataclass, field
@@ -21,6 +22,8 @@ KOK = Path(__file__).resolve().parent
 ISTEKLER = KOK / "istekler.md"
 KARARLAR = KOK / "kararlar"
 AYAR_DOSYASI = KOK.parent / "ayarlar.toml"
+# Yarım kalan tartışma (API sınırı, zaman aşımı): sonraki çalışma aynı isteklerle buradan devam eder.
+DEVAM = KARARLAR / "devam.json"
 
 WEB_ARAMA = {"type": "web_search_20260209", "name": "web_search", "max_uses": 5}
 MAX_DUZELTME = 2
@@ -78,14 +81,39 @@ Sahibin istekleri:
 
 @dataclass
 class Kayit:
-    """Toplantı tutanağı ve harcanan token."""
+    """Toplantı tutanağı ve harcanan token. Her bölüm eklenince devam dosyasına yazılır."""
     bolumler: list[tuple[str, str]] = field(default_factory=list)
     girdi: int = 0
     cikti: int = 0
+    tablo: dict[str, dict] = field(default_factory=dict)
+    anahtar: str = ""
+    dosya: Path | None = None
 
     def ekle(self, baslik: str, metin: str) -> None:
         self.bolumler.append((baslik, metin))
         print(f"✓ {baslik}", flush=True)
+        self.sakla()
+
+    def var(self, baslik: str) -> bool:
+        return any(b == baslik for b, _ in self.bolumler)
+
+    def sakla(self) -> None:
+        if self.dosya:
+            self.dosya.parent.mkdir(exist_ok=True)
+            self.dosya.write_text(json.dumps({
+                "anahtar": self.anahtar, "bolumler": self.bolumler, "tablo": self.tablo,
+                "girdi": self.girdi, "cikti": self.cikti}, ensure_ascii=False, indent=1), encoding="utf-8")
+
+    @classmethod
+    def yukle(cls, dosya: Path | None, anahtar: str) -> "Kayit":
+        """Aynı isteklerle yarım kalmış bir tartışma varsa onu (5. tur hariç, o baştan yapılır) geri getirir."""
+        if dosya and dosya.exists():
+            d = json.loads(dosya.read_text(encoding="utf-8"))
+            if d.get("anahtar") == anahtar:
+                bolumler = [(b, m) for b, m in d["bolumler"] if not b.startswith("5. Tur")]
+                print(f"↻ Yarım kalan tartışmadan devam: {len(bolumler)} bölüm hazır", flush=True)
+                return cls(bolumler, d["girdi"], d["cikti"], d.get("tablo", {}), anahtar, dosya)
+        return cls(anahtar=anahtar, dosya=dosya)
 
     def metin(self, *basliklar_on_ekleri: str) -> str:
         return "\n\n".join(f"## {b}\n\n{m}" for b, m in self.bolumler
@@ -110,7 +138,8 @@ def _metin(msg) -> str:
 
 
 class Toplanti:
-    def __init__(self, client=None, istekler: str | None = None, ek_not: str = "", simdi: datetime | None = None):
+    def __init__(self, client=None, istekler: str | None = None, ek_not: str = "", simdi: datetime | None = None,
+                 devam: Path | None = DEVAM):
         self.client = client or anthropic.Anthropic()
         self.model, self.effort = _ayarlar()
         self.simdi = simdi or datetime.now(timezone.utc)
@@ -118,7 +147,8 @@ class Toplanti:
         if ek_not.strip():
             istekler += f"\n\n## Bu çalışma için sahibin ek notu\n{ek_not.strip()}"
         self.kurallar = ORTAK_KURALLAR.format(tarih=self.simdi.date().isoformat(), istekler=istekler)
-        self.kayit = Kayit()
+        anahtar = hashlib.sha256(f"{self.model}|{istekler}".encode()).hexdigest()[:16]
+        self.kayit = Kayit.yukle(devam, anahtar)
 
     # --- Claude çağrısı -------------------------------------------------------------------------------------
 
@@ -171,6 +201,9 @@ class Toplanti:
 
     def oneriler(self) -> None:
         for u in UZMANLAR:
+            baslik = f"1. Tur – {u.ad} ({u.harf}1, {u.harf}2)"
+            if self.kayit.var(baslik):
+                continue
             gorev = (
                 f"1. tur: bağımsız öneri. Diğer uzmanların ne önereceğini bilmiyorsun.\n\n"
                 f"Sahibin isteklerine uyan **tam 2 farklı** X hesabı fikri yaz: {u.harf}1 ve {u.harf}2. Her fikir için:\n"
@@ -184,11 +217,14 @@ class Toplanti:
                 "- **En büyük risk** ve önlemi\n"
                 "Rakamları web'de doğrula."
             )
-            self.kayit.ekle(f"1. Tur – {u.ad} ({u.harf}1, {u.harf}2)", self._sor(u, gorev, web=True))
+            self.kayit.ekle(baslik, self._sor(u, gorev, web=True))
 
     def denetim(self) -> None:
         tutanak = self.kayit.metin("1. Tur")
         for u in UZMANLAR:
+            baslik = f"2. Tur – {u.ad} denetliyor"
+            if self.kayit.var(baslik):
+                continue
             gorev = (
                 f"2. tur: çapraz denetim. İlk turda yazılan bütün fikirler:\n\n{tutanak}\n\n---\n\n"
                 f"Senin fikirlerin {u.harf}1 ve {u.harf}2. **Diğer uzmanların 4 fikrini** kendi uzmanlık açından sert ama "
@@ -196,11 +232,14 @@ class Toplanti:
                 "kontrol et), bu haliyle işe yarar mı, ve fikri kurtaracak somut değişiklik. En sonda: sence en umut "
                 "verici 2 fikir hangisi (kendi fikrin de olabilir, gerekçesiyle)."
             )
-            self.kayit.ekle(f"2. Tur – {u.ad} denetliyor", self._sor(u, gorev, web=True))
+            self.kayit.ekle(baslik, self._sor(u, gorev, web=True))
 
     def duzeltme(self) -> None:
         tutanak = self.kayit.metin("1. Tur", "2. Tur")
         for u in UZMANLAR:
+            baslik = f"3. Tur – {u.ad} son hali ({u.harf}1, {u.harf}2)"
+            if self.kayit.var(baslik):
+                continue
             gorev = (
                 f"3. tur: düzeltme. Şimdiye kadarki tutanak:\n\n{tutanak}\n\n---\n\n"
                 f"Eleştirileri dikkate alarak kendi fikirlerin {u.harf}1 ve {u.harf}2'nin **son halini** yaz (aynı başlıklar, "
@@ -208,9 +247,11 @@ class Toplanti:
                 "'GERİ ÇEKİLDİ' yaz ve yerine başka bir uzmanın fikrini güçlendiren bir birleşim önerebilirsin "
                 "(ör. 'A2 + C1'), yine de kendi kimliğinle yaz."
             )
-            self.kayit.ekle(f"3. Tur – {u.ad} son hali ({u.harf}1, {u.harf}2)", self._sor(u, gorev))
+            self.kayit.ekle(baslik, self._sor(u, gorev))
 
     def oylama(self) -> dict[str, dict]:
+        if self.kayit.var("4. Tur – Oylama") and self.kayit.tablo:
+            return self.kayit.tablo
         son_haller = self.kayit.metin("3. Tur")
         denetimler = self.kayit.metin("2. Tur")
         oylar: dict[str, list[dict]] = {}
@@ -231,6 +272,7 @@ class Toplanti:
                     satirlar.append(f"- **{u.ad} → {p['fikir']}:** "
                                     + ", ".join(f"{k} {p[k]}" for k in KRITERLER) + f" — {p['yorum']}")
         tablo = _puan_tablosu(oylar)
+        self.kayit.tablo = tablo
         self.kayit.ekle("4. Tur – Oylama", "\n".join(satirlar) + "\n\n" + _tablo_md(tablo))
         return tablo
 

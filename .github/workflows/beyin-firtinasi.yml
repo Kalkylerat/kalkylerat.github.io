@@ -9,9 +9,10 @@ on:
         description: "Bu çalışmaya özel ek not (ör. 'İsveççe olsun', 'yapay zekâ nişine bakın'); boş bırakılabilir"
         type: string
         default: ""
-  # İstekler dosyası değişince fırtına yeniden çalışır.
+  # İstekler dosyası değişince fırtına yeniden (baştan) çalışır. tetik.txt değişince de çalışır: yarım kalmış
+  # bir tartışma varsa kaldığı yerden devam eder (ana dala alınmadan önce "Run workflow" düğmesi çıkmaz).
   push:
-    paths: [beyin/istekler.md]
+    paths: [beyin/istekler.md, beyin/tetik.txt]
 
 permissions:
   contents: write
@@ -49,9 +50,10 @@ jobs:
         run: |
           git config user.name "kalkylerat-botu"
           git config user.email "kalkylerat-botu@users.noreply.github.com"
-          git add beyin/kararlar
+          mkdir -p beyin/kararlar
+          git add -A beyin/kararlar
           git diff --cached --quiet && exit 0
-          git commit -m "Beyin fırtınası kararı $(date -u '+%Y-%m-%d %H:%M') UTC"
+          git commit -m "Beyin fırtınası $(date -u '+%Y-%m-%d %H:%M') UTC"
           for i in 1 2 3; do
             git pull --rebase origin "$GITHUB_REF_NAME" && git push origin "HEAD:$GITHUB_REF_NAME" && exit 0
             sleep $((i * 10))

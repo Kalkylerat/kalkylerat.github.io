@@ -61,7 +61,7 @@ def test_beyin_firtinasi_tum_turlar(tmp_path, monkeypatch):
     monkeypatch.setattr(firtina, "KARARLAR", tmp_path)
     client = SahteClaude()
     t = firtina.Toplanti(client=client, istekler="Yeni X hesabı.", ek_not="Türkçe olsun",
-                         simdi=datetime(2026, 10, 1, tzinfo=timezone.utc))
+                         simdi=datetime(2026, 10, 1, tzinfo=timezone.utc), devam=None)
     ozet, tutanak = t.calistir()
 
     # Kimse kendi fikrine puan vermez.
@@ -82,3 +82,33 @@ def test_beyin_firtinasi_tum_turlar(tmp_path, monkeypatch):
 
     karar, tut = firtina.kaydet(ozet, tutanak, t.simdi)
     assert karar.name == "2026-10-01-0000-karar.md" and tut.exists()
+
+
+def test_yarim_kalan_tartisma_kaldigi_yerden_devam_eder(tmp_path):
+    devam = tmp_path / "devam.json"
+
+    class Sinirli(SahteClaude):
+        def _stream(self, **k):
+            if len(self.cagrilar) == 8:  # web turları 2 çağrı (pause_turn); 9. çağrı (2. Tur, Gelir Uzmanı) sınır hatası verir
+                raise firtina.BeyinHatasi("usage limit")
+            return super()._stream(**k)
+
+    ilk = Sinirli()
+    t = firtina.Toplanti(client=ilk, istekler="Yeni X hesabı.", devam=devam)
+    try:
+        t.calistir()
+        raise AssertionError("hata bekleniyordu")
+    except firtina.BeyinHatasi:
+        pass
+    kayitli = json.loads(devam.read_text())
+    assert [b for b, _ in kayitli["bolumler"]][-1] == "2. Tur – Büyüme Uzmanı denetliyor"
+
+    ikinci = SahteClaude()
+    ozet, tutanak = firtina.Toplanti(client=ikinci, istekler="Yeni X hesabı.", devam=devam).calistir()
+    assert not any("1. tur" in c["messages"][0]["content"] for c in ikinci.cagrilar)
+    assert tutanak.count("## 1. Tur") == 3 and tutanak.count("## 2. Tur") == 3 and "Karar" in ozet
+
+    # İstekler değişirse eski tartışma kullanılmaz.
+    ucuncu = SahteClaude()
+    firtina.Toplanti(client=ucuncu, istekler="Başka istek.", devam=devam).oneriler()
+    assert len(ucuncu.cagrilar) >= 3

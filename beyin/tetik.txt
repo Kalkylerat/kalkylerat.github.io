@@ -1,0 +1,1 @@
+Bu dosyaya bir satır eklemek beyin fırtınasını başlatır (yarım kaldıysa kaldığı yerden).

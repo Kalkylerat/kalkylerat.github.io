@@ -3,6 +3,8 @@
 import os
 import sys
 
+import anthropic
+
 from .firtina import BeyinHatasi, Toplanti, kaydet
 
 
@@ -10,11 +12,17 @@ def main(argv: list[str]) -> int:
     toplanti = Toplanti(ek_not=" ".join(argv))
     try:
         ozet, tutanak = toplanti.calistir()
-    except BeyinHatasi as e:
-        # Yarım kalan tartışma da kaybolmasın.
-        kaydet(f"# Beyin fırtınası yarım kaldı\n\n{e}", f"# Yarım tutanak\n\n{toplanti.kayit.metin()}", toplanti.simdi)
-        print(f"❌ {e}", file=sys.stderr)
+    except (BeyinHatasi, anthropic.APIError) as e:
+        # Biten turlar devam dosyasında duruyor; sonraki çalışma kaldığı yerden sürer.
+        mesaj = (f"❌ Beyin fırtınası yarım kaldı: {e}\n\n{len(toplanti.kayit.bolumler)} bölüm kaydedildi; "
+                 "bir sonraki çalışma kaldığı yerden devam eder.")
+        print(mesaj, file=sys.stderr)
+        if ozet_dosyasi := os.environ.get("GITHUB_STEP_SUMMARY"):
+            with open(ozet_dosyasi, "a", encoding="utf-8") as f:
+                f.write(mesaj + "\n")
         return 1
+    if toplanti.kayit.dosya:
+        toplanti.kayit.dosya.unlink(missing_ok=True)
     karar, tutanak_yolu = kaydet(ozet, tutanak, toplanti.simdi)
     print(f"Karar: {karar}\nTutanak: {tutanak_yolu}")
     if ozet_dosyasi := os.environ.get("GITHUB_STEP_SUMMARY"):

@@ -23,6 +23,9 @@ ortak karar** verir. Seçilen fikir sonra Kalkylerat gibi tam otomatik bir bota 
 
 - **İstekleri değiştirmek:** [istekler.md](istekler.md) dosyasını GitHub'da düzenleyip kaydedin. Fırtına kendiliğinden yeniden çalışır.
 - **Elle:** Actions → **Beyin Fırtınası** → Run workflow (isterseniz bir ek not yazın).
+- **Yeniden başlatmak / devam ettirmek:** [tetik.txt](tetik.txt) dosyasına herhangi bir satır ekleyip kaydedin.
+  Tartışma yarıda kesildiyse (ör. API harcama sınırı) biten turlar `kararlar/devam.json` içinde durur ve
+  yeni çalışma kaldığı yerden devam eder. İstekler değiştiyse tartışma baştan başlar.
 - **Sonuç:** [kararlar/](kararlar/) klasörüne yazılır: kısa karar (`…-karar.md`) ve bütün tartışma
   (`…-tutanak.md`). Karar ayrıca 🧠 etiketli bir issue olarak açılır.
 - **Maliyet:** Bir çalışma yaklaşık 25 Claude çağrısı yapar, 3–6$ tutar. Süresi 15–30 dakikadır.

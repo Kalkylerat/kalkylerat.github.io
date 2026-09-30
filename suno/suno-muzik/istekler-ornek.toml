@@ -1,0 +1,36 @@
+# Şarkı istek listesi. Kopyalayıp düzenleyin, sonra Claude Code'a:
+#   "istekler.toml dosyasındaki şarkıları Suno'da üret"
+# deyin. Her [[sarki]] bir üretimdir (Suno her üretimde 2 varyasyon verir).
+# Boş bıraktığınız alanları Claude doldurur (başlık önerir, konudan söz yazar).
+
+[[sarki]]
+proje = "Yaz Albümü"
+baslik = "Gece Yolu"
+stil = "dark synthwave, 100 bpm, female breathy vocals, melancholic, retro drums"
+dil = "Türkçe"
+konu = "Gece boş bir otoyolda eski bir aşkı düşünerek araba sürmek"
+enstrumantal = false
+adet = 1
+
+[[sarki]]
+proje = "Yaz Albümü"
+baslik = "Sahil"
+stil = "lofi chillhop, warm rhodes, vinyl crackle, 80 bpm"
+enstrumantal = true
+adet = 1
+
+[[sarki]]
+proje = "Düğün"
+baslik = ""
+stil = "turkish pop, darbuka, upbeat, male vocals, festive"
+dil = "Türkçe"
+# Hazır sözleriniz varsa konu yerine sozler kullanın:
+sozler = """
+[Verse]
+...
+
+[Chorus]
+...
+"""
+enstrumantal = false
+adet = 2

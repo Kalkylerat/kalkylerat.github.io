@@ -1,7 +1,7 @@
 name: Beyin Fırtınası
 
 # Üç uzman yeni X hesabı fikrini tartışır, ortak karar verir; karar beyin/kararlar/ klasörüne yazılır ve
-# issue olarak açılır (telefonunuza bildirim gelir). Bir çalışma ~25 Claude çağrısı, yaklaşık 3–6$.
+# issue olarak açılır (telefonunuza bildirim gelir). Web araştırmalı ilk iki tur pahalıdır (~9$); bir çalışma en fazla 7$ harcar, gerisini sonraki çalışma sürdürür.
 on:
   workflow_dispatch:
     inputs:

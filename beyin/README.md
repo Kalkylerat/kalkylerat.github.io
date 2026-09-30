@@ -32,5 +32,6 @@ okuma** (X kuralları, API şartları gibi resmi sayfaları baştan sona okur). 
   yeni çalışma kaldığı yerden devam eder. İstekler değiştiyse tartışma baştan başlar.
 - **Sonuç:** [kararlar/](kararlar/) klasörüne yazılır: kısa karar (`…-karar.md`) ve bütün tartışma
   (`…-tutanak.md`). Karar ayrıca 🧠 etiketli bir issue olarak açılır.
-- **Maliyet:** Bir çalışma yaklaşık 25 Claude çağrısı yapar, 3–6$ tutar. Süresi 15–30 dakikadır. Bir çalışma en fazla
-  7$ harcayabilir (`firtina.py` → `BUTCE_USD`); aşılırsa biten turlar kaydedilip durulur.
+- **Maliyet:** Pahalı kısım web araştırmalı ilk iki turdur (ilk tam denemede ~9$). Sonraki turlar web kullanmaz,
+  ~3$ tutar. Bir çalışma en fazla 7$ harcayabilir (`firtina.py` → `BUTCE_USD`); sınır aşılırsa biten turlar
+  kaydedilip durulur ve sonraki çalışma kaldığı yerden devam eder. Süre 30–45 dakika.

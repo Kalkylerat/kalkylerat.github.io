@@ -27,9 +27,11 @@ DEVAM = KARARLAR / "devam.json"
 
 # Uzmanların yetenekleri: güncel bilgiyi arama ve resmi bir sayfayı baştan sona okuma.
 WEB_ARACLARI = [
-    {"type": "web_search_20260209", "name": "web_search", "max_uses": 4},
-    {"type": "web_fetch_20260209", "name": "web_fetch", "max_uses": 2, "max_content_tokens": 6000},
+    {"type": "web_search_20260209", "name": "web_search", "max_uses": 3},
+    {"type": "web_fetch_20260209", "name": "web_fetch", "max_uses": 1, "max_content_tokens": 4000},
 ]
+# Arama sonuçları her devam isteğinde yeniden gönderildiği için web turları pahalıdır (ilk tam çalışmada
+# 6 web çağrısı ~1,8 milyon girdi token'ı, ~9$ tuttu). Sınırlar bu yüzden dar.
 # Bir tartışmanın harcayabileceği en fazla tutar (Anthropic aylık sınırı 15$; Kalkylerat botuna da pay kalmalı).
 # Aşılırsa biten turlar kaydedilip durulur; sonraki çalışma kaldığı yerden devam eder.
 BUTCE_USD = 7.0

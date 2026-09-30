@@ -677,6 +677,27 @@ def odds_tani(ayar) -> None:
     _ozet_yaz("Aktif ligler: " + ", ".join(s["key"] for s in aktif))
 
 
+def odds_pazar(ayar, en_fazla: int = 3) -> None:
+    """The Odds API: bugünkü ilk birkaç maçta hangi bahisçi hangi pazarı (korner, gol vb.) sunuyor. Maç başına 1 kredi."""
+    api = oddsapi.OddsApi(config.env("ODDS_API_KEY"))
+    simdi = kayit.simdi_utc()
+    bugun = simdi.astimezone(ZoneInfo(ayar.saat_dilimi)).date().isoformat()
+    bas, son = oddsapi.gun_penceresi(bugun, ayar.saat_dilimi, 0, simdi)
+    satirlar, kalan = [], en_fazla
+    for spor in oddsapi.futbol_sporlari(api):
+        if kalan <= 0:
+            break
+        for e in api.get(f'sports/{spor["key"]}/events', commenceTimeFrom=oddsapi._zaman(bas),
+                         commenceTimeTo=oddsapi._zaman(son))[:kalan]:
+            veri = api.get(f'sports/{spor["key"]}/events/{e["id"]}/markets', regions=oddsapi.BOLGE)
+            kalan -= 1
+            tum = sorted({m["key"] for b in veri.get("bookmakers", []) for m in b.get("markets", [])})
+            satirlar.append(f'#### {e["home_team"]} v {e["away_team"]} ({spor.get("title")})\nTüm pazarlar: {", ".join(tum) or "yok"}')
+            for b in veri.get("bookmakers", []):
+                satirlar.append(f'- {b.get("title") or b["key"]}: {", ".join(sorted(m["key"] for m in b.get("markets", [])))}')
+    _ozet_yaz("\n".join(satirlar or ["Bugün maç yok."]) + f"\n\nHarcanan kredi {api.harcanan}, kalan {api.kalan}.")
+
+
 def profil() -> None:
     """X profilini okur (paylaşım yok): kullanıcı adı, bio, sabit tweet, doğrulama."""
     r = _x_client().session.get("https://api.x.com/2/users/me", params={
@@ -738,7 +759,7 @@ def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="bot")
     p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt", "sabit", "hafta", "yenile", "oran_testi",
                                           "onay_kontrol", "onay_testi", "onay_yenile", "nabiz",
-                                          "sonuc_yeniden", "profil", "odds_tani"])
+                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar"])
     args = p.parse_args(argv)
     ayar = config.yukle()
 
@@ -753,6 +774,9 @@ def main(argv=None) -> int:
         return 0
     if args.komut == "odds_tani":
         odds_tani(ayar)
+        return 0
+    if args.komut == "odds_pazar":
+        odds_pazar(ayar)
         return 0
     if args.komut == "oran_testi":
         oran_testi(ayar)

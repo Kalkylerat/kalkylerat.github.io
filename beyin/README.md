@@ -1,0 +1,28 @@
+# Beyin fırtınası: yeni X hesabı
+
+Üç yapay zekâ uzmanı "nasıl bir X hesabı açalım?" sorusunu tartışır ve **sahibin isteklerine en uygun fikirde
+ortak karar** verir. Seçilen fikir sonra Kalkylerat gibi tam otomatik bir bota dönüştürülecek.
+
+| Uzman | Bakış açısı |
+|---|---|
+| **A – Büyüme Uzmanı** | X algoritması, niş, viral formatlar, ilk 1.000 takipçi |
+| **B – Gelir Uzmanı** | Hangi kanallardan, kaçıncı ayda, ne kadar para |
+| **C – Otomasyon ve Risk Uzmanı** | Tam otomatik çalışır mı, veri kaynağı, X kuralları, yasal risk |
+
+## Turlar
+
+1. **Öneri:** Her uzman, rakamları web'de doğrulayarak 2 fikir yazar (A1, A2, B1, B2, C1, C2).
+2. **Denetim:** Her uzman diğer iki uzmanın 4 fikrini eleştirir.
+3. **Düzeltme:** Her uzman eleştirilere göre kendi fikirlerini düzeltir ya da geri çeker.
+4. **Gizli oylama:** Her uzman diğerlerinin fikirlerini 5 kritere göre puanlar. Kimse kendi fikrine puan veremez.
+   Kriterler: gelir %25, otomasyon %25, büyüme %20, risk %20, maliyet %10.
+5. **Ortak karar:** En yüksek puanlı 2 fikir finale kalır. Uzmanlar pozisyonlarını yazar, tarafsız yazman ortak
+   kararı yazar. Üç uzman onaylar ya da itiraz eder. İtiraz varsa karar en fazla 2 kez düzeltilir.
+
+## Çalıştırma
+
+- **İstekleri değiştirmek:** [istekler.md](istekler.md) dosyasını GitHub'da düzenleyip kaydedin. Fırtına kendiliğinden yeniden çalışır.
+- **Elle:** Actions → **Beyin Fırtınası** → Run workflow (isterseniz bir ek not yazın).
+- **Sonuç:** [kararlar/](kararlar/) klasörüne yazılır: kısa karar (`…-karar.md`) ve bütün tartışma
+  (`…-tutanak.md`). Karar ayrıca 🧠 etiketli bir issue olarak açılır.
+- **Maliyet:** Bir çalışma yaklaşık 25 Claude çağrısı yapar, 3–6$ tutar. Süresi 15–30 dakikadır.

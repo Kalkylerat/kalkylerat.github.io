@@ -1,0 +1,68 @@
+name: Beyin Fırtınası
+
+# Üç uzman yeni X hesabı fikrini tartışır, ortak karar verir; karar beyin/kararlar/ klasörüne yazılır ve
+# issue olarak açılır (telefonunuza bildirim gelir). Bir çalışma ~25 Claude çağrısı, yaklaşık 3–6$.
+on:
+  workflow_dispatch:
+    inputs:
+      not:
+        description: "Bu çalışmaya özel ek not (ör. 'İsveççe olsun', 'yapay zekâ nişine bakın'); boş bırakılabilir"
+        type: string
+        default: ""
+  # İstekler dosyası değişince fırtına yeniden çalışır.
+  push:
+    paths: [beyin/istekler.md]
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: beyin-firtinasi
+  cancel-in-progress: false
+
+jobs:
+  firtina:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - run: python -m pytest -q tests/test_beyin.py
+      - name: Üç uzman tartışıyor
+        id: firtina
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          NOT: ${{ inputs.not }}
+        run: |
+          if [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "ANTHROPIC_API_KEY eklenmemiş (README > Kurulum)." | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
+          python -m beyin "$NOT"
+      - name: Kararı depoya işle
+        if: always()
+        run: |
+          git config user.name "kalkylerat-botu"
+          git config user.email "kalkylerat-botu@users.noreply.github.com"
+          git add beyin/kararlar
+          git diff --cached --quiet && exit 0
+          git commit -m "Beyin fırtınası kararı $(date -u '+%Y-%m-%d %H:%M') UTC"
+          for i in 1 2 3; do
+            git pull --rebase origin "$GITHUB_REF_NAME" && git push origin "HEAD:$GITHUB_REF_NAME" && exit 0
+            sleep $((i * 10))
+          done
+          exit 1
+      - name: Kararı issue olarak aç
+        if: steps.firtina.outputs.karar != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          KARAR: ${{ steps.firtina.outputs.karar }}
+        run: |
+          gh label create beyin --color 8250df --description "Beyin fırtınası kararı" --force
+          baslik=$(grep -m1 '^# ' "$KARAR" | sed 's/^# //')
+          gh issue create --title "🧠 ${baslik:-Beyin fırtınası kararı}" --label beyin --body-file "$KARAR"

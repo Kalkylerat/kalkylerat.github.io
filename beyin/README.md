@@ -9,6 +9,10 @@ ortak karar** verir. Seçilen fikir sonra Kalkylerat gibi tam otomatik bir bota 
 | **B – Gelir Uzmanı** | Hangi kanallardan, kaçıncı ayda, ne kadar para |
 | **C – Otomasyon ve Risk Uzmanı** | Tam otomatik çalışır mı, veri kaynağı, X kuralları, yasal risk |
 
+Her uzmanın uzmanlık alanları, çalışma yöntemi, sınırları ve kontrol soruları [uzmanlar/](uzmanlar/)
+klasöründedir (düzenlenebilir). Yetenekleri: **web araması** (güncel fiyat, kural, rakip hesaplar) ve **sayfa
+okuma** (X kuralları, API şartları gibi resmi sayfaları baştan sona okur). İddialarının yanına kaynak linki koyarlar.
+
 ## Turlar
 
 1. **Öneri:** Her uzman, rakamları web'de doğrulayarak 2 fikir yazar (A1, A2, B1, B2, C1, C2).
@@ -28,4 +32,5 @@ ortak karar** verir. Seçilen fikir sonra Kalkylerat gibi tam otomatik bir bota 
   yeni çalışma kaldığı yerden devam eder. İstekler değiştiyse tartışma baştan başlar.
 - **Sonuç:** [kararlar/](kararlar/) klasörüne yazılır: kısa karar (`…-karar.md`) ve bütün tartışma
   (`…-tutanak.md`). Karar ayrıca 🧠 etiketli bir issue olarak açılır.
-- **Maliyet:** Bir çalışma yaklaşık 25 Claude çağrısı yapar, 3–6$ tutar. Süresi 15–30 dakikadır.
+- **Maliyet:** Bir çalışma yaklaşık 25 Claude çağrısı yapar, 3–6$ tutar. Süresi 15–30 dakikadır. Bir çalışma en fazla
+  7$ harcayabilir (`firtina.py` → `BUTCE_USD`); aşılırsa biten turlar kaydedilip durulur.

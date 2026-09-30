@@ -112,3 +112,18 @@ def test_yarim_kalan_tartisma_kaldigi_yerden_devam_eder(tmp_path):
     ucuncu = SahteClaude()
     firtina.Toplanti(client=ucuncu, istekler="Başka istek.", devam=devam).oneriler()
     assert len(ucuncu.cagrilar) >= 3
+
+
+def test_butce_asilinca_durur_ve_uzman_profilleri_yuklenir(tmp_path):
+    client = SahteClaude()
+    t = firtina.Toplanti(client=client, istekler="Yeni X hesabı.", devam=tmp_path / "devam.json", butce=0.001)
+    try:
+        t.calistir()
+        raise AssertionError("bütçe hatası bekleniyordu")
+    except firtina.BeyinHatasi as e:
+        assert "bütçe" in str(e)
+    assert len(client.cagrilar) == 1  # ilk çağrıdan sonra durur
+    ilk = client.cagrilar[0]
+    assert "Huni" not in ilk["system"] and "X öneri algoritması" in ilk["system"]  # Büyüme Uzmanı profili
+    assert {a["name"] for a in ilk["tools"]} == {"web_search", "web_fetch"}
+    assert all("## Yeteneklerin" in u.profil for u in firtina.UZMANLAR)

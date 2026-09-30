@@ -25,7 +25,14 @@ AYAR_DOSYASI = KOK.parent / "ayarlar.toml"
 # Yarım kalan tartışma (API sınırı, zaman aşımı): sonraki çalışma aynı isteklerle buradan devam eder.
 DEVAM = KARARLAR / "devam.json"
 
-WEB_ARAMA = {"type": "web_search_20260209", "name": "web_search", "max_uses": 5}
+# Uzmanların yetenekleri: güncel bilgiyi arama ve resmi bir sayfayı baştan sona okuma.
+WEB_ARACLARI = [
+    {"type": "web_search_20260209", "name": "web_search", "max_uses": 4},
+    {"type": "web_fetch_20260209", "name": "web_fetch", "max_uses": 2, "max_content_tokens": 6000},
+]
+# Bir tartışmanın harcayabileceği en fazla tutar (Anthropic aylık sınırı 15$; Kalkylerat botuna da pay kalmalı).
+# Aşılırsa biten turlar kaydedilip durulur; sonraki çalışma kaldığı yerden devam eder.
+BUTCE_USD = 7.0
 MAX_DUZELTME = 2
 FINAL_ADAY = 2
 
@@ -43,27 +50,21 @@ KRITERLER = {
 class Uzman:
     harf: str
     ad: str
-    bakis: str
+    profil: str  # uzmanlık alanları, yöntem, yetenekler ve kontrol soruları
+
+
+def _profil(dosya: str) -> str:
+    return (KOK / "uzmanlar" / dosya).read_text(encoding="utf-8")
 
 
 UZMANLAR = [
-    Uzman("A", "Büyüme Uzmanı",
-          "X algoritmasını, kitle psikolojisini ve viral içerik formatlarını çok iyi bilirsin. Senin için asıl soru: "
-          "bu hesap sıfırdan, reklam ve hile olmadan, sadece içerikle nasıl binlerce gerçek takipçiye ulaşır? "
-          "Hangi niş yeterince büyük ama henüz doymamış, hangi paylaşım formatı otomatik üretilse bile değerli olur?"),
-    Uzman("B", "Gelir Uzmanı",
-          "İnternet hesaplarının nasıl paraya dönüştüğünü bilirsin: X gelir paylaşımı ve abonelikler, affiliate, "
-          "sponsorluk, dijital ürün, bülten, veri/araç satışı. Senin için asıl soru: bu hesap kaçıncı ayda, "
-          "hangi kanallardan, ayda gerçekçi olarak ne kadar kazandırır ve gelir tek kaynağa bağlı kalmaz mı?"),
-    Uzman("C", "Otomasyon ve Risk Uzmanı",
-          "Kalkylerat'ı kuran mühendissin: GitHub Actions, Python, Claude API, X API, ücretsiz ve ucuz veri "
-          "API'leri. Aynı zamanda X kurallarını (otomasyon, spam, platform manipülasyonu), telif ve reklam "
-          "mevzuatını bilirsin. Senin için asıl soru: bu fikir sahip hiçbir şey yapmadan her gün kaliteli "
-          "çalışabilir mi, veri kaynağı güvenilir ve ucuz mu, hesap ya da sahip başını belaya sokar mı?"),
+    Uzman("A", "Büyüme Uzmanı", _profil("buyume.md")),
+    Uzman("B", "Gelir Uzmanı", _profil("gelir.md")),
+    Uzman("C", "Otomasyon ve Risk Uzmanı", _profil("otomasyon.md")),
 ]
 YAZMAN = Uzman("Y", "Yazman",
                "Tarafsız toplantı yazmanısın. Kendi fikrin yok; üç uzmanın ortak noktalarını ve itirazlarını "
-               "dürüstçe tek bir karara dönüştürürsün.")
+               "dürüstçe tek bir karara dönüştürürsün. Uzmanların verdiği kaynak linklerini kararda korursun.")
 
 ORTAK_KURALLAR = """Bir beyin fırtınası ekibindesin. Ekip, sahibin isteklerine en uygun X (Twitter) hesabı fikrini bulacak;
 sonra bu fikir Kalkylerat botu gibi tam otomatik bir sisteme dönüştürülecek.
@@ -85,6 +86,7 @@ class Kayit:
     bolumler: list[tuple[str, str]] = field(default_factory=list)
     girdi: int = 0
     cikti: int = 0
+    arama: int = 0
     tablo: dict[str, dict] = field(default_factory=dict)
     anahtar: str = ""
     dosya: Path | None = None
@@ -102,7 +104,7 @@ class Kayit:
             self.dosya.parent.mkdir(exist_ok=True)
             self.dosya.write_text(json.dumps({
                 "anahtar": self.anahtar, "bolumler": self.bolumler, "tablo": self.tablo,
-                "girdi": self.girdi, "cikti": self.cikti}, ensure_ascii=False, indent=1), encoding="utf-8")
+                "girdi": self.girdi, "cikti": self.cikti, "arama": self.arama}, ensure_ascii=False, indent=1), encoding="utf-8")
 
     @classmethod
     def yukle(cls, dosya: Path | None, anahtar: str) -> "Kayit":
@@ -112,7 +114,7 @@ class Kayit:
             if d.get("anahtar") == anahtar:
                 bolumler = [(b, m) for b, m in d["bolumler"] if not b.startswith("5. Tur")]
                 print(f"↻ Yarım kalan tartışmadan devam: {len(bolumler)} bölüm hazır", flush=True)
-                return cls(bolumler, d["girdi"], d["cikti"], d.get("tablo", {}), anahtar, dosya)
+                return cls(bolumler, d["girdi"], d["cikti"], d.get("arama", 0), d.get("tablo", {}), anahtar, dosya)
         return cls(anahtar=anahtar, dosya=dosya)
 
     def metin(self, *basliklar_on_ekleri: str) -> str:
@@ -120,7 +122,8 @@ class Kayit:
                            if not basliklar_on_ekleri or b.startswith(basliklar_on_ekleri))
 
     def maliyet_usd(self) -> float:
-        return self.girdi * 4 / 1e6 + self.cikti * 20 / 1e6
+        """Claude Opus 5.5: girdi 4$, çıktı 20$ / milyon token; web araması 10$ / 1.000 arama."""
+        return self.girdi * 4 / 1e6 + self.cikti * 20 / 1e6 + self.arama * 0.01
 
 
 class BeyinHatasi(RuntimeError):
@@ -139,7 +142,7 @@ def _metin(msg) -> str:
 
 class Toplanti:
     def __init__(self, client=None, istekler: str | None = None, ek_not: str = "", simdi: datetime | None = None,
-                 devam: Path | None = DEVAM):
+                 devam: Path | None = DEVAM, butce: float = BUTCE_USD):
         self.client = client or anthropic.Anthropic()
         self.model, self.effort = _ayarlar()
         self.simdi = simdi or datetime.now(timezone.utc)
@@ -149,22 +152,29 @@ class Toplanti:
         self.kurallar = ORTAK_KURALLAR.format(tarih=self.simdi.date().isoformat(), istekler=istekler)
         anahtar = hashlib.sha256(f"{self.model}|{istekler}".encode()).hexdigest()[:16]
         self.kayit = Kayit.yukle(devam, anahtar)
+        self.butce = butce
+        self.baslangic_maliyet = self.kayit.maliyet_usd()
 
     # --- Claude çağrısı -------------------------------------------------------------------------------------
 
     def _sor(self, kim: Uzman, gorev: str, web: bool = False, sema: dict | None = None) -> str:
         """Tek, durumsuz çağrı: rol + ortak kurallar sistemde, o ana kadarki tutanak ve görev kullanıcı mesajında."""
         messages = [{"role": "user", "content": gorev}]
-        output_config = {"effort": self.effort}
+        # Puanlama ve onay kısa, yapılandırılmış yanıtlar: orta düşünme yeterli, bütçe asıl tartışmaya kalır.
+        output_config = {"effort": "medium" if sema else self.effort}
         if sema:
             output_config["format"] = {"type": "json_schema", "schema": sema}
-        ek = {"tools": [WEB_ARAMA]} if web else {}
+        ek = {"tools": WEB_ARACLARI} if web else {}
         parcalar = []
-        for _ in range(6):  # web araması uzun sürerse API turu "pause_turn" ile böler; kaldığı yerden devam
+        for _ in range(6):
+            harcanan = self.kayit.maliyet_usd() - self.baslangic_maliyet
+            if harcanan > self.butce:
+                raise BeyinHatasi(f"Bu çalışmanın bütçesi doldu (~{harcanan:.2f}$ / {self.butce:.0f}$).")
+            # web araması uzun sürerse API turu "pause_turn" ile böler; kaldığı yerden devam
             with self.client.beta.messages.stream(
                 model=self.model,
                 max_tokens=32000,
-                system=f"Sen ekibin {kim.ad}sın. {kim.bakis}\n\n{self.kurallar}",
+                system=f"Sen ekibin {kim.ad}sın.\n\n{kim.profil}\n\n{self.kurallar}",
                 messages=messages,
                 output_config=output_config,
                 # Güvenlik filtresi yanlışlıkla reddederse istek aynı çağrı içinde yedek modelle yeniden çalışır.
@@ -176,6 +186,7 @@ class Toplanti:
             u = msg.usage
             self.kayit.girdi += u.input_tokens + (u.cache_read_input_tokens or 0) + (u.cache_creation_input_tokens or 0)
             self.kayit.cikti += msg.usage.output_tokens
+            self.kayit.arama += getattr(getattr(u, "server_tool_use", None), "web_search_requests", 0) or 0
             parcalar.append(_metin(msg))
             if msg.stop_reason == "pause_turn":
                 messages.append({"role": "assistant", "content": msg.content})
@@ -215,7 +226,7 @@ class Toplanti:
                 "- **Gelir modeli:** hangi kanallar, hangi eşikler, ayda gerçekçi rakam (3., 6. ve 12. ay)\n"
                 "- **Otomasyon:** sahip ne yapar, bot ne yapar\n"
                 "- **En büyük risk** ve önlemi\n"
-                "Rakamları web'de doğrula."
+                "Rakamları ve kuralları web'de doğrula; önemli iddiaların yanına kaynak linki koy."
             )
             self.kayit.ekle(baslik, self._sor(u, gorev, web=True))
 

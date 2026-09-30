@@ -50,6 +50,12 @@ Liste:
 Suno şarkılarımı listele
 ```
 
+Kendi klasör yapınızla:
+```
+Suno'da 3 lofi şarkı üret, klasör yapısı: Tür/Yıl-Ay/Şarkı adı
+```
+Yapı söylemezseniz varsayılan: `Proje/Tarih_Başlık`.
+
 Ayarlar:
 - Farklı kayıt klasörü: "şarkıları D:\Muzik\Suno klasörüne kaydet" deyin ya da `SUNO_KLASOR` ortam değişkenini ayarlayın.
 - Chrome başka bir klasöre indiriyorsa: `SUNO_INDIRILENLER` ortam değişkeni.

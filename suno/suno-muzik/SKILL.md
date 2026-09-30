@@ -52,7 +52,9 @@ Suno'nun arayüzü sık değişir. Aşağıdaki adımlar yol haritasıdır; dü�
    python <skill-klasoru>/duzenle.py tasi --proje "<proje>" --baslik "<baslik>" --stil "<stil>" --mod "<vokal|enstrümantal>" --link "<link1> <link2>" --sozler-dosyasi "<sozler.txt>"
    ```
 
-   Betik İndirilenler klasöründe işaretten sonra inen ses dosyalarını `<kok>/<proje>/<YYYY-MM-DD>_<baslik>/` klasörüne taşır, yanına `bilgi.json` ve `sozler.txt` koyar, `<kok>/katalog.csv`'ye bir satır ekler ve işareti yeniler.
+   Kullanıcı prompt'ta bir klasör yapısı verdiyse (ör. "tür/yıl/şarkı adı", "Albümler/Yaz/01 - başlık") o yapıyı her şarkı için somut bir yola çevir ve `--klasor "<Rock/2026/Gece Yolu>"` ekle; yol ana klasöre göredir. Yapı belirsizse ilk şarkıdan önce hangi yola kaydedeceğini bir cümleyle söyle.
+
+   Betik İndirilenler klasöründe işaretten sonra inen ses dosyalarını hedef klasöre (varsayılan `<kok>/<proje>/<YYYY-MM-DD>_<baslik>/`) taşır, yanına `bilgi.json` ve `sozler.txt` koyar, `<kok>/katalog.csv`'ye bir satır ekler ve işareti yeniler.
 5. Betik "yeni ses dosyası bulunamadı" derse: indirmenin gerçekten başladığını kontrol et; kullanıcının Chrome indirme klasörü farklıysa `--indirilenler "<klasör>"` ekle.
 
 Varsayılan ana klasör `~/Music/Suno`. Kullanıcı başka yer isterse her çağrıya `--kok "<klasör>"` ekle (veya kullanıcıya `SUNO_KLASOR` ortam değişkenini ayarlamasını öner). `--kok` ve `--indirilenler` alt komuttan **önce** yazılır: `duzenle.py --kok "D:\Muzik" tasi ...`

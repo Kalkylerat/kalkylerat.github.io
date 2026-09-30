@@ -48,6 +48,16 @@ def test_isaretten_sonra_inenleri_tasir(tmp_path):
     assert [s["baslik"] for s in satirlar] == ["Gece/Yolu"]
 
 
+def test_ozel_klasor_yapisi(tmp_path):
+    kok, indir = tmp_path / "Suno", tmp_path / "Downloads"
+    indir.mkdir()
+    ortak = ["--kok", str(kok), "--indirilenler", str(indir)]
+    duzenle.main(ortak + ["isaret"])
+    (indir / "a.mp3").write_bytes(b"a")
+    duzenle.main(ortak + ["tasi", "--baslik", "x", "--klasor", "Rock/../2026\\Gece: Yolu", "--bekle", "0"])
+    assert (kok / "Rock" / "2026" / "Gece Yolu" / "a.mp3").exists()
+
+
 def test_isaret_yoksa_durur(tmp_path):
     (tmp_path / "D").mkdir()
     with pytest.raises(SystemExit):

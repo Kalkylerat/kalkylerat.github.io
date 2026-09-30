@@ -84,7 +84,11 @@ def tasi(a):
         sys.exit(f"İşaretten sonra {kaynak} içinde yeni ses dosyası bulunamadı.")
 
     tarih = datetime.now()
-    hedef = kok / guvenli_ad(a.proje) / f"{tarih:%Y-%m-%d}_{guvenli_ad(a.baslik)}"
+    if a.klasor:
+        parcalar = [guvenli_ad(p) for p in re.split(r"[\\/]+", a.klasor) if p.strip() not in ("", ".", "..")]
+        hedef = kok.joinpath(*parcalar) if parcalar else kok
+    else:
+        hedef = kok / guvenli_ad(a.proje) / f"{tarih:%Y-%m-%d}_{guvenli_ad(a.baslik)}"
     hedef.mkdir(parents=True, exist_ok=True)
     tasinan = [shutil.move(str(d), hedef_yol(hedef, d.name)) for d in dosyalar]
     adlar = [Path(t).name for t in tasinan]
@@ -147,6 +151,7 @@ def main(argv=None):
     t.add_argument("--mod", default="", help="vokal / enstrümantal")
     t.add_argument("--link", default="", help="Suno şarkı linki")
     t.add_argument("--sozler-dosyasi", help="Şarkı sözlerinin bulunduğu metin dosyası")
+    t.add_argument("--klasor", help="Ana klasöre göre hedef yol, ör. 'Rock/2026/Gece Yolu' (proje/tarih yapısının yerine)")
     t.add_argument("--notlar", default="")
     t.add_argument("--bekle", type=int, default=90, help="Süren indirmeler için en fazla bekleme (sn)")
 

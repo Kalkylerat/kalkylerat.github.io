@@ -25,10 +25,10 @@ okuma** (X kuralları, API şartları gibi resmi sayfaları baştan sona okur). 
 
 ## Çalıştırma
 
-- **İstekleri değiştirmek:** [istekler.md](istekler.md) dosyasını GitHub'da düzenleyip kaydedin. Fırtına kendiliğinden yeniden çalışır.
+- **Otomatik çalışma kapalı.** İlk tam deneme ~9$ tuttuğu için istekler ya da tetik dosyası değişince artık çalışmaz.
+  Beyin fırtınası bundan sonra Claude Code sohbetinde (API faturası olmadan) yapılır; bu kod arşiv olarak duruyor.
 - **Elle:** Actions → **Beyin Fırtınası** → Run workflow (isterseniz bir ek not yazın).
-- **Yeniden başlatmak / devam ettirmek:** [tetik.txt](tetik.txt) dosyasına herhangi bir satır ekleyip kaydedin.
-  Tartışma yarıda kesildiyse (ör. API harcama sınırı) biten turlar `kararlar/devam.json` içinde durur ve
+- **Yarıda kalan tartışma:** Tartışma yarıda kesildiyse (ör. API harcama sınırı) biten turlar `kararlar/devam.json` içinde durur ve
   yeni çalışma kaldığı yerden devam eder. İstekler değiştiyse tartışma baştan başlar.
 - **Sonuç:** [kararlar/](kararlar/) klasörüne yazılır: kısa karar (`…-karar.md`) ve bütün tartışma
   (`…-tutanak.md`). Karar ayrıca 🧠 etiketli bir issue olarak açılır.

@@ -9,10 +9,7 @@ on:
         description: "Bu çalışmaya özel ek not (ör. 'İsveççe olsun', 'yapay zekâ nişine bakın'); boş bırakılabilir"
         type: string
         default: ""
-  # İstekler dosyası değişince fırtına yeniden (baştan) çalışır. tetik.txt değişince de çalışır: yarım kalmış
-  # bir tartışma varsa kaldığı yerden devam eder (ana dala alınmadan önce "Run workflow" düğmesi çıkmaz).
-  push:
-    paths: [beyin/istekler.md, beyin/tetik.txt]
+  # Otomatik tetikleme kapalı: bir çalışma ~9$ tuttu. Yalnızca elle (Actions → Run workflow) çalışır.
 
 permissions:
   contents: write

@@ -34,6 +34,15 @@ IZINLI_SPORLAR = [
     "soccer_sweden_superettan",
 ]
 _GUVENILMEZ = re.compile(r"friendl|women|youth|u1[6-9]\b|u2[0-3]\b|reserve", re.IGNORECASE)
+# Kadın liglerinden yalnızca Kadınlar Şampiyonlar Ligi taranır (liste dışı lig kurallarıyla: Pinnacle şartı).
+_KADIN_IZINLI = re.compile(r"champions league", re.IGNORECASE)
+_GENC_HAZIRLIK = re.compile(r"friendl|youth|u1[6-9]\b|u2[0-3]\b|reserve", re.IGNORECASE)
+
+
+def _kadin_sl(spor: dict) -> bool:
+    metin = f'{spor.get("key", "")} {spor.get("title", "")} {spor.get("description", "")}'
+    return ("women" in metin.lower() and bool(_KADIN_IZINLI.search(metin.replace("_", " ").replace("champs", "champions")))
+            and not _GENC_HAZIRLIK.search(metin))
 # Aylık 500 kredinin korunması: tarama başına en fazla bu kadar kredi, ve sonuçlar için hep bu kadar kredi kalır.
 MAX_TARAMA_KREDISI = 20
 # Yüksek ihtimalli pazarlar (çifte şans, 1,5 üst/alt, karşılıklı gol) yalnızca maç başına istenebilir:
@@ -98,7 +107,7 @@ def futbol_sporlari(api: OddsApi) -> list[dict]:
     sira = {k: i for i, k in enumerate(IZINLI_SPORLAR)}
     sporlar = [s for s in api.get("sports")
                if s.get("group") == "Soccer" and s.get("active") and not s.get("has_outrights")
-               and not _GUVENILMEZ.search(f'{s.get("title", "")} {s.get("description", "")}')]
+               and (_kadin_sl(s) or not _GUVENILMEZ.search(f'{s.get("title", "")} {s.get("description", "")}'))]
     return sorted(sporlar, key=lambda s: sira.get(s["key"], len(sira)))
 
 
@@ -186,7 +195,7 @@ def tara(api: OddsApi, tarih: str, ayar, simdi: datetime, kredi: int = MAX_TARAM
             yaz(f"The Odds API: tarama kredisi ({kredi}) doldu; kalan ligler atlandı.")
             break
         for e in api.get(f'sports/{spor["key"]}/odds', regions=BOLGE, markets=PAZARLAR, oddsFormat="decimal", **zaman):
-            if _GUVENILMEZ.search(f'{e["home_team"]} {e["away_team"]}'):
+            if (_GENC_HAZIRLIK if _kadin_sl(spor) else _GUVENILMEZ).search(f'{e["home_team"]} {e["away_team"]}'):
                 continue
             fid = fixture_id(e["id"])
             maclar.append({

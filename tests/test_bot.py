@@ -1060,6 +1060,20 @@ def test_odds_tara_kredi_ve_yedek():
     assert oranlar[maclar[0]["fixture_id"]]["Pinnacle"]["UST15"] == 1.25
 
 
+def test_odds_kadinlardan_yalniz_sampiyonlar_ligi():
+    from bot import oddsapi
+
+    def s(key, title):
+        return {"key": key, "group": "Soccer", "title": title, "active": True, "has_outrights": False}
+    sporlar = [s("soccer_uefa_champs_league_women", "UEFA Champions League Women"),
+               s("soccer_sweden_damallsvenskan", "Damallsvenskan Women"),
+               s("soccer_england_wsl", "WSL Women"), s("soccer_epl", "EPL")]
+    api = SimpleNamespace(get=lambda path, **k: sporlar)
+    anahtarlar = [x["key"] for x in oddsapi.futbol_sporlari(api)]
+    assert anahtarlar == ["soccer_epl", "soccer_uefa_champs_league_women"]  # izinli lig önce, kadın SL liste dışı
+    assert "soccer_uefa_champs_league_women" not in oddsapi.IZINLI_SPORLAR  # Pinnacle şartıyla taranır
+
+
 def test_odds_hata_mesajinda_anahtar_yok():
     from bot import oddsapi
 

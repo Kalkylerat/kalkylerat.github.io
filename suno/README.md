@@ -17,7 +17,20 @@ Her şarkı klasöründe: MP3 dosyaları (Suno'nun iki varyasyonu), `sozler.txt`
 - **Python 3** (python.org; Windows'ta kurarken "Add to PATH" kutusunu işaretleyin)
 - Chrome'da Suno hesabınızla **giriş yapmış** olmanız
 
-## Kurulum (bir kerelik, 5 dk)
+## En kolay kurulum (1 dk)
+
+Claude Code'u açın ve şu mesajı yapıştırın:
+
+```
+Şu 3 dosyayı indir ve ~/.claude/skills/suno-muzik/ klasörüne kaydet (klasör yoksa oluştur). Sonra her dosyanın ne yaptığını bana 1 cümleyle özetle:
+https://raw.githubusercontent.com/kalkylerat/kalkylerat.github.io/993dbed705bbfe2b74c143245e8c84c3c127ceda/suno/suno-muzik/SKILL.md
+https://raw.githubusercontent.com/kalkylerat/kalkylerat.github.io/993dbed705bbfe2b74c143245e8c84c3c127ceda/suno/suno-muzik/duzenle.py
+https://raw.githubusercontent.com/kalkylerat/kalkylerat.github.io/993dbed705bbfe2b74c143245e8c84c3c127ceda/suno/suno-muzik/istekler-ornek.toml
+```
+
+Linkler sabit bir sürüme bağlı; sonradan değiştirilemez. Ardından Claude Code'u `claude --chrome` ile yeniden başlatın.
+
+## Kurulum (elle, 5 dk)
 
 1. Bu klasörü bilgisayarınıza indirin (GitHub'da bu branch → **Code → Download ZIP**, açın).
 2. Terminalde açtığınız klasöre girip çalıştırın:

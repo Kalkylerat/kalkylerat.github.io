@@ -7,7 +7,8 @@ from PIL import Image, ImageDraw, ImageFont
 
 from .config import ROOT
 from .kayit import kar, kupon_ayaklari, kupon_durumu, kupon_kar, kupon_olasilik, kupon_oran, kuponlar
-from .tweets import kasa_adimlari, kupon_oran_metni
+from .kayit import kupon_bakiyesi
+from .tweets import gun_donen, kupon_oran_metni
 
 BOYUT = 1200
 KENAR = 70
@@ -58,17 +59,17 @@ def _ust(im, d, tarih_iso: str, sag_alt: str) -> None:
 def kupon_gorseli(gun: dict, kupon: dict, kasa: float, sira: int = 1, toplam: int = 1) -> bytes:
     """Bir kuponun kartı. Kasa bakiyesi başlıkta, "kupon başına %1" altta yazar."""
     secimler, birim = kupon_ayaklari(gun, kupon), gun["para"]
-    kasa = kupon.get("kasa", kasa)  # kuponun oynandığı andaki kasa (önceki kuponlar düşülmüş)
+    bakiye = kupon_bakiyesi(kupon, kasa)  # oynandığı andaki bakiyeden bu kuponun stake'i de düşülmüş
     # Yükseklik maç sayısına göre: tek maçlık kuponda boşluk kalmaz (3 maçta kare).
     yuk, bosluk, alan_ust = 170, 22, 340
     kart_alt = alan_ust + len(secimler) * (yuk + bosluk) - bosluk
     serit_y = kart_alt + 35
-    yukseklik = max(serit_y + 140 + 160, 750)
+    yukseklik = max(serit_y + 140 + 110, 700)
     im = Image.new("RGB", (BOYUT, yukseklik), ARKA)
     d = ImageDraw.Draw(im)
     ic = BOYUT - 2 * KENAR
 
-    _ust(im, d, gun["tarih"], f"BANK {_para(kasa, birim)}")
+    _ust(im, d, gun["tarih"], f"BALANCE {_para(bakiye, birim)}")
 
     baslik = "TODAY'S COUPON" if toplam == 1 else f"COUPON {sira} OF {toplam}"
     d.text((KENAR, 230), baslik, font=_font(64, True), fill=YAZI)
@@ -112,13 +113,7 @@ def kupon_gorseli(gun: dict, kupon: dict, kasa: float, sira: int = 1, toplam: in
         d.text((x + (g - d.textlength(deger, font=f)) / 2, y + 62), deger, font=f, fill=YAZI)
         x += g
 
-    # Kasa adımı: stake kupon yapılınca kasadan düşer, getiri sonuçta kasaya döner.
-    adim = (f"Bank {_para(kasa, birim)} − stake {_para(stake, birim)} = {_para(kasa - stake, birim)}"
-            f" · the return goes back to the bank")
-    adim, f = _sigdir(d, adim, ic, 26, True)
-    d.text(((BOYUT - d.textlength(adim, font=f)) / 2, y + 140 + 30), adim, font=f, fill=YAZI)
-
-    alt = f'Virtual bank · stake {gun["yuzde"]:g}% of the bank per coupon · 18+ | Play responsibly'
+    alt = f'Virtual bank · stake {gun["yuzde"]:g}% of the balance per coupon · 18+ | Play responsibly'
     alt, f = _sigdir(d, alt, ic, 22)
     d.text(((BOYUT - d.textlength(alt, font=f)) / 2, yukseklik - KENAR - 10), alt, font=f, fill=SOLUK)
 
@@ -193,7 +188,7 @@ KAYIP = (255, 107, 97)
 def sonuc_gorseli(gun: dict, ozet: dict) -> bytes:
     """Sonuç kartı: maç maç skor ve ✔/✘, kupon kâr/zararı, güncel kasa. Kupon kartıyla aynı tasarım."""
     birim, secimler, liste = gun["para"], gun["secimler"], kuponlar(gun)
-    kasa, kasa_degisim = ozet["kasa"], ozet["kasa_degisim"]
+    bakiye = ozet.get("bakiye", ozet["kasa"])
     yuk, bosluk, alan_ust = 150, 18, 340
     kart_alt = alan_ust + len(secimler) * (yuk + bosluk) - bosluk
     serit_y = kart_alt + 35
@@ -201,7 +196,7 @@ def sonuc_gorseli(gun: dict, ozet: dict) -> bytes:
     im = Image.new("RGB", (BOYUT, yukseklik), ARKA)
     d = ImageDraw.Draw(im)
     ic = BOYUT - 2 * KENAR
-    _ust(im, d, gun["tarih"], f"BANK {_para(kasa, birim)}")
+    _ust(im, d, gun["tarih"], f"BALANCE {_para(bakiye, birim)}")
     durumlar = [kupon_durumu(gun, k) for k in liste]
     if len(liste) == 1:
         baslik = {"tuttu": "COUPON WON", "yatti": "COUPON LOST", "iptal": "COUPON VOID"}.get(durumlar[0], "RESULTS")
@@ -227,22 +222,20 @@ def sonuc_gorseli(gun: dict, ozet: dict) -> bytes:
         fk = _font(54, True)
         d.text((sag - d.textlength(k, font=fk), y + 40), k, font=fk, fill=r)
         d.text((sag - 80 - skor_gen, y + 46), skor, font=f_skor, fill=YAZI)
-    # Kasa adım adım: önceki kasa − stake + dönen = yeni kasa (kuruşu kuruşuna).
-    once, stake, geri, sonra = kasa_adimlari(gun, ozet)
-    kutular = [("BANK BEFORE", _para(once, birim)),
-               ("− STAKE  + RETURN", f"−{_para(stake, birim)}  +{_para(geri, birim)}"),
-               ("BANK NOW", _para(sonra, birim))]
+    # Yalnızca iki rakam: dönen para (kayıpta 0, stake kupon yapılınca zaten düşmüştü) ve yeni bakiye.
+    geri = gun_donen(gun)
+    kutular = [("RETURN", f"+{_para(geri, birim)}" if geri else _para(0, birim)), ("BALANCE", _para(bakiye, birim))]
     y = serit_y
     d.rounded_rectangle((KENAR, y, BOYUT - KENAR, y + 140), radius=22, outline=renk if renk != YAZI else VURGU, width=3)
     x = KENAR
-    for (etiket, deger), oran in zip(kutular, [0.30, 0.40, 0.30]):
+    for (etiket, deger), oran in zip(kutular, [0.5, 0.5]):
         g = ic * oran
         f = _font(22, True)
         d.text((x + (g - d.textlength(etiket, font=f)) / 2, y + 24), etiket, font=f, fill=SOLUK)
-        deger, f = _sigdir(d, deger, g - 30, 44, True)
-        d.text((x + (g - d.textlength(deger, font=f)) / 2, y + 62), deger, font=f, fill=YAZI)
+        deger, f = _sigdir(d, deger, g - 30, 48, True)
+        d.text((x + (g - d.textlength(deger, font=f)) / 2, y + 60), deger, font=f, fill=YAZI)
         x += g
-    alt = f'Virtual bank · {kasa_degisim:+.1f}% since start · stake {gun["yuzde"]:g}% per coupon · 18+ | Play responsibly'
+    alt = f'Virtual bank · stake {gun["yuzde"]:g}% of the balance per coupon · 18+ | Play responsibly'
     alt, f = _sigdir(d, alt, ic, 22)
     d.text(((BOYUT - d.textlength(alt, font=f)) / 2, yukseklik - KENAR - 10), alt, font=f, fill=SOLUK)
     tampon = io.BytesIO()

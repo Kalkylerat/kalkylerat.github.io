@@ -173,7 +173,7 @@ def test_ana_tweet_icerigi():
     metin = tweets.gun_tweeti(g, kayit.ozet([], 10000))
     assert "🎫 Coupon 1: odds 2.00 · 52% chance\n€100.00 → €200.00\n• Home1 v Away1: Home1 win" in metin
     tek = _gun("2026-10-03", [_secim(1, 2.0, 0.52, tur="deger")], kuponlar=[[0]])
-    assert "💰 Bank €10,000.00 · 1% per coupon" in tweets.gun_tweeti(tek, kayit.ozet([], 10000))
+    assert "💰 Balance €9,900.00 · 1% per coupon" in tweets.gun_tweeti(tek, kayit.ozet([], 10000))
     assert "🎫 Coupon 2: odds 1.82" in metin and "• Home2 v Away2: Over 2.5 goals" in metin
     analiz = tweets.analiz_tweetleri(g)
     assert analiz[0].startswith("1) Home1 v Away1 · 15:00 CEST · coupon 1\n🎯 Pick: ") and "value pick" in analiz[0]
@@ -191,9 +191,8 @@ def test_sonuc_tweeti_kupon_bazinda():
     parcalar = tweets.sonuc_tweetleri(g, o)
     assert all(tweets.uzunluk(t) <= 280 for t in parcalar)
     metin = "\n".join(parcalar)
-    assert "❌ Home1 0–1 Away1" in metin and "🎫 Coupon 1: ❌ lost, €100.00 stake lost\n" in metin
-    assert "🎫 Coupon 2: ✅ won, €100.00 stake → €210.00 return (+€110.00)" in metin
-    assert "💰 Bank: €10,000.00 − €200.00 + €210.00 = €10,010.00" in metin
+    assert "❌ Home1 0–1 Away1" in metin and "🎫 Coupon 1: ❌ lost\n" in metin
+    assert "🎫 Coupon 2: ✅ won, +€210.00 back" in metin and "💰 Balance: €10,010.00" in metin
     assert "📈 Record: coupons 1/2 won · picks 2–1 (67%)" in metin and "Singles" not in metin
 
 
@@ -203,7 +202,7 @@ def test_eski_kayit_tekli_ve_kombi_sonucu():
     o = kayit.ozet([g], 10000)
     assert o["kasa"] == pytest.approx(10000 + 50 + 40 + 110)
     metin = "\n".join(tweets.sonuc_tweetleri(g, o))
-    assert "🎫 Coupon: ✅ won, €100.00 stake → €210.00 return (+€110.00)" in metin and "Singles: 2/2 won, +€90.00" in metin
+    assert "🎫 Coupon: ✅ won, +€210.00 back" in metin and "Singles: 2/2 won, +€90.00" in metin
 
 
 class _Ctx:
@@ -280,7 +279,7 @@ def test_demo_uctan_uca(monkeypatch, capsys):
     assert main(["demo"]) == 0
     cikti = capsys.readouterr().out
     assert "TWEET #1 + gorsel-" in cikti and "TODAY'S COUPON" in cikti and "RESULTS | 3 Oct" in cikti
-    assert "value pick" in cikti and "✅ Coupon won: €" in cikti and "Bank: €10," in cikti
+    assert "value pick" in cikti and "✅ Coupon won: +€" in cikti and "Balance: €10," in cikti
     assert "1xBet" not in cikti  # listede olmayan bahisçi asla kullanılmaz
     assert "Djurgården" not in cikti.split("TWEET #1")[1]  # kriteri geçmeyen maç seçilmez
 
@@ -374,7 +373,7 @@ def test_metin_kuponda_her_macin_adi_var():
     secimler = [_secim(i, o, p, "UST15", ev=e, dep=d, kisa=k) for i, (e, d, k, o, p) in enumerate(ms, 1)]
     flood = tweets.gun_floodu(_gun("2026-09-29", secimler, kuponlar=[[0, 1, 2]]), kayit.ozet([], 10000))
     assert all(f"{e} v {d}" in flood[0] for e, d, *_ in ms)  # her oyunda maç adı olmalı
-    assert "💰 Bank" in flood[0] and all(tweets.uzunluk(t) <= 280 for t in flood)
+    assert "💰 Balance" in flood[0] and all(tweets.uzunluk(t) <= 280 for t in flood)
 
 
 def test_tweetlerde_at_isareti_yok():
@@ -968,8 +967,8 @@ def test_sonuc_kuponu_alintilayan_ayri_paylasim(monkeypatch):
     sonuc(AYAR, object(), x, [g], SIMDI)
     yanit, alinti, medya, metin = atilan[0]
     assert (yanit, alinti, medya) == (None, "t1", ["kart"]) and len(atilan) == 1  # tek, görselli, alıntılı paylaşım
-    assert "✅ Coupon won: €100.00 stake → €150.00 return (+€50.00)" in metin and metin.endswith(tweets.ANSVAR)
-    assert "💰 Bank: €10,000.00 − €100.00 + €150.00 = €10,050.00" in metin
+    assert "✅ Coupon won: +€150.00 back" in metin and metin.endswith(tweets.ANSVAR)
+    assert "💰 Balance: €10,050.00" in metin
     assert tweets.uzunluk(metin) <= 280 and g["sonuc_tweet_id"] == "s1"
 
 
@@ -1781,8 +1780,8 @@ def test_kasa_kurusu_kurusuna_ve_denetim():
     assert oz["onceki_kasa"] == 10046.0 and oz["kar"] == round(100.46 * 1.4 * 1.44 - 100.46, 2)
     assert round(oz["onceki_kasa"] + oz["kar"], 2) == oz["kasa"]
     metin = tweets.gorselli_sonuc_tweeti(g, oz)
-    assert "€100.46 stake → €202.53 return (+€102.07)" in metin
-    assert "💰 Bank: €10,046.00 − €100.46 + €202.53 = €10,148.07" in metin and tweets.uzunluk(metin) <= 280
+    assert "✅ Coupon won: +€202.53 back" in metin
+    assert "💰 Balance: €10,148.07" in metin and tweets.uzunluk(metin) <= 280
     assert all(tweets.uzunluk(t) <= 280 for t in tweets.sonuc_tweetleri(g, oz))
     assert gorsel.sonuc_gorseli(g, oz)[:4] == b"\x89PNG"
     assert denetci.kasa_denetimi(gunler, 10000) == []
@@ -1826,3 +1825,34 @@ def test_deger_postu_maclar_bitince_alintilanir():
     assert not etkilesim.deger_takibi(gun, AYAR, x, t(22, 0), getir, yaz=lambda m: None)  # bir kez
     tek = etkilesim.deger_takip_tweeti(gun, e["maclar"][:1], "€")
     assert "HOW IT ENDED" in tek and "Our read was right, but €100 on it made just +€20." in tek and "skip it?" in tek
+
+
+def test_bakiye_cuzdan_gibi_stake_duser_kazanc_eklenir():
+    """3 kupon sırayla kalan bakiyenin %1'iyle oynanır; kupon kartı stake düşmüş bakiyeyi, sonuç kartı kazançta dönen
+    paranın eklendiği bakiyeyi gösterir; kayıpta bakiye aynı kalır."""
+    from bot import denetci
+    bas = 10174.89
+    gunler, bakiye_ = [], bas
+    for i, (oran, skor) in enumerate([(1.46, (2, 1)), (1.5, (0, 1)), (2.016, (3, 0))], 1):
+        g = _gun("2026-10-01", [_secim(i, oran, 0.7)], kuponlar=[[0]])
+        g["id"], g["yayin"] = f"2026-10-01-{i}", f"2026-10-01T1{i}:00:00+00:00"
+        stake = round(bakiye_ / 100, 2)
+        g["kuponlar"][0].update(stake=stake, kasa=bakiye_)
+        assert kayit.kupon_bakiyesi(g["kuponlar"][0], 0) == round(bakiye_ - stake, 2)  # kupon kartı
+        bakiye_ = round(bakiye_ - stake, 2)
+        gunler.append(g)
+    assert bakiye_ == 9872.69
+    for g, i in zip(gunler, (1, 2, 3)):
+        kayit.sonuclandir([g], {i: {"durum": "bitti", "skor": [(2, 1), (0, 1), (3, 0)][i - 1]}}, SIMDI)
+    # 1. kaybetti (MS1, skor 2-1 → aslında kazanır; testte kaybı 2. kupon sağlar)
+    sonuclar = []
+    for g in kayit.duyuru_sirasi(gunler):
+        assert denetci.kasa_denetimi(gunler, bas) == []
+        oz = kayit.sonuc_ozeti(gunler, g, bas)
+        sonuclar.append((kayit.kupon_durumu(g, g["kuponlar"][0]), oz["bakiye"], tweets.gorselli_sonuc_tweeti(g, oz)))
+        g["sonuc_tweet_id"] = "s"
+    (d1, b1, t1), (d2, b2, t2), (d3, b3, t3) = sonuclar
+    assert d1 == "tuttu" and b1 == round(9872.69 + tweets.donen(gunler[0], gunler[0]["kuponlar"][0]), 2)
+    assert d2 == "yatti" and b2 == b1 and "back" not in t2 and f"💰 Balance: €{b1:,.2f}" in t2  # kayıpta aynı
+    assert d3 == "tuttu" and b3 == round(b2 + tweets.donen(gunler[2], gunler[2]["kuponlar"][0]), 2)
+    assert b3 == kayit.kasa(gunler, bas)  # hepsi kapanınca bakiye = kasa

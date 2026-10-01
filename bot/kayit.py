@@ -84,13 +84,16 @@ def kar(secim: dict) -> float:
     """Tekli oyunun kârı. Yeni günlerde oyunlar yalnızca kuponlarda oynanır (stake 0)."""
     # Kasa kuruş hassasiyetinde tutulur: her kâr/zarar kuruşa yuvarlanır, kasa bunların toplamıdır (ekrandaki
     # "önce + kâr = sonra" kuruşu kuruşuna tutar).
-    return round({"kazandi": secim["stake"] * (secim["oran"] - 1), "kaybetti": -secim["stake"]}.get(secim["durum"], 0.0), 2)
+    # Dönen para kuruşa yuvarlanır, kâr = dönen − stake (kupon kartındaki "stake → return" ile aynı rakam).
+    if secim["durum"] == "kazandi":
+        return round(round(secim["stake"] * secim["oran"], 2) - secim["stake"], 2)
+    return -secim["stake"] if secim["durum"] == "kaybetti" else 0.0
 
 
 def kupon_kar(gun: dict, kupon: dict) -> float:
     durum = kupon_durumu(gun, kupon)
     if durum == "tuttu":
-        return round(kupon["stake"] * (kupon_oran(gun, kupon) - 1), 2)
+        return round(round(kupon["stake"] * kupon_oran(gun, kupon), 2) - kupon["stake"], 2)
     return -kupon["stake"] if durum == "yatti" else 0.0
 
 
@@ -111,7 +114,22 @@ def sonuc_ozeti(gunler: list[dict], gun: dict, baslangic: float) -> dict:
     """Bir kuponun sonuç postundaki kasa: sonucu daha önce duyurulmuş kuponlar + kendisi. Zaman akışında her
     sonuç postu bir öncekinin kasasından devam eder; henüz duyurulmamış (aynı anda biten) kuponun kaybı karışmaz."""
     onceki = [g for g in gunler if g is not gun and g.get("sonuc_tweet_id")]
-    return {**ozet(onceki + [gun], baslangic), "onceki_kasa": kasa(onceki, baslangic), "kar": round(gun_kar(gun), 2)}
+    return {**ozet(onceki + [gun], baslangic), "onceki_kasa": kasa(onceki, baslangic), "kar": round(gun_kar(gun), 2),
+            "bakiye": bakiye(gunler, gun, baslangic)}
+
+
+def bakiye(gunler: list[dict], gun: dict, baslangic: float) -> float:
+    """Sonuç postundaki bakiye (cüzdan gibi): kupon paylaşılınca stake düşer, sonuç duyurulunca dönen para eklenir
+    (kayıpta bir şey eklenmez). = duyurulmuş kuponlarla kasa − hâlâ açık (paylaşılmış, sonucu duyurulmamış) stakeler."""
+    duyurulan = [g for g in gunler if g is gun or g.get("sonuc_tweet_id")]
+    acik = sum(k["stake"] for g in gunler if g.get("tweet_id") and all(g is not d for d in duyurulan)
+               for k in kuponlar(g))
+    return round(kasa(duyurulan, baslangic) - acik, 2)
+
+
+def kupon_bakiyesi(kupon: dict, kasa_: float) -> float:
+    """Kupon kartındaki bakiye: kuponun oynandığı andaki bakiyeden kendi stake'i düşülmüş."""
+    return round(kupon.get("kasa", kasa_) - kupon["stake"], 2)
 
 
 def duyuru_sirasi(gunler: list[dict]) -> list[dict]:

@@ -251,8 +251,9 @@ def gun_tweeti(gun: dict, ozet: dict | None = None) -> str:
     def yaz(kasa_satiri: bool, takim_max: int = 40) -> str:
         satirlar = [f"⚽ {_baslik(gun)} | {_tarih(gun)}"]
         if kasa_satiri and ozet:
-            banka = next((k["kasa"] for k in kuponlar(gun) if k.get("kasa") is not None), ozet["kasa"])
-            satirlar.append(f'💰 Bank {para(banka, birim)} · {gun["yuzde"]:g}% per coupon')
+            banka = round(next((k["kasa"] for k in kuponlar(gun) if k.get("kasa") is not None), ozet["kasa"])
+                          - sum(k["stake"] for k in kuponlar(gun)), 2)
+            satirlar.append(f'💰 Balance {para(banka, birim)} · {gun["yuzde"]:g}% per coupon')
         for n, k in enumerate(liste, 1):
             ad = f"Coupon {n}" if len(liste) > 1 else "Coupon"
             satirlar += ["", f'🎫 {ad}: odds {kupon_oran_metni(gun, k)} · {yuzde(kupon_olasilik(gun, k))} chance',
@@ -333,13 +334,13 @@ def sonuc_tweetleri(gun: dict, ozet: dict) -> list[str]:
         durum = kupon_durumu(gun, k)
         ad = f"Coupon {n}" if len(liste) > 1 else "Coupon"
         if durum:
-            para_satirlari.append(f"🎫 {ad}: {kupon_ikon[durum]}, {kupon_hareketi(gun, k)}"
-                                  + (f" ({isaretli_para(kupon_kar(gun, k), birim)})" if durum == "tuttu" else ""))
+            para_satirlari.append(f"🎫 {ad}: {kupon_ikon[durum]}"
+                                  + (f", +{para(donen(gun, k), birim)} back" if donen(gun, k) else ""))
     tekliler = [s for s in gun["secimler"] if s.get("stake") and s["durum"] in ("kazandi", "kaybetti")]
     if tekliler:  # eski kayıtlar: tekliler de oynanmıştı
         para_satirlari.append(f'Singles: {sum(s["durum"] == "kazandi" for s in tekliler)}/{len(tekliler)} won, '
                               f'{isaretli_para(sum(kar(s) for s in tekliler), birim)}')
-    para_satirlari += [kasa_satiri(gun, ozet), rekor(ozet)]
+    para_satirlari += [f'💰 Balance: {para(ozet.get("bakiye", ozet["kasa"]), birim)}', rekor(ozet)]
 
     durumlar = [kupon_durumu(gun, k) for k in liste]
     genel = "tuttu" if "tuttu" in durumlar else ("yatti" if "yatti" in durumlar else None)
@@ -354,60 +355,26 @@ def sonuc_tweetleri(gun: dict, ozet: dict) -> list[str]:
 
 
 def donen(gun: dict, kupon: dict) -> float:
-    """Kupondan kasaya geri dönen para: kazançta stake × oran, kayıpta 0, iptalde stake."""
+    """Kupondan bakiyeye geri dönen para: kazançta stake × oran, kayıpta 0, iptalde stake."""
     durum = kupon_durumu(gun, kupon)
     return round(kupon["stake"] + kupon_kar(gun, kupon), 2) if durum in ("tuttu", "iptal") else 0.0
 
 
-def kupon_hareketi(gun: dict, kupon: dict) -> str:
-    """Kuponun sonucu: yatırılan stake ve geri dönen para."""
-    birim, durum = gun["para"], kupon_durumu(gun, kupon)
-    if durum == "tuttu":
-        return f'{para(kupon["stake"], birim)} stake → {para(donen(gun, kupon), birim)} return'
-    if durum == "yatti":
-        return f'{para(kupon["stake"], birim)} stake lost'
-    return f'{para(kupon["stake"], birim)} stake back'
-
-
-def kasa_adimlari(gun: dict, ozet: dict) -> tuple[float, float, float, float]:
-    """(önceki kasa, stake, dönen, yeni kasa): kupon yapılınca stake kasadan düşer, sonuçta dönen para eklenir.
-    önce − stake + dönen = sonra (kuruşu kuruşuna; eski kayıtların tekli oyunları da dahil)."""
-    liste = kuponlar(gun)
-    stake = sum(k["stake"] for k in liste if kupon_durumu(gun, k))
-    geri = sum(donen(gun, k) for k in liste)
-    for s in gun["secimler"]:
-        if s.get("stake") and s["durum"] in ("kazandi", "kaybetti", "iptal"):
-            stake += s["stake"]
-            geri += {"kazandi": s["stake"] + kar(s), "iptal": s["stake"]}.get(s["durum"], 0.0)
-    once = ozet.get("onceki_kasa", round(ozet["kasa"] - kayit_gun_kar(gun), 2))
-    return once, round(stake, 2), round(geri, 2), ozet["kasa"]
-
-
-def kayit_gun_kar(gun: dict) -> float:
-    return sum(kar(s) for s in gun["secimler"]) + sum(kupon_kar(gun, k) for k in kuponlar(gun))
-
-
-def kasa_satiri(gun: dict, ozet: dict) -> str:
-    """Kasa adım adım: önceki kasa − stake (+ dönen) = yeni kasa."""
-    birim = gun["para"]
-    once, stake, geri, sonra = kasa_adimlari(gun, ozet)
-    adimlar = f"{para(once, birim)} − {para(stake, birim)}" + (f" + {para(geri, birim)}" if geri else "")
-    return f"💰 Bank: {adimlar} = {para(sonra, birim)}"
+def gun_donen(gun: dict) -> float:
+    return round(sum(donen(gun, k) for k in kuponlar(gun)), 2)
 
 
 def gorselli_sonuc_tweeti(gun: dict, ozet: dict) -> str:
-    """Sonuç kartıyla giden kısa metin: ayrıntılar görselde."""
+    """Sonuç kartıyla giden kısa metin: kazançta dönen para ve yeni bakiye; kayıpta bakiye aynı kalır."""
     birim, liste = gun["para"], kuponlar(gun)
     durumlar = [kupon_durumu(gun, k) for k in liste]
-    kar_ = sum(kupon_kar(gun, k) for k in liste) + sum(kar(s) for s in gun["secimler"])
+    geri = gun_donen(gun)
     if len(liste) == 1:
         ust = {"tuttu": "✅ Coupon won", "yatti": "❌ Coupon lost", "iptal": "➖ Coupon void"}.get(durumlar[0], "Results")
-        ust += f": {kupon_hareketi(gun, liste[0])}" if durumlar[0] else f": {isaretli_para(kar_, birim)}"
-        ust += f" ({isaretli_para(kar_, birim)})" if durumlar[0] == "tuttu" else ""
     else:
-        ust = f'🎫 {durumlar.count("tuttu")} of {len(liste)} coupons won: {isaretli_para(kar_, birim)}'
-    return (f"📊 RESULTS | {_tarih(gun)}\n\n{ust}\n{kasa_satiri(gun, ozet)}\n"
-            f'📈 {ozet["kasa_degisim"]:+.1f}% since start\n\n'
+        ust = f'🎫 {durumlar.count("tuttu")} of {len(liste)} coupons won'
+    ust += f": +{para(geri, birim)} back" if geri else ""
+    return (f"📊 RESULTS | {_tarih(gun)}\n\n{ust}\n💰 Balance: {para(ozet.get('bakiye', ozet['kasa']), birim)}\n\n"
             f"{_sonuc_sorusu(gun, _genel(durumlar))}\n{ANSVAR}")
 
 

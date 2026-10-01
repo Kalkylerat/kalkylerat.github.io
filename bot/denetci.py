@@ -288,7 +288,7 @@ def kasa_denetimi(gunler: list[dict], baslangic: float) -> list[str]:
             elif "bekliyor" in durumlar or not ayaklar:
                 continue
             else:  # kazanan ayakların oranları çarpılır; iptal ayak kupondan düşer (oran 1)
-                kar_ = k["stake"] * math.prod(s["oran"] for s in ayaklar if s["durum"] == "kazandi") - k["stake"]
+                kar_ = round(k["stake"] * math.prod(s["oran"] for s in ayaklar if s["durum"] == "kazandi"), 2) - k["stake"]
             kar_ = round(kar_, 2)
             if abs(kar_ - kayit.kupon_kar(g, k)) > 0.005:
                 hatalar.append(f"{ad}: kâr kayıtta {kayit.kupon_kar(g, k):.2f}, olması gereken {kar_:.2f}")
@@ -298,10 +298,11 @@ def kasa_denetimi(gunler: list[dict], baslangic: float) -> list[str]:
             oz = kayit.sonuc_ozeti(gunler, g, baslangic)
             if abs(round(oz["onceki_kasa"] + oz["kar"], 2) - oz["kasa"]) > 0.005:
                 hatalar.append(f'{g["id"]}: sonuç postunda {oz["onceki_kasa"]:.2f} + {oz["kar"]:.2f} ≠ {oz["kasa"]:.2f}')
-            from .tweets import kasa_adimlari
-            once, stake, geri, sonra = kasa_adimlari(g, oz)
-            if abs(round(once - stake + geri, 2) - sonra) > 0.005:
-                hatalar.append(f'{g["id"]}: sonuç kartında {once:.2f} − {stake:.2f} + {geri:.2f} ≠ {sonra:.2f}')
+            # bakiye = duyurulmuş kuponlarla kasa − açık stakeler (cüzdan: stake çıktı, dönen geldi)
+            acik = sum(k["stake"] for x in gunler if x.get("tweet_id") and x is not g and not x.get("sonuc_tweet_id")
+                       for k in kayit.kuponlar(x))
+            if abs(round(oz["kasa"] - acik, 2) - oz["bakiye"]) > 0.005:
+                hatalar.append(f'{g["id"]}: bakiye {oz["bakiye"]:.2f}, olması gereken {oz["kasa"] - acik:.2f}')
         bakiye = round(bakiye + gun_kari, 2)
     if abs(bakiye - kayit.kasa(gunler, baslangic)) > 0.005:
         hatalar.append(f"Kasa: kayıtta {kayit.kasa(gunler, baslangic):.2f}, defterin toplamı {bakiye:.2f}")

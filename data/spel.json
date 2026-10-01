@@ -491,6 +491,9 @@
         "durum": "paylasildi",
         "tweet_id": "2105725247609520592",
         "zaman": "2026-10-01T18:23:12+00:00"
+      },
+      "deger": {
+        "durum": "atlandi"
       }
     },
     "sonuclanma": "2026-10-01T20:49:20+00:00",

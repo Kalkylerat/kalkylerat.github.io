@@ -1408,3 +1408,61 @@ def test_direktor_haftalik_strateji_ve_rapor(monkeypatch, tmp_path):
     (tmp_path / "direktor.json").write_text(json.dumps({"son_deneme": "2026-10-05T10:00:00"}))
     assert not direktor.haftalik_gerekli(datetime(2026, 10, 5, 12, 0))  # başarısız deneme: 6 saat beklenir
     assert direktor.haftalik_gerekli(datetime(2026, 10, 5, 16, 30))
+
+
+def test_denetim_dogrulayici_bahis_dili_link_ve_siteleri_yakalar():
+    from bot import direktor
+    b = AYAR.oran_bahiscileri + [AYAR.keskin_bahisci]
+    for kotu in ("100% certain home win", "Dead cert", "sure win tonight", "Locked in 👇", "Smash the over",
+                 "Stake big on the home win", "Over 2.5 is the bet tonight", "Bet 365 has it", "Betfair price",
+                 "kalkylerat.se for more", "t.co/abc", "DM us", "Join our Telegram for VIP tips"):
+        assert not direktor.kurala_uygun(kotu, "maclar", b), kotu
+    for iyi in ("Denmark v Portugal tonight. Who are you backing? 👇", "Our model: 2.9 goals. Goals or a tight one?",
+                "Germany 80% · draw 14% · Serbia 6%. Agree?"):
+        assert direktor.kurala_uygun(iyi, "maclar", b), iyi
+
+
+def test_denetim_mukerrer_kontrolu_buyuk_maclar_postunu_kupon_sanmaz():
+    from bot import __main__ as m
+    x = SimpleNamespace(son_tweetler=lambda adet, yanitsiz: [
+        {"id": "e1", "text": "TODAY'S BIG GAMES | 1 Oct\n\n⚽ A v B"},
+        {"id": "k1", "text": "TODAY'S COUPON | 30 Sep\n\nWhich leg?"}])
+    assert m.zaten_paylasildi(x, "2026-10-01") is None
+    x2 = SimpleNamespace(son_tweetler=lambda adet, yanitsiz: [{"id": "k2", "text": "TODAY'S 2 COUPONS | 1 Oct\n\n..."}])
+    assert m.zaten_paylasildi(x2, "2026-10-01") == "k2"
+
+
+def test_denetim_onay_bekleyen_kupon_stake_hesabinda_dusulur():
+    bekleyen = {"id": "b", "tarih": "2026-10-01", "tweet_id": None, "sonuc": None, "onay": {"durum": "bekliyor"},
+                "secimler": [{"durum": "bekliyor", "oran": 1.5}], "kuponlar": [{"ayaklar": [0], "stake": 100.0}]}
+    assert kayit.acik_stake([bekleyen]) == 100.0
+    assert kayit.stakeler([bekleyen], 10000, 1.0, 1) == [(9900.0, 99.0)]
+
+
+def test_denetim_kasa_duzelt_baslamis_kupona_dokunmaz_onay_bekleyene_yeni_onizleme(monkeypatch):
+    from bot import __main__ as m
+    simdi = datetime(2026, 10, 3, 17, tzinfo=timezone.utc)
+    basladi = _gun("2026-10-03", [_secim(1, 1.5, 0.7, baslama="2026-10-03T16:00:00+00:00")], kuponlar=[[0]])
+    basladi.update(yayin="2026-10-03T07:00:00+00:00")
+    bekleyen = {**_gun("2026-10-03", [_secim(2, 1.5, 0.7, baslama="2026-10-03T19:00:00+00:00")], tweet_id=None,
+                       kuponlar=[[0]]), "id": "2026-10-03-2", "onay": {"durum": "bekliyor", "metinler": ["eski"]}}
+    for g in (basladi, bekleyen):
+        g["kuponlar"][0]["stake"] = 100.0
+    yeni_onay = []
+    monkeypatch.setattr(m.onay, "onay_iste", lambda g, *a, **k: yeni_onay.append(g["id"]))
+    monkeypatch.setattr(m.onay, "onizlemeleri_sil", lambda i: None)
+    monkeypatch.setattr(m, "duzelt", lambda *a: pytest.fail("başlamış kupon yeniden paylaşılmamalı"))
+    m.kasa_duzelt(AYAR, [basladi, bekleyen], "2026-10-03", simdi, None)
+    assert basladi["kuponlar"][0]["stake"] == 100.0  # başlamış: değişmez
+    assert bekleyen["kuponlar"][0]["stake"] == 99.0 and yeni_onay == ["2026-10-03-2"]
+
+
+def test_denetim_istatistik_gec_olsa_da_anket_kacmaz():
+    from bot import etkilesim
+    gun = _vitrin_gunu()
+    for v in gun["vitrin"]:
+        if v is etkilesim.istatistik_maci(gun["vitrin"]):
+            v["baslama"] = "2026-10-01T21:00:00+00:00"  # istatistik maçı daha geç
+    gun["etkilesim"] = {"maclar": {"durum": "paylasildi", "zaman": "2026-10-01T13:50:00+00:00"}}
+    x = tweets.KonsolClient()
+    assert etkilesim.paylas(gun, AYAR, x, datetime(2026, 10, 1, 15, 50, tzinfo=timezone.utc)) == "anket"

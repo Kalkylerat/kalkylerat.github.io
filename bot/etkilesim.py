@@ -191,7 +191,7 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_pay
             durum[tur] = {"durum": "atlandi"}
             continue
         if simdi < erken:
-            return None
+            continue  # sıradaki türün saati gelmediyse, saati gelmiş bir sonraki tür beklemesin
         zaman = simdi.isoformat(timespec="seconds")
         try:
             if tur == "anket":

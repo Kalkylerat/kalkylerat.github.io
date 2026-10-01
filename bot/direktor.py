@@ -73,8 +73,14 @@ HAFTALIK_SEMA = {
     "additionalProperties": False,
 }
 
-_YASAK = re.compile(r"\block\b|guarantee|sure thing|\bbanker\b|free money|\bRT\b|retweet|like if|follow (us|for)|"
-                    r"https?://|www\.|@", re.IGNORECASE)
+# Kupon dışı paylaşımlar bahis tavsiyesi, kesinlik dili, link, yönlendirme ve bahis sitesi adı içeremez.
+_YASAK = re.compile(
+    r"\block(ed|s)?\b|guarantee|sure (thing|win|bet)|dead cert|\bcert(ain)?\b|can'?t (lose|miss)|100\s*%|"
+    r"\bbanker\b|free money|\bsmash\b|\bstake\b|\bbets?\b|\bbetting\b|\btips?\b|\btipster\b|\bwager|"
+    r"\bRT\b|retweet|like if|follow (us|for)|\bDM\b|telegram|whatsapp|discord|\bvip\b|"
+    r"https?://|www\.|\b[\w-]+\.(com|net|org|io|co|se|uk|tr|bet|app|gg|ly|me|tv)\b|@|"
+    r"bet\s*365|betfair|unibet|betway|bwin|1xbet|pinnacle|betsson|nordicbet|william\s*hill|\b888|betano|"
+    r"betvictor|comeon|marathonbet|coolbet|paddy\s*power|sky\s*bet|stake\.com", re.IGNORECASE)
 
 
 def kurala_uygun(metin: str, tur: str, bahisciler: list[str]) -> bool:
@@ -145,8 +151,9 @@ def haftalik_gerekli(simdi_yerel: datetime) -> bool:
     """Haftada bir (Pazartesi 09:00'dan sonra) ya da hiç strateji yoksa ilk fırsatta."""
     veri = yukle()
     deneme = veri.get("son_deneme")
-    if deneme and simdi_yerel < datetime.fromisoformat(deneme) + timedelta(hours=6):
-        return False  # başarısız deneme her 15 dakikada bir (ücretli model) tekrarlanmasın
+    bekleme = timedelta(hours=6 if veri.get("deneme_sayisi", 0) < 2 else 24)
+    if deneme and simdi_yerel < datetime.fromisoformat(deneme) + bekleme:
+        return False  # başarısız deneme her 15 dakikada bir (ücretli model) tekrarlanmasın; 2 hatadan sonra günde bir
     if not veri.get("strateji"):
         return True
     return simdi_yerel.weekday() == 0 and simdi_yerel.hour >= 9 and veri.get("hafta") != _hafta(simdi_yerel)
@@ -154,7 +161,9 @@ def haftalik_gerekli(simdi_yerel: datetime) -> bool:
 
 def haftalik(ayar, gunler: list[dict], tweetler: list[dict], gh, simdi_yerel: datetime, client=None, yaz=print) -> dict:
     """Haftalık inceleme: strateji kaydedilir, sahibine rapor issue'su açılır."""
-    _kaydet({**yukle(), "son_deneme": simdi_yerel.isoformat(timespec="seconds")})
+    onceki = yukle()
+    _kaydet({**onceki, "son_deneme": simdi_yerel.isoformat(timespec="seconds"),
+             "deneme_sayisi": onceki.get("deneme_sayisi", 0) + 1})
     hafta_once = (simdi_yerel - timedelta(days=7)).date().isoformat()
     son = [g for g in gunler if g["tarih"] >= hafta_once]
     veri_kupon = [{"tarih": g["tarih"], "kupon": g["id"], "sonuc": [kayit.kupon_durumu(g, k) for k in kayit.kuponlar(g)],

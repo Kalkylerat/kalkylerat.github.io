@@ -102,8 +102,9 @@ def kasa(gunler: list[dict], baslangic: float) -> float:
 
 
 def acik_stake(gunler: list[dict]) -> float:
-    """Paylaşılmış ama henüz sonuçlanmamış kuponlara yatırılan para (kasadan çıkmış sayılır)."""
-    return sum(k["stake"] for g in gunler if g.get("tweet_id")
+    """Paylaşılmış ya da onay bekleyen, henüz sonuçlanmamış kuponlara ayrılan para (kasadan çıkmış sayılır)."""
+    return sum(k["stake"] for g in gunler
+               if g.get("tweet_id") or (g.get("onay") or {}).get("durum") in ("bekliyor", "durduruldu")
                for k in kuponlar(g) if kupon_durumu(g, k) is None)
 
 

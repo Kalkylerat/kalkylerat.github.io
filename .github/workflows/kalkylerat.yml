@@ -107,13 +107,19 @@ jobs:
           gh label create onay --color 19c37d --description "Paylaşım onayı" --force
           # Dosyada birden fazla istek olabilir (kupon başına bir issue): ayraçla bölünür.
           python - <<'PY'
-          import pathlib, subprocess
+          import pathlib, subprocess, sys
+          hatali = []
           for parca in pathlib.Path("onay_istegi.md").read_text(encoding="utf-8").split("<<<SONRAKI_ISTEK>>>\n"):
               if not parca.strip():
                   continue
               baslik, _, govde = parca.partition("\n")
               pathlib.Path("govde.md").write_text(govde, encoding="utf-8")
-              subprocess.run(["gh", "issue", "create", "--title", baslik, "--label", "onay", "--body-file", "govde.md"], check=True)
+              # Biri açılamazsa diğerleri yine açılsın; hata sonunda bildirilir.
+              if subprocess.run(["gh", "issue", "create", "--title", baslik, "--label", "onay", "--body-file", "govde.md"]).returncode:
+                  hatali.append(baslik)
+          if hatali:
+              print("::error::Onay isteği açılamadı: " + ", ".join(hatali))
+              sys.exit(1)
           PY
       - name: Kayıt yedeği (push başarısız olursa)
         if: failure()

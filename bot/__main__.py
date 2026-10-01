@@ -4,6 +4,7 @@ import argparse
 import copy
 import json
 import os
+import re
 import sys
 import time
 from datetime import datetime, timedelta
@@ -389,9 +390,11 @@ def zaten_paylasildi(x, tarih: str) -> str | None:
     """Kayıt kaybolduysa (ör. push başarısız) aynı günün kuponunu ikinci kez atmamak için hesabın son
     ana tweetlerine bakar. Bulunursa tweet kimliğini döndürür."""
     etiket = f'| {datetime.fromisoformat(tarih).strftime("%-d %b")}'
-    for t in x.son_tweetler(adet=5, yanitsiz=True):
+    for t in x.son_tweetler(adet=10, yanitsiz=True):
         metin = t["text"].lstrip("⚽ ")
-        if metin.startswith("TODAY'S") and etiket in metin.splitlines()[0]:
+        ilk = metin.splitlines()[0] if metin else ""
+        # Yalnızca kupon başlıkları: "TODAY'S BIG GAMES" gibi etkileşim paylaşımları kupon sanılmaz.
+        if re.match(r"TODAY'S (COUPON|\d+ COUPONS)\b", ilk) and etiket in ilk:
             return t["id"]
     return None
 
@@ -463,6 +466,9 @@ def yenile(ayar, api, sec, x, gunler: list[dict], bugun: str, simdi: datetime) -
             if tid:
                 x.sil(tid)
     gunler[:] = kopya
+    yeni_ana = kayit.bul(gunler, bugun)
+    if gun and yeni_ana and gun.get("etkilesim"):
+        yeni_ana["etkilesim"] = gun["etkilesim"]  # bugün atılmış etkileşim paylaşımları tekrar atılmasın
     if yeni and ayar.onay_bekle:
         _onaya_gonder(ayar, gunler, bugun, simdi)  # yeniden seçilen kuponlar da önce onaya gelir
         return True
@@ -585,7 +591,11 @@ def kasa_duzelt(ayar, gunler: list[dict], bugun: str, simdi: datetime, x) -> int
     """Bugünün sonuçlanmamış kuponlarının kasa/yatırılan değerlerini paylaşım sırasına göre yeniden hesaplar
     (her kupon, öncekiler düşüldükten sonra kalan kasanın %'si). Değişen ve maçı başlamamış paylaşımlar
     silinip doğru rakamlarla yeniden atılır."""
-    bugunkuler = sorted((g for g in gunler if g["tarih"] == bugun and kayit.kuponlar(g) and g.get("sonuc") is None),
+    def degistirilebilir(g):
+        return (g["tarih"] == bugun and kayit.kuponlar(g) and g.get("sonuc") is None
+                and all(kayit.kupon_durumu(g, k) is None for k in kayit.kuponlar(g))
+                and min(datetime.fromisoformat(s["baslama"]) for s in g["secimler"]) > simdi)
+    bugunkuler = sorted((g for g in gunler if degistirilebilir(g)),
                         key=lambda g: (0 if g.get("yayin") else 1, g.get("yayin") or "", g["id"]))
     digerleri = [g for g in gunler if g not in bugunkuler]
     kalan = kayit.kasa(gunler, ayar.kasa_baslangic) - kayit.acik_stake(digerleri)
@@ -601,9 +611,12 @@ def kasa_duzelt(ayar, gunler: list[dict], bugun: str, simdi: datetime, x) -> int
         if not degisti:
             continue
         (g.get("onay") or {}).pop("kasa", None)
-        (g.get("onay") or {}).pop("metinler", None)
-        if g.get("tweet_id") and min(datetime.fromisoformat(s["baslama"]) for s in g["secimler"]) > simdi:
+        if g.get("tweet_id"):
+            (g.get("onay") or {}).pop("metinler", None)
             duzelt(ayar, g, x, gunler, simdi)
+        elif (g.get("onay") or {}).get("durum") in ("bekliyor", "durduruldu"):
+            onay.onizlemeleri_sil(g["id"])
+            onay.onay_iste(g, gunler, ayar, simdi)  # sahibi yeni rakamları görsün: paylaşılan = önizlenen
         duzeltilen += 1
         _ozet_yaz(f"{g['id']}: kasa " + ", ".join(f"{k['kasa']:.2f} → yatırılan {k['stake']:.2f}" for k in kayit.kuponlar(g)))
     return duzeltilen
@@ -1016,7 +1029,11 @@ def main(argv=None) -> int:
                 gun = tahmin(ayar, _api(ayar), _secici(), gunler, bugun, simdi) or kayit.bul(gunler, bugun)
                 if gun and gun["secimler"] and ayar.otomatik_paylas:
                     if gun.get("tweet_id") or not ayar.onay_bekle:
-                        yayinla(ayar, gun, _x_client(), gunler, simdi)  # yeni paylaşım ya da yarım floodu tamamlama
+                        # yeni paylaşım ya da yarım floodu tamamlama; onaysız modda günün diğer kuponları da (ayrı postlar)
+                        for g in [gun] + ([] if ayar.onay_bekle else [
+                                g for g in gunler if g["tarih"] == bugun and g is not gun and g["secimler"]
+                                and not g.get("tweet_id") and g.get("sonuc") is None]):
+                            yayinla(ayar, g, _x_client(), gunler, simdi)
                     else:
                         _onaya_gonder(ayar, gunler, bugun, simdi)
         if args.komut == "onay_kontrol":

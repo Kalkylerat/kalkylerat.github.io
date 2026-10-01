@@ -99,6 +99,7 @@ GitHub'da dosyaya tıklayın → kalem ikonu → değiştirin → Commit.
 | `[kasa]` | Sanal kasa (€10.000) ve her oyuna yatırılan yüzde (%1) |
 | `oran_bahiscileri` | Oranın alındığı büyük bahisçiler (tweetlerde isim geçmez) |
 | `otomatik_paylas` | `true` ise onay beklemeden paylaşır |
+| `[direktor]` | X Direktörü: kupon dışı paylaşımların metnini yazar (günlük model) ve her Pazartesi etkileşim rakamlarına bakıp haftanın stratejisini ve Türkçe raporu (issue, `rapor` etiketi) hazırlar (en güçlü model). Kurala uymayan metin yerine şablon gider. |
 
 Pazarlar: maç sonucu, çifte şans, 1.5/2.5/3.5 gol, takım golleri (0.5/1.5/2.5), karşılıklı gol, ilk yarı sonucu, ilk ve ikinci yarı golleri, korner 8.5/9.5/10.5.
 

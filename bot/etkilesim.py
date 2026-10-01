@@ -1,4 +1,4 @@
-"""Kupon dışı, etkileşime açık günlük paylaşımlar: günün maçları, anket, skor tahmini, pas günü açıklaması.
+"""Kupon dışı, etkileşime açık günlük paylaşımlar: günün maçları, günün istatistiği, anket, skor tahmini, pas günü.
 
 Veri sabah taramasından gelir (gun["vitrin"]): ek API isteği yapılmaz. Her tür günde bir kez, kendi paylaşımlarımız
 arasında en az ARALIK_DK olacak şekilde ve maç saatine göre zamanlanır; 15 dakikalık nabız çalıştırır."""
@@ -104,6 +104,42 @@ def skor_tweeti(gun: dict, ayar) -> str | None:
             f"What's your score? Reply below 👇")
 
 
+def istatistik_maci(vit: list[dict]) -> dict | None:
+    """Günün istatistiği: anket ve skor tahmininde kullanılmayan, gol beklentisi en yüksek büyük maç."""
+    kullanilan = {id(anket_maci(vit)), id(skor_maci(vit))}
+    kalan = [v for v in vit if id(v) not in kullanilan] or vit
+    return max(kalan, key=lambda v: sum(v["beklenen_gol"])) if kalan else None
+
+
+def istatistik_tweeti(gun: dict, ayar) -> str | None:
+    v = istatistik_maci(gun["vitrin"])
+    if not v:
+        return None
+    ev_g, dep_g = v["beklenen_gol"]
+    return (f'STAT OF THE DAY | {v["ev"]} v {v["dep"]} · {_saat(v, ayar)}\n\n'
+            f'Our model expects {ev_g + dep_g:.1f} goals tonight ({ev_g:.1f} – {dep_g:.1f}).\n'
+            f'Most likely score: {v["olasi_skor"].replace("-", "–")}\n\n'
+            f'Goals or a tight one? Tell us below 👇')
+
+
+def olgular(tur: str, gun: dict, ayar) -> dict:
+    """Direktöre verilen gerçekler: yalnızca bunlardan yazar."""
+    def mac(v):
+        return {"home": v["ev"], "away": v["dep"], "competition": v.get("lig"), "kickoff": _saat(v, ayar),
+                "chances_home_draw_away": [round(v["p"][k], 2) for k in ("MS1", "MSX", "MS2")],
+                "expected_goals_home_away": v["beklenen_gol"], "most_likely_score": v["olasi_skor"]}
+    vit = gun.get("vitrin") or []
+    if tur == "maclar":
+        return {"date": gun["tarih"], "games": [mac(v) for v in vit[:4]]}
+    if tur == "anket":
+        return {"poll_options_fixed": ["home", "Draw", "away"], "game": mac(anket_maci(vit))}
+    if tur == "skor":
+        return {"game": mac(skor_maci(vit))}
+    if tur == "istatistik":
+        return {"game": mac(istatistik_maci(vit))}
+    return {"date": gun["tarih"], "games_checked": gun.get("taranan"), "reason": gun.get("pas_nedeni")}
+
+
 def pas_tweeti(gun: dict) -> str:
     tarih = datetime.fromisoformat(gun["tarih"]).strftime("%-d %b")
     n = gun.get("taranan")
@@ -112,9 +148,9 @@ def pas_tweeti(gun: dict) -> str:
             f"so we pass. Passing protects the bank.\n\nWhich game would you have played? 👇\n\n{ANSVAR}")
 
 
-def _son_paylasim(gun: dict) -> datetime | None:
-    zamanlar = [gun.get("yayin")] + [e.get("zaman") for e in (gun.get("etkilesim") or {}).values()
-                                     if e.get("durum") == "paylasildi"]
+def _son_paylasim(gun: dict, diger: tuple[str, ...] = ()) -> datetime | None:
+    zamanlar = [gun.get("yayin"), *diger] + [e.get("zaman") for e in (gun.get("etkilesim") or {}).values()
+                                             if e.get("durum") == "paylasildi"]
     zamanlar = [datetime.fromisoformat(z) for z in zamanlar if z]
     return max(zamanlar) if zamanlar else None
 
@@ -129,6 +165,8 @@ def _plan(gun: dict) -> list[tuple[str, datetime, datetime]]:
     if vit:
         ilk = min(datetime.fromisoformat(v["baslama"]) for v in vit)
         plan.append(("maclar", ilk - timedelta(hours=5), ilk - timedelta(minutes=15)))
+        i = datetime.fromisoformat(istatistik_maci(vit)["baslama"])
+        plan.append(("istatistik", i - timedelta(hours=4), i - timedelta(minutes=45)))
         a = datetime.fromisoformat(anket_maci(vit)["baslama"])
         plan.append(("anket", a - timedelta(hours=3), a - timedelta(minutes=30)))
         s = datetime.fromisoformat(skor_maci(vit)["baslama"])
@@ -136,12 +174,14 @@ def _plan(gun: dict) -> list[tuple[str, datetime, datetime]]:
     return plan
 
 
-def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print) -> str | None:
-    """Sıradaki etkileşim paylaşımını zamanı geldiyse atar (nabız başına en fazla bir tane)."""
+def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_paylasimlar: tuple[str, ...] = ()) -> str | None:
+    """Sıradaki etkileşim paylaşımını zamanı geldiyse atar (nabız başına en fazla bir tane).
+    yazar: (tür, olgular, şablon) -> metin (X Direktörü); yoksa şablon. diger_paylasimlar: aynı günün diğer
+    kupon paylaşımlarının zamanları (aralık kuralı hepsine göre)."""
     if gun.get("secimler") and not gun.get("tweet_id"):
         return None  # kupon henüz paylaşılmadı (onay bekliyor): önce kupon
     durum = gun.setdefault("etkilesim", {})
-    son = _son_paylasim(gun)
+    son = _son_paylasim(gun, diger_paylasimlar)
     if son and simdi < son + timedelta(minutes=ARALIK_DK):
         return None
     for tur, erken, gec in _plan(gun):
@@ -156,10 +196,13 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print) -> str | None:
         try:
             if tur == "anket":
                 metin, secenekler, dakika = anket({**gun, "_simdi": zaman}, ayar)
+                metin = yazar(tur, olgular(tur, gun, ayar), metin) if yazar else metin
                 tid = x.gonder(metin, anket={"options": secenekler, "duration_minutes": dakika})
             else:
                 metin = {"pas": lambda: pas_tweeti(gun), "maclar": lambda: maclar_tweeti(gun, ayar),
-                         "skor": lambda: skor_tweeti(gun, ayar)}[tur]()
+                         "skor": lambda: skor_tweeti(gun, ayar),
+                         "istatistik": lambda: istatistik_tweeti(gun, ayar)}[tur]()
+                metin = yazar(tur, olgular(tur, gun, ayar), metin) if yazar else metin
                 tid = x.gonder(metin)
         except Exception as e:
             # Tekrar tekrar denenip hata yağmasın: bu tür bugün atlanır.

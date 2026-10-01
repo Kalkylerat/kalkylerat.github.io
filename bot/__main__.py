@@ -9,7 +9,7 @@ import time
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-from . import config, editor, etkilesim, football, gorsel, kayit, model, oddsapi, onay, panel, tweets
+from . import config, direktor, editor, etkilesim, football, gorsel, kayit, model, oddsapi, onay, panel, tweets
 from .model import adaylari_uret, bet_builder, etiketler
 
 # Çalışma sırasında yakalanan hatalar: iş sonunda "başarısız" işaretlenir, GitHub sahibine e-posta atar.
@@ -673,6 +673,13 @@ def _x_client():
                           config.env("X_ACCESS_TOKEN"), config.env("X_ACCESS_SECRET"))
 
 
+def _direktor_yazar(ayar):
+    """X Direktörü açıksa ve Claude anahtarı varsa metin yazıcı; yoksa None (şablonlar kullanılır)."""
+    if ayar.direktor_aktif and os.environ.get("ANTHROPIC_API_KEY"):
+        return direktor.yazar(ayar, yaz=_ozet_yaz)
+    return None
+
+
 def _secici():
     if os.environ.get("ANTHROPIC_API_KEY"):
         return editor.claude_ile_sec
@@ -895,7 +902,7 @@ def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="bot")
     p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt", "sabit", "hafta", "yenile", "oran_testi",
                                           "onay_kontrol", "onay_testi", "onay_yenile", "nabiz",
-                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir", "kasa_duzelt"])
+                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir", "kasa_duzelt", "direktor"])
     args = p.parse_args(argv)
     ayar = config.yukle()
 
@@ -955,9 +962,22 @@ def main(argv=None) -> int:
                 _hata("Haftalık özet", e)
         if args.komut == "nabiz" and kayit.bul(gunler, bugun):
             try:
-                etkilesim.paylas(kayit.bul(gunler, bugun), ayar, _x_client(), simdi, yaz=_ozet_yaz)
+                diger = tuple(g["yayin"] for g in gunler if g["tarih"] == bugun and g["id"] != bugun and g.get("yayin"))
+                etkilesim.paylas(kayit.bul(gunler, bugun), ayar, _x_client(), simdi, yaz=_ozet_yaz,
+                                 yazar=_direktor_yazar(ayar), diger_paylasimlar=diger)
             except Exception as e:
                 _hata("Etkileşim paylaşımı", e)
+        yerel = simdi.astimezone(ZoneInfo(ayar.saat_dilimi))
+        if (args.komut == "nabiz" and _direktor_yazar(ayar) and direktor.haftalik_gerekli(yerel)) or args.komut == "direktor":
+            try:
+                try:
+                    tweetler = _x_client().metrikler()
+                except Exception as e:
+                    _ozet_yaz(f"⚠️ Tweet rakamları okunamadı ({e}); inceleme kupon rekoruyla yapılıyor.")
+                    tweetler = []
+                direktor.haftalik(ayar, gunler, tweetler, onay.GitHub(), yerel, yaz=_ozet_yaz)
+            except Exception as e:
+                _hata("X Direktörü haftalık inceleme", e)
         if args.komut == "kasa_duzelt":
             kasa_duzelt(ayar, gunler, bugun, simdi, _x_client())
         if args.komut == "ayir":

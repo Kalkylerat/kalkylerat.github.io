@@ -43,6 +43,11 @@ class Ayarlar:
     otomatik_paylas: bool
     onay_bekle: bool
     onay_suresi_dk: int
+    direktor_aktif: bool = True
+    direktor_model: str = "claude-sonnet-5-5"
+    direktor_effort: str = "medium"
+    direktor_strateji_model: str = "claude-fable-5-1"
+    direktor_strateji_effort: str = "high"
 
 
 # Tek çalışmalık istisna (elle çalıştırmada "ek" alanı): ör. "guvenli_min_deger=-0.03 api_yedek=8".
@@ -106,6 +111,11 @@ def _yukle(path: Path) -> Ayarlar:
         otomatik_paylas=bool(t["yayin"]["otomatik_paylas"]),
         onay_bekle=bool(t["yayin"]["onay_bekle"]),
         onay_suresi_dk=int(t["yayin"]["onay_suresi_dk"]),
+        **({"direktor_aktif": bool(t["direktor"].get("aktif", True)),
+            "direktor_model": t["direktor"].get("gunluk_model", "claude-sonnet-5-5"),
+            "direktor_effort": t["direktor"].get("gunluk_effort", "medium"),
+            "direktor_strateji_model": t["direktor"].get("strateji_model", "claude-fable-5-1"),
+            "direktor_strateji_effort": t["direktor"].get("strateji_effort", "high")} if "direktor" in t else {}),
     )
 
 

@@ -121,6 +121,11 @@ class GitHub:
     def yorum(self, no: int, mesaj: str) -> None:
         self.s.post(self._url(f"issues/{no}/comments"), json={"body": mesaj}, timeout=30).raise_for_status()
 
+    def issue_ac(self, baslik: str, govde: str, etiket: str) -> int:
+        r = self.s.post(self._url("issues"), json={"title": baslik, "body": govde, "labels": [etiket]}, timeout=30)
+        r.raise_for_status()
+        return r.json()["number"]
+
     def kapat(self, no: int, mesaj: str) -> None:
         self.yorum(no, mesaj)
         self.s.patch(self._url(f"issues/{no}"), json={"state": "closed"}, timeout=30).raise_for_status()

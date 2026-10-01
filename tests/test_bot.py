@@ -1169,12 +1169,14 @@ def test_etkilesim_paylasimlari_sirayla_aralikli_ve_birer_kez():
     assert etkilesim.paylas(gun, AYAR, x, t(13, 0)) is None  # kupondan 45 dk geçmedi
     assert etkilesim.paylas(gun, AYAR, x, t(13, 50)) == "maclar"  # maçtan 5 saat önce açılır
     assert etkilesim.paylas(gun, AYAR, x, t(14, 0)) is None  # 45 dk aralık
-    assert etkilesim.paylas(gun, AYAR, x, t(15, 30)) is None  # anket maçtan 3 saat önce
-    assert etkilesim.paylas(gun, AYAR, x, t(15, 50)) == "anket"
+    assert etkilesim.paylas(gun, AYAR, x, t(14, 40)) is None  # günün istatistiği maçtan 4 saat önce
+    assert etkilesim.paylas(gun, AYAR, x, t(15, 30)) == "istatistik"
+    assert etkilesim.paylas(gun, AYAR, x, t(15, 50)) is None  # 45 dk aralık
+    assert etkilesim.paylas(gun, AYAR, x, t(16, 20)) == "anket"
     assert etkilesim.paylas(gun, AYAR, x, t(17, 0)) is None  # skor tahmini maçtan 75 dk önce
     assert etkilesim.paylas(gun, AYAR, x, t(17, 35)) == "skor"
     assert etkilesim.paylas(gun, AYAR, x, t(18, 30)) is None
-    assert x.sayac == 3 and all(e["durum"] == "paylasildi" for e in gun["etkilesim"].values())
+    assert x.sayac == 4 and all(e["durum"] == "paylasildi" for e in gun["etkilesim"].values())
 
 
 def test_etkilesim_metinleri_kurallara_uyar():
@@ -1183,6 +1185,7 @@ def test_etkilesim_metinleri_kurallara_uyar():
     metin, secenekler, dakika = etkilesim.anket({**gun, "_simdi": "2026-10-01T15:50:00+00:00"}, AYAR)
     assert secenekler == ["Wales", "Draw", "Norway"] and dakika == 175
     for m in (metin, etkilesim.maclar_tweeti(gun, AYAR), etkilesim.skor_tweeti(gun, AYAR),
+              etkilesim.istatistik_tweeti(gun, AYAR),
               etkilesim.pas_tweeti({**gun, "taranan": 12})):
         assert tweets.uzunluk(m) <= 280 and "@" not in m and "http" not in m
 
@@ -1321,3 +1324,87 @@ def test_kasa_duzelt_kuponlar_sirayla_azalan_kasadan(monkeypatch):
     assert [(g["kuponlar"][0]["kasa"], g["kuponlar"][0]["stake"]) for g in (ilk, ikinci, ucuncu)] == \
         [(10000.0, 100.0), (9900.0, 99.0), (9801.0, 98.01)]
     assert yeniden == ["2026-10-03-2"]  # ilki doğruydu; üçüncü henüz paylaşılmadı
+
+
+
+def test_etkilesim_baska_kupon_paylasimina_da_aralik_birakir():
+    from bot import etkilesim
+    gun = _vitrin_gunu()
+    t = datetime(2026, 10, 1, 13, 50, tzinfo=timezone.utc)
+    assert etkilesim.paylas(gun, AYAR, tweets.KonsolClient(), t, diger_paylasimlar=("2026-10-01T13:30:00+00:00",)) is None
+
+
+def test_direktor_metni_kural_disiysa_sablon_kullanilir():
+    from bot import direktor, etkilesim
+    bahisciler = AYAR.oran_bahiscileri + [AYAR.keskin_bahisci]
+    assert direktor.kurala_uygun("Who wins tonight? 👇", "maclar", bahisciler)
+    for kotu in ("A lock tonight 👇", "Bet at Bet365 now", "Ask @someone", "x" * 300, "see https://a.b",
+                 "RT if you agree", "#UCL #Football two tags"):
+        assert not direktor.kurala_uygun(kotu, "maclar", bahisciler), kotu
+    assert not direktor.kurala_uygun("No coupon today.", "pas", bahisciler)  # sorumluluk satırı şart
+    assert direktor.kurala_uygun(f"No coupon today.\n\n{tweets.ANSVAR}", "pas", bahisciler)
+
+    class Sahte:
+        def __init__(self, metin):
+            self.metin, self.cagri = metin, []
+            self.messages = self
+
+        def stream(self, **k):
+            self.cagri.append(k["model"])
+            metin = self.metin
+            class S:
+                def __enter__(s):
+                    return s
+                def __exit__(s, *a):
+                    return False
+                def get_final_message(s):
+                    return SimpleNamespace(stop_reason="end_turn",
+                                           content=[SimpleNamespace(type="text", text=json.dumps({"metin": metin}))])
+            return S()
+    iyi = Sahte("Big night in Cardiff. Who are you backing? 👇")
+    assert direktor.yazar(AYAR, iyi, yaz=lambda m: None)("maclar", {}, "SABLON") == iyi.metin
+    assert iyi.cagri == [AYAR.direktor_model]
+    assert direktor.yazar(AYAR, Sahte("Guaranteed win! 👇"), yaz=lambda m: None)("maclar", {}, "SABLON") == "SABLON"
+    gun = _vitrin_gunu()
+    x = tweets.KonsolClient()
+    etkilesim.paylas(gun, AYAR, x, datetime(2026, 10, 1, 13, 50, tzinfo=timezone.utc),
+                     yazar=direktor.yazar(AYAR, iyi, yaz=lambda m: None))
+    assert gun["etkilesim"]["maclar"]["durum"] == "paylasildi"
+
+
+def test_direktor_haftalik_strateji_ve_rapor(monkeypatch, tmp_path):
+    from bot import direktor
+    monkeypatch.setattr(direktor, "DOSYA", tmp_path / "direktor.json")
+    yerel = datetime(2026, 10, 5, 10, 0)
+    assert direktor.haftalik_gerekli(yerel)  # hiç strateji yok
+    cikti = {"strateji": {"ton": "warm", "soru_ornekleri": ["Who wins?"], "kacinilacaklar": [], "odak": "polls"},
+             "rapor": "Bu hafta anketler iyi gitti."}
+
+    class Model:
+        messages = None
+
+        def __init__(self):
+            self.messages = self
+
+        def stream(self, **k):
+            assert k["model"] == AYAR.direktor_strateji_model
+            class S:
+                def __enter__(s):
+                    return s
+                def __exit__(s, *a):
+                    return False
+                def get_final_message(s):
+                    return SimpleNamespace(stop_reason="end_turn",
+                                           content=[SimpleNamespace(type="text", text=json.dumps(cikti))])
+            return S()
+    acilan = []
+    gh = SimpleNamespace(issue_ac=lambda b, g, e: acilan.append((b, g, e)) or 7)
+    veri = direktor.haftalik(AYAR, [], [{"text": "x", "public_metrics": {"reply_count": 3}}], gh, yerel, Model(),
+                             yaz=lambda m: None)
+    assert veri["rapor_issue"] == 7 and acilan[0][2] == "rapor" and "2026-W41" in acilan[0][0]
+    assert direktor.yukle()["strateji"]["odak"] == "polls"
+    assert not direktor.haftalik_gerekli(yerel)  # bu hafta yapıldı
+    assert direktor.haftalik_gerekli(datetime(2026, 10, 12, 9, 30))  # sonraki Pazartesi
+    (tmp_path / "direktor.json").write_text(json.dumps({"son_deneme": "2026-10-05T10:00:00"}))
+    assert not direktor.haftalik_gerekli(datetime(2026, 10, 5, 12, 0))  # başarısız deneme: 6 saat beklenir
+    assert direktor.haftalik_gerekli(datetime(2026, 10, 5, 16, 30))

@@ -85,3 +85,13 @@ otomatik_paylas = true
 # "iptal" → paylaşılmaz, cevap yoksa onay_suresi_dk sonra (en geç ilk maçtan 2 saat önce) otomatik paylaşılır.
 onay_bekle = true
 onay_suresi_dk = 90
+
+[direktor]
+# X Direktörü: kupon dışı paylaşımların metnini yazar (günlük, hızlı model) ve her Pazartesi hesabın
+# etkileşim rakamlarını inceleyip haftanın stratejisini ve sahibine Türkçe raporu hazırlar (en güçlü model).
+# Model erişilemezse ya da metin kurallara uymazsa şablon metin paylaşılır; X otomasyon kuralları kodda sabittir.
+aktif = true
+gunluk_model = "claude-sonnet-5-5"
+gunluk_effort = "medium"
+strateji_model = "claude-fable-5-1"
+strateji_effort = "high"

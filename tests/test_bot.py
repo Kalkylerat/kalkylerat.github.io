@@ -1502,3 +1502,12 @@ def test_skor_duzelt_yalniz_celiskili_yaniti_yeniden_atar():
     x.sil = silinen.append
     assert m.skor_duzelt([g], "2026-10-01", datetime(2026, 10, 1, 15, tzinfo=timezone.utc), x) == 1
     assert silinen == ["r2"] and g["analiz_tweet_idleri"][0] == "r1" and len(g["analiz_tweet_idleri"]) == 2
+
+
+def test_gerekcede_secimle_celisen_skor_tahmini_atilir_gecmis_skorlar_kalir():
+    y = ("Israel let in 3 goals in each game. The model expects about 3 goals. Most likely 0-1 though. "
+         "Recent meetings ended 2-0, 1-2 and 2-1.")
+    temiz = editor.celiskisiz_yorum(y, ["UST15"])
+    assert "0-1" not in temiz and "2-0, 1-2 and 2-1" in temiz and "about 3 goals" in temiz
+    assert editor.celiskisiz_yorum("Most likely 2-1 tonight.", ["UST15"]) == "Most likely 2-1 tonight."
+    assert editor.celiskisiz_yorum("We expect a 0-0.", ["ALT25"]) == "We expect a 0-0."

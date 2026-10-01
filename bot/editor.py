@@ -132,6 +132,24 @@ def _metin(msg) -> str:
     return metin
 
 
+_SKOR = re.compile(r"\b(\d{1,2})\s*[-–]\s*(\d{1,2})\b")
+_TAHMIN = re.compile(r"likel|expect|predict|project|should end|could end|forecast|model", re.IGNORECASE)
+
+
+def celiskisiz_yorum(yorum: str, pazarlar: list[str]) -> str:
+    """Tahmin olarak verilen bir skor seçimle çelişiyorsa o cümleyi atar ("most likely 0-1" + 1.5 üst gibi).
+    Geçmiş maç skorları (ör. "met 2-0 and 1-2") tahmin dili içermediği için dokunulmaz."""
+    from .model import kazandi_mi
+    tutulan = []
+    for cumle in re.split(r"(?<=[.!?])\s+", yorum.strip()):
+        celiski = _TAHMIN.search(cumle) and any(
+            kazandi_mi(p, int(a), int(b)) is False
+            for a, b in _SKOR.findall(cumle) for p in pazarlar if not p.startswith(("IY", "YY", "KOR")))
+        if cumle and not celiski:
+            tutulan.append(cumle)
+    return " ".join(tutulan)
+
+
 def temiz_yorum(yorum: str, yasakli: list[str]) -> str:
     """Bahisçi adı, "@", hashtag ya da link içeren cümleleri atar (X kuralları ve bahis reklamı yasağı)."""
     cumleler = re.split(r"(?<=[.!?])\s+", yorum.strip())

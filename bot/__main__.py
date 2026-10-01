@@ -131,7 +131,8 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime,
             "kisa": a["kisa"], "oran": a["oran"], "stake": 0, "kupon_no": kupon_nosu[s["aday_id"]],
             "bolag": a["bolag"], "oranlar": a.get("oranlar", {}), "adil_olasilik": a["adil_olasilik"], "adil_kaynak": a["adil_kaynak"],
             "model_olasilik": a["model_olasilik"], "deger": a["deger"], "beklenen_gol": a["beklenen_gol"],
-            "yorum": editor.temiz_yorum(s["yorum"], ayar.oran_bahiscileri + [ayar.keskin_bahisci]),
+            "yorum": editor.celiskisiz_yorum(editor.temiz_yorum(s["yorum"], ayar.oran_bahiscileri + [ayar.keskin_bahisci]),
+                                             [a["pazar"]]),
             "durum": "bekliyor", "skor": None,
             **{k: m[k] for k in ("odds_id", "odds_spor") if k in m},  # sonuç yedek kaynaktan sorulur
         })

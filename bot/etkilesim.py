@@ -1,4 +1,5 @@
-"""Kupon dışı, etkileşime açık günlük paylaşımlar: günün maçları, günün istatistiği, anket, skor tahmini, pas günü.
+"""Kupon dışı, etkileşime açık günlük paylaşımlar: günün maçları, günün istatistiği, doğru tahmin/kötü fiyat, anket,
+radar, skor tahmini, pas günü.
 
 Veri sabah taramasından gelir (gun["vitrin"]): ek API isteği yapılmaz. Her tür günde bir kez, kendi paylaşımlarımız
 arasında en az ARALIK_DK olacak şekilde ve maç saatine göre zamanlanır; 15 dakikalık nabız çalıştırır."""
@@ -29,13 +30,33 @@ def vitrin(maclar: list[dict], oranlar: dict, ayar, simdi: datetime) -> list[dic
             continue
         skor, _ = model.en_olasi_skor(*goller)
         izinli = m["lig_id"] in ayar.ligler
+        fiyat = {k: o for k, (o, _, _d) in model.piyasa_oranlari(b, ayar.oran_bahiscileri, ayar.oran_yontemi).items()}
         liste.append(((izinli, len(b)), {
             "fixture_id": m["fixture_id"], "lig": m.get("lig", ""), "ulke": m.get("ulke", ""), "izinli": izinli, "ev": m["ev"], "dep": m["dep"],
             "baslama": m["baslama"], "p": {k: round(adil[k], 3) for k in ("MS1", "MSX", "MS2")},
             "beklenen_gol": [round(g, 2) for g in goller], "olasi_skor": skor,
+            "kisa": kisa_fiyat(m["ev"], m["dep"], adil, fiyat),
         }))
     liste.sort(key=lambda x: x[0], reverse=True)
     return [v for _, v in liste[:VITRIN_MAX]]
+
+
+KISA_MIN_P = 0.65
+KISA_PAZARLAR = (("MS1", None), ("MS2", None), ("UST15", "Over 1.5 goals"), ("UST25", "Over 2.5 goals"),
+                 ("KGVAR", "Both teams to score"))
+
+
+def kisa_fiyat(ev: str, dep: str, adil: dict, fiyat: dict) -> dict | None:
+    """Tahminimiz güçlü ama fiyat adil oranın altında (değer yok, bu yüzden kuponda değil): en olası böyle pazar.
+    "Doğru tahmin, kötü fiyat" paylaşımının malzemesi."""
+    adaylar = []
+    for kod, ad in KISA_PAZARLAR:
+        p, o = adil.get(kod), fiyat.get(kod)
+        if p and o and p >= KISA_MIN_P and p * o - 1 < 0:
+            adaylar.append({"pazar": kod, "ad": ad or f"{ev if kod == 'MS1' else dep} to win",
+                            "p": round(p, 3), "oran": round(o, 2)})
+    return max(adaylar, key=lambda a: a["p"]) if adaylar else None
+
 
 
 def _saat(v: dict, ayar) -> str:
@@ -144,6 +165,13 @@ def olgular(tur: str, gun: dict, ayar) -> dict:
         return {"game": mac(skor_maci(vit))}
     if tur == "istatistik":
         return {"game": mac(istatistik_maci(vit))}
+    if tur == "deger":
+        return {"date": gun["tarih"], "not_in_our_coupon_on_purpose": True,
+                "games": [{**mac(v), "our_call": v["kisa"]["ad"], "our_chance": v["kisa"]["p"],
+                           "best_odds": v["kisa"]["oran"], "fair_odds": round(1 / v["kisa"]["p"], 2)}
+                          for v in deger_maclari(vit, gun.get("_haric", frozenset()))],
+                "why_left_out": "we expect it, but the odds are below the fair price (no value), so we skip it; "
+                                "patience with the price is how the bank grows"}
     if tur == "radar":
         return {"date": gun["tarih"], "not_in_our_coupon_on_purpose": True,
                 "games": [{**mac(v), "our_number": f'{v["radar"]} {round(100 * v["radar_p"])}%'}
@@ -159,8 +187,8 @@ def radar_maclari(vit: list[dict], haric_takimlar: set[str] = frozenset()) -> li
     """Kuponda olmayan büyük maçlar ve her biri için bizim rakamlarla en ilgi çekici pazar (en az %50 ihtimal)."""
     sonuc = []
     for v in vit:
-        if {v["ev"].lower(), v["dep"].lower()} & haric_takimlar:
-            continue
+        if {v["ev"].lower(), v["dep"].lower()} & haric_takimlar or v.get("kisa"):
+            continue  # kupondaki ve "doğru tahmin, kötü fiyat" paylaşımındaki maçlar tekrar edilmez
         p_model = model.model_olasiliklari(*v["beklenen_gol"])
         fav, p_fav = _favori(v)
         secenekler = [(p_fav, f"{fav} to win")] + [(p_model[k], ad) for k, ad in RADAR_PAZARLARI]
@@ -182,6 +210,31 @@ def radar_tweeti(gun: dict, ayar, haric_takimlar: set[str] = frozenset()) -> str
         metin = (f"📡 OUR RADAR | {tarih}\n\nNot in our coupon, but our numbers say:\n" + "\n".join(satirlar[:n]) +
                  "\n\nLeft out: the price doesn't pay for the risk. How do you read them? 👇\n\n" +
                  (f"{etiket}\n" if etiket else "") + ANSVAR)
+        if uzunluk(metin) <= LIMIT:
+            return metin
+    return None
+
+
+def deger_maclari(vit: list[dict], haric_takimlar: set[str] = frozenset()) -> list[dict]:
+    """Kuponda olmayan, tahminimiz güçlü ama fiyatı düşük olduğu için oynamadığımız maçlar (en olasıdan)."""
+    liste = [v for v in vit if v.get("kisa") and not {v["ev"].lower(), v["dep"].lower()} & haric_takimlar]
+    return sorted(liste, key=lambda v: v["kisa"]["p"], reverse=True)[:3]
+
+
+def deger_tweeti(gun: dict, ayar, haric_takimlar: set[str] = frozenset()) -> str | None:
+    liste = deger_maclari(gun.get("vitrin") or [], haric_takimlar)
+    if not liste:
+        return None
+    tarih = datetime.fromisoformat(gun["tarih"]).strftime("%-d %b")
+
+    def satir(v):
+        k = v["kisa"]
+        return f'- {v["ev"]} v {v["dep"]}: {k["ad"]} {_pct(k["p"])}, odds {k["oran"]:.2f} (fair {1 / k["p"]:.2f})'
+    for n in range(len(liste), 0, -1):  # sığmazsa son maç düşer
+        etiket = etiket_satiri([(v.get("lig"), v.get("ulke")) for v in liste[:n]], [(v["ev"], v["dep"]) for v in liste[:n]])
+        metin = (f"🧐 GOOD CALL, POOR PRICE | {tarih}\n\n" + "\n".join(satir(v) for v in liste[:n])
+                 + "\n\nLikely, but no value at these odds, so no coupon. Right call? 👇\n\n"
+                 + (f"{etiket}\n" if etiket else "") + ANSVAR)
         if uzunluk(metin) <= LIMIT:
             return metin
     return None
@@ -215,6 +268,7 @@ def _plan(gun: dict) -> list[tuple[str, datetime, datetime]]:
         i = datetime.fromisoformat(istatistik_maci(vit)["baslama"])
         plan.append(("istatistik", i - timedelta(hours=4), i - timedelta(minutes=45)))
         a = datetime.fromisoformat(anket_maci(vit)["baslama"])
+        plan.append(("deger", ilk - timedelta(hours=3, minutes=30), ilk - timedelta(minutes=30)))
         plan.append(("anket", a - timedelta(hours=3), a - timedelta(minutes=30)))
         s = datetime.fromisoformat(skor_maci(vit)["baslama"])
         plan.append(("radar", ilk - timedelta(hours=2, minutes=15), ilk - timedelta(minutes=40)))
@@ -251,7 +305,8 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_pay
                 metin = {"pas": lambda: pas_tweeti(gun), "maclar": lambda: maclar_tweeti(gun, ayar),
                          "skor": lambda: skor_tweeti(gun, ayar),
                          "istatistik": lambda: istatistik_tweeti(gun, ayar),
-                         "radar": lambda: radar_tweeti(gun, ayar, haric_takimlar)}[tur]()
+                         "radar": lambda: radar_tweeti(gun, ayar, haric_takimlar),
+                         "deger": lambda: deger_tweeti(gun, ayar, haric_takimlar)}[tur]()
                 if metin is None:  # içerik yok (ör. kupon dışı yeterli maç yok)
                     durum[tur] = {"durum": "atlandi"}
                     continue

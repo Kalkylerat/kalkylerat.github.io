@@ -32,7 +32,13 @@ zamanlama `.github/workflows/kalkylerat.yml`.
 4. **İlk saat**: sahibi paylaşımdan sonraki 30–60 dk'da gelen yorumlara @kalkylerat'tan kısa, bilgi veren cevaplar yazar.
 5. **Günlük elle yanıt**: büyük futbol hesaplarının maç tweetlerine 10–20 anlamlı yanıt (istatistik, kısa gerekçe).
 6. **Kilometre taşları** (ilk 10 kupon, %X kasa, 1. ay) ayrı tweet ve sabit tweet güncellemesi.
-7. Hashtag en fazla 1–2 ve yalnızca büyük turnuva/lig için (#UCL, #PremierLeague); her tweette değil.
+7. **Doğru tahmin, kötü fiyat** ("GOOD CALL, POOR PRICE", `etkilesim.deger_tweeti`): kazanmasını beklediğimiz ama
+   oranı adil oranımızın altında olduğu için kupona koymadığımız maçlar (ör. Almanya %80, oran 1.20, adil 1.25).
+   Disiplini gösterir ("olası sonuç ≠ değerli bahis"), maç bitince "haklı mıydık" konuşması doğurur. Tavsiye değildir:
+   "kuponda değil" çerçevesi, ihtimal + oran + adil oran ve 18+ satırı hep durur; "oynayın" denmez.
+8. **Soru kuponla tutarlı olmalı**: tek maçlık kuponda çoğul ya da karşılaştırma sorusu sorulmaz ("hangi sonuç
+   şaşırttı?" — başka maç yok). Tek maçta soru o maçın adıyla sorulur ("How did you read Wales v Norway?").
+9. Hashtag en fazla 1–2 ve yalnızca büyük turnuva/lig için (#UCL, #PremierLeague); her tweette değil.
 
 ## Öneri verirken
 - Önce "otomatik mi, elle mi" ayır; otomatik olanı yukarıdaki kurallara göre denetle.

@@ -190,11 +190,13 @@ KUPON_SORULARI_TEK = [
     "Which way do you see this match going? 👇",
     "Would you play it? Let us know below 👇",
 ]
+# Tek maçta karşılaştırma sorulmaz ("hangisi şaşırttı" gibi): soru o maçın kendisi hakkındadır.
 SONUC_SORULARI_TEK = {
-    "tuttu": ["Did you follow it? 👇", "Who else had this one? 👇", "Did you see it coming? 👇"],
-    "yatti": ["Tough one. Did this result surprise you? 👇", "Not our day. How did you call this match? 👇",
-              "What did we miss here? Tell us below 👇"],
-    None: ["How did your pick do? 👇"],
+    "tuttu": ["Did you have {mac} going this way too? 👇", "Who else read {mac} like this? 👇",
+              "How did you call {mac}? 👇"],
+    "yatti": ["Not our day. How did you read {mac}? 👇", "Did you see that {mac} result coming? 👇",
+              "What did we miss in {mac}? Tell us below 👇"],
+    None: ["How did you call {mac}? 👇"],
 }
 SONUC_SORULARI = {  # kazanan ve kaybeden kuponda farklı: ikisinde de yoruma davet
     "tuttu": ["Did you follow it? 👇", "Who else had this one? 👇", "Which leg did you trust most? 👇"],
@@ -217,7 +219,9 @@ def _kupon_sorusu(gun: dict) -> str:
 
 
 def _sonuc_sorusu(gun: dict, genel) -> str:
-    return _gunun((SONUC_SORULARI_TEK if _tek_mac(gun) else SONUC_SORULARI)[genel], gun)
+    if _tek_mac(gun):
+        return _gunun(SONUC_SORULARI_TEK[genel], gun).format(mac=_mac(gun["secimler"][0], 20))
+    return _gunun(SONUC_SORULARI[genel], gun)
 
 
 def gorselli_gun_tweeti(gun: dict) -> str:

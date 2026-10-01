@@ -905,8 +905,11 @@ def test_sonuc_sorusu_kazanca_ve_kayba_gore():
     kayit.sonuclandir([kaybeden], {1: {"durum": "bitti", "skor": (0, 1)}}, SIMDI)
     k = "\n".join(tweets.sonuc_tweetleri(kazanan, kayit.ozet([kazanan], 10000)))
     y = "\n".join(tweets.sonuc_tweetleri(kaybeden, kayit.ozet([kaybeden], 10000)))
-    assert any(s in k for s in tweets.SONUC_SORULARI_TEK["tuttu"])  # tek maç: tekil dil
-    assert any(s in y for s in tweets.SONUC_SORULARI_TEK["yatti"])
+    mac = tweets._mac(kazanan["secimler"][0], 20)
+    assert any(s.format(mac=mac) in k for s in tweets.SONUC_SORULARI_TEK["tuttu"])  # tek maç: o maçın sorusu
+    assert any(s.format(mac=mac) in y for s in tweets.SONUC_SORULARI_TEK["yatti"]) and mac in y
+    for sorular in tweets.SONUC_SORULARI_TEK.values():  # tek maçta karşılaştırma sorusu olmaz
+        assert all("{mac}" in q and "surprise" not in q and "most" not in q for q in sorular)
     iki = _gun("2026-10-03", [_secim(1, 1.5, 0.8), _secim(2, 1.5, 0.8)], kuponlar=[[0, 1]])
     kayit.sonuclandir([iki], {1: {"durum": "bitti", "skor": (0, 1)}, 2: {"durum": "bitti", "skor": (1, 0)}}, SIMDI)
     assert any(s in tweets.gorselli_sonuc_tweeti(iki, kayit.ozet([iki], 10000)) for s in tweets.SONUC_SORULARI["yatti"])
@@ -1189,7 +1192,8 @@ def test_etkilesim_paylasimlari_sirayla_aralikli_ve_birer_kez():
     assert etkilesim.paylas(gun, AYAR, x, t(17, 40)) is None
     assert etkilesim.paylas(gun, AYAR, x, t(18, 0)) == "skor"
     assert etkilesim.paylas(gun, AYAR, x, t(18, 40)) is None
-    assert x.sayac == 5 and all(e["durum"] == "paylasildi" for e in gun["etkilesim"].values())
+    assert x.sayac == 5 and gun["etkilesim"].pop("deger")["durum"] == "atlandi"  # fiyatı kısa maç yok
+    assert all(e["durum"] == "paylasildi" for e in gun["etkilesim"].values())
 
 
 def test_etkilesim_metinleri_kurallara_uyar():
@@ -1725,3 +1729,31 @@ def test_ayni_anda_sonuclanan_kuponlarda_her_post_kendi_kasasini_gosterir():
     # Zaman akışı: b önce duyurulduysa a'nın sonraki postu b'nin kaybını da içerir (kasa geri gitmez)
     a.pop("sonuc_tweet_id"); b["sonuc_tweet_id"] = "s2"
     assert kayit.sonuc_ozeti(gunler, a, 10000)["kasa"] == pytest.approx(9801)
+
+
+def test_dogru_tahmin_kotu_fiyat_paylasimi():
+    from bot import direktor, etkilesim
+    bahisci = AYAR.oran_bahiscileri[0]
+    oran = lambda m1, x, m2, u15: {"Pinnacle": {"MS1": m1, "MSX": x, "MS2": m2, "UST15": u15, "ALT15": 4.0},
+                                   bahisci: {"MS1": m1 - 0.03, "MSX": x, "MS2": m2, "UST15": u15 - 0.02, "ALT15": 3.8}}
+    maclar = [
+        {"fixture_id": 2, "lig_id": AYAR.ligler[0], "lig": "UNL", "ev": "Germany", "dep": "Serbia", "baslama": "2026-10-01T18:45:00+00:00"},
+        {"fixture_id": 3, "lig_id": AYAR.ligler[0], "lig": "UNL", "ev": "Greece", "dep": "Netherlands", "baslama": "2026-10-01T18:45:00+00:00"},
+        {"fixture_id": 4, "lig_id": AYAR.ligler[0], "lig": "UNL", "ev": "Wales", "dep": "Norway", "baslama": "2026-10-01T18:45:00+00:00"},
+    ]
+    oranlar = {2: oran(1.22, 6.5, 13.0, 1.18), 3: oran(3.4, 3.4, 2.2, 1.28), 4: oran(5.0, 4.2, 1.6, 1.25)}
+    vit = etkilesim.vitrin(maclar, oranlar, AYAR, datetime(2026, 10, 1, 8, tzinfo=timezone.utc))
+    alm = next(v for v in vit if v["ev"] == "Germany")
+    assert alm["kisa"]["ad"] in ("Germany to win", "Over 1.5 goals") and alm["kisa"]["p"] * alm["kisa"]["oran"] < 1
+    gun = {"tarih": "2026-10-01", "vitrin": vit}
+    metin = etkilesim.deger_tweeti(gun, AYAR, {"wales", "norway"})
+    assert "GOOD CALL, POOR PRICE" in metin and "Germany v Serbia" in metin and "Wales" not in metin
+    assert "fair" in metin and metin.endswith(tweets.ANSVAR) and tweets.uzunluk(metin) <= 280
+    assert direktor.kurala_uygun(metin, "deger", AYAR.oran_bahiscileri, set(__import__("re").findall(r"#\w+", metin)))
+    assert not direktor.kurala_uygun(metin.replace(tweets.ANSVAR, ""), "deger", AYAR.oran_bahiscileri)
+    # radar aynı maçları tekrar etmez
+    assert all(not v.get("kisa") for v in etkilesim.radar_maclari(vit))
+    o = etkilesim.olgular("deger", {**gun, "_haric": {"wales", "norway"}}, AYAR)
+    assert o["games"] and all(g["best_odds"] < g["fair_odds"] for g in o["games"])
+    tek = etkilesim.deger_tweeti({"tarih": "2026-10-01", "vitrin": [alm]}, AYAR)
+    assert "Germany v Serbia" in tek and "no coupon" in tek

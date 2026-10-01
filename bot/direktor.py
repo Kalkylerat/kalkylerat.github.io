@@ -1,7 +1,8 @@
 """X Direktörü: hesabın içerik ve büyüme uzmanı.
 
 İki görevi var:
-1) Günlük (hızlı model): kupon dışı paylaşımların (günün maçları, anket, skor tahmini, günün istatistiği, pas günü)
+1) Günlük (hızlı model): kupon dışı paylaşımların (günün maçları, anket, skor tahmini, günün istatistiği, radar,
+   doğru tahmin/kötü fiyat, pas günü)
    metnini o haftanın stratejisine göre yazar. Her metin kod tarafından denetlenir; kurala uymazsa şablon paylaşılır.
 2) Haftalık (en güçlü model): hesabın son tweetlerinin etkileşim rakamlarını ve kupon rekorunu inceler, gelecek haftanın
    stratejisini belirler (günlük yazarın kullandığı ton, soru tarzı, kaçınılacaklar) ve sahibine Türkçe rapor yazar.
@@ -50,7 +51,10 @@ EUR 10,000 bankroll. You write one post at a time for the account's daily schedu
 Follow this week's strategy notes when they are given. Return the post text in "metin". Set "paylas" to false (and
 "metin" empty) only if this post would add nothing today or go against the playbook; otherwise true.
 "radar" posts list games we deliberately left out of our coupon with our chance for one market each: they are
-information for the reader, never a recommendation; keep the "not in our coupon" framing and the 18+ line.""" + _rehber()
+information for the reader, never a recommendation; keep the "not in our coupon" framing and the 18+ line.
+"deger" posts ("good call, poor price") show games we expect to go our way but skipped because the odds are below our
+fair price: explain that a likely outcome at a too-short price is not worth it for the bank, give our chance, the odds and
+the fair odds from the facts, ask whether skipping was right, keep the 18+ line. Never tell people to play them.""" + _rehber()
 
 HAFTALIK_SISTEM = f"""You are the X (Twitter) growth director of @kalkylerat, a football stats account with a transparent virtual
 EUR 10,000 bankroll (1% of the bank per coupon, wins and losses shown alike). Each week you review how the account's posts
@@ -60,7 +64,8 @@ being honest when a step is not possible yet. Affiliate links to betting sites a
 licensed operators; never recommend breaking X's automation rules (no automated replies, mentions, DMs, likes or follows).
 
 The account posts automatically every day: coupon posts (one per coupon, image + reasons), today's big games, a match poll,
-a score prediction, a stat of the day, results after the games, a weekly recap on Sunday. The owner replies by hand.
+a score prediction, a stat of the day, a radar of games left out, a "good call, poor price" post
+(games we expect but skipped for low odds), results after the games, a weekly recap on Sunday. The owner replies by hand.
 
 {KURALLAR}
 
@@ -113,7 +118,7 @@ def kurala_uygun(metin: str, tur: str, bahisciler: list[str], izinli: set[str] |
         return False  # yalnızca gerçek turnuva etiketleri, en fazla iki
     if any(b.lower() in metin.lower() for b in bahisciler):
         return False
-    return tur not in ("pas", "radar") or metin.rstrip().endswith(ANSVAR)
+    return tur not in ("pas", "radar", "deger") or metin.rstrip().endswith(ANSVAR)
 
 
 def yukle() -> dict:
@@ -152,7 +157,7 @@ def yazar(ayar, client=None, yaz=print):
         etiketler = sorted(set(re.findall(r"#\w+", sablon)))  # yalnızca şablonun (kodun doğruladığı) etiketleri
         icerik = json.dumps({"post_type": tur, "facts": olgular, "template_for_reference": sablon,
                              "allowed_hashtags": etiketler, "this_week_strategy": strateji}, ensure_ascii=False, indent=1)
-        if tur in ("pas", "radar"):
+        if tur in ("pas", "radar", "deger"):
             icerik += f'\nThe post must end with the line "{ANSVAR}".'
         try:
             cevap = _cagir(client or anthropic.Anthropic(), [(ayar.direktor_model, ayar.direktor_effort),

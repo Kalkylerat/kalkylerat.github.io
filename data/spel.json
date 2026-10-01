@@ -303,14 +303,14 @@
           2.3
         ],
         "yorum": "Norway project about 2.3 goals to Wales' 1.0, even away from home. We make it roughly a 2 in 3 chance they win, with 0-2 the likeliest score.",
-        "durum": "bekliyor",
-        "skor": null,
+        "durum": "kaybetti",
+        "skor": "2-1",
         "odds_id": "16d310e835713f3457023deb98fb9f74",
         "odds_spor": "soccer_uefa_nations_league",
-        "son_sorgu": "2026-10-01T20:35:56+00:00"
+        "son_sorgu": "2026-10-01T20:49:20+00:00"
       }
     ],
-    "sonuc": null,
+    "sonuc": "tamam",
     "tweet_id": "2105640878769664314",
     "para": "€",
     "yuzde": 1.0,
@@ -320,7 +320,7 @@
           0
         ],
         "stake": 101.75,
-        "durum": null,
+        "durum": "yatti",
         "kasa": 10174.9
       }
     ],
@@ -492,14 +492,19 @@
         "tweet_id": "2105725247609520592",
         "zaman": "2026-10-01T18:23:12+00:00"
       }
-    }
+    },
+    "sonuclanma": "2026-10-01T20:49:20+00:00",
+    "sonuc_tweet_idleri": [
+      "2105762018829496490"
+    ],
+    "sonuc_tweet_id": "2105762018829496490"
   },
   {
     "id": "2026-10-01-2",
     "tarih": "2026-10-01",
     "olusturma": "2026-10-01T15:10:33+00:00",
     "baslik": "Nations League night: two coupons",
-    "sonuc": null,
+    "sonuc": "tamam",
     "para": "€",
     "yuzde": 1.0,
     "ek": true,
@@ -534,9 +539,9 @@
           1.75
         ],
         "yorum": "Austria won both games and average 3 goals a game at home. Ireland did beat them once, but draw or Austria is about a 3 in 4 chance.",
-        "durum": "bekliyor",
-        "skor": null,
-        "son_sorgu": "2026-10-01T20:35:56+00:00"
+        "durum": "kazandi",
+        "skor": "2-2",
+        "son_sorgu": "2026-10-01T20:49:20+00:00"
       },
       {
         "fixture_id": 1528919,
@@ -568,9 +573,9 @@
           1.5
         ],
         "yorum": "Portugal won both games, letting in just 0.5 a game, and won 2 of the last 3 meetings. Draw or Portugal comes out at about 72%.",
-        "durum": "bekliyor",
-        "skor": null,
-        "son_sorgu": "2026-10-01T20:35:56+00:00"
+        "durum": "kazandi",
+        "skor": "2-4",
+        "son_sorgu": "2026-10-01T20:49:20+00:00"
       },
       {
         "fixture_id": 1528922,
@@ -601,9 +606,9 @@
           2.0
         ],
         "yorum": "Israel lost both games and let in 3 goals each time. Model expects about 3 goals here, so 2+ goals is close to an 8 in 10 chance.",
-        "durum": "bekliyor",
-        "skor": null,
-        "son_sorgu": "2026-10-01T20:35:56+00:00"
+        "durum": "kaybetti",
+        "skor": "0-0",
+        "son_sorgu": "2026-10-01T20:49:20+00:00"
       }
     ],
     "kuponlar": [
@@ -614,7 +619,7 @@
           2
         ],
         "stake": 100.73,
-        "durum": null,
+        "durum": "yatti",
         "kasa": 10073.15
       }
     ],
@@ -763,7 +768,12 @@
       "2105681515766059075",
       "2105681517028462805",
       "2105685824473870448"
-    ]
+    ],
+    "sonuclanma": "2026-10-01T20:49:20+00:00",
+    "sonuc_tweet_idleri": [
+      "2105762022960820436"
+    ],
+    "sonuc_tweet_id": "2105762022960820436"
   },
   {
     "id": "2026-10-01-3",
@@ -804,9 +814,9 @@
           1.8
         ],
         "yorum": "Bastia let in 2.3 a game at home, so their home games average about 3 goals. Model sees 2+ goals as roughly a 70% chance.",
-        "durum": "bekliyor",
-        "skor": null,
-        "son_sorgu": "2026-10-01T20:35:56+00:00"
+        "durum": "kazandi",
+        "skor": "1-1",
+        "son_sorgu": "2026-10-01T20:49:20+00:00"
       },
       {
         "fixture_id": 1639968,

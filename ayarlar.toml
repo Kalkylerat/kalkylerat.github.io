@@ -21,18 +21,18 @@ izinli = [
 tum_ligler = true
 # Toplu oran taramasında en fazla kaç sayfa (her sayfa 1 istek, 10 maç). Ücretsiz plan en fazla 3 sayfaya izin
 # veriyor; kalan maçların oranı hak yettiğince tek tek çekilir. Pro plan: 100+.
-max_oran_sayfasi = 3
+max_oran_sayfasi = 30
 # Detaylı incelenecek en fazla maç sayısı (her biri 1 istatistik + gerekirse 1 sakat listesi isteği).
-max_detay_mac = 10
+max_detay_mac = 30
 # Toplu tarama çalışmazsa eski yöntem: izinli liglerden en fazla kaç maç (maç başına 2 istek).
-max_mac_tarama = 30
-# İstekler arası bekleme (sn). Ücretsiz plan dakikada 10 istek: 6.5. Pro plan: 0.3.
-istek_araligi_sn = 6.5
+max_mac_tarama = 150
+# İstekler arası bekleme (sn). Ücretsiz plan dakikada 10 istek: 6.5. Pro plan (şu an): 0.3.
+istek_araligi_sn = 0.3
 
 [strateji]
-# Günde en fazla kaç oyun, bir maçtan en fazla kaç oyun ve en fazla kaç kupon.
+# Günde en fazla kaç oyun (3 kupona yetecek kadar), bir maçtan en fazla kaç oyun ve en fazla kaç kupon.
 # Kupon: tek maç ya da 2-3 maçlık kombine; her kupon kasanın oyun_yuzdesi kadarıyla oynanır.
-max_oyun = 3
+max_oyun = 7
 max_oyun_mac_basina = 2
 max_kupon = 3
 # YÜKSEK İHTİMALLİ oyun: en az %65 kazanma ihtimali (keskin piyasanın marjsız fiyatından) VE oran adil fiyata

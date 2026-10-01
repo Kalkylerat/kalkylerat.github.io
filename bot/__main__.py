@@ -609,10 +609,16 @@ def tani(ayar) -> None:
     satirlar = ["### Tanı"]
     api = _api(ayar)
     try:
-        durum = api.session.get(f"{football.BASE_URL}/status", timeout=30).json().get("response", {})
+        ham_durum = api.session.get(f"{football.BASE_URL}/status", timeout=30).json()
+        durum = ham_durum.get("response") or {}
+        durum = durum if isinstance(durum, dict) else {}
         plan = (durum.get("subscription") or {}).get("plan")
         istek = durum.get("requests") or {}
-        satirlar.append(f"- API-Football: plan **{plan}**, bugün {istek.get('current')}/{istek.get('limit_day')} istek")
+        # Depo herkese açık (loglar da): e-posta maskelenir, hangi hesap olduğu anlaşılacak kadar gösterilir.
+        eposta = (durum.get("account") or {}).get("email") or ""
+        maskeli = f"{eposta[:2]}***@{eposta.split('@')[-1]}" if "@" in eposta else "-"
+        satirlar.append(f"- API-Football: hesap {maskeli}, plan **{plan}**, bugün {istek.get('current')}/"
+                        f"{istek.get('limit_day')} istek, hatalar: {ham_durum.get('errors') or '-'}")
     except Exception as e:
         satirlar.append(f"- API-Football durum okunamadı: {e}")
     simdi = kayit.simdi_utc()

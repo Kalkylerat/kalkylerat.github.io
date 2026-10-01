@@ -649,7 +649,7 @@
       }
     ],
     "sonuc": null,
-    "tweet_id": null,
+    "tweet_id": "2105679565561696589",
     "para": "€",
     "yuzde": 1.0,
     "taranan": 21,
@@ -806,7 +806,7 @@
     ],
     "ek": true,
     "onay": {
-      "durum": "bekliyor",
+      "durum": "onaylandi",
       "son": "2026-10-01T16:40:33+00:00",
       "surum": 1,
       "metinler": [
@@ -817,7 +817,17 @@
         "4) Bastia v Orleans · 20:45 CEST · coupon 2\nPick: Over 1.5 goals\nOdds 1.40 · chance 69% · high-chance pick\nMost likely score: 0–1\n\nBastia let in 2.3 a game at home, so their home games average about 3 goals. Model sees 2+ goals as roughly a 70% chance.",
         "5) US Virgin Islands v Saint Martin · 22:00 CEST · coupon 2\nPick: Over 2.5 goals\nOdds 1.44 · chance 67% · high-chance pick\nMost likely score: 1–2\n\nThese sides met 2-0, 1-2 and 2-1, and Saint Martin scored 8 in one away game. Model expects 4 goals; 3+ is about a 7 in 10 chance."
       ],
-      "kasa": 10174.9
-    }
+      "kasa": 10174.9,
+      "sonuc_durumu": "onaylandi"
+    },
+    "gorselli": true,
+    "yayin": "2026-10-01T15:21:42+00:00",
+    "analiz_tweet_idleri": [
+      "2105679567033893349",
+      "2105679568162230320",
+      "2105679569248452770",
+      "2105679570569773373",
+      "2105679571656032692"
+    ]
   }
 ]

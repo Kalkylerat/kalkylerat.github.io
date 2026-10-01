@@ -612,7 +612,7 @@ def test_yenile_bugunu_silip_yeniden_secer(monkeypatch):
     assert silinen == [] and gunler == [eski]
     monkeypatch.setattr(ana, "tahmin", orijinal)
     monkeypatch.setattr(ana, "yayinla", lambda *a: True)
-    monkeypatch.setattr(ana.onay, "onay_iste", lambda *a: None)  # testte gerçek onay dosyası yazılmasın
+    monkeypatch.setattr(ana.onay, "onay_iste", lambda *a, **k: None)  # testte gerçek onay dosyası yazılmasın
     assert ana.yenile(AYAR, None, None, x, gunler, "2026-10-03", datetime(2026, 10, 3, 8, tzinfo=timezone.utc))
     assert silinen == ["a1", "t1"] and gunler == [yeni]
     # maç başladıysa hiçbir şey silinmez
@@ -1221,7 +1221,7 @@ def test_ek_kupon_ayri_kayit_ana_kupondaki_takimlar_haric(monkeypatch):
         return g
     monkeypatch.setattr(m, "tahmin", sahte_tahmin)
     monkeypatch.setattr(m, "_api", lambda ayar: None)
-    monkeypatch.setattr(onay, "onay_iste", lambda g, *a: g.update(onay={"son": "x"}))
+    monkeypatch.setattr(onay, "onay_iste", lambda g, *a, **k: g.update(onay={"son": "x"}))
     yeni = m.ek_kupon(AYAR, gunler, "2026-10-01", SIMDI)
     assert yeni["id"] == "2026-10-01-2" and yeni["ek"] and gorulen["ayar"].max_kupon == 2
     assert gorulen["haric"] == {"wales", "norway"}
@@ -1262,3 +1262,44 @@ def test_stake_acik_kuponlar_dusulerek_kalan_kasadan():
     assert kayit.acik_stake([acik]) == 100.0
     assert kayit.stakeler([acik], 10000, 1.0, 2) == [99.0, 98.01]  # 9900'ün %1'i, sonra 9801'in %1'i
     assert kayit.stakeler([], 10000, 1.0, 1) == [100.0]
+
+
+def test_cok_kuponlu_kayit_kupon_basina_ayri_kayit_olur():
+    g = _gun("2026-10-03", [_secim(i, 1.5, 0.7) for i in range(1, 6)], tweet_id=None,
+             kuponlar=[[0, 1, 2], [3, 4]])
+    g["vitrin"] = [1]
+    parcalar = kayit.kuponlara_bol(g, [{"id": "2026-10-03-2"}])
+    assert [p["id"] for p in parcalar] == ["2026-10-03", "2026-10-03-3"]  # -2 dolu
+    assert [len(p["secimler"]) for p in parcalar] == [3, 2]
+    assert parcalar[1]["kuponlar"] == [{**g["kuponlar"][1], "ayaklar": [0, 1]}] and parcalar[1]["ek"]
+    assert "vitrin" in parcalar[0] and "vitrin" not in parcalar[1]
+    assert kayit.kuponlara_bol(parcalar[1], []) == [parcalar[1]]
+
+
+def test_ayir_tek_paylasimi_silip_kupon_basina_paylasir(monkeypatch):
+    from bot import __main__ as m
+    simdi = datetime(2026, 10, 3, 8, tzinfo=timezone.utc)
+    g = _gun("2026-10-03", [_secim(i, 1.5, 0.7) for i in range(1, 4)], kuponlar=[[0, 1], [2]])
+    g.update(id="2026-10-03-2", ek=True, analiz_tweet_idleri=["a1", "a2"], onay={"durum": "onaylandi", "kasa": 9000})
+    gunler, ana_tweet = [g], g["tweet_id"]
+    silinen, paylasilan = [], []
+    monkeypatch.setattr(m, "yayinla", lambda ayar, gun, x, gunler, simdi: paylasilan.append(gun["id"]) or True)
+    assert m.ayir(AYAR, gunler, "2026-10-03", simdi, SimpleNamespace(sil=silinen.append)) == 2
+    assert silinen == ["a2", "a1", ana_tweet] and paylasilan == ["2026-10-03-2"]
+    ikinci = next(x for x in gunler if x["id"] == "2026-10-03-3")
+    assert ikinci["onay"]["durum"] == "bekliyor" and ikinci["onay"]["kasa"] == 9000
+    assert datetime.fromisoformat(ikinci["onay"]["son"]) == simdi + timedelta(minutes=30)
+
+
+def test_ayni_calismada_birden_fazla_onay_istegi(monkeypatch, tmp_path):
+    from bot import onay
+    monkeypatch.setattr(onay, "ISTEK_DOSYASI", tmp_path / "istek.md")
+    monkeypatch.setattr(onay, "ONIZLEME_KLASORU", tmp_path)
+    simdi = datetime(2026, 10, 3, 8, tzinfo=timezone.utc)
+    a = _gun("2026-10-03", [_secim(1, 1.5, 0.7)], tweet_id=None, kuponlar=[[0]])
+    b = {**_gun("2026-10-03", [_secim(2, 1.5, 0.7)], tweet_id=None, kuponlar=[[0]]), "id": "2026-10-03-2", "ek": True}
+    onay.onay_iste(a, [a, b], AYAR, simdi)
+    onay.onay_iste(b, [a, b], AYAR, simdi, gecikme_dk=30)
+    parcalar = (tmp_path / "istek.md").read_text().split(onay.AYRAC)
+    assert [p.splitlines()[0] for p in parcalar] == ["Onay: 2026-10-03 kuponu", "Onay: 2026-10-03-2 kuponu"]
+    assert datetime.fromisoformat(b["onay"]["son"]) - datetime.fromisoformat(a["onay"]["son"]) == timedelta(minutes=30)

@@ -32,6 +32,32 @@ def kuponlar(gun: dict) -> list[dict]:
     return [gun["kombi"]] if gun.get("kombi") else []
 
 
+def kuponlara_bol(gun: dict, gunler: list[dict]) -> list[dict]:
+    """Çok kuponlu kaydı kupon başına ayrı kayda böler (her kupon ayrı paylaşım = daha çok etkileşim).
+    İlk kupon kaydın kimliğini korur; diğerleri aynı tarihin boş ilk kimliklerini alır (2026-10-01-2, -3 …)."""
+    liste = kuponlar(gun)
+    if len(liste) <= 1:
+        return [gun]
+    alinan = {g["id"] for g in gunler} | {gun["id"]}
+    parcalar = []
+    for n, kupon in enumerate(liste):
+        yeni = {k: v for k, v in gun.items() if k not in ("secimler", "kuponlar", "vitrin", "taranan", "yanit_onerileri")}
+        yeni["secimler"] = [gun["secimler"][i] for i in kupon["ayaklar"]]
+        yeni["kuponlar"] = [{**kupon, "ayaklar": list(range(len(kupon["ayaklar"])))}]
+        if n == 0:
+            yeni.update({k: gun[k] for k in ("vitrin", "taranan", "yanit_onerileri") if k in gun})
+        else:
+            sira = 2
+            while f'{gun["tarih"]}-{sira}' in alinan:
+                sira += 1
+            yeni["id"], yeni["ek"] = f'{gun["tarih"]}-{sira}', True
+            alinan.add(yeni["id"])
+        for s in yeni["secimler"]:
+            s.pop("kupon_no", None)
+        parcalar.append(yeni)
+    return parcalar
+
+
 def kupon_ayaklari(gun: dict, kupon: dict) -> list[dict]:
     return [gun["secimler"][i] for i in kupon["ayaklar"]]
 

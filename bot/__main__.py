@@ -145,11 +145,21 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime,
     gun["baslik"] = karar["baslik"].strip()
     gun["yanit_onerileri"] = editor.yanit_onerilerini_hazirla(
         karar.get("yanit_onerileri") or [], mac_map, ayar.oran_bahiscileri + [ayar.keskin_bahisci])
-    gunler.append(gun)
-
     taslak = "\n\n".join(tweets.gun_floodu(gun, kayit.ozet(gunler, ayar.kasa_baslangic)))
     _ozet_yaz(f"### {bugun} taslak\n```\n{taslak}\n```")
-    return gun
+    parcalar = kayit.kuponlara_bol(gun, gunler)  # her kupon ayrı kayıt, ayrı paylaşım
+    gunler.extend(parcalar)
+    return parcalar[0]
+
+
+def _onaya_gonder(ayar, gunler: list[dict], bugun: str, simdi: datetime) -> list[dict]:
+    """Bugünün henüz onaya gönderilmemiş kuponlarını onaya yollar; cevapsız kalırlarsa 30 dk arayla paylaşılırlar."""
+    bekleyen = [g for g in gunler if g["tarih"] == bugun and g["secimler"] and not g.get("tweet_id")
+                and not g.get("onay") and g.get("sonuc") is None]
+    for i, g in enumerate(bekleyen):
+        onay.onay_iste(g, gunler, ayar, simdi, gecikme_dk=30 * i)
+        _ozet_yaz(f"Onay istendi ({g['id']}); cevap yoksa {(g.get('onay') or {}).get('son')} (UTC) otomatik paylaşılacak.")
+    return bekleyen
 
 
 def _incele(ayar, api, m: dict, bahisciler: dict, mac_map: dict, adaylar: list) -> None:
@@ -454,7 +464,7 @@ def yenile(ayar, api, sec, x, gunler: list[dict], bugun: str, simdi: datetime) -
                 x.sil(tid)
     gunler[:] = kopya
     if yeni and ayar.onay_bekle:
-        onay.onay_iste(yeni, gunler, ayar, simdi)  # yeniden seçilen kupon da önce onaya gelir
+        _onaya_gonder(ayar, gunler, bugun, simdi)  # yeniden seçilen kuponlar da önce onaya gelir
         return True
     return bool(yeni) and yayinla(ayar, yeni, x, gunler, simdi)
 
@@ -571,6 +581,32 @@ def haftalik(ayar, x, gunler: list[dict], simdi: datetime, zorla: bool = False) 
     return True
 
 
+def ayir(ayar, gunler: list[dict], bugun: str, simdi: datetime, x) -> int:
+    """Bugün tek paylaşımda çıkmış çok kuponlu kayıtları (maçlar başlamadıysa) siler ve kupon başına ayrı
+    paylaşıma çevirir: ilki hemen, diğerleri 30 dk arayla (nabız paylaşır). Onaylı içerik değişmez."""
+    sayi = 0
+    for gun in [g for g in gunler if g["tarih"] == bugun and g.get("tweet_id") and len(kayit.kuponlar(g)) > 1]:
+        if min(datetime.fromisoformat(s["baslama"]) for s in gun["secimler"]) <= simdi:
+            continue
+        for tid in reversed([gun["tweet_id"]] + gun.get("analiz_tweet_idleri", [])):
+            x.sil(tid)
+        kasa_ = (gun.get("onay") or {}).get("kasa")
+        for k in ("tweet_id", "analiz_tweet_idleri", "gorselli", "yayin", "onay"):
+            gun.pop(k, None)
+        gunler.remove(gun)
+        parcalar = kayit.kuponlara_bol(gun, gunler)
+        gunler.extend(parcalar)
+        for i, p in enumerate(parcalar):
+            son = simdi + timedelta(minutes=30 * i)
+            p["onay"] = {"durum": "bekliyor", "son": son.isoformat(timespec="seconds"), "surum": 1,
+                         **({"kasa": kasa_} if kasa_ else {})}
+        yayinla(ayar, parcalar[0], x, gunler, simdi)
+        parcalar[0]["onay"]["durum"] = "onaylandi"
+        sayi += len(parcalar)
+        _ozet_yaz(f"{gun['id']}: {len(parcalar)} ayrı paylaşıma bölündü; ilki paylaşıldı, diğerleri 30 dk arayla.")
+    return sayi
+
+
 def ek_kupon(ayar, gunler: list[dict], bugun: str, simdi: datetime) -> dict | None:
     """Aynı gün için 1-2 ek kupon: ayrı kayıt (ör. 2026-10-01-2), günün kuponundaki maçlar hariç, önce onaya gelir."""
     from dataclasses import replace
@@ -588,8 +624,7 @@ def ek_kupon(ayar, gunler: list[dict], bugun: str, simdi: datetime) -> dict | No
         _ozet_yaz("Ek kupon çıkmadı: kurallara uyan yeni oyun yok.")
         return None
     yeni["ek"] = True
-    onay.onay_iste(yeni, gunler, ayar, simdi)
-    _ozet_yaz(f"Ek kupon onaya gönderildi ({ek_id}); cevap yoksa {yeni['onay']['son']} (UTC) paylaşılır.")
+    _onaya_gonder(ayar, gunler, bugun, simdi)
     return yeni
 
 
@@ -832,7 +867,7 @@ def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="bot")
     p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt", "sabit", "hafta", "yenile", "oran_testi",
                                           "onay_kontrol", "onay_testi", "onay_yenile", "nabiz",
-                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar"])
+                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir"])
     args = p.parse_args(argv)
     ayar = config.yukle()
 
@@ -895,6 +930,8 @@ def main(argv=None) -> int:
                 etkilesim.paylas(kayit.bul(gunler, bugun), ayar, _x_client(), simdi, yaz=_ozet_yaz)
             except Exception as e:
                 _hata("Etkileşim paylaşımı", e)
+        if args.komut == "ayir":
+            ayir(ayar, gunler, bugun, simdi, _x_client())
         if args.komut == "ek_kupon":
             ek_kupon(ayar, gunler, bugun, simdi)
         if args.komut == "vitrin":
@@ -930,9 +967,8 @@ def main(argv=None) -> int:
                 if gun and gun["secimler"] and ayar.otomatik_paylas:
                     if gun.get("tweet_id") or not ayar.onay_bekle:
                         yayinla(ayar, gun, _x_client(), gunler, simdi)  # yeni paylaşım ya da yarım floodu tamamlama
-                    elif not gun.get("onay") and gun["sonuc"] is None:
-                        onay.onay_iste(gun, gunler, ayar, simdi)
-                        _ozet_yaz(f"Onay istendi; cevap yoksa {gun['onay']['son']} (UTC) otomatik paylaşılacak.")
+                    else:
+                        _onaya_gonder(ayar, gunler, bugun, simdi)
         if args.komut == "onay_kontrol":
             try:
                 onay.kontrol(ayar, onay.GitHub(), _x_client(), gunler, simdi, yayinla)

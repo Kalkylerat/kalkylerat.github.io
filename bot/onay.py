@@ -11,6 +11,7 @@ from . import config, gorsel, kayit, tweets
 
 ONIZLEME_KLASORU = config.ROOT / "docs" / "onizleme"
 ISTEK_DOSYASI = config.ROOT / "onay_istegi.md"  # iş akışı bu dosya varsa issue açar
+AYRAC = "<<<SONRAKI_ISTEK>>>\n"  # dosyada birden fazla istek varsa aralarında
 ETIKET = "onay"
 OK = {"ok", "okay", "onay", "onayla", "onaylıyorum", "evet", "tamam", "paylas", "paylaş", "yes"}
 # "iptal" = "bir hata var, dur": kupon bekletilir (paylaşılmaz), sahibi hatayı Claude'a söyler, düzeltilince
@@ -69,15 +70,19 @@ def istek_hazirla(gun: dict, gunler: list[dict], ayar, simdi: datetime, test: bo
                      "Arama linkinden o maçın tweetlerini aç, büyük hesapların tweetlerine @kalkylerat'tan yapıştır:"]
         for o in gun["yanit_onerileri"]:
             parcalar += [f"**{o['mac']}** · [X'te ara]({o['arama']})", "```", o["metin"], "```"]
-    ISTEK_DOSYASI.write_text(f"{baslik}\n" + "\n".join(parcalar) + "\n", encoding="utf-8")
+    metin = f"{baslik}\n" + "\n".join(parcalar) + "\n"
+    # Aynı çalışmada birden fazla kupon onaya gelebilir: iş akışı her parçayı ayrı issue olarak açar.
+    onceki = ISTEK_DOSYASI.read_text(encoding="utf-8") if ISTEK_DOSYASI.exists() else ""
+    ISTEK_DOSYASI.write_text(onceki + AYRAC + metin if onceki.strip() else metin, encoding="utf-8")
     return baslik
 
 
-def onay_iste(gun: dict, gunler: list[dict], ayar, simdi: datetime) -> None:
-    """İlk önizleme ya da düzeltmeden sonra yeni önizleme (sürüm artar, süre yeniden başlar)."""
+def onay_iste(gun: dict, gunler: list[dict], ayar, simdi: datetime, gecikme_dk: int = 0) -> None:
+    """İlk önizleme ya da düzeltmeden sonra yeni önizleme (sürüm artar, süre yeniden başlar).
+    gecikme_dk: aynı gün birden fazla kupon varsa cevapsız kalanlar arayla paylaşılsın."""
     ilk = min(datetime.fromisoformat(s["baslama"]) for s in gun["secimler"])
     # En geç ilk maçtan 2 saat önce paylaşılsın; sahibe en fazla onay_suresi_dk süre tanınır.
-    son = min(simdi + timedelta(minutes=ayar.onay_suresi_dk), ilk - timedelta(minutes=120))
+    son = min(simdi + timedelta(minutes=ayar.onay_suresi_dk + gecikme_dk), ilk - timedelta(minutes=120))
     # Düzeltme sonrası da sahibine en az 30 dk bakma süresi (ama ilk maçtan en geç 1 saat önce).
     son = min(max(son, simdi + timedelta(minutes=30)), ilk - timedelta(minutes=60))
     surum = (gun.get("onay") or {}).get("surum", 0) + 1

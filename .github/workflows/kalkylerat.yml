@@ -17,7 +17,7 @@ on:
         description: "Ne yapılsın?"
         type: choice
         default: yayinla
-        options: [yayinla, profil, sonuc_yeniden, demo, nabiz, onay_yenile, onay_testi, onay_kontrol, onizleme, duzelt, yenile, sabit, hafta, oran_testi, otomatik, tahmin, sonuc, panel, tani, odds_tani, odds_pazar, vitrin, ek_kupon, af_pazar]
+        options: [yayinla, profil, sonuc_yeniden, demo, nabiz, onay_yenile, onay_testi, onay_kontrol, onizleme, duzelt, yenile, sabit, hafta, oran_testi, otomatik, tahmin, sonuc, panel, tani, odds_tani, odds_pazar, vitrin, ek_kupon, af_pazar, ayir]
       ek:
         description: "Tek çalışmalık istisna (ör. guvenli_min_deger=-0.03 api_yedek=8); boş bırakın"
         type: string
@@ -105,9 +105,16 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh label create onay --color 19c37d --description "Paylaşım onayı" --force
-          baslik=$(head -n 1 onay_istegi.md)
-          tail -n +2 onay_istegi.md > govde.md
-          gh issue create --title "$baslik" --label onay --body-file govde.md
+          # Dosyada birden fazla istek olabilir (kupon başına bir issue): ayraçla bölünür.
+          python - <<'PY'
+          import pathlib, subprocess
+          for parca in pathlib.Path("onay_istegi.md").read_text(encoding="utf-8").split("<<<SONRAKI_ISTEK>>>\n"):
+              if not parca.strip():
+                  continue
+              baslik, _, govde = parca.partition("\n")
+              pathlib.Path("govde.md").write_text(govde, encoding="utf-8")
+              subprocess.run(["gh", "issue", "create", "--title", baslik, "--label", "onay", "--body-file", "govde.md"], check=True)
+          PY
       - name: Kayıt yedeği (push başarısız olursa)
         if: failure()
         uses: actions/upload-artifact@v4

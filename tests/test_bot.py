@@ -1166,7 +1166,7 @@ def _vitrin_gunu(**ek):
     vit = etkilesim.vitrin(maclar, oranlar, AYAR, datetime(2026, 10, 1, 8, tzinfo=timezone.utc))
     return {"id": "2026-10-01", "tarih": "2026-10-01", "olusturma": "2026-10-01T10:55:00+00:00",
             "secimler": [{"x": 1}], "tweet_id": "t1", "yayin": "2026-10-01T12:48:00+00:00", "sonuc": None,
-            "vitrin": vit, **ek}
+            "vitrin": vit, "etkilesim": {"bilgi": {"durum": "paylasildi", "zaman": "2026-10-01T09:00:00+00:00"}}, **ek}
 
 
 def test_vitrin_izinli_ligler_once_anket_dengeli_maca():
@@ -1197,7 +1197,7 @@ def test_etkilesim_paylasimlari_sirayla_aralikli_ve_birer_kez():
     assert etkilesim.paylas(gun, AYAR, x, t(18, 0)) == "skor"
     assert etkilesim.paylas(gun, AYAR, x, t(18, 40)) is None
     assert x.sayac == 5 and gun["etkilesim"].pop("deger")["durum"] == "atlandi"  # fiyatı kısa maç yok
-    assert all(e["durum"] == "paylasildi" for e in gun["etkilesim"].values())
+    assert all(e["durum"] == "paylasildi" for e in gun["etkilesim"].values())  # bilgi testte önceden atıldı
 
 
 def test_etkilesim_metinleri_kurallara_uyar():
@@ -1486,7 +1486,7 @@ def test_denetim_istatistik_gec_olsa_da_anket_kacmaz():
     for v in gun["vitrin"]:
         if v is etkilesim.istatistik_maci(gun["vitrin"]):
             v["baslama"] = "2026-10-01T21:00:00+00:00"  # istatistik maçı daha geç
-    gun["etkilesim"] = {"maclar": {"durum": "paylasildi", "zaman": "2026-10-01T13:50:00+00:00"}}
+    gun["etkilesim"] = {"maclar": {"durum": "paylasildi", "zaman": "2026-10-01T13:50:00+00:00"}, "bilgi": {"durum": "atlandi"}}
     x = tweets.KonsolClient()
     assert etkilesim.paylas(gun, AYAR, x, datetime(2026, 10, 1, 15, 50, tzinfo=timezone.utc)) == "anket"
 
@@ -1623,7 +1623,7 @@ def test_radar_kupondaki_maclari_almaz_ve_direktor_atlayabilir():
                     return SimpleNamespace(stop_reason="end_turn", content=[SimpleNamespace(
                         type="text", text=json.dumps({"paylas": False, "metin": ""}))])
             return S()
-    gun["etkilesim"] = {"maclar": {"durum": "paylasildi", "zaman": "2026-10-01T13:00:00+00:00"},
+    gun["etkilesim"] = {"maclar": {"durum": "paylasildi", "zaman": "2026-10-01T13:00:00+00:00"}, "bilgi": {"durum": "atlandi"},
                         "istatistik": {"durum": "atlandi"}, "anket": {"durum": "atlandi"}}
     x = tweets.KonsolClient()
     sonuc = etkilesim.paylas(gun, AYAR, x, datetime(2026, 10, 1, 16, 40, tzinfo=timezone.utc),
@@ -1806,7 +1806,7 @@ def test_deger_postu_maclar_bitince_alintilanir():
     gun = {"tarih": "2026-10-01", "vitrin": vit, "secimler": [], "sonuc": None}
     x = tweets.KonsolClient()
     t = lambda s, d: datetime(2026, 10, 1, s, d, tzinfo=timezone.utc)
-    gun["etkilesim"] = {k: {"durum": "atlandi"} for k in ("maclar", "istatistik")}
+    gun["etkilesim"] = {k: {"durum": "atlandi"} for k in ("maclar", "istatistik", "bilgi")}
     assert etkilesim.paylas(gun, AYAR, x, t(15, 30), yaz=lambda m: None) == "deger"
     e = gun["etkilesim"]["deger"]
     assert [m["ev"] for m in e["maclar"]] == ["Germany", "Greece"] and e["maclar"][1]["odds_id"] == "abc"
@@ -1856,3 +1856,36 @@ def test_bakiye_cuzdan_gibi_stake_duser_kazanc_eklenir():
     assert d2 == "yatti" and b2 == b1 and "back" not in t2 and f"💰 Balance: €{b1:,.2f}" in t2  # kayıpta aynı
     assert d3 == "tuttu" and b3 == round(b2 + tweets.donen(gunler[2], gunler[2]["kuponlar"][0]), 2)
     assert b3 == kayit.kasa(gunler, bas)  # hepsi kapanınca bakiye = kasa
+
+
+def test_bilgi_postu_gunluk_dogru_ve_sayi_uydurulamaz():
+    import math
+    from bot import bilgi, direktor, etkilesim
+    # her konu kurallara uyar, 280'e sığar; hesaplanan sayılar matematiksel olarak doğru
+    for k in bilgi.KONULAR:
+        metin = f'💡 {k["baslik"]}\n\n{k["govde"]}\n\n{k["soru"]}\n\n{tweets.ANSVAR}'
+        assert tweets.uzunluk(metin) <= 280, k["id"]
+        assert direktor.kurala_uygun(metin, "bilgi", AYAR.oran_bahiscileri), k["id"]
+    konu = {k["id"]: k["govde"] for k in bilgi.KONULAR}
+    assert "about 10% back" in konu["deger"] and "34.3%" in konu["kombine"] and "32.8%" in konu["kombine"]
+    assert "90.4%" in konu["yuzde1"] and "34.9%" in konu["yuzde1"] and "83.3%" in konu["basabas"]
+    assert "128×" in konu["martingale"] and "1-1 at just 12.6%" in konu["skor"]
+    assert abs(bilgi._en_az_bir_seri(5, 5, 0.4) - 0.4 ** 5) < 1e-12  # 5 bahiste 5'li seri = hepsi kayıp
+    assert abs(bilgi._binom_en_fazla(10, 10, 0.3) - 1) < 1e-12 and abs(math.exp(-1.5) - 0.2231) < 1e-4
+    # 20 konu her gün sırayla döner
+    gunler_ = {bilgi.gunun_konusu(f"2026-10-{g:02d}")["id"] for g in range(1, 21)}
+    assert len(gunler_) == len(bilgi.KONULAR) == 20
+    # günlük plan: kupon paylaşıldıktan 45 dk sonra, gün içinde bir kez (vitrin olmasa da)
+    gun = {"id": "2026-10-02", "tarih": "2026-10-02", "secimler": [], "sonuc": None, "tweet_id": None,
+           "yayin": "2026-10-02T10:50:00+00:00"}
+    x = tweets.KonsolClient()
+    t = lambda s, d: datetime(2026, 10, 2, s, d, tzinfo=timezone.utc)
+    assert etkilesim.paylas(gun, AYAR, x, t(11, 0)) is None
+    assert etkilesim.paylas(gun, AYAR, x, t(11, 40)) == "bilgi" and x.sayac == 1
+    assert etkilesim.paylas(gun, AYAR, x, t(14, 0)) is None  # günde bir kez
+    # direktör olgularda olmayan sayı yazarsa şablon gider
+    olg = etkilesim.olgular("bilgi", gun, AYAR)
+    assert direktor.sayilar_dogru("Take 1.25: that's 80% implied. 18+ | Play responsibly",
+                                  json.dumps(olg) + etkilesim.bilgi_tweeti(gun)) is (
+        "1.25" in json.dumps(olg))
+    assert not direktor.sayilar_dogru("Home sides win 46% of games", "2.00 means 50%")

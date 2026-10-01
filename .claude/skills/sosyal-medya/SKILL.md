@@ -41,7 +41,11 @@ zamanlama `.github/workflows/kalkylerat.yml`.
    yanılsak da paylaşılır: şeffaflık hesabın kozu.
 8. **Soru kuponla tutarlı olmalı**: tek maçlık kuponda çoğul ya da karşılaştırma sorusu sorulmaz ("hangi sonuç
    şaşırttı?" — başka maç yok). Tek maçta soru o maçın adıyla sorulur ("How did you read Wales v Norway?").
-9. Hashtag en fazla 1–2 ve yalnızca büyük turnuva/lig için (#UCL, #PremierLeague); her tweette değil.
+9. **Günlük bilgi postu** (`bot/bilgi.py`, 20 konu sırayla): oran = olasılık, marj, değer, kombine, kayıp serileri,
+   %1 kasa, Kelly, Asya handikapı, Poisson, xG, örneklem, kapanış oranı… Sayıların hepsi tanım gereği doğru ya da
+   kodda hesaplanmış; istatistik iddiası yok. Direktör doğal dille yazar ama olgularda olmayan sayı kullanamaz (kod
+   denetler). Sonunda gerçek bir soru. Robot gibi değil: her gün farklı açılış, kalıp cümle yok.
+10. Hashtag en fazla 1–2 ve yalnızca büyük turnuva/lig için (#UCL, #PremierLeague); her tweette değil.
 
 ## Öneri verirken
 - Önce "otomatik mi, elle mi" ayır; otomatik olanı yukarıdaki kurallara göre denetle.

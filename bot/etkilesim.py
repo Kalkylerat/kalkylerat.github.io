@@ -7,7 +7,7 @@ arasında en az ARALIK_DK olacak şekilde ve maç saatine göre zamanlanır; 15 
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-from . import model
+from . import bilgi, model
 from .oddsapi import ima_edilen_goller
 from .tweets import ANSVAR, LIMIT, etiket_satiri, uzunluk
 
@@ -166,6 +166,10 @@ def olgular(tur: str, gun: dict, ayar) -> dict:
         return {"game": mac(skor_maci(vit))}
     if tur == "istatistik":
         return {"game": mac(istatistik_maci(vit))}
+    if tur == "bilgi":
+        k = bilgi.gunun_konusu(gun["tarih"])
+        return {"topic": k["baslik"], "facts_to_use": k["govde"], "question_idea": k["soru"],
+                "accuracy_rule": "use only these facts and exactly these numbers; add no other number or claim"}
     if tur == "deger":
         return {"date": gun["tarih"], "not_in_our_coupon_on_purpose": True,
                 "games": [{**mac(v), "our_call": v["kisa"]["ad"], "our_chance": v["kisa"]["p"],
@@ -241,6 +245,11 @@ def deger_tweeti(gun: dict, ayar, haric_takimlar: set[str] = frozenset()) -> str
     return None
 
 
+def bilgi_tweeti(gun: dict) -> str:
+    k = bilgi.gunun_konusu(gun["tarih"])
+    return f'💡 {k["baslik"]}\n\n{k["govde"]}\n\n{k["soru"]}\n\n{ANSVAR}'
+
+
 def pas_tweeti(gun: dict) -> str:
     tarih = datetime.fromisoformat(gun["tarih"]).strftime("%-d %b")
     n = gun.get("taranan")
@@ -263,6 +272,8 @@ def _plan(gun: dict) -> list[tuple[str, datetime, datetime]]:
     if gun.get("sonuc") == "pas":
         olusturma = datetime.fromisoformat(gun["olusturma"])
         plan.append(("pas", olusturma, olusturma + timedelta(hours=8)))
+    gun_bas = datetime.fromisoformat(gun["tarih"] + "T00:00:00+00:00")
+    plan.append(("bilgi", gun_bas + timedelta(hours=9), gun_bas + timedelta(hours=19, minutes=30)))  # günlük bilgi
     if vit:
         ilk = min(datetime.fromisoformat(v["baslama"]) for v in vit)
         plan.append(("maclar", ilk - timedelta(hours=5), ilk - timedelta(minutes=15)))
@@ -303,7 +314,7 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_pay
                 metin = yazar(tur, olgular(tur, gun, ayar), metin) if yazar else metin
                 tid = x.gonder(metin, anket={"options": secenekler, "duration_minutes": dakika})
             else:
-                metin = {"pas": lambda: pas_tweeti(gun), "maclar": lambda: maclar_tweeti(gun, ayar),
+                metin = {"pas": lambda: pas_tweeti(gun), "bilgi": lambda: bilgi_tweeti(gun), "maclar": lambda: maclar_tweeti(gun, ayar),
                          "skor": lambda: skor_tweeti(gun, ayar),
                          "istatistik": lambda: istatistik_tweeti(gun, ayar),
                          "radar": lambda: radar_tweeti(gun, ayar, haric_takimlar),

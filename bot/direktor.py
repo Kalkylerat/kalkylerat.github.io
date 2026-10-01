@@ -40,7 +40,11 @@ KURALLAR = """Hard rules (never break them):
 - Hashtags: only from "allowed_hashtags" in the facts (real competition tags), at most two; none if the list is empty.
 - Never say "lock", "guaranteed", "sure thing", "banker", "free money" or promise wins. Talk in chances.
 - No engagement bait ("RT", "like if", "follow for"). Ask one real question people want to answer.
-- No betting tips outside the coupon posts: these posts are about football and our numbers."""
+- No betting tips outside the coupon posts: these posts are about football and our numbers.
+
+Voice: sound like a person who loves football and numbers, not a bot. Vary how posts open and flow; don't reuse
+stock phrases or the same layout every day; contractions are fine; short sentences; no hype. The template is only
+a reference for the facts: rewrite it in your own words."""
 
 GUNLUK_SISTEM = f"""You are the X (Twitter) director of @kalkylerat, a football stats account running a transparent virtual
 EUR 10,000 bankroll. You write one post at a time for the account's daily schedule. Goal: replies and real conversation
@@ -56,7 +60,10 @@ information for the reader, never a recommendation; keep the "not in our coupon"
 fair price: explain that a likely outcome at a too-short price is not worth it for the bank, give our chance, the odds and
 the fair odds from the facts, ask whether skipping was right, keep the 18+ line. Never tell people to play them.
 "deger_sonuc" quotes that post after the games: give each score and whether our call came in, be honest (right or
-wrong), say in one short line why the price still mattered, keep the 18+ line.""" + _rehber()
+wrong), say in one short line why the price still mattered, keep the 18+ line.
+"bilgi" is the daily knowledge post (odds, probability, staking, models): explain the given facts in a lively,
+plain way with a real-life angle and end with one open question. Use exactly the numbers in "facts_to_use" and no
+others; never add stats, history or claims of your own. Keep the 18+ line.""" + _rehber()
 
 HAFTALIK_SISTEM = f"""You are the X (Twitter) growth director of @kalkylerat, a football stats account with a transparent virtual
 EUR 10,000 bankroll (1% of the bank per coupon, wins and losses shown alike). Each week you review how the account's posts
@@ -112,15 +119,29 @@ _YASAK = re.compile(
 _ALAN_ADI = re.compile(r"\b[a-z0-9-]+\.(com|net|org|io|co|se|uk|tr|bet|app|gg|ly|me|tv)\b")
 
 
+# Bilgi postu oran/stake/kasa yönetimini anlatır: "stake", "bet" gibi sözcükler serbest, gerisi aynı.
+_YASAK_BILGI = re.compile(_YASAK.pattern.replace(r"\bstake\b|\bbets?\b|\bbetting\b|", "")
+                          .replace(r"\btips?\b|\btipster\b|\bwager|", "")
+                          .replace(r"100\s*%|", ""), re.IGNORECASE)  # "toplam %100" bir olgu, kesinlik değil
+_SAYI = re.compile(r"(?<![\w.])[−-]?\d+(?:[.,]\d+)?")
+
+
+def sayilar_dogru(metin: str, kaynak: str) -> bool:
+    """Metindeki her sayı kaynakta (olgularda ya da şablonda) geçmeli: direktör yeni rakam uyduramaz."""
+    izinli = {s.replace("−", "-") for s in _SAYI.findall(kaynak)} | {"18", "1", "0"}
+    return all(s.replace("−", "-") in izinli for s in _SAYI.findall(metin))
+
+
 def kurala_uygun(metin: str, tur: str, bahisciler: list[str], izinli: set[str] | None = None) -> bool:
-    if not metin or uzunluk(metin) > LIMIT or _YASAK.search(metin) or _ALAN_ADI.search(metin):
+    yasak = _YASAK_BILGI if tur == "bilgi" else _YASAK
+    if not metin or uzunluk(metin) > LIMIT or yasak.search(metin) or _ALAN_ADI.search(metin):
         return False
     etiketler = re.findall(r"#\w+", metin)
     if len(etiketler) > 2 or any(not izinli_etiket(e) or (izinli is not None and e not in izinli) for e in etiketler):
         return False  # yalnızca gerçek turnuva etiketleri, en fazla iki
     if any(b.lower() in metin.lower() for b in bahisciler):
         return False
-    return tur not in ("pas", "radar", "deger", "deger_sonuc") or metin.rstrip().endswith(ANSVAR)
+    return tur not in ("pas", "radar", "deger", "deger_sonuc", "bilgi") or metin.rstrip().endswith(ANSVAR)
 
 
 def yukle() -> dict:
@@ -159,7 +180,7 @@ def yazar(ayar, client=None, yaz=print):
         etiketler = sorted(set(re.findall(r"#\w+", sablon)))  # yalnızca şablonun (kodun doğruladığı) etiketleri
         icerik = json.dumps({"post_type": tur, "facts": olgular, "template_for_reference": sablon,
                              "allowed_hashtags": etiketler, "this_week_strategy": strateji}, ensure_ascii=False, indent=1)
-        if tur in ("pas", "radar", "deger", "deger_sonuc"):
+        if tur in ("pas", "radar", "deger", "deger_sonuc", "bilgi"):
             icerik += f'\nThe post must end with the line "{ANSVAR}".'
         try:
             cevap = _cagir(client or anthropic.Anthropic(), [(ayar.direktor_model, ayar.direktor_effort),
@@ -171,6 +192,9 @@ def yazar(ayar, client=None, yaz=print):
         if cevap.get("paylas") is False and tur != "pas":
             return ""  # direktör bugün bu paylaşımı uygun görmedi (pas açıklaması her zaman gider)
         metin = (cevap.get("metin") or "").strip()
+        if tur == "bilgi" and not sayilar_dogru(metin, json.dumps(olgular, ensure_ascii=False) + sablon):
+            yaz("Direktör bilgi metninde olgularda olmayan bir sayı kullandı; şablon kullanıldı.")
+            return sablon
         if not kurala_uygun(metin, tur, ayar.oran_bahiscileri + [ayar.keskin_bahisci], set(etiketler)):
             yaz(f"Direktör metni kurala uymadı ({tur}); şablon kullanıldı.")
             return sablon

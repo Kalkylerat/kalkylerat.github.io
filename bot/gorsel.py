@@ -7,7 +7,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 from .config import ROOT
 from .kayit import kar, kupon_ayaklari, kupon_durumu, kupon_kar, kupon_olasilik, kupon_oran, kuponlar
-from .tweets import kupon_oran_metni
+from .tweets import kasa_adimlari, kupon_oran_metni
 
 BOYUT = 1200
 KENAR = 70
@@ -63,7 +63,7 @@ def kupon_gorseli(gun: dict, kupon: dict, kasa: float, sira: int = 1, toplam: in
     yuk, bosluk, alan_ust = 170, 22, 340
     kart_alt = alan_ust + len(secimler) * (yuk + bosluk) - bosluk
     serit_y = kart_alt + 35
-    yukseklik = max(serit_y + 140 + 110, 700)
+    yukseklik = max(serit_y + 140 + 160, 750)
     im = Image.new("RGB", (BOYUT, yukseklik), ARKA)
     d = ImageDraw.Draw(im)
     ic = BOYUT - 2 * KENAR
@@ -111,6 +111,12 @@ def kupon_gorseli(gun: dict, kupon: dict, kasa: float, sira: int = 1, toplam: in
         deger, f = _sigdir(d, deger, g - 30, 44, True)
         d.text((x + (g - d.textlength(deger, font=f)) / 2, y + 62), deger, font=f, fill=YAZI)
         x += g
+
+    # Kasa adımı: stake kupon yapılınca kasadan düşer, getiri sonuçta kasaya döner.
+    adim = (f"Bank {_para(kasa, birim)} − stake {_para(stake, birim)} = {_para(kasa - stake, birim)}"
+            f" · the return goes back to the bank")
+    adim, f = _sigdir(d, adim, ic, 26, True)
+    d.text(((BOYUT - d.textlength(adim, font=f)) / 2, y + 140 + 30), adim, font=f, fill=YAZI)
 
     alt = f'Virtual bank · stake {gun["yuzde"]:g}% of the bank per coupon · 18+ | Play responsibly'
     alt, f = _sigdir(d, alt, ic, 22)
@@ -184,9 +190,10 @@ def kasa_grafigi(seyir: list[tuple[str, float]], baslangic: float, birim: str) -
 KAYIP = (255, 107, 97)
 
 
-def sonuc_gorseli(gun: dict, kasa: float, kasa_degisim: float, onceki_kasa: float | None = None) -> bytes:
+def sonuc_gorseli(gun: dict, ozet: dict) -> bytes:
     """Sonuç kartı: maç maç skor ve ✔/✘, kupon kâr/zararı, güncel kasa. Kupon kartıyla aynı tasarım."""
     birim, secimler, liste = gun["para"], gun["secimler"], kuponlar(gun)
+    kasa, kasa_degisim = ozet["kasa"], ozet["kasa_degisim"]
     yuk, bosluk, alan_ust = 150, 18, 340
     kart_alt = alan_ust + len(secimler) * (yuk + bosluk) - bosluk
     serit_y = kart_alt + 35
@@ -220,22 +227,22 @@ def sonuc_gorseli(gun: dict, kasa: float, kasa_degisim: float, onceki_kasa: floa
         fk = _font(54, True)
         d.text((sag - d.textlength(k, font=fk), y + 40), k, font=fk, fill=r)
         d.text((sag - 80 - skor_gen, y + 46), skor, font=f_skor, fill=YAZI)
-    toplam_kar = sum(kupon_kar(gun, k_) for k_ in liste) + sum(kar(s_) for s_ in secimler)
-    # Kasa önce → sonra: önceki kasa + kupon kârı = yeni kasa, kartta açıkça (kuruşlu, toplam tutar).
-    banka = f"{_para(onceki_kasa, birim)} → {_para(kasa, birim)}" if onceki_kasa is not None else _para(kasa, birim)
-    kutular = [("PROFIT" if toplam_kar >= 0 else "LOSS", f'{"+" if toplam_kar >= 0 else "-"}{_para(abs(toplam_kar), birim)}'),
-               ("BANK", banka), ("SINCE START", f"{kasa_degisim:+.1f}%")]
+    # Kasa adım adım: önceki kasa − stake + dönen = yeni kasa (kuruşu kuruşuna).
+    once, stake, geri, sonra = kasa_adimlari(gun, ozet)
+    kutular = [("BANK BEFORE", _para(once, birim)),
+               ("− STAKE  + RETURN", f"−{_para(stake, birim)}  +{_para(geri, birim)}"),
+               ("BANK NOW", _para(sonra, birim))]
     y = serit_y
     d.rounded_rectangle((KENAR, y, BOYUT - KENAR, y + 140), radius=22, outline=renk if renk != YAZI else VURGU, width=3)
     x = KENAR
-    for (etiket, deger), oran in zip(kutular, [0.27, 0.52, 0.21] if onceki_kasa is not None else [0.33, 0.37, 0.30]):
+    for (etiket, deger), oran in zip(kutular, [0.30, 0.40, 0.30]):
         g = ic * oran
         f = _font(22, True)
         d.text((x + (g - d.textlength(etiket, font=f)) / 2, y + 24), etiket, font=f, fill=SOLUK)
         deger, f = _sigdir(d, deger, g - 30, 44, True)
         d.text((x + (g - d.textlength(deger, font=f)) / 2, y + 62), deger, font=f, fill=YAZI)
         x += g
-    alt = f'Virtual bank · stake {gun["yuzde"]:g}% of the bank per coupon · 18+ | Play responsibly'
+    alt = f'Virtual bank · {kasa_degisim:+.1f}% since start · stake {gun["yuzde"]:g}% per coupon · 18+ | Play responsibly'
     alt, f = _sigdir(d, alt, ic, 22)
     d.text(((BOYUT - d.textlength(alt, font=f)) / 2, yukseklik - KENAR - 10), alt, font=f, fill=SOLUK)
     tampon = io.BytesIO()

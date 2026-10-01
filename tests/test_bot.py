@@ -191,8 +191,9 @@ def test_sonuc_tweeti_kupon_bazinda():
     parcalar = tweets.sonuc_tweetleri(g, o)
     assert all(tweets.uzunluk(t) <= 280 for t in parcalar)
     metin = "\n".join(parcalar)
-    assert "❌ Home1 0–1 Away1" in metin and "🎫 Coupon 1: ❌ lost, €100.00 stake lost (-€100.00)" in metin
-    assert "🎫 Coupon 2: ✅ won, €100.00 → €210.00 back (+€110.00)" in metin and "💰 Bank: €10,010.00" in metin
+    assert "❌ Home1 0–1 Away1" in metin and "🎫 Coupon 1: ❌ lost, €100.00 stake lost\n" in metin
+    assert "🎫 Coupon 2: ✅ won, €100.00 stake → €210.00 return (+€110.00)" in metin
+    assert "💰 Bank: €10,000.00 − €200.00 + €210.00 = €10,010.00" in metin
     assert "📈 Record: coupons 1/2 won · picks 2–1 (67%)" in metin and "Singles" not in metin
 
 
@@ -202,7 +203,7 @@ def test_eski_kayit_tekli_ve_kombi_sonucu():
     o = kayit.ozet([g], 10000)
     assert o["kasa"] == pytest.approx(10000 + 50 + 40 + 110)
     metin = "\n".join(tweets.sonuc_tweetleri(g, o))
-    assert "🎫 Coupon: ✅ won, €100.00 → €210.00 back (+€110.00)" in metin and "Singles: 2/2 won, +€90.00" in metin
+    assert "🎫 Coupon: ✅ won, €100.00 stake → €210.00 return (+€110.00)" in metin and "Singles: 2/2 won, +€90.00" in metin
 
 
 class _Ctx:
@@ -967,8 +968,8 @@ def test_sonuc_kuponu_alintilayan_ayri_paylasim(monkeypatch):
     sonuc(AYAR, object(), x, [g], SIMDI)
     yanit, alinti, medya, metin = atilan[0]
     assert (yanit, alinti, medya) == (None, "t1", ["kart"]) and len(atilan) == 1  # tek, görselli, alıntılı paylaşım
-    assert "✅ Coupon won: €100.00 → €150.00 back (+€50.00)" in metin and metin.endswith(tweets.ANSVAR)
-    assert "💰 Bank: €10,000.00 → €10,050.00" in metin
+    assert "✅ Coupon won: €100.00 stake → €150.00 return (+€50.00)" in metin and metin.endswith(tweets.ANSVAR)
+    assert "💰 Bank: €10,000.00 − €100.00 + €150.00 = €10,050.00" in metin
     assert tweets.uzunluk(metin) <= 280 and g["sonuc_tweet_id"] == "s1"
 
 
@@ -1780,10 +1781,10 @@ def test_kasa_kurusu_kurusuna_ve_denetim():
     assert oz["onceki_kasa"] == 10046.0 and oz["kar"] == round(100.46 * 1.4 * 1.44 - 100.46, 2)
     assert round(oz["onceki_kasa"] + oz["kar"], 2) == oz["kasa"]
     metin = tweets.gorselli_sonuc_tweeti(g, oz)
-    assert "€100.46 → €202.53 back (+€102.07)" in metin
-    assert "💰 Bank: €10,046.00 → €10,148.07" in metin and tweets.uzunluk(metin) <= 280
+    assert "€100.46 stake → €202.53 return (+€102.07)" in metin
+    assert "💰 Bank: €10,046.00 − €100.46 + €202.53 = €10,148.07" in metin and tweets.uzunluk(metin) <= 280
     assert all(tweets.uzunluk(t) <= 280 for t in tweets.sonuc_tweetleri(g, oz))
-    assert gorsel.sonuc_gorseli(g, oz["kasa"], oz["kasa_degisim"], oz["onceki_kasa"])[:4] == b"\x89PNG"
+    assert gorsel.sonuc_gorseli(g, oz)[:4] == b"\x89PNG"
     assert denetci.kasa_denetimi(gunler, 10000) == []
     assert "her kuruş tutuyor" in denetci.kasa_defteri(gunler, 10000)
     # bozulan kayıtlar yakalanır: yanlış ayak sonucu, %1 olmayan stake

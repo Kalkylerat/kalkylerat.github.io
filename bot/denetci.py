@@ -298,6 +298,10 @@ def kasa_denetimi(gunler: list[dict], baslangic: float) -> list[str]:
             oz = kayit.sonuc_ozeti(gunler, g, baslangic)
             if abs(round(oz["onceki_kasa"] + oz["kar"], 2) - oz["kasa"]) > 0.005:
                 hatalar.append(f'{g["id"]}: sonuç postunda {oz["onceki_kasa"]:.2f} + {oz["kar"]:.2f} ≠ {oz["kasa"]:.2f}')
+            from .tweets import kasa_adimlari
+            once, stake, geri, sonra = kasa_adimlari(g, oz)
+            if abs(round(once - stake + geri, 2) - sonra) > 0.005:
+                hatalar.append(f'{g["id"]}: sonuç kartında {once:.2f} − {stake:.2f} + {geri:.2f} ≠ {sonra:.2f}')
         bakiye = round(bakiye + gun_kari, 2)
     if abs(bakiye - kayit.kasa(gunler, baslangic)) > 0.005:
         hatalar.append(f"Kasa: kayıtta {kayit.kasa(gunler, baslangic):.2f}, defterin toplamı {bakiye:.2f}")

@@ -547,7 +547,7 @@ def sonuc(ayar, api, x, gunler: list[dict], simdi: datetime) -> None:
                     medya = None
                     for _ in range(3):
                         try:
-                            medya = [x.medya_yukle(gorsel.sonuc_gorseli(g, ozet["kasa"], ozet["kasa_degisim"], ozet["onceki_kasa"]))]
+                            medya = [x.medya_yukle(gorsel.sonuc_gorseli(g, ozet))]
                             break
                         except Exception as e:
                             print(f"Sonuç kartı yüklenemedi: {e}")

@@ -533,7 +533,7 @@ def sonuc(ayar, api, x, gunler: list[dict], simdi: datetime) -> None:
         if g.get("tweet_id") and g["sonuc"] == "tamam" and not g.get("sonuc_tweet_id"):
             idler = g.setdefault("sonuc_tweet_idleri", [])
             try:
-                ozet = kayit.ozet(gunler, ayar.kasa_baslangic)
+                ozet = kayit.sonuc_ozeti(gunler, g, ayar.kasa_baslangic)
                 metinler = tweets.sonuc_tweetleri(g, ozet)
                 if not idler:
                     # Sonuç ayrı bir paylaşım (profilde ve akışta görünür; yanıtlar görünmez): sonuç kartı + kasa,
@@ -638,6 +638,25 @@ def kasa_duzelt(ayar, gunler: list[dict], bugun: str, simdi: datetime, x) -> int
             (g.get("onay") or {}).pop("metinler", None)  # durdurulmuş kalır; "ok" gelirse doğru rakamlarla çıkar
         duzeltilen += 1
         _ozet_yaz(f"{g['id']}: kasa " + ", ".join(f"{k['kasa']:.2f} → yatırılan {k['stake']:.2f}" for k in kayit.kuponlar(g)))
+    return duzeltilen
+
+
+def sonuc_duzelt(ayar, gunler: list[dict], bugun: str, simdi: datetime, x) -> int:
+    """Bugünün sonuç postlarından kasası yanlış gösterilenleri (aynı anda sonuçlanan sonraki kuponun kaybı
+    karışmış) siler; sonraki adımda doğru kasayla yeniden paylaşılır."""
+    duzeltilen = 0
+    for g in [g for g in gunler if g["tarih"] == bugun and g.get("sonuc_tweet_idleri")]:
+        dogru = kayit.sonuc_ozeti(gunler, g, ayar.kasa_baslangic)["kasa"]
+        if abs(dogru - kayit.ozet(gunler, ayar.kasa_baslangic)["kasa"]) < 0.5:
+            continue
+        for tid in reversed(g["sonuc_tweet_idleri"]):
+            if tid != "x-mukerrer":
+                x.sil(tid)
+        g["sonuc_tweet_idleri"], g["sonuc_tweet_id"] = [], None
+        duzeltilen += 1
+        _ozet_yaz(f"{g['id']}: sonuç postu silindi, kasa {dogru:,.2f} ile yeniden paylaşılacak.")
+    if duzeltilen:
+        sonuc(ayar, None, x, gunler, simdi)
     return duzeltilen
 
 
@@ -964,7 +983,7 @@ def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="bot")
     p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt", "sabit", "hafta", "yenile", "oran_testi",
                                           "onay_kontrol", "onay_testi", "onay_yenile", "nabiz",
-                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir", "kasa_duzelt", "direktor", "skor_duzelt"])
+                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir", "kasa_duzelt", "direktor", "skor_duzelt", "sonuc_duzelt"])
     args = p.parse_args(argv)
     ayar = config.yukle()
     from dataclasses import replace as _degistir
@@ -1044,6 +1063,8 @@ def main(argv=None) -> int:
                 direktor.haftalik(ayar, gunler, tweetler, onay.GitHub(), yerel, yaz=_ozet_yaz)
             except Exception as e:
                 _hata("X Direktörü haftalık inceleme", e)
+        if args.komut == "sonuc_duzelt":
+            sonuc_duzelt(ayar, gunler, bugun, simdi, _x_client())
         if args.komut == "skor_duzelt":
             skor_duzelt(gunler, bugun, simdi, _x_client())
         if args.komut == "kasa_duzelt":

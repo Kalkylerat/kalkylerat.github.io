@@ -1696,3 +1696,16 @@ def test_takim_ve_mac_etiketleri_gercek_kodlarla():
     b = AYAR.oran_bahiscileri + [AYAR.keskin_bahisci]
     assert direktor.kurala_uygun("Big one ⚽ #NationsLeague #DENPOR", "maclar", b, {"#NationsLeague", "#DENPOR"})
     assert not direktor.kurala_uygun("Big one #GRENED", "maclar", b, {"#NationsLeague", "#DENPOR"})  # şablonda yok
+
+
+def test_ayni_anda_sonuclanan_kuponlarda_her_post_kendi_kasasini_gosterir():
+    def kayit_(i, yayin, stake, durum):
+        g = _gun("2026-10-01", [_secim(i, 1.5, 0.7, durum=durum)], kuponlar=[[0]])
+        g.update(id=f"2026-10-01-{i}", yayin=yayin, sonuc="tamam")
+        g["kuponlar"][0]["stake"] = stake
+        return g
+    a = kayit_(1, "2026-10-01T12:00:00+00:00", 100.0, "kaybetti")
+    b = kayit_(2, "2026-10-01T15:00:00+00:00", 99.0, "kaybetti")
+    gunler = [b, a]
+    assert kayit.sonuc_ozeti(gunler, a, 10000)["kasa"] == pytest.approx(9900)  # b'nin kaybı a'nın postuna karışmaz
+    assert kayit.sonuc_ozeti(gunler, b, 10000)["kasa"] == pytest.approx(9801)

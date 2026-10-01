@@ -101,6 +101,17 @@ def kasa(gunler: list[dict], baslangic: float) -> float:
     return baslangic + sum(gun_kar(g) for g in gunler if g.get("tweet_id"))
 
 
+def _sira(g: dict) -> tuple:
+    return (g["tarih"], g.get("yayin") or g.get("olusturma") or "", g["id"])
+
+
+def sonuc_ozeti(gunler: list[dict], gun: dict, baslangic: float) -> dict:
+    """Bir kuponun sonuç postundaki kasa: paylaşım sırasında ondan önceki sonuçlanmış kuponlar + kendisi.
+    Aynı anda sonuçlanan sonraki kuponun kaybı bu posta yansımaz (her post kendi kuponunu anlatır)."""
+    sira = _sira(gun)
+    return ozet([g for g in gunler if g is gun or (g.get("sonuc") == "tamam" and _sira(g) <= sira)], baslangic)
+
+
 def acik_stake(gunler: list[dict]) -> float:
     """Paylaşılmış ya da onay bekleyen, henüz sonuçlanmamış kuponlara ayrılan para (kasadan çıkmış sayılır)."""
     return sum(k["stake"] for g in gunler

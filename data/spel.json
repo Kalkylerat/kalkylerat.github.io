@@ -265,5 +265,89 @@
     "para": "€",
     "yuzde": 1.0,
     "pas_nedeni": "Kriterleri geçen yüksek ihtimalli oyun yok."
+  },
+  {
+    "id": "2026-10-01",
+    "tarih": "2026-10-01",
+    "olusturma": "2026-10-01T10:55:35+00:00",
+    "baslik": "Nations League: Norway to win in Wales",
+    "secimler": [
+      {
+        "fixture_id": 25095777564017,
+        "lig": "UEFA Nations League",
+        "ev": "Wales",
+        "dep": "Norway",
+        "baslama": "2026-10-01T18:45:00+00:00",
+        "saat": "20:45 CEST",
+        "olasi_skor": "0-2",
+        "pazar": "MS2",
+        "tur": "guvenli",
+        "etiket": "Norway to win",
+        "kisa": "Norway to win",
+        "oran": 1.46,
+        "stake": 0,
+        "kupon_no": 0,
+        "bolag": "best of 4",
+        "oranlar": {
+          "William Hill": 1.4,
+          "NordicBet": 1.46,
+          "Betsson": 1.46,
+          "888Sport": 1.44
+        },
+        "adil_olasilik": 0.661,
+        "adil_kaynak": "Pinnacle",
+        "model_olasilik": 0.665,
+        "deger": -0.034,
+        "beklenen_gol": [
+          1.0,
+          2.3
+        ],
+        "yorum": "Norway project about 2.3 goals to Wales' 1.0, even away from home. We make it roughly a 2 in 3 chance they win, with 0-2 the likeliest score.",
+        "durum": "bekliyor",
+        "skor": null,
+        "odds_id": "16d310e835713f3457023deb98fb9f74",
+        "odds_spor": "soccer_uefa_nations_league"
+      }
+    ],
+    "sonuc": null,
+    "tweet_id": null,
+    "para": "€",
+    "yuzde": 1.0,
+    "kuponlar": [
+      {
+        "ayaklar": [
+          0
+        ],
+        "stake": 101.75,
+        "durum": null
+      }
+    ],
+    "yanit_onerileri": [
+      {
+        "mac": "Wales v Norway",
+        "metin": "Wales vs Norway looks tilted to the visitors. The numbers have Norway at about 2.3 expected goals against roughly 1.0 for Wales. We make an away win about a 66% chance.",
+        "arama": "https://x.com/search?q=Wales%20Norway&f=live"
+      },
+      {
+        "mac": "Wales v Norway",
+        "metin": "Interesting one tonight. Most likely single score for Wales v Norway is 0-2, and the expected goals gap (2.3 vs 1.0) is big for an away side. Wales will need to defend very well.",
+        "arama": "https://x.com/search?q=Wales%20Norway&f=live"
+      },
+      {
+        "mac": "Wales v Norway",
+        "metin": "Wales at home still come out as clear underdogs here. Norway are expected to score more than twice as many goals, and we put their win chance at roughly 2 in 3.",
+        "arama": "https://x.com/search?q=Wales%20Norway&f=live"
+      }
+    ],
+    "onay": {
+      "durum": "bekliyor",
+      "son": "2026-10-01T12:25:35+00:00",
+      "surum": 1,
+      "metinler": [
+        "TODAY'S COUPON | 1 Oct\n\nAgree with the picks? Tell us why (or why not) 👇\n\nWhy these picks: in the thread 🧵\n18+ | Play responsibly",
+        "1) Wales v Norway · 20:45 CEST\nPick: Norway to win\nOdds 1.46 · chance 66% · high-chance pick\nMost likely score: 0–2\n\nNorway project about 2.3 goals to Wales' 1.0, even away from home. We make it roughly a 2 in 3 chance they win, with 0-2 the likeliest score."
+      ],
+      "kasa": 10174.9
+    }
   }
 ]

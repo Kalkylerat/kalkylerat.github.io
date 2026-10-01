@@ -1,0 +1,25 @@
+{
+  "hafta": "2026-W40",
+  "guncelleme": "2026-10-01T17:43:45+02:00",
+  "strateji": {
+    "ton": "Calm, friendly, numbers-first. We are 4 days old and 5/5 at average odds 1.28, so stay humble: a win at 1.28 is the expected outcome, not a triumph. Talk in chances (%), never certainties. Short lines, one idea per line, plain English a casual fan gets in 3 seconds.",
+    "soru_ornekleri": [
+      "Our numbers give Germany 80% tonight. Too high, too low, or about right?",
+      "Which leg would you have left out of today's coupon?",
+      "Spain 2–0 is our most likely score. What's yours?",
+      "Their last two meetings finished 1-1 and 1-0. Does the low-scoring run end tonight?",
+      "If you could only keep one pick from today, which one and why?"
+    ],
+    "kacinilacaklar": [
+      "More than 2 coupons on one day (1 Oct had 3: the bonus posts got 0–1 impressions and the bank risked 3% instead of 1%).",
+      "A most-likely score that contradicts the pick (1 Oct: Over 1.5 goals with most likely score 0–1). Check every leg before it goes out.",
+      "Headers that say nothing about the games ('Why these picks 👇'). The header must carry the best match, pick, our % and the question, because it gets 3–10x the views of the legs.",
+      "Results posted the next morning (28 Sep results went out at 06:41). Post within an hour of the last final whistle.",
+      "Burying the famous match at leg 3. Lead with the game most people know.",
+      "Selling the streak ('5 in a row', 100%). At these odds it is normal; say so if mentioned at all.",
+      "Anything that could read as a link in the text; only the image. No bookmaker names, no @, max one hashtag for a big competition."
+    ],
+    "odak": "Headers and the Day 1 post earned 65–87 impressions; thread legs 6–11; everything else under 10 and zero likes/bookmarks. So: 1) make the header a standalone post (match + pick + our % + one real question), 2) lead with the biggest game, 3) same-night results with the bank line, 4) make sure the poll, score prediction and stat of the day actually go out every day – none appeared this week. Target for next week: first likes/bookmarks and first replies from strangers, not raw impressions."
+  },
+  "rapor_issue": 7
+}

@@ -905,8 +905,19 @@ def test_sonuc_sorusu_kazanca_ve_kayba_gore():
     kayit.sonuclandir([kaybeden], {1: {"durum": "bitti", "skor": (0, 1)}}, SIMDI)
     k = "\n".join(tweets.sonuc_tweetleri(kazanan, kayit.ozet([kazanan], 10000)))
     y = "\n".join(tweets.sonuc_tweetleri(kaybeden, kayit.ozet([kaybeden], 10000)))
-    assert any(s in k for s in tweets.SONUC_SORULARI["tuttu"])
-    assert any(s in y for s in tweets.SONUC_SORULARI["yatti"])
+    assert any(s in k for s in tweets.SONUC_SORULARI_TEK["tuttu"])  # tek maç: tekil dil
+    assert any(s in y for s in tweets.SONUC_SORULARI_TEK["yatti"])
+    iki = _gun("2026-10-03", [_secim(1, 1.5, 0.8), _secim(2, 1.5, 0.8)], kuponlar=[[0, 1]])
+    kayit.sonuclandir([iki], {1: {"durum": "bitti", "skor": (0, 1)}, 2: {"durum": "bitti", "skor": (1, 0)}}, SIMDI)
+    assert any(s in tweets.gorselli_sonuc_tweeti(iki, kayit.ozet([iki], 10000)) for s in tweets.SONUC_SORULARI["yatti"])
+
+
+def test_tek_macli_kuponda_tekil_dil():
+    tek = _gun("2026-10-03", [_secim(1, 1.46, 0.66)], kuponlar=[[0]])
+    metin = tweets.gorselli_gun_tweeti(tek)
+    assert "Why this pick" in metin and "picks" not in metin and "leg" not in metin
+    cift = _gun("2026-10-03", [_secim(1, 1.5, 0.7), _secim(2, 1.4, 0.7)], kuponlar=[[0, 1]])
+    assert "Why these picks" in tweets.gorselli_gun_tweeti(cift)
 
 
 def test_takilan_mac_saatte_bir_sorulur():

@@ -182,6 +182,20 @@ KUPON_SORULARI = [
     "Which match are you watching today? 👇",
     "Would you play this one? Let us know below 👇",
 ]
+# Tek maçlık kuponda tekil dil ("the picks" değil "the pick").
+KUPON_SORULARI_TEK = [
+    "Do you trust this pick? Tell us below 👇",
+    "Would you back this one? Reply with your take 👇",
+    "Agree with the pick? Tell us why (or why not) 👇",
+    "Which way do you see this match going? 👇",
+    "Would you play it? Let us know below 👇",
+]
+SONUC_SORULARI_TEK = {
+    "tuttu": ["Did you follow it? 👇", "Who else had this one? 👇", "Did you see it coming? 👇"],
+    "yatti": ["Tough one. Did this result surprise you? 👇", "Not our day. How did you call this match? 👇",
+              "What did we miss here? Tell us below 👇"],
+    None: ["How did your pick do? 👇"],
+}
 SONUC_SORULARI = {  # kazanan ve kaybeden kuponda farklı: ikisinde de yoruma davet
     "tuttu": ["Did you follow it? 👇", "Who else had this one? 👇", "Which leg did you trust most? 👇"],
     "yatti": ["Tough one. Which result surprised you most? 👇", "Not our day. How did your picks go? 👇",
@@ -194,13 +208,26 @@ def _gunun(sorular: list[str], gun: dict) -> str:
     return sorular[datetime.fromisoformat(gun["tarih"]).toordinal() % len(sorular)]
 
 
+def _tek_mac(gun: dict) -> bool:
+    return len(gun.get("secimler") or []) == 1
+
+
+def _kupon_sorusu(gun: dict) -> str:
+    return _gunun(KUPON_SORULARI_TEK if _tek_mac(gun) else KUPON_SORULARI, gun)
+
+
+def _sonuc_sorusu(gun: dict, genel) -> str:
+    return _gunun((SONUC_SORULARI_TEK if _tek_mac(gun) else SONUC_SORULARI)[genel], gun)
+
+
 def gorselli_gun_tweeti(gun: dict) -> str:
     """Kupon görselleriyle giden ana tweet. Tek başına anlaşılır olsun (X Direktörü): öndeki maç, seçim ve
     ihtimal başlıkta; bir soru yorumlara davet eder, gerekçeler yanıtlarda."""
-    bas, soru = f"{_baslik(gun)} | {_tarih(gun)}", _gunun(KUPON_SORULARI, gun)
+    bas, soru = f"{_baslik(gun)} | {_tarih(gun)}", _kupon_sorusu(gun)
     etiket = etiket_satiri([(s.get("lig"), s.get("ulke")) for s in gun.get("secimler") or []],
                            [(s["ev"], s["dep"]) for s in gun.get("secimler") or []])
-    kuyruk = f"Why these picks: in the thread 🧵{' ' + etiket if etiket else ''}\n{ANSVAR}"
+    neden = "Why this pick" if _tek_mac(gun) else "Why these picks"
+    kuyruk = f"{neden}: in the thread 🧵{' ' + etiket if etiket else ''}\n{ANSVAR}"
     sade = f"{bas}\n\n{soru}\n\n{kuyruk}"
     if not gun.get("secimler"):
         return sade
@@ -310,7 +337,7 @@ def sonuc_tweetleri(gun: dict, ozet: dict) -> list[str]:
 
     durumlar = [kupon_durumu(gun, k) for k in liste]
     genel = "tuttu" if "tuttu" in durumlar else ("yatti" if "yatti" in durumlar else None)
-    soru = _gunun(SONUC_SORULARI[genel], gun)
+    soru = _sonuc_sorusu(gun, genel)
     para_satirlari.append(ANSVAR)
     for tek in ("\n".join(satirlar + [""] + para_satirlari[:-1] + ["", soru, ANSVAR]),
                 "\n".join(satirlar + [""] + para_satirlari)):
@@ -332,7 +359,7 @@ def gorselli_sonuc_tweeti(gun: dict, ozet: dict) -> str:
     genel = "tuttu" if "tuttu" in durumlar else ("yatti" if "yatti" in durumlar else None)
     return (f"📊 RESULTS | {_tarih(gun)}\n\n{ust}: {isaretli_para(kar_, birim)}\n"
             f'💰 Bank: {para(ozet["kasa"], birim)} ({ozet["kasa_degisim"]:+.1f}% since start)\n\n'
-            f"{_gunun(SONUC_SORULARI[genel], gun)}\n{ANSVAR}")
+            f"{_sonuc_sorusu(gun, genel)}\n{ANSVAR}")
 
 
 def hafta_tweeti(h: dict, ozet: dict, birim: str) -> str:

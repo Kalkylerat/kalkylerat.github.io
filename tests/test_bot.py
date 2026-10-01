@@ -1418,7 +1418,8 @@ def test_denetim_dogrulayici_bahis_dili_link_ve_siteleri_yakalar():
                  "kalkylerat.se for more", "t.co/abc", "DM us", "Join our Telegram for VIP tips"):
         assert not direktor.kurala_uygun(kotu, "maclar", b), kotu
     for iyi in ("Denmark v Portugal tonight. Who are you backing? 👇", "Our model: 2.9 goals. Goals or a tight one?",
-                "Germany 80% · draw 14% · Serbia 6%. Agree?"):
+                "Germany 80% · draw 14% · Serbia 6%. Agree?", "Far from certain in Cardiff tonight.",
+                "A smash-and-grab win for Spurs.Me? 👇", "St. Pauli v 1. FC Köln, 2.1 goals expected"):
         assert direktor.kurala_uygun(iyi, "maclar", b), iyi
 
 
@@ -1466,3 +1467,15 @@ def test_denetim_istatistik_gec_olsa_da_anket_kacmaz():
     gun["etkilesim"] = {"maclar": {"durum": "paylasildi", "zaman": "2026-10-01T13:50:00+00:00"}}
     x = tweets.KonsolClient()
     assert etkilesim.paylas(gun, AYAR, x, datetime(2026, 10, 1, 15, 50, tzinfo=timezone.utc)) == "anket"
+
+
+def test_denetim_kasa_duzelt_durdurulan_kuponu_canlandirmaz(monkeypatch):
+    from bot import __main__ as m
+    simdi = datetime(2026, 10, 3, 8, tzinfo=timezone.utc)
+    durdu = {**_gun("2026-10-03", [_secim(2, 1.5, 0.7)], tweet_id=None, kuponlar=[[0]]),
+             "onay": {"durum": "durduruldu", "metinler": ["eski"]}}
+    durdu["kuponlar"][0]["stake"] = 50.0
+    monkeypatch.setattr(m.onay, "onay_iste", lambda *a, **k: pytest.fail("durdurulan kupon yeniden onaya girmemeli"))
+    m.kasa_duzelt(AYAR, [durdu], "2026-10-03", simdi, None)
+    assert durdu["onay"]["durum"] == "durduruldu" and "metinler" not in durdu["onay"]
+    assert durdu["kuponlar"][0]["stake"] == 100.0

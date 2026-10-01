@@ -75,16 +75,20 @@ HAFTALIK_SEMA = {
 
 # Kupon dışı paylaşımlar bahis tavsiyesi, kesinlik dili, link, yönlendirme ve bahis sitesi adı içeremez.
 _YASAK = re.compile(
-    r"\block(ed|s)?\b|guarantee|sure (thing|win|bet)|dead cert|\bcert(ain)?\b|can'?t (lose|miss)|100\s*%|"
-    r"\bbanker\b|free money|\bsmash\b|\bstake\b|\bbets?\b|\bbetting\b|\btips?\b|\btipster\b|\bwager|"
-    r"\bRT\b|retweet|like if|follow (us|for)|\bDM\b|telegram|whatsapp|discord|\bvip\b|"
-    r"https?://|www\.|\b[\w-]+\.(com|net|org|io|co|se|uk|tr|bet|app|gg|ly|me|tv)\b|@|"
+    r"\block(ed|s)?\b|guarantee|sure (thing|win|bet)|dead cert|\bcert\b|certain (win|winner|to win)|"
+    r"can'?t (lose|miss)|100\s*%|\bbanker\b|free money|smash (it|the)|\bstake\b|\bbets?\b|\bbetting\b|"
+    r"\btips?\b|\btipster\b|\bwager|\bRT\b|retweet|like if|follow (us|for)|\bDM\b|telegram|whatsapp|discord|\bvip\b|"
+    r"https?://|www\.|@|"
     r"bet\s*365|betfair|unibet|betway|bwin|1xbet|pinnacle|betsson|nordicbet|william\s*hill|\b888|betano|"
     r"betvictor|comeon|marathonbet|coolbet|paddy\s*power|sky\s*bet|stake\.com", re.IGNORECASE)
 
 
+# Alan adı (küçük harfle yazılır; "Spurs.Me" gibi büyük harfli kısaltmalar yakalanmaz).
+_ALAN_ADI = re.compile(r"\b[a-z0-9-]+\.(com|net|org|io|co|se|uk|tr|bet|app|gg|ly|me|tv)\b")
+
+
 def kurala_uygun(metin: str, tur: str, bahisciler: list[str]) -> bool:
-    if not metin or uzunluk(metin) > LIMIT or _YASAK.search(metin):
+    if not metin or uzunluk(metin) > LIMIT or _YASAK.search(metin) or _ALAN_ADI.search(metin):
         return False
     if metin.count("#") > 1 or any(b.lower() in metin.lower() for b in bahisciler):
         return False

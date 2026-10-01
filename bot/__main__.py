@@ -599,7 +599,7 @@ def kasa_duzelt(ayar, gunler: list[dict], bugun: str, simdi: datetime, x) -> int
                         key=lambda g: (0 if g.get("yayin") else 1, g.get("yayin") or "", g["id"]))
     digerleri = [g for g in gunler if g not in bugunkuler]
     kalan = kayit.kasa(gunler, ayar.kasa_baslangic) - kayit.acik_stake(digerleri)
-    duzeltilen = 0
+    duzeltilen, yeniden_onay = 0, 0
     for g in bugunkuler:
         degisti = False
         for k in kayit.kuponlar(g):
@@ -614,9 +614,13 @@ def kasa_duzelt(ayar, gunler: list[dict], bugun: str, simdi: datetime, x) -> int
         if g.get("tweet_id"):
             (g.get("onay") or {}).pop("metinler", None)
             duzelt(ayar, g, x, gunler, simdi)
-        elif (g.get("onay") or {}).get("durum") in ("bekliyor", "durduruldu"):
+        elif (g.get("onay") or {}).get("durum") == "bekliyor":
             onay.onizlemeleri_sil(g["id"])
-            onay.onay_iste(g, gunler, ayar, simdi)  # sahibi yeni rakamları görsün: paylaşılan = önizlenen
+            # sahibi yeni rakamları görsün (paylaşılan = önizlenen); cevapsızlar yine 30 dk arayla çıkar
+            onay.onay_iste(g, gunler, ayar, simdi, gecikme_dk=30 * yeniden_onay)
+            yeniden_onay += 1
+        elif (g.get("onay") or {}).get("durum") == "durduruldu":
+            (g.get("onay") or {}).pop("metinler", None)  # durdurulmuş kalır; "ok" gelirse doğru rakamlarla çıkar
         duzeltilen += 1
         _ozet_yaz(f"{g['id']}: kasa " + ", ".join(f"{k['kasa']:.2f} → yatırılan {k['stake']:.2f}" for k in kayit.kuponlar(g)))
     return duzeltilen

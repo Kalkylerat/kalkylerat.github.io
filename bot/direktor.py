@@ -54,7 +54,9 @@ Follow this week's strategy notes when they are given. Return the post text in "
 information for the reader, never a recommendation; keep the "not in our coupon" framing and the 18+ line.
 "deger" posts ("good call, poor price") show games we expect to go our way but skipped because the odds are below our
 fair price: explain that a likely outcome at a too-short price is not worth it for the bank, give our chance, the odds and
-the fair odds from the facts, ask whether skipping was right, keep the 18+ line. Never tell people to play them.""" + _rehber()
+the fair odds from the facts, ask whether skipping was right, keep the 18+ line. Never tell people to play them.
+"deger_sonuc" quotes that post after the games: give each score and whether our call came in, be honest (right or
+wrong), say in one short line why the price still mattered, keep the 18+ line.""" + _rehber()
 
 HAFTALIK_SISTEM = f"""You are the X (Twitter) growth director of @kalkylerat, a football stats account with a transparent virtual
 EUR 10,000 bankroll (1% of the bank per coupon, wins and losses shown alike). Each week you review how the account's posts
@@ -118,7 +120,7 @@ def kurala_uygun(metin: str, tur: str, bahisciler: list[str], izinli: set[str] |
         return False  # yalnızca gerçek turnuva etiketleri, en fazla iki
     if any(b.lower() in metin.lower() for b in bahisciler):
         return False
-    return tur not in ("pas", "radar", "deger") or metin.rstrip().endswith(ANSVAR)
+    return tur not in ("pas", "radar", "deger", "deger_sonuc") or metin.rstrip().endswith(ANSVAR)
 
 
 def yukle() -> dict:
@@ -157,7 +159,7 @@ def yazar(ayar, client=None, yaz=print):
         etiketler = sorted(set(re.findall(r"#\w+", sablon)))  # yalnızca şablonun (kodun doğruladığı) etiketleri
         icerik = json.dumps({"post_type": tur, "facts": olgular, "template_for_reference": sablon,
                              "allowed_hashtags": etiketler, "this_week_strategy": strateji}, ensure_ascii=False, indent=1)
-        if tur in ("pas", "radar", "deger"):
+        if tur in ("pas", "radar", "deger", "deger_sonuc"):
             icerik += f'\nThe post must end with the line "{ANSVAR}".'
         try:
             cevap = _cagir(client or anthropic.Anthropic(), [(ayar.direktor_model, ayar.direktor_effort),

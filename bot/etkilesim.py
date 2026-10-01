@@ -36,6 +36,7 @@ def vitrin(maclar: list[dict], oranlar: dict, ayar, simdi: datetime) -> list[dic
             "baslama": m["baslama"], "p": {k: round(adil[k], 3) for k in ("MS1", "MSX", "MS2")},
             "beklenen_gol": [round(g, 2) for g in goller], "olasi_skor": skor,
             "kisa": kisa_fiyat(m["ev"], m["dep"], adil, fiyat),
+            **{k: m[k] for k in ("odds_id", "odds_spor") if k in m},  # sonuç bu kaynaktan sorulur
         }))
     liste.sort(key=lambda x: x[0], reverse=True)
     return [v for _, v in liste[:VITRIN_MAX]]
@@ -322,6 +323,96 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_pay
             yaz(f"⚠️ Etkileşim paylaşımı ({tur}) başarısız: {e}")
             return None
         durum[tur] = {"durum": "paylasildi", "tweet_id": tid, "zaman": zaman}
+        if tur == "deger":  # maçlar bitince bu post alıntılanıp nasıl bittikleri yazılır
+            durum[tur]["maclar"] = [{k: v[k] for k in ("fixture_id", "odds_id", "odds_spor", "ev", "dep", "lig", "ulke",
+                                                       "baslama", "kisa") if k in v}
+                                    for v in deger_maclari(gun.get("vitrin") or [], haric_takimlar)]
         yaz(f"Etkileşim paylaşımı ({tur}):\n```\n{metin}\n```")
         return tur
     return None
+
+
+TAKIP_GECIKME = timedelta(hours=2, minutes=15)  # son maçın başlamasından sonra (bitmiş ve sonuç girilmiş olur)
+ORNEK_TUTAR = 100
+
+
+def deger_takip_tweeti(gun: dict, maclar: list[dict], birim: str) -> str | None:
+    """"Good call, poor price" postunun alıntısı: maçlar nasıl bitti ve kısa oranın neden değmediği.
+    Yalnızca sonuçlanan maçlar (skor ve kazandı/kaybetti) yazılır."""
+    biten = [m for m in maclar if m.get("sonuc") in ("kazandi", "kaybetti")]
+    if not biten:
+        return None
+    tutan = [m for m in biten if m["sonuc"] == "kazandi"]
+    net = sum(ORNEK_TUTAR * (m["kisa"]["oran"] - 1) for m in tutan) - ORNEK_TUTAR * (len(biten) - len(tutan))
+    if len(tutan) == len(biten):
+        yorum = (("Our read was right" if len(biten) == 1 else "Our reads were right")
+                 + f", but €{ORNEK_TUTAR} on {'it' if len(biten) == 1 else 'each'} made just {'+' if net >= 0 else '-'}€{abs(net):.0f}."
+                 + " Likely isn't the same as good value.")
+    elif not tutan:
+        yorum = (f"{'It' if len(biten) == 1 else 'None of them'} came in. "
+                 "Even big favourites lose; at short odds there's no cushion for that.")
+    else:
+        yorum = (f"{len(tutan)} of {len(biten)} came in, and €{ORNEK_TUTAR} on each ends at "
+                 f"{'+' if net >= 0 else '-'}€{abs(net):.0f}. One miss wipes out the short-odds wins.")
+    yorum = yorum.replace("€", birim)
+    tarih = datetime.fromisoformat(gun["tarih"]).strftime("%-d %b")
+
+    def satir(m):
+        isaret = "✅" if m["sonuc"] == "kazandi" else "❌"
+        return f'{isaret} {m["ev"]} {m["skor"].replace("-", "–")} {m["dep"]} · {m["kisa"]["ad"]}'
+    tek = len(biten) == 1
+    bas = f"🔁 HOW {'IT' if tek else 'THEY'} ENDED | {tarih}\n\n"
+    soru = f"\n\nRight call to skip {'it' if tek else 'them'}? 👇\n{ANSVAR}"
+    for n in range(len(biten), 0, -1):  # sığmazsa son maç satırı düşer (yorum tüm maçlara göre kalır)
+        metin = bas + "\n".join(satir(m) for m in biten[:n]) + f"\n\n{yorum}" + soru
+        if uzunluk(metin) <= LIMIT:
+            return metin
+    return None
+
+
+def deger_takibi(gun: dict, ayar, x, simdi: datetime, sonuc_getir, yaz=print, yazar=None) -> bool:
+    """Maçlar bitince "Good call, poor price" postunu alıntılayıp nasıl bittiklerini paylaşır (bir kez).
+    sonuc_getir(maclar) -> {fixture_id: {"durum", "skor"}}."""
+    e = (gun.get("etkilesim") or {}).get("deger") or {}
+    if e.get("durum") != "paylasildi" or not e.get("maclar") or e.get("takip"):
+        return False
+    son = max(datetime.fromisoformat(m["baslama"]) for m in e["maclar"])
+    if simdi < son + TAKIP_GECIKME:
+        return False
+    if simdi > son + timedelta(days=2):
+        e["takip"] = {"durum": "atlandi", "neden": "sonuç gelmedi"}
+        return False
+    sonuclar = sonuc_getir(e["maclar"])
+    if any((sonuclar.get(m["fixture_id"]) or {}).get("durum") not in ("bitti", "iptal") for m in e["maclar"]):
+        return False  # henüz hepsi bitmedi: sonraki nabız
+    for m in e["maclar"]:
+        r = sonuclar[m["fixture_id"]]
+        if r["durum"] == "bitti":
+            ev, dep = r["skor"]
+            m["skor"] = f"{ev}-{dep}"
+            sonuc = model.kazandi_mi(m["kisa"]["pazar"], ev, dep)
+            m["sonuc"] = None if sonuc is None else ("kazandi" if sonuc else "kaybetti")
+        else:
+            m["sonuc"] = "iptal"
+    metin = deger_takip_tweeti(gun, e["maclar"], ayar.para_birimi)
+    if not metin:
+        e["takip"] = {"durum": "atlandi", "neden": "sonuçlanan maç yok"}
+        return False
+    biten = [m for m in e["maclar"] if m.get("sonuc") in ("kazandi", "kaybetti")]
+    olgular = {"date": gun["tarih"], "our_earlier_post": "games we expected but skipped because the odds were too short",
+               "results": [{"home": m["ev"], "away": m["dep"], "score": m["skor"], "our_call": m["kisa"]["ad"],
+                            "came_in": m["sonuc"] == "kazandi", "odds": m["kisa"]["oran"],
+                            "our_chance": m["kisa"]["p"]} for m in biten],
+               "note": "this post quotes our earlier post; be honest whether we were right, and why the price still "
+                       "mattered; no advice to play"}
+    if yazar:
+        metin = yazar("deger_sonuc", olgular, metin) or metin  # takip her zaman gider (şeffaflık)
+    try:
+        tid = x.gonder(metin, alinti=e["tweet_id"])
+    except Exception as hata:
+        e["takip"] = {"durum": "hata", "hata": str(hata)[:300]}
+        yaz(f"⚠️ Değer takibi paylaşılamadı: {hata}")
+        return False
+    e["takip"] = {"durum": "paylasildi", "tweet_id": tid, "zaman": simdi.isoformat(timespec="seconds")}
+    yaz(f"Değer takibi (alıntı):\n```\n{metin}\n```")
+    return True

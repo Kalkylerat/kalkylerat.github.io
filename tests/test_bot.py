@@ -1793,3 +1793,36 @@ def test_kasa_kurusu_kurusuna_ve_denetim():
     g["secimler"][0]["durum"] = "kazandi"
     g["kuponlar"][0]["stake"] = 150.0
     assert any("%1" in h for h in denetci.kasa_denetimi(gunler, 10000))
+
+
+def test_deger_postu_maclar_bitince_alintilanir():
+    from bot import direktor, etkilesim
+    vit = [{"fixture_id": 2, "ev": "Germany", "dep": "Serbia", "lig": "UEFA Nations League", "ulke": "World",
+            "baslama": "2026-10-01T18:45:00+00:00", "kisa": {"pazar": "MS1", "ad": "Germany to win", "p": 0.8, "oran": 1.2},
+            "p": {"MS1": 0.8, "MSX": 0.13, "MS2": 0.07}, "beklenen_gol": [2.9, 0.8], "olasi_skor": "2-0"},
+           {"fixture_id": 3, "odds_id": "abc", "odds_spor": "soccer_x", "ev": "Greece", "dep": "Netherlands",
+            "lig": "UEFA Nations League", "ulke": "World", "baslama": "2026-10-01T18:45:00+00:00",
+            "kisa": {"pazar": "UST15", "ad": "Over 1.5 goals", "p": 0.74, "oran": 1.3},
+            "p": {"MS1": 0.28, "MSX": 0.27, "MS2": 0.45}, "beklenen_gol": [1.3, 1.7], "olasi_skor": "1-1"}]
+    gun = {"tarih": "2026-10-01", "vitrin": vit, "secimler": [], "sonuc": None}
+    x = tweets.KonsolClient()
+    t = lambda s, d: datetime(2026, 10, 1, s, d, tzinfo=timezone.utc)
+    gun["etkilesim"] = {k: {"durum": "atlandi"} for k in ("maclar", "istatistik")}
+    assert etkilesim.paylas(gun, AYAR, x, t(15, 30), yaz=lambda m: None) == "deger"
+    e = gun["etkilesim"]["deger"]
+    assert [m["ev"] for m in e["maclar"]] == ["Germany", "Greece"] and e["maclar"][1]["odds_id"] == "abc"
+    istenen = []
+    def getir(maclar):
+        istenen.append(len(maclar))
+        return {2: {"durum": "bitti", "skor": (3, 0)}, 3: {"durum": "bitti", "skor": (1, 0)}}
+    assert not etkilesim.deger_takibi(gun, AYAR, x, t(20, 30), getir, yaz=lambda m: None) and not istenen  # erken
+    once = x.sayac
+    assert etkilesim.deger_takibi(gun, AYAR, x, t(21, 15), getir, yaz=lambda m: None)
+    assert x.sayac == once + 1 and e["takip"]["durum"] == "paylasildi"
+    metin = etkilesim.deger_takip_tweeti(gun, e["maclar"], "€")
+    assert "✅ Germany 3–0 Serbia · Germany to win" in metin and "❌ Greece 1–0 Netherlands · Over 1.5 goals" in metin
+    assert "1 of 2 came in" in metin and "-€80" in metin and metin.endswith(tweets.ANSVAR)
+    assert tweets.uzunluk(metin) <= 280 and direktor.kurala_uygun(metin, "deger_sonuc", AYAR.oran_bahiscileri)
+    assert not etkilesim.deger_takibi(gun, AYAR, x, t(22, 0), getir, yaz=lambda m: None)  # bir kez
+    tek = etkilesim.deger_takip_tweeti(gun, e["maclar"][:1], "€")
+    assert "HOW IT ENDED" in tek and "Our read was right, but €100 on it made just +€20." in tek and "skip it?" in tek

@@ -36,6 +36,9 @@ zamanlama `.github/workflows/kalkylerat.yml`.
    oranı adil oranımızın altında olduğu için kupona koymadığımız maçlar (ör. Almanya %80, oran 1.20, adil 1.25).
    Disiplini gösterir ("olası sonuç ≠ değerli bahis"), maç bitince "haklı mıydık" konuşması doğurur. Tavsiye değildir:
    "kuponda değil" çerçevesi, ihtimal + oran + adil oran ve 18+ satırı hep durur; "oynayın" denmez.
+   Maçlar bitince bu post **alıntılanır** ("HOW THEY ENDED", `etkilesim.deger_takibi`): skorlar, tahminin tutup
+   tutmadığı ve fiyatın neden yine de önemli olduğu tek satırda (ör. "€100 on each made just +€50"). Haklı da çıksak
+   yanılsak da paylaşılır: şeffaflık hesabın kozu.
 8. **Soru kuponla tutarlı olmalı**: tek maçlık kuponda çoğul ya da karşılaştırma sorusu sorulmaz ("hangi sonuç
    şaşırttı?" — başka maç yok). Tek maçta soru o maçın adıyla sorulur ("How did you read Wales v Norway?").
 9. Hashtag en fazla 1–2 ve yalnızca büyük turnuva/lig için (#UCL, #PremierLeague); her tweette değil.

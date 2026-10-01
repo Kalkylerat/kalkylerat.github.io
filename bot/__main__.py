@@ -748,6 +748,19 @@ def _sabah_penceresi(simdi: datetime, ayar) -> bool:
     return bas + 20 <= dk <= bas + 150
 
 
+def _mac_sonuclari(ayar, maclar: list[dict]) -> dict:
+    """Kupon dışı maçların sonucu, maçın geldiği kaynaktan (The Odds API ya da API-Football)."""
+    istekler: dict[str, list[str]] = {}
+    for m in maclar:
+        if m.get("odds_id"):
+            istekler.setdefault(m["odds_spor"], []).append(m["odds_id"])
+    sonuc = oddsapi.sonuclari_al(oddsapi.OddsApi(config.env("ODDS_API_KEY")), istekler) if istekler else {}
+    af = [m["fixture_id"] for m in maclar if not m.get("odds_id")]
+    if af:
+        sonuc.update(football.sonuclari_al(_api(ayar), af))
+    return sonuc
+
+
 def _api(ayar):
     return football.ApiFootball(config.env("API_FOOTBALL_KEY"), aralik=ayar.istek_araligi_sn)
 
@@ -1055,6 +1068,13 @@ def main(argv=None) -> int:
                                  yazar=_direktor_yazar(ayar), diger_paylasimlar=diger, haric_takimlar=kupondakiler)
             except Exception as e:
                 _hata("Etkileşim paylaşımı", e)
+        if args.komut == "nabiz":
+            for g in gunler[-6:]:  # oynamadığımız "doğru tahmin, kötü fiyat" maçları bitince alıntıyla nasıl bittikleri
+                try:
+                    etkilesim.deger_takibi(g, ayar, _x_client(), simdi, lambda m: _mac_sonuclari(ayar, m),
+                                           yaz=_ozet_yaz, yazar=_direktor_yazar(ayar))
+                except Exception as e:
+                    _hata("Değer takibi", e)
         yerel = simdi.astimezone(ZoneInfo(ayar.saat_dilimi))
         if (args.komut == "nabiz" and _direktor_yazar(ayar) and direktor.haftalik_gerekli(yerel)) or args.komut == "direktor":
             try:

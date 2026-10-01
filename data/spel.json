@@ -783,7 +783,7 @@
     "tarih": "2026-10-01",
     "olusturma": "2026-10-01T15:10:33+00:00",
     "baslik": "Nations League night: two coupons",
-    "sonuc": null,
+    "sonuc": "tamam",
     "para": "€",
     "yuzde": 1.0,
     "ek": true,
@@ -850,8 +850,9 @@
           2.25
         ],
         "yorum": "These sides met 2-0, 1-2 and 2-1, and Saint Martin scored 8 in one away game. Model expects 4 goals; 3+ is about a 7 in 10 chance.",
-        "durum": "bekliyor",
-        "skor": null
+        "durum": "kazandi",
+        "skor": "0-5",
+        "son_sorgu": "2026-10-01T21:58:06+00:00"
       }
     ],
     "kuponlar": [
@@ -861,7 +862,7 @@
           1
         ],
         "stake": 99.72,
-        "durum": null,
+        "durum": "tuttu",
         "kasa": 9972.42
       }
     ],
@@ -877,6 +878,11 @@
     "analiz_tweet_idleri": [
       "2105689388852162936",
       "2105689390106177898"
-    ]
+    ],
+    "sonuclanma": "2026-10-01T21:58:06+00:00",
+    "sonuc_tweet_idleri": [
+      "2105779320392430048"
+    ],
+    "sonuc_tweet_id": "2105779320392430048"
   }
 ]

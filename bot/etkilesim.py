@@ -43,7 +43,7 @@ def _saat(v: dict, ayar) -> str:
 
 
 def _etiket(v: dict) -> str:
-    e = etiket_satiri([(v.get("lig"), v.get("ulke"))])
+    e = etiket_satiri([(v.get("lig"), v.get("ulke"))], [(v["ev"], v["dep"])])
     return f"\n{e}" if e else ""
 
 
@@ -74,7 +74,8 @@ def maclar_tweeti(gun: dict, ayar) -> str:
         fav, p = _favori(v)
         satirlar.append(f'⚽ {v["ev"]} v {v["dep"]} · {_saat(v, ayar)}\n   our numbers: {fav} {_pct(p)}')
     for n in range(len(satirlar), 0, -1):
-        etiket = etiket_satiri([(v.get("lig"), v.get("ulke")) for v in gun["vitrin"][:n]])
+        etiket = etiket_satiri([(v.get("lig"), v.get("ulke")) for v in gun["vitrin"][:n]],
+                               [(v["ev"], v["dep"]) for v in gun["vitrin"][:n]])
         metin = (f"🔥 TODAY'S BIG GAMES | {tarih}\n\n" + "\n".join(satirlar[:n]) +
                  "\n\nWhich one are you watching? 👇" + (f"\n{etiket}" if etiket else ""))
         if uzunluk(metin) <= LIMIT:
@@ -177,7 +178,7 @@ def radar_tweeti(gun: dict, ayar, haric_takimlar: set[str] = frozenset()) -> str
     satirlar = [f'- {v["ev"]} v {v["dep"]}: {v["radar"]} {_pct(v["radar_p"])}' for v in liste]
     metin = None
     for n in range(len(liste), 1, -1):  # sığmazsa son maç düşer
-        etiket = etiket_satiri([(v.get("lig"), v.get("ulke")) for v in liste[:n]])
+        etiket = etiket_satiri([(v.get("lig"), v.get("ulke")) for v in liste[:n]], [(v["ev"], v["dep"]) for v in liste[:n]])
         metin = (f"📡 OUR RADAR | {tarih}\n\nNot in our coupon, but our numbers say:\n" + "\n".join(satirlar[:n]) +
                  "\n\nLeft out: the price doesn't pay for the risk. How do you read them? 👇\n\n" +
                  (f"{etiket}\n" if etiket else "") + ANSVAR)

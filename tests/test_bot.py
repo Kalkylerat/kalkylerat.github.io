@@ -1681,3 +1681,18 @@ def test_hashtag_yalniz_gercek_turnuvalar_ulkeye_gore():
     assert direktor.kurala_uygun("Big night ⚽ Who wins? 👇 #NationsLeague", "maclar", b)
     assert not direktor.kurala_uygun("Big night #football #bets", "maclar", b)
     assert not direktor.kurala_uygun("#UCL #NationsLeague #PremierLeague", "maclar", b)
+
+
+def test_takim_ve_mac_etiketleri_gercek_kodlarla():
+    assert tweets.mac_etiketi("Denmark", "Portugal") == "#DENPOR"
+    assert tweets.mac_etiketi("Greece", "Netherlands") == "#GRENED"  # NET değil
+    assert tweets.mac_etiketi("Rep. Of Ireland", "Austria") == "#IRLAUT"
+    assert tweets.mac_etiketi("Brentford", "Arsenal") == "#Arsenal"
+    assert tweets.mac_etiketi("Bastia", "Orleans") is None
+    assert tweets.etiket_satiri([("UEFA Nations League", "")], [("Denmark", "Portugal")]) == "#NationsLeague #DENPOR"
+    assert tweets.etiket_satiri([("Ligue 2", "France")], [("Bastia", "Orleans")]) == ""
+    assert tweets.izinli_etiket("#DENPOR") and not tweets.izinli_etiket("#ABCDEF") and not tweets.izinli_etiket("#bets")
+    from bot import direktor
+    b = AYAR.oran_bahiscileri + [AYAR.keskin_bahisci]
+    assert direktor.kurala_uygun("Big one ⚽ #NationsLeague #DENPOR", "maclar", b, {"#NationsLeague", "#DENPOR"})
+    assert not direktor.kurala_uygun("Big one #GRENED", "maclar", b, {"#NationsLeague", "#DENPOR"})  # şablonda yok

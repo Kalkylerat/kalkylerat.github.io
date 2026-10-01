@@ -16,7 +16,7 @@ from datetime import datetime, timedelta
 import anthropic
 
 from . import config, kayit
-from .tweets import ANSVAR, IZINLI_ETIKETLER, LIMIT, uzunluk
+from .tweets import ANSVAR, LIMIT, izinli_etiket, uzunluk
 
 DOSYA = config.ROOT / "data" / "direktor.json"
 REHBER_DOSYASI = config.ROOT / ".claude" / "skills" / "sosyal-medya" / "SKILL.md"
@@ -105,11 +105,11 @@ _YASAK = re.compile(
 _ALAN_ADI = re.compile(r"\b[a-z0-9-]+\.(com|net|org|io|co|se|uk|tr|bet|app|gg|ly|me|tv)\b")
 
 
-def kurala_uygun(metin: str, tur: str, bahisciler: list[str]) -> bool:
+def kurala_uygun(metin: str, tur: str, bahisciler: list[str], izinli: set[str] | None = None) -> bool:
     if not metin or uzunluk(metin) > LIMIT or _YASAK.search(metin) or _ALAN_ADI.search(metin):
         return False
     etiketler = re.findall(r"#\w+", metin)
-    if len(etiketler) > 2 or any(e not in IZINLI_ETIKETLER for e in etiketler):
+    if len(etiketler) > 2 or any(not izinli_etiket(e) or (izinli is not None and e not in izinli) for e in etiketler):
         return False  # yalnızca gerçek turnuva etiketleri, en fazla iki
     if any(b.lower() in metin.lower() for b in bahisciler):
         return False
@@ -149,7 +149,7 @@ def yazar(ayar, client=None, yaz=print):
     """etkilesim.paylas için metin yazıcı: (tür, olgular, şablon) -> metin. Hata ya da kural dışı metinde şablon."""
     def yazici(tur: str, olgular: dict, sablon: str) -> str:
         strateji = yukle().get("strateji") or {}
-        etiketler = sorted(set(re.findall(r"#\w+", sablon)) & IZINLI_ETIKETLER)
+        etiketler = sorted(set(re.findall(r"#\w+", sablon)))  # yalnızca şablonun (kodun doğruladığı) etiketleri
         icerik = json.dumps({"post_type": tur, "facts": olgular, "template_for_reference": sablon,
                              "allowed_hashtags": etiketler, "this_week_strategy": strateji}, ensure_ascii=False, indent=1)
         if tur in ("pas", "radar"):
@@ -164,7 +164,7 @@ def yazar(ayar, client=None, yaz=print):
         if cevap.get("paylas") is False and tur != "pas":
             return ""  # direktör bugün bu paylaşımı uygun görmedi (pas açıklaması her zaman gider)
         metin = (cevap.get("metin") or "").strip()
-        if not kurala_uygun(metin, tur, ayar.oran_bahiscileri + [ayar.keskin_bahisci]):
+        if not kurala_uygun(metin, tur, ayar.oran_bahiscileri + [ayar.keskin_bahisci], set(etiketler)):
             yaz(f"Direktör metni kurala uymadı ({tur}); şablon kullanıldı.")
             return sablon
         return metin

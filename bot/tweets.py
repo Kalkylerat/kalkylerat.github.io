@@ -3,6 +3,7 @@
 Günlük paylaşım bir flood'dur: 1) günün kupon görselleri, 2+) her maç için açıklama.
 Her kupon (tek maç ya da kombine) kasanın %1'iyle oynanır. Sonuçlar ana tweetin altına gelir."""
 
+import re
 from datetime import datetime
 
 from requests_oauthlib import OAuth1Session
@@ -26,6 +27,46 @@ _ULUSAL = {("premier league", "england"): "#PremierLeague", ("la liga", "spain")
            ("allsvenskan", "sweden"): "#Allsvenskan"}
 IZINLI_ETIKETLER = {e for _, e in _ULUSLARARASI} | set(_ULUSAL.values())
 
+# Milli takımlar: resmi FIFA kodları (maç etiketi #DENPOR gibi). Ad kırpılarak üretilmez: "NET" değil "NED".
+FIFA_KODLARI = {
+    "albania": "ALB", "andorra": "AND", "armenia": "ARM", "austria": "AUT", "azerbaijan": "AZE", "belarus": "BLR",
+    "belgium": "BEL", "bosnia & herzegovina": "BIH", "bosnia and herzegovina": "BIH", "bulgaria": "BUL",
+    "croatia": "CRO", "cyprus": "CYP", "czech republic": "CZE", "czechia": "CZE", "denmark": "DEN", "england": "ENG",
+    "estonia": "EST", "faroe islands": "FRO", "finland": "FIN", "france": "FRA", "georgia": "GEO", "germany": "GER",
+    "gibraltar": "GIB", "greece": "GRE", "hungary": "HUN", "iceland": "ISL", "israel": "ISR", "italy": "ITA",
+    "kazakhstan": "KAZ", "kosovo": "KVX", "latvia": "LVA", "liechtenstein": "LIE", "lithuania": "LTU",
+    "luxembourg": "LUX", "malta": "MLT", "moldova": "MDA", "montenegro": "MNE", "netherlands": "NED",
+    "north macedonia": "MKD", "northern ireland": "NIR", "norway": "NOR", "poland": "POL", "portugal": "POR",
+    "rep. of ireland": "IRL", "republic of ireland": "IRL", "ireland": "IRL", "romania": "ROU", "san marino": "SMR",
+    "scotland": "SCO", "serbia": "SRB", "slovakia": "SVK", "slovenia": "SVN", "spain": "ESP", "sweden": "SWE",
+    "switzerland": "SUI", "turkey": "TUR", "türkiye": "TUR", "ukraine": "UKR", "wales": "WAL",
+    "argentina": "ARG", "brazil": "BRA", "uruguay": "URU", "colombia": "COL", "mexico": "MEX", "usa": "USA",
+    "canada": "CAN", "japan": "JPN", "morocco": "MAR",
+}
+# Büyük kulüplerin X'te yaygın etiketleri (yalnızca bunlar; bilinmeyen kulübe etiket uydurulmaz).
+KULUP_ETIKETLERI = {
+    "arsenal": "#Arsenal", "chelsea": "#Chelsea", "liverpool": "#Liverpool", "manchester united": "#MUFC",
+    "manchester city": "#ManCity", "tottenham": "#THFC", "newcastle": "#NUFC", "aston villa": "#AVFC",
+    "real madrid": "#RealMadrid", "barcelona": "#Barca", "atletico madrid": "#Atleti", "bayern munich": "#FCBayern",
+    "bayern münchen": "#FCBayern", "borussia dortmund": "#BVB", "paris saint germain": "#PSG", "juventus": "#Juventus",
+    "inter": "#Inter", "ac milan": "#ACMilan", "napoli": "#Napoli", "galatasaray": "#Galatasaray",
+    "fenerbahce": "#Fenerbahce", "fenerbahçe": "#Fenerbahce", "besiktas": "#Besiktas", "beşiktaş": "#Besiktas",
+    "ajax": "#Ajax", "benfica": "#Benfica", "porto": "#FCPorto", "celtic": "#CelticFC",
+}
+
+
+def mac_etiketi(ev: str, dep: str) -> str | None:
+    """Milli maçta #DENPOR; kulüp maçında bilinen büyük kulübün etiketi (önce ev sahibi); yoksa None."""
+    a, b = FIFA_KODLARI.get(ev.lower().strip()), FIFA_KODLARI.get(dep.lower().strip())
+    if a and b:
+        return f"#{a}{b}"
+    return KULUP_ETIKETLERI.get(ev.lower().strip()) or KULUP_ETIKETLERI.get(dep.lower().strip())
+
+
+def izinli_etiket(e: str) -> bool:
+    return (e in IZINLI_ETIKETLER or e in KULUP_ETIKETLERI.values()
+            or bool(re.fullmatch(r"#[A-Z]{6}", e) and e[1:4] in FIFA_KODLARI.values() and e[4:] in FIFA_KODLARI.values()))
+
 
 def hashtag(lig: str | None, ulke: str | None = "") -> str | None:
     l = (lig or "").lower().strip()
@@ -39,13 +80,16 @@ def hashtag(lig: str | None, ulke: str | None = "") -> str | None:
     return _ULUSAL.get((l.strip(), (ulke or "").lower().strip()))
 
 
-def etiket_satiri(ligler: list[tuple[str, str]], en_fazla: int = 2) -> str:
-    """(lig, ülke) listesinden en fazla iki farklı turnuva etiketi; yoksa boş."""
-    etiketler = []
+def etiket_satiri(ligler: list[tuple[str, str]], maclar: list[tuple[str, str]] = (), en_fazla: int = 2) -> str:
+    """En fazla iki etiket: öndeki maçın turnuvası + o maçın etiketi (#DENPOR / #Arsenal); maç etiketi yoksa
+    ikinci turnuva. (lig, ülke) ve (ev, dep) listeleri aynı sıradadır (öndeki maç ilk)."""
+    turnuva = []
     for lig, ulke in ligler:
         e = hashtag(lig, ulke)
-        if e and e not in etiketler:
-            etiketler.append(e)
+        if e and e not in turnuva:
+            turnuva.append(e)
+    mac = next((e for e in (mac_etiketi(ev, dep) for ev, dep in maclar) if e), None)
+    etiketler = turnuva[:1] + ([mac] if mac else turnuva[1:2])
     return " ".join(etiketler[:en_fazla])
 
 
@@ -154,7 +198,8 @@ def gorselli_gun_tweeti(gun: dict) -> str:
     """Kupon görselleriyle giden ana tweet. Tek başına anlaşılır olsun (X Direktörü): öndeki maç, seçim ve
     ihtimal başlıkta; bir soru yorumlara davet eder, gerekçeler yanıtlarda."""
     bas, soru = f"{_baslik(gun)} | {_tarih(gun)}", _gunun(KUPON_SORULARI, gun)
-    etiket = etiket_satiri([(s.get("lig"), s.get("ulke")) for s in gun.get("secimler") or []])
+    etiket = etiket_satiri([(s.get("lig"), s.get("ulke")) for s in gun.get("secimler") or []],
+                           [(s["ev"], s["dep"]) for s in gun.get("secimler") or []])
     kuyruk = f"Why these picks: in the thread 🧵{' ' + etiket if etiket else ''}\n{ANSVAR}"
     sade = f"{bas}\n\n{soru}\n\n{kuyruk}"
     if not gun.get("secimler"):

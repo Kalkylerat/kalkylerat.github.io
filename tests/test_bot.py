@@ -1173,10 +1173,12 @@ def test_etkilesim_paylasimlari_sirayla_aralikli_ve_birer_kez():
     assert etkilesim.paylas(gun, AYAR, x, t(15, 30)) == "istatistik"
     assert etkilesim.paylas(gun, AYAR, x, t(15, 50)) is None  # 45 dk aralık
     assert etkilesim.paylas(gun, AYAR, x, t(16, 20)) == "anket"
-    assert etkilesim.paylas(gun, AYAR, x, t(17, 0)) is None  # skor tahmini maçtan 75 dk önce
-    assert etkilesim.paylas(gun, AYAR, x, t(17, 35)) == "skor"
-    assert etkilesim.paylas(gun, AYAR, x, t(18, 30)) is None
-    assert x.sayac == 4 and all(e["durum"] == "paylasildi" for e in gun["etkilesim"].values())
+    assert etkilesim.paylas(gun, AYAR, x, t(17, 0)) is None  # 45 dk aralık
+    assert etkilesim.paylas(gun, AYAR, x, t(17, 10)) == "radar"  # kupon dışı maçlar, maçtan ~2 saat önce
+    assert etkilesim.paylas(gun, AYAR, x, t(17, 40)) is None
+    assert etkilesim.paylas(gun, AYAR, x, t(18, 0)) == "skor"
+    assert etkilesim.paylas(gun, AYAR, x, t(18, 40)) is None
+    assert x.sayac == 5 and all(e["durum"] == "paylasildi" for e in gun["etkilesim"].values())
 
 
 def test_etkilesim_metinleri_kurallara_uyar():
@@ -1360,7 +1362,7 @@ def test_direktor_metni_kural_disiysa_sablon_kullanilir():
                     return False
                 def get_final_message(s):
                     return SimpleNamespace(stop_reason="end_turn",
-                                           content=[SimpleNamespace(type="text", text=json.dumps({"metin": metin}))])
+                                           content=[SimpleNamespace(type="text", text=json.dumps({"paylas": True, "metin": metin}))])
             return S()
     iyi = Sahte("Big night in Cardiff. Who are you backing? 👇")
     assert direktor.yazar(AYAR, iyi, yaz=lambda m: None)("maclar", {}, "SABLON") == iyi.metin
@@ -1578,3 +1580,90 @@ def test_baslik_postu_tek_basina_anlasilir():
     metin = tweets.gorselli_gun_tweeti(g)
     assert "Wales v Norway: Norway to win · 66% chance" in metin and metin.endswith(tweets.ANSVAR)
     assert tweets.uzunluk(metin) <= 280
+
+
+def test_radar_kupondaki_maclari_almaz_ve_direktor_atlayabilir():
+    from bot import direktor, etkilesim
+    gun = _vitrin_gunu()
+    metin = etkilesim.radar_tweeti(gun, AYAR, {"wales", "norway"})
+    assert "Wales" not in metin and "Germany v Serbia" in metin and metin.endswith(tweets.ANSVAR)
+    assert tweets.uzunluk(metin) <= 280
+    assert etkilesim.radar_tweeti(gun, AYAR, {"wales", "germany"}) is None  # 2'den az maç kaldı
+
+    class Atla:
+        def __init__(self):
+            self.messages = self
+
+        def stream(self, **k):
+            class S:
+                def __enter__(s):
+                    return s
+                def __exit__(s, *a):
+                    return False
+                def get_final_message(s):
+                    return SimpleNamespace(stop_reason="end_turn", content=[SimpleNamespace(
+                        type="text", text=json.dumps({"paylas": False, "metin": ""}))])
+            return S()
+    gun["etkilesim"] = {"maclar": {"durum": "paylasildi", "zaman": "2026-10-01T13:00:00+00:00"},
+                        "istatistik": {"durum": "atlandi"}, "anket": {"durum": "atlandi"}}
+    x = tweets.KonsolClient()
+    sonuc = etkilesim.paylas(gun, AYAR, x, datetime(2026, 10, 1, 16, 40, tzinfo=timezone.utc),
+                             yazar=direktor.yazar(AYAR, Atla(), yaz=lambda m: None), yaz=lambda m: None)
+    assert sonuc is None and gun["etkilesim"]["radar"]["neden"] == "direktör" and x.sayac == 0
+
+
+def test_yayin_denetimi_dogru_postu_gecirir_hatali_postu_durdurur(monkeypatch, tmp_path):
+    from bot import denetci, gorsel, onay
+    simdi = datetime(2026, 10, 3, 8, tzinfo=timezone.utc)
+    g = _gun("2026-10-03", [_secim(1, 1.5, 0.8), _secim(2, 1.4, 0.7)], tweet_id=None, kuponlar=[[0, 1]])
+    g["kuponlar"][0].update(kasa=10000.0, stake=100.0)
+    ozet = kayit.ozet([g], 10000)
+    metinler = tweets.gun_floodu(g, ozet, gorselli=True)
+    png = [gorsel.kupon_gorseli(g, g["kuponlar"][0], 10000)]
+    assert denetci.yayin_kontrolu(g, metinler, [g], AYAR, simdi, png) == []
+    bozuk = list(metinler)
+    bozuk[1] = bozuk[1].replace("Odds 1.50", "Odds 1.65") + " Bet365 @kalkylerat lock"
+    hatalar = denetci.yayin_kontrolu(g, bozuk, [g], AYAR, simdi, png)
+    assert any("link ya da @" in h for h in hatalar) and any("bahis sitesi" in h for h in hatalar)
+    assert any("kesinlik" in h for h in hatalar) and any("Odds 1.50" in h for h in hatalar)
+    g["kuponlar"][0]["stake"] = 150.0
+    assert any("kasanın" in h for h in denetci.yayin_kontrolu(g, metinler, [g], AYAR, simdi, png))
+    g["kuponlar"][0]["stake"] = 100.0
+    diger = {**_gun("2026-10-03", [_secim(1, 1.5, 0.8)], kuponlar=[[0]]), "id": "2026-10-03-2"}
+    assert any("başka bir kuponda" in h for h in denetci.yayin_kontrolu(g, metinler, [g, diger], AYAR, simdi, png))
+    assert any("başlamış" in h for h in denetci.yayin_kontrolu(g, metinler, [g], AYAR,
+                                                               datetime(2026, 10, 3, 14, tzinfo=timezone.utc), png))
+    # onay isteğinde: engel varsa kupon durdurulur ve issue en üstte nedenini yazar
+    monkeypatch.setattr(onay, "ONIZLEME_KLASORU", tmp_path)
+    monkeypatch.setattr(onay, "ISTEK_DOSYASI", tmp_path / "istek.md")
+    g["kuponlar"][0]["stake"] = 150.0
+    onay.onay_iste(g, [g], AYAR, simdi)
+    assert g["onay"]["durum"] == "durduruldu" and g["onay"]["denetim"]["engel"]
+    assert "Denetçi durdurdu" in (tmp_path / "istek.md").read_text()
+
+
+def test_gorsel_denetimi_gorselleri_ve_beklenen_rakamlari_gonderir():
+    from bot import denetci, gorsel
+    g = _gun("2026-10-03", [_secim(1, 1.5, 0.8)], kuponlar=[[0]])
+    g["kuponlar"][0].update(kasa=10000.0, stake=100.0)
+    gonderilen = {}
+
+    class Model:
+        def __init__(self):
+            self.messages = self
+
+        def stream(self, **k):
+            gonderilen.update(k)
+            class S:
+                def __enter__(s):
+                    return s
+                def __exit__(s, *a):
+                    return False
+                def get_final_message(s):
+                    return SimpleNamespace(stop_reason="end_turn", content=[SimpleNamespace(
+                        type="text", text=json.dumps({"sorunlar": ["Bank shows 10,100 instead of 10,000."]}))])
+            return S()
+    sonuc = denetci.gorsel_denetimi(g, [gorsel.kupon_gorseli(g, g["kuponlar"][0], 10000)], AYAR, Model())
+    assert sonuc == ["Bank shows 10,100 instead of 10,000."]
+    icerik = gonderilen["messages"][0]["content"]
+    assert icerik[0]["type"] == "image" and '"bank": 10000.0' in icerik[1]["text"] and gonderilen["model"] == AYAR.direktor_model

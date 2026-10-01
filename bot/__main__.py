@@ -169,6 +169,11 @@ def _onaya_gonder(ayar, gunler: list[dict], bugun: str, simdi: datetime) -> list
                 and not g.get("onay") and g.get("sonuc") is None]
     for i, g in enumerate(bekleyen):
         onay.onay_iste(g, gunler, ayar, simdi, gecikme_dk=30 * i)
+        denetim = (g.get("onay") or {}).get("denetim") or {}
+        if denetim.get("engel"):
+            # Hatalı post paylaşılmaz; iş "başarısız" işaretlenir, GitHub sahibine e-posta atar.
+            _hata(f"Denetçi ({g['id']})", RuntimeError("; ".join(denetim["engel"])))
+            continue
         _ozet_yaz(f"Onay istendi ({g['id']}); cevap yoksa {(g.get('onay') or {}).get('son')} (UTC) otomatik paylaşılacak.")
     return bekleyen
 
@@ -1022,8 +1027,10 @@ def main(argv=None) -> int:
         if args.komut == "nabiz" and kayit.bul(gunler, bugun):
             try:
                 diger = tuple(g["yayin"] for g in gunler if g["tarih"] == bugun and g["id"] != bugun and g.get("yayin"))
+                kupondakiler = {t.lower() for g in gunler if g["tarih"] == bugun for s in g["secimler"]
+                                for t in (s["ev"], s["dep"])}
                 etkilesim.paylas(kayit.bul(gunler, bugun), ayar, _x_client(), simdi, yaz=_ozet_yaz,
-                                 yazar=_direktor_yazar(ayar), diger_paylasimlar=diger)
+                                 yazar=_direktor_yazar(ayar), diger_paylasimlar=diger, haric_takimlar=kupondakiler)
             except Exception as e:
                 _hata("Etkileşim paylaşımı", e)
         yerel = simdi.astimezone(ZoneInfo(ayar.saat_dilimi))

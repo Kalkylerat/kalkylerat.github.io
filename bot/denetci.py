@@ -10,6 +10,7 @@ Sonuç: sorunlu cümle gerekçeden atılır; seçimin kendisi çelişkiliyse o k
 
 import json
 import re
+from datetime import datetime
 
 import anthropic
 
@@ -139,3 +140,100 @@ def denetle(gun: dict, ayar, client=None, yaz=print, yz: bool = True) -> list[in
         except Exception as e:
             yaz(f"⚠️ Yapay zekâ denetimi yapılamadı ({e}); kural denetimiyle devam ediliyor.")
     return cikan
+
+
+# ---- Yayın öncesi denetim: paylaşılacak postun kendisi (metinler, kasa/yatırılan, görseller) ----
+
+_KESINLIK = re.compile(r"\block(ed)?\b|guarantee|sure (thing|win|bet)|\bbanker\b|dead cert|can'?t (lose|miss)|"
+                       r"free money|100\s*%", re.IGNORECASE)
+_LINK = re.compile(r"https?://|www\.|\b[a-z0-9-]+\.(com|net|org|io|co|se|uk|tr|bet|app|gg|ly|me|tv)\b|@")
+_SITE = re.compile(r"bet\s*365|betfair|unibet|betway|bwin|1xbet|pinnacle|betsson|nordicbet|william\s*hill|\b888|"
+                   r"betano|betvictor|comeon|marathonbet|coolbet", re.IGNORECASE)
+
+
+def yayin_kontrolu(gun: dict, metinler: list[str], gunler: list[dict], ayar, simdi, pngler: list[bytes] = ()) -> list[str]:
+    """Paylaşılacak kupon postunun kod denetimi. Dönen her madde engelleyicidir (post çıkmaz)."""
+    from .tweets import ANSVAR, LIMIT, oran_metni, skor_celiskili, uzunluk, yuzde
+    from . import kayit
+    hata = []
+    for i, m in enumerate(metinler, 1):
+        if uzunluk(m) > LIMIT:
+            hata.append(f"Tweet {i} 280 karakteri aşıyor ({uzunluk(m)}).")
+        if _LINK.search(m):
+            hata.append(f"Tweet {i} link ya da @ içeriyor.")
+        if _SITE.search(m) or any(b.lower() in m.lower() for b in ayar.oran_bahiscileri + [ayar.keskin_bahisci]):
+            hata.append(f"Tweet {i} bahis sitesi adı içeriyor.")
+        if _KESINLIK.search(m):
+            hata.append(f"Tweet {i} kesinlik dili içeriyor.")
+    if metinler and not metinler[0].rstrip().endswith(ANSVAR):
+        hata.append("Ana tweette '18+ | Play responsibly' satırı yok.")
+    for n, k in enumerate(kayit.kuponlar(gun), 1):
+        if k.get("stake") is None or k["stake"] <= 0:
+            hata.append(f"Kupon {n}: yatırılan tutar yok.")
+        elif k.get("kasa") is not None and abs(k["stake"] - round(k["kasa"] * ayar.oyun_yuzdesi / 100, 2)) > 0.011:
+            hata.append(f"Kupon {n}: yatırılan ({k['stake']}) kasanın %{ayar.oyun_yuzdesi:g}'i ({k['kasa']}) değil.")
+    yanitlar = metinler[1:]
+    if len(yanitlar) != len(gun["secimler"]):
+        hata.append(f"Gerekçe tweeti sayısı ({len(yanitlar)}) seçim sayısıyla ({len(gun['secimler'])}) uyuşmuyor.")
+    for i, s in enumerate(gun["secimler"]):
+        ad = f'{s["ev"]} v {s["dep"]}'
+        if datetime.fromisoformat(s["baslama"]) <= simdi:
+            hata.append(f"{ad}: maç başlamış.")
+        if i < len(yanitlar):
+            m = yanitlar[i]
+            for beklenen in (f'Pick: {s["etiket"]}', f"Odds {oran_metni(s)}", f'chance {yuzde(s["adil_olasilik"])}'):
+                if beklenen not in m:
+                    hata.append(f"{ad}: gerekçe tweetinde '{beklenen}' yok (kayıtla uyuşmuyor).")
+            if skor_celiskili(s) and "Most likely score" in m:
+                hata.append(f"{ad}: en olası skor seçimle çelişiyor.")
+    baska = {s["fixture_id"] for g in gunler if g["tarih"] == gun["tarih"] and g["id"] != gun["id"]
+             and g.get("sonuc") != "pas" for s in g["secimler"]}
+    for s in gun["secimler"]:
+        if s["fixture_id"] in baska:
+            hata.append(f'{s["ev"]} v {s["dep"]}: aynı maç bugün başka bir kuponda da var.')
+    if pngler:
+        from io import BytesIO
+        from PIL import Image
+        if len(pngler) != len(kayit.kuponlar(gun)):
+            hata.append(f"Görsel sayısı ({len(pngler)}) kupon sayısıyla uyuşmuyor.")
+        for n, png in enumerate(pngler, 1):
+            try:
+                with Image.open(BytesIO(png)) as im:
+                    if min(im.size) < 600:
+                        hata.append(f"Görsel {n} çok küçük ({im.size}).")
+            except Exception as e:
+                hata.append(f"Görsel {n} açılamıyor: {e}")
+    return hata
+
+
+GORSEL_SISTEM = """You check coupon images before they are posted on X. For each image you get the values it must show.
+Report only real problems: a number on the image that differs from the expected value (bank, stake, potential return,
+odds, total odds, chance), a missing or wrong match or pick, or text that is cut off, overlapping or unreadable.
+If the image is correct and readable, return an empty list. Write each problem as one short sentence."""
+GORSEL_SEMA = {"type": "object", "properties": {"sorunlar": {"type": "array", "items": {"type": "string"}}},
+               "required": ["sorunlar"], "additionalProperties": False}
+
+
+def gorsel_denetimi(gun: dict, pngler: list[bytes], ayar, client=None) -> list[str]:
+    """Hızlı modelle görsel denetimi (uyarı): görseldeki rakamlar kayıtla aynı ve okunaklı mı?"""
+    import base64
+    from . import kayit
+    icerik = []
+    for n, (k, png) in enumerate(zip(kayit.kuponlar(gun), pngler), 1):
+        beklenen = {"bank": k.get("kasa"), "stake": k.get("stake"),
+                    "potential_return": round(k["stake"] * kayit.kupon_oran(gun, k), 2) if k.get("stake") else None,
+                    "total_odds": round(kayit.kupon_oran(gun, k), 2),
+                    "legs": [{"match": f'{s["ev"]} v {s["dep"]}', "pick": s["kisa"], "odds": s["oran"],
+                              "chance": round(s["adil_olasilik"], 2)} for s in kayit.kupon_ayaklari(gun, k)]}
+        icerik += [{"type": "image", "source": {"type": "base64", "media_type": "image/png",
+                                                "data": base64.standard_b64encode(png).decode()}},
+                   {"type": "text", "text": f"Image {n} must show: " + json.dumps(beklenen, ensure_ascii=False)}]
+    client = client or anthropic.Anthropic()
+    with client.messages.stream(model=ayar.direktor_model, max_tokens=8000, system=GORSEL_SISTEM,
+                                messages=[{"role": "user", "content": icerik}],
+                                output_config={"effort": "low", "format": {"type": "json_schema", "schema": GORSEL_SEMA}}
+                                ) as stream:
+        msg = stream.get_final_message()
+    if msg.stop_reason in ("refusal", "max_tokens"):
+        raise RuntimeError(f"görsel denetimi: {msg.stop_reason}")
+    return json.loads(next(b.text for b in msg.content if b.type == "text"))["sorunlar"]

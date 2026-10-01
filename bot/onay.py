@@ -42,13 +42,27 @@ def istek_hazirla(gun: dict, gunler: list[dict], ayar, simdi: datetime, test: bo
     ozet = kayit.ozet(gunler, ayar.kasa_baslangic)
     liste = kayit.kuponlar(gun)
     ONIZLEME_KLASORU.mkdir(parents=True, exist_ok=True)
-    resimler = []
+    resimler, pngler = [], []
     for sira, kupon in enumerate(liste, 1):
         surum = gun.get("onay", {}).get("surum", 1)
         ad = f'{gun["id"]}-{sira}-v{surum}.png'  # her önizleme yeni dosya: GitHub eski resmi önbellekten göstermesin
-        (ONIZLEME_KLASORU / ad).write_bytes(gorsel.kupon_gorseli(gun, kupon, ozet["kasa"], sira, len(liste)))
+        pngler.append(gorsel.kupon_gorseli(gun, kupon, ozet["kasa"], sira, len(liste)))
+        (ONIZLEME_KLASORU / ad).write_bytes(pngler[-1])
         resimler.append(_ham_url(f"docs/onizleme/{ad}"))
     ana, *yanitlar = tweets.gun_floodu(gun, ozet, gorselli=True)
+    # Denetçi: paylaşılacak postun kendisi. Kod denetimi engelleyicidir; görsel denetimi (yapay zekâ) uyarıdır.
+    engel, uyari = [], []
+    if not test:
+        from . import denetci
+        engel = denetci.yayin_kontrolu(gun, [ana, *yanitlar], gunler, ayar, simdi, pngler)
+        if ayar.direktor_aktif and os.environ.get("ANTHROPIC_API_KEY"):
+            try:
+                uyari = denetci.gorsel_denetimi(gun, pngler, ayar)
+            except Exception as e:
+                uyari = [f"Görsel denetimi yapılamadı: {e}"]
+        gun["onay"]["denetim"] = {"engel": engel, "uyari": uyari}
+        if engel:
+            gun["onay"]["durum"] = "durduruldu"
     # Paylaşım, önizlemede gösterilenin birebir aynısı olsun: metinler ve görseldeki kasa burada sabitlenir.
     if not test:
         gun["onay"]["metinler"] = [ana, *yanitlar]
@@ -60,6 +74,9 @@ def istek_hazirla(gun: dict, gunler: list[dict], ayar, simdi: datetime, test: bo
         "- `ok` → hemen X'te paylaşılır",
         "- `iptal` → paylaşım **durur** (hata var demek). Hatayı Claude'a yazın; düzeltilince yeni önizleme gelir.",
         f"- Cevap yoksa **{son:%H:%M}** (İsveç saati) otomatik paylaşılır." if not test else "- Test: cevap gelmezse bir şey olmaz.",
+        *([f"## ⛔ Denetçi durdurdu: bu kupon otomatik paylaşılmayacak", *[f"- {h}" for h in engel],
+            "Yine de paylaşmak istersen `ok` yaz."] if engel else []),
+        *([f"## ⚠️ Görsel denetimi uyarıları", *[f"- {u}" for u in uyari]] if uyari else []),
         "", "---", "### Tweet 1 (ana tweet)", "```", ana, "```",
         *[f"![Kupon {i}]({u})" for i, u in enumerate(resimler, 1)],
     ]

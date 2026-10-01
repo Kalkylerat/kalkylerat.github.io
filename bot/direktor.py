@@ -45,7 +45,10 @@ EUR 10,000 bankroll. You write one post at a time for the account's daily schedu
 
 {KURALLAR}
 
-Follow this week's strategy notes when they are given. Return only the post text in "metin".""" + _rehber()
+Follow this week's strategy notes when they are given. Return the post text in "metin". Set "paylas" to false (and
+"metin" empty) only if this post would add nothing today or go against the playbook; otherwise true.
+"radar" posts list games we deliberately left out of our coupon with our chance for one market each: they are
+information for the reader, never a recommendation; keep the "not in our coupon" framing and the 18+ line.""" + _rehber()
 
 HAFTALIK_SISTEM = f"""You are the X (Twitter) growth director of @kalkylerat, a football stats account with a transparent virtual
 EUR 10,000 bankroll (1% of the bank per coupon, wins and losses shown alike). Each week you review how the account's posts
@@ -63,8 +66,8 @@ Base every claim on the numbers given. "strateji" guides the daily writer next w
 "gunluk_max_kupon" is how many coupons per day (1-3) the bot may post next week; the owner follows your call.
 "rapor" is for the owner, in Turkish, plain and practical (what worked, what to change, what the owner should do by hand).""" + _rehber()
 
-GUNLUK_SEMA = {"type": "object", "properties": {"metin": {"type": "string"}},
-               "required": ["metin"], "additionalProperties": False}
+GUNLUK_SEMA = {"type": "object", "properties": {"paylas": {"type": "boolean"}, "metin": {"type": "string"}},
+               "required": ["paylas", "metin"], "additionalProperties": False}
 HAFTALIK_SEMA = {
     "type": "object",
     "properties": {
@@ -105,7 +108,7 @@ def kurala_uygun(metin: str, tur: str, bahisciler: list[str]) -> bool:
         return False
     if metin.count("#") > 1 or any(b.lower() in metin.lower() for b in bahisciler):
         return False
-    return tur != "pas" or metin.rstrip().endswith(ANSVAR)
+    return tur not in ("pas", "radar") or metin.rstrip().endswith(ANSVAR)
 
 
 def yukle() -> dict:
@@ -143,15 +146,18 @@ def yazar(ayar, client=None, yaz=print):
         strateji = yukle().get("strateji") or {}
         icerik = json.dumps({"post_type": tur, "facts": olgular, "template_for_reference": sablon,
                              "this_week_strategy": strateji}, ensure_ascii=False, indent=1)
-        if tur == "pas":
+        if tur in ("pas", "radar"):
             icerik += f'\nThe post must end with the line "{ANSVAR}".'
         try:
-            metin = _cagir(client or anthropic.Anthropic(), [(ayar.direktor_model, ayar.direktor_effort),
+            cevap = _cagir(client or anthropic.Anthropic(), [(ayar.direktor_model, ayar.direktor_effort),
                                                              (ayar.claude_model, "low")],
-                           GUNLUK_SISTEM, icerik, GUNLUK_SEMA, 8000)["metin"].strip()
+                           GUNLUK_SISTEM, icerik, GUNLUK_SEMA, 8000)
         except Exception as e:
             yaz(f"Direktör metni yazamadı ({tur}): {e}; şablon kullanıldı.")
             return sablon
+        if cevap.get("paylas") is False and tur != "pas":
+            return ""  # direktör bugün bu paylaşımı uygun görmedi (pas açıklaması her zaman gider)
+        metin = (cevap.get("metin") or "").strip()
         if not kurala_uygun(metin, tur, ayar.oran_bahiscileri + [ayar.keskin_bahisci]):
             yaz(f"Direktör metni kurala uymadı ({tur}); şablon kullanıldı.")
             return sablon

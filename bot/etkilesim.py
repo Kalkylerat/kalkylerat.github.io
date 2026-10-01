@@ -137,7 +137,40 @@ def olgular(tur: str, gun: dict, ayar) -> dict:
         return {"game": mac(skor_maci(vit))}
     if tur == "istatistik":
         return {"game": mac(istatistik_maci(vit))}
+    if tur == "radar":
+        return {"date": gun["tarih"], "not_in_our_coupon_on_purpose": True,
+                "games": [{**mac(v), "our_number": f'{v["radar"]} {round(100 * v["radar_p"])}%'}
+                          for v in radar_maclari(vit, gun.get("_haric", frozenset()))],
+                "why_left_out": "the odds don't pay enough for the risk"}
     return {"date": gun["tarih"], "games_checked": gun.get("taranan"), "reason": gun.get("pas_nedeni")}
+
+
+RADAR_PAZARLARI = (("UST25", "Over 2.5 goals"), ("KGVAR", "Both teams to score"))
+
+
+def radar_maclari(vit: list[dict], haric_takimlar: set[str] = frozenset()) -> list[dict]:
+    """Kuponda olmayan büyük maçlar ve her biri için bizim rakamlarla en ilgi çekici pazar (en az %50 ihtimal)."""
+    sonuc = []
+    for v in vit:
+        if {v["ev"].lower(), v["dep"].lower()} & haric_takimlar:
+            continue
+        p_model = model.model_olasiliklari(*v["beklenen_gol"])
+        fav, p_fav = _favori(v)
+        secenekler = [(p_fav, f"{fav} to win")] + [(p_model[k], ad) for k, ad in RADAR_PAZARLARI]
+        uygun = [x for x in secenekler if 0.5 <= x[0] <= 0.85]
+        p, ad = max(uygun or [(p_fav, f"{fav} to win")], key=lambda x: x[0])
+        sonuc.append({**v, "radar": ad, "radar_p": round(p, 3)})
+    return sonuc[:3]
+
+
+def radar_tweeti(gun: dict, ayar, haric_takimlar: set[str] = frozenset()) -> str | None:
+    liste = radar_maclari(gun.get("vitrin") or [], haric_takimlar)
+    if len(liste) < 2:
+        return None
+    tarih = datetime.fromisoformat(gun["tarih"]).strftime("%-d %b")
+    satirlar = [f'• {v["ev"]} v {v["dep"]}: {v["radar"]} {_pct(v["radar_p"])}' for v in liste]
+    return (f"OUR RADAR | {tarih}\n\nNot in our coupon, but this is what our numbers say:\n" + "\n".join(satirlar) +
+            "\n\nWe left them out: the price doesn't pay enough for the risk. How do you read them? 👇\n\n" + ANSVAR)
 
 
 def pas_tweeti(gun: dict) -> str:
@@ -170,11 +203,13 @@ def _plan(gun: dict) -> list[tuple[str, datetime, datetime]]:
         a = datetime.fromisoformat(anket_maci(vit)["baslama"])
         plan.append(("anket", a - timedelta(hours=3), a - timedelta(minutes=30)))
         s = datetime.fromisoformat(skor_maci(vit)["baslama"])
+        plan.append(("radar", ilk - timedelta(hours=2, minutes=15), ilk - timedelta(minutes=40)))
         plan.append(("skor", s - timedelta(minutes=75), s - timedelta(minutes=10)))
     return plan
 
 
-def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_paylasimlar: tuple[str, ...] = ()) -> str | None:
+def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_paylasimlar: tuple[str, ...] = (),
+           haric_takimlar: set[str] = frozenset()) -> str | None:
     """Sıradaki etkileşim paylaşımını zamanı geldiyse atar (nabız başına en fazla bir tane).
     yazar: (tür, olgular, şablon) -> metin (X Direktörü); yoksa şablon. diger_paylasimlar: aynı günün diğer
     kupon paylaşımlarının zamanları (aralık kuralı hepsine göre)."""
@@ -201,8 +236,16 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_pay
             else:
                 metin = {"pas": lambda: pas_tweeti(gun), "maclar": lambda: maclar_tweeti(gun, ayar),
                          "skor": lambda: skor_tweeti(gun, ayar),
-                         "istatistik": lambda: istatistik_tweeti(gun, ayar)}[tur]()
-                metin = yazar(tur, olgular(tur, gun, ayar), metin) if yazar else metin
+                         "istatistik": lambda: istatistik_tweeti(gun, ayar),
+                         "radar": lambda: radar_tweeti(gun, ayar, haric_takimlar)}[tur]()
+                if metin is None:  # içerik yok (ör. kupon dışı yeterli maç yok)
+                    durum[tur] = {"durum": "atlandi"}
+                    continue
+                metin = yazar(tur, olgular(tur, {**gun, "_haric": haric_takimlar}, ayar), metin) if yazar else metin
+                if not metin:  # X Direktörü bugün bu paylaşımı uygun görmedi
+                    durum[tur] = {"durum": "atlandi", "neden": "direktör"}
+                    yaz(f"Etkileşim paylaşımı ({tur}): direktör bugün atlamayı seçti.")
+                    continue
                 tid = x.gonder(metin)
         except Exception as e:
             # Tekrar tekrar denenip hata yağmasın: bu tür bugün atlanır.

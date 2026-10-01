@@ -884,5 +884,396 @@
       "2105789796899754023"
     ],
     "sonuc_tweet_id": "2105789796899754023"
+  },
+  {
+    "id": "2026-10-02",
+    "tarih": "2026-10-02",
+    "olusturma": "2026-10-01T23:59:24+00:00",
+    "baslik": "",
+    "secimler": [],
+    "sonuc": "analiz",
+    "tweet_id": null,
+    "konsept": "analiz",
+    "taranan": 165,
+    "analiz_sayisi": 102,
+    "vitrin": [
+      {
+        "fixture_id": 1528923,
+        "lig": "UEFA Nations League",
+        "ulke": "World",
+        "izinli": true,
+        "ev": "Kazakhstan",
+        "dep": "Moldova",
+        "baslama": "2026-10-02T16:00:00+02:00",
+        "p": {
+          "MS1": 0.509,
+          "MSX": 0.283,
+          "MS2": 0.208
+        },
+        "beklenen_gol": [
+          1.5,
+          0.9
+        ],
+        "olasi_skor": "1-0",
+        "kisa": {
+          "pazar": "UST15",
+          "ad": "Over 1.5 goals",
+          "p": 0.689,
+          "oran": 1.39
+        }
+      },
+      {
+        "fixture_id": 1528930,
+        "lig": "UEFA Nations League",
+        "ulke": "World",
+        "izinli": true,
+        "ev": "Cyprus",
+        "dep": "Armenia",
+        "baslama": "2026-10-02T18:00:00+02:00",
+        "p": {
+          "MS1": 0.403,
+          "MSX": 0.29,
+          "MS2": 0.307
+        },
+        "beklenen_gol": [
+          1.35,
+          1.15
+        ],
+        "olasi_skor": "1-1",
+        "kisa": {
+          "pazar": "UST15",
+          "ad": "Over 1.5 goals",
+          "p": 0.71,
+          "oran": 1.36
+        }
+      },
+      {
+        "fixture_id": 1545608,
+        "lig": "UEFA Nations League",
+        "ulke": "World",
+        "izinli": true,
+        "ev": "Latvia",
+        "dep": "Montenegro",
+        "baslama": "2026-10-02T18:00:00+02:00",
+        "p": {
+          "MS1": 0.21,
+          "MSX": 0.26,
+          "MS2": 0.53
+        },
+        "beklenen_gol": [
+          0.85,
+          1.55
+        ],
+        "olasi_skor": "0-1",
+        "kisa": {
+          "pazar": "UST15",
+          "ad": "Over 1.5 goals",
+          "p": 0.68,
+          "oran": 1.44
+        }
+      },
+      {
+        "fixture_id": 1528924,
+        "lig": "UEFA Nations League",
+        "ulke": "World",
+        "izinli": true,
+        "ev": "France",
+        "dep": "Italy",
+        "baslama": "2026-10-02T20:45:00+02:00",
+        "p": {
+          "MS1": 0.663,
+          "MSX": 0.186,
+          "MS2": 0.151
+        },
+        "beklenen_gol": [
+          2.35,
+          1.05
+        ],
+        "olasi_skor": "2-1",
+        "kisa": {
+          "pazar": "UST15",
+          "ad": "Over 1.5 goals",
+          "p": 0.839,
+          "oran": 1.15
+        }
+      },
+      {
+        "fixture_id": 1528925,
+        "lig": "UEFA Nations League",
+        "ulke": "World",
+        "izinli": true,
+        "ev": "Belgium",
+        "dep": "Türkiye",
+        "baslama": "2026-10-02T20:45:00+02:00",
+        "p": {
+          "MS1": 0.633,
+          "MSX": 0.198,
+          "MS2": 0.169
+        },
+        "beklenen_gol": [
+          2.3,
+          1.15
+        ],
+        "olasi_skor": "2-1",
+        "kisa": {
+          "pazar": "UST15",
+          "ad": "Over 1.5 goals",
+          "p": 0.842,
+          "oran": 1.15
+        }
+      },
+      {
+        "fixture_id": 1528926,
+        "lig": "UEFA Nations League",
+        "ulke": "World",
+        "izinli": true,
+        "ev": "Hungary",
+        "dep": "Georgia",
+        "baslama": "2026-10-02T20:45:00+02:00",
+        "p": {
+          "MS1": 0.461,
+          "MSX": 0.279,
+          "MS2": 0.26
+        },
+        "beklenen_gol": [
+          1.45,
+          1.0
+        ],
+        "olasi_skor": "1-0",
+        "kisa": {
+          "pazar": "UST15",
+          "ad": "Over 1.5 goals",
+          "p": 0.698,
+          "oran": 1.38
+        }
+      }
+    ],
+    "analizler": [
+      {
+        "fixture_id": 1528923,
+        "lig": "UEFA Nations League",
+        "ulke": "World",
+        "lig_id": 5,
+        "ev": "Kazakhstan",
+        "dep": "Moldova",
+        "baslama": "2026-10-02T16:00:00+02:00",
+        "beklenen_gol": [
+          1.5,
+          0.9
+        ],
+        "p": {
+          "MS1": 0.513,
+          "MSX": 0.261,
+          "MS2": 0.226,
+          "CS1X": 0.774,
+          "CSX2": 0.487,
+          "CS12": 0.739,
+          "KGVAR": 0.461,
+          "KGYOK": 0.539,
+          "UST15": 0.692,
+          "ALT15": 0.308,
+          "UST25": 0.43,
+          "ALT25": 0.57,
+          "UST35": 0.221,
+          "ALT35": 0.779,
+          "IY1": 0.369,
+          "IYX": 0.439,
+          "IY2": 0.192,
+          "IYU05": 0.66,
+          "IYA05": 0.34,
+          "IYU15": 0.294,
+          "IYA15": 0.706,
+          "EVU05": 0.777,
+          "EVA05": 0.223,
+          "EVU15": 0.442,
+          "EVA15": 0.558,
+          "EVU25": 0.191,
+          "EVA25": 0.809,
+          "DPU05": 0.593,
+          "DPA05": 0.407,
+          "DPU15": 0.228,
+          "DPA15": 0.772,
+          "DPU25": 0.063,
+          "DPA25": 0.937,
+          "YYU05": 0.733,
+          "YYA05": 0.267,
+          "YYU15": 0.38,
+          "YYA15": 0.62
+        },
+        "skorlar": [
+          [
+            "1-0",
+            0.1361
+          ],
+          [
+            "1-1",
+            0.1225
+          ],
+          [
+            "2-0",
+            0.1021
+          ],
+          [
+            "2-1",
+            0.0919
+          ],
+          [
+            "0-0",
+            0.0907
+          ]
+        ],
+        "guven": "yuksek"
+      },
+      {
+        "fixture_id": 1528930,
+        "lig": "UEFA Nations League",
+        "ulke": "World",
+        "lig_id": 5,
+        "ev": "Cyprus",
+        "dep": "Armenia",
+        "baslama": "2026-10-02T18:00:00+02:00",
+        "beklenen_gol": [
+          1.35,
+          1.15
+        ],
+        "p": {
+          "MS1": 0.413,
+          "MSX": 0.268,
+          "MS2": 0.318,
+          "CS1X": 0.682,
+          "CSX2": 0.587,
+          "CS12": 0.732,
+          "KGVAR": 0.506,
+          "KGYOK": 0.494,
+          "UST15": 0.713,
+          "ALT15": 0.287,
+          "UST25": 0.456,
+          "ALT25": 0.544,
+          "UST35": 0.242,
+          "ALT35": 0.758,
+          "IY1": 0.312,
+          "IYX": 0.435,
+          "IY2": 0.253,
+          "IYU05": 0.675,
+          "IYA05": 0.325,
+          "IYU15": 0.31,
+          "IYA15": 0.69,
+          "EVU05": 0.741,
+          "EVA05": 0.259,
+          "EVU15": 0.391,
+          "EVA15": 0.609,
+          "EVU25": 0.155,
+          "EVA25": 0.845,
+          "DPU05": 0.683,
+          "DPA05": 0.317,
+          "DPU15": 0.319,
+          "DPA15": 0.681,
+          "DPU25": 0.11,
+          "DPA25": 0.89,
+          "YYU05": 0.747,
+          "YYA05": 0.253,
+          "YYU15": 0.4,
+          "YYA15": 0.6
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1274
+          ],
+          [
+            "1-0",
+            0.1108
+          ],
+          [
+            "0-1",
+            0.0944
+          ],
+          [
+            "2-1",
+            0.086
+          ],
+          [
+            "0-0",
+            0.0821
+          ]
+        ],
+        "guven": "yuksek"
+      },
+      {
+        "fixture_id": 1528924,
+        "lig": "UEFA Nations League",
+        "ulke": "World",
+        "lig_id": 5,
+        "ev": "France",
+        "dep": "Italy",
+        "baslama": "2026-10-02T20:45:00+02:00",
+        "beklenen_gol": [
+          2.35,
+          1.05
+        ],
+        "p": {
+          "MS1": 0.663,
+          "MSX": 0.183,
+          "MS2": 0.154,
+          "CS1X": 0.846,
+          "CSX2": 0.337,
+          "CS12": 0.817,
+          "KGVAR": 0.588,
+          "KGYOK": 0.412,
+          "UST15": 0.853,
+          "ALT15": 0.147,
+          "UST25": 0.66,
+          "ALT25": 0.34,
+          "UST35": 0.442,
+          "ALT35": 0.558,
+          "IY1": 0.498,
+          "IYX": 0.339,
+          "IY2": 0.163,
+          "IYU05": 0.783,
+          "IYA05": 0.217,
+          "IYU15": 0.452,
+          "IYA15": 0.548,
+          "EVU05": 0.905,
+          "EVA05": 0.095,
+          "EVU15": 0.68,
+          "EVA15": 0.319,
+          "EVU25": 0.417,
+          "EVA25": 0.583,
+          "DPU05": 0.65,
+          "DPA05": 0.35,
+          "DPU15": 0.283,
+          "DPA15": 0.717,
+          "DPU25": 0.09,
+          "DPA25": 0.91,
+          "YYU05": 0.846,
+          "YYA05": 0.154,
+          "YYU15": 0.558,
+          "YYA15": 0.442
+        },
+        "skorlar": [
+          [
+            "2-1",
+            0.0968
+          ],
+          [
+            "2-0",
+            0.0922
+          ],
+          [
+            "1-1",
+            0.0823
+          ],
+          [
+            "1-0",
+            0.0784
+          ],
+          [
+            "3-1",
+            0.0758
+          ]
+        ],
+        "guven": "yuksek"
+      }
+    ]
   }
 ]

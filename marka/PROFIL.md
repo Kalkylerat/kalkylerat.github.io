@@ -1,6 +1,6 @@
 # Kalkylerat — X profil kurulumu (kopyala-yapıştır)
 
-Bu dosyadaki metinleri olduğu gibi kopyalayın. Görseller bu klasörde: `logo.png` (profil fotoğrafı), `kapak.png` (başlık/kapak, 1500×500). `yedek_*.png` dosyaları alternatif sade versiyonlardır.
+Bu dosyadaki metinleri olduğu gibi kopyalayın. Görseller bu klasörde: `logo.png` (profil fotoğrafı), `kapak.png` (başlık/kapak, 1500×500, İngilizce; eski İsveççe hali `kapak_sv.png`). `yedek_*.png` dosyaları alternatif sade versiyonlardır.
 
 ## Hesap bilgileri
 
@@ -8,7 +8,7 @@ Bu dosyadaki metinleri olduğu gibi kopyalayın. Görseller bu klasörde: `logo.
 |---|---|
 | İsim (Name) | `Kalkylerat` |
 | Kullanıcı adı (@) | `@Kalkylerat` — alınmışsa sırayla: `@KalkyleratSE`, `@Kalkylerat_`, `@KalkyleratSpel` |
-| Konum | `Sverige` |
+| Konum | `Europe` |
 | Web sitesi | `https://kalkylerat.github.io/` (taşıma adımlarından sonra) |
 | Dil | English |
 

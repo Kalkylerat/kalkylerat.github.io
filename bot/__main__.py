@@ -651,6 +651,9 @@ def sonuc_duzelt(ayar, gunler: list[dict], bugun: str, simdi: datetime, x) -> in
     """Bugünün bütün sonuç postlarını siler ve paylaşım sırasıyla yeniden atar: her post bir öncekinin
     kasasından devam eder (zaman akışında kasa kuponlar kapandıkça adım adım güncellenir)."""
     duzeltilen = 0
+    tarihler = [g["tarih"] for g in gunler if g.get("sonuc_tweet_idleri")]
+    if bugun not in tarihler and tarihler:
+        bugun = max(tarihler)  # gece yarısını geçtiyse: en son sonuç atılan gün
     for g in [g for g in gunler if g["tarih"] == bugun and g.get("sonuc_tweet_idleri")]:
         for tid in reversed(g["sonuc_tweet_idleri"]):
             if tid != "x-mukerrer":

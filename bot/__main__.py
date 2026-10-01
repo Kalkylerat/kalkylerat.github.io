@@ -748,6 +748,29 @@ def odds_pazar(ayar, en_fazla: int = 3) -> None:
     _ozet_yaz("\n".join(satirlar or ["Bugün maç yok."]) + f"\n\nHarcanan kredi {api.harcanan}, kalan {api.kalan}.")
 
 
+def af_pazar(ayar, en_fazla: int = 8) -> None:
+    """API-Football: yarının izinli lig maçlarında hangi bahis türü kaç bahisçide var (Pinnacle/Bet365 dahil mi)."""
+    from collections import defaultdict
+    api = _api(ayar)
+    simdi = kayit.simdi_utc()
+    yarin = (simdi.astimezone(ZoneInfo(ayar.saat_dilimi)) + timedelta(days=1)).date().isoformat()
+    maclar = football.gunun_maclari(api, yarin, ayar.ligler, ayar.saat_dilimi, 0, 999, simdi)
+    maclar = [m for m in maclar if m["lig_id"] in ayar.ligler][:en_fazla]
+    turler: dict[str, dict] = defaultdict(lambda: {"mac": set(), "bahisci": set()})
+    for m in maclar:
+        for k in api.get("odds", fixture=m["fixture_id"]):
+            for bm in k.get("bookmakers", []):
+                for bet in bm.get("bets", []):
+                    turler[bet["name"]]["mac"].add(m["fixture_id"])
+                    turler[bet["name"]]["bahisci"].add(bm["name"])
+    satirlar = [f"{len(maclar)} maç ({yarin}): " + ", ".join(f'{m["ev"]}–{m["dep"]}' for m in maclar)]
+    for ad, v in sorted(turler.items(), key=lambda x: (-len(x[1]["mac"]), -len(x[1]["bahisci"]))):
+        keskin = "P" if ayar.keskin_bahisci in v["bahisci"] else "-"
+        b365 = "B" if "Bet365" in v["bahisci"] else "-"
+        satirlar.append(f'- {ad}: {len(v["mac"])} maç, {len(v["bahisci"])} bahisçi [{keskin}{b365}]')
+    _ozet_yaz("### API-Football bahis türleri\n" + "\n".join(satirlar))
+
+
 def profil() -> None:
     """X profilini okur (paylaşım yok): kullanıcı adı, bio, sabit tweet, doğrulama."""
     r = _x_client().session.get("https://api.x.com/2/users/me", params={
@@ -809,7 +832,7 @@ def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="bot")
     p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt", "sabit", "hafta", "yenile", "oran_testi",
                                           "onay_kontrol", "onay_testi", "onay_yenile", "nabiz",
-                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon"])
+                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar"])
     args = p.parse_args(argv)
     ayar = config.yukle()
 
@@ -827,6 +850,9 @@ def main(argv=None) -> int:
         return 0
     if args.komut == "odds_pazar":
         odds_pazar(ayar)
+        return 0
+    if args.komut == "af_pazar":
+        af_pazar(ayar)
         return 0
     if args.komut == "oran_testi":
         oran_testi(ayar)

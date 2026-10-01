@@ -1718,5 +1718,10 @@ def test_ayni_anda_sonuclanan_kuponlarda_her_post_kendi_kasasini_gosterir():
     a = kayit_(1, "2026-10-01T12:00:00+00:00", 100.0, "kaybetti")
     b = kayit_(2, "2026-10-01T15:00:00+00:00", 99.0, "kaybetti")
     gunler = [b, a]
+    assert kayit.duyuru_sirasi(gunler) == [a, b]  # önce paylaşılan önce duyurulur
     assert kayit.sonuc_ozeti(gunler, a, 10000)["kasa"] == pytest.approx(9900)  # b'nin kaybı a'nın postuna karışmaz
-    assert kayit.sonuc_ozeti(gunler, b, 10000)["kasa"] == pytest.approx(9801)
+    a["sonuc_tweet_id"] = "s1"
+    assert kayit.sonuc_ozeti(gunler, b, 10000)["kasa"] == pytest.approx(9801)  # a duyurulduktan sonra
+    # Zaman akışı: b önce duyurulduysa a'nın sonraki postu b'nin kaybını da içerir (kasa geri gitmez)
+    a.pop("sonuc_tweet_id"); b["sonuc_tweet_id"] = "s2"
+    assert kayit.sonuc_ozeti(gunler, a, 10000)["kasa"] == pytest.approx(9801)

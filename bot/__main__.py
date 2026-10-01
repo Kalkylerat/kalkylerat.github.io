@@ -529,7 +529,7 @@ def sonuc(ayar, api, x, gunler: list[dict], simdi: datetime) -> None:
     if hata:
         _hata("Sonuçlar (The Odds API)", hata)
     # Sonuçlanıp sonuç floodu atılmamış (ya da yarım kalmış) her gün: X hatası olsa bile sonraki çalışmada tamamlanır.
-    for g in gunler:
+    for g in kayit.duyuru_sirasi(gunler):
         if g.get("tweet_id") and g["sonuc"] == "tamam" and not g.get("sonuc_tweet_id"):
             idler = g.setdefault("sonuc_tweet_idleri", [])
             try:
@@ -642,19 +642,16 @@ def kasa_duzelt(ayar, gunler: list[dict], bugun: str, simdi: datetime, x) -> int
 
 
 def sonuc_duzelt(ayar, gunler: list[dict], bugun: str, simdi: datetime, x) -> int:
-    """Bugünün sonuç postlarından kasası yanlış gösterilenleri (aynı anda sonuçlanan sonraki kuponun kaybı
-    karışmış) siler; sonraki adımda doğru kasayla yeniden paylaşılır."""
+    """Bugünün bütün sonuç postlarını siler ve paylaşım sırasıyla yeniden atar: her post bir öncekinin
+    kasasından devam eder (zaman akışında kasa kuponlar kapandıkça adım adım güncellenir)."""
     duzeltilen = 0
     for g in [g for g in gunler if g["tarih"] == bugun and g.get("sonuc_tweet_idleri")]:
-        dogru = kayit.sonuc_ozeti(gunler, g, ayar.kasa_baslangic)["kasa"]
-        if abs(dogru - kayit.ozet(gunler, ayar.kasa_baslangic)["kasa"]) < 0.5:
-            continue
         for tid in reversed(g["sonuc_tweet_idleri"]):
             if tid != "x-mukerrer":
                 x.sil(tid)
         g["sonuc_tweet_idleri"], g["sonuc_tweet_id"] = [], None
         duzeltilen += 1
-        _ozet_yaz(f"{g['id']}: sonuç postu silindi, kasa {dogru:,.2f} ile yeniden paylaşılacak.")
+        _ozet_yaz(f"{g['id']}: sonuç postu silindi, sırayla yeniden paylaşılacak.")
     if duzeltilen:
         sonuc(ayar, None, x, gunler, simdi)
     return duzeltilen

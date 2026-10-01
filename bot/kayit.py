@@ -106,10 +106,14 @@ def _sira(g: dict) -> tuple:
 
 
 def sonuc_ozeti(gunler: list[dict], gun: dict, baslangic: float) -> dict:
-    """Bir kuponun sonuç postundaki kasa: paylaşım sırasında ondan önceki sonuçlanmış kuponlar + kendisi.
-    Aynı anda sonuçlanan sonraki kuponun kaybı bu posta yansımaz (her post kendi kuponunu anlatır)."""
-    sira = _sira(gun)
-    return ozet([g for g in gunler if g is gun or (g.get("sonuc") == "tamam" and _sira(g) <= sira)], baslangic)
+    """Bir kuponun sonuç postundaki kasa: sonucu daha önce duyurulmuş kuponlar + kendisi. Zaman akışında her
+    sonuç postu bir öncekinin kasasından devam eder; henüz duyurulmamış (aynı anda biten) kuponun kaybı karışmaz."""
+    return ozet([g for g in gunler if g is gun or g.get("sonuc_tweet_id")], baslangic)
+
+
+def duyuru_sirasi(gunler: list[dict]) -> list[dict]:
+    """Aynı anda sonuçlanan kuponlar, paylaşılma sırasıyla duyurulur."""
+    return sorted(gunler, key=_sira)
 
 
 def acik_stake(gunler: list[dict]) -> float:

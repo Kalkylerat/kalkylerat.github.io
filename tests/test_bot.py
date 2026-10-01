@@ -1214,7 +1214,8 @@ def test_pas_gununde_aciklama_paylasilir():
 
 def test_ek_kupon_ayri_kayit_ana_kupondaki_takimlar_haric(monkeypatch):
     from bot import __main__ as m, onay
-    gunler = [{"id": "2026-10-01", "tarih": "2026-10-01", "secimler": [{"ev": "Wales", "dep": "Norway"}]}]
+    gunler = [{"id": "2026-10-01", "tarih": "2026-10-01", "secimler": [{"ev": "Wales", "dep": "Norway"}],
+               "kuponlar": [{"ayaklar": [0], "stake": 100}]}]
     gorulen = {}
 
     def sahte_tahmin(ayar, api, sec, gunler, bugun, simdi, gun_id=None, haric_takimlar=None):
@@ -1226,7 +1227,7 @@ def test_ek_kupon_ayri_kayit_ana_kupondaki_takimlar_haric(monkeypatch):
     monkeypatch.setattr(m, "_api", lambda ayar: None)
     monkeypatch.setattr(onay, "onay_iste", lambda g, *a, **k: g.update(onay={"son": "x"}))
     yeni = m.ek_kupon(AYAR, gunler, "2026-10-01", SIMDI)
-    assert yeni["id"] == "2026-10-01-2" and yeni["ek"] and gorulen["ayar"].max_kupon == 2
+    assert yeni["id"] == "2026-10-01-2" and yeni["ek"] and gorulen["ayar"].max_kupon == AYAR.max_kupon - 1
     assert gorulen["haric"] == {"wales", "norway"}
     assert onay._zaten_var(None, yeni) is None  # ana kuponun tweeti ek kupon sanılmaz
     assert tweets._baslik({**yeni, "kuponlar": [{"ayaklar": [0]}]}).startswith("BONUS")
@@ -1511,3 +1512,69 @@ def test_gerekcede_secimle_celisen_skor_tahmini_atilir_gecmis_skorlar_kalir():
     assert "0-1" not in temiz and "2-0, 1-2 and 2-1" in temiz and "about 3 goals" in temiz
     assert editor.celiskisiz_yorum("Most likely 2-1 tonight.", ["UST15"]) == "Most likely 2-1 tonight."
     assert editor.celiskisiz_yorum("We expect a 0-0.", ["ALT25"]) == "We expect a 0-0."
+
+
+def test_denetci_kural_denetimi_celiskileri_yakalar():
+    from bot import denetci
+    ust = _secim(1, 1.3, 0.76, pazar="UST15", beklenen_gol=[1.0, 2.0],
+                 yorum="Israel let in 3 a game. Model expects about 3 goals. Most likely 0-1 tonight. About a 5 in 10 chance.")
+    ters = _secim(2, 1.6, 0.66, pazar="UST25", beklenen_gol=[0.7, 0.8], yorum="Both teams score freely.")
+    temiz = _secim(3, 1.3, 0.72, pazar="CSX2", beklenen_gol=[1.1, 1.4],
+                   yorum="Portugal won both games. Draw or Portugal comes out at about 72%. They met 2-0 and 1-2.")
+    sorunlar = denetci.kural_denetimi([ust, ters, temiz])
+    assert {(x["secim"], x["tur"]) for x in sorunlar} == {(0, "cumle"), (1, "secim")}
+    assert sum(1 for x in sorunlar if x["secim"] == 0) == 2  # skor tahmini + yanlış ihtimal
+
+
+def test_denetci_uygula_cumle_atar_celiskili_kuponu_ve_ayaklarini_cikarir():
+    from bot import denetci
+    a = _secim(1, 1.3, 0.76, yorum="Good form. Most likely 0-1.")
+    b = _secim(2, 1.3, 0.76)
+    c = _secim(3, 1.3, 0.76)
+    gun = {"secimler": [a, b, c], "kuponlar": [{"ayaklar": [0, 1]}, {"ayaklar": [2]}]}
+    denetci.uygula(gun, [{"secim": 0, "tur": "cumle", "cumle": "Most likely 0-1.", "neden": "x"},
+                         {"secim": 2, "tur": "secim", "cumle": "", "neden": "y"}], yaz=lambda m: None)
+    assert a["yorum"] == "Good form."
+    assert gun["kuponlar"] == [{"ayaklar": [0, 1]}] and gun["secimler"] == [a, b]
+    gun2 = {"secimler": [a, b, c], "kuponlar": [{"ayaklar": [0]}, {"ayaklar": [1, 2]}]}
+    denetci.uygula(gun2, [{"secim": 0, "tur": "secim", "cumle": "", "neden": "y"}], yaz=lambda m: None)
+    assert gun2["secimler"] == [b, c] and gun2["kuponlar"] == [{"ayaklar": [0, 1]}]
+
+
+def test_denetci_yz_cagrisi_hizli_modelle_ve_bozulursa_kural_denetimi_kalir():
+    from bot import denetci
+    s = _secim(1, 1.3, 0.76, yorum="Fine.", beklenen_gol=[1.5, 1.2])
+    cagri = []
+
+    class Model:
+        def __init__(self, cevap):
+            self.cevap, self.messages = cevap, self
+
+        def stream(self, **k):
+            cagri.append(k["model"])
+            cevap = self.cevap
+            class S:
+                def __enter__(s_):
+                    return s_
+                def __exit__(s_, *a):
+                    return False
+                def get_final_message(s_):
+                    if cevap is None:
+                        raise RuntimeError("ağ")
+                    return SimpleNamespace(stop_reason="end_turn",
+                                           content=[SimpleNamespace(type="text", text=json.dumps(cevap))])
+            return S()
+    gun = {"secimler": [s], "kuponlar": [{"ayaklar": [0]}]}
+    denetci.denetle(gun, AYAR, Model({"sorunlar": [{"secim": 0, "tur": "secim", "cumle": "", "neden": "z"}]}),
+                    yaz=lambda m: None)
+    assert gun["kuponlar"] == [] and cagri == [AYAR.direktor_model]
+    gun = {"secimler": [s], "kuponlar": [{"ayaklar": [0]}]}
+    denetci.denetle(gun, AYAR, Model(None), yaz=lambda m: None)  # model hatası: kupon kalır
+    assert gun["kuponlar"] == [{"ayaklar": [0]}]
+
+
+def test_baslik_postu_tek_basina_anlasilir():
+    g = _gun("2026-10-01", [_secim(1, 1.46, 0.66, ev="Wales", dep="Norway", kisa="Norway to win")], kuponlar=[[0]])
+    metin = tweets.gorselli_gun_tweeti(g)
+    assert "Wales v Norway: Norway to win · 66% chance" in metin and metin.endswith(tweets.ANSVAR)
+    assert tweets.uzunluk(metin) <= 280

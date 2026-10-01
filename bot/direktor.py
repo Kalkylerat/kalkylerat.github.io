@@ -19,6 +19,17 @@ from . import config, kayit
 from .tweets import ANSVAR, LIMIT, uzunluk
 
 DOSYA = config.ROOT / "data" / "direktor.json"
+REHBER_DOSYASI = config.ROOT / ".claude" / "skills" / "sosyal-medya" / "SKILL.md"
+
+
+def _rehber() -> str:
+    """Projenin X uzmanlık rehberi (algoritma gerçekleri, hesap kuralları, işe yarayanlar): direktörün bilgi temeli."""
+    try:
+        metin = REHBER_DOSYASI.read_text(encoding="utf-8")
+    except OSError:
+        return ""
+    metin = metin.split("---", 2)[-1] if metin.startswith("---") else metin
+    return "\n\nAccount playbook (written by the owner's team, in Turkish; follow it):\n" + metin.strip()
 
 KURALLAR = """Hard rules (never break them):
 - Plain, friendly English for a broad football audience. Max 280 characters (emojis count double).
@@ -34,7 +45,7 @@ EUR 10,000 bankroll. You write one post at a time for the account's daily schedu
 
 {KURALLAR}
 
-Follow this week's strategy notes when they are given. Return only the post text in "metin"."""
+Follow this week's strategy notes when they are given. Return only the post text in "metin".""" + _rehber()
 
 HAFTALIK_SISTEM = f"""You are the X (Twitter) growth director of @kalkylerat, a football stats account with a transparent virtual
 EUR 10,000 bankroll (1% of the bank per coupon, wins and losses shown alike). Each week you review how the account's posts
@@ -49,7 +60,8 @@ a score prediction, a stat of the day, results after the games, a weekly recap o
 {KURALLAR}
 
 Base every claim on the numbers given. "strateji" guides the daily writer next week: keep it short and concrete.
-"rapor" is for the owner, in Turkish, plain and practical (what worked, what to change, what the owner should do by hand)."""
+"gunluk_max_kupon" is how many coupons per day (1-3) the bot may post next week; the owner follows your call.
+"rapor" is for the owner, in Turkish, plain and practical (what worked, what to change, what the owner should do by hand).""" + _rehber()
 
 GUNLUK_SEMA = {"type": "object", "properties": {"metin": {"type": "string"}},
                "required": ["metin"], "additionalProperties": False}
@@ -63,8 +75,9 @@ HAFTALIK_SEMA = {
                 "soru_ornekleri": {"type": "array", "items": {"type": "string"}},
                 "kacinilacaklar": {"type": "array", "items": {"type": "string"}},
                 "odak": {"type": "string"},
+                "gunluk_max_kupon": {"type": "integer"},
             },
-            "required": ["ton", "soru_ornekleri", "kacinilacaklar", "odak"],
+            "required": ["ton", "soru_ornekleri", "kacinilacaklar", "odak", "gunluk_max_kupon"],
             "additionalProperties": False,
         },
         "rapor": {"type": "string"},
@@ -192,3 +205,9 @@ def haftalik(ayar, gunler: list[dict], tweetler: list[dict], gh, simdi_yerel: da
     _kaydet(veri)
     yaz(f"### X Direktörü ({hafta})\n{sonuc['rapor']}")
     return veri
+
+
+def gunluk_max_kupon(ayar) -> int:
+    """Direktörün belirlediği günlük kupon sınırı (1-3); yoksa ayarlar.toml'daki."""
+    deger = (yukle().get("strateji") or {}).get("gunluk_max_kupon")
+    return max(1, min(3, int(deger))) if isinstance(deger, (int, float)) else ayar.max_kupon

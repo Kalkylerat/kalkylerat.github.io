@@ -118,9 +118,18 @@ def _gunun(sorular: list[str], gun: dict) -> str:
 
 
 def gorselli_gun_tweeti(gun: dict) -> str:
-    """Kupon görselleriyle giden ana tweet: her şey görselde; bir soru yorumlara davet eder, gerekçeler yanıtlarda."""
-    return (f"{_baslik(gun)} | {_tarih(gun)}\n\n{_gunun(KUPON_SORULARI, gun)}\n\n"
-            f"Why these picks: in the thread 🧵\n{ANSVAR}")
+    """Kupon görselleriyle giden ana tweet. Tek başına anlaşılır olsun (X Direktörü): öndeki maç, seçim ve
+    ihtimal başlıkta; bir soru yorumlara davet eder, gerekçeler yanıtlarda."""
+    bas, soru = f"{_baslik(gun)} | {_tarih(gun)}", _gunun(KUPON_SORULARI, gun)
+    kuyruk = f"Why these picks: in the thread 🧵\n{ANSVAR}"
+    sade = f"{bas}\n\n{soru}\n\n{kuyruk}"
+    if not gun.get("secimler"):
+        return sade
+    s = gun["secimler"][0]
+    diger = len(gun["secimler"]) - 1
+    on = (f'⚽ {_mac(s, 30)}: {s["kisa"]} · {yuzde(s["adil_olasilik"])} chance'
+          + (f'\n+ {diger} more leg{"s" if diger > 1 else ""}' if diger else ""))
+    return ilk_sigan(f"{bas}\n\n{on}\n\n{soru}\n\n{kuyruk}", sade)
 
 
 def gun_tweeti(gun: dict, ozet: dict | None = None) -> str:

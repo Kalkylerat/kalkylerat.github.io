@@ -30,11 +30,12 @@ max_mac_tarama = 150
 istek_araligi_sn = 0.3
 
 [strateji]
-# Günde en fazla kaç oyun (3 kupona yetecek kadar), bir maçtan en fazla kaç oyun ve en fazla kaç kupon.
+# Günde en fazla kaç oyun, bir maçtan en fazla kaç oyun ve en fazla kaç kupon (X Direktörü haftalık stratejide
+# günlük kupon sınırını 1-3 arasında belirler; o varsa bu değer yerine o kullanılır).
 # Kupon: tek maç ya da 2-3 maçlık kombine; her kupon kasanın oyun_yuzdesi kadarıyla oynanır.
 max_oyun = 7
 max_oyun_mac_basina = 2
-max_kupon = 3
+max_kupon = 2
 # YÜKSEK İHTİMALLİ oyun: en az %65 kazanma ihtimali (keskin piyasanın marjsız fiyatından) VE oran adil fiyata
 # yakın: en fazla %4 altında (normal bahisçi marjı kadar). Öncelik her gün güvenilir, sık tutan bir kupon;
 # adil fiyatın çok altındaki (marjı yüksek) oranlar alınmaz. Kasayı asıl büyüten değer oyunlarıdır.

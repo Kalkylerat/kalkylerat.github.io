@@ -10,7 +10,7 @@ import time
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-from . import config, direktor, editor, etkilesim, football, gorsel, kayit, model, oddsapi, onay, panel, tweets
+from . import config, denetci, direktor, editor, etkilesim, football, gorsel, kayit, model, oddsapi, onay, panel, tweets
 from .model import adaylari_uret, bet_builder, etiketler
 
 # Çalışma sırasında yakalanan hatalar: iş sonunda "başarısız" işaretlenir, GitHub sahibine e-posta atar.
@@ -141,9 +141,18 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime,
     # Kuponlar ilk maçlarının saatine göre sıralanır.
     nolar = sorted({s["kupon_no"] for s in gun["secimler"]},
                    key=lambda n: min(s["baslama"] for s in gun["secimler"] if s["kupon_no"] == n))
-    stakeler = kayit.stakeler(gunler, ayar.kasa_baslangic, ayar.oyun_yuzdesi, len(nolar))
     gun["kuponlar"] = [{"ayaklar": [i for i, s in enumerate(gun["secimler"]) if s["kupon_no"] == n],
-                        "kasa": kasa_, "stake": stake, "durum": None} for n, (kasa_, stake) in zip(nolar, stakeler)]
+                        "durum": None} for n in nolar]
+    # Denetçi: söylenen her şey seçimle tutarlı mı? Sorunlu cümle atılır, çelişkili seçimin kuponu çıkar.
+    denetci.denetle(gun, ayar, yaz=_ozet_yaz, yz=ayar.direktor_aktif and bool(os.environ.get("ANTHROPIC_API_KEY")))
+    if not gun["kuponlar"]:
+        gun.update(secimler=[], sonuc="pas", pas_nedeni="Denetçi seçimleri tutarsız buldu; paylaşılmadı.")
+        gunler.append(gun)
+        _ozet_yaz(f"### {bugun}: denetçi kuponları durdurdu")
+        return None
+    stakeler = kayit.stakeler(gunler, ayar.kasa_baslangic, ayar.oyun_yuzdesi, len(gun["kuponlar"]))
+    for k, (kasa_, stake) in zip(gun["kuponlar"], stakeler):
+        k["kasa"], k["stake"] = kasa_, stake
     gun["baslik"] = karar["baslik"].strip()
     gun["yanit_onerileri"] = editor.yanit_onerilerini_hazirla(
         karar.get("yanit_onerileri") or [], mac_map, ayar.oran_bahiscileri + [ayar.keskin_bahisci])
@@ -687,7 +696,11 @@ def ek_kupon(ayar, gunler: list[dict], bugun: str, simdi: datetime) -> dict | No
         raise RuntimeError("Bugünün ana kaydı yok; önce sabah taraması.")
     haric = {t.lower() for g in bugunkuler for s in g["secimler"] for t in (s["ev"], s["dep"])}
     ek_id = f"{bugun}-{len(bugunkuler) + 1}"
-    yeni = tahmin(replace(ayar, max_kupon=2), _api(ayar), _secici(), gunler, bugun, simdi,
+    kalan = ayar.max_kupon - sum(len(kayit.kuponlar(g)) for g in bugunkuler if g.get("sonuc") != "pas")
+    if kalan <= 0:
+        _ozet_yaz(f"Ek kupon yok: bugün günlük sınıra ({ayar.max_kupon} kupon) ulaşıldı.")
+        return None
+    yeni = tahmin(replace(ayar, max_kupon=kalan), _api(ayar), _secici(), gunler, bugun, simdi,
                   gun_id=ek_id, haric_takimlar=haric)
     if not yeni:
         pas = kayit.bul(gunler, ek_id)
@@ -949,6 +962,8 @@ def main(argv=None) -> int:
                                           "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir", "kasa_duzelt", "direktor", "skor_duzelt"])
     args = p.parse_args(argv)
     ayar = config.yukle()
+    from dataclasses import replace as _degistir
+    ayar = _degistir(ayar, max_kupon=direktor.gunluk_max_kupon(ayar))  # X Direktörünün günlük kupon sınırı
 
     if args.komut == "demo":
         demo(ayar)

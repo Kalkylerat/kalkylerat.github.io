@@ -123,7 +123,7 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime,
         a = aday_map[s["aday_id"]]
         m = mac_map[a["fixture_id"]]
         gun["secimler"].append({
-            "fixture_id": a["fixture_id"], "lig": _lig_adi(m, ayar), "ev": m["ev"], "dep": m["dep"],
+            "fixture_id": a["fixture_id"], "lig": _lig_adi(m, ayar), "ulke": m.get("ulke", ""), "ev": m["ev"], "dep": m["dep"],
             "baslama": m["baslama"],
             "saat": datetime.fromisoformat(m["baslama"]).astimezone(ZoneInfo(ayar.saat_dilimi)).strftime("%H:%M %Z"),
             "olasi_skor": a["olasi_skor"], "pazar": a["pazar"], "tur": a["tur"], "etiket": a["etiket"],

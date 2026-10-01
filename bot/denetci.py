@@ -165,6 +165,11 @@ def yayin_kontrolu(gun: dict, metinler: list[str], gunler: list[dict], ayar, sim
             hata.append(f"Tweet {i} bahis sitesi adı içeriyor.")
         if _KESINLIK.search(m):
             hata.append(f"Tweet {i} kesinlik dili içeriyor.")
+    from .tweets import IZINLI_ETIKETLER
+    for i, m in enumerate(metinler, 1):
+        etiketler = re.findall(r"#\w+", m)
+        if len(etiketler) > 2 or any(e not in IZINLI_ETIKETLER for e in etiketler):
+            hata.append(f"Tweet {i} izin verilmeyen ya da fazla hashtag içeriyor ({' '.join(etiketler)}).")
     if metinler and not metinler[0].rstrip().endswith(ANSVAR):
         hata.append("Ana tweette '18+ | Play responsibly' satırı yok.")
     for n, k in enumerate(kayit.kuponlar(gun), 1):

@@ -16,7 +16,7 @@ from datetime import datetime, timedelta
 import anthropic
 
 from . import config, kayit
-from .tweets import ANSVAR, LIMIT, uzunluk
+from .tweets import ANSVAR, IZINLI_ETIKETLER, LIMIT, uzunluk
 
 DOSYA = config.ROOT / "data" / "direktor.json"
 REHBER_DOSYASI = config.ROOT / ".claude" / "skills" / "sosyal-medya" / "SKILL.md"
@@ -34,7 +34,9 @@ def _rehber() -> str:
 KURALLAR = """Hard rules (never break them):
 - Plain, friendly English for a broad football audience. Max 280 characters (emojis count double).
 - Use only the facts given. Never invent stats, news, line-ups, injuries or quotes.
-- No "@" mentions, no links, no bookmaker or betting-site names, at most one hashtag and only for a big competition.
+- No "@" mentions, no links, no bookmaker or betting-site names.
+- Emojis: 1-3 that fit (⚽ 📊 🔥 🎯 🗳️ 👇), never a wall of them.
+- Hashtags: only from "allowed_hashtags" in the facts (real competition tags), at most two; none if the list is empty.
 - Never say "lock", "guaranteed", "sure thing", "banker", "free money" or promise wins. Talk in chances.
 - No engagement bait ("RT", "like if", "follow for"). Ask one real question people want to answer.
 - No betting tips outside the coupon posts: these posts are about football and our numbers."""
@@ -106,7 +108,10 @@ _ALAN_ADI = re.compile(r"\b[a-z0-9-]+\.(com|net|org|io|co|se|uk|tr|bet|app|gg|ly
 def kurala_uygun(metin: str, tur: str, bahisciler: list[str]) -> bool:
     if not metin or uzunluk(metin) > LIMIT or _YASAK.search(metin) or _ALAN_ADI.search(metin):
         return False
-    if metin.count("#") > 1 or any(b.lower() in metin.lower() for b in bahisciler):
+    etiketler = re.findall(r"#\w+", metin)
+    if len(etiketler) > 2 or any(e not in IZINLI_ETIKETLER for e in etiketler):
+        return False  # yalnızca gerçek turnuva etiketleri, en fazla iki
+    if any(b.lower() in metin.lower() for b in bahisciler):
         return False
     return tur not in ("pas", "radar") or metin.rstrip().endswith(ANSVAR)
 
@@ -144,8 +149,9 @@ def yazar(ayar, client=None, yaz=print):
     """etkilesim.paylas için metin yazıcı: (tür, olgular, şablon) -> metin. Hata ya da kural dışı metinde şablon."""
     def yazici(tur: str, olgular: dict, sablon: str) -> str:
         strateji = yukle().get("strateji") or {}
+        etiketler = sorted(set(re.findall(r"#\w+", sablon)) & IZINLI_ETIKETLER)
         icerik = json.dumps({"post_type": tur, "facts": olgular, "template_for_reference": sablon,
-                             "this_week_strategy": strateji}, ensure_ascii=False, indent=1)
+                             "allowed_hashtags": etiketler, "this_week_strategy": strateji}, ensure_ascii=False, indent=1)
         if tur in ("pas", "radar"):
             icerik += f'\nThe post must end with the line "{ANSVAR}".'
         try:

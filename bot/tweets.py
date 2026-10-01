@@ -16,6 +16,39 @@ ANSVAR = "18+ | Play responsibly"
 TUR = {"guvenli": "high-chance pick", "deger": "value pick"}
 
 
+# Yalnızca büyük turnuvalar için, gerçek etiketler (X rehberi: en fazla 1-2). Ülkeye göre doğrulanır:
+# "Premier League" Kenya'da da var, "Serie A" Brezilya'da da.
+_ULUSLARARASI = (("champions league women", "#UWCL"), ("uefa nations league", "#NationsLeague"),
+                 ("uefa champions league", "#UCL"), ("uefa europa league", "#UEL"), ("conference league", "#UECL"))
+_ULUSAL = {("premier league", "england"): "#PremierLeague", ("la liga", "spain"): "#LaLiga",
+           ("serie a", "italy"): "#SerieA", ("bundesliga", "germany"): "#Bundesliga", ("ligue 1", "france"): "#Ligue1",
+           ("eredivisie", "netherlands"): "#Eredivisie", ("süper lig", "turkey"): "#SuperLig",
+           ("allsvenskan", "sweden"): "#Allsvenskan"}
+IZINLI_ETIKETLER = {e for _, e in _ULUSLARARASI} | set(_ULUSAL.values())
+
+
+def hashtag(lig: str | None, ulke: str | None = "") -> str | None:
+    l = (lig or "").lower().strip()
+    for anahtar, etiket in _ULUSLARARASI:
+        if anahtar in l:
+            return etiket
+    if l == "epl":
+        return "#PremierLeague"
+    if " - " in l:  # The Odds API: "La Liga - Spain"
+        l, ulke = l.split(" - ", 1)
+    return _ULUSAL.get((l.strip(), (ulke or "").lower().strip()))
+
+
+def etiket_satiri(ligler: list[tuple[str, str]], en_fazla: int = 2) -> str:
+    """(lig, ülke) listesinden en fazla iki farklı turnuva etiketi; yoksa boş."""
+    etiketler = []
+    for lig, ulke in ligler:
+        e = hashtag(lig, ulke)
+        if e and e not in etiketler:
+            etiketler.append(e)
+    return " ".join(etiketler[:en_fazla])
+
+
 def uzunluk(metin: str) -> int:
     return sum(1 if any(a <= ord(c) <= b for a, b in _TEK) else 2 for c in metin)
 
@@ -121,7 +154,8 @@ def gorselli_gun_tweeti(gun: dict) -> str:
     """Kupon görselleriyle giden ana tweet. Tek başına anlaşılır olsun (X Direktörü): öndeki maç, seçim ve
     ihtimal başlıkta; bir soru yorumlara davet eder, gerekçeler yanıtlarda."""
     bas, soru = f"{_baslik(gun)} | {_tarih(gun)}", _gunun(KUPON_SORULARI, gun)
-    kuyruk = f"Why these picks: in the thread 🧵\n{ANSVAR}"
+    etiket = etiket_satiri([(s.get("lig"), s.get("ulke")) for s in gun.get("secimler") or []])
+    kuyruk = f"Why these picks: in the thread 🧵{' ' + etiket if etiket else ''}\n{ANSVAR}"
     sade = f"{bas}\n\n{soru}\n\n{kuyruk}"
     if not gun.get("secimler"):
         return sade
@@ -189,8 +223,8 @@ def analiz_tweetleri(gun: dict) -> list[str]:
     def tweet(i: int, s: dict) -> str:
         tur = ("bet builder, " if s.get("bet_builder") else "") + TUR[s["tur"]]
         no = kupon_no(gun, i - 1)
-        bas = (f'{i}) {_mac(s)} · {s["saat"]}{f" · coupon {no}" if no else ""}\nPick: {s["etiket"]}\n'
-               f'Odds {oran_metni(s)} · chance {yuzde(s["adil_olasilik"])} · {tur}')
+        bas = (f'{i}) {_mac(s)} · {s["saat"]}{f" · coupon {no}" if no else ""}\n🎯 Pick: {s["etiket"]}\n'
+               f'📊 Odds {oran_metni(s)} · chance {yuzde(s["adil_olasilik"])} · {tur}')
         skor = _skor_satiri(s)
         yorumlar = _cumleler(s["yorum"]) if s["yorum"] else [""]
         adaylar = [bas + skor + (f"\n\n{y}" if y else "") for y in yorumlar[:1]]

@@ -175,7 +175,7 @@ def test_ana_tweet_icerigi():
     assert "🎫 Coupon 1: odds 2.00 · 52% chance\n€100 → €200\n• Home1 v Away1: Home1 win" in metin
     assert "🎫 Coupon 2: odds 1.82" in metin and "• Home2 v Away2: Over 2.5 goals" in metin
     analiz = tweets.analiz_tweetleri(g)
-    assert analiz[0].startswith("1) Home1 v Away1 · 15:00 CEST · coupon 1\nPick: ") and "value pick" in analiz[0]
+    assert analiz[0].startswith("1) Home1 v Away1 · 15:00 CEST · coupon 1\n🎯 Pick: ") and "value pick" in analiz[0]
     assert "coupon 2" in analiz[2] and "high-chance pick" in analiz[2]
     assert tweets.gun_floodu(g, kayit.ozet([], 10000), gorselli=True)[1:] == analiz  # kasa tweeti yok
 
@@ -1667,3 +1667,17 @@ def test_gorsel_denetimi_gorselleri_ve_beklenen_rakamlari_gonderir():
     assert sonuc == ["Bank shows 10,100 instead of 10,000."]
     icerik = gonderilen["messages"][0]["content"]
     assert icerik[0]["type"] == "image" and '"bank": 10000.0' in icerik[1]["text"] and gonderilen["model"] == AYAR.direktor_model
+
+
+def test_hashtag_yalniz_gercek_turnuvalar_ulkeye_gore():
+    assert tweets.hashtag("UEFA Nations League") == "#NationsLeague"
+    assert tweets.hashtag("UEFA Champions League Women") == "#UWCL"
+    assert tweets.hashtag("Premier League", "England") == "#PremierLeague"
+    assert tweets.hashtag("Premier League", "Kenya") is None and tweets.hashtag("Serie A", "Brazil") is None
+    assert tweets.hashtag("La Liga - Spain") == "#LaLiga" and tweets.hashtag("EPL") == "#PremierLeague"
+    assert tweets.hashtag("CONCACAF Nations League") is None
+    from bot import direktor
+    b = AYAR.oran_bahiscileri + [AYAR.keskin_bahisci]
+    assert direktor.kurala_uygun("Big night ⚽ Who wins? 👇 #NationsLeague", "maclar", b)
+    assert not direktor.kurala_uygun("Big night #football #bets", "maclar", b)
+    assert not direktor.kurala_uygun("#UCL #NationsLeague #PremierLeague", "maclar", b)

@@ -1238,3 +1238,18 @@ def test_ek_kupon_cikmazsa_bos_kayit_kalmaz(monkeypatch):
     monkeypatch.setattr(m, "tahmin", pas)
     monkeypatch.setattr(m, "_api", lambda ayar: None)
     assert m.ek_kupon(AYAR, gunler, "2026-10-01", SIMDI) is None and len(gunler) == 1
+
+
+def test_takim_golu_ve_ikinci_yari_pazarlari():
+    p = model.model_olasiliklari(1.6, 1.0)
+    for a, b in (("EVU05", "EVA05"), ("DPU15", "DPA15"), ("YYU05", "YYA05")):
+        assert p[a] + p[b] == pytest.approx(1, abs=1e-4)
+    assert p["EVU05"] > p["DPU05"]  # ev sahibi daha çok gol bekliyor
+    assert football.pazar_kodu("Total - Home", "Over 1.5") == "EVU15"
+    assert football.pazar_kodu("Total - Away", "Under 0.5") == "DPA05"
+    assert football.pazar_kodu("Goals Over/Under - Second Half", "Over 0.5") == "YYU05"
+    assert model.kazandi_mi("EVU15", 2, 0) and model.kazandi_mi("DPA05", 2, 0)
+    assert model.kazandi_mi("YYU05", 2, 1, iy=(2, 0)) and not model.kazandi_mi("YYU05", 2, 0, iy=(2, 0))
+    assert model.kazandi_mi("YYU05", 2, 1) is None  # ilk yarı skoru yoksa beklemede
+    assert model.etiketler("EVU15", "Spain", "Croatia")[0] == "Spain Over 1.5 goals"
+    assert model.piyasa_olasiliklari({"DPU05": 1.5, "DPA05": 2.5})["DPU05"] == pytest.approx(0.625)

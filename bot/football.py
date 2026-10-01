@@ -28,6 +28,9 @@ CIZGILI_PAZARLAR = {
     "Goals Over/Under": ("UST", "ALT", {"1.5", "2.5", "3.5"}),
     "Goals Over/Under First Half": ("IYU", "IYA", {"0.5", "1.5"}),
     "Corners Over Under": ("KORU", "KORA", {"8.5", "9.5", "10.5"}),
+    "Total - Home": ("EVU", "EVA", {"0.5", "1.5", "2.5"}),
+    "Total - Away": ("DPU", "DPA", {"0.5", "1.5", "2.5"}),
+    "Goals Over/Under - Second Half": ("YYU", "YYA", {"0.5", "1.5"}),
 }
 
 

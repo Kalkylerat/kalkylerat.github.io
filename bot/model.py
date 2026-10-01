@@ -8,10 +8,13 @@ MAX_GOL = 10
 IY_ORANI = 0.45  # maçtaki gollerin yaklaşık %45'i ilk yarıda atılır
 
 UC_YOLLU = (("MS1", "MSX", "MS2"), ("IY1", "IYX", "IY2"))
-IKILI_ONEK = (("UST", "ALT"), ("IYU", "IYA"), ("KORU", "KORA"))
+IKILI_ONEK = (("UST", "ALT"), ("IYU", "IYA"), ("KORU", "KORA"), ("EVU", "EVA"), ("DPU", "DPA"), ("YYU", "YYA"))
 TAM_MAC = ("MS1", "MSX", "MS2", "CS1X", "CSX2", "CS12", "KGVAR", "KGYOK",
            "UST15", "ALT15", "UST25", "ALT25", "UST35", "ALT35")
 ILK_YARI = ("IY1", "IYX", "IY2", "IYU05", "IYA05", "IYU15", "IYA15")
+# Takım golleri (EV/DP = ev sahibi/deplasman) ve ikinci yarı golleri (YY): skor ve ilk yarı skorundan sonuçlanır.
+TAKIM = tuple(f"{t}{y}{c}" for t in ("EV", "DP") for c in ("05", "15", "25") for y in ("U", "A"))
+IKINCI_YARI = ("YYU05", "YYA05", "YYU15", "YYA15")
 
 
 def cizgi(pazar: str) -> float:
@@ -31,7 +34,8 @@ def etiketler(pazar: str, ev: str, dep: str) -> tuple[str, str]:
         return sabit[pazar], sabit[pazar]
     c = cizgi(pazar)
     on_ek = {"IYU": "1st half Over", "IYA": "1st half Under", "KORU": "Over", "KORA": "Under",
-             "UST": "Over", "ALT": "Under"}
+             "UST": "Over", "ALT": "Under", "EVU": f"{ev} Over", "EVA": f"{ev} Under",
+             "DPU": f"{dep} Over", "DPA": f"{dep} Under", "YYU": "2nd half Over", "YYA": "2nd half Under"}
     kod = next(k for k in on_ek if pazar.startswith(k))
     metin = f'{on_ek[kod]} {c} {"corners" if kod.startswith("KOR") else "goals"}'
     return metin, metin
@@ -44,6 +48,14 @@ def kazandi_mi(pazar: str, ev: int, dep: int, iy: tuple[int, int] | None = None,
         if korner is None:
             return None
         return korner > cizgi(pazar) if pazar.startswith("KORU") else korner < cizgi(pazar)
+    if pazar[:3] in ("EVU", "EVA", "DPU", "DPA"):
+        gol = ev if pazar.startswith("EV") else dep
+        return gol > cizgi(pazar) if pazar[2] == "U" else gol < cizgi(pazar)
+    if pazar.startswith("YY"):
+        if iy is None:
+            return None
+        ikinci = ev + dep - iy[0] - iy[1]
+        return ikinci > cizgi(pazar) if pazar.startswith("YYU") else ikinci < cizgi(pazar)
     if pazar.startswith("IY"):
         if iy is None:
             return None
@@ -104,7 +116,7 @@ def _skor_dagilimi(lam_ev: float, lam_dep: float, ust: int = 8):
 
 def model_olasiliklari(lam_ev: float, lam_dep: float) -> dict[str, float]:
     """Tam maç ve ilk yarı pazarları için Poisson olasılıkları. Korner için model yok."""
-    p = {k: 0.0 for k in TAM_MAC + ILK_YARI}
+    p = {k: 0.0 for k in TAM_MAC + ILK_YARI + TAKIM + IKINCI_YARI}
     for iy, (ev, dep), olas in _skor_dagilimi(lam_ev, lam_dep):
         for pazar in p:
             if kazandi_mi(pazar, ev, dep, iy=iy):

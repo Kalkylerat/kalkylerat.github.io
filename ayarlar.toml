@@ -3,6 +3,11 @@
 [genel]
 saat_dilimi = "Europe/Stockholm"
 
+[konsept]
+# "analiz": kupon, stake ve kasa yok; her gün maç analizi kartları (olasılıklar, skor dağılımı).
+# "kupon": eski düzen (kupon + sanal kasa).
+mod = "analiz"
+
 [ligler]
 # API-Football lig ID'leri; sıra önceliktir (günlük tarama sınırı dolarsa sondakiler atlanır).
 # Sadece takım istatistiği ve güvenilir oranı olan maçlar seçilir.

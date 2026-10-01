@@ -10,7 +10,7 @@ import time
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-from . import config, denetci, direktor, editor, etkilesim, football, gorsel, kayit, model, oddsapi, onay, panel, tweets
+from . import config, denetci, direktor, editor, etkilesim, football, gorsel, kayit, model, oddsapi, onay, panel, temizlik, tweets
 from .model import adaylari_uret, bet_builder, etiketler
 
 # Çalışma sırasında yakalanan hatalar: iş sonunda "başarısız" işaretlenir, GitHub sahibine e-posta atar.
@@ -751,6 +751,11 @@ def _sabah_penceresi(simdi: datetime, ayar) -> bool:
     return bas + 20 <= dk <= bas + 150
 
 
+def analiz_gunu(ayar, gunler: list[dict], bugun: str, simdi: datetime) -> None:
+    """Analiz konsepti: kupon yok. (Analiz motoru bağlanana kadar yalnızca kupon akışını durdurur.)"""
+    _ozet_yaz(f"Konsept: analiz — {bugun} için kupon hazırlanmadı.")
+
+
 def _mac_sonuclari(ayar, maclar: list[dict]) -> dict:
     """Kupon dışı maçların sonucu, maçın geldiği kaynaktan (The Odds API ya da API-Football)."""
     istekler: dict[str, list[str]] = {}
@@ -1002,7 +1007,7 @@ def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="bot")
     p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt", "sabit", "hafta", "yenile", "oran_testi",
                                           "onay_kontrol", "onay_testi", "onay_yenile", "nabiz",
-                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir", "kasa_duzelt", "direktor", "skor_duzelt", "sonuc_duzelt", "kasa_defteri"])
+                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir", "kasa_duzelt", "direktor", "skor_duzelt", "sonuc_duzelt", "kasa_defteri", "temizle"])
     args = p.parse_args(argv)
     ayar = config.yukle()
     from dataclasses import replace as _degistir
@@ -1047,6 +1052,13 @@ def main(argv=None) -> int:
                 onay.kontrol(ayar, onay.GitHub(), _x_client(), gunler, simdi, yayinla)
             except Exception as e:
                 _hata("Onay kontrolü", e)
+        if args.komut == "temizle":
+            temizlik.baslat(simdi)
+        if args.komut in ("temizle", "nabiz") and temizlik.durum().get("aktif"):
+            try:
+                temizlik.calistir(_x_client(), simdi, yaz=_ozet_yaz)
+            except Exception as e:
+                _hata("Temizlik", e)
         if args.komut in ("otomatik", "sonuc", "nabiz"):
             try:
                 sonuc(ayar, _api(ayar), _x_client(), gunler, simdi)
@@ -1059,7 +1071,8 @@ def main(argv=None) -> int:
             except Exception as e:
                 _hata("Sonuçlar", e)
             try:
-                haftalik(ayar, _x_client(), gunler, simdi)
+                if ayar.konsept == "kupon":
+                    haftalik(ayar, _x_client(), gunler, simdi)
             except Exception as e:
                 _hata("Haftalık özet", e)
         if args.komut == "nabiz" and kayit.bul(gunler, bugun):
@@ -1119,7 +1132,9 @@ def main(argv=None) -> int:
             # Sabah çalışması GitHub tarafından iptal edildi/atlandıysa nabız günün kuponunu hazırlar.
             _ozet_yaz("Sabah çalışması bulunamadı; nabız günün kuponunu hazırlıyor.")
             args.komut = "otomatik"
-        if args.komut in ("otomatik", "tahmin"):
+        if args.komut in ("otomatik", "tahmin") and ayar.konsept != "kupon":
+            analiz_gunu(ayar, gunler, bugun, simdi)
+        elif args.komut in ("otomatik", "tahmin"):
             kayitli = kayit.bul(gunler, bugun)
             onceki = None
             if args.komut == "otomatik" and kayitli is None:

@@ -458,6 +458,15 @@ class XClient:
             raise RuntimeError(f"X API okuma hatası {r.status_code}: {r.text}")
         return r.json().get("data", [])
 
+    def tum_tweet_idleri(self, adet: int = 100) -> list[str]:
+        """Hesabın en yeni postları (yanıtlar dahil), en fazla `adet` kadar kimlik."""
+        me = self.session.get("https://api.x.com/2/users/me", timeout=30).json()["data"]["id"]
+        r = self.session.get(f"https://api.x.com/2/users/{me}/tweets",
+                             params={"max_results": max(5, min(100, adet))}, timeout=30)
+        if r.status_code >= 400:
+            raise RuntimeError(f"X API okuma hatası {r.status_code}: {r.text[:300]}")
+        return [t["id"] for t in r.json().get("data", [])][:adet]
+
     def metrikler(self, adet: int = 100) -> list[dict]:
         """Hesabın son tweetleri ve etkileşim rakamları (görüntülenme, yanıt, beğeni, RT)."""
         me = self.session.get("https://api.x.com/2/users/me", timeout=30).json()["data"]["id"]
@@ -498,6 +507,9 @@ class KonsolClient:
         print(f"----- SİLİNDİ: {tweet_id} -----")
 
     def son_tweetler(self, adet: int = 30, yanitsiz: bool = False) -> list[dict]:
+        return []
+
+    def tum_tweet_idleri(self, adet: int = 100) -> list[str]:
         return []
 
     def metrikler(self, adet: int = 100) -> list[dict]:

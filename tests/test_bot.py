@@ -561,6 +561,9 @@ def test_claude_metinsiz_yanit_editor_hatasi():
 
 def test_sonuc_hatasi_gunun_kuponunu_engellemez(monkeypatch, tmp_path):
     import bot.__main__ as ana
+    from dataclasses import replace
+    gercek = config.yukle
+    monkeypatch.setattr(config, "yukle", lambda: replace(gercek(), konsept="kupon"))  # eski kupon akışının testi
     monkeypatch.setattr(config, "DATA_FILE", tmp_path / "spel.json")
     monkeypatch.setattr(config, "PANEL_FILE", tmp_path / "index.html")
     monkeypatch.setattr(ana, "HATALAR", [])
@@ -583,6 +586,9 @@ def test_bet_builder_kuponda_toplam_oran_tahmini():
 
 def test_x_okuma_hatasi_kuponu_engellemez(monkeypatch, tmp_path):
     import bot.__main__ as ana
+    from dataclasses import replace
+    gercek = config.yukle
+    monkeypatch.setattr(config, "yukle", lambda: replace(gercek(), konsept="kupon"))  # eski kupon akışının testi
     monkeypatch.setattr(config, "DATA_FILE", tmp_path / "spel.json")
     monkeypatch.setattr(config, "PANEL_FILE", tmp_path / "index.html")
     monkeypatch.setattr(ana, "HATALAR", [])
@@ -1889,3 +1895,46 @@ def test_bilgi_postu_gunluk_dogru_ve_sayi_uydurulamaz():
                                   json.dumps(olg) + etkilesim.bilgi_tweeti(gun)) is (
         "1.25" in json.dumps(olg))
     assert not direktor.sayilar_dogru("Home sides win 46% of games", "2.00 means 50%")
+
+
+def test_analiz_konsepti_kupon_hazirlamaz_ve_temizlik_partilerle_siler(monkeypatch, tmp_path):
+    import bot.__main__ as ana
+    from bot import temizlik
+    monkeypatch.setattr(config, "DATA_FILE", tmp_path / "spel.json")
+    monkeypatch.setattr(config, "PANEL_FILE", tmp_path / "index.html")
+    monkeypatch.setattr(temizlik, "DOSYA", tmp_path / "temizlik.json")
+    monkeypatch.setattr(ana, "HATALAR", [])
+    cagrilar = []
+    monkeypatch.setattr(ana, "tahmin", lambda *a, **k: cagrilar.append("tahmin"))
+    monkeypatch.setattr(ana, "sonuc", lambda *a: None)
+    monkeypatch.setattr(ana, "_api", lambda ayar: None)
+    monkeypatch.setattr(ana, "analiz_gunu", lambda *a: cagrilar.append("analiz"))
+    assert config.yukle().konsept == "analiz"
+    ana.main(["otomatik"])
+    assert cagrilar == ["analiz"]  # kupon akışı çalışmadı
+
+    class X:
+        def __init__(self):
+            self.kalan = [str(i) for i in range(100)]
+            self.silinen = []
+
+        def tum_tweet_idleri(self, adet=100):
+            return self.kalan[:adet]
+
+        def sil(self, tid):
+            if len(self.silinen) == 50:
+                raise RuntimeError("X API silme hatası 429: Too Many Requests")
+            self.kalan.remove(tid)
+            self.silinen.append(tid)
+    x = X()
+    simdi = datetime(2026, 10, 2, 0, 0, tzinfo=timezone.utc)
+    assert temizlik.calistir(x, simdi) == 0  # aktif değil
+    temizlik.baslat(simdi)
+    assert temizlik.calistir(x, simdi) == temizlik.PARTI
+    assert temizlik.calistir(x, simdi) == 50 - temizlik.PARTI  # 429: kalanı sonraki nabız
+    x.silinen = []
+    assert temizlik.calistir(x, simdi) == temizlik.PARTI
+    while x.kalan:
+        x.silinen = []
+        temizlik.calistir(x, simdi)
+    assert temizlik.calistir(x, simdi) == 0 and not temizlik.durum()["aktif"] and temizlik.durum()["silinen"] == 100

@@ -48,6 +48,8 @@ class Ayarlar:
     direktor_effort: str = "medium"
     direktor_strateji_model: str = "claude-fable-5-1"
     direktor_strateji_effort: str = "high"
+    # "kupon": eski düzen (kupon + sanal kasa). "analiz": kupon yok; günlük maç analizi kartları.
+    konsept: str = "kupon"
 
 
 # Tek çalışmalık istisna (elle çalıştırmada "ek" alanı): ör. "guvenli_min_deger=-0.03 api_yedek=8".
@@ -111,6 +113,7 @@ def _yukle(path: Path) -> Ayarlar:
         otomatik_paylas=bool(t["yayin"]["otomatik_paylas"]),
         onay_bekle=bool(t["yayin"]["onay_bekle"]),
         onay_suresi_dk=int(t["yayin"]["onay_suresi_dk"]),
+        konsept=t.get("konsept", {}).get("mod", "kupon"),
         **({"direktor_aktif": bool(t["direktor"].get("aktif", True)),
             "direktor_model": t["direktor"].get("gunluk_model", "claude-sonnet-5-5"),
             "direktor_effort": t["direktor"].get("gunluk_effort", "medium"),

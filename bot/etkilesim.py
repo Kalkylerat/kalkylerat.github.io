@@ -7,7 +7,7 @@ arasında en az ARALIK_DK olacak şekilde ve maç saatine göre zamanlanır; 15 
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-from . import bilgi, model
+from . import analiz, bilgi, gorsel, model
 from .oddsapi import ima_edilen_goller
 from .tweets import ANSVAR, LIMIT, etiket_satiri, uzunluk
 
@@ -274,6 +274,18 @@ def _plan(gun: dict) -> list[tuple[str, datetime, datetime]]:
         plan.append(("pas", olusturma, olusturma + timedelta(hours=8)))
     gun_bas = datetime.fromisoformat(gun["tarih"] + "T00:00:00+00:00")
     plan.append(("bilgi", gun_bas + timedelta(hours=9), gun_bas + timedelta(hours=19, minutes=30)))  # günlük bilgi
+    if gun.get("konsept") == "analiz":
+        # Kupon yok: günün maçları, öne çıkan maçların analiz kartları (maçtan ~4 saat – 35 dk önce), anket.
+        if vit:
+            ilk = min(datetime.fromisoformat(v["baslama"]) for v in vit)
+            plan.append(("maclar", ilk - timedelta(hours=5), ilk - timedelta(minutes=15)))
+        for i, a in enumerate(gun.get("analizler") or []):
+            b = datetime.fromisoformat(a["baslama"])
+            plan.append((f"analiz_{i}", b - timedelta(hours=4), b - timedelta(minutes=35)))
+        if vit:
+            a = datetime.fromisoformat(anket_maci(vit)["baslama"])
+            plan.append(("anket", a - timedelta(hours=3), a - timedelta(minutes=30)))
+        return plan
     if vit:
         ilk = min(datetime.fromisoformat(v["baslama"]) for v in vit)
         plan.append(("maclar", ilk - timedelta(hours=5), ilk - timedelta(minutes=15)))
@@ -309,7 +321,16 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_pay
             continue  # sıradaki türün saati gelmediyse, saati gelmiş bir sonraki tür beklemesin
         zaman = simdi.isoformat(timespec="seconds")
         try:
-            if tur == "anket":
+            if tur.startswith("analiz_"):
+                a = gun["analizler"][int(tur.split("_")[1])]
+                metin = analiz_tweeti(a, ayar)
+                metin = yazar("analiz", analiz_olgulari(a, ayar), metin) if yazar else metin
+                if not metin:
+                    durum[tur] = {"durum": "atlandi", "neden": "direktör"}
+                    continue
+                medya = x.medya_yukle(gorsel.analiz_karti(a, _saat(a, ayar), "en"))
+                tid = x.gonder(metin, medya=[medya])
+            elif tur == "anket":
                 metin, secenekler, dakika = anket({**gun, "_simdi": zaman}, ayar)
                 metin = yazar(tur, olgular(tur, gun, ayar), metin) if yazar else metin
                 tid = x.gonder(metin, anket={"options": secenekler, "duration_minutes": dakika})
@@ -427,3 +448,79 @@ def deger_takibi(gun: dict, ayar, x, simdi: datetime, sonuc_getir, yaz=print, ya
     e["takip"] = {"durum": "paylasildi", "tweet_id": tid, "zaman": simdi.isoformat(timespec="seconds")}
     yaz(f"Değer takibi (alıntı):\n```\n{metin}\n```")
     return True
+
+
+def analiz_tweeti(a: dict, ayar) -> str:
+    """Analiz kartıyla giden metin: üç ana çağrı ve en olası skor; ayrıntı görselde."""
+    m = analiz.manset(a)
+    skor, p_skor = a["skorlar"][0]
+    govde = (f'📊 MATCH ANALYSIS | {a["ev"]} v {a["dep"]} · {_saat(a, ayar)}\n\n'
+             + "\n".join(f'• {c["ad"]}: {_pct(c["p"])}' for c in m)
+             + f'\n• Most likely score: {skor} ({_pct(p_skor)})\n\nFull breakdown in the card. How do you see it? 👇')
+    etiket = _etiket(a)
+    for metin in (govde + etiket + f"\n{ANSVAR}", govde + f"\n{ANSVAR}"):
+        if uzunluk(metin) <= LIMIT:
+            return metin
+    return govde[:LIMIT - len(ANSVAR) - 1] + f"\n{ANSVAR}"
+
+
+def analiz_olgulari(a: dict, ayar) -> dict:
+    return {"home": a["ev"], "away": a["dep"], "competition": a.get("lig"), "kickoff": _saat(a, ayar),
+            "headline_calls": [{"call": c["ad"], "chance": _pct(c["p"])} for c in analiz.manset(a)],
+            "most_likely_score": f'{a["skorlar"][0][0]} ({_pct(a["skorlar"][0][1])})',
+            "expected_goals": a["beklenen_gol"], "data_confidence": a["guven"],
+            "note": "the image card shows every market; this text introduces it. No betting advice."}
+
+
+def analiz_takip_tweeti(a: dict, skor: str, isabet: list) -> str:
+    satirlar = [f'{"✅" if ok else "❌"} {c["ad"]} ({_pct(c["p"])})' for c, ok in zip(analiz.manset(a), isabet)]
+    tahmin, p_tahmin = a["skorlar"][0]
+    tuttu = sum(isabet)
+    yorum = (f"Spot on: the exact score was our most likely one." if skor == tahmin else
+             f"Our most likely score was {tahmin} ({_pct(p_tahmin)}).")
+    return (f'🔁 FULL TIME | {a["ev"]} {skor.replace("-", "–")} {a["dep"]}\n\n' + "\n".join(satirlar) +
+            f"\n\n{yorum} {tuttu} of 3 headline calls came in. How did you read it? 👇\n{ANSVAR}")
+
+
+def analiz_takibi(gun: dict, ayar, x, simdi: datetime, sonuc_getir, yaz=print, yazar=None) -> int:
+    """Analiz kartı paylaşılan maç bitince kart postu alıntılanır: skor ve üç ana çağrının tutup tutmadığı
+    (iyi de kötü de paylaşılır). İsabet kaydı haftalık karne için saklanır."""
+    paylasilan = 0
+    for tur, e in (gun.get("etkilesim") or {}).items():
+        if not tur.startswith("analiz_") or e.get("durum") != "paylasildi" or e.get("takip"):
+            continue
+        a = gun["analizler"][int(tur.split("_")[1])]
+        baslama = datetime.fromisoformat(a["baslama"])
+        if simdi < baslama + TAKIP_GECIKME:
+            continue
+        if simdi > baslama + timedelta(days=2):
+            e["takip"] = {"durum": "atlandi", "neden": "sonuç gelmedi"}
+            continue
+        r = sonuc_getir([a]).get(a["fixture_id"]) or {}
+        if r.get("durum") == "iptal":
+            e["takip"] = {"durum": "atlandi", "neden": "maç oynanmadı"}
+            continue
+        if r.get("durum") != "bitti":
+            continue
+        ev, dep = r["skor"]
+        skor = f"{ev}-{dep}"
+        isabet = [bool(model.kazandi_mi(c["pazar"], ev, dep)) for c in analiz.manset(a)]
+        metin = analiz_takip_tweeti(a, skor, isabet)
+        if yazar:
+            olg = {"score": skor, "home": a["ev"], "away": a["dep"],
+                   "calls": [{"call": c["ad"], "chance": _pct(c["p"]), "came_in": ok}
+                             for c, ok in zip(analiz.manset(a), isabet)],
+                   "our_most_likely_score": f'{a["skorlar"][0][0]} ({_pct(a["skorlar"][0][1])})',
+                   "note": "quote of our pre-match card; be honest, right or wrong"}
+            metin = yazar("analiz_sonuc", olg, metin) or metin
+        try:
+            tid = x.gonder(metin, alinti=e["tweet_id"])
+        except Exception as hata:
+            e["takip"] = {"durum": "hata", "hata": str(hata)[:300]}
+            yaz(f"⚠️ Analiz takibi paylaşılamadı: {hata}")
+            continue
+        e["takip"] = {"durum": "paylasildi", "tweet_id": tid, "skor": skor, "isabet": isabet,
+                      "zaman": simdi.isoformat(timespec="seconds")}
+        yaz(f"Analiz takibi (alıntı):\n```\n{metin}\n```")
+        paylasilan += 1
+    return paylasilan

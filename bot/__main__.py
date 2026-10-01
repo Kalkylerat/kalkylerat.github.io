@@ -10,7 +10,7 @@ import time
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-from . import config, denetci, direktor, editor, etkilesim, football, gorsel, kayit, model, oddsapi, onay, panel, temizlik, tweets
+from . import analiz, config, denetci, direktor, editor, etkilesim, football, gorsel, kayit, model, oddsapi, onay, panel, temizlik, tweets
 from .model import adaylari_uret, bet_builder, etiketler
 
 # Çalışma sırasında yakalanan hatalar: iş sonunda "başarısız" işaretlenir, GitHub sahibine e-posta atar.
@@ -751,9 +751,48 @@ def _sabah_penceresi(simdi: datetime, ayar) -> bool:
     return bas + 20 <= dk <= bas + 150
 
 
-def analiz_gunu(ayar, gunler: list[dict], bugun: str, simdi: datetime) -> None:
-    """Analiz konsepti: kupon yok. (Analiz motoru bağlanana kadar yalnızca kupon akışını durdurur.)"""
-    _ozet_yaz(f"Konsept: analiz — {bugun} için kupon hazırlanmadı.")
+def analiz_gunu(ayar, gunler: list[dict], bugun: str, simdi: datetime, api=None) -> dict | None:
+    """Analiz konsepti: kupon yok. Günün bütün maçları analiz edilir (data/analiz/<tarih>.json); öne çıkan maçların
+    kartları gün içinde X'te paylaşılır (etkilesim). Takım istatistiği yalnızca oranı olmayan maçlar için istenir."""
+    if kayit.bul(gunler, bugun):
+        print(f"{bugun} için kayıt zaten var.")
+        return None
+    api = api or _api(ayar)
+    try:
+        maclar = football.gunun_maclari(api, bugun, ayar.ligler, ayar.saat_dilimi, 30, 10_000, simdi, tum_ligler=True)
+        oranlar = football.toplu_oranlar(api, bugun, ayar.saat_dilimi, ayar.max_oran_sayfasi)
+    except football.ApiHatasi as e:
+        if not os.environ.get("ODDS_API_KEY"):
+            _hata("Analiz taraması", e)
+            return None
+        _ozet_yaz(f"⚠️ API-Football kullanılamadı ({e}); yedek kaynak The Odds API.")
+        maclar, oranlar = oddsapi.tara(oddsapi.OddsApi(config.env("ODDS_API_KEY")), bugun, ayar, simdi, yaz=_ozet_yaz)
+    analizler, istatistik_hakki = [], ayar.max_detay_mac
+    for m in maclar:
+        a = analiz.mac_analizi(m, oranlar.get(m["fixture_id"]), None, ayar)
+        if a is None and istatistik_hakki > 0 and "odds_id" not in m:
+            istatistik_hakki -= 1
+            try:
+                a = analiz.mac_analizi(m, None, football.istatistik_al(api, m["fixture_id"]), ayar)
+            except football.ApiHatasi as e:
+                print(f"İstatistik alınamadı: {e}")
+                istatistik_hakki = 0
+        if a:
+            a["lig"] = _lig_adi(m, ayar)
+            analizler.append(a)
+    klasor = config.DATA_FILE.parent / "analiz"
+    klasor.mkdir(parents=True, exist_ok=True)
+    (klasor / f"{bugun}.json").write_text(json.dumps(analizler, ensure_ascii=False) + "\n", encoding="utf-8")
+    gun = {"id": bugun, "tarih": bugun, "olusturma": simdi.isoformat(timespec="seconds"), "baslik": "",
+           "secimler": [], "sonuc": "analiz", "tweet_id": None, "konsept": "analiz", "taranan": len(maclar),
+           "analiz_sayisi": len(analizler), "vitrin": etkilesim.vitrin(maclar, oranlar, ayar, simdi),
+           "analizler": analiz.one_cikanlar(analizler, ayar.ligler)}
+    gunler.append(gun)
+    guven = {g: sum(a["guven"] == g for a in analizler) for g in ("yuksek", "orta", "dusuk")}
+    _ozet_yaz(f"### {bugun}: {len(maclar)} maç tarandı, {len(analizler)} maç analiz edildi "
+              f"(güven yüksek {guven['yuksek']}, orta {guven['orta']}, düşük {guven['dusuk']}).\n"
+              "Öne çıkanlar: " + ", ".join(f'{a["ev"]} v {a["dep"]} ({a["lig"]})' for a in gun["analizler"]))
+    return gun
 
 
 def _mac_sonuclari(ayar, maclar: list[dict]) -> dict:
@@ -1084,6 +1123,13 @@ def main(argv=None) -> int:
                                  yazar=_direktor_yazar(ayar), diger_paylasimlar=diger, haric_takimlar=kupondakiler)
             except Exception as e:
                 _hata("Etkileşim paylaşımı", e)
+        if args.komut == "nabiz":
+            for g in gunler[-6:]:  # analiz kartı paylaşılan maçlar bitince: "ne dedik, ne oldu" (alıntı)
+                try:
+                    etkilesim.analiz_takibi(g, ayar, _x_client(), simdi, lambda m: _mac_sonuclari(ayar, m),
+                                            yaz=_ozet_yaz, yazar=_direktor_yazar(ayar))
+                except Exception as e:
+                    _hata("Analiz takibi", e)
         if args.komut == "nabiz":
             for g in gunler[-6:]:  # oynamadığımız "doğru tahmin, kötü fiyat" maçları bitince alıntıyla nasıl bittikleri
                 try:

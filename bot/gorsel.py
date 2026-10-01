@@ -242,3 +242,109 @@ def sonuc_gorseli(gun: dict, ozet: dict) -> bytes:
     im.save(tampon, "PNG", optimize=True)
     return tampon.getvalue()
 
+
+
+# Analiz kartı (analiz konsepti). Dil ve palet hesap başına: İngilizce hesap yeşil, Türkçe hesap altın.
+PALETLER = {
+    "en": {"arka": ARKA, "kart": KART, "vurgu": VURGU, "yazi": YAZI, "soluk": SOLUK, "iyi": VURGU,
+           "bar2": (70, 86, 112), "bar3": (52, 66, 90)},
+    "tr": {"arka": (17, 20, 24), "kart": (29, 33, 41), "vurgu": (245, 183, 0), "yazi": (242, 244, 247),
+           "soluk": (150, 158, 170), "iyi": (25, 195, 125), "bar2": (90, 98, 112), "bar3": (70, 78, 92)},
+}
+ETIKETLER = {
+    "en": {"baslik": "MATCH ANALYSIS", "ms": "MATCH RESULT", "beraberlik": "Draw", "gol": "GOALS",
+           "iy": "FIRST HALF", "takim": "TEAM GOALS", "cs": "DOUBLE CHANCE", "skor": "MOST LIKELY SCORES",
+           "ust": "Over", "kg": "Both teams score", "iy_ev": "HT {ev}", "iy_x": "HT draw", "iy_u": "HT over",
+           "atar": "{t} to score", "bg": "Expected goals", "guven": "Data confidence",
+           "g": {"yuksek": "High", "orta": "Medium", "dusuk": "Low"},
+           "not": "Even the most likely score is only {p}: think in ranges, not one score.",
+           "alt": "Data-driven analysis · not betting advice · 18+"},
+    "tr": {"baslik": "MAÇ ANALİZİ", "ms": "MAÇ SONUCU", "beraberlik": "Beraberlik", "gol": "GOL ALT / ÜST",
+           "iy": "İLK YARI", "takim": "TAKIM GOLLERİ", "cs": "ÇİFTE ŞANS", "skor": "EN OLASI SKORLAR",
+           "ust": "Üst", "kg": "KG Var", "iy_ev": "İY {ev}", "iy_x": "İY Beraberlik", "iy_u": "İY Üst",
+           "atar": "{t} gol atar", "bg": "Beklenen gol", "guven": "Veri güveni",
+           "g": {"yuksek": "Yüksek", "orta": "Orta", "dusuk": "Düşük"},
+           "not": "En olası skor bile yalnızca {p}: tek skora değil, gol aralığına bakın.",
+           "alt": "Veriye dayalı analiz · bahis tavsiyesi değildir · 18+"},
+}
+
+
+def analiz_karti(a: dict, saat: str, dil: str = "en") -> bytes:
+    """Tek maçın analiz kartı (1080×1350): maç sonucu çubuğu, alt/üst, ilk yarı, takım golleri, çifte şans,
+    en olası 5 skor. Bütün rakamlar aynı Poisson modelinden (çelişki yok)."""
+    r, e, p = PALETLER[dil], ETIKETLER[dil], a["p"]
+    W, H, K = 1080, 1350, 60
+    im = Image.new("RGB", (W, H), r["arka"])
+    d = ImageDraw.Draw(im)
+    yuzde = (lambda x: f"%{100 * x:.0f}") if dil == "tr" else (lambda x: f"{100 * x:.0f}%")
+    d.text((K, 52), f"KALKYLERAT · {e['baslik']}", font=_font(26, True), fill=r["vurgu"])
+    tarih = datetime.fromisoformat(a["baslama"]).strftime("%-d %b").upper()
+    sag = f"{tarih} · {saat}"
+    d.text((W - K - d.textlength(sag, font=_font(24, True)), 54), sag, font=_font(24, True), fill=r["soluk"])
+    mac, f = _sigdir(d, f'{a["ev"]} – {a["dep"]}', W - 2 * K, 60, True, 34)
+    d.text((K, 100), mac, font=f, fill=r["yazi"])
+    alt_baslik, f = _sigdir(d, f'{a["lig"]}  ·  {e["bg"]} {a["beklenen_gol"][0]:.1f} – {a["beklenen_gol"][1]:.1f}',
+                            W - 2 * K, 26)
+    d.text((K, 182), alt_baslik, font=f, fill=r["soluk"])
+    y = 240
+    d.text((K, y), e["ms"], font=_font(21, True), fill=r["soluk"])
+    y += 34
+    x, tw = K, W - 2 * K
+    for k, renk in zip(("MS1", "MSX", "MS2"), (r["vurgu"], r["bar2"], r["bar3"])):
+        w = tw * p[k]
+        if w > 6:
+            d.rounded_rectangle((x, y, x + w - 4, y + 52), radius=10, fill=renk)
+        x += w
+    y += 66
+    x = K
+    for t, renk in ((f'{a["ev"]} {yuzde(p["MS1"])}', r["vurgu"]), (f'{e["beraberlik"]} {yuzde(p["MSX"])}', r["soluk"]),
+                    (f'{a["dep"]} {yuzde(p["MS2"])}', r["soluk"])):
+        t, f = _sigdir(d, t, (W - 2 * K) // 3 - 40, 24, True)
+        d.ellipse((x, y + 6, x + 16, y + 22), fill=renk)
+        d.text((x + 26, y), t, font=f, fill=r["yazi"])
+        x += (W - 2 * K) // 3
+    y += 56
+
+    def tablo(y0, baslik, satirlar, x0, gen):
+        d.rounded_rectangle((x0, y0, x0 + gen, y0 + 50 + 46 * len(satirlar)), radius=18, fill=r["kart"])
+        d.text((x0 + 24, y0 + 16), baslik, font=_font(21, True), fill=r["vurgu"])
+        for i, (ad, v) in enumerate(satirlar):
+            yy = y0 + 58 + 46 * i
+            ad, f = _sigdir(d, ad, gen - 130, 25)
+            d.text((x0 + 24, yy), ad, font=f, fill=r["yazi"])
+            deger = yuzde(v)
+            fb = _font(25, True)
+            d.text((x0 + gen - 24 - d.textlength(deger, font=fb), yy), deger, font=fb,
+                   fill=r["iyi"] if v >= 0.65 else r["yazi"])
+        return y0 + 50 + 46 * len(satirlar)
+    g = (W - 2 * K - 24) // 2
+    u = e["ust"]
+    s1 = tablo(y, e["gol"], [(f"1.5 {u}" if dil == "tr" else f"{u} 1.5", p["UST15"]),
+                             (f"2.5 {u}" if dil == "tr" else f"{u} 2.5", p["UST25"]),
+                             (f"3.5 {u}" if dil == "tr" else f"{u} 3.5", p["UST35"]), (e["kg"], p["KGVAR"])], K, g)
+    s2 = tablo(y, e["iy"], [(e["iy_ev"].format(ev=a["ev"]), p["IY1"]), (e["iy_x"], p["IYX"]),
+                            (f'{e["iy_u"]} 0.5', p["IYU05"]), (f'{e["iy_u"]} 1.5', p["IYU15"])], K + g + 24, g)
+    y = max(s1, s2) + 22
+    s1 = tablo(y, e["takim"], [(f'{a["ev"]} {u} 1.5' if dil == "en" else f'{a["ev"]} 1.5 {u}', p["EVU15"]),
+                               (f'{a["dep"]} {u} 1.5' if dil == "en" else f'{a["dep"]} 1.5 {u}', p["DPU15"]),
+                               (e["atar"].format(t=a["dep"]), p["DPU05"])], K, g)
+    s2 = tablo(y, e["cs"], [("1X", p["CS1X"]), ("12", p["CS12"]), ("X2", p["CSX2"])], K + g + 24, g)
+    y = max(s1, s2) + 22
+    d.rounded_rectangle((K, y, W - K, y + 150), radius=18, fill=r["kart"])
+    d.text((K + 24, y + 16), e["skor"], font=_font(21, True), fill=r["vurgu"])
+    cw = (W - 2 * K - 48) / len(a["skorlar"])
+    for i, (s, v) in enumerate(a["skorlar"]):
+        cx = K + 24 + cw * i + cw / 2
+        fs, fp = _font(38, True), _font(22)
+        d.text((cx - d.textlength(s, font=fs) / 2, y + 52), s, font=fs, fill=r["yazi"])
+        d.text((cx - d.textlength(yuzde(v), font=fp) / 2, y + 104), yuzde(v), font=fp, fill=r["soluk"])
+    y += 176
+    not_, f = _sigdir(d, e["not"].format(p=yuzde(a["skorlar"][0][1])), W - 2 * K, 24)
+    d.text((K, y), not_, font=f, fill=r["yazi"])
+    guven = f'{e["guven"]}: {e["g"][a["guven"]]}'
+    d.text((K, y + 40), guven, font=_font(22, True), fill=r["soluk"])
+    alt, f = _sigdir(d, e["alt"], W - 2 * K, 21)
+    d.text(((W - d.textlength(alt, font=f)) / 2, H - 60), alt, font=f, fill=r["soluk"])
+    tampon = io.BytesIO()
+    im.save(tampon, "PNG", optimize=True)
+    return tampon.getvalue()

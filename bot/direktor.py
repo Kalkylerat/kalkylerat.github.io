@@ -40,14 +40,15 @@ KURALLAR = """Hard rules (never break them):
 - Hashtags: only from "allowed_hashtags" in the facts (real competition tags), at most two; none if the list is empty.
 - Never say "lock", "guaranteed", "sure thing", "banker", "free money" or promise wins. Talk in chances.
 - No engagement bait ("RT", "like if", "follow for"). Ask one real question people want to answer.
-- No betting tips outside the coupon posts: these posts are about football and our numbers.
+- No betting tips: posts are about football and our numbers (analysis, never advice to bet).
 
 Voice: sound like a person who loves football and numbers, not a bot. Vary how posts open and flow; don't reuse
 stock phrases or the same layout every day; contractions are fine; short sentences; no hype. The template is only
 a reference for the facts: rewrite it in your own words."""
 
-GUNLUK_SISTEM = f"""You are the X (Twitter) director of @kalkylerat, a football stats account running a transparent virtual
-EUR 10,000 bankroll. You write one post at a time for the account's daily schedule. Goal: replies and real conversation
+GUNLUK_SISTEM = f"""You are the X (Twitter) director of @kalkylerat, a football stats account that publishes data-driven
+match analysis every day (probabilities for every market, most likely scores) and checks every call in public after
+full time. No coupons, no stakes, no betting advice. You write one post at a time for the account's daily schedule. Goal: replies and real conversation
 (replies weigh far more than likes in the algorithm), steady growth, and a trustworthy voice.
 
 {KURALLAR}
@@ -63,18 +64,21 @@ the fair odds from the facts, ask whether skipping was right, keep the 18+ line.
 wrong), say in one short line why the price still mattered, keep the 18+ line.
 "bilgi" is the daily knowledge post (odds, probability, staking, models): explain the given facts in a lively,
 plain way with a real-life angle and end with one open question. Use exactly the numbers in "facts_to_use" and no
-others; never add stats, history or claims of your own. Keep the 18+ line.""" + _rehber()
+others; never add stats, history or claims of your own. Keep the 18+ line.
+"analiz" introduces our match analysis card (image attached): mention the headline chances and the most likely
+score from the facts, invite opinions; analysis only, never tell people to bet. "analiz_sonuc" quotes that card after
+full time: the score and which calls came in, honest either way. Use only numbers from the facts.""" + _rehber()
 
-HAFTALIK_SISTEM = f"""You are the X (Twitter) growth director of @kalkylerat, a football stats account with a transparent virtual
-EUR 10,000 bankroll (1% of the bank per coupon, wins and losses shown alike). Each week you review how the account's posts
+HAFTALIK_SISTEM = f"""You are the X (Twitter) growth director of @kalkylerat, a football stats account that publishes
+data-driven match analysis every day (probabilities for every market, most likely scores) and checks every call in public
+after full time (no coupons, no stakes). A paid tier with the full daily analysis of every match is planned. Each week you review how the account's posts
 performed and set the strategy for the coming week. You also advise the owner on growth and on earning money from the
 account within X's rules and the law (e.g. X Premium creator revenue sharing, sponsorships, a paid newsletter later),
 being honest when a step is not possible yet. Affiliate links to betting sites are not allowed before month 3 and only with
 licensed operators; never recommend breaking X's automation rules (no automated replies, mentions, DMs, likes or follows).
 
-The account posts automatically every day: coupon posts (one per coupon, image + reasons), today's big games, a match poll,
-a score prediction, a stat of the day, a radar of games left out, a "good call, poor price" post
-(games we expect but skipped for low odds), results after the games, a weekly recap on Sunday. The owner replies by hand.
+The account posts automatically every day: today's big games, 3 match analysis cards (image) before kick-off, a
+"full time" quote of each card with which calls came in, a match poll and a daily knowledge post. The owner replies by hand.
 
 {KURALLAR}
 
@@ -141,7 +145,7 @@ def kurala_uygun(metin: str, tur: str, bahisciler: list[str], izinli: set[str] |
         return False  # yalnızca gerçek turnuva etiketleri, en fazla iki
     if any(b.lower() in metin.lower() for b in bahisciler):
         return False
-    return tur not in ("pas", "radar", "deger", "deger_sonuc", "bilgi") or metin.rstrip().endswith(ANSVAR)
+    return tur not in ("pas", "radar", "deger", "deger_sonuc", "bilgi", "analiz", "analiz_sonuc") or metin.rstrip().endswith(ANSVAR)
 
 
 def yukle() -> dict:
@@ -180,7 +184,7 @@ def yazar(ayar, client=None, yaz=print):
         etiketler = sorted(set(re.findall(r"#\w+", sablon)))  # yalnızca şablonun (kodun doğruladığı) etiketleri
         icerik = json.dumps({"post_type": tur, "facts": olgular, "template_for_reference": sablon,
                              "allowed_hashtags": etiketler, "this_week_strategy": strateji}, ensure_ascii=False, indent=1)
-        if tur in ("pas", "radar", "deger", "deger_sonuc", "bilgi"):
+        if tur in ("pas", "radar", "deger", "deger_sonuc", "bilgi", "analiz", "analiz_sonuc"):
             icerik += f'\nThe post must end with the line "{ANSVAR}".'
         try:
             cevap = _cagir(client or anthropic.Anthropic(), [(ayar.direktor_model, ayar.direktor_effort),
@@ -192,7 +196,7 @@ def yazar(ayar, client=None, yaz=print):
         if cevap.get("paylas") is False and tur != "pas":
             return ""  # direktör bugün bu paylaşımı uygun görmedi (pas açıklaması her zaman gider)
         metin = (cevap.get("metin") or "").strip()
-        if tur == "bilgi" and not sayilar_dogru(metin, json.dumps(olgular, ensure_ascii=False) + sablon):
+        if tur in ("bilgi", "analiz", "analiz_sonuc") and not sayilar_dogru(metin, json.dumps(olgular, ensure_ascii=False) + sablon):
             yaz("Direktör bilgi metninde olgularda olmayan bir sayı kullandı; şablon kullanıldı.")
             return sablon
         if not kurala_uygun(metin, tur, ayar.oran_bahiscileri + [ayar.keskin_bahisci], set(etiketler)):

@@ -5,7 +5,11 @@ description: X (Twitter) büyüme ve içerik uzmanı — Kalkylerat hesabının 
 
 # Kalkylerat – X büyüme rehberi
 
-Hesap: @kalkylerat. İngilizce, geniş futbol kitlesi. Sanal €10,000 kasa, kupon başına %1.
+Hesap: @kalkylerat. İngilizce, geniş futbol kitlesi. **Konsept (Ekim 2026'dan beri): analiz** — kupon, stake,
+kasa yok. Her gün bütün maçlar analiz edilir (`bot/analiz.py`, data/analiz/<tarih>.json); X'te günde 3 analiz kartı
+(`gorsel.analiz_karti`), maç bitince kartın alıntısıyla "ne dedik, ne oldu" (`etkilesim.analiz_takibi`), anket,
+günün maçları, bilgi postu. Plan: Türkçe hesap (@kalkyleratTR, altın palet) ve bütün analizler için ücretli kanal.
+Eski kupon düzeni `ayarlar.toml` konsept.mod = "kupon" ile geri açılabilir; aşağıdaki kupon maddeleri o düzen içindir.
 Bot: `bot/tweets.py` (metinler), `bot/gorsel.py` (kupon kartı), `bot/onay.py` (paylaşım öncesi onay),
 zamanlama `.github/workflows/kalkylerat.yml`.
 

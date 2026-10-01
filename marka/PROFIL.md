@@ -15,7 +15,7 @@ Bu dosyadaki metinleri olduğu gibi kopyalayın. Görseller bu klasörde: `logo.
 ## Biyografi (Bio)
 
 ```
-Data-driven football coupons with high win chances. No long shots. Every pick posted before kick-off, all results counted. 18+ | Play responsibly
+Data-driven football analysis: probabilities for every market and the most likely scores, every day. Every call checked at full time. Not betting advice. 18+
 ```
 
 ## Sabitlenmiş tweet (elle atıp profilde sabitleyin)

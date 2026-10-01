@@ -62,7 +62,7 @@ def _konular() -> list[dict]:
          "govde": f"Even at a 60% hit rate, over 100 picks the chance of at least one run of 5 losses in a row is "
                   f"{_yuzde(seri, 0)}. Streaks aren't proof something's broken; that's maths.",
          "soru": "What's the longest losing run you've sat through? 👇"},
-        {"id": "yuzde1", "baslik": "Why we only use 1% of the bank",
+        {"id": "yuzde1", "baslik": "Why small stakes matter",
          "govde": f"Ten losses in a row at 1% of the current bank leaves {_yuzde(0.99 ** 10)} of it. "
                   f"At 10% per go, the same run leaves {_yuzde(0.9 ** 10)}. Small stakes keep you in the game.",
          "soru": "Flat stakes or a % of the bank: which do you use? 👇"},

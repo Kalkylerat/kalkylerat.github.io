@@ -1938,3 +1938,64 @@ def test_analiz_konsepti_kupon_hazirlamaz_ve_temizlik_partilerle_siler(monkeypat
         x.silinen = []
         temizlik.calistir(x, simdi)
     assert temizlik.calistir(x, simdi) == 0 and not temizlik.durum()["aktif"] and temizlik.durum()["silinen"] == 100
+
+
+def test_analiz_gunu_kartlar_ve_mac_sonu_takibi(monkeypatch, tmp_path):
+    import bot.__main__ as ana
+    from bot import analiz, direktor, etkilesim, football, gorsel, panel
+    monkeypatch.setattr(config, "DATA_FILE", tmp_path / "spel.json")
+    pin = lambda m1, x, m2, u: {"Pinnacle": {"MS1": m1, "MSX": x, "MS2": m2, "UST25": u, "ALT25": 1 / (1 - 1 / u) + 0.05}}
+    lig = AYAR.ligler[0]
+    maclar = [
+        {"fixture_id": 1, "lig_id": lig, "lig": "Premier League", "ev": "Arsenal", "dep": "Fulham", "baslama": "2026-10-03T14:00:00+00:00"},
+        {"fixture_id": 2, "lig_id": lig, "lig": "Premier League", "ev": "Leeds", "dep": "Everton", "baslama": "2026-10-03T16:30:00+00:00"},
+        {"fixture_id": 3, "lig_id": lig, "lig": "Premier League", "ev": "Spurs", "dep": "Wolves", "baslama": "2026-10-03T19:00:00+00:00"},
+        {"fixture_id": 4, "lig_id": 9999, "lig": "Lower League", "ev": "Small A", "dep": "Small B", "baslama": "2026-10-03T13:00:00+00:00"},
+        {"fixture_id": 5, "lig_id": 9999, "lig": "Lower League", "ev": "No Data", "dep": "Team", "baslama": "2026-10-03T13:00:00+00:00"},
+    ]
+    oranlar = {1: pin(1.45, 4.6, 7.0, 1.6), 2: pin(2.4, 3.3, 3.0, 2.0), 3: pin(1.9, 3.7, 4.0, 1.75)}
+    ist = {"ev": {"oynanan_ic": 4, "oynanan_dis": 4, "atilan_ic_ort": 1.5, "yenilen_ic_ort": 1.0, "son5_atilan_ort": 1.4,
+                  "son5_yenilen_ort": 1.1}, "dep": {"oynanan_ic": 4, "oynanan_dis": 4, "atilan_dis_ort": 1.0,
+                  "yenilen_dis_ort": 1.4, "son5_atilan_ort": 1.0, "son5_yenilen_ort": 1.3}}
+    monkeypatch.setattr(football, "gunun_maclari", lambda *a, **k: maclar)
+    monkeypatch.setattr(football, "toplu_oranlar", lambda *a, **k: oranlar)
+    monkeypatch.setattr(football, "istatistik_al", lambda api, fid: ist if fid == 4 else None)
+    gunler = []
+    simdi = datetime(2026, 10, 3, 8, 50, tzinfo=timezone.utc)
+    gun = ana.analiz_gunu(AYAR, gunler, "2026-10-03", simdi, api=object())
+    tum = json.loads((tmp_path / "analiz" / "2026-10-03.json").read_text())
+    assert gun["analiz_sayisi"] == 4 and len(tum) == 4  # verisi olmayan maç analiz edilmez
+    assert {a["fixture_id"]: a["guven"] for a in tum}[4] == "dusuk" and {a["fixture_id"]: a["guven"] for a in tum}[1] == "yuksek"
+    assert [a["ev"] for a in gun["analizler"]] == ["Arsenal", "Leeds", "Spurs"]  # alt lig öne çıkmaz
+    for a in tum:  # tek modelden: tutarlı olasılıklar
+        p = a["p"]
+        assert abs(p["MS1"] + p["MSX"] + p["MS2"] - 1) < 0.01 and abs(p["UST25"] + p["ALT25"] - 1) < 0.01
+        assert p["CS1X"] >= p["MS1"] and a["skorlar"][0][1] >= a["skorlar"][1][1]
+    assert ana.analiz_gunu(AYAR, gunler, "2026-10-03", simdi, api=object()) is None  # günde bir kez
+    panel.olustur(gunler, tmp_path / "p.html", AYAR)  # panel analiz günüyle bozulmaz
+    # gün içi paylaşımlar: kupon/radar/değer yok; analiz kartları görselli
+    x = tweets.KonsolClient()
+    turler = []
+    for dk in range(0, 12 * 60, 15):
+        t = simdi + timedelta(minutes=dk)
+        r = etkilesim.paylas(gun, AYAR, x, t, yaz=lambda m: None)
+        if r:
+            turler.append(r)
+    assert {"analiz_0", "analiz_1", "analiz_2", "bilgi"} <= set(turler)
+    assert not {"radar", "deger", "istatistik", "skor", "pas"} & set(turler)
+    metin = etkilesim.analiz_tweeti(gun["analizler"][0], AYAR)
+    assert "MATCH ANALYSIS | Arsenal v Fulham" in metin and "Most likely score" in metin
+    assert tweets.uzunluk(metin) <= 280 and direktor.kurala_uygun(metin, "analiz", AYAR.oran_bahiscileri)
+    assert gorsel.analiz_karti(gun["analizler"][0], "16:00", "tr")[:4] == b"\x89PNG"
+    # maç sonu: skor ve üç çağrı, alıntıyla; bir kez
+    sonuclar = {1: {"durum": "bitti", "skor": (2, 0)}, 2: {"durum": "bitti", "skor": (1, 1)}, 3: {"durum": "bekliyor"}}
+    once = x.sayac
+    n = etkilesim.analiz_takibi(gun, AYAR, x, datetime(2026, 10, 3, 19, 30, tzinfo=timezone.utc),
+                                lambda m: {m[0]["fixture_id"]: sonuclar[m[0]["fixture_id"]]}, yaz=lambda m: None)
+    assert n == 2 and x.sayac == once + 2
+    takip = gun["etkilesim"]["analiz_0"]["takip"]
+    assert takip["skor"] == "2-0" and takip["isabet"][0] is True and len(takip["isabet"]) == 3
+    assert etkilesim.analiz_takibi(gun, AYAR, x, datetime(2026, 10, 3, 19, 45, tzinfo=timezone.utc),
+                                   lambda m: {m[0]["fixture_id"]: sonuclar[m[0]["fixture_id"]]}, yaz=lambda m: None) == 0
+    t = etkilesim.analiz_takip_tweeti(gun["analizler"][0], "2-0", takip["isabet"])
+    assert t.startswith("🔁 FULL TIME | Arsenal 2–0 Fulham") and tweets.uzunluk(t) <= 280 and t.endswith(tweets.ANSVAR)

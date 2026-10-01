@@ -830,9 +830,17 @@
       }
     ],
     "onay": {
-      "durum": "bekliyor",
+      "durum": "otomatik",
       "son": "2026-10-01T15:57:08+00:00",
-      "surum": 1
-    }
+      "surum": 1,
+      "sonuc_durumu": "otomatik"
+    },
+    "tweet_id": "2105689387153403914",
+    "gorselli": true,
+    "yayin": "2026-10-01T16:00:45+00:00",
+    "analiz_tweet_idleri": [
+      "2105689388852162936",
+      "2105689390106177898"
+    ]
   }
 ]

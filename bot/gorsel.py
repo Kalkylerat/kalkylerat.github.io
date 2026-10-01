@@ -58,6 +58,7 @@ def _ust(im, d, tarih_iso: str, sag_alt: str) -> None:
 def kupon_gorseli(gun: dict, kupon: dict, kasa: float, sira: int = 1, toplam: int = 1) -> bytes:
     """Bir kuponun kartı. Kasa bakiyesi başlıkta, "kupon başına %1" altta yazar."""
     secimler, birim = kupon_ayaklari(gun, kupon), gun["para"]
+    kasa = kupon.get("kasa", kasa)  # kuponun oynandığı andaki kasa (önceki kuponlar düşülmüş)
     # Yükseklik maç sayısına göre: tek maçlık kuponda boşluk kalmaz (3 maçta kare).
     yuk, bosluk, alan_ust = 170, 22, 340
     kart_alt = alan_ust + len(secimler) * (yuk + bosluk) - bosluk

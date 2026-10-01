@@ -131,7 +131,8 @@ def gun_tweeti(gun: dict, ozet: dict | None = None) -> str:
     def yaz(kasa_satiri: bool, takim_max: int = 40) -> str:
         satirlar = [f"⚽ {_baslik(gun)} | {_tarih(gun)}"]
         if kasa_satiri and ozet:
-            satirlar.append(f'💰 Bank {para(ozet["kasa"], birim)} · {gun["yuzde"]:g}% per coupon')
+            banka = next((k["kasa"] for k in kuponlar(gun) if k.get("kasa") is not None), ozet["kasa"])
+            satirlar.append(f'💰 Bank {para(banka, birim)} · {gun["yuzde"]:g}% per coupon')
         for n, k in enumerate(liste, 1):
             ad = f"Coupon {n}" if len(liste) > 1 else "Coupon"
             satirlar += ["", f'🎫 {ad}: odds {kupon_oran_metni(gun, k)} · {yuzde(kupon_olasilik(gun, k))} chance',

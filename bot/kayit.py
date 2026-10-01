@@ -107,13 +107,15 @@ def acik_stake(gunler: list[dict]) -> float:
                for k in kuponlar(g) if kupon_durumu(g, k) is None)
 
 
-def stakeler(gunler: list[dict], baslangic: float, yuzde: float, adet: int) -> list[float]:
-    """Yeni kuponların her biri, o ana kadar ortaya konan paralar düşüldükten sonra kalan kasanın yüzdesiyle oynanır."""
+def stakeler(gunler: list[dict], baslangic: float, yuzde: float, adet: int) -> list[tuple[float, float]]:
+    """(kupondan önceki kasa, yatırılan): her kupon, o ana kadar ortaya konan paralar düşüldükten sonra kalan
+    kasanın yüzdesiyle oynanır; kasa kupondan kupona azalarak görünür."""
     kalan = kasa(gunler, baslangic) - acik_stake(gunler)
     sonuc = []
     for _ in range(adet):
-        sonuc.append(round(kalan * yuzde / 100, 2))
-        kalan -= sonuc[-1]
+        stake = round(kalan * yuzde / 100, 2)
+        sonuc.append((round(kalan, 2), stake))
+        kalan -= stake
     return sonuc
 
 

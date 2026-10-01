@@ -1260,8 +1260,8 @@ def test_stake_acik_kuponlar_dusulerek_kalan_kasadan():
             "secimler": [{"durum": "bekliyor", "oran": 1.5, "stake": 0}],
             "kuponlar": [{"ayaklar": [0], "stake": 100.0, "durum": None}]}
     assert kayit.acik_stake([acik]) == 100.0
-    assert kayit.stakeler([acik], 10000, 1.0, 2) == [99.0, 98.01]  # 9900'ün %1'i, sonra 9801'in %1'i
-    assert kayit.stakeler([], 10000, 1.0, 1) == [100.0]
+    assert kayit.stakeler([acik], 10000, 1.0, 2) == [(9900.0, 99.0), (9801.0, 98.01)]  # kalan kasanın %1'i, sırayla
+    assert kayit.stakeler([], 10000, 1.0, 1) == [(10000.0, 100.0)]
 
 
 def test_cok_kuponlu_kayit_kupon_basina_ayri_kayit_olur():
@@ -1303,3 +1303,21 @@ def test_ayni_calismada_birden_fazla_onay_istegi(monkeypatch, tmp_path):
     parcalar = (tmp_path / "istek.md").read_text().split(onay.AYRAC)
     assert [p.splitlines()[0] for p in parcalar] == ["Onay: 2026-10-03 kuponu", "Onay: 2026-10-03-2 kuponu"]
     assert datetime.fromisoformat(b["onay"]["son"]) - datetime.fromisoformat(a["onay"]["son"]) == timedelta(minutes=30)
+
+
+def test_kasa_duzelt_kuponlar_sirayla_azalan_kasadan(monkeypatch):
+    from bot import __main__ as m
+    simdi = datetime(2026, 10, 3, 8, tzinfo=timezone.utc)
+    ilk = _gun("2026-10-03", [_secim(1, 1.5, 0.7)], kuponlar=[[0]])
+    ilk.update(yayin="2026-10-03T07:00:00+00:00")
+    ikinci = {**_gun("2026-10-03", [_secim(2, 1.5, 0.7)], kuponlar=[[0]]), "id": "2026-10-03-2",
+              "yayin": "2026-10-03T07:30:00+00:00", "tweet_id": "t2"}
+    ucuncu = {**_gun("2026-10-03", [_secim(3, 1.5, 0.7)], tweet_id=None, kuponlar=[[0]]), "id": "2026-10-03-3"}
+    for g in (ilk, ikinci, ucuncu):
+        g["kuponlar"][0]["stake"] = 100.0
+    yeniden = []
+    monkeypatch.setattr(m, "duzelt", lambda ayar, g, x, gunler, simdi: yeniden.append(g["id"]) or True)
+    assert m.kasa_duzelt(AYAR, [ilk, ikinci, ucuncu], "2026-10-03", simdi, None) == 2
+    assert [(g["kuponlar"][0]["kasa"], g["kuponlar"][0]["stake"]) for g in (ilk, ikinci, ucuncu)] == \
+        [(10000.0, 100.0), (9900.0, 99.0), (9801.0, 98.01)]
+    assert yeniden == ["2026-10-03-2"]  # ilki doğruydu; üçüncü henüz paylaşılmadı

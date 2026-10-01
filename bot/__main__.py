@@ -141,7 +141,7 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime,
                    key=lambda n: min(s["baslama"] for s in gun["secimler"] if s["kupon_no"] == n))
     stakeler = kayit.stakeler(gunler, ayar.kasa_baslangic, ayar.oyun_yuzdesi, len(nolar))
     gun["kuponlar"] = [{"ayaklar": [i for i, s in enumerate(gun["secimler"]) if s["kupon_no"] == n],
-                        "stake": stake, "durum": None} for n, stake in zip(nolar, stakeler)]
+                        "kasa": kasa_, "stake": stake, "durum": None} for n, (kasa_, stake) in zip(nolar, stakeler)]
     gun["baslik"] = karar["baslik"].strip()
     gun["yanit_onerileri"] = editor.yanit_onerilerini_hazirla(
         karar.get("yanit_onerileri") or [], mac_map, ayar.oran_bahiscileri + [ayar.keskin_bahisci])
@@ -581,6 +581,34 @@ def haftalik(ayar, x, gunler: list[dict], simdi: datetime, zorla: bool = False) 
     return True
 
 
+def kasa_duzelt(ayar, gunler: list[dict], bugun: str, simdi: datetime, x) -> int:
+    """Bugünün sonuçlanmamış kuponlarının kasa/yatırılan değerlerini paylaşım sırasına göre yeniden hesaplar
+    (her kupon, öncekiler düşüldükten sonra kalan kasanın %'si). Değişen ve maçı başlamamış paylaşımlar
+    silinip doğru rakamlarla yeniden atılır."""
+    bugunkuler = sorted((g for g in gunler if g["tarih"] == bugun and kayit.kuponlar(g) and g.get("sonuc") is None),
+                        key=lambda g: (0 if g.get("yayin") else 1, g.get("yayin") or "", g["id"]))
+    digerleri = [g for g in gunler if g not in bugunkuler]
+    kalan = kayit.kasa(gunler, ayar.kasa_baslangic) - kayit.acik_stake(digerleri)
+    duzeltilen = 0
+    for g in bugunkuler:
+        degisti = False
+        for k in kayit.kuponlar(g):
+            stake = round(kalan * ayar.oyun_yuzdesi / 100, 2)
+            if abs(k["stake"] - stake) > 0.005:
+                k["stake"], degisti = stake, True
+            k["kasa"] = round(kalan, 2)  # yatırılan doğruysa yalnızca gösterilecek kasa eklenir, paylaşım değişmez
+            kalan -= stake
+        if not degisti:
+            continue
+        (g.get("onay") or {}).pop("kasa", None)
+        (g.get("onay") or {}).pop("metinler", None)
+        if g.get("tweet_id") and min(datetime.fromisoformat(s["baslama"]) for s in g["secimler"]) > simdi:
+            duzelt(ayar, g, x, gunler, simdi)
+        duzeltilen += 1
+        _ozet_yaz(f"{g['id']}: kasa " + ", ".join(f"{k['kasa']:.2f} → yatırılan {k['stake']:.2f}" for k in kayit.kuponlar(g)))
+    return duzeltilen
+
+
 def ayir(ayar, gunler: list[dict], bugun: str, simdi: datetime, x) -> int:
     """Bugün tek paylaşımda çıkmış çok kuponlu kayıtları (maçlar başlamadıysa) siler ve kupon başına ayrı
     paylaşıma çevirir: ilki hemen, diğerleri 30 dk arayla (nabız paylaşır). Onaylı içerik değişmez."""
@@ -867,7 +895,7 @@ def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="bot")
     p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt", "sabit", "hafta", "yenile", "oran_testi",
                                           "onay_kontrol", "onay_testi", "onay_yenile", "nabiz",
-                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir"])
+                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir", "kasa_duzelt"])
     args = p.parse_args(argv)
     ayar = config.yukle()
 
@@ -930,6 +958,8 @@ def main(argv=None) -> int:
                 etkilesim.paylas(kayit.bul(gunler, bugun), ayar, _x_client(), simdi, yaz=_ozet_yaz)
             except Exception as e:
                 _hata("Etkileşim paylaşımı", e)
+        if args.komut == "kasa_duzelt":
+            kasa_duzelt(ayar, gunler, bugun, simdi, _x_client())
         if args.komut == "ayir":
             ayir(ayar, gunler, bugun, simdi, _x_client())
         if args.komut == "ek_kupon":

@@ -465,6 +465,13 @@
         ],
         "olasi_skor": "1-1"
       }
-    ]
+    ],
+    "etkilesim": {
+      "maclar": {
+        "durum": "paylasildi",
+        "tweet_id": "2105668853791334611",
+        "zaman": "2026-10-01T14:39:10+00:00"
+      }
+    }
   }
 ]

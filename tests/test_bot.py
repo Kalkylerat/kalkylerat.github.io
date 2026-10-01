@@ -1479,3 +1479,26 @@ def test_denetim_kasa_duzelt_durdurulan_kuponu_canlandirmaz(monkeypatch):
     m.kasa_duzelt(AYAR, [durdu], "2026-10-03", simdi, None)
     assert durdu["onay"]["durum"] == "durduruldu" and "metinler" not in durdu["onay"]
     assert durdu["kuponlar"][0]["stake"] == 100.0
+
+
+def test_en_olasi_skor_secimle_celisirse_beklenen_gol_yazilir():
+    ust = _secim(1, 1.3, 0.76, pazar="UST15", olasi_skor="0-1", beklenen_gol=[1.0, 2.0], etiket="Over 1.5 goals")
+    x2 = _secim(2, 1.34, 0.72, pazar="CSX2", olasi_skor="1-1", beklenen_gol=[1.1, 1.4], etiket="Double chance X2")
+    g = _gun("2026-10-01", [x2, ust], kuponlar=[[0, 1]])
+    metinler = tweets.analiz_tweetleri(g)
+    assert "Most likely score: 1–1" in metinler[0]
+    assert "Most likely score" not in metinler[1] and "Expected goals: 1.0 – 2.0" in metinler[1]
+
+
+def test_skor_duzelt_yalniz_celiskili_yaniti_yeniden_atar():
+    from bot import __main__ as m
+    ust = _secim(3, 1.3, 0.76, pazar="UST15", olasi_skor="0-1", beklenen_gol=[1.0, 2.0],
+                 baslama="2026-10-01T18:45:00+00:00")
+    tamam = _secim(2, 1.34, 0.72, pazar="CSX2", olasi_skor="1-1", baslama="2026-10-01T18:45:00+00:00")
+    g = _gun("2026-10-01", [tamam, ust], kuponlar=[[0, 1]])
+    g["analiz_tweet_idleri"] = ["r1", "r2"]
+    x = tweets.KonsolClient()
+    silinen = []
+    x.sil = silinen.append
+    assert m.skor_duzelt([g], "2026-10-01", datetime(2026, 10, 1, 15, tzinfo=timezone.utc), x) == 1
+    assert silinen == ["r2"] and g["analiz_tweet_idleri"][0] == "r1" and len(g["analiz_tweet_idleri"]) == 2

@@ -26,6 +26,7 @@ Rules:
 - Simple words, no betting jargon, no hype, no emojis.
 - Never say "lock", "sure", "guaranteed", "banker" or "free money". Talk in chances (e.g. "about a 3 in 4 chance").
 - Never name bookmakers or betting sites, never use "@", hashtags or links.
+- Never name an exact score that contradicts the pick (e.g. "most likely 0-1" next to Over 1.5 goals); talk about expected goals instead.
 - Copy aday_id exactly from the candidate."""
 
 SEMA = {

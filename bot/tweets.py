@@ -154,6 +154,26 @@ def _cumleler(metin: str) -> list[str]:
     return [" ".join(parcalar[:n]) for n in range(len(parcalar), 0, -1)]
 
 
+def skor_celiskili(s: dict) -> bool:
+    """En olası tek skor seçimle çelişiyor mu (ör. "2.5 üst" ama en olası skor 0-1)? Tek skor, beklenen golden
+    azını sık gösterir; seçimin yanında çelişki gibi okunur."""
+    from .model import kazandi_mi
+    try:
+        ev, dep = map(int, (s.get("olasi_skor") or "").split("-"))
+    except ValueError:
+        return False
+    return any(kazandi_mi(b["pazar"], ev, dep) is False for b in (s.get("bacaklar") or [s])
+               if not b["pazar"].startswith(("IY", "YY", "KOR")))
+
+
+def _skor_satiri(s: dict) -> str:
+    """Çelişkide en olası skor yerine beklenen goller yazılır (seçimle ve gerekçeyle tutarlı)."""
+    if skor_celiskili(s):
+        bg = s.get("beklenen_gol")
+        return f"\nExpected goals: {bg[0]:.1f} – {bg[1]:.1f}" if bg else ""
+    return f'\nMost likely score: {s["olasi_skor"].replace("-", "–")}' if s.get("olasi_skor") else ""
+
+
 def analiz_tweetleri(gun: dict) -> list[str]:
     """Her oyun için bir tweet. Sığmazsa önce skor satırı düşer, sonra açıklama cümle cümle kısalır;
     cümle ortasından kesilmez."""
@@ -162,7 +182,7 @@ def analiz_tweetleri(gun: dict) -> list[str]:
         no = kupon_no(gun, i - 1)
         bas = (f'{i}) {_mac(s)} · {s["saat"]}{f" · coupon {no}" if no else ""}\nPick: {s["etiket"]}\n'
                f'Odds {oran_metni(s)} · chance {yuzde(s["adil_olasilik"])} · {tur}')
-        skor = f'\nMost likely score: {s["olasi_skor"].replace("-", "–")}'
+        skor = _skor_satiri(s)
         yorumlar = _cumleler(s["yorum"]) if s["yorum"] else [""]
         adaylar = [bas + skor + (f"\n\n{y}" if y else "") for y in yorumlar[:1]]
         adaylar += [bas + (f"\n\n{y}" if y else "") for y in yorumlar]

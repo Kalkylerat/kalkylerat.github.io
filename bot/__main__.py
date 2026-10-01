@@ -626,6 +626,32 @@ def kasa_duzelt(ayar, gunler: list[dict], bugun: str, simdi: datetime, x) -> int
     return duzeltilen
 
 
+def skor_duzelt(gunler: list[dict], bugun: str, simdi: datetime, x) -> int:
+    """Bugün paylaşılmış gerekçe yanıtlarından en olası skoru seçimle çelişenleri (maç başlamadıysa) düzeltir:
+    ilk çelişkili yanıttan sonuna kadar silinip doğru metinle aynı zincire yeniden atılır."""
+    duzeltilen = 0
+    for g in [g for g in gunler if g["tarih"] == bugun and g.get("tweet_id") and g.get("analiz_tweet_idleri")]:
+        celiskili = [i for i, s in enumerate(g["secimler"]) if tweets.skor_celiskili(s)]
+        idler = g["analiz_tweet_idleri"]
+        if not celiskili or celiskili[0] >= len(idler):
+            continue
+        k = celiskili[0]
+        if any(datetime.fromisoformat(s["baslama"]) <= simdi for s in g["secimler"][k:]):
+            continue
+        metinler = tweets.analiz_tweetleri(g)
+        for tid in reversed(idler[k:]):
+            x.sil(tid)
+        del idler[k:]
+        onceki = idler[-1] if idler else g["tweet_id"]
+        for metin in metinler[k:]:
+            onceki = x.gonder(metin, yanit=onceki)
+            idler.append(onceki)
+        (g.get("onay") or {}).pop("metinler", None)
+        duzeltilen += 1
+        _ozet_yaz(f"{g['id']}: {len(metinler) - k} gerekçe yanıtı düzeltilerek yeniden atıldı.")
+    return duzeltilen
+
+
 def ayir(ayar, gunler: list[dict], bugun: str, simdi: datetime, x) -> int:
     """Bugün tek paylaşımda çıkmış çok kuponlu kayıtları (maçlar başlamadıysa) siler ve kupon başına ayrı
     paylaşıma çevirir: ilki hemen, diğerleri 30 dk arayla (nabız paylaşır). Onaylı içerik değişmez."""
@@ -919,7 +945,7 @@ def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="bot")
     p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt", "sabit", "hafta", "yenile", "oran_testi",
                                           "onay_kontrol", "onay_testi", "onay_yenile", "nabiz",
-                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir", "kasa_duzelt", "direktor"])
+                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir", "kasa_duzelt", "direktor", "skor_duzelt"])
     args = p.parse_args(argv)
     ayar = config.yukle()
 
@@ -995,6 +1021,8 @@ def main(argv=None) -> int:
                 direktor.haftalik(ayar, gunler, tweetler, onay.GitHub(), yerel, yaz=_ozet_yaz)
             except Exception as e:
                 _hata("X Direktörü haftalık inceleme", e)
+        if args.komut == "skor_duzelt":
+            skor_duzelt(gunler, bugun, simdi, _x_client())
         if args.komut == "kasa_duzelt":
             kasa_duzelt(ayar, gunler, bugun, simdi, _x_client())
         if args.komut == "ayir":

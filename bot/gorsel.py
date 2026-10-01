@@ -34,7 +34,7 @@ def _sigdir(d: ImageDraw.ImageDraw, metin: str, genislik: int, boyut: int, kalin
 
 
 def _para(x: float, birim: str) -> str:
-    return f"{birim}{x:,.0f}"
+    return f"{'-' if round(x, 2) < 0 else ''}{birim}{abs(x):,.2f}"
 
 
 def _ust(im, d, tarih_iso: str, sag_alt: str) -> None:
@@ -184,7 +184,7 @@ def kasa_grafigi(seyir: list[tuple[str, float]], baslangic: float, birim: str) -
 KAYIP = (255, 107, 97)
 
 
-def sonuc_gorseli(gun: dict, kasa: float, kasa_degisim: float) -> bytes:
+def sonuc_gorseli(gun: dict, kasa: float, kasa_degisim: float, onceki_kasa: float | None = None) -> bytes:
     """Sonuç kartı: maç maç skor ve ✔/✘, kupon kâr/zararı, güncel kasa. Kupon kartıyla aynı tasarım."""
     birim, secimler, liste = gun["para"], gun["secimler"], kuponlar(gun)
     yuk, bosluk, alan_ust = 150, 18, 340
@@ -221,12 +221,14 @@ def sonuc_gorseli(gun: dict, kasa: float, kasa_degisim: float) -> bytes:
         d.text((sag - d.textlength(k, font=fk), y + 40), k, font=fk, fill=r)
         d.text((sag - 80 - skor_gen, y + 46), skor, font=f_skor, fill=YAZI)
     toplam_kar = sum(kupon_kar(gun, k_) for k_ in liste) + sum(kar(s_) for s_ in secimler)
-    kutular = [("COUPON" if len(liste) == 1 else "COUPONS", f'{"+" if toplam_kar >= 0 else "-"}{_para(abs(toplam_kar), birim)}'),
-               ("BANK", _para(kasa, birim)), ("SINCE START", f"{kasa_degisim:+.1f}%")]
+    # Kasa önce → sonra: önceki kasa + kupon kârı = yeni kasa, kartta açıkça (kuruşlu, toplam tutar).
+    banka = f"{_para(onceki_kasa, birim)} → {_para(kasa, birim)}" if onceki_kasa is not None else _para(kasa, birim)
+    kutular = [("PROFIT" if toplam_kar >= 0 else "LOSS", f'{"+" if toplam_kar >= 0 else "-"}{_para(abs(toplam_kar), birim)}'),
+               ("BANK", banka), ("SINCE START", f"{kasa_degisim:+.1f}%")]
     y = serit_y
     d.rounded_rectangle((KENAR, y, BOYUT - KENAR, y + 140), radius=22, outline=renk if renk != YAZI else VURGU, width=3)
     x = KENAR
-    for (etiket, deger), oran in zip(kutular, [0.33, 0.37, 0.30]):
+    for (etiket, deger), oran in zip(kutular, [0.27, 0.52, 0.21] if onceki_kasa is not None else [0.33, 0.37, 0.30]):
         g = ic * oran
         f = _font(22, True)
         d.text((x + (g - d.textlength(etiket, font=f)) / 2, y + 24), etiket, font=f, fill=SOLUK)

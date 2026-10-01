@@ -118,7 +118,8 @@ def yuzde(p: float) -> str:
 
 
 def para(x: float, birim: str) -> str:
-    return f"{'-' if x < 0 else ''}{birim}{abs(x):,.0f}"
+    """Kuruşlu: yuvarlanmış tam sayılar "önce + kâr = sonra" toplamını bozuyordu (9,972 + 101 ≠ 10,074)."""
+    return f"{'-' if round(x, 2) < 0 else ''}{birim}{abs(x):,.2f}"
 
 
 def isaretli_para(x: float, birim: str) -> str:
@@ -332,12 +333,12 @@ def sonuc_tweetleri(gun: dict, ozet: dict) -> list[str]:
         durum = kupon_durumu(gun, k)
         ad = f"Coupon {n}" if len(liste) > 1 else "Coupon"
         if durum:
-            para_satirlari.append(f"🎫 {ad}: {kupon_ikon[durum]}, {isaretli_para(kupon_kar(gun, k), birim)}")
+            para_satirlari.append(f"🎫 {ad}: {kupon_ikon[durum]}, {kupon_hareketi(gun, k)}")
     tekliler = [s for s in gun["secimler"] if s.get("stake") and s["durum"] in ("kazandi", "kaybetti")]
     if tekliler:  # eski kayıtlar: tekliler de oynanmıştı
         para_satirlari.append(f'Singles: {sum(s["durum"] == "kazandi" for s in tekliler)}/{len(tekliler)} won, '
                               f'{isaretli_para(sum(kar(s) for s in tekliler), birim)}')
-    para_satirlari += [f'💰 Bank: {para(ozet["kasa"], birim)} ({ozet["kasa_degisim"]:+.1f}%)', rekor(ozet)]
+    para_satirlari += [kasa_satiri(ozet, birim), rekor(ozet)]
 
     durumlar = [kupon_durumu(gun, k) for k in liste]
     genel = "tuttu" if "tuttu" in durumlar else ("yatti" if "yatti" in durumlar else None)
@@ -351,6 +352,25 @@ def sonuc_tweetleri(gun: dict, ozet: dict) -> list[str]:
     return [kirp("\n".join(satirlar)), ikinci if uzunluk(ikinci) <= LIMIT else kirp("\n".join(para_satirlari))]
 
 
+def kupon_hareketi(gun: dict, kupon: dict) -> str:
+    """Kuponun kasaya etkisi açıkça: kazançta yatırılan → dönen (kâr), kayıpta yatırılan gider."""
+    birim, durum = gun["para"], kupon_durumu(gun, kupon)
+    if durum == "tuttu":
+        donen = kupon["stake"] + kupon_kar(gun, kupon)
+        return f'{para(kupon["stake"], birim)} → {para(donen, birim)} back ({isaretli_para(kupon_kar(gun, kupon), birim)})'
+    if durum == "yatti":
+        return f'{para(kupon["stake"], birim)} stake lost ({isaretli_para(kupon_kar(gun, kupon), birim)})'
+    return f'{para(kupon["stake"], birim)} stake returned ({para(0, birim)})'
+
+
+def kasa_satiri(ozet: dict, birim: str) -> str:
+    """Kasa önce → sonra: önceki sonuç postunun kasası + bu kuponun kârı = yeni kasa (kuruşu kuruşuna)."""
+    if "onceki_kasa" in ozet:
+        return (f'💰 Bank: {para(ozet["onceki_kasa"], birim)} → {para(ozet["kasa"], birim)} '
+                f'({ozet["kasa_degisim"]:+.1f}% since start)')
+    return f'💰 Bank: {para(ozet["kasa"], birim)} ({ozet["kasa_degisim"]:+.1f}% since start)'
+
+
 def gorselli_sonuc_tweeti(gun: dict, ozet: dict) -> str:
     """Sonuç kartıyla giden kısa metin: ayrıntılar görselde."""
     birim, liste = gun["para"], kuponlar(gun)
@@ -358,12 +378,15 @@ def gorselli_sonuc_tweeti(gun: dict, ozet: dict) -> str:
     kar_ = sum(kupon_kar(gun, k) for k in liste) + sum(kar(s) for s in gun["secimler"])
     if len(liste) == 1:
         ust = {"tuttu": "✅ Coupon won", "yatti": "❌ Coupon lost", "iptal": "➖ Coupon void"}.get(durumlar[0], "Results")
+        ust += f": {kupon_hareketi(gun, liste[0])}" if durumlar[0] else f": {isaretli_para(kar_, birim)}"
     else:
-        ust = f'🎫 {durumlar.count("tuttu")} of {len(liste)} coupons won'
-    genel = "tuttu" if "tuttu" in durumlar else ("yatti" if "yatti" in durumlar else None)
-    return (f"📊 RESULTS | {_tarih(gun)}\n\n{ust}: {isaretli_para(kar_, birim)}\n"
-            f'💰 Bank: {para(ozet["kasa"], birim)} ({ozet["kasa_degisim"]:+.1f}% since start)\n\n'
-            f"{_sonuc_sorusu(gun, genel)}\n{ANSVAR}")
+        ust = f'🎫 {durumlar.count("tuttu")} of {len(liste)} coupons won: {isaretli_para(kar_, birim)}'
+    return (f"📊 RESULTS | {_tarih(gun)}\n\n{ust}\n{kasa_satiri(ozet, birim)}\n\n"
+            f"{_sonuc_sorusu(gun, _genel(durumlar))}\n{ANSVAR}")
+
+
+def _genel(durumlar: list) -> str | None:
+    return "tuttu" if "tuttu" in durumlar else ("yatti" if "yatti" in durumlar else None)
 
 
 def hafta_tweeti(h: dict, ozet: dict, birim: str) -> str:

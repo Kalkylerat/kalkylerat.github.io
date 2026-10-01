@@ -528,6 +528,12 @@ def sonuc(ayar, api, x, gunler: list[dict], simdi: datetime) -> None:
         print("Sonuç bekleyen maç yok.")
     if hata:
         _hata("Sonuçlar (The Odds API)", hata)
+    # Kasa defteri bağımsız denetlenir: tek kuruş tutmazsa yanlış rakam paylaşılmaz, sahibine hata bildirilir.
+    if any(g.get("tweet_id") and g["sonuc"] == "tamam" and not g.get("sonuc_tweet_id") for g in gunler):
+        hatalar = denetci.kasa_denetimi(gunler, ayar.kasa_baslangic)
+        if hatalar:
+            _hata("Kasa denetimi", RuntimeError("Sonuç postları durduruldu:\n" + "\n".join(hatalar)))
+            return
     # Sonuçlanıp sonuç floodu atılmamış (ya da yarım kalmış) her gün: X hatası olsa bile sonraki çalışmada tamamlanır.
     for g in kayit.duyuru_sirasi(gunler):
         if g.get("tweet_id") and g["sonuc"] == "tamam" and not g.get("sonuc_tweet_id"):
@@ -541,7 +547,7 @@ def sonuc(ayar, api, x, gunler: list[dict], simdi: datetime) -> None:
                     medya = None
                     for _ in range(3):
                         try:
-                            medya = [x.medya_yukle(gorsel.sonuc_gorseli(g, ozet["kasa"], ozet["kasa_degisim"]))]
+                            medya = [x.medya_yukle(gorsel.sonuc_gorseli(g, ozet["kasa"], ozet["kasa_degisim"], ozet["onceki_kasa"]))]
                             break
                         except Exception as e:
                             print(f"Sonuç kartı yüklenemedi: {e}")
@@ -980,7 +986,7 @@ def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="bot")
     p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt", "sabit", "hafta", "yenile", "oran_testi",
                                           "onay_kontrol", "onay_testi", "onay_yenile", "nabiz",
-                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir", "kasa_duzelt", "direktor", "skor_duzelt", "sonuc_duzelt"])
+                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir", "kasa_duzelt", "direktor", "skor_duzelt", "sonuc_duzelt", "kasa_defteri"])
     args = p.parse_args(argv)
     ayar = config.yukle()
     from dataclasses import replace as _degistir
@@ -1064,6 +1070,10 @@ def main(argv=None) -> int:
             sonuc_duzelt(ayar, gunler, bugun, simdi, _x_client())
         if args.komut == "skor_duzelt":
             skor_duzelt(gunler, bugun, simdi, _x_client())
+        if args.komut == "kasa_defteri":
+            _ozet_yaz(denetci.kasa_defteri(gunler, ayar.kasa_baslangic))
+            if denetci.kasa_denetimi(gunler, ayar.kasa_baslangic):
+                _hata("Kasa denetimi", RuntimeError("defterde tutarsızlık var (yukarıda)"))
         if args.komut == "kasa_duzelt":
             kasa_duzelt(ayar, gunler, bugun, simdi, _x_client())
         if args.komut == "ayir":

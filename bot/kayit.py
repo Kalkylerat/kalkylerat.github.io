@@ -82,13 +82,15 @@ def kupon_olasilik(gun: dict, kupon: dict) -> float:
 
 def kar(secim: dict) -> float:
     """Tekli oyunun kârı. Yeni günlerde oyunlar yalnızca kuponlarda oynanır (stake 0)."""
-    return {"kazandi": secim["stake"] * (secim["oran"] - 1), "kaybetti": -secim["stake"]}.get(secim["durum"], 0.0)
+    # Kasa kuruş hassasiyetinde tutulur: her kâr/zarar kuruşa yuvarlanır, kasa bunların toplamıdır (ekrandaki
+    # "önce + kâr = sonra" kuruşu kuruşuna tutar).
+    return round({"kazandi": secim["stake"] * (secim["oran"] - 1), "kaybetti": -secim["stake"]}.get(secim["durum"], 0.0), 2)
 
 
 def kupon_kar(gun: dict, kupon: dict) -> float:
     durum = kupon_durumu(gun, kupon)
     if durum == "tuttu":
-        return kupon["stake"] * (kupon_oran(gun, kupon) - 1)
+        return round(kupon["stake"] * (kupon_oran(gun, kupon) - 1), 2)
     return -kupon["stake"] if durum == "yatti" else 0.0
 
 
@@ -98,7 +100,7 @@ def gun_kar(gun: dict) -> float:
 
 def kasa(gunler: list[dict], baslangic: float) -> float:
     """Yayınlanmış ve sonuçlanmış oyunlara göre güncel kasa."""
-    return baslangic + sum(gun_kar(g) for g in gunler if g.get("tweet_id"))
+    return round(baslangic + sum(gun_kar(g) for g in gunler if g.get("tweet_id")), 2)
 
 
 def _sira(g: dict) -> tuple:
@@ -108,7 +110,8 @@ def _sira(g: dict) -> tuple:
 def sonuc_ozeti(gunler: list[dict], gun: dict, baslangic: float) -> dict:
     """Bir kuponun sonuç postundaki kasa: sonucu daha önce duyurulmuş kuponlar + kendisi. Zaman akışında her
     sonuç postu bir öncekinin kasasından devam eder; henüz duyurulmamış (aynı anda biten) kuponun kaybı karışmaz."""
-    return ozet([g for g in gunler if g is gun or g.get("sonuc_tweet_id")], baslangic)
+    onceki = [g for g in gunler if g is not gun and g.get("sonuc_tweet_id")]
+    return {**ozet(onceki + [gun], baslangic), "onceki_kasa": kasa(onceki, baslangic), "kar": round(gun_kar(gun), 2)}
 
 
 def duyuru_sirasi(gunler: list[dict]) -> list[dict]:
@@ -204,6 +207,10 @@ def sonuclandir(gunler: list[dict], sonuclar: dict[int, dict], simdi: datetime) 
             if r and r["durum"] == "bitti":
                 ev, dep = r["skor"]
                 s["skor"] = f"{ev}-{dep}"
+                if r.get("iy"):  # denetçi sonucu sonradan bağımsız doğrulayabilsin
+                    s["iy_skor"] = "-".join(map(str, r["iy"]))
+                if r.get("korner") is not None:
+                    s["korner"] = r["korner"]
                 s["durum"] = _durum(s, ev, dep, r.get("iy"), r.get("korner"))
             elif (r and r["durum"] == "iptal") or datetime.fromisoformat(s["baslama"]) < simdi - timedelta(days=3):
                 s["durum"] = "iptal"

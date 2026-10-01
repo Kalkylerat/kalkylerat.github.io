@@ -9,12 +9,13 @@
 Sonuç: sorunlu cümle gerekçeden atılır; seçimin kendisi çelişkiliyse o kupon paylaşılmaz."""
 
 import json
+import math
 import re
 from datetime import datetime
 
 import anthropic
 
-from . import model
+from . import kayit, model
 
 SISTEM = """You audit a football stats account's coupon before it is posted. For each pick you get the match, the pick,
 the odds, our chance, the expected goals per team, the score line shown and the short explanation.
@@ -242,3 +243,89 @@ def gorsel_denetimi(gun: dict, pngler: list[bytes], ayar, client=None) -> list[s
     if msg.stop_reason in ("refusal", "max_tokens"):
         raise RuntimeError(f"görsel denetimi: {msg.stop_reason}")
     return json.loads(next(b.text for b in msg.content if b.type == "text"))["sorunlar"]
+
+
+def _ayak_sonucu(s: dict) -> str | None:
+    """Ayağın sonucu skordan bağımsız yeniden hesaplanır; veri yetmiyorsa None (doğrulanamaz)."""
+    if not s.get("skor"):
+        return None
+    ev, dep = map(int, s["skor"].split("-"))
+    iy = tuple(map(int, s["iy_skor"].split("-"))) if s.get("iy_skor") else None
+    sonuclar = [model.kazandi_mi(b["pazar"], ev, dep, iy, s.get("korner")) for b in (s.get("bacaklar") or [s])]
+    if any(r is False for r in sonuclar):
+        return "kaybetti"
+    return None if any(r is None for r in sonuclar) else "kazandi"
+
+
+def kasa_denetimi(gunler: list[dict], baslangic: float) -> list[str]:
+    """Kasa defteri baştan, bağımsız olarak yeniden hesaplanır (kayit modülünün formülleri kullanılmadan) ve
+    kayıtla karşılaştırılır. Boş liste = her kuruş tutuyor. Sonuç postu atılmadan önce çalışır; hata varsa
+    yanlış rakam paylaşılmaz.
+    - her ayağın kazandı/kaybetti durumu skorla tutarlı mı,
+    - her kuponun stake'i oynandığı andaki kasanın %1'i mi (ve kasadan büyük değil mi),
+    - kupon kârı: kazançta stake × toplam oran − stake (iptal ayak oranı 1), kayıpta −stake, iptalde 0,
+    - kasa = başlangıç + tüm kârlar; her sonuç postunun "önce → sonra" kasası bir öncekinin devamı."""
+    hatalar, bakiye = [], round(baslangic, 2)
+    for g in kayit.duyuru_sirasi(gunler):
+        if not g.get("tweet_id"):
+            continue
+        for s in g["secimler"]:
+            beklenen = _ayak_sonucu(s)
+            if beklenen and s["durum"] != beklenen:
+                hatalar.append(f'{g["id"]} {s["ev"]} v {s["dep"]} {s["skor"]}: kayıtta {s["durum"]}, skora göre {beklenen}')
+        gun_kari = 0.0
+        for n, k in enumerate(kayit.kuponlar(g), 1):
+            ad = f'{g["id"]} kupon {n}'
+            ayaklar = [g["secimler"][i] for i in k["ayaklar"]]
+            if k.get("kasa") is not None:
+                if abs(k["stake"] - round(k["kasa"] * g["yuzde"] / 100, 2)) > 0.011:
+                    hatalar.append(f'{ad}: stake {k["stake"]:.2f}, kasa {k["kasa"]:.2f}\'nin %{g["yuzde"]:g}\'i değil')
+                if k["stake"] > k["kasa"]:
+                    hatalar.append(f"{ad}: stake kasadan büyük")
+            durumlar = [s["durum"] for s in ayaklar]
+            if "kaybetti" in durumlar:
+                kar_ = -k["stake"]
+            elif "bekliyor" in durumlar or not ayaklar:
+                continue
+            else:  # kazanan ayakların oranları çarpılır; iptal ayak kupondan düşer (oran 1)
+                kar_ = k["stake"] * math.prod(s["oran"] for s in ayaklar if s["durum"] == "kazandi") - k["stake"]
+            kar_ = round(kar_, 2)
+            if abs(kar_ - kayit.kupon_kar(g, k)) > 0.005:
+                hatalar.append(f"{ad}: kâr kayıtta {kayit.kupon_kar(g, k):.2f}, olması gereken {kar_:.2f}")
+            gun_kari += kar_
+        gun_kari += sum(kayit.kar(s) for s in g["secimler"] if s.get("stake"))  # eski kayıtların tekli oyunları
+        if g.get("sonuc") == "tamam" and not g.get("sonuc_tweet_id"):  # paylaşılacak sonuç postu
+            oz = kayit.sonuc_ozeti(gunler, g, baslangic)
+            if abs(round(oz["onceki_kasa"] + oz["kar"], 2) - oz["kasa"]) > 0.005:
+                hatalar.append(f'{g["id"]}: sonuç postunda {oz["onceki_kasa"]:.2f} + {oz["kar"]:.2f} ≠ {oz["kasa"]:.2f}')
+        bakiye = round(bakiye + gun_kari, 2)
+    if abs(bakiye - kayit.kasa(gunler, baslangic)) > 0.005:
+        hatalar.append(f"Kasa: kayıtta {kayit.kasa(gunler, baslangic):.2f}, defterin toplamı {bakiye:.2f}")
+    return hatalar
+
+
+def kasa_defteri(gunler: list[dict], baslangic: float) -> str:
+    """Sahibi için okunur defter: kupon kupon stake, dönen, kâr ve kasa önce → sonra (markdown tablo)."""
+    satirlar = ["| Kupon | Kasa (oynandığında) | Stake | Oran | Sonuç | Dönen | Kâr | Kasa önce → sonra |",
+                "|---|---|---|---|---|---|---|---|"]
+    bakiye = round(baslangic, 2)
+    for g in kayit.duyuru_sirasi(gunler):
+        if not g.get("tweet_id"):
+            continue
+        for n, k in enumerate(kayit.kuponlar(g), 1):
+            durum = kayit.kupon_durumu(g, k)
+            kar_ = kayit.kupon_kar(g, k) if durum else None
+            once = bakiye
+            if kar_ is not None:
+                bakiye = round(bakiye + kar_, 2)
+            donen = "" if kar_ is None else f'{k["stake"] + kar_:.2f}' if durum != "yatti" else "0.00"
+            satirlar.append(
+                f'| {g["id"]} #{n} | {k["kasa"]:.2f} | {k["stake"]:.2f} | {kayit.kupon_oran(g, k):.3f} | '
+                f'{durum or "açık"} | {donen} | {"" if kar_ is None else f"{kar_:+.2f}"} | '
+                f'{once:.2f} → {bakiye:.2f} |' if k.get("kasa") is not None else
+                f'| {g["id"]} #{n} | – | {k["stake"]:.2f} | {kayit.kupon_oran(g, k):.3f} | {durum or "açık"} | '
+                f'{donen} | {"" if kar_ is None else f"{kar_:+.2f}"} | {once:.2f} → {bakiye:.2f} |')
+        bakiye = round(bakiye + sum(kayit.kar(s) for s in g["secimler"] if s.get("stake")), 2)
+    hatalar = kasa_denetimi(gunler, baslangic)
+    sonuc = "✅ Kasa denetimi: her kuruş tutuyor." if not hatalar else "❌ Kasa denetimi:\n" + "\n".join(f"- {h}" for h in hatalar)
+    return "\n".join(satirlar) + f"\n\nGüncel kasa: {kayit.kasa(gunler, baslangic):.2f}\n\n{sonuc}"

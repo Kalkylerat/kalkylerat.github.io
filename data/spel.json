@@ -310,7 +310,7 @@
       }
     ],
     "sonuc": null,
-    "tweet_id": null,
+    "tweet_id": "2105640878769664314",
     "para": "€",
     "yuzde": 1.0,
     "kuponlar": [
@@ -340,14 +340,20 @@
       }
     ],
     "onay": {
-      "durum": "bekliyor",
+      "durum": "otomatik",
       "son": "2026-10-01T12:25:35+00:00",
       "surum": 1,
       "metinler": [
         "TODAY'S COUPON | 1 Oct\n\nAgree with the picks? Tell us why (or why not) 👇\n\nWhy these picks: in the thread 🧵\n18+ | Play responsibly",
         "1) Wales v Norway · 20:45 CEST\nPick: Norway to win\nOdds 1.46 · chance 66% · high-chance pick\nMost likely score: 0–2\n\nNorway project about 2.3 goals to Wales' 1.0, even away from home. We make it roughly a 2 in 3 chance they win, with 0-2 the likeliest score."
       ],
-      "kasa": 10174.9
-    }
+      "kasa": 10174.9,
+      "sonuc_durumu": "otomatik"
+    },
+    "gorselli": true,
+    "yayin": "2026-10-01T12:47:59+00:00",
+    "analiz_tweet_idleri": [
+      "2105640880128581883"
+    ]
   }
 ]

@@ -75,6 +75,22 @@ def kasa(gunler: list[dict], baslangic: float) -> float:
     return baslangic + sum(gun_kar(g) for g in gunler if g.get("tweet_id"))
 
 
+def acik_stake(gunler: list[dict]) -> float:
+    """Paylaşılmış ama henüz sonuçlanmamış kuponlara yatırılan para (kasadan çıkmış sayılır)."""
+    return sum(k["stake"] for g in gunler if g.get("tweet_id")
+               for k in kuponlar(g) if kupon_durumu(g, k) is None)
+
+
+def stakeler(gunler: list[dict], baslangic: float, yuzde: float, adet: int) -> list[float]:
+    """Yeni kuponların her biri, o ana kadar ortaya konan paralar düşüldükten sonra kalan kasanın yüzdesiyle oynanır."""
+    kalan = kasa(gunler, baslangic) - acik_stake(gunler)
+    sonuc = []
+    for _ in range(adet):
+        sonuc.append(round(kalan * yuzde / 100, 2))
+        kalan -= sonuc[-1]
+    return sonuc
+
+
 # Başlama + bu kadar dakika sonra maçın bitmiş olması beklenir (90 + devre arası + uzatmalar).
 MAC_BITIS_DK = 110
 

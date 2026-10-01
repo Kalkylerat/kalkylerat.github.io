@@ -1253,3 +1253,12 @@ def test_takim_golu_ve_ikinci_yari_pazarlari():
     assert model.kazandi_mi("YYU05", 2, 1) is None  # ilk yarı skoru yoksa beklemede
     assert model.etiketler("EVU15", "Spain", "Croatia")[0] == "Spain Over 1.5 goals"
     assert model.piyasa_olasiliklari({"DPU05": 1.5, "DPA05": 2.5})["DPU05"] == pytest.approx(0.625)
+
+
+def test_stake_acik_kuponlar_dusulerek_kalan_kasadan():
+    acik = {"id": "a", "tarih": "2026-10-01", "tweet_id": "1", "sonuc": None,
+            "secimler": [{"durum": "bekliyor", "oran": 1.5, "stake": 0}],
+            "kuponlar": [{"ayaklar": [0], "stake": 100.0, "durum": None}]}
+    assert kayit.acik_stake([acik]) == 100.0
+    assert kayit.stakeler([acik], 10000, 1.0, 2) == [99.0, 98.01]  # 9900'ün %1'i, sonra 9801'in %1'i
+    assert kayit.stakeler([], 10000, 1.0, 1) == [100.0]

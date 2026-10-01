@@ -117,7 +117,6 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime,
         return None
 
     aday_map = {a["aday_id"]: a for a in adaylar}
-    stake = round(kayit.kasa(gunler, ayar.kasa_baslangic) * ayar.oyun_yuzdesi / 100, 2)
     kupon_nosu = {i: n for n, k in enumerate(karar["kuponlar"]) for i in k["aday_idler"]}
     for s in karar["secimler"]:
         a = aday_map[s["aday_id"]]
@@ -140,8 +139,9 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime,
     # Kuponlar ilk maçlarının saatine göre sıralanır.
     nolar = sorted({s["kupon_no"] for s in gun["secimler"]},
                    key=lambda n: min(s["baslama"] for s in gun["secimler"] if s["kupon_no"] == n))
+    stakeler = kayit.stakeler(gunler, ayar.kasa_baslangic, ayar.oyun_yuzdesi, len(nolar))
     gun["kuponlar"] = [{"ayaklar": [i for i, s in enumerate(gun["secimler"]) if s["kupon_no"] == n],
-                        "stake": stake, "durum": None} for n in nolar]
+                        "stake": stake, "durum": None} for n, stake in zip(nolar, stakeler)]
     gun["baslik"] = karar["baslik"].strip()
     gun["yanit_onerileri"] = editor.yanit_onerilerini_hazirla(
         karar.get("yanit_onerileri") or [], mac_map, ayar.oran_bahiscileri + [ayar.keskin_bahisci])

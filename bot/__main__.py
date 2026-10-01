@@ -619,6 +619,7 @@ def tani(ayar) -> None:
         maskeli = f"{eposta[:2]}***@{eposta.split('@')[-1]}" if "@" in eposta else "-"
         satirlar.append(f"- API-Football: hesap {maskeli}, plan **{plan}**, bugün {istek.get('current')}/"
                         f"{istek.get('limit_day')} istek, hatalar: {ham_durum.get('errors') or '-'}")
+        _ozet_yaz(satirlar[-1])
     except Exception as e:
         satirlar.append(f"- API-Football durum okunamadı: {e}")
     simdi = kayit.simdi_utc()
@@ -637,7 +638,11 @@ def tani(ayar) -> None:
         satirlar.append(f"- {tarih} ham yanıt: tüm dünyada {len(tum)} maç, sezonlar {sezonlar[:5]}, "
                         f"izlenen liglerde {len(izlenen)} (durumlar: {sorted({f['fixture']['status']['short'] for f in izlenen})}), "
                         f"hatalar: {ham.get('errors') or '-'}")
-        maclar = football.gunun_maclari(api, tarih, ayar.ligler, ayar.saat_dilimi, 0, 999, simdi)
+        try:
+            maclar = football.gunun_maclari(api, tarih, ayar.ligler, ayar.saat_dilimi, 0, 999, simdi)
+        except football.ApiHatasi as e:
+            satirlar.append(f"- {tarih}: maç listesi alınamadı: {e}")
+            continue
         ligler = sorted({m["lig"] for m in maclar})
         satirlar.append(f"- {tarih}: izlenen liglerde başlamamış **{len(maclar)}** maç ({', '.join(ligler) or '-'})")
         if maclar and not ornek_fixture:

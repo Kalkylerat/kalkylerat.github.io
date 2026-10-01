@@ -479,6 +479,10 @@
     "tarih": "2026-10-01",
     "olusturma": "2026-10-01T15:10:33+00:00",
     "baslik": "Nations League night: two coupons",
+    "sonuc": null,
+    "para": "€",
+    "yuzde": 1.0,
+    "ek": true,
     "secimler": [
       {
         "fixture_id": 1528921,
@@ -494,7 +498,6 @@
         "kisa": "Double chance X2",
         "oran": 1.33,
         "stake": 0,
-        "kupon_no": 0,
         "bolag": "best of 4",
         "oranlar": {
           "William Hill": 1.3,
@@ -528,7 +531,6 @@
         "kisa": "Double chance X2",
         "oran": 1.34,
         "stake": 0,
-        "kupon_no": 0,
         "bolag": "best of 4",
         "oranlar": {
           "William Hill": 1.3,
@@ -562,7 +564,6 @@
         "kisa": "Over 1.5 goals",
         "oran": 1.3,
         "stake": 0,
-        "kupon_no": 0,
         "bolag": "best of 3",
         "oranlar": {
           "Bet365": 1.25,
@@ -580,79 +581,19 @@
         "yorum": "Israel lost both games and let in 3 goals each time. Model expects about 3 goals here, so 2+ goals is close to an 8 in 10 chance.",
         "durum": "bekliyor",
         "skor": null
-      },
-      {
-        "fixture_id": 1574751,
-        "lig": "Ligue 3",
-        "ev": "Bastia",
-        "dep": "Orleans",
-        "baslama": "2026-10-01T20:45:00+02:00",
-        "saat": "20:45 CEST",
-        "olasi_skor": "0-1",
-        "pazar": "UST15",
-        "tur": "guvenli",
-        "etiket": "Over 1.5 goals",
-        "kisa": "Over 1.5 goals",
-        "oran": 1.4,
-        "stake": 0,
-        "kupon_no": 1,
-        "bolag": "best of 3",
-        "oranlar": {
-          "Bet365": 1.4,
-          "BetVictor": 1.33,
-          "Betano": 1.36
-        },
-        "adil_olasilik": 0.693,
-        "adil_kaynak": "Pinnacle",
-        "model_olasilik": 0.733,
-        "deger": -0.03,
-        "beklenen_gol": [
-          0.8,
-          1.8
-        ],
-        "yorum": "Bastia let in 2.3 a game at home, so their home games average about 3 goals. Model sees 2+ goals as roughly a 70% chance.",
-        "durum": "bekliyor",
-        "skor": null
-      },
-      {
-        "fixture_id": 1639968,
-        "lig": "CONCACAF Nations League",
-        "ev": "US Virgin Islands",
-        "dep": "Saint Martin",
-        "baslama": "2026-10-01T22:00:00+02:00",
-        "saat": "22:00 CEST",
-        "olasi_skor": "1-2",
-        "pazar": "UST25",
-        "tur": "guvenli",
-        "etiket": "Over 2.5 goals",
-        "kisa": "Over 2.5 goals",
-        "oran": 1.44,
-        "stake": 0,
-        "kupon_no": 1,
-        "bolag": "best of 3",
-        "oranlar": {
-          "Bet365": 1.44,
-          "BetVictor": 1.36,
-          "Betano": 1.4
-        },
-        "adil_olasilik": 0.671,
-        "adil_kaynak": "Pinnacle",
-        "model_olasilik": 0.762,
-        "deger": -0.034,
-        "beklenen_gol": [
-          1.75,
-          2.25
-        ],
-        "yorum": "These sides met 2-0, 1-2 and 2-1, and Saint Martin scored 8 in one away game. Model expects 4 goals; 3+ is about a 7 in 10 chance.",
-        "durum": "bekliyor",
-        "skor": null
       }
     ],
-    "sonuc": null,
-    "tweet_id": "2105679565561696589",
-    "para": "€",
-    "yuzde": 1.0,
-    "taranan": 21,
+    "kuponlar": [
+      {
+        "ayaklar": [
+          0,
+          1,
+          2
+        ],
+        "stake": 101.75,
+        "durum": null
+      }
+    ],
     "vitrin": [
       {
         "fixture_id": 1528917,
@@ -763,25 +704,7 @@
         "olasi_skor": "1-1"
       }
     ],
-    "kuponlar": [
-      {
-        "ayaklar": [
-          0,
-          1,
-          2
-        ],
-        "stake": 101.75,
-        "durum": null
-      },
-      {
-        "ayaklar": [
-          3,
-          4
-        ],
-        "stake": 101.75,
-        "durum": null
-      }
-    ],
+    "taranan": 21,
     "yanit_onerileri": [
       {
         "mac": "Denmark v Portugal",
@@ -804,30 +727,111 @@
         "arama": "https://x.com/search?q=Israel%20Kosovo&f=live"
       }
     ],
-    "ek": true,
     "onay": {
       "durum": "onaylandi",
-      "son": "2026-10-01T16:40:33+00:00",
+      "son": "2026-10-01T15:27:08+00:00",
       "surum": 1,
-      "metinler": [
-        "2 BONUS COUPONS | 1 Oct\n\nAgree with the picks? Tell us why (or why not) 👇\n\nWhy these picks: in the thread 🧵\n18+ | Play responsibly",
-        "1) Rep. Of Ireland v Austria · 20:45 CEST · coupon 1\nPick: Double chance X2\nOdds 1.33 · chance 74% · high-chance pick\nMost likely score: 1–1\n\nAustria won both games and average 3 goals a game at home. Ireland did beat them once, but draw or Austria is about a 3 in 4 chance.",
-        "2) Denmark v Portugal · 20:45 CEST · coupon 1\nPick: Double chance X2\nOdds 1.34 · chance 72% · high-chance pick\nMost likely score: 1–1\n\nPortugal won both games, letting in just 0.5 a game, and won 2 of the last 3 meetings. Draw or Portugal comes out at about 72%.",
-        "3) Israel v Kosovo · 20:45 CEST · coupon 1\nPick: Over 1.5 goals\nOdds 1.30 · chance 76% · high-chance pick\nMost likely score: 0–1\n\nIsrael lost both games and let in 3 goals each time. Model expects about 3 goals here, so 2+ goals is close to an 8 in 10 chance.",
-        "4) Bastia v Orleans · 20:45 CEST · coupon 2\nPick: Over 1.5 goals\nOdds 1.40 · chance 69% · high-chance pick\nMost likely score: 0–1\n\nBastia let in 2.3 a game at home, so their home games average about 3 goals. Model sees 2+ goals as roughly a 70% chance.",
-        "5) US Virgin Islands v Saint Martin · 22:00 CEST · coupon 2\nPick: Over 2.5 goals\nOdds 1.44 · chance 67% · high-chance pick\nMost likely score: 1–2\n\nThese sides met 2-0, 1-2 and 2-1, and Saint Martin scored 8 in one away game. Model expects 4 goals; 3+ is about a 7 in 10 chance."
-      ],
-      "kasa": 10174.9,
-      "sonuc_durumu": "onaylandi"
+      "kasa": 10174.9
     },
+    "tweet_id": "2105680931352641683",
     "gorselli": true,
-    "yayin": "2026-10-01T15:21:42+00:00",
+    "yayin": "2026-10-01T15:27:08+00:00",
     "analiz_tweet_idleri": [
-      "2105679567033893349",
-      "2105679568162230320",
-      "2105679569248452770",
-      "2105679570569773373",
-      "2105679571656032692"
+      "2105680933206532328",
+      "2105680934469067248",
+      "2105680935802790375"
     ]
+  },
+  {
+    "id": "2026-10-01-3",
+    "tarih": "2026-10-01",
+    "olusturma": "2026-10-01T15:10:33+00:00",
+    "baslik": "Nations League night: two coupons",
+    "sonuc": null,
+    "para": "€",
+    "yuzde": 1.0,
+    "ek": true,
+    "secimler": [
+      {
+        "fixture_id": 1574751,
+        "lig": "Ligue 3",
+        "ev": "Bastia",
+        "dep": "Orleans",
+        "baslama": "2026-10-01T20:45:00+02:00",
+        "saat": "20:45 CEST",
+        "olasi_skor": "0-1",
+        "pazar": "UST15",
+        "tur": "guvenli",
+        "etiket": "Over 1.5 goals",
+        "kisa": "Over 1.5 goals",
+        "oran": 1.4,
+        "stake": 0,
+        "bolag": "best of 3",
+        "oranlar": {
+          "Bet365": 1.4,
+          "BetVictor": 1.33,
+          "Betano": 1.36
+        },
+        "adil_olasilik": 0.693,
+        "adil_kaynak": "Pinnacle",
+        "model_olasilik": 0.733,
+        "deger": -0.03,
+        "beklenen_gol": [
+          0.8,
+          1.8
+        ],
+        "yorum": "Bastia let in 2.3 a game at home, so their home games average about 3 goals. Model sees 2+ goals as roughly a 70% chance.",
+        "durum": "bekliyor",
+        "skor": null
+      },
+      {
+        "fixture_id": 1639968,
+        "lig": "CONCACAF Nations League",
+        "ev": "US Virgin Islands",
+        "dep": "Saint Martin",
+        "baslama": "2026-10-01T22:00:00+02:00",
+        "saat": "22:00 CEST",
+        "olasi_skor": "1-2",
+        "pazar": "UST25",
+        "tur": "guvenli",
+        "etiket": "Over 2.5 goals",
+        "kisa": "Over 2.5 goals",
+        "oran": 1.44,
+        "stake": 0,
+        "bolag": "best of 3",
+        "oranlar": {
+          "Bet365": 1.44,
+          "BetVictor": 1.36,
+          "Betano": 1.4
+        },
+        "adil_olasilik": 0.671,
+        "adil_kaynak": "Pinnacle",
+        "model_olasilik": 0.762,
+        "deger": -0.034,
+        "beklenen_gol": [
+          1.75,
+          2.25
+        ],
+        "yorum": "These sides met 2-0, 1-2 and 2-1, and Saint Martin scored 8 in one away game. Model expects 4 goals; 3+ is about a 7 in 10 chance.",
+        "durum": "bekliyor",
+        "skor": null
+      }
+    ],
+    "kuponlar": [
+      {
+        "ayaklar": [
+          0,
+          1
+        ],
+        "stake": 101.75,
+        "durum": null
+      }
+    ],
+    "onay": {
+      "durum": "bekliyor",
+      "son": "2026-10-01T15:57:08+00:00",
+      "surum": 1,
+      "kasa": 10174.9
+    }
   }
 ]

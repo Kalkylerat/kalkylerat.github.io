@@ -582,12 +582,15 @@ def _secici():
 
 
 def onizleme(ayar) -> None:
-    """Sıradaki paylaşım gününü (sabah 10'dan önce bugün, sonra yarın) gerçek veriyle hazırlar; kaydetmez, paylaşmaz."""
+    """Sıradaki paylaşım gününü (bugünün taraması yapılmadıysa bugün, yapıldıysa yarın) gerçek veriyle hazırlar;
+    kaydetmez, paylaşmaz."""
     simdi = kayit.simdi_utc()
     yerel = simdi.astimezone(ZoneInfo(ayar.saat_dilimi))
-    gun = (yerel if yerel.hour < 10 else yerel + timedelta(days=1)).date().isoformat()
-    _ozet_yaz(f"## ÖNİZLEME – {gun} (kaydedilmez, paylaşılmaz)")
     gunler = kayit.yukle(config.DATA_FILE)
+    gun = yerel.date().isoformat()
+    if kayit.bul(gunler, gun):
+        gun = (yerel + timedelta(days=1)).date().isoformat()
+    _ozet_yaz(f"## ÖNİZLEME – {gun} (kaydedilmez, paylaşılmaz)")
     gunler = [g for g in gunler if g["id"] != gun]
     tahmin(ayar, _api(ayar), _secici(), gunler, gun, simdi)
 

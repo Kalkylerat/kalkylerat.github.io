@@ -53,7 +53,7 @@ def istek_hazirla(gun: dict, gunler: list[dict], ayar, simdi: datetime, test: bo
         gun["onay"]["metinler"] = [ana, *yanitlar]
         gun["onay"]["kasa"] = ozet["kasa"]
     son = datetime.fromisoformat(gun["onay"]["son"]).astimezone(ZoneInfo(ayar.saat_dilimi))
-    baslik = f'{"TEST – " if test else ""}Onay: {gun["tarih"]} kuponu'
+    baslik = f'{"TEST – " if test else ""}Onay: {gun["id"]} kuponu'
     parcalar = [
         f"**{'TEST: hiçbir şey paylaşılmayacak. ' if test else ''}Cevap olarak yazın:**",
         "- `ok` → hemen X'te paylaşılır",
@@ -150,12 +150,12 @@ def kontrol(ayar, gh, x, gunler: list[dict], simdi: datetime, yayinla) -> None:
     bekleyenler = [g for g in gunler if (g.get("onay") or {}).get("durum") in ("bekliyor", "durduruldu")]
     for issue in istekler:  # geçersiz kalmış açık istekler kapatılır
         if (issue.get("state", "open") == "open" and not issue["title"].startswith("TEST")
-                and not any(issue["title"].endswith(f'{g["tarih"]} kuponu') for g in bekleyenler)):
+                and not any(issue["title"].endswith(f'{g["id"]} kuponu') for g in bekleyenler)):
             gh.kapat(issue["number"], "Bu istek artık geçerli değil (kupon zaten paylaşıldı, iptal edildi ya da kayıt yok).")
     for gun in bekleyenler:
         # En yeni istek geçerlidir (düzeltmeden sonra yeni önizleme açılır); eski aynı günlü istekler kapatılır.
         ayni = sorted((i for i in istekler if not i["title"].startswith("TEST")
-                       and i["title"].endswith(f'{gun["tarih"]} kuponu')), key=lambda i: i["number"], reverse=True)
+                       and i["title"].endswith(f'{gun["id"]} kuponu')), key=lambda i: i["number"], reverse=True)
         for eski in ayni[1:]:
             if eski.get("state", "open") == "open":
                 gh.kapat(eski["number"], "Yerine yeni önizleme açıldı.")
@@ -166,6 +166,8 @@ def kontrol(ayar, gh, x, gunler: list[dict], simdi: datetime, yayinla) -> None:
 
 def _zaten_var(x, gun: dict) -> str | None:
     from .__main__ import zaten_paylasildi
+    if gun.get("ek"):
+        return None  # ek kupon: o günün ana kuponu X'te zaten var, onunla karıştırılmaz
     try:
         return zaten_paylasildi(x, gun["tarih"])
     except Exception:

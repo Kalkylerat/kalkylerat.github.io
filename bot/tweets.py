@@ -81,6 +81,8 @@ def _mac(s: dict, takim_max: int = 40) -> str:
 
 def _baslik(gun: dict) -> str:
     n = len(kuponlar(gun))
+    if gun.get("ek"):
+        return "BONUS COUPON" if n <= 1 else f"{n} BONUS COUPONS"
     return "TODAY'S COUPON" if n <= 1 else f"TODAY'S {n} COUPONS"
 
 

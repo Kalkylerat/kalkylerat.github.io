@@ -41,9 +41,12 @@ def _ozet_yaz(metin: str) -> None:
             f.write(metin + "\n\n")
 
 
-def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime) -> dict | None:
-    if kayit.bul(gunler, bugun):
-        print(f"{bugun} için kayıt zaten var, atlanıyor.")
+def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime,
+           gun_id: str | None = None, haric_takimlar: set[str] | None = None) -> dict | None:
+    """gun_id/haric_takimlar: aynı gün ek kupon (ayrı kayıt); o gün kuponda olan takımların maçları alınmaz."""
+    gun_id = gun_id or bugun
+    if kayit.bul(gunler, gun_id):
+        print(f"{gun_id} için kayıt zaten var, atlanıyor.")
         return None
     SON_TARAMA.clear()
     try:
@@ -76,12 +79,15 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime) -> d
         adet = ayar.max_mac_tarama if kalan is None else max(0, min(ayar.max_mac_tarama, (kalan - API_YEDEK) // 2))
         izinli = [m for m in maclar if m["lig_id"] in ayar.ligler][:adet]
         mac_map, adaylar = _mac_mac_tara(ayar, api, izinli)
+    if haric_takimlar:
+        adaylar = [a for a in adaylar if not {mac_map[a["fixture_id"]]["ev"].lower(),
+                                               mac_map[a["fixture_id"]]["dep"].lower()} & haric_takimlar]
     guvenli = sorted((a for a in adaylar if a["tur"] == "guvenli"), key=lambda a: a["adil_olasilik"], reverse=True)
     deger = sorted((a for a in adaylar if a["tur"] == "deger"), key=lambda a: a["deger"], reverse=True)
     adaylar = guvenli[:GUVENLI_LIMIT] + deger[:DEGER_LIMIT]
     print(f"{len(guvenli)} güvenli, {len(deger)} değer adayı; API isteği: {api.istek_sayisi}")
 
-    gun = {"id": bugun, "tarih": bugun, "olusturma": simdi.isoformat(timespec="seconds"),
+    gun = {"id": gun_id, "tarih": bugun, "olusturma": simdi.isoformat(timespec="seconds"),
            "baslik": "", "secimler": [], "sonuc": None, "tweet_id": None,
            "para": ayar.para_birimi, "yuzde": ayar.oyun_yuzdesi}
     if SON_TARAMA:
@@ -565,6 +571,28 @@ def haftalik(ayar, x, gunler: list[dict], simdi: datetime, zorla: bool = False) 
     return True
 
 
+def ek_kupon(ayar, gunler: list[dict], bugun: str, simdi: datetime) -> dict | None:
+    """Aynı gün için 1-2 ek kupon: ayrı kayıt (ör. 2026-10-01-2), günün kuponundaki maçlar hariç, önce onaya gelir."""
+    from dataclasses import replace
+    bugunkuler = [g for g in gunler if g["tarih"] == bugun]
+    if not bugunkuler:
+        raise RuntimeError("Bugünün ana kaydı yok; önce sabah taraması.")
+    haric = {t.lower() for g in bugunkuler for s in g["secimler"] for t in (s["ev"], s["dep"])}
+    ek_id = f"{bugun}-{len(bugunkuler) + 1}"
+    yeni = tahmin(replace(ayar, max_kupon=2), _api(ayar), _secici(), gunler, bugun, simdi,
+                  gun_id=ek_id, haric_takimlar=haric)
+    if not yeni:
+        pas = kayit.bul(gunler, ek_id)
+        if pas:
+            gunler.remove(pas)  # ek kupon çıkmadıysa boş kayıt tutulmaz
+        _ozet_yaz("Ek kupon çıkmadı: kurallara uyan yeni oyun yok.")
+        return None
+    yeni["ek"] = True
+    onay.onay_iste(yeni, gunler, ayar, simdi)
+    _ozet_yaz(f"Ek kupon onaya gönderildi ({ek_id}); cevap yoksa {yeni['onay']['son']} (UTC) paylaşılır.")
+    return yeni
+
+
 def _sabah_penceresi(simdi: datetime, ayar) -> bool:
     """Planlı sabah çalışmasından 20 dk sonra ile 2,5 saat sonrası arası (yerel saat, yaz/kış aynı kalır)."""
     yerel = simdi.astimezone(ZoneInfo(ayar.saat_dilimi))
@@ -781,7 +809,7 @@ def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="bot")
     p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt", "sabit", "hafta", "yenile", "oran_testi",
                                           "onay_kontrol", "onay_testi", "onay_yenile", "nabiz",
-                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin"])
+                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon"])
     args = p.parse_args(argv)
     ayar = config.yukle()
 
@@ -841,6 +869,8 @@ def main(argv=None) -> int:
                 etkilesim.paylas(kayit.bul(gunler, bugun), ayar, _x_client(), simdi, yaz=_ozet_yaz)
             except Exception as e:
                 _hata("Etkileşim paylaşımı", e)
+        if args.komut == "ek_kupon":
+            ek_kupon(ayar, gunler, bugun, simdi)
         if args.komut == "vitrin":
             gun = kayit.bul(gunler, bugun)
             if not gun:

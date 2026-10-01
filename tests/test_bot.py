@@ -1207,3 +1207,34 @@ def test_pas_gununde_aciklama_paylasilir():
     gun = _vitrin_gunu(secimler=[], tweet_id=None, yayin=None, sonuc="pas", taranan=12)
     x = tweets.KonsolClient()
     assert etkilesim.paylas(gun, AYAR, x, datetime(2026, 10, 1, 11, 0, tzinfo=timezone.utc)) == "pas"
+
+
+def test_ek_kupon_ayri_kayit_ana_kupondaki_takimlar_haric(monkeypatch):
+    from bot import __main__ as m, onay
+    gunler = [{"id": "2026-10-01", "tarih": "2026-10-01", "secimler": [{"ev": "Wales", "dep": "Norway"}]}]
+    gorulen = {}
+
+    def sahte_tahmin(ayar, api, sec, gunler, bugun, simdi, gun_id=None, haric_takimlar=None):
+        gorulen.update(ayar=ayar, gun_id=gun_id, haric=haric_takimlar)
+        g = {"id": gun_id, "tarih": bugun, "secimler": [{"ev": "Denmark", "dep": "Portugal"}], "sonuc": None}
+        gunler.append(g)
+        return g
+    monkeypatch.setattr(m, "tahmin", sahte_tahmin)
+    monkeypatch.setattr(m, "_api", lambda ayar: None)
+    monkeypatch.setattr(onay, "onay_iste", lambda g, *a: g.update(onay={"son": "x"}))
+    yeni = m.ek_kupon(AYAR, gunler, "2026-10-01", SIMDI)
+    assert yeni["id"] == "2026-10-01-2" and yeni["ek"] and gorulen["ayar"].max_kupon == 2
+    assert gorulen["haric"] == {"wales", "norway"}
+    assert onay._zaten_var(None, yeni) is None  # ana kuponun tweeti ek kupon sanılmaz
+    assert tweets._baslik({**yeni, "kuponlar": [{"ayaklar": [0]}]}).startswith("BONUS")
+
+
+def test_ek_kupon_cikmazsa_bos_kayit_kalmaz(monkeypatch):
+    from bot import __main__ as m
+    gunler = [{"id": "2026-10-01", "tarih": "2026-10-01", "secimler": []}]
+
+    def pas(ayar, api, sec, gunler, bugun, simdi, gun_id=None, haric_takimlar=None):
+        gunler.append({"id": gun_id, "tarih": bugun, "secimler": [], "sonuc": "pas"})
+    monkeypatch.setattr(m, "tahmin", pas)
+    monkeypatch.setattr(m, "_api", lambda ayar: None)
+    assert m.ek_kupon(AYAR, gunler, "2026-10-01", SIMDI) is None and len(gunler) == 1

@@ -9,11 +9,13 @@ import time
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-from . import config, editor, football, gorsel, kayit, model, oddsapi, onay, panel, tweets
+from . import config, editor, etkilesim, football, gorsel, kayit, model, oddsapi, onay, panel, tweets
 from .model import adaylari_uret, bet_builder, etiketler
 
 # Çalışma sırasında yakalanan hatalar: iş sonunda "başarısız" işaretlenir, GitHub sahibine e-posta atar.
 HATALAR: list[str] = []
+# Son taramanın maçları ve oranları: kupon dışı paylaşımlar (günün maçları, anket) bunlardan hazırlanır.
+SON_TARAMA: dict = {}
 
 GUVENLI_LIMIT = 10
 # Sabah taramasından sonra gün içi sonuç kontrolleri ve elle komutlar için ayrılan istek (tek çalışmalık istisnayla değişebilir).
@@ -43,6 +45,7 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime) -> d
     if kayit.bul(gunler, bugun):
         print(f"{bugun} için kayıt zaten var, atlanıyor.")
         return None
+    SON_TARAMA.clear()
     try:
         maclar = football.gunun_maclari(api, bugun, ayar.ligler, ayar.saat_dilimi,
                                         ayar.min_dakika_once, 10_000, simdi, tum_ligler=ayar.tum_ligler)
@@ -81,6 +84,9 @@ def tahmin(ayar, api, sec, gunler: list[dict], bugun: str, simdi: datetime) -> d
     gun = {"id": bugun, "tarih": bugun, "olusturma": simdi.isoformat(timespec="seconds"),
            "baslik": "", "secimler": [], "sonuc": None, "tweet_id": None,
            "para": ayar.para_birimi, "yuzde": ayar.oyun_yuzdesi}
+    if SON_TARAMA:
+        gun["taranan"] = len(SON_TARAMA["maclar"])
+        gun["vitrin"] = etkilesim.vitrin(SON_TARAMA["maclar"], SON_TARAMA["oranlar"], ayar, simdi)
     if adaylar:
         for fid in {a["fixture_id"] for a in adaylar if "odds_id" not in mac_map[a["fixture_id"]]}:
             try:
@@ -169,6 +175,7 @@ def _toplu_tara(ayar, api, maclar: list[dict], bugun: str) -> tuple[dict, list]:
     oranlar = football.toplu_oranlar(api, bugun, ayar.saat_dilimi, ayar.max_oran_sayfasi)
     if not oranlar:
         raise football.ApiHatasi("toplu taramada hiç oran gelmedi")
+    SON_TARAMA.update(maclar=maclar, oranlar=oranlar)
     # Toplu taramaya girmeyen maçlar (önce izinli ligler) hak yettiğince tek tek tamamlanır.
     eksik = [m for m in maclar if m["fixture_id"] not in oranlar]
     kalan = football.kalan_istek(api) if hasattr(api, "session") else None
@@ -230,6 +237,7 @@ def _odds_tara(ayar, bugun: str, simdi: datetime) -> tuple[dict, list]:
     """Yedek kaynak: bugünün oranları The Odds API'den; takım istatistiği olmadan piyasa tabanlı adaylar."""
     api = oddsapi.OddsApi(config.env("ODDS_API_KEY"))
     maclar, oranlar = oddsapi.tara(api, bugun, ayar, simdi, yaz=_ozet_yaz)
+    SON_TARAMA.update(maclar=maclar, oranlar=oranlar)
     mac_map, adaylar = {}, []
     for m in maclar:
         if m["fixture_id"] not in oranlar:
@@ -762,7 +770,7 @@ def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="bot")
     p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt", "sabit", "hafta", "yenile", "oran_testi",
                                           "onay_kontrol", "onay_testi", "onay_yenile", "nabiz",
-                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar"])
+                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin"])
     args = p.parse_args(argv)
     ayar = config.yukle()
 
@@ -817,6 +825,21 @@ def main(argv=None) -> int:
                 haftalik(ayar, _x_client(), gunler, simdi)
             except Exception as e:
                 _hata("Haftalık özet", e)
+        if args.komut == "nabiz" and kayit.bul(gunler, bugun):
+            try:
+                etkilesim.paylas(kayit.bul(gunler, bugun), ayar, _x_client(), simdi, yaz=_ozet_yaz)
+            except Exception as e:
+                _hata("Etkileşim paylaşımı", e)
+        if args.komut == "vitrin":
+            gun = kayit.bul(gunler, bugun)
+            if not gun:
+                raise RuntimeError("Bugünün kaydı yok; önce sabah taraması.")
+            api = oddsapi.OddsApi(config.env("ODDS_API_KEY"))
+            maclar, oranlar = oddsapi.tara(api, bugun, ayar, simdi, yaz=_ozet_yaz, ek=False)
+            gun["taranan"] = len(maclar)
+            gun["vitrin"] = etkilesim.vitrin(maclar, oranlar, ayar, simdi)
+            _ozet_yaz(f"Vitrin: {len(gun['vitrin'])} maç; kredi {api.harcanan}, kalan {api.kalan}.\n" +
+                      "\n".join(f'- {v["ev"]} v {v["dep"]} {v["baslama"]} {v["p"]} {v["olasi_skor"]}' for v in gun["vitrin"]))
         if args.komut == "hafta" and not haftalik(ayar, _x_client(), gunler, simdi, zorla=True):
             print("Haftalık özet paylaşılmadı (zaten var ya da yeterli oyun yok).")
         if args.komut == "nabiz" and kayit.bul(gunler, bugun) is None and _sabah_penceresi(simdi, ayar):

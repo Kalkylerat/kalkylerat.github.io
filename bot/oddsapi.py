@@ -175,7 +175,7 @@ def ima_edilen_goller(adil: dict[str, float]) -> tuple[float, float] | None:
 
 
 def tara(api: OddsApi, tarih: str, ayar, simdi: datetime, kredi: int = MAX_TARAMA_KREDISI,
-         yaz=print) -> tuple[list[dict], dict]:
+         yaz=print, ek: bool = True) -> tuple[list[dict], dict]:
     """Bugünün maçları ve oranları. (maçlar, fixture_id -> bahisçi oranları) döner; maç kaydı API-Football'daki
     alanlara ek olarak kaynak bilgisini ("odds_spor", "odds_id") taşır."""
     bas, son = gun_penceresi(tarih, ayar.saat_dilimi, ayar.min_dakika_once, simdi)
@@ -209,7 +209,8 @@ def tara(api: OddsApi, tarih: str, ayar, simdi: datetime, kredi: int = MAX_TARAM
             b = bahisci_oranlari(e)
             if b:
                 oranlar[fid] = b
-    ek_pazarlari_ekle(api, maclar, oranlar, ayar, yaz)
+    if ek:
+        ek_pazarlari_ekle(api, maclar, oranlar, ayar, yaz)
     return maclar, oranlar
 
 

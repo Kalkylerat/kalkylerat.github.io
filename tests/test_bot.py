@@ -1134,3 +1134,76 @@ def test_odds_429_tekrar_denenir():
     beklemeler = []
     api = oddsapi.OddsApi("x", session=Oturum(), aralik=0, uyku=beklemeler.append)
     assert api.get("sports") == [{"key": "a"}] and beklemeler == [2]
+
+
+def _vitrin_gunu(**ek):
+    from bot import etkilesim
+    oran = lambda m1, x, m2: {"Pinnacle": {"MS1": m1, "MSX": x, "MS2": m2, "UST25": 1.9, "ALT25": 1.9}}
+    maclar = [
+        {"fixture_id": 1, "lig_id": -1, "lig": "X", "ev": "Small A", "dep": "Small B", "baslama": "2026-10-01T18:45:00+00:00"},
+        {"fixture_id": 2, "lig_id": AYAR.ligler[0], "lig": "UNL", "ev": "Germany", "dep": "Serbia", "baslama": "2026-10-01T18:45:00+00:00"},
+        {"fixture_id": 3, "lig_id": AYAR.ligler[0], "lig": "UNL", "ev": "Wales", "dep": "Norway", "baslama": "2026-10-01T18:45:00+00:00"},
+    ]
+    oranlar = {1: oran(2.0, 3.4, 3.8), 2: oran(1.22, 6.5, 13.0), 3: oran(5.0, 4.2, 1.6)}
+    vit = etkilesim.vitrin(maclar, oranlar, AYAR, datetime(2026, 10, 1, 8, tzinfo=timezone.utc))
+    return {"id": "2026-10-01", "tarih": "2026-10-01", "olusturma": "2026-10-01T10:55:00+00:00",
+            "secimler": [{"x": 1}], "tweet_id": "t1", "yayin": "2026-10-01T12:48:00+00:00", "sonuc": None,
+            "vitrin": vit, **ek}
+
+
+def test_vitrin_izinli_ligler_once_anket_dengeli_maca():
+    from bot import etkilesim
+    gun = _vitrin_gunu()
+    assert [v["fixture_id"] for v in gun["vitrin"]][-1] == 1  # liste dışı lig sonda
+    assert etkilesim.anket_maci(gun["vitrin"])["ev"] == "Wales"  # Almanya %80 favori: oylamaya değmez
+    assert etkilesim.skor_maci(gun["vitrin"])["ev"] == "Germany"
+    for v in gun["vitrin"]:
+        assert sum(v["p"].values()) == pytest.approx(1, abs=0.01)
+
+
+def test_etkilesim_paylasimlari_sirayla_aralikli_ve_birer_kez():
+    from bot import etkilesim
+    gun = _vitrin_gunu()
+    x = tweets.KonsolClient()
+    t = lambda s, d: datetime(2026, 10, 1, s, d, tzinfo=timezone.utc)
+    assert etkilesim.paylas(gun, AYAR, x, t(13, 0)) is None  # kupondan 45 dk geçmedi
+    assert etkilesim.paylas(gun, AYAR, x, t(13, 50)) == "maclar"  # maçtan 5 saat önce açılır
+    assert etkilesim.paylas(gun, AYAR, x, t(14, 0)) is None  # 45 dk aralık
+    assert etkilesim.paylas(gun, AYAR, x, t(15, 30)) is None  # anket maçtan 3 saat önce
+    assert etkilesim.paylas(gun, AYAR, x, t(15, 50)) == "anket"
+    assert etkilesim.paylas(gun, AYAR, x, t(17, 0)) is None  # skor tahmini maçtan 75 dk önce
+    assert etkilesim.paylas(gun, AYAR, x, t(17, 35)) == "skor"
+    assert etkilesim.paylas(gun, AYAR, x, t(18, 30)) is None
+    assert x.sayac == 3 and all(e["durum"] == "paylasildi" for e in gun["etkilesim"].values())
+
+
+def test_etkilesim_metinleri_kurallara_uyar():
+    from bot import etkilesim
+    gun = _vitrin_gunu()
+    metin, secenekler, dakika = etkilesim.anket({**gun, "_simdi": "2026-10-01T15:50:00+00:00"}, AYAR)
+    assert secenekler == ["Wales", "Draw", "Norway"] and dakika == 175
+    for m in (metin, etkilesim.maclar_tweeti(gun, AYAR), etkilesim.skor_tweeti(gun, AYAR),
+              etkilesim.pas_tweeti({**gun, "taranan": 12})):
+        assert tweets.uzunluk(m) <= 280 and "@" not in m and "http" not in m
+
+
+def test_etkilesim_onaysiz_kupondan_once_paylasmaz_hata_tekrar_denenmez():
+    from bot import etkilesim
+    gun = _vitrin_gunu(tweet_id=None, yayin=None)
+    t = datetime(2026, 10, 1, 14, 0, tzinfo=timezone.utc)
+    assert etkilesim.paylas(gun, AYAR, tweets.KonsolClient(), t) is None  # kupon onay bekliyor
+
+    class Bozuk:
+        def gonder(self, *a, **k):
+            raise RuntimeError("403")
+    gun = _vitrin_gunu()
+    assert etkilesim.paylas(gun, AYAR, Bozuk(), t, yaz=lambda m: None) is None
+    assert gun["etkilesim"]["maclar"]["durum"] == "hata"
+    assert etkilesim.paylas(gun, AYAR, tweets.KonsolClient(), t) is None  # anket saati gelmedi; maclar tekrar denenmez
+
+
+def test_pas_gununde_aciklama_paylasilir():
+    from bot import etkilesim
+    gun = _vitrin_gunu(secimler=[], tweet_id=None, yayin=None, sonuc="pas", taranan=12)
+    x = tweets.KonsolClient()
+    assert etkilesim.paylas(gun, AYAR, x, datetime(2026, 10, 1, 11, 0, tzinfo=timezone.utc)) == "pas"

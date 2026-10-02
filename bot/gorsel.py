@@ -8,6 +8,7 @@ from PIL import Image, ImageDraw, ImageFont
 from .config import ROOT
 from .kayit import kar, kupon_ayaklari, kupon_durumu, kupon_kar, kupon_olasilik, kupon_oran, kuponlar
 from .kayit import kupon_bakiyesi
+from .analiz import fark_puani
 from .tweets import gun_donen, kupon_oran_metni
 
 BOYUT = 1200
@@ -258,6 +259,8 @@ ETIKETLER = {
            "atar": "{t} to score", "bg": "Expected goals", "guven": "Data confidence",
            "g": {"yuksek": "High", "orta": "Medium", "dusuk": "Low"},
            "not": "Even the most likely score is only {p}: think in ranges, not one score.",
+           "kars": "TEAM STATS vs MARKET", "piyasa": "market", "ist": "stats",
+           "pazar": {"MS1": "{ev} win", "MS2": "{dep} win", "UST25": "Over 2.5", "KGVAR": "Both score"},
            "alt": "Data-driven analysis · not betting advice · 18+"},
     "tr": {"baslik": "MAÇ ANALİZİ", "ms": "MAÇ SONUCU", "beraberlik": "Beraberlik", "gol": "GOL ALT / ÜST",
            "iy": "İLK YARI", "takim": "TAKIM GOLLERİ", "cs": "ÇİFTE ŞANS", "skor": "EN OLASI SKORLAR",
@@ -265,6 +268,8 @@ ETIKETLER = {
            "atar": "{t} gol atar", "bg": "Beklenen gol", "guven": "Veri güveni",
            "g": {"yuksek": "Yüksek", "orta": "Orta", "dusuk": "Düşük"},
            "not": "En olası skor bile yalnızca {p}: tek skora değil, gol aralığına bakın.",
+           "kars": "TAKIM İSTATİSTİĞİ vs PİYASA", "piyasa": "piyasa", "ist": "istatistik",
+           "pazar": {"MS1": "{ev} kazanır", "MS2": "{dep} kazanır", "UST25": "2.5 Üst", "KGVAR": "KG Var"},
            "alt": "Veriye dayalı analiz · bahis tavsiyesi değildir · 18+"},
 }
 
@@ -338,11 +343,28 @@ def analiz_karti(a: dict, saat: str, dil: str = "en") -> bytes:
         fs, fp = _font(38, True), _font(22)
         d.text((cx - d.textlength(s, font=fs) / 2, y + 52), s, font=fs, fill=r["yazi"])
         d.text((cx - d.textlength(yuzde(v), font=fp) / 2, y + 104), yuzde(v), font=fp, fill=r["soluk"])
-    y += 176
-    not_, f = _sigdir(d, e["not"].format(p=yuzde(a["skorlar"][0][1])), W - 2 * K, 24)
-    d.text((K, y), not_, font=f, fill=r["yazi"])
+    y += 172
+    kars = (a.get("karsilastirma") or [])[:3]
+    if kars:
+        # Piyasa (oranlardan) ile takım istatistiklerinden (gol ortalamaları) çıkan ihtimal yan yana; fark büyükse vurgulu.
+        d.rounded_rectangle((K, y, W - K, y + 50 + 44 * len(kars)), radius=18, fill=r["kart"])
+        d.text((K + 24, y + 16), e["kars"], font=_font(21, True), fill=r["vurgu"])
+        for i, c in enumerate(kars):
+            yy = y + 56 + 44 * i
+            ad, f = _sigdir(d, e["pazar"][c["pazar"]].format(ev=a["ev"], dep=a["dep"]), 380, 24)
+            d.text((K + 24, yy), ad, font=f, fill=r["yazi"])
+            fark = abs(fark_puani(c)) / 100
+            sag = f'{e["piyasa"]} {yuzde(c["piyasa"])} · {e["ist"]} {yuzde(c["istatistik"])}'
+            fs = _font(23, abs(fark) >= 0.10)
+            d.text((W - K - 24 - d.textlength(sag, font=fs), yy), sag, font=fs,
+                   fill=r["vurgu"] if abs(fark) >= 0.10 else r["soluk"])
+        y += 50 + 44 * len(kars) + 20
+    else:
+        not_, f = _sigdir(d, e["not"].format(p=yuzde(a["skorlar"][0][1])), W - 2 * K, 24)
+        d.text((K, y), not_, font=f, fill=r["yazi"])
+        y += 40
     guven = f'{e["guven"]}: {e["g"][a["guven"]]}'
-    d.text((K, y + 40), guven, font=_font(22, True), fill=r["soluk"])
+    d.text((K, y), guven, font=_font(22, True), fill=r["soluk"])
     alt, f = _sigdir(d, e["alt"], W - 2 * K, 21)
     d.text(((W - d.textlength(alt, font=f)) / 2, H - 60), alt, font=f, fill=r["soluk"])
     tampon = io.BytesIO()

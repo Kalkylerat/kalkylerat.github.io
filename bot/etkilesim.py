@@ -454,13 +454,18 @@ def analiz_tweeti(a: dict, ayar) -> str:
     """Analiz kartıyla giden metin: üç ana çağrı ve en olası skor; ayrıntı görselde."""
     m = analiz.manset(a)
     skor, p_skor = a["skorlar"][0]
-    govde = (f'📊 MATCH ANALYSIS | {a["ev"]} v {a["dep"]} · {_saat(a, ayar)}\n\n'
-             + "\n".join(f'• {c["ad"]}: {_pct(c["p"])}' for c in m)
-             + f'\n• Most likely score: {skor} ({_pct(p_skor)})\n\nFull breakdown in the card. How do you see it? 👇')
+    bas = (f'📊 MATCH ANALYSIS | {a["ev"]} v {a["dep"]} · {_saat(a, ayar)}\n\n'
+           + "\n".join(f'• {c["ad"]}: {_pct(c["p"])}' for c in m) + f'\n• Most likely score: {skor} ({_pct(p_skor)})')
+    c = analiz.dikkat_cekici(a)
+    fark = (f'\n\n📈 Team stats see {c["ad"]} at {_pct(c["istatistik"])}, the market {_pct(c["piyasa"])}.'
+            if c else "")
+    son = "\n\nFull breakdown in the card. How do you see it? 👇"
     etiket = _etiket(a)
-    for metin in (govde + etiket + f"\n{ANSVAR}", govde + f"\n{ANSVAR}"):
+    for metin in (bas + fark + son + etiket + f"\n{ANSVAR}", bas + fark + son + f"\n{ANSVAR}",
+                  bas + son + etiket + f"\n{ANSVAR}", bas + son + f"\n{ANSVAR}"):
         if uzunluk(metin) <= LIMIT:
             return metin
+    govde = bas + son
     return govde[:LIMIT - len(ANSVAR) - 1] + f"\n{ANSVAR}"
 
 
@@ -469,6 +474,8 @@ def analiz_olgulari(a: dict, ayar) -> dict:
             "headline_calls": [{"call": c["ad"], "chance": _pct(c["p"])} for c in analiz.manset(a)],
             "most_likely_score": f'{a["skorlar"][0][0]} ({_pct(a["skorlar"][0][1])})',
             "expected_goals": a["beklenen_gol"], "data_confidence": a["guven"],
+            "team_stats_vs_market": [{"market": c["ad"], "market_chance": _pct(c["piyasa"]),
+                                      "team_stats_chance": _pct(c["istatistik"])} for c in (a.get("karsilastirma") or [])[:2]],
             "note": "the image card shows every market; this text introduces it. No betting advice."}
 
 
@@ -519,8 +526,14 @@ def analiz_takibi(gun: dict, ayar, x, simdi: datetime, sonuc_getir, yaz=print, y
             e["takip"] = {"durum": "hata", "hata": str(hata)[:300]}
             yaz(f"⚠️ Analiz takibi paylaşılamadı: {hata}")
             continue
+        brier = {"piyasa": 0.0, "istatistik": 0.0}
+        for c in a.get("karsilastirma") or []:
+            oldu = 1.0 if model.kazandi_mi(c["pazar"], ev, dep) else 0.0
+            brier["piyasa"] += (c["piyasa"] - oldu) ** 2
+            brier["istatistik"] += (c["istatistik"] - oldu) ** 2
         e["takip"] = {"durum": "paylasildi", "tweet_id": tid, "skor": skor, "isabet": isabet,
-                      "zaman": simdi.isoformat(timespec="seconds")}
+                      "zaman": simdi.isoformat(timespec="seconds"),
+                      **({"brier": {k: round(v, 4) for k, v in brier.items()}} if a.get("karsilastirma") else {})}
         yaz(f"Analiz takibi (alıntı):\n```\n{metin}\n```")
         paylasilan += 1
     return paylasilan

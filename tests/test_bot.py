@@ -1999,3 +1999,28 @@ def test_analiz_gunu_kartlar_ve_mac_sonu_takibi(monkeypatch, tmp_path):
                                    lambda m: {m[0]["fixture_id"]: sonuclar[m[0]["fixture_id"]]}, yaz=lambda m: None) == 0
     t = etkilesim.analiz_takip_tweeti(gun["analizler"][0], "2-0", takip["isabet"])
     assert t.startswith("🔁 FULL TIME | Arsenal 2–0 Fulham") and tweets.uzunluk(t) <= 280 and t.endswith(tweets.ANSVAR)
+
+
+def test_analiz_istatistik_ile_piyasayi_karsilastirir():
+    from bot import analiz, etkilesim, gorsel, direktor
+    m = {"fixture_id": 9, "lig_id": AYAR.ligler[0], "lig": "UEFA Nations League", "ev": "France", "dep": "Italy",
+         "baslama": "2026-10-02T18:45:00+00:00"}
+    b = {"Pinnacle": {"MS1": 1.95, "MSX": 3.5, "MS2": 4.2, "UST25": 1.9, "ALT25": 1.95}}
+    ist = {"ev": {"oynanan_ic": 5, "oynanan_dis": 5, "atilan_ic_ort": 2.6, "yenilen_ic_ort": 0.8, "son5_atilan_ort": 2.4,
+                  "son5_yenilen_ort": 0.8}, "dep": {"oynanan_ic": 5, "oynanan_dis": 5, "atilan_dis_ort": 1.6,
+                  "yenilen_dis_ort": 1.8, "son5_atilan_ort": 1.5, "son5_yenilen_ort": 1.6}}
+    a = analiz.mac_analizi(m, b, ist, AYAR)
+    assert a["kaynak"] == "piyasa" and a["guven"] == "yuksek" and len(a["karsilastirma"]) == 4
+    farklar = [abs(c["istatistik"] - c["piyasa"]) for c in a["karsilastirma"]]
+    assert farklar == sorted(farklar, reverse=True)  # en büyük fark önce
+    c = analiz.dikkat_cekici(a)
+    assert c and c["istatistik"] > c["piyasa"]  # istatistik daha çok gol görüyor
+    assert all(c["piyasa"] == a["p"][c["pazar"]] for c in a["karsilastirma"])  # karttaki ana rakamla aynı
+    metin = etkilesim.analiz_tweeti(a, AYAR)
+    assert "📈 Team stats see" in metin and tweets.uzunluk(metin) <= 280
+    assert direktor.kurala_uygun(metin, "analiz", AYAR.oran_bahiscileri)
+    for dil in ("en", "tr"):
+        assert gorsel.analiz_karti(a, "20:45", dil)[:4] == b"\x89PNG"
+    # oranı olmayan maç: yalnızca istatistik, karşılaştırma yok, güven düşük
+    s = analiz.mac_analizi(m, None, ist, AYAR)
+    assert s["kaynak"] == "istatistik" and s["guven"] == "dusuk" and s["karsilastirma"] == [] and not analiz.dikkat_cekici(s)

@@ -10,8 +10,9 @@ from datetime import datetime
 from . import model
 from .oddsapi import ima_edilen_goller
 
-# Kartın manşetindeki üç çağrı (maç sonu bunlar tutup tutmadı diye takip edilir).
-MANSET = ("1x2", "gol", "kg")
+# Piyasa ile takım istatistiklerinin karşılaştırıldığı pazarlar; bu kadar puan fark "dikkat çekici" sayılır.
+KARSILASTIRMA = (("MS1", "{ev} win"), ("MS2", "{dep} win"), ("UST25", "Over 2.5 goals"), ("KGVAR", "Both teams score"))
+FARK_ESIGI = 0.10
 
 
 def _skorlar(le: float, ld: float, adet: int = 5) -> list[tuple[str, float]]:
@@ -22,23 +23,46 @@ def _skorlar(le: float, ld: float, adet: int = 5) -> list[tuple[str, float]]:
 
 
 def mac_analizi(m: dict, bahisciler: dict | None, ist: dict | None, ayar) -> dict | None:
-    goller, guven = None, None
+    """Ana rakamlar piyasadan (daha bilgili: sakatlık, kadro, haber fiyata yansır), yoksa istatistikten. İkisi de
+    varsa ayrıca takım istatistiği modeli hesaplanır ve piyasayla karşılaştırılır (en büyük farklar önce)."""
+    piyasa_gol = istat_gol = None
+    guven = None
     if bahisciler:
         adil, _ = model.adil_olasiliklar(bahisciler, ayar.keskin_bahisci)
-        goller = ima_edilen_goller(adil)
-        if goller:
-            keskin = any(a.lower() == ayar.keskin_bahisci.lower() for a in bahisciler)
+        piyasa_gol = ima_edilen_goller(adil)
+        if piyasa_gol:
+            keskin = any(x.lower() == ayar.keskin_bahisci.lower() for x in bahisciler)
             guven = "yuksek" if keskin and "UST25" in adil else "orta"
-    if goller is None and ist and model.veri_yeterli(ist):
-        goller, guven = model.beklenen_goller(ist), "dusuk"
+    if ist and model.veri_yeterli(ist):
+        istat_gol = tuple(round(g, 2) for g in model.beklenen_goller(ist))
+    goller = piyasa_gol or istat_gol
     if goller is None:
         return None
+    guven = guven or "dusuk"
     le, ld = round(goller[0], 2), round(goller[1], 2)
     p = {k: round(v, 3) for k, v in model.model_olasiliklari(le, ld).items()}
+    karsilastirma = []
+    if piyasa_gol and istat_gol:
+        pi = model.model_olasiliklari(*istat_gol)
+        karsilastirma = sorted(({"pazar": k, "ad": ad.format(ev=m["ev"], dep=m["dep"]), "piyasa": p[k],
+                                 "istatistik": round(pi[k], 3)} for k, ad in KARSILASTIRMA),
+                               key=lambda c: -abs(fark_puani(c)))
     return {"fixture_id": m["fixture_id"], "lig": m.get("lig", ""), "ulke": m.get("ulke", ""), "lig_id": m.get("lig_id"),
             "ev": m["ev"], "dep": m["dep"], "baslama": m["baslama"], "beklenen_gol": [le, ld], "p": p,
-            "skorlar": _skorlar(le, ld), "guven": guven,
+            "skorlar": _skorlar(le, ld), "guven": guven, "kaynak": "piyasa" if piyasa_gol else "istatistik",
+            "istatistik_gol": list(istat_gol) if istat_gol else None, "karsilastirma": karsilastirma,
             **{k: m[k] for k in ("odds_id", "odds_spor") if k in m}}
+
+
+def fark_puani(c: dict) -> int:
+    """Ekranda görünen (yuvarlanmış) yüzdeler arasındaki fark: vurgu kararı okuyucunun gördüğüyle aynı olsun."""
+    return round(100 * c["istatistik"]) - round(100 * c["piyasa"])
+
+
+def dikkat_cekici(a: dict) -> dict | None:
+    """Takım istatistiklerinin piyasadan en çok ayrıştığı pazar (eşiği geçiyorsa)."""
+    c = (a.get("karsilastirma") or [None])[0]
+    return c if c and abs(fark_puani(c)) >= round(100 * FARK_ESIGI) else None
 
 
 def manset(a: dict) -> list[dict]:

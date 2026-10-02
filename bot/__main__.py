@@ -751,6 +751,9 @@ def _sabah_penceresi(simdi: datetime, ayar) -> bool:
     return bas + 20 <= dk <= bas + 150
 
 
+ANALIZ_ISTATISTIK_MAX = 300  # analiz günü en fazla bu kadar istatistik isteği (Pro: günde 7.500 hak)
+
+
 def analiz_gunu(ayar, gunler: list[dict], bugun: str, simdi: datetime, api=None) -> dict | None:
     """Analiz konsepti: kupon yok. Günün bütün maçları analiz edilir (data/analiz/<tarih>.json); öne çıkan maçların
     kartları gün içinde X'te paylaşılır (etkilesim). Takım istatistiği yalnızca oranı olmayan maçlar için istenir."""
@@ -767,16 +770,19 @@ def analiz_gunu(ayar, gunler: list[dict], bugun: str, simdi: datetime, api=None)
             return None
         _ozet_yaz(f"⚠️ API-Football kullanılamadı ({e}); yedek kaynak The Odds API.")
         maclar, oranlar = oddsapi.tara(oddsapi.OddsApi(config.env("ODDS_API_KEY")), bugun, ayar, simdi, yaz=_ozet_yaz)
-    analizler, istatistik_hakki = [], ayar.max_detay_mac
+    # Her maç için takım istatistiği de istenir (maç başına 1 istek): piyasayla karşılaştırma ve oranı olmayan
+    # maçların analizi için. Hak biterse kalan maçlar yalnızca piyasayla analiz edilir.
+    analizler, istatistik_hakki = [], ANALIZ_ISTATISTIK_MAX
     for m in maclar:
-        a = analiz.mac_analizi(m, oranlar.get(m["fixture_id"]), None, ayar)
-        if a is None and istatistik_hakki > 0 and "odds_id" not in m:
+        ist = None
+        if istatistik_hakki > 0 and "odds_id" not in m:
             istatistik_hakki -= 1
             try:
-                a = analiz.mac_analizi(m, None, football.istatistik_al(api, m["fixture_id"]), ayar)
+                ist = football.istatistik_al(api, m["fixture_id"])
             except football.ApiHatasi as e:
                 print(f"İstatistik alınamadı: {e}")
                 istatistik_hakki = 0
+        a = analiz.mac_analizi(m, oranlar.get(m["fixture_id"]), ist, ayar)
         if a:
             a["lig"] = _lig_adi(m, ayar)
             analizler.append(a)
@@ -789,6 +795,11 @@ def analiz_gunu(ayar, gunler: list[dict], bugun: str, simdi: datetime, api=None)
            "analizler": analiz.one_cikanlar(analizler, ayar.ligler)}
     gunler.append(gun)
     guven = {g: sum(a["guven"] == g for a in analizler) for g in ("yuksek", "orta", "dusuk")}
+    ayrisan = [a for a in analizler if analiz.dikkat_cekici(a)]
+    if ayrisan:
+        _ozet_yaz("İstatistiğin piyasadan ayrıştığı maçlar: " + "; ".join(
+            f'{a["ev"]} v {a["dep"]} {c["ad"]} piyasa %{100 * c["piyasa"]:.0f} / istatistik %{100 * c["istatistik"]:.0f}'
+            for a in ayrisan[:15] for c in [analiz.dikkat_cekici(a)]))
     _ozet_yaz(f"### {bugun}: {len(maclar)} maç tarandı, {len(analizler)} maç analiz edildi "
               f"(güven yüksek {guven['yuksek']}, orta {guven['orta']}, düşük {guven['dusuk']}).\n"
               "Öne çıkanlar: " + ", ".join(f'{a["ev"]} v {a["dep"]} ({a["lig"]})' for a in gun["analizler"]))

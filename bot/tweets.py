@@ -43,10 +43,18 @@ FIFA_KODLARI = {
     "argentina": "ARG", "brazil": "BRA", "uruguay": "URU", "colombia": "COL", "mexico": "MEX", "usa": "USA",
     "canada": "CAN", "japan": "JPN", "morocco": "MAR",
 }
+# Milli takımların taraftarların X'te zaten yoğun kullandığı etiketleri (uydurma kod değil). Sıra = öncelik:
+# maçta iki takımın da etiketi varsa listede önce gelen kullanılır. Emin olunmayan takıma etiket konmaz.
+MILLI_ETIKETLER = {
+    "türkiye": "#BizimÇocuklar", "turkey": "#BizimÇocuklar", "england": "#ThreeLions", "france": "#LesBleus",
+    "italy": "#Azzurri", "germany": "#DFBTeam", "portugal": "#VesteABandeira", "belgium": "#REDDEVILS",
+    "croatia": "#Vatreni", "wales": "#TogetherStronger",
+}
+_MILLI_SIRA = list(dict.fromkeys(MILLI_ETIKETLER.values()))
 # Büyük kulüplerin X'te yaygın etiketleri (yalnızca bunlar; bilinmeyen kulübe etiket uydurulmaz).
 KULUP_ETIKETLERI = {
     "arsenal": "#Arsenal", "chelsea": "#Chelsea", "liverpool": "#Liverpool", "manchester united": "#MUFC",
-    "manchester city": "#ManCity", "tottenham": "#THFC", "newcastle": "#NUFC", "aston villa": "#AVFC",
+    "manchester city": "#ManCity", "tottenham": "#COYS", "newcastle": "#NUFC", "aston villa": "#AVFC",
     "real madrid": "#RealMadrid", "barcelona": "#Barca", "atletico madrid": "#Atleti", "bayern munich": "#FCBayern",
     "bayern münchen": "#FCBayern", "borussia dortmund": "#BVB", "paris saint germain": "#PSG", "juventus": "#Juventus",
     "inter": "#Inter", "ac milan": "#ACMilan", "napoli": "#Napoli", "galatasaray": "#Galatasaray",
@@ -56,16 +64,17 @@ KULUP_ETIKETLERI = {
 
 
 def mac_etiketi(ev: str, dep: str) -> str | None:
-    """Milli maçta #DENPOR; kulüp maçında bilinen büyük kulübün etiketi (önce ev sahibi); yoksa None."""
+    """Milli maçta taraftar etiketi (#BizimÇocuklar); yoksa etiket yok (kimsenin aramadığı kod uydurulmaz). Kulüp maçında
+    bilinen büyük kulübün etiketi (önce ev sahibi); yoksa None."""
     a, b = FIFA_KODLARI.get(ev.lower().strip()), FIFA_KODLARI.get(dep.lower().strip())
     if a and b:
-        return f"#{a}{b}"
+        taraftar = [MILLI_ETIKETLER[t] for t in (ev.lower().strip(), dep.lower().strip()) if t in MILLI_ETIKETLER]
+        return min(taraftar, key=_MILLI_SIRA.index) if taraftar else None  # uydurma kod etiketi (#KAZMDA) yok
     return KULUP_ETIKETLERI.get(ev.lower().strip()) or KULUP_ETIKETLERI.get(dep.lower().strip())
 
 
 def izinli_etiket(e: str) -> bool:
-    return (e in IZINLI_ETIKETLER or e in KULUP_ETIKETLERI.values()
-            or bool(re.fullmatch(r"#[A-Z]{6}", e) and e[1:4] in FIFA_KODLARI.values() and e[4:] in FIFA_KODLARI.values()))
+    return e in IZINLI_ETIKETLER or e in KULUP_ETIKETLERI.values() or e in MILLI_ETIKETLER.values()
 
 
 def hashtag(lig: str | None, ulke: str | None = "") -> str | None:

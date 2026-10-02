@@ -1708,19 +1708,25 @@ def test_hashtag_yalniz_gercek_turnuvalar_ulkeye_gore():
     assert not direktor.kurala_uygun("#UCL #NationsLeague #PremierLeague", "maclar", b)
 
 
-def test_takim_ve_mac_etiketleri_gercek_kodlarla():
-    assert tweets.mac_etiketi("Denmark", "Portugal") == "#DENPOR"
-    assert tweets.mac_etiketi("Greece", "Netherlands") == "#GRENED"  # NET değil
-    assert tweets.mac_etiketi("Rep. Of Ireland", "Austria") == "#IRLAUT"
+def test_takim_ve_mac_etiketleri_yaygin_olanlar():
+    """Taraftarların zaten kullandığı etiketler; uydurma kod etiketi (#DENPOR, #KAZMDA) yok."""
+    assert tweets.mac_etiketi("Belgium", "Türkiye") == "#BizimÇocuklar"  # iki etiket varsa öncelikli olan
+    assert tweets.mac_etiketi("Denmark", "Portugal") == "#VesteABandeira"
+    assert tweets.mac_etiketi("France", "Italy") == "#LesBleus"
+    assert tweets.mac_etiketi("Kazakhstan", "Moldova") is None
     assert tweets.mac_etiketi("Brentford", "Arsenal") == "#Arsenal"
+    assert tweets.mac_etiketi("Tottenham", "Wolves") == "#COYS"
     assert tweets.mac_etiketi("Bastia", "Orleans") is None
-    assert tweets.etiket_satiri([("UEFA Nations League", "")], [("Denmark", "Portugal")]) == "#NationsLeague #DENPOR"
+    assert tweets.etiket_satiri([("UEFA Nations League", "")], [("Belgium", "Türkiye")]) == "#NationsLeague #BizimÇocuklar"
+    assert tweets.etiket_satiri([("UEFA Nations League", "")], [("Kazakhstan", "Moldova")]) == "#NationsLeague"
     assert tweets.etiket_satiri([("Ligue 2", "France")], [("Bastia", "Orleans")]) == ""
-    assert tweets.izinli_etiket("#DENPOR") and not tweets.izinli_etiket("#ABCDEF") and not tweets.izinli_etiket("#bets")
+    assert tweets.izinli_etiket("#BizimÇocuklar") and not tweets.izinli_etiket("#DENPOR")
+    assert not tweets.izinli_etiket("#ABCDEF") and not tweets.izinli_etiket("#bets")
     from bot import direktor
     b = AYAR.oran_bahiscileri + [AYAR.keskin_bahisci]
-    assert direktor.kurala_uygun("Big one ⚽ #NationsLeague #DENPOR", "maclar", b, {"#NationsLeague", "#DENPOR"})
-    assert not direktor.kurala_uygun("Big one #GRENED", "maclar", b, {"#NationsLeague", "#DENPOR"})  # şablonda yok
+    assert direktor.kurala_uygun("Big one ⚽ #NationsLeague #BizimÇocuklar", "maclar", b,
+                                 {"#NationsLeague", "#BizimÇocuklar"})
+    assert not direktor.kurala_uygun("Big one #Azzurri", "maclar", b, {"#NationsLeague", "#BizimÇocuklar"})  # şablonda yok
 
 
 def test_ayni_anda_sonuclanan_kuponlarda_her_post_kendi_kasasini_gosterir():

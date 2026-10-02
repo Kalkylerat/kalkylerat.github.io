@@ -92,15 +92,22 @@ def manset(a: dict) -> list[dict]:
             {"pazar": kg[0], "ad": kg[1], "p": p[kg[0]]}]
 
 
+def onemli(a: dict) -> bool:
+    """Geniş kitlenin ilgilendiği maç: taraftar etiketi olan milli takım ya da bilinen büyük kulüp (ör. Türkiye)."""
+    from .tweets import KULUP_ETIKETLERI, MILLI_ETIKETLER
+    return any(t.lower().strip() in MILLI_ETIKETLER or t.lower().strip() in KULUP_ETIKETLERI for t in (a["ev"], a["dep"]))
+
+
 def one_cikanlar(analizler: list[dict], izinli: list[int], adet: int = 5) -> list[dict]:
-    """X'te paylaşılacak maçlar: önce izinli (büyük) ligler, veri güveni yüksek olanlar; aynı saate yığılmasın diye
-    farklı başlama saatleri tercih edilir."""
+    """X'te paylaşılacak maçlar: önce günün önemli maçları (Türkiye, büyük milli takımlar ve kulüpler), sonra izinli
+    (büyük) ligler ve veri güveni yüksek olanlar; aynı saate yığılmasın diye farklı başlama saatleri tercih edilir."""
     sira = {lig: i for i, lig in enumerate(izinli)}
     puan = {"yuksek": 0, "orta": 1, "dusuk": 2}
-    aday = sorted((a for a in analizler if a.get("lig_id") in sira and a["guven"] != "dusuk" and _gecerli(a)),
-                  key=lambda a: (puan[a["guven"]], sira[a["lig_id"]], a["baslama"]))
-    secilen: list[dict] = []
-    for a in aday:  # önce farklı saatler
+    aday = sorted((a for a in analizler if (a.get("lig_id") in sira or onemli(a)) and a["guven"] != "dusuk"
+                   and _gecerli(a)),
+                  key=lambda a: (not onemli(a), puan[a["guven"]], sira.get(a.get("lig_id"), 99), a["baslama"]))
+    secilen: list[dict] = [a for a in aday if onemli(a)][:adet]  # önemli maçlar saat çakışsa da girer
+    for a in aday:  # sonra farklı saatler
         if len(secilen) < adet and all(abs((datetime.fromisoformat(a["baslama"]) -
                                             datetime.fromisoformat(s["baslama"])).total_seconds()) >= 3600
                                        for s in secilen):

@@ -1485,9 +1485,15 @@
         "elle": true
       },
       "tablo_5": {
-        "durum": "paylasildi",
+        "durum": "silindi",
         "tweet_id": "2106014086572220789",
         "zaman": "2026-10-02T13:30:59+00:00",
+        "elle": true
+      },
+      "tablo_6": {
+        "durum": "paylasildi",
+        "tweet_id": "2106016175154934175",
+        "zaman": "2026-10-02T13:39:17+00:00",
         "elle": true
       }
     },

@@ -1465,6 +1465,12 @@
         "durum": "paylasildi",
         "tweet_id": "2106004388322087105",
         "zaman": "2026-10-02T12:52:24+00:00"
+      },
+      "tablo_2": {
+        "durum": "paylasildi",
+        "tweet_id": "2106009806934843748",
+        "zaman": "2026-10-02T13:13:51+00:00",
+        "elle": true
       }
     },
     "tablo": [

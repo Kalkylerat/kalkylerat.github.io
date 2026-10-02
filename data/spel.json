@@ -1460,7 +1460,7 @@
         "durum": "paylasildi",
         "tweet_id": "2105988006486364227",
         "zaman": "2026-10-02T11:47:19+00:00",
-        "takip": {
+        "eski_takip": {
           "durum": "paylasildi",
           "tweet_id": "2106056507255373893",
           "skor": "1-2",
@@ -1470,6 +1470,17 @@
             false
           ],
           "zaman": "2026-10-02T16:19:30+00:00"
+        },
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2106060538677542949",
+          "skor": "1-2",
+          "isabet": [
+            false,
+            false,
+            false
+          ],
+          "zaman": "2026-10-02T16:35:32+00:00"
         }
       },
       "analiz_1": {

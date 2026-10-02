@@ -1486,7 +1486,18 @@
       "analiz_1": {
         "durum": "paylasildi",
         "tweet_id": "2106004388322087105",
-        "zaman": "2026-10-02T12:52:24+00:00"
+        "zaman": "2026-10-02T12:52:24+00:00",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2106087593129456127",
+          "skor": "2-0",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "zaman": "2026-10-02T18:23:02+00:00"
+        }
       },
       "tablo_2": {
         "durum": "silindi",
@@ -1521,7 +1532,18 @@
       "analiz_2": {
         "durum": "paylasildi",
         "tweet_id": "2106030998873878917",
-        "zaman": "2026-10-02T14:38:08+00:00"
+        "zaman": "2026-10-02T14:38:08+00:00",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2106087610879709207",
+          "skor": "1-2",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "zaman": "2026-10-02T18:23:02+00:00"
+        }
       },
       "analiz_3": {
         "durum": "paylasildi",

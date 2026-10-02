@@ -505,21 +505,33 @@ MANSET_EMOJI = ("🏆", "⚽", "🥅")
 
 
 def analiz_tweeti(a: dict, ayar) -> str:
-    """Analiz kartıyla giden metin: her veri satırı tek emojiyle başlar, bloklar boş satırla ayrılır."""
+    """Analiz kartıyla giden metin: her veri satırı tek emojiyle başlar, bloklar boş satırla ayrılır. Takım
+    istatistiği satırı (ya da neden olmadığı) hep yazılır; sığmazsa önce başlık ve soru kısalır, sonra etiketler."""
     m = analiz.manset(a)
     skor, p_skor = a["skorlar"][0]
-    bas = (f'📊 MATCH ANALYSIS\n🆚 {a["ev"]} v {a["dep"]}\n🕗 {_saat(a, ayar)}\n\n'
-           + "\n".join(f'{e} {c["ad"]}: {_pct(c["p"])}' for e, c in zip(MANSET_EMOJI, m))
-           + f'\n🎯 Most likely score: {skor} ({_pct(p_skor)})')
-    c = analiz.dikkat_cekici(a)
-    fark = (f'\n\n📈 Team stats: {c["ad"]} {_pct(c["istatistik"])}\n💹 Market: {_pct(c["piyasa"])}' if c else "")
-    son = "\n\n🔍 Every market is in the card.\n💬 How do you see it? 👇"
+    satirlar = ("\n".join(f'{e} {c["ad"]}: {_pct(c["p"])}' for e, c in zip(MANSET_EMOJI, m))
+                + f'\n🎯 Most likely score: {skor} ({_pct(p_skor)})')
+    baslar = (f'📊 MATCH ANALYSIS\n🆚 {a["ev"]} v {a["dep"]}\n🕗 {_saat(a, ayar)}\n\n',
+              f'🆚 {a["ev"]} v {a["dep"]} · {_saat(a, ayar)}\n\n')
+    # İstatistik karşılığı her zaman (en büyük fark önce); yoksa nedeni açıkça
+    c = (a.get("karsilastirma") or [None])[0]
+    farklar = ((f'\n\n📈 Team stats: {c["ad"]} {_pct(c["istatistik"])}\n💹 Market: {_pct(c["piyasa"])}',
+                f'\n\n📈 Team stats: {c["ad"]} {_pct(c["istatistik"])} (market {_pct(c["piyasa"])})',
+                f'\n\n📈 Stats: {c["ad"]} {_pct(c["istatistik"])} · market {_pct(c["piyasa"])}') if c else
+               ("\n\n📈 Every % here is from team stats (no market price)",) if a.get("kaynak") == "istatistik" else
+               ("\n\n📈 Team stats: not enough recent games to compare", "\n\n📈 Team stats: too few recent games"))
+    sonlar = ("\n\n🔍 Every market is in the card.\n💬 How do you see it? 👇", "\n\n💬 Every market is in the card. Your read? 👇",
+              "\n\n💬 Your read? 👇")
     etiket = _etiket(a)
-    for metin in (bas + fark + son + etiket + f"\n{ANSVAR}", bas + fark + son + f"\n{ANSVAR}",
-                  bas + son + etiket + f"\n{ANSVAR}", bas + son + f"\n{ANSVAR}"):
-        if uzunluk(metin) <= LIMIT:
-            return metin
-    govde = bas + son
+    etiketler = dict.fromkeys((etiket, etiket.split(" ")[0] if etiket else "", ""))
+    for fark in (*farklar, ""):
+        for et in etiketler:
+            for bas in baslar:
+                for son in sonlar:
+                    metin = bas + satirlar + fark + son + et + f"\n{ANSVAR}"
+                    if uzunluk(metin) <= LIMIT:
+                        return metin
+    govde = baslar[1] + satirlar + sonlar[1]
     return govde[:LIMIT - len(ANSVAR) - 1] + f"\n{ANSVAR}"
 
 

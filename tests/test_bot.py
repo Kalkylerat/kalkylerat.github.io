@@ -1992,7 +1992,7 @@ def test_analiz_gunu_kartlar_ve_mac_sonu_takibi(monkeypatch, tmp_path):
     assert {"analiz_0", "analiz_1", "analiz_2", "bilgi"} <= set(turler)
     assert not {"radar", "deger", "istatistik", "skor", "pas"} & set(turler)
     metin = etkilesim.analiz_tweeti(gun["analizler"][0], AYAR)
-    assert "📊 MATCH ANALYSIS\n🆚 Arsenal v Fulham" in metin and "Most likely score" in metin
+    assert "🆚 Arsenal v Fulham" in metin and "Most likely score" in metin and "📈 Team stats" in metin
     assert tweets.uzunluk(metin) <= 280 and direktor.kurala_uygun(metin, "analiz", AYAR.oran_bahiscileri)
     assert gorsel.analiz_karti(gun["analizler"][0], "16:00", "tr")[:4] == b"\x89PNG"
     # maç sonu: skor ve üç çağrı, alıntıyla; bir kez

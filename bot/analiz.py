@@ -19,17 +19,30 @@ MIN_MAC = 5
 TOPLAM_GOL_ARALIGI = (1.0, 5.0)
 
 
-def istatistik_golleri(ist: dict | None) -> tuple[float, float] | None:
-    """Güvenilir takım istatistiği modeli varsa beklenen goller; yoksa None."""
+def istatistik_modeli(ist: dict | None) -> tuple[tuple[float, float], str] | None:
+    """Güvenilir takım istatistiği modeli: (beklenen goller, kaynak). Kaynak "lig": iki takımın da bu ligde en az
+    MIN_MAC maçı var, iç saha/deplasman ortalamaları. Yoksa "son5": son 5 maçın (milli takımlarda turnuva
+    örneklemi küçük) attığı/yediği gol ortalaması. Toplam gol makul aralıkta değilse None (veri hatası)."""
     if not ist or not model.veri_yeterli(ist):
         return None
     ev, dep = ist["ev"], ist["dep"]
-    if min(ev["oynanan_ic"] + ev["oynanan_dis"], dep["oynanan_ic"] + dep["oynanan_dis"]) < MIN_MAC:
+    if min(ev["oynanan_ic"] + ev["oynanan_dis"], dep["oynanan_ic"] + dep["oynanan_dis"]) >= MIN_MAC:
+        goller, kaynak = model.beklenen_goller(ist), "lig"
+    elif all(t["son5_atilan_ort"] + t["son5_yenilen_ort"] > 0 for t in (ev, dep)):
+        goller = ((ev["son5_atilan_ort"] + dep["son5_yenilen_ort"]) / 2, (dep["son5_atilan_ort"] + ev["son5_yenilen_ort"]) / 2)
+        kaynak = "son5"
+    else:
         return None
-    goller = tuple(round(g, 2) for g in model.beklenen_goller(ist))
+    goller = tuple(round(g, 2) for g in goller)
     if not TOPLAM_GOL_ARALIGI[0] <= sum(goller) <= TOPLAM_GOL_ARALIGI[1] or min(goller) <= 0.2 or max(goller) >= 4.0:
         return None
-    return goller
+    return goller, kaynak
+
+
+def istatistik_golleri(ist: dict | None) -> tuple[float, float] | None:
+    """Güvenilir takım istatistiği modeli varsa beklenen goller; yoksa None."""
+    sonuc = istatistik_modeli(ist)
+    return sonuc[0] if sonuc else None
 
 
 def _skorlar(le: float, ld: float, adet: int = 5) -> list[tuple[str, float]]:
@@ -50,7 +63,8 @@ def mac_analizi(m: dict, bahisciler: dict | None, ist: dict | None, ayar) -> dic
         if piyasa_gol:
             keskin = any(x.lower() == ayar.keskin_bahisci.lower() for x in bahisciler)
             guven = "yuksek" if keskin and "UST25" in adil else "orta"
-    istat_gol = istatistik_golleri(ist)
+    istat = istatistik_modeli(ist)
+    istat_gol, istat_kaynak = istat or (None, None)
     goller = piyasa_gol or istat_gol
     if goller is None:
         return None
@@ -66,7 +80,8 @@ def mac_analizi(m: dict, bahisciler: dict | None, ist: dict | None, ayar) -> dic
     return {"fixture_id": m["fixture_id"], "lig": m.get("lig", ""), "ulke": m.get("ulke", ""), "lig_id": m.get("lig_id"),
             "ev": m["ev"], "dep": m["dep"], "baslama": m["baslama"], "beklenen_gol": [le, ld], "p": p,
             "skorlar": _skorlar(le, ld), "guven": guven, "kaynak": "piyasa" if piyasa_gol else "istatistik",
-            "istatistik_gol": list(istat_gol) if istat_gol else None, "karsilastirma": karsilastirma,
+            "istatistik_gol": list(istat_gol) if istat_gol else None, "istatistik_kaynak": istat_kaynak,
+            "karsilastirma": karsilastirma,
             **{k: m[k] for k in ("odds_id", "odds_spor") if k in m}}
 
 
@@ -123,7 +138,7 @@ def _gecerli(a: dict) -> bool:
     return all(len(t.strip()) > 2 and t.strip().lower() != "team" for t in (a["ev"], a["dep"]))
 
 
-def tablo_secimi(analizler: list[dict], izinli: list[int] = (), adet: int = 12, lig_basina: int = 2,
+def tablo_secimi(analizler: list[dict], izinli: list[int] = (), adet: int = 10, lig_basina: int = 2,
                  en_erken: str | None = None, haric: set = frozenset()) -> list[dict]:
     """Günün analiz tablosu: önce büyük (izinli) liglerin maçları, sonra alt ligler; veri güveni yüksek/orta;
     lig başına en fazla 2 maç; tablonun paylaşılacağı saatten sonra başlayanlar; saat sırasıyla."""
@@ -150,4 +165,5 @@ def ayrisma_secimi(analizler: list[dict], adet: int = 3) -> list[dict]:
 def ozet(a: dict) -> dict:
     """Kayıtta saklanacak kısa hali (tablo ve ayrışma postları için)."""
     return {k: a[k] for k in ("fixture_id", "lig", "ulke", "lig_id", "ev", "dep", "baslama", "p", "skorlar", "guven",
-                              "karsilastirma", "beklenen_gol") if k in a}
+                              "karsilastirma", "beklenen_gol", "kaynak",
+                                                       "istatistik_kaynak") if k in a}

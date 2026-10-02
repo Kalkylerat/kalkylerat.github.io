@@ -43,6 +43,8 @@ KURALLAR = """Hard rules (never break them):
   in running text ("Over 2.5 goals", "Both teams score").
 - Keep every percentage that is in the template (the pinned post promises the numbers). Never name a match without
   its own percentages; if it does not fit, leave the match out rather than its numbers.
+- Keep the team stats line (📈) of a match card: the stats percentage next to the market one, or the reason there is
+  none. The account promises market and team stats side by side.
 - Hashtags: only from "allowed_hashtags" in the facts (real tags fans already use), at most two; none if the list is
   empty. Exception: the "tablo" (analysis board) post ends with a line carrying ALL its allowed_hashtags.
 - Never say "lock", "guaranteed", "sure thing", "banker", "free money" or promise wins. Talk in chances.

@@ -1532,6 +1532,9 @@
         "durum": "paylasildi",
         "tweet_id": "2106060756818989466",
         "zaman": "2026-10-02T16:36:24+00:00"
+      },
+      "anket": {
+        "durum": "atlandi"
       }
     },
     "tablo": [

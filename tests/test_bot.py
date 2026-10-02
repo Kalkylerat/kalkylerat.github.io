@@ -2024,3 +2024,15 @@ def test_analiz_istatistik_ile_piyasayi_karsilastirir():
     # oranı olmayan maç: yalnızca istatistik, karşılaştırma yok, güven düşük
     s = analiz.mac_analizi(m, None, ist, AYAR)
     assert s["kaynak"] == "istatistik" and s["guven"] == "dusuk" and s["karsilastirma"] == [] and not analiz.dikkat_cekici(s)
+
+
+def test_istatistik_modeli_kucuk_orneklemde_kullanilmaz():
+    from bot import analiz
+    takim = lambda ic, dis, a, y: {"oynanan_ic": ic, "oynanan_dis": dis, "atilan_ic_ort": a, "yenilen_ic_ort": y,
+                                   "atilan_dis_ort": a, "yenilen_dis_ort": y, "son5_atilan_ort": a, "son5_yenilen_ort": y}
+    assert analiz.istatistik_golleri({"ev": takim(3, 3, 1.6, 1.0), "dep": takim(3, 3, 1.2, 1.3)})  # 6 maç: yeterli
+    assert analiz.istatistik_golleri({"ev": takim(1, 1, 3.0, 0.0), "dep": takim(1, 2, 0.0, 2.0)}) is None  # 2-3 maç
+    assert analiz.istatistik_golleri({"ev": takim(4, 4, 0.1, 0.2), "dep": takim(4, 4, 0.2, 0.1)}) is None  # uç değer
+    m = {"fixture_id": 1, "lig": "X", "ev": "A", "dep": "B", "baslama": "2026-10-02T18:00:00+00:00"}
+    kucuk = {"ev": takim(1, 1, 3.0, 0.0), "dep": takim(1, 2, 0.0, 2.0)}
+    assert analiz.mac_analizi(m, None, kucuk, AYAR) is None  # oranı yok, istatistik güvenilmez: analiz yok

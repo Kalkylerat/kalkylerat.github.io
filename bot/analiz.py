@@ -13,6 +13,23 @@ from .oddsapi import ima_edilen_goller
 # Piyasa ile takım istatistiklerinin karşılaştırıldığı pazarlar; bu kadar puan fark "dikkat çekici" sayılır.
 KARSILASTIRMA = (("MS1", "{ev} win"), ("MS2", "{dep} win"), ("UST25", "Over 2.5 goals"), ("KGVAR", "Both teams score"))
 FARK_ESIGI = 0.10
+# Takım istatistiği modeli ancak bu kadar maçlık örneklemle güvenilir (Uluslar Ligi gibi turnuvalarda 1–3 maçlık
+# ortalama gürültüdür); toplam beklenen gol de makul aralıkta olmalı (0,25 + 0,25 gibi uç değerler veri hatasıdır).
+MIN_MAC = 5
+TOPLAM_GOL_ARALIGI = (1.0, 5.0)
+
+
+def istatistik_golleri(ist: dict | None) -> tuple[float, float] | None:
+    """Güvenilir takım istatistiği modeli varsa beklenen goller; yoksa None."""
+    if not ist or not model.veri_yeterli(ist):
+        return None
+    ev, dep = ist["ev"], ist["dep"]
+    if min(ev["oynanan_ic"] + ev["oynanan_dis"], dep["oynanan_ic"] + dep["oynanan_dis"]) < MIN_MAC:
+        return None
+    goller = tuple(round(g, 2) for g in model.beklenen_goller(ist))
+    if not TOPLAM_GOL_ARALIGI[0] <= sum(goller) <= TOPLAM_GOL_ARALIGI[1] or min(goller) <= 0.2 or max(goller) >= 4.0:
+        return None
+    return goller
 
 
 def _skorlar(le: float, ld: float, adet: int = 5) -> list[tuple[str, float]]:
@@ -33,8 +50,7 @@ def mac_analizi(m: dict, bahisciler: dict | None, ist: dict | None, ayar) -> dic
         if piyasa_gol:
             keskin = any(x.lower() == ayar.keskin_bahisci.lower() for x in bahisciler)
             guven = "yuksek" if keskin and "UST25" in adil else "orta"
-    if ist and model.veri_yeterli(ist):
-        istat_gol = tuple(round(g, 2) for g in model.beklenen_goller(ist))
+    istat_gol = istatistik_golleri(ist)
     goller = piyasa_gol or istat_gol
     if goller is None:
         return None

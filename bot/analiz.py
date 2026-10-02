@@ -131,7 +131,8 @@ def tablo_secimi(analizler: list[dict], izinli: list[int] = (), adet: int = 12, 
     sira = {lig: i for i, lig in enumerate(izinli)}
     aday = [a for a in analizler if a["guven"] in puan and _gecerli(a) and a["fixture_id"] not in haric
             and (en_erken is None or datetime.fromisoformat(a["baslama"]) > datetime.fromisoformat(en_erken))]
-    aday.sort(key=lambda a: (a.get("lig_id") not in sira, sira.get(a.get("lig_id"), 0), puan[a["guven"]], a["baslama"]))
+    aday.sort(key=lambda a: (not onemli(a), a.get("lig_id") not in sira, sira.get(a.get("lig_id"), 0),
+                             puan[a["guven"]], a["baslama"]))  # önce günün önemli maçları
     secilen, sayac = [], {}
     for a in aday:
         if len(secilen) < adet and sayac.get(a["lig"], 0) < lig_basina:

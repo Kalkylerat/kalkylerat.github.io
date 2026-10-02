@@ -811,6 +811,30 @@ def analiz_gunu(ayar, gunler: list[dict], bugun: str, simdi: datetime, api=None)
     return gun
 
 
+def liste_simdi(ayar, gunler: list[dict], bugun: str, simdi: datetime, x) -> str | None:
+    """Elle: günün kalan önemli maçlarının listesini (analiz tablosu, bütün maç etiketleriyle) şimdi paylaşır.
+    Kartı olan maçlar da girer; ayrı etkileşim kaydı (tablo_N) olarak saklanır."""
+    gun = kayit.bul(gunler, bugun)
+    dosya = config.DATA_FILE.parent / "analiz" / f"{bugun}.json"
+    if not gun or not dosya.exists():
+        raise RuntimeError("Bugünün analizi yok; önce sabah taraması.")
+    tum = json.loads(dosya.read_text(encoding="utf-8"))
+    liste = analiz.tablo_secimi(tum, ayar.ligler, en_erken=(simdi + timedelta(minutes=15)).isoformat(), lig_basina=4)
+    if len(liste) < 3:
+        raise RuntimeError("Listeye girecek kadar maç kalmadı.")
+    metin = etkilesim.tablo_tweeti(gun, liste)
+    yazar = _direktor_yazar(ayar)
+    if yazar:
+        metin = yazar("tablo", etkilesim.tablo_olgulari(gun, liste, ayar), metin) or metin
+    png = gorsel.analiz_tablosu(liste, bugun, [etkilesim._saat(a, ayar) for a in liste], "en")
+    tid = x.gonder(metin, medya=[x.medya_yukle(png)])
+    durum = gun.setdefault("etkilesim", {})
+    anahtar = next(f"tablo_{n}" for n in range(2, 99) if f"tablo_{n}" not in durum)
+    durum[anahtar] = {"durum": "paylasildi", "tweet_id": tid, "zaman": simdi.isoformat(timespec="seconds"), "elle": True}
+    _ozet_yaz(f"Liste paylaşıldı ({anahtar}): https://x.com/kalkylerat/status/{tid}\n```\n{metin}\n```")
+    return tid
+
+
 def analiz_secimlerini_tamamla(ayar, gun: dict | None) -> None:
     """Eski sürümün oluşturduğu analiz gününe tablo ve ayrışma seçimlerini ekler; henüz kart paylaşılmadıysa
     öne çıkan maç sayısını da günceller (aynı post iki kez çıkmaz)."""
@@ -1079,7 +1103,7 @@ def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="bot")
     p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt", "sabit", "hafta", "yenile", "oran_testi",
                                           "onay_kontrol", "onay_testi", "onay_yenile", "nabiz",
-                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir", "kasa_duzelt", "direktor", "skor_duzelt", "sonuc_duzelt", "kasa_defteri", "temizle"])
+                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir", "kasa_duzelt", "direktor", "skor_duzelt", "sonuc_duzelt", "kasa_defteri", "temizle", "liste"])
     args = p.parse_args(argv)
     ayar = config.yukle()
     from dataclasses import replace as _degistir
@@ -1186,6 +1210,8 @@ def main(argv=None) -> int:
             sonuc_duzelt(ayar, gunler, bugun, simdi, _x_client())
         if args.komut == "skor_duzelt":
             skor_duzelt(gunler, bugun, simdi, _x_client())
+        if args.komut == "liste":
+            liste_simdi(ayar, gunler, bugun, simdi, _x_client())
         if args.komut == "kasa_defteri":
             _ozet_yaz(denetci.kasa_defteri(gunler, ayar.kasa_baslangic))
             if denetci.kasa_denetimi(gunler, ayar.kasa_baslangic):

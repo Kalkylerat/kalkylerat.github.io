@@ -419,24 +419,28 @@ def hafta_tweeti(h: dict, ozet: dict, birim: str) -> str:
 
 
 SABIT_TWEETLER = [
-    """Day 1 of the €10,000 challenge 📊
+    """👋 Welcome to Kalkylerat
 
-A public, virtual €10,000 bank run on data:
-• Each coupon = 1% of the current bank
-• High-chance picks + value picks
-• Posted before kick-off, all results counted
+⚽ Football analysis, every day
+📊 Chances for every market
+📋 100+ matches analysed daily
+🔁 Every call checked at full time
 
-Live record: https://kalkylerat.github.io/
-How it works 👇
-18+ | Play responsibly""",
-    """How it works:
+No hype, just numbers.
+💬 Ask us about any match 👇
 
-• Start: €10,000 (virtual money)
-• Stake = 1% of the bank at that moment. Win and stakes grow, lose and they shrink, so one bad day can't sink the bank
-• Chances: sharp market, margin removed, checked by our goal model
-• Odds: median of big bookmakers""",
+#Football #FootballPredictions
+18+ | Not betting advice""",
+    """🧮 How it works
+
+📉 Chances come from the sharpest betting market with the margin removed, run through a goal model
+📈 We compare them with team stats and flag where they disagree
+✅ Every featured match gets a full-time check, right or wrong
+
+Not betting advice. 18+""",
 ]
-ESKI_KARSILAMA = ("Welcome to Kalkylerat", "Välkommen till Kalkylerat", "Day 1 of the €10,000 challenge", "How it works:")
+ESKI_KARSILAMA = ("Welcome to Kalkylerat", "Välkommen till Kalkylerat", "Day 1 of the €10,000 challenge", "How it works:",
+                  "👋 Welcome to Kalkylerat", "🧮 How it works")
 
 
 class XClient:

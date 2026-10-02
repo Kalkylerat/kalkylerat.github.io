@@ -167,11 +167,11 @@ def olgular(tur: str, gun: dict, ayar) -> dict:
     if tur == "istatistik":
         return {"game": mac(istatistik_maci(vit))}
     if tur == "ayrisma":
-        return {"games": [{"home": a["ev"], "away": a["dep"], "kickoff": _saat(a, ayar), "market": c["ad"],
-                           "market_chance": _pct(c["piyasa"]), "team_stats_chance": _pct(c["istatistik"])}
-                          for a in gun.get("ayrisma") or [] for c in [analiz.dikkat_cekici(a)] if c],
-                "note": "market = bookmaker prices with the margin removed; team stats = home/away scoring "
-                        "averages. Ask who is right; no betting advice."}
+        return {"games": [{"match": f'{a["ev"]} v {a["dep"]}', "kickoff": _saat(a, ayar), "market": c["ad"],
+                           "odds_chance": _pct(c["piyasa"]), "team_stats_chance": _pct(c["istatistik"])}
+                          for a, c in kiyas_satirlari(gun)],
+                "note": "odds = bookmaker prices with the margin removed; team stats = scoring averages. Always give "
+                        "both percentages for each match. Ask who is right; no betting advice."}
     if tur == "bilgi":
         k = bilgi.gunun_konusu(gun["tarih"])
         return {"topic": k["baslik"], "facts_to_use": k["govde"], "question_idea": k["soru"],
@@ -288,8 +288,8 @@ def _plan(gun: dict) -> list[tuple[str, datetime, datetime]]:
         elif vit:
             ilk = min(datetime.fromisoformat(v["baslama"]) for v in vit)
             plan.append(("maclar", ilk - timedelta(hours=5), ilk - timedelta(minutes=15)))
-        if len(gun.get("ayrisma") or []) >= 2:  # istatistik piyasaya katılmıyor: kim haklı?
-            ilk = min(datetime.fromisoformat(a["baslama"]) for a in gun["ayrisma"])
+        if len(gun.get("kiyas") or gun.get("ayrisma") or []) >= 2:  # oran vs istatistik (ikinci tablo): kim haklı?
+            ilk = min(datetime.fromisoformat(a["baslama"]) for a in gun.get("kiyas") or gun["ayrisma"])
             plan.append(("ayrisma", gun_bas + timedelta(hours=10), ilk - timedelta(minutes=30)))
         for i, a in enumerate(gun.get("analizler") or []):
             b = datetime.fromisoformat(a["baslama"])
@@ -373,13 +373,30 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_pay
                     durum[tur] = {"durum": "atlandi", "neden": "denetçi"}
                     continue
                 tid = x.gonder(metin, medya=[x.medya_yukle(png)])
+            elif tur == "ayrisma":
+                sablon = ayrisma_tweeti(gun, ayar, simdi)
+                if sablon is None:
+                    durum[tur] = {"durum": "atlandi"}
+                    continue
+                metin = yazar(tur, olgular(tur, gun, ayar), sablon) if yazar else sablon
+                if not metin:
+                    durum[tur] = {"durum": "atlandi", "neden": "direktör"}
+                    continue
+                kiyas = kiyas_listesi(gun, simdi)
+                png = (gorsel.kiyas_tablosu(kiyas, gun["tarih"], [_saat(a, ayar) for a in kiyas], "en")
+                       if len(kiyas) >= 3 else None)
+                metin = _denetle(tur, metin, sablon, (gun.get("kiyas") or []) + (gun.get("ayrisma") or []), ayar, png, yaz)
+                if not metin:
+                    durum[tur] = {"durum": "atlandi", "neden": "denetçi"}
+                    continue
+                tid = x.gonder(metin, medya=[x.medya_yukle(png)]) if png else x.gonder(metin)
             elif tur == "anket":
                 metin, secenekler, dakika = anket({**gun, "_simdi": zaman}, ayar)
                 metin = yazar(tur, olgular(tur, gun, ayar), metin) if yazar else metin
                 tid = x.gonder(metin, anket={"options": secenekler, "duration_minutes": dakika})
             else:
                 metin = {"pas": lambda: pas_tweeti(gun), "bilgi": lambda: bilgi_tweeti(gun),
-                         "ayrisma": lambda: ayrisma_tweeti(gun, ayar, simdi), "maclar": lambda: maclar_tweeti(gun, ayar),
+                         "maclar": lambda: maclar_tweeti(gun, ayar),
                          "skor": lambda: skor_tweeti(gun, ayar),
                          "istatistik": lambda: istatistik_tweeti(gun, ayar),
                          "radar": lambda: radar_tweeti(gun, ayar, haric_takimlar),
@@ -393,11 +410,6 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_pay
                     durum[tur] = {"durum": "atlandi", "neden": "direktör"}
                     yaz(f"Etkileşim paylaşımı ({tur}): direktör bugün atlamayı seçti.")
                     continue
-                if tur == "ayrisma":
-                    metin = _denetle(tur, metin, sablon, gun.get("ayrisma") or [], ayar, None, yaz)
-                    if not metin:
-                        durum[tur] = {"durum": "atlandi", "neden": "denetçi"}
-                        continue
                 tid = x.gonder(metin)
         except Exception as e:
             # Tekrar tekrar denenip hata yağmasın: bu tür bugün atlanır.
@@ -515,11 +527,11 @@ def analiz_tweeti(a: dict, ayar) -> str:
               f'🆚 {a["ev"]} v {a["dep"]} · {_saat(a, ayar)}\n\n')
     # İstatistik karşılığı her zaman (en büyük fark önce); yoksa nedeni açıkça
     c = (a.get("karsilastirma") or [None])[0]
-    farklar = ((f'\n\n📈 Team stats: {c["ad"]} {_pct(c["istatistik"])}\n💹 Market: {_pct(c["piyasa"])}',
-                f'\n\n📈 Team stats: {c["ad"]} {_pct(c["istatistik"])} (market {_pct(c["piyasa"])})',
-                f'\n\n📈 Stats: {c["ad"]} {_pct(c["istatistik"])} · market {_pct(c["piyasa"])}') if c else
-               ("\n\n📈 Every % here is from team stats (no market price)",) if a.get("kaynak") == "istatistik" else
-               ("\n\n📈 Team stats: not enough recent games to compare", "\n\n📈 Team stats: too few recent games"))
+    farklar = ((f'\n\n📈 Team stats: {c["ad"]} {_pct(c["istatistik"])}\n💹 Odds: {_pct(c["piyasa"])}',
+                f'\n\n📈 Team stats: {c["ad"]} {_pct(c["istatistik"])} (odds {_pct(c["piyasa"])})',
+                f'\n\n📈 Stats: {c["ad"]} {_pct(c["istatistik"])} · odds {_pct(c["piyasa"])}') if c else
+               ("\n\n📈 Every % here is from team stats (no odds)",) if a.get("kaynak") == "istatistik" else
+               ("\n\n📈 Team stats: not enough recent games to compare with the odds", "\n\n📈 Team stats: too few recent games"))
     sonlar = ("\n\n🔍 Every market is in the card.\n💬 How do you see it? 👇", "\n\n💬 Every market is in the card. Your read? 👇",
               "\n\n💬 Your read? 👇")
     etiket = _etiket(a)
@@ -657,16 +669,38 @@ def tablo_olgulari(gun: dict, liste: list[dict], ayar) -> dict:
             "note": "the image shows the board; the text introduces it"}
 
 
+KIYAS_EMOJI = {"MS1": "🏆", "MSX": "🤝", "MS2": "🏆", "UST25": "⚽", "KGVAR": "🥅"}
+
+
+def kiyas_satirlari(gun: dict, simdi: datetime | None = None, adet: int = 3) -> list[tuple[dict, dict]]:
+    """Oran ile istatistiğin en çok ayrıştığı maç ve pazarlar: önce ikinci tablodaki (büyük) maçlar, yoksa eski
+    ayrışma seçimi. Her maçtan bir satır."""
+    kaynak = gun.get("kiyas") or gun.get("ayrisma") or []
+    adaylar = [(a, (a.get("karsilastirma") or [None])[0]) for a in kaynak
+               if simdi is None or datetime.fromisoformat(a["baslama"]) > simdi]
+    adaylar = [(a, c) for a, c in adaylar if c]
+    return sorted(adaylar, key=lambda x: -abs(analiz.fark_puani(x[1])))[:adet]
+
+
+def kiyas_listesi(gun: dict, simdi: datetime) -> list[dict]:
+    return [a for a in gun.get("kiyas") or [] if datetime.fromisoformat(a["baslama"]) > simdi]
+
+
 def ayrisma_tweeti(gun: dict, ayar, simdi: datetime) -> str | None:
-    liste = [(a, analiz.dikkat_cekici(a)) for a in gun.get("ayrisma") or []
-             if datetime.fromisoformat(a["baslama"]) > simdi and analiz.dikkat_cekici(a)]
+    """Oran vs takım istatistiği postu: aynı pazar için iki yüzde yan yana (ör. 2.5 üst: oran %53, istatistik %75).
+    İkinci tablo (görsel) varsa metin onu tanıtır."""
+    liste = kiyas_satirlari(gun, simdi)
     if len(liste) < 2:
         return None
-    satirlar = [f'🆚 {a["ev"]} v {a["dep"]}\n{c["ad"]}: 💹 market {_pct(c["piyasa"])} · 📈 stats {_pct(c["istatistik"])}'
-                for a, c in liste]
+    tablo = len(kiyas_listesi(gun, simdi))
+    baslar = ([f"📊 ODDS vs TEAM STATS\n📸 {tablo} matches side by side in the image\n",
+               f"📊 ODDS vs TEAM STATS\n📸 {tablo} matches in the image\n"] if tablo >= 3 else []) + ["📊 ODDS vs TEAM STATS\n"]
+    satirlar = [f'🆚 {a["ev"]} v {a["dep"]}\n{KIYAS_EMOJI.get(c["pazar"], "📊")} {c["ad"]}: '
+                f'💹 odds {_pct(c["piyasa"])} · 📈 stats {_pct(c["istatistik"])}' for a, c in liste]
     for n in range(len(satirlar), 1, -1):
-        metin = ("⚖️ WHERE STATS DISAGREE\n\n" + "\n\n".join(satirlar[:n])
-                 + "\n\n💬 Who's right: the market or the stats? 👇\n" + ANSVAR)
-        if uzunluk(metin) <= LIMIT:
-            return metin
+        for bas in baslar:
+            metin = (bas + "\n" + "\n\n".join(satirlar[:n])
+                     + "\n\n💬 Who's right: the odds or the stats? 👇\n" + ANSVAR)
+            if uzunluk(metin) <= LIMIT:
+                return metin
     return None

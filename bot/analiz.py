@@ -11,7 +11,7 @@ from . import model
 from .oddsapi import ima_edilen_goller
 
 # Piyasa ile takım istatistiklerinin karşılaştırıldığı pazarlar; bu kadar puan fark "dikkat çekici" sayılır.
-KARSILASTIRMA = (("MS1", "{ev} win"), ("MS2", "{dep} win"), ("UST25", "Over 2.5 goals"), ("KGVAR", "Both teams score"))
+KARSILASTIRMA = (("MS1", "{ev} win"), ("MSX", "Draw"), ("MS2", "{dep} win"), ("UST25", "Over 2.5 goals"), ("KGVAR", "Both teams score"))
 FARK_ESIGI = 0.10
 # Takım istatistiği modeli ancak bu kadar maçlık örneklemle güvenilir (Uluslar Ligi gibi turnuvalarda 1–3 maçlık
 # ortalama gürültüdür); toplam beklenen gol de makul aralıkta olmalı (0,25 + 0,25 gibi uç değerler veri hatasıdır).
@@ -148,6 +148,22 @@ def tablo_secimi(analizler: list[dict], izinli: list[int] = (), adet: int = 10, 
             and (en_erken is None or datetime.fromisoformat(a["baslama"]) > datetime.fromisoformat(en_erken))]
     aday.sort(key=lambda a: (not onemli(a), a.get("lig_id") not in sira, sira.get(a.get("lig_id"), 0),
                              puan[a["guven"]], a["baslama"]))  # önce günün önemli maçları
+    secilen, sayac = [], {}
+    for a in aday:
+        if len(secilen) < adet and sayac.get(a["lig"], 0) < lig_basina:
+            secilen.append(a)
+            sayac[a["lig"]] = sayac.get(a["lig"], 0) + 1
+    return sorted(secilen, key=lambda a: a["baslama"])
+
+
+def kiyas_secimi(analizler: list[dict], izinli: list[int] = (), adet: int = 10, lig_basina: int = 3,
+                 en_erken: str | None = None) -> list[dict]:
+    """İkinci tablo (oran ve takım istatistiği yan yana): istatistiği olan maçlardan önce günün önemli maçları,
+    sonra büyük (izinli) ligler, sonra en çok ayrışanlar; lig başına en fazla 3; saat sırasıyla."""
+    sira = {lig: i for i, lig in enumerate(izinli)}
+    aday = [a for a in analizler if a.get("karsilastirma") and a["guven"] in ("yuksek", "orta") and _gecerli(a)
+            and (en_erken is None or datetime.fromisoformat(a["baslama"]) > datetime.fromisoformat(en_erken))]
+    aday.sort(key=lambda a: (not onemli(a), a.get("lig_id") not in sira, -abs(fark_puani(a["karsilastirma"][0]))))
     secilen, sayac = [], {}
     for a in aday:
         if len(secilen) < adet and sayac.get(a["lig"], 0) < lig_basina:

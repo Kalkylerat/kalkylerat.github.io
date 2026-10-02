@@ -2018,14 +2018,14 @@ def test_analiz_istatistik_ile_piyasayi_karsilastirir():
                   "son5_yenilen_ort": 0.8}, "dep": {"oynanan_ic": 5, "oynanan_dis": 5, "atilan_dis_ort": 1.6,
                   "yenilen_dis_ort": 1.8, "son5_atilan_ort": 1.5, "son5_yenilen_ort": 1.6}}
     a = analiz.mac_analizi(m, b, ist, AYAR)
-    assert a["kaynak"] == "piyasa" and a["guven"] == "yuksek" and len(a["karsilastirma"]) == 4
+    assert a["kaynak"] == "piyasa" and a["guven"] == "yuksek" and len(a["karsilastirma"]) == 5
     farklar = [abs(c["istatistik"] - c["piyasa"]) for c in a["karsilastirma"]]
     assert farklar == sorted(farklar, reverse=True)  # en büyük fark önce
     c = analiz.dikkat_cekici(a)
     assert c and c["istatistik"] > c["piyasa"]  # istatistik daha çok gol görüyor
     assert all(c["piyasa"] == a["p"][c["pazar"]] for c in a["karsilastirma"])  # karttaki ana rakamla aynı
     metin = etkilesim.analiz_tweeti(a, AYAR)
-    assert "📈 Team stats: Over 2.5 goals 66%\n💹 Market: 51%" in metin and tweets.uzunluk(metin) <= 280
+    assert "📈 Team stats: Over 2.5 goals 66%\n💹 Odds: 51%" in metin and tweets.uzunluk(metin) <= 280
     assert direktor.kurala_uygun(metin, "analiz", AYAR.oran_bahiscileri)
     for dil in ("en", "tr"):
         assert gorsel.analiz_karti(a, "20:45", dil)[:4] == b"\x89PNG"
@@ -2068,8 +2068,21 @@ def test_analiz_tablosu_ve_ayrisma_postu():
     gun = {"tarih": "2026-10-03", "ayrisma": [a(8, 1, "X", "Alpha", "19:00", kars=kars(0.5, 0.7)),
                                               a(9, 1, "X", "Beta", "19:00", kars=kars(0.6, 0.45))]}
     m = etkilesim.ayrisma_tweeti(gun, AYAR, datetime(2026, 10, 3, 12, 0, tzinfo=timezone.utc))
-    assert "WHERE STATS DISAGREE" in m and "💹 market 50% · 📈 stats 70%" in m and tweets.uzunluk(m) <= 280
+    assert "ODDS vs TEAM STATS" in m and "⚽ Over 2.5 goals: 💹 odds 50% · 📈 stats 70%" in m and tweets.uzunluk(m) <= 280
     assert etkilesim.ayrisma_tweeti(gun, AYAR, datetime(2026, 10, 3, 20, 0, tzinfo=timezone.utc)) is None  # başladı
+    # İkinci tablo: istatistiği olan büyük maçlar, oran ve istatistik yüzdesi yan yana (görsel + metin)
+    k5 = lambda pi, ist: [{"pazar": "MS1", "ad": "x win", "piyasa": 0.5, "istatistik": 0.52},
+                          {"pazar": "UST25", "ad": "Over 2.5 goals", "piyasa": pi, "istatistik": ist}]
+    tum2 = [a(20 + i, lig, "PL", f"Club{i}", f"{14 + i}:00", kars=sorted(k5(0.53, 0.53 + 0.05 * i),
+            key=lambda c: -abs(analiz.fark_puani(c)))) for i in range(5)] + [a(30, 999, "Low", "Nostat", "15:00")]
+    kiyas = analiz.kiyas_secimi(tum2, AYAR.ligler, en_erken="2026-10-03T10:00:00+00:00")
+    assert len(kiyas) == 3 and 30 not in [k["fixture_id"] for k in kiyas]  # lig başına 3, istatistiksiz maç yok
+    gun2 = {"tarih": "2026-10-03", "kiyas": kiyas}
+    m = etkilesim.ayrisma_tweeti(gun2, AYAR, datetime(2026, 10, 3, 12, 0, tzinfo=timezone.utc))
+    assert "📸 3 matches side by side in the image" in m and "💹 odds 53% · 📈 stats 73%" in m
+    png = gorsel.kiyas_tablosu(kiyas, "2026-10-03", ["16:00"] * 3)
+    from bot import denetci
+    assert denetci.analiz_kontrolu("ayrisma", m, kiyas, AYAR, png) == []
 
 
 def test_liste_postu_butun_mac_etiketlerini_tasir():

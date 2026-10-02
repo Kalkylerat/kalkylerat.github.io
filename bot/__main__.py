@@ -797,7 +797,9 @@ def analiz_gunu(ayar, gunler: list[dict], bugun: str, simdi: datetime, api=None)
            "tablo": [analiz.ozet(a) for a in analiz.tablo_secimi(  # kartı olan maçlar tabloda tekrar edilmez
                analizler, ayar.ligler, en_erken=(simdi + timedelta(minutes=90)).isoformat(),
                haric={a["fixture_id"] for a in one})],
-           "ayrisma": [analiz.ozet(a) for a in analiz.ayrisma_secimi(analizler)]}
+           "ayrisma": [analiz.ozet(a) for a in analiz.ayrisma_secimi(analizler)],
+           "kiyas": [analiz.ozet(a) for a in analiz.kiyas_secimi(  # ikinci tablo: oran ve istatistik yan yana
+               analizler, ayar.ligler, en_erken=(simdi + timedelta(hours=2)).isoformat())]}
     gunler.append(gun)
     guven = {g: sum(a["guven"] == g for a in analizler) for g in ("yuksek", "orta", "dusuk")}
     ayrisan = [a for a in analizler if analiz.dikkat_cekici(a)]
@@ -840,6 +842,37 @@ def liste_simdi(ayar, gunler: list[dict], bugun: str, simdi: datetime, x) -> str
     return tid
 
 
+def kiyas_simdi(ayar, gunler: list[dict], bugun: str, simdi: datetime, x) -> str | None:
+    """Elle: ikinci tabloyu (oran ve takım istatistiği yan yana, istatistiği olan büyük maçlar) şimdi paylaşır.
+    Bugünün önceki elle kıyas postu silinir; ayrı kayıt (ayrisma_N, elle) olarak saklanır."""
+    gun = kayit.bul(gunler, bugun)
+    dosya = config.DATA_FILE.parent / "analiz" / f"{bugun}.json"
+    if not gun or not dosya.exists():
+        raise RuntimeError("Bugünün analizi yok; önce sabah taraması.")
+    tum = json.loads(dosya.read_text(encoding="utf-8"))
+    kiyas = analiz.kiyas_secimi(tum, ayar.ligler, en_erken=(simdi + timedelta(minutes=15)).isoformat())
+    if len(kiyas) < 3:
+        raise RuntimeError("İstatistiği olan yeterli maç kalmadı.")
+    gecici = {**gun, "kiyas": kiyas}
+    metin = etkilesim.ayrisma_tweeti(gecici, ayar, simdi)
+    if not metin:
+        raise RuntimeError("Kıyas metni oluşturulamadı.")
+    png = gorsel.kiyas_tablosu(kiyas, bugun, [etkilesim._saat(a, ayar) for a in kiyas], "en")
+    hata = denetci.analiz_kontrolu("ayrisma", metin, kiyas, ayar, png)
+    if hata:
+        raise RuntimeError("Denetçi kıyas postunu durdurdu: " + " ".join(hata))
+    durum = gun.setdefault("etkilesim", {})
+    for k, e in list(durum.items()):
+        if k.startswith("ayrisma_") and e.get("elle") and e.get("durum") == "paylasildi":
+            x.sil(e["tweet_id"])
+            durum[k] = {**e, "durum": "silindi"}
+    tid = x.gonder(metin, medya=[x.medya_yukle(png)])
+    anahtar = next(f"ayrisma_{n}" for n in range(2, 99) if f"ayrisma_{n}" not in durum)
+    durum[anahtar] = {"durum": "paylasildi", "tweet_id": tid, "zaman": simdi.isoformat(timespec="seconds"), "elle": True}
+    _ozet_yaz(f"Kıyas tablosu paylaşıldı ({anahtar}): https://x.com/kalkylerat/status/{tid}\n```\n{metin}\n```")
+    return tid
+
+
 def analiz_secimlerini_tamamla(ayar, gun: dict | None) -> None:
     """Eski sürümün oluşturduğu analiz gününe tablo ve ayrışma seçimlerini ekler; henüz kart paylaşılmadıysa
     öne çıkan maç sayısını da günceller (aynı post iki kez çıkmaz)."""
@@ -855,6 +888,8 @@ def analiz_secimlerini_tamamla(ayar, gun: dict | None) -> None:
         tum, ayar.ligler, en_erken=(kayit.simdi_utc() + timedelta(minutes=90)).isoformat(),
         haric={a["fixture_id"] for a in gun["analizler"]})]
     gun["ayrisma"] = [analiz.ozet(a) for a in analiz.ayrisma_secimi(tum)]
+    gun["kiyas"] = [analiz.ozet(a) for a in analiz.kiyas_secimi(
+        tum, ayar.ligler, en_erken=(kayit.simdi_utc() + timedelta(hours=2)).isoformat())]
 
 
 def _mac_sonuclari(ayar, maclar: list[dict]) -> dict:
@@ -1108,7 +1143,7 @@ def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="bot")
     p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt", "sabit", "hafta", "yenile", "oran_testi",
                                           "onay_kontrol", "onay_testi", "onay_yenile", "nabiz",
-                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir", "kasa_duzelt", "direktor", "skor_duzelt", "sonuc_duzelt", "kasa_defteri", "temizle", "liste"])
+                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir", "kasa_duzelt", "direktor", "skor_duzelt", "sonuc_duzelt", "kasa_defteri", "temizle", "liste", "kiyas"])
     args = p.parse_args(argv)
     ayar = config.yukle()
     from dataclasses import replace as _degistir
@@ -1217,6 +1252,8 @@ def main(argv=None) -> int:
             skor_duzelt(gunler, bugun, simdi, _x_client())
         if args.komut == "liste":
             liste_simdi(ayar, gunler, bugun, simdi, _x_client())
+        if args.komut == "kiyas":
+            kiyas_simdi(ayar, gunler, bugun, simdi, _x_client())
         if args.komut == "kasa_defteri":
             _ozet_yaz(denetci.kasa_defteri(gunler, ayar.kasa_baslangic))
             if denetci.kasa_denetimi(gunler, ayar.kasa_baslangic):

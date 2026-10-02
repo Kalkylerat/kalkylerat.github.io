@@ -77,8 +77,10 @@ others; never add stats, history or claims of your own. Keep the 18+ line.
 "analiz" introduces our match analysis card (image attached): mention the headline chances and the most likely
 score from the facts, invite opinions; analysis only, never tell people to bet. "analiz_sonuc" quotes that card after
 full time: the score and which calls came in, honest either way. Use only numbers from the facts.
-"tablo" introduces the image of today's analysis board (many matches, lower leagues too). "ayrisma" lists games
-where team stats and the market disagree and asks who is right: explain briefly what each side is, no advice.""" + _rehber()
+"tablo" introduces the image of today's analysis board (many matches, lower leagues too). "ayrisma" introduces the
+second image (odds vs team stats side by side for the day's bigger matches) and gives, for each game named, BOTH the
+odds percentage and the team stats percentage of the same market (e.g. "Over 2.5 goals: odds 53%, stats 75%"); ask who
+is right, no advice.""" + _rehber()
 
 HAFTALIK_SISTEM = f"""You are the X (Twitter) growth director of @kalkylerat, a football stats account that publishes
 data-driven match analysis every day (probabilities for every market, most likely scores) and checks every call in public

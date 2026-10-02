@@ -262,11 +262,11 @@ ETIKETLER = {
            "atar": "{t} to score", "bg": "Expected goals", "guven": "Data confidence",
            "g": {"yuksek": "High", "orta": "Medium", "dusuk": "Low"},
            "not": "Even the most likely score is only {p}: think in ranges, not one score.",
-           "kars": "TEAM STATS vs MARKET", "piyasa": "market", "ist": "stats",
+           "kars": "TEAM STATS vs ODDS", "piyasa": "odds", "ist": "stats",
            "kaynak": {"lig": "this season", "son5": "last 5 games"},
            "yok": "Team stats: not enough recent games to compare with the market.",
            "sadece": "No market price: every chance above comes from team stats.",
-           "pazar": {"MS1": "{ev} win", "MS2": "{dep} win", "UST25": "Over 2.5 goals", "KGVAR": "Both teams score"},
+           "pazar": {"MS1": "{ev} win", "MSX": "Draw", "MS2": "{dep} win", "UST25": "Over 2.5 goals", "KGVAR": "Both teams score"},
            "alt": "Data-driven analysis · not betting advice · 18+"},
     "tr": {"baslik": "MAÇ ANALİZİ", "ms": "MAÇ SONUCU", "beraberlik": "Beraberlik", "gol": "GOL ALT / ÜST",
            "iy": "İLK YARI", "takim": "TAKIM GOLLERİ", "cs": "ÇİFTE ŞANS", "skor": "EN OLASI SKORLAR",
@@ -281,7 +281,7 @@ ETIKETLER = {
            "kaynak": {"lig": "bu sezon", "son5": "son 5 maç"},
            "yok": "Takım istatistiği: piyasayla karşılaştırmaya yetecek kadar maç yok.",
            "sadece": "Piyasa fiyatı yok: yukarıdaki bütün yüzdeler takım istatistiğinden.",
-           "pazar": {"MS1": "{ev} kazanır", "MS2": "{dep} kazanır", "UST25": "2.5 Üst", "KGVAR": "KG Var"},
+           "pazar": {"MS1": "{ev} kazanır", "MSX": "Beraberlik", "MS2": "{dep} kazanır", "UST25": "2.5 Üst", "KGVAR": "KG Var"},
            "alt": "Veriye dayalı analiz · bahis tavsiyesi değildir · 18+"},
 }
 
@@ -477,6 +477,68 @@ def analiz_tablosu(liste: list[dict], tarih_iso: str, saatler: list[str], dil: s
             t = e["ist_sadece"] if a.get("kaynak") == "istatistik" else e["ist_yok"]
             d.text((K, yy + 96), t, font=fs, fill=r["soluk"])
     alt, f = _sigdir(d, e["alt"], W - 2 * K, 20)
+    d.text(((W - d.textlength(alt, font=f)) / 2, H - 56), alt, font=f, fill=r["soluk"])
+    tampon = io.BytesIO()
+    im.save(tampon, "PNG", optimize=True)
+    return tampon.getvalue()
+
+
+KIYAS_ETIKETLERI = {
+    "en": {"baslik": "ODDS vs TEAM STATS", "sutun": ["HOME\nWIN", "DRAW", "AWAY\nWIN", "OVER 2.5\nGOALS", "BOTH\nSCORE"],
+           "oran": "ODDS", "ist": "STATS", "kaynak": {"lig": "this season", "son5": "last 5 games"},
+           "alt": "Odds: prices, margin removed · Stats: scoring averages · 10+ point gaps highlighted · 18+"},
+    "tr": {"baslik": "ORANLAR vs TAKIM İSTATİSTİĞİ", "sutun": ["EV\nKAZANIR", "BERA-\nBERLİK", "DEPLASMAN\nKAZANIR",
+                                                             "2.5 ÜST\n(3+ GOL)", "KARŞILIKLI\nGOL"],
+           "oran": "ORAN", "ist": "İSTATİSTİK", "kaynak": {"lig": "bu sezon", "son5": "son 5 maç"},
+           "alt": "Oran: marjı çıkarılmış fiyatlar · İstatistik: takımların gol ortalamaları · 10+ puan fark vurgulu · 18+"},
+}
+
+
+def kiyas_tablosu(liste: list[dict], tarih_iso: str, saatler: list[str], dil: str = "en") -> bytes:
+    """İkinci tablo: her maçta aynı pazarın orandan ve takım istatistiğinden çıkan yüzdesi alt alta. 10 puan ve
+    üstü fark vurgulu. Karşılaştırması olmayan pazar "–" (uydurma rakam yok)."""
+    r, e = PALETLER[dil], KIYAS_ETIKETLERI[dil]
+    W, K = 1080, 40
+    satir = 136
+    H = 200 + satir * len(liste) + 80
+    im = Image.new("RGB", (W, H), r["arka"])
+    d = ImageDraw.Draw(im)
+    yuzde = (lambda x: f"%{100 * x:.0f}") if dil == "tr" else (lambda x: f"{100 * x:.0f}%")
+    d.text((K, 44), f"KALKYLERAT · {e['baslik']}", font=_font(26, True), fill=r["vurgu"])
+    tarih = datetime.fromisoformat(tarih_iso).strftime("%-d %b %Y").upper()
+    d.text((W - K - d.textlength(tarih, font=_font(24, True)), 46), tarih, font=_font(24, True), fill=r["soluk"])
+    x0 = K + 170  # solda ODDS / STATS etiketleri
+    adim = (W - K - x0) / len(e["sutun"])
+    sutunlar = [x0 + adim * i + adim / 2 for i in range(len(e["sutun"]))]
+    fb = _font(15, True)
+    for ad, x in zip(e["sutun"], sutunlar):
+        for j, parca in enumerate(ad.split("\n")):
+            d.text((x - d.textlength(parca, font=fb) / 2, 104 + j * 19), parca, font=fb, fill=r["soluk"])
+    y = 168
+    for i, (a, saat) in enumerate(zip(liste, saatler)):
+        yy = y + satir * i
+        if i % 2 == 0:
+            d.rounded_rectangle((K - 14, yy - 8, W - K + 14, yy + satir - 14), radius=14, fill=r["kart"])
+        kaynak = e["kaynak"].get(a.get("istatistik_kaynak"))
+        alt = f'{a["lig"]} · {saat}'
+        alt, fa = _sigdir(d, alt, 420, 18, en_kucuk=13)
+        d.text((W - K - d.textlength(alt, font=fa), yy + 6), alt, font=fa, fill=r["soluk"])
+        mac, f = _sigdir(d, f'{a["ev"]} – {a["dep"]}', W - 2 * K - d.textlength(alt, font=fa) - 30, 25, True, 16)
+        d.text((K, yy + 2), mac, font=f, fill=r["yazi"])
+        d.text((K, yy + 46), e["oran"], font=_font(17, True), fill=r["soluk"])
+        etiket_ist = e["ist"] + (f" ({kaynak})" if kaynak else "")
+        etiket_ist, fe = _sigdir(d, etiket_ist, x0 - K - 10, 17, True, 12)
+        d.text((K, yy + 82), etiket_ist, font=fe, fill=r["soluk"])
+        kars = {c["pazar"]: c for c in a.get("karsilastirma") or []}
+        for kod, x in zip(("MS1", "MSX", "MS2", "UST25", "KGVAR"), sutunlar):
+            c = kars.get(kod)
+            oran = yuzde(c["piyasa"]) if c else yuzde(a["p"][kod])
+            ist = yuzde(c["istatistik"]) if c else "–"
+            fark = c and abs(fark_puani(c)) >= 10
+            fo, fi = _font(23), _font(23, bool(fark))
+            d.text((x - d.textlength(oran, font=fo) / 2, yy + 40), oran, font=fo, fill=r["yazi"])
+            d.text((x - d.textlength(ist, font=fi) / 2, yy + 76), ist, font=fi, fill=r["vurgu"] if fark else r["soluk"])
+    alt, f = _sigdir(d, e["alt"], W - 2 * K, 19)
     d.text(((W - d.textlength(alt, font=f)) / 2, H - 56), alt, font=f, fill=r["soluk"])
     tampon = io.BytesIO()
     im.save(tampon, "PNG", optimize=True)

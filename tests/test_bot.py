@@ -2150,3 +2150,18 @@ def test_denetci_analiz_postlarini_denetler():
     loglar = []
     assert etkilesim._denetle("tablo", metin.replace(fav, "99%"), metin, liste, AYAR, None, loglar.append) == metin
     assert etkilesim._denetle("tablo", yuzdesiz, yuzdesiz, liste, AYAR, None, loglar.append) is None and loglar
+
+
+def test_mac_sonu_postu_secim_dili_kullanmaz():
+    """Kart olasılık verir, seçim yapmaz: maç sonu postu olanı ve maç öncesi yüzdesini yazar; ✅/❌, 'wrong',
+    'calls came in' yok. Denetçi bu dili durdurur."""
+    from bot import denetci, etkilesim, model
+    a = {"ev": "Kazakhstan", "dep": "Moldova", "beklenen_gol": [1.5, 0.9], "skorlar": [["1-0", 0.14]],
+         "p": {k: round(v, 3) for k, v in model.model_olasiliklari(1.5, 0.9).items()}}
+    t = etkilesim.analiz_takip_tweeti(a, "1-2")
+    assert f'🏆 Moldova win: {round(100 * a["p"]["MS2"])}%' in t and "⚽ Over 2.5 goals" in t
+    assert "🥅 Both teams scored" in t and "🎯 Score 1-2:" in t and "Chances, not picks" in t
+    assert "✅" not in t and "❌" not in t and tweets.uzunluk(t) <= 280
+    assert denetci.analiz_kontrolu("analiz_sonuc", t, [a], AYAR) == []
+    for kotu in ("❌ Kazakhstan win: 51%", "We got it wrong today", "0 of 3 headline calls came in"):
+        assert denetci.analiz_kontrolu("analiz_sonuc", kotu + "\n" + tweets.ANSVAR, [a], AYAR)

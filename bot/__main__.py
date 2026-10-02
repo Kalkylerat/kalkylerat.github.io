@@ -873,6 +873,24 @@ def kiyas_simdi(ayar, gunler: list[dict], bugun: str, simdi: datetime, x) -> str
     return tid
 
 
+def takip_yenile(ayar, gunler: list[dict], simdi: datetime, x) -> int:
+    """Elle: son iki günün yayındaki maç sonu alıntılarını siler ve yeni biçimle (olanın maç öncesi yüzdesi, seçim
+    dili yok) hemen yeniden paylaşır."""
+    yenilenen = 0
+    for g in gunler[-2:]:
+        for tur, e in (g.get("etkilesim") or {}).items():
+            t = e.get("takip") or {}
+            if tur.startswith("analiz_") and t.get("durum") == "paylasildi":
+                x.sil(t["tweet_id"])
+                e["eski_takip"] = t
+                del e["takip"]
+                yenilenen += 1
+        etkilesim.analiz_takibi(g, ayar, x, simdi, lambda m: _mac_sonuclari(ayar, m), yaz=_ozet_yaz,
+                                yazar=_direktor_yazar(ayar))
+    _ozet_yaz(f"Maç sonu alıntıları yenilendi: {yenilenen} silindi, yeni biçimle yeniden paylaşıldı.")
+    return yenilenen
+
+
 def analiz_secimlerini_tamamla(ayar, gun: dict | None) -> None:
     """Eski sürümün oluşturduğu analiz gününe tablo ve ayrışma seçimlerini ekler; henüz kart paylaşılmadıysa
     öne çıkan maç sayısını da günceller (aynı post iki kez çıkmaz)."""
@@ -1143,7 +1161,7 @@ def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="bot")
     p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt", "sabit", "hafta", "yenile", "oran_testi",
                                           "onay_kontrol", "onay_testi", "onay_yenile", "nabiz",
-                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir", "kasa_duzelt", "direktor", "skor_duzelt", "sonuc_duzelt", "kasa_defteri", "temizle", "liste", "kiyas"])
+                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir", "kasa_duzelt", "direktor", "skor_duzelt", "sonuc_duzelt", "kasa_defteri", "temizle", "liste", "kiyas", "takip_yenile"])
     args = p.parse_args(argv)
     ayar = config.yukle()
     from dataclasses import replace as _degistir
@@ -1254,6 +1272,8 @@ def main(argv=None) -> int:
             liste_simdi(ayar, gunler, bugun, simdi, _x_client())
         if args.komut == "kiyas":
             kiyas_simdi(ayar, gunler, bugun, simdi, _x_client())
+        if args.komut == "takip_yenile":
+            takip_yenile(ayar, gunler, simdi, _x_client())
         if args.komut == "kasa_defteri":
             _ozet_yaz(denetci.kasa_defteri(gunler, ayar.kasa_baslangic))
             if denetci.kasa_denetimi(gunler, ayar.kasa_baslangic):

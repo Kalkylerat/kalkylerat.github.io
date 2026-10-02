@@ -212,6 +212,9 @@ def yayin_kontrolu(gun: dict, metinler: list[str], gunler: list[dict], ayar, sim
     return hata
 
 
+# Analiz kartı olasılık verir, seçim yapmaz: maç sonu postunda "yanıldık/tuttu" dili yok.
+_SECIM_DILI = re.compile(r"❌|✅|\bwrong\b|\bcalls? (came|come) in\b|\bcalled it\b|\bwe (got|called)\b|"
+                         r"\bour (pick|call|prediction|tip)s?\b|\bheadline calls?\b", re.IGNORECASE)
 _ANALIZ_PAZARLARI = ("MS1", "MSX", "MS2", "UST15", "UST25", "UST35", "KGVAR", "IYU05")
 
 
@@ -236,6 +239,8 @@ def analiz_kontrolu(tur: str, metin: str, analizler: list[dict], ayar, png: byte
     if len(etiketler) > (LISTE_ETIKET_SINIRI if liste else 2) or any(
             not (izinli_etiket(e) or (liste and e in GENEL_ETIKETLER)) for e in etiketler):
         hata.append(f"İzin verilmeyen ya da fazla hashtag ({' '.join(etiketler)}).")
+    if tur in ("analiz", "analiz_sonuc") and _SECIM_DILI.search(metin):
+        hata.append("Olasılığı seçim/tahmin gibi yazıyor (doğru/yanlış, ✅/❌, 'our pick'): kart seçim değil.")
     for a in analizler:
         ad = f'{a["ev"]} v {a["dep"]}'
         if ad not in metin or tur not in ("analiz", "tablo", "ayrisma"):

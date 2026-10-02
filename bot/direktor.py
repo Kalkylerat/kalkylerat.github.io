@@ -166,7 +166,11 @@ def _cagir(client, modeller: list[tuple[str, str]], sistem: str, icerik: str, se
     hata = None
     for model, effort in modeller:
         try:
-            with client.messages.stream(model=model, max_tokens=max_tokens, system=sistem,
+            # Sistem metni (kurallar + X rehberi) her çağrıda aynı: önbelleğe alınır. Günlük çağrılar 45–60 dk arayla
+            # geldiği için 1 saatlik önbellek; tekrar okumalar ~%90 ucuz.
+            with client.messages.stream(model=model, max_tokens=max_tokens,
+                                        system=[{"type": "text", "text": sistem,
+                                                 "cache_control": {"type": "ephemeral", "ttl": "1h"}}],
                                         messages=[{"role": "user", "content": icerik}],
                                         output_config={"effort": effort, "format": {"type": "json_schema", "schema": sema}}
                                         ) as stream:

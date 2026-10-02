@@ -36,7 +36,11 @@ KURALLAR = """Hard rules (never break them):
 - Plain, friendly English for a broad football audience. Max 280 characters (emojis count double).
 - Use only the facts given. Never invent stats, news, line-ups, injuries or quotes.
 - No "@" mentions, no links, no bookmaker or betting-site names.
-- Emojis: 1-3 that fit (⚽ 📊 🔥 🎯 🗳️ 👇), never a wall of them.
+- Layout: easy to scan at a glance. Short lines; put each number on its own line, started by ONE emoji that marks
+  what it is (🏆 result, ⚽ goals, 🥅 both teams score, 🎯 score, 📈 stats, 💹 market, 🕗 kick-off, 🆚 match,
+  💡 tip, 💬 question); blank line between blocks; never two emojis in a row, never a wall of them.
+- Numbers: always write chances with a % sign (66%), never decimals like 0.66; no abbreviations like O2.5 or BTTS
+  in running text ("Over 2.5 goals", "Both teams score").
 - Hashtags: only from "allowed_hashtags" in the facts (real competition tags), at most two; none if the list is empty.
 - Never say "lock", "guaranteed", "sure thing", "banker", "free money" or promise wins. Talk in chances.
 - No engagement bait ("RT", "like if", "follow for"). Ask one real question people want to answer.

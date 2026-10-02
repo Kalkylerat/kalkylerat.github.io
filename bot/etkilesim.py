@@ -475,16 +475,20 @@ def deger_takibi(gun: dict, ayar, x, simdi: datetime, sonuc_getir, yaz=print, ya
     return True
 
 
+# Manşet çağrılarının satır emojileri: maç sonucu, gol çizgisi, karşılıklı gol.
+MANSET_EMOJI = ("🏆", "⚽", "🥅")
+
+
 def analiz_tweeti(a: dict, ayar) -> str:
-    """Analiz kartıyla giden metin: üç ana çağrı ve en olası skor; ayrıntı görselde."""
+    """Analiz kartıyla giden metin: her veri satırı tek emojiyle başlar, bloklar boş satırla ayrılır."""
     m = analiz.manset(a)
     skor, p_skor = a["skorlar"][0]
-    bas = (f'📊 MATCH ANALYSIS | {a["ev"]} v {a["dep"]} · {_saat(a, ayar)}\n\n'
-           + "\n".join(f'• {c["ad"]}: {_pct(c["p"])}' for c in m) + f'\n• Most likely score: {skor} ({_pct(p_skor)})')
+    bas = (f'📊 MATCH ANALYSIS\n🆚 {a["ev"]} v {a["dep"]}\n🕗 {_saat(a, ayar)}\n\n'
+           + "\n".join(f'{e} {c["ad"]}: {_pct(c["p"])}' for e, c in zip(MANSET_EMOJI, m))
+           + f'\n🎯 Most likely score: {skor} ({_pct(p_skor)})')
     c = analiz.dikkat_cekici(a)
-    fark = (f'\n\n📈 Team stats see {c["ad"]} at {_pct(c["istatistik"])}, the market {_pct(c["piyasa"])}.'
-            if c else "")
-    son = "\n\nFull breakdown in the card. How do you see it? 👇"
+    fark = (f'\n\n📈 Team stats: {c["ad"]} {_pct(c["istatistik"])}\n💹 Market: {_pct(c["piyasa"])}' if c else "")
+    son = "\n\n🔍 Every market is in the card.\n💬 How do you see it? 👇"
     etiket = _etiket(a)
     for metin in (bas + fark + son + etiket + f"\n{ANSVAR}", bas + fark + son + f"\n{ANSVAR}",
                   bas + son + etiket + f"\n{ANSVAR}", bas + son + f"\n{ANSVAR}"):
@@ -505,13 +509,13 @@ def analiz_olgulari(a: dict, ayar) -> dict:
 
 
 def analiz_takip_tweeti(a: dict, skor: str, isabet: list) -> str:
-    satirlar = [f'{"✅" if ok else "❌"} {c["ad"]} ({_pct(c["p"])})' for c, ok in zip(analiz.manset(a), isabet)]
+    satirlar = [f'{"✅" if ok else "❌"} {c["ad"]}: {_pct(c["p"])}' for c, ok in zip(analiz.manset(a), isabet)]
     tahmin, p_tahmin = a["skorlar"][0]
     tuttu = sum(isabet)
-    yorum = (f"Spot on: the exact score was our most likely one." if skor == tahmin else
-             f"Our most likely score was {tahmin} ({_pct(p_tahmin)}).")
-    return (f'🔁 FULL TIME | {a["ev"]} {skor.replace("-", "–")} {a["dep"]}\n\n' + "\n".join(satirlar) +
-            f"\n\n{yorum} {tuttu} of 3 headline calls came in. How did you read it? 👇\n{ANSVAR}")
+    yorum = (f"🎯 Exact score: our most likely one ({tahmin})!" if skor == tahmin else
+             f"🎯 Our most likely score: {tahmin} ({_pct(p_tahmin)})")
+    return (f'🔁 FULL TIME\n⚽ {a["ev"]} {skor.replace("-", "–")} {a["dep"]}\n\n' + "\n".join(satirlar) +
+            f"\n{yorum}\n\n📋 {tuttu} of 3 headline calls came in.\n💬 How did you read it? 👇\n{ANSVAR}")
 
 
 def analiz_takibi(gun: dict, ayar, x, simdi: datetime, sonuc_getir, yaz=print, yazar=None) -> int:
@@ -568,10 +572,11 @@ def tablo_tweeti(gun: dict, liste: list[dict]) -> str:
     tarih = datetime.fromisoformat(gun["tarih"]).strftime("%-d %b")
     ligler = len({a["lig"] for a in liste})
     n = gun.get("analiz_sayisi")
-    kapsam = f"{n} matches analysed today. " if n else ""
-    return (f"📋 TODAY'S ANALYSIS BOARD | {tarih}\n\n{kapsam}Here are {len(liste)} of them from {ligler} competitions: "
-            f"win/draw/win, over 2.5, both teams to score and the most likely score.\n\n"
-            f"Which one would you pick out? 👇\n{ANSVAR}")
+    return (f"📋 TODAY'S ANALYSIS BOARD | {tarih}\n\n"
+            + (f"🔢 {n} matches analysed today\n" if n else "")
+            + f"🗂️ {len(liste)} of them on the board\n🌍 {ligler} competitions\n\n"
+            f"🏆 Win chances · ⚽ Over 2.5 goals\n🥅 Both teams score · 🎯 Likely score\n\n"
+            f"💬 Which one stands out to you? 👇\n{ANSVAR}")
 
 
 def tablo_olgulari(gun: dict, liste: list[dict], ayar) -> dict:
@@ -589,11 +594,11 @@ def ayrisma_tweeti(gun: dict, ayar, simdi: datetime) -> str | None:
              if datetime.fromisoformat(a["baslama"]) > simdi and analiz.dikkat_cekici(a)]
     if len(liste) < 2:
         return None
-    satirlar = [f'- {a["ev"]} v {a["dep"]}: {c["ad"]}, market {_pct(c["piyasa"])} vs stats {_pct(c["istatistik"])}'
+    satirlar = [f'🆚 {a["ev"]} v {a["dep"]}\n{c["ad"]}: 💹 market {_pct(c["piyasa"])} · 📈 stats {_pct(c["istatistik"])}'
                 for a, c in liste]
     for n in range(len(satirlar), 1, -1):
-        metin = ("📈 WHERE STATS DISAGREE\n\nThe market and the team stats don't agree on these:\n"
-                 + "\n".join(satirlar[:n]) + "\n\nWho's right? 👇\n" + ANSVAR)
+        metin = ("⚖️ WHERE STATS DISAGREE\n\n" + "\n\n".join(satirlar[:n])
+                 + "\n\n💬 Who's right: the market or the stats? 👇\n" + ANSVAR)
         if uzunluk(metin) <= LIMIT:
             return metin
     return None

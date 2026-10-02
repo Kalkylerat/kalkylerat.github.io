@@ -1985,7 +1985,7 @@ def test_analiz_gunu_kartlar_ve_mac_sonu_takibi(monkeypatch, tmp_path):
     assert {"analiz_0", "analiz_1", "analiz_2", "bilgi"} <= set(turler)
     assert not {"radar", "deger", "istatistik", "skor", "pas"} & set(turler)
     metin = etkilesim.analiz_tweeti(gun["analizler"][0], AYAR)
-    assert "MATCH ANALYSIS | Arsenal v Fulham" in metin and "Most likely score" in metin
+    assert "📊 MATCH ANALYSIS\n🆚 Arsenal v Fulham" in metin and "Most likely score" in metin
     assert tweets.uzunluk(metin) <= 280 and direktor.kurala_uygun(metin, "analiz", AYAR.oran_bahiscileri)
     assert gorsel.analiz_karti(gun["analizler"][0], "16:00", "tr")[:4] == b"\x89PNG"
     # maç sonu: skor ve üç çağrı, alıntıyla; bir kez
@@ -1999,7 +1999,7 @@ def test_analiz_gunu_kartlar_ve_mac_sonu_takibi(monkeypatch, tmp_path):
     assert etkilesim.analiz_takibi(gun, AYAR, x, datetime(2026, 10, 3, 19, 45, tzinfo=timezone.utc),
                                    lambda m: {m[0]["fixture_id"]: sonuclar[m[0]["fixture_id"]]}, yaz=lambda m: None) == 0
     t = etkilesim.analiz_takip_tweeti(gun["analizler"][0], "2-0", takip["isabet"])
-    assert t.startswith("🔁 FULL TIME | Arsenal 2–0 Fulham") and tweets.uzunluk(t) <= 280 and t.endswith(tweets.ANSVAR)
+    assert t.startswith("🔁 FULL TIME\n⚽ Arsenal 2–0 Fulham") and tweets.uzunluk(t) <= 280 and t.endswith(tweets.ANSVAR)
 
 
 def test_analiz_istatistik_ile_piyasayi_karsilastirir():
@@ -2018,7 +2018,7 @@ def test_analiz_istatistik_ile_piyasayi_karsilastirir():
     assert c and c["istatistik"] > c["piyasa"]  # istatistik daha çok gol görüyor
     assert all(c["piyasa"] == a["p"][c["pazar"]] for c in a["karsilastirma"])  # karttaki ana rakamla aynı
     metin = etkilesim.analiz_tweeti(a, AYAR)
-    assert "📈 Team stats see" in metin and tweets.uzunluk(metin) <= 280
+    assert "📈 Team stats: Over 2.5 goals 66%\n💹 Market: 51%" in metin and tweets.uzunluk(metin) <= 280
     assert direktor.kurala_uygun(metin, "analiz", AYAR.oran_bahiscileri)
     for dil in ("en", "tr"):
         assert gorsel.analiz_karti(a, "20:45", dil)[:4] == b"\x89PNG"
@@ -2060,5 +2060,5 @@ def test_analiz_tablosu_ve_ayrisma_postu():
     gun = {"tarih": "2026-10-03", "ayrisma": [a(8, 1, "X", "Alpha", "19:00", kars=kars(0.5, 0.7)),
                                               a(9, 1, "X", "Beta", "19:00", kars=kars(0.6, 0.45))]}
     m = etkilesim.ayrisma_tweeti(gun, AYAR, datetime(2026, 10, 3, 12, 0, tzinfo=timezone.utc))
-    assert "WHERE STATS DISAGREE" in m and "market 50% vs stats 70%" in m and tweets.uzunluk(m) <= 280
+    assert "WHERE STATS DISAGREE" in m and "💹 market 50% · 📈 stats 70%" in m and tweets.uzunluk(m) <= 280
     assert etkilesim.ayrisma_tweeti(gun, AYAR, datetime(2026, 10, 3, 20, 0, tzinfo=timezone.utc)) is None  # başladı

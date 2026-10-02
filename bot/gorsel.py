@@ -255,16 +255,22 @@ PALETLER = {
 ETIKETLER = {
     "en": {"baslik": "MATCH ANALYSIS", "ms": "MATCH RESULT", "beraberlik": "Draw", "gol": "GOALS",
            "iy": "FIRST HALF", "takim": "TEAM GOALS", "cs": "DOUBLE CHANCE", "skor": "MOST LIKELY SCORES",
-           "ust": "Over", "kg": "Both teams score", "iy_ev": "HT {ev}", "iy_x": "HT draw", "iy_u": "HT over",
+           "ust": "Over", "kg": "Both teams score", "iy_ev": "{ev} ahead at half-time", "iy_x": "Level at half-time",
+           "iy_u05": "Goal in 1st half", "iy_u15": "2+ goals in 1st half",
+           "gol15": "Over 1.5 goals", "gol25": "Over 2.5 goals", "gol35": "Over 3.5 goals",
+           "takim15": "{t}: 2+ goals", "cs1x": "{ev} or draw", "cs12": "Either team wins", "csx2": "{dep} or draw",
            "atar": "{t} to score", "bg": "Expected goals", "guven": "Data confidence",
            "g": {"yuksek": "High", "orta": "Medium", "dusuk": "Low"},
            "not": "Even the most likely score is only {p}: think in ranges, not one score.",
            "kars": "TEAM STATS vs MARKET", "piyasa": "market", "ist": "stats",
-           "pazar": {"MS1": "{ev} win", "MS2": "{dep} win", "UST25": "Over 2.5", "KGVAR": "Both score"},
+           "pazar": {"MS1": "{ev} win", "MS2": "{dep} win", "UST25": "Over 2.5 goals", "KGVAR": "Both teams score"},
            "alt": "Data-driven analysis · not betting advice · 18+"},
     "tr": {"baslik": "MAÇ ANALİZİ", "ms": "MAÇ SONUCU", "beraberlik": "Beraberlik", "gol": "GOL ALT / ÜST",
            "iy": "İLK YARI", "takim": "TAKIM GOLLERİ", "cs": "ÇİFTE ŞANS", "skor": "EN OLASI SKORLAR",
-           "ust": "Üst", "kg": "KG Var", "iy_ev": "İY {ev}", "iy_x": "İY Beraberlik", "iy_u": "İY Üst",
+           "ust": "Üst", "kg": "Karşılıklı gol", "iy_ev": "İlk yarı {ev} önde", "iy_x": "İlk yarı berabere",
+           "iy_u05": "İlk yarıda gol olur", "iy_u15": "İlk yarıda 2+ gol",
+           "gol15": "1.5 üst (2+ gol)", "gol25": "2.5 üst (3+ gol)", "gol35": "3.5 üst (4+ gol)",
+           "takim15": "{t} 2+ gol", "cs1x": "{ev} ya da beraberlik", "cs12": "Kazanan çıkar", "csx2": "{dep} ya da beraberlik",
            "atar": "{t} gol atar", "bg": "Beklenen gol", "guven": "Veri güveni",
            "g": {"yuksek": "Yüksek", "orta": "Orta", "dusuk": "Düşük"},
            "not": "En olası skor bile yalnızca {p}: tek skora değil, gol aralığına bakın.",
@@ -323,17 +329,15 @@ def analiz_karti(a: dict, saat: str, dil: str = "en") -> bytes:
                    fill=r["iyi"] if v >= 0.65 else r["yazi"])
         return y0 + 50 + 46 * len(satirlar)
     g = (W - 2 * K - 24) // 2
-    u = e["ust"]
-    s1 = tablo(y, e["gol"], [(f"1.5 {u}" if dil == "tr" else f"{u} 1.5", p["UST15"]),
-                             (f"2.5 {u}" if dil == "tr" else f"{u} 2.5", p["UST25"]),
-                             (f"3.5 {u}" if dil == "tr" else f"{u} 3.5", p["UST35"]), (e["kg"], p["KGVAR"])], K, g)
+    s1 = tablo(y, e["gol"], [(e["gol15"], p["UST15"]), (e["gol25"], p["UST25"]), (e["gol35"], p["UST35"]),
+                             (e["kg"], p["KGVAR"])], K, g)
     s2 = tablo(y, e["iy"], [(e["iy_ev"].format(ev=a["ev"]), p["IY1"]), (e["iy_x"], p["IYX"]),
-                            (f'{e["iy_u"]} 0.5', p["IYU05"]), (f'{e["iy_u"]} 1.5', p["IYU15"])], K + g + 24, g)
+                            (e["iy_u05"], p["IYU05"]), (e["iy_u15"], p["IYU15"])], K + g + 24, g)
     y = max(s1, s2) + 22
-    s1 = tablo(y, e["takim"], [(f'{a["ev"]} {u} 1.5' if dil == "en" else f'{a["ev"]} 1.5 {u}', p["EVU15"]),
-                               (f'{a["dep"]} {u} 1.5' if dil == "en" else f'{a["dep"]} 1.5 {u}', p["DPU15"]),
+    s1 = tablo(y, e["takim"], [(e["takim15"].format(t=a["ev"]), p["EVU15"]), (e["takim15"].format(t=a["dep"]), p["DPU15"]),
                                (e["atar"].format(t=a["dep"]), p["DPU05"])], K, g)
-    s2 = tablo(y, e["cs"], [("1X", p["CS1X"]), ("12", p["CS12"]), ("X2", p["CSX2"])], K + g + 24, g)
+    s2 = tablo(y, e["cs"], [(e["cs1x"].format(ev=a["ev"]), p["CS1X"]), (e["cs12"], p["CS12"]),
+                            (e["csx2"].format(dep=a["dep"]), p["CSX2"])], K + g + 24, g)
     y = max(s1, s2) + 22
     d.rounded_rectangle((K, y, W - K, y + 150), radius=18, fill=r["kart"])
     d.text((K + 24, y + 16), e["skor"], font=_font(21, True), fill=r["vurgu"])
@@ -373,9 +377,11 @@ def analiz_karti(a: dict, saat: str, dil: str = "en") -> bytes:
 
 
 TABLO_ETIKETLERI = {
-    "en": {"baslik": "TODAY'S ANALYSIS BOARD", "mac": "MATCH", "ust": "O2.5", "kg": "BTTS", "skor": "SCORE",
-           "alt": "Model probabilities in % · not betting advice · 18+"},
-    "tr": {"baslik": "GÜNÜN ANALİZ TABLOSU", "mac": "MAÇ", "ust": "2.5Ü", "kg": "KG", "skor": "SKOR",
+    "en": {"baslik": "TODAY'S ANALYSIS BOARD", "mac": "MATCH",
+           "sutun": ["HOME\nWIN", "DRAW", "AWAY\nWIN", "OVER 2.5\nGOALS", "BOTH\nSCORE", "LIKELY\nSCORE"],
+           "alt": "Chances in % from our model · not betting advice · 18+"},
+    "tr": {"baslik": "GÜNÜN ANALİZ TABLOSU", "mac": "MAÇ",
+           "sutun": ["EV\nKAZANIR", "BERA-\nBERLİK", "DEP.\nKAZANIR", "2.5 ÜST\n(3+ GOL)", "KARŞI.\nGOL", "OLASI\nSKOR"],
            "alt": "Model olasılıkları (%) · bahis tavsiyesi değildir · 18+"},
 }
 
@@ -385,26 +391,28 @@ def analiz_tablosu(liste: list[dict], tarih_iso: str, saatler: list[str], dil: s
     r, e = PALETLER[dil], TABLO_ETIKETLERI[dil]
     W, K = 1080, 50
     satir = 84
-    H = 230 + satir * len(liste) + 90
+    H = 246 + satir * len(liste) + 90
     im = Image.new("RGB", (W, H), r["arka"])
     d = ImageDraw.Draw(im)
-    yuzde = lambda x: f"{100 * x:.0f}"
+    yuzde = (lambda x: f"%{100 * x:.0f}") if dil == "tr" else (lambda x: f"{100 * x:.0f}%")
     d.text((K, 48), f"KALKYLERAT · {e['baslik']}", font=_font(26, True), fill=r["vurgu"])
     tarih = datetime.fromisoformat(tarih_iso).strftime("%-d %b %Y").upper()
     d.text((W - K - d.textlength(tarih, font=_font(24, True)), 50), tarih, font=_font(24, True), fill=r["soluk"])
-    sutunlar = [("1", 560), ("X", 640), ("2", 720), (e["ust"], 815), (e["kg"], 905), (e["skor"], 990)]
-    y = 120
-    d.text((K, y), e["mac"], font=_font(19, True), fill=r["soluk"])
-    for ad, x in sutunlar:
-        d.text((x - d.textlength(ad, font=_font(19, True)) / 2, y), ad, font=_font(19, True), fill=r["soluk"])
-    y += 40
+    sutunlar = list(zip(e["sutun"], (500, 590, 680, 785, 885, 985)))
+    y = 112
+    fb = _font(16, True)
+    d.text((K, y + 10), e["mac"], font=_font(19, True), fill=r["soluk"])
+    for ad, x in sutunlar:  # iki satırlı, kısaltmasız sütun başlıkları
+        for j, parca in enumerate(ad.split("\n")):
+            d.text((x - d.textlength(parca, font=fb) / 2, y + j * 20), parca, font=fb, fill=r["soluk"])
+    y += 56
     for i, (a, saat) in enumerate(zip(liste, saatler)):
         yy = y + satir * i
         if i % 2 == 0:
             d.rounded_rectangle((K - 14, yy - 6, W - K + 14, yy + satir - 12), radius=14, fill=r["kart"])
-        mac, f = _sigdir(d, f'{a["ev"]} – {a["dep"]}', 470, 25, True, 16)
+        mac, f = _sigdir(d, f'{a["ev"]} – {a["dep"]}', 410, 24, True, 16)
         d.text((K, yy + 4), mac, font=f, fill=r["yazi"])
-        alt, f = _sigdir(d, f'{a["lig"]} · {saat}', 470, 18, en_kucuk=14)
+        alt, f = _sigdir(d, f'{a["lig"]} · {saat}', 410, 18, en_kucuk=14)
         d.text((K, yy + 40), alt, font=f, fill=r["soluk"])
         p = a["p"]
         fav = max(("MS1", "MSX", "MS2"), key=lambda k: p[k])
@@ -412,7 +420,7 @@ def analiz_tablosu(liste: list[dict], tarih_iso: str, saatler: list[str], dil: s
         for (kod, v), (_, x) in zip(degerler, sutunlar):
             t = yuzde(v)
             renk = r["vurgu"] if kod == fav or (kod in ("UST25", "KGVAR") and v >= 0.6) else r["yazi"]
-            fb = _font(25, kod == fav)
+            fb = _font(23, kod == fav)
             d.text((x - d.textlength(t, font=fb) / 2, yy + 16), t, font=fb, fill=renk)
         skor = a["skorlar"][0][0]
         d.text((sutunlar[-1][1] - d.textlength(skor, font=_font(25, True)) / 2, yy + 16), skor,

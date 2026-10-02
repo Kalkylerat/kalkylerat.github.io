@@ -41,6 +41,8 @@ KURALLAR = """Hard rules (never break them):
   💡 tip, 💬 question); blank line between blocks; never two emojis in a row, never a wall of them.
 - Numbers: always write chances with a % sign (66%), never decimals like 0.66; no abbreviations like O2.5 or BTTS
   in running text ("Over 2.5 goals", "Both teams score").
+- Keep every percentage that is in the template (the pinned post promises the numbers). Never name a match without
+  its own percentages; if it does not fit, leave the match out rather than its numbers.
 - Hashtags: only from "allowed_hashtags" in the facts (real tags fans already use), at most two; none if the list is
   empty. Exception: the "tablo" (analysis board) post ends with a line carrying ALL its allowed_hashtags.
 - Never say "lock", "guaranteed", "sure thing", "banker", "free money" or promise wins. Talk in chances.
@@ -143,6 +145,30 @@ def sayilar_dogru(metin: str, kaynak: str) -> bool:
     return all(s.replace("−", "-") in izinli for s in _SAYI.findall(metin))
 
 
+_YUZDE = re.compile(r"\d+(?:[.,]\d+)?\s*%")
+
+
+def yuzdeler_tam(metin: str, sablon: str, olgular: dict | None = None) -> bool:
+    """Şablondaki her yüzde (tekrar sayısıyla) metinde de olmalı: direktör rakamları kısaltıp yüzdesiz maç adı
+    bırakamaz. Olgulardaki maçlardan şablonda adı geçmeyen bir maçın takımı metinde anılamaz (rakamı yok)."""
+    def say(t: str) -> dict:
+        sayac: dict[str, int] = {}
+        for y in _YUZDE.findall(t):
+            y = y.replace(" ", "").replace(",", ".")
+            sayac[y] = sayac.get(y, 0) + 1
+        return sayac
+    var = say(metin)
+    if any(var.get(y, 0) < n for y, n in say(sablon).items()):
+        return False
+    for g in (olgular or {}).get("games") or []:
+        ev, _, dep = (g.get("match") or "").partition(" v ")
+        if ev and dep and g["match"] not in sablon and any(
+                re.search(rf"(?<!\w){re.escape(t)}(?!\w)", metin) and not re.search(rf"(?<!\w){re.escape(t)}(?!\w)", sablon)
+                for t in (ev, dep)):
+            return False
+    return True
+
+
 def kurala_uygun(metin: str, tur: str, bahisciler: list[str], izinli: set[str] | None = None) -> bool:
     yasak = _YASAK_BILGI if tur == "bilgi" else _YASAK
     if not metin or uzunluk(metin) > LIMIT or yasak.search(metin) or _ALAN_ADI.search(metin):
@@ -211,6 +237,9 @@ def yazar(ayar, client=None, yaz=print):
         metin = (cevap.get("metin") or "").strip()
         if tur in ("bilgi", "analiz", "analiz_sonuc", "tablo", "ayrisma") and not sayilar_dogru(metin, json.dumps(olgular, ensure_ascii=False) + sablon):
             yaz("Direktör bilgi metninde olgularda olmayan bir sayı kullandı; şablon kullanıldı.")
+            return sablon
+        if tur in ("analiz", "analiz_sonuc", "tablo", "ayrisma") and not yuzdeler_tam(metin, sablon, olgular):
+            yaz(f"Direktör metni şablondaki yüzdelerden birini düşürdü ({tur}); şablon kullanıldı.")
             return sablon
         if not kurala_uygun(metin, tur, ayar.oran_bahiscileri + [ayar.keskin_bahisci], set(etiketler)):
             yaz(f"Direktör metni kurala uymadı ({tur}); şablon kullanıldı.")

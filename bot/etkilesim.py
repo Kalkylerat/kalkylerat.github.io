@@ -569,33 +569,41 @@ def analiz_takibi(gun: dict, ayar, x, simdi: datetime, sonuc_getir, yaz=print, y
 
 
 def tablo_tweeti(gun: dict, liste: list[dict], ayar=None) -> str:
-    """Liste postu (editör onaylı düzen): öndeki önemli maçın rakamları, diğer önemli maçların adı (her etiketin
-    metinde karşılığı olsun), itiraz ettiren soru, maç etiketleri. Sığmazsa önce etiketler, sonra 'Also' düşer."""
+    """Liste postu. Kural (sabit tweetin sözü): metinde adı geçen HER maçın yüzdeleri de yazılır; yüzdesiz maç adı
+    yok. Sığmazsa önce etiketler, sonra blok kısalır, sonra maç (rakamı değil, maçın kendisi) düşer. Tablonun tamamı
+    (her maçın her yüzdesi) görseldedir."""
     n = gun.get("analiz_sayisi")
-    bas = f"📋 Today's board: {len(liste)} from {n} analysed\n\n" if n else f"📋 Today's board: {len(liste)} matches\n\n"
-    onemliler = [a for a in liste if analiz.onemli(a)] or liste[:1]
-    lider = onemliler[0]
-    blok = ""
-    if lider.get("p"):
-        p, c = lider["p"], analiz.manset(lider)[0]
-        saat = f", {_saat(lider, ayar)}" if ayar else ""
-        skor, p_skor = lider["skorlar"][0]
-        blok = (f'🆚 {lider["ev"]} v {lider["dep"]}{saat}\n🏆 {c["ad"]} {_pct(c["p"])}\n'
-                f'⚽ Over 2.5 goals {_pct(p["UST25"])}\n🥅 Both teams score {_pct(p["KGVAR"])}\n'
-                f'🎯 Likeliest score {skor} ({_pct(p_skor)})\n\n')
-    diger = onemliler[1:] if blok else onemliler
-    also = ("👀 Also on it: " + ", ".join(f'{a["ev"]} v {a["dep"]}' for a in diger) + "\n") if diger else ""
+    basliklar = ((f"📋 Today's board: {len(liste)} from {n} analysed" if n else f"📋 Today's board: {len(liste)} matches")
+                 + "\n📸 Every % for all of them is in the image\n\n",
+                 f"📋 Today's board: {len(liste)} matches, every % in the image\n\n")
+    adaylar = [a for a in liste if a.get("p") and a.get("skorlar")]
+    onemliler = [a for a in adaylar if analiz.onemli(a)] or adaylar[:1]
     soru = "💬 Which number looks wrong? 👇\n\n"
-    # Etiketler yalnızca metinde adı geçen maçlardan (+ turnuva ve genel etiketler)
-    anilan = ([lider] if blok else []) + diger
-    etiketler = liste_etiketleri([(a.get("lig"), a.get("ulke")) for a in anilan or liste],
-                                 [(a["ev"], a["dep"]) for a in anilan or liste])
-    for also_ in (also, ""):
-        for k in range(len(etiketler), -1, -1):
-            metin = bas + blok + also_ + soru + (" ".join(etiketler[:k]) + "\n" if k else "") + ANSVAR
-            if uzunluk(metin) <= LIMIT:
-                return metin
-    return bas + soru + ANSVAR
+
+    def blok(a: dict, seviye: int) -> str:
+        fav, gol, kg = analiz.manset(a)
+        skor, p_skor = a["skorlar"][0]
+        if seviye >= 2:  # kısa haller: saat (ve 3'te skor) görselde; en az iki yüzde her zaman
+            return (f'🆚 {a["ev"]} v {a["dep"]}\n🏆 {fav["ad"]} {_pct(fav["p"])}\n⚽ {gol["ad"]} {_pct(gol["p"])}\n'
+                    + (f'🎯 Likeliest score {skor} ({_pct(p_skor)})\n' if seviye == 2 else "") + "\n")
+        saat = f" · {_saat(a, ayar)}" if ayar else ""
+        return (f'🆚 {a["ev"]} v {a["dep"]}{saat}\n🏆 {fav["ad"]} {_pct(fav["p"])}\n⚽ {gol["ad"]} {_pct(gol["p"])}\n'
+                + (f'🥅 {kg["ad"]} {_pct(kg["p"])}\n' if seviye == 0 else "")
+                + f'🎯 Likeliest score {skor} ({_pct(p_skor)})\n\n')
+
+    for adet in range(min(len(onemliler), 3), 0, -1):
+        anilan = onemliler[:adet]
+        # Etiketler yalnızca metinde adı geçen maçlardan (+ turnuva ve genel etiketler)
+        etiketler = liste_etiketleri([(a.get("lig"), a.get("ulke")) for a in anilan], [(a["ev"], a["dep"]) for a in anilan])
+        en_az = 1 if adet > 1 and etiketler else 0  # etiketsiz kalacaksa bir maç az ama etiketli
+        for seviye in (0, 1, 2, 3):
+            govde = "".join(blok(a, seviye) for a in anilan)
+            for k in range(len(etiketler), en_az - 1, -1):  # etiket, uzun başlıktan önemli
+                for bas in basliklar:
+                    metin = bas + govde + soru + (" ".join(etiketler[:k]) + "\n" if k else "") + ANSVAR
+                    if uzunluk(metin) <= LIMIT:
+                        return metin
+    return basliklar[-1] + soru + ANSVAR
 
 
 def tablo_olgulari(gun: dict, liste: list[dict], ayar) -> dict:

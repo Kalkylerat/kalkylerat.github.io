@@ -2072,24 +2072,41 @@ def test_analiz_tablosu_ve_ayrisma_postu():
 
 
 def test_liste_postu_butun_mac_etiketlerini_tasir():
-    """Liste postu: öndeki önemli maçın rakamları, diğer önemli maçların adı; etiketler yalnızca metinde adı geçen
-    maçlardan (alakasız etiket spam gibi durur), + turnuva ve genel etiketler; 280 sınırı."""
+    """Liste postu: adı geçen HER maçın yüzdeleri yazılır (sabit tweetin sözü); rakamı olmayan maç anılmaz.
+    Etiketler yalnızca metinde adı geçen maçlardan, + turnuva ve genel etiketler; 280 sınırı."""
     from bot import direktor, etkilesim
     def a(ev, dep, lig, ulke="", p=None):
         d = {"ev": ev, "dep": dep, "lig": lig, "ulke": ulke, "baslama": "2026-10-03T18:45:00+00:00"}
         if p:
-            d.update(p={"MS1": 0.66, "MSX": 0.19, "MS2": 0.15, "UST25": 0.66, "KGVAR": 0.59}, skorlar=[["2-1", 0.10]])
+            d.update(p={"MS1": p[0], "MSX": 0.19, "MS2": 0.81 - p[0], "UST25": p[1], "KGVAR": 0.59}, skorlar=[["2-1", 0.10]])
         return d
-    liste = [a("France", "Italy", "UEFA Nations League", p=True), a("Small", "Club", "Division 2", "Sweden"),
-             a("Belgium", "Türkiye", "UEFA Nations League")]
+    liste = [a("France", "Italy", "UEFA Nations League", p=(0.66, 0.66)), a("Small", "Club", "Division 2", "Sweden"),
+             a("Belgium", "Türkiye", "UEFA Nations League", p=(0.63, 0.67)), a("Germany", "Wales", "UEFA Nations League")]
     metin = etkilesim.tablo_tweeti({"tarih": "2026-10-03", "analiz_sayisi": 142}, liste, AYAR)
-    assert "🆚 France v Italy, 20:45 CEST\n🏆 France win 66%\n⚽ Over 2.5 goals 66%" in metin
-    assert "🎯 Likeliest score 2-1 (10%)" in metin and "👀 Also on it: Belgium v Türkiye" in metin
+    assert "🆚 France v Italy" in metin and "🏆 France win 66%\n⚽ Over 2.5 goals 66%" in metin
+    assert "🆚 Belgium v Türkiye" in metin and "🏆 Belgium win 63%\n⚽ Over 2.5 goals 67%" in metin
+    assert "Germany" not in metin and "Also" not in metin  # rakamı olmayan maç adıyla anılmaz
+    for blok in metin.split("🆚")[1:]:  # her maç bloğunda en az iki yüzde
+        assert blok.split("\n\n")[0].count("%") >= 2
     assert "Which number looks wrong?" in metin and "Small" not in metin
     etiketler = re.findall(r"#\w+", metin)
     assert etiketler[:2] == ["#LesBleus", "#BizimÇocuklar"]  # yalnızca adı geçen maçlar
     assert tweets.uzunluk(metin) <= 280 and metin.endswith(tweets.ANSVAR)
+    tek = etkilesim.tablo_tweeti({"tarih": "2026-10-03", "analiz_sayisi": 142}, liste[:2], AYAR)
+    assert "🥅 Both teams score 59%" in tek and "🎯 Likeliest score 2-1 (10%)" in tek  # yer varsa bütün rakamlar
     b = AYAR.oran_bahiscileri
     assert direktor.kurala_uygun(metin, "tablo", b, set(etiketler))
     assert not direktor.kurala_uygun("x #Football #Arsenal\n" + tweets.ANSVAR, "analiz", b)  # genel etiket yalnız listede
     assert not direktor.kurala_uygun(metin.replace("#LesBleus", "#BettingTips"), "tablo", b)  # bahis etiketi yok
+
+
+def test_direktor_yuzde_dusuremez():
+    """Direktör şablondaki yüzdelerden birini atarsa ya da rakamsız bir maçı anarsa şablon gider."""
+    from bot import direktor
+    sablon = "🆚 France v Italy\n🏆 France win 66%\n⚽ Over 2.5 goals 66%\n\n🆚 Belgium v Türkiye\n🏆 Belgium win 63%"
+    olg = {"games": [{"match": "France v Italy"}, {"match": "Belgium v Türkiye"}, {"match": "Spain v Malta"}]}
+    assert direktor.yuzdeler_tam("France v Italy: France win 66%, Over 2.5 goals 66%. Belgium v Türkiye: Belgium 63%",
+                                 sablon, olg)
+    assert not direktor.yuzdeler_tam("France win 66%, Over 2.5 goals 66%. Also Belgium v Türkiye.", sablon, olg)
+    assert not direktor.yuzdeler_tam("France win 66%. Belgium win 63%", sablon, olg)  # ikinci 66% düştü
+    assert not direktor.yuzdeler_tam(sablon + "\n👀 Spain v Malta tonight", sablon, olg)  # rakamsız maç

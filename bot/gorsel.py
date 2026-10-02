@@ -422,9 +422,11 @@ def analiz_tablosu(liste: list[dict], tarih_iso: str, saatler: list[str], dil: s
             renk = r["vurgu"] if kod == fav or (kod in ("UST25", "KGVAR") and v >= 0.6) else r["yazi"]
             fb = _font(23, kod == fav)
             d.text((x - d.textlength(t, font=fb) / 2, yy + 16), t, font=fb, fill=renk)
-        skor = a["skorlar"][0][0]
-        d.text((sutunlar[-1][1] - d.textlength(skor, font=_font(25, True)) / 2, yy + 16), skor,
+        skor, p_skor = a["skorlar"][0]
+        d.text((sutunlar[-1][1] - d.textlength(skor, font=_font(25, True)) / 2, yy + 6), skor,
                font=_font(25, True), fill=r["yazi"])
+        t = yuzde(p_skor)  # skorun da yüzdesi: tabloda yüzdesiz rakam olmasın
+        d.text((sutunlar[-1][1] - d.textlength(t, font=_font(17)) / 2, yy + 38), t, font=_font(17), fill=r["soluk"])
     alt, f = _sigdir(d, e["alt"], W - 2 * K, 20)
     d.text(((W - d.textlength(alt, font=f)) / 2, H - 56), alt, font=f, fill=r["soluk"])
     tampon = io.BytesIO()

@@ -1,3 +1,4 @@
+import re
 import json
 from datetime import datetime, timedelta, timezone
 from types import SimpleNamespace
@@ -2071,17 +2072,24 @@ def test_analiz_tablosu_ve_ayrisma_postu():
 
 
 def test_liste_postu_butun_mac_etiketlerini_tasir():
+    """Liste postu: öndeki önemli maçın rakamları, diğer önemli maçların adı; etiketler yalnızca metinde adı geçen
+    maçlardan (alakasız etiket spam gibi durur), + turnuva ve genel etiketler; 280 sınırı."""
     from bot import direktor, etkilesim
-    def a(ev, dep, lig, ulke=""):
-        return {"ev": ev, "dep": dep, "lig": lig, "ulke": ulke, "baslama": "2026-10-03T18:00:00+00:00"}
-    liste = [a("Belgium", "Türkiye", "UEFA Nations League"), a("Arsenal", "Fulham", "Premier League", "England"),
-             a("Small", "Club", "Division 2", "Sweden"), a("France", "Italy", "UEFA Nations League")]
-    metin = etkilesim.tablo_tweeti({"tarih": "2026-10-03", "analiz_sayisi": 140}, liste)
-    etiketler = metin.split("\n")[-2].split()
-    assert etiketler == ["#BizimÇocuklar", "#Arsenal", "#LesBleus", "#NationsLeague", "#PremierLeague", "#Football",
-                         "#FootballPredictions"]
+    def a(ev, dep, lig, ulke="", p=None):
+        d = {"ev": ev, "dep": dep, "lig": lig, "ulke": ulke, "baslama": "2026-10-03T18:45:00+00:00"}
+        if p:
+            d.update(p={"MS1": 0.66, "MSX": 0.19, "MS2": 0.15, "UST25": 0.66, "KGVAR": 0.59}, skorlar=[["2-1", 0.10]])
+        return d
+    liste = [a("France", "Italy", "UEFA Nations League", p=True), a("Small", "Club", "Division 2", "Sweden"),
+             a("Belgium", "Türkiye", "UEFA Nations League")]
+    metin = etkilesim.tablo_tweeti({"tarih": "2026-10-03", "analiz_sayisi": 142}, liste, AYAR)
+    assert "🆚 France v Italy, 20:45 CEST\n🏆 France win 66%\n⚽ Over 2.5 goals 66%" in metin
+    assert "🎯 Likeliest score 2-1 (10%)" in metin and "👀 Also on it: Belgium v Türkiye" in metin
+    assert "Which number looks wrong?" in metin and "Small" not in metin
+    etiketler = re.findall(r"#\w+", metin)
+    assert etiketler[:2] == ["#LesBleus", "#BizimÇocuklar"]  # yalnızca adı geçen maçlar
     assert tweets.uzunluk(metin) <= 280 and metin.endswith(tweets.ANSVAR)
     b = AYAR.oran_bahiscileri
     assert direktor.kurala_uygun(metin, "tablo", b, set(etiketler))
     assert not direktor.kurala_uygun("x #Football #Arsenal\n" + tweets.ANSVAR, "analiz", b)  # genel etiket yalnız listede
-    assert not direktor.kurala_uygun(metin.replace("#Football", "#BettingTips"), "tablo", b)  # bahis etiketi yok
+    assert not direktor.kurala_uygun(metin.replace("#LesBleus", "#BettingTips"), "tablo", b)  # bahis etiketi yok

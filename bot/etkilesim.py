@@ -347,7 +347,7 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_pay
                 if len(liste) < 4:
                     durum[tur] = {"durum": "atlandi", "neden": "yeterli maç kalmadı"}
                     continue
-                metin = tablo_tweeti(gun, liste)
+                metin = tablo_tweeti(gun, liste, ayar)
                 metin = yazar("tablo", tablo_olgulari(gun, liste, ayar), metin) if yazar else metin
                 if not metin:
                     durum[tur] = {"durum": "atlandi", "neden": "direktör"}
@@ -568,20 +568,34 @@ def analiz_takibi(gun: dict, ayar, x, simdi: datetime, sonuc_getir, yaz=print, y
     return paylasilan
 
 
-def tablo_tweeti(gun: dict, liste: list[dict]) -> str:
-    tarih = datetime.fromisoformat(gun["tarih"]).strftime("%-d %b")
-    ligler = len({a["lig"] for a in liste})
+def tablo_tweeti(gun: dict, liste: list[dict], ayar=None) -> str:
+    """Liste postu (editör onaylı düzen): öndeki önemli maçın rakamları, diğer önemli maçların adı (her etiketin
+    metinde karşılığı olsun), itiraz ettiren soru, maç etiketleri. Sığmazsa önce etiketler, sonra 'Also' düşer."""
     n = gun.get("analiz_sayisi")
-    govde = (f"📋 TODAY'S ANALYSIS BOARD | {tarih}\n\n"
-             + (f"🔢 {n} matches analysed, {len(liste)} on the board\n" if n else f"🔢 {len(liste)} matches on the board\n")
-             + f"🌍 {ligler} competitions\n\n💬 Which one stands out to you? 👇\n\n")
-    # Liste postu: tablodaki bütün maçların etiketleri + genel etiketler; sığmazsa sondan düşer.
-    etiketler = liste_etiketleri([(a.get("lig"), a.get("ulke")) for a in liste], [(a["ev"], a["dep"]) for a in liste])
-    for n_ in range(len(etiketler), -1, -1):
-        metin = govde + (" ".join(etiketler[:n_]) + "\n" if n_ else "") + ANSVAR
-        if uzunluk(metin) <= LIMIT:
-            return metin
-    return govde + ANSVAR
+    bas = f"📋 Today's board: {len(liste)} from {n} analysed\n\n" if n else f"📋 Today's board: {len(liste)} matches\n\n"
+    onemliler = [a for a in liste if analiz.onemli(a)] or liste[:1]
+    lider = onemliler[0]
+    blok = ""
+    if lider.get("p"):
+        p, c = lider["p"], analiz.manset(lider)[0]
+        saat = f", {_saat(lider, ayar)}" if ayar else ""
+        skor, p_skor = lider["skorlar"][0]
+        blok = (f'🆚 {lider["ev"]} v {lider["dep"]}{saat}\n🏆 {c["ad"]} {_pct(c["p"])}\n'
+                f'⚽ Over 2.5 goals {_pct(p["UST25"])}\n🥅 Both teams score {_pct(p["KGVAR"])}\n'
+                f'🎯 Likeliest score {skor} ({_pct(p_skor)})\n\n')
+    diger = onemliler[1:] if blok else onemliler
+    also = ("👀 Also on it: " + ", ".join(f'{a["ev"]} v {a["dep"]}' for a in diger) + "\n") if diger else ""
+    soru = "💬 Which number looks wrong? 👇\n\n"
+    # Etiketler yalnızca metinde adı geçen maçlardan (+ turnuva ve genel etiketler)
+    anilan = ([lider] if blok else []) + diger
+    etiketler = liste_etiketleri([(a.get("lig"), a.get("ulke")) for a in anilan or liste],
+                                 [(a["ev"], a["dep"]) for a in anilan or liste])
+    for also_ in (also, ""):
+        for k in range(len(etiketler), -1, -1):
+            metin = bas + blok + also_ + soru + (" ".join(etiketler[:k]) + "\n" if k else "") + ANSVAR
+            if uzunluk(metin) <= LIMIT:
+                return metin
+    return bas + soru + ANSVAR
 
 
 def tablo_olgulari(gun: dict, liste: list[dict], ayar) -> dict:

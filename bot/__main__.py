@@ -822,13 +822,15 @@ def liste_simdi(ayar, gunler: list[dict], bugun: str, simdi: datetime, x) -> str
     liste = analiz.tablo_secimi(tum, ayar.ligler, en_erken=(simdi + timedelta(minutes=15)).isoformat(), lig_basina=4)
     if len(liste) < 3:
         raise RuntimeError("Listeye girecek kadar maç kalmadı.")
-    metin = etkilesim.tablo_tweeti(gun, liste)
-    yazar = _direktor_yazar(ayar)
-    if yazar:
-        metin = yazar("tablo", etkilesim.tablo_olgulari(gun, liste, ayar), metin) or metin
+    # Elle istenen liste editör onaylı şablonla gider (direktör yeniden yazmaz). Bugünün önceki elle listesi silinir.
+    metin = etkilesim.tablo_tweeti(gun, liste, ayar)
+    durum = gun.setdefault("etkilesim", {})
+    for k, e in list(durum.items()):
+        if k.startswith("tablo_") and e.get("elle") and e.get("durum") == "paylasildi":
+            x.sil(e["tweet_id"])
+            durum[k] = {**e, "durum": "silindi"}
     png = gorsel.analiz_tablosu(liste, bugun, [etkilesim._saat(a, ayar) for a in liste], "en")
     tid = x.gonder(metin, medya=[x.medya_yukle(png)])
-    durum = gun.setdefault("etkilesim", {})
     anahtar = next(f"tablo_{n}" for n in range(2, 99) if f"tablo_{n}" not in durum)
     durum[anahtar] = {"durum": "paylasildi", "tweet_id": tid, "zaman": simdi.isoformat(timespec="seconds"), "elle": True}
     _ozet_yaz(f"Liste paylaşıldı ({anahtar}): https://x.com/kalkylerat/status/{tid}\n```\n{metin}\n```")

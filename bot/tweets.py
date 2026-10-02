@@ -424,20 +424,21 @@ SABIT_TWEETLER = [
 ⚽ Football analysis, every day
 📊 Chances for every market
 📋 100+ matches analysed daily
-🔁 Every call checked at full time
+✅ Featured matches checked at full time
 
 No hype, just numbers.
-💬 Ask us about any match 👇
+💬 Name a match, we'll reply 👇
 
 #Football #FootballPredictions
 18+ | Not betting advice""",
     """🧮 How it works
 
-📉 Chances come from the sharpest betting market with the margin removed, run through a goal model
-📈 We compare them with team stats and flag where they disagree
-✅ Every featured match gets a full-time check, right or wrong
+📉 Market prices with the margin removed, run through a goal model
+📈 Compared with team stats, and we flag where they disagree
+✅ Featured matches get a public full-time check, right or wrong
 
-Not betting advice. 18+""",
+No coupons. Just chances.
+18+ | Not betting advice""",
 ]
 ESKI_KARSILAMA = ("Welcome to Kalkylerat", "Välkommen till Kalkylerat", "Day 1 of the €10,000 challenge", "How it works:",
                   "👋 Welcome to Kalkylerat", "🧮 How it works")

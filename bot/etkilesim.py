@@ -5,6 +5,7 @@ Veri sabah taramasından gelir (gun["vitrin"]): ek API isteği yapılmaz. Her t�
 arasında en az ARALIK_DK olacak şekilde ve maç saatine göre zamanlanır; 15 dakikalık nabız çalıştırır."""
 
 from datetime import datetime, timedelta
+from itertools import product
 from zoneinfo import ZoneInfo
 
 from . import analiz, bilgi, gorsel, model
@@ -516,15 +517,22 @@ def deger_takibi(gun: dict, ayar, x, simdi: datetime, sonuc_getir, yaz=print, ya
 MANSET_EMOJI = ("🏆", "⚽", "🥅")
 
 
+def iki_tarafli(a: dict) -> list[str]:
+    """Her pazar iki (sonuçta üç) tarafıyla: tek taraf yazılınca "seçimimiz" gibi okunuyordu. Kart seçim yapmaz,
+    olasılık dağılımı verir."""
+    p = a["p"]
+    return [f'🏆 {a["ev"]} {_pct(p["MS1"])} · Draw {_pct(p["MSX"])} · {a["dep"]} {_pct(p["MS2"])}',
+            f'⚽ Over 2.5 goals {_pct(p["UST25"])} · Under {_pct(p["ALT25"])}',
+            f'🥅 Both teams score {_pct(p["KGVAR"])} · Not both {_pct(p["KGYOK"])}']
+
+
 def analiz_tweeti(a: dict, ayar) -> str:
     """Analiz kartıyla giden metin: her veri satırı tek emojiyle başlar, bloklar boş satırla ayrılır. Takım
     istatistiği satırı (ya da neden olmadığı) hep yazılır; sığmazsa önce başlık ve soru kısalır, sonra etiketler."""
-    m = analiz.manset(a)
     skor, p_skor = a["skorlar"][0]
-    satirlar = ("\n".join(f'{e} {c["ad"]}: {_pct(c["p"])}' for e, c in zip(MANSET_EMOJI, m))
-                + f'\n🎯 Most likely score: {skor} ({_pct(p_skor)})')
-    baslar = (f'📊 MATCH ANALYSIS\n🆚 {a["ev"]} v {a["dep"]}\n🕗 {_saat(a, ayar)}\n\n',
-              f'🆚 {a["ev"]} v {a["dep"]} · {_saat(a, ayar)}\n\n')
+    govdeler = ("\n".join(iki_tarafli(a)) + f'\n🎯 Most likely score: {skor} ({_pct(p_skor)})', "\n".join(iki_tarafli(a)))
+    baslar = (f'📊 MATCH CHANCES · not picks\n🆚 {a["ev"]} v {a["dep"]}\n🕗 {_saat(a, ayar)}\n\n',
+              f'🆚 {a["ev"]} v {a["dep"]} · {_saat(a, ayar)}\n\n', f'🆚 {a["ev"]} v {a["dep"]}\n\n')
     # İstatistik karşılığı her zaman (en büyük fark önce); yoksa nedeni açıkça
     c = (a.get("karsilastirma") or [None])[0]
     farklar = ((f'\n\n📈 Team stats: {c["ad"]} {_pct(c["istatistik"])}\n💹 Odds: {_pct(c["piyasa"])}',
@@ -532,24 +540,25 @@ def analiz_tweeti(a: dict, ayar) -> str:
                 f'\n\n📈 Stats: {c["ad"]} {_pct(c["istatistik"])} · odds {_pct(c["piyasa"])}') if c else
                ("\n\n📈 Every % here is from team stats (no odds)",) if a.get("kaynak") == "istatistik" else
                ("\n\n📈 Team stats: not enough recent games to compare with the odds", "\n\n📈 Team stats: too few recent games"))
-    sonlar = ("\n\n🔍 Every market is in the card.\n💬 How do you see it? 👇", "\n\n💬 Every market is in the card. Your read? 👇",
-              "\n\n💬 Your read? 👇")
+    sonlar = ("\n\n🔍 Every market is in the card.\n💬 How do you see it? 👇",
+              "\n\n🔍 Chances, not picks. Every market is in the card.\n💬 Your read? 👇",
+              "\n\n💬 Chances, not picks. Your read? 👇", "\n\n💬 Not picks. Your read? 👇")
     etiket = _etiket(a)
     etiketler = dict.fromkeys((etiket, etiket.split(" ")[0] if etiket else "", ""))
-    for fark in (*farklar, ""):
-        for et in etiketler:
-            for bas in baslar:
-                for son in sonlar:
-                    metin = bas + satirlar + fark + son + et + f"\n{ANSVAR}"
-                    if uzunluk(metin) <= LIMIT:
-                        return metin
-    govde = baslar[1] + satirlar + sonlar[1]
+    # Öncelik: istatistik satırı > skor satırı (görselde de var) > etiketler > uzun başlık ve soru
+    secenekler = [*product(govdeler, farklar, etiketler, baslar, sonlar), *product(govdeler, ("",), etiketler, baslar, sonlar)]
+    for satirlar, fark, et, bas, son in secenekler:
+        metin = bas + satirlar + fark + son + et + f"\n{ANSVAR}"
+        if "not picks" in metin.lower() and uzunluk(metin) <= LIMIT:  # her kart postu seçim olmadığını söyler
+            return metin
+    govde = baslar[2] + govdeler[1] + sonlar[3]
     return govde[:LIMIT - len(ANSVAR) - 1] + f"\n{ANSVAR}"
 
 
 def analiz_olgulari(a: dict, ayar) -> dict:
     return {"home": a["ev"], "away": a["dep"], "competition": a.get("lig"), "kickoff": _saat(a, ayar),
-            "headline_chances": [{"outcome": c["ad"], "chance": _pct(c["p"])} for c in analiz.manset(a)],
+            "chances_both_sides": iki_tarafli(a),
+            "framing": "probabilities, not picks: always give both sides of each market as in the template",
             "most_likely_score": f'{a["skorlar"][0][0]} ({_pct(a["skorlar"][0][1])})',
             "expected_goals": a["beklenen_gol"], "data_confidence": a["guven"],
             "team_stats_vs_market": [{"market": c["ad"], "market_chance": _pct(c["piyasa"]),
@@ -646,21 +655,22 @@ def tablo_tweeti(gun: dict, liste: list[dict], ayar=None) -> str:
     (her maçın her yüzdesi) görseldedir."""
     n = gun.get("analiz_sayisi")
     basliklar = ((f"📋 Today's board: {len(liste)} from {n} analysed" if n else f"📋 Today's board: {len(liste)} matches")
-                 + "\n📸 Every % for all of them is in the image\n\n",
-                 f"📋 Today's board: {len(liste)} matches, every % in the image\n\n")
+                 + "\n📸 Chances, not picks: every % is in the image\n\n",
+                 f"📋 Today's chances, not picks · every % in the image\n\n")
     adaylar = [a for a in liste if a.get("p") and a.get("skorlar")]
     onemliler = [a for a in adaylar if analiz.onemli(a)] or adaylar[:1]
     soru = "💬 Which number looks wrong? 👇\n\n"
 
     def blok(a: dict, seviye: int) -> str:
-        fav, gol, kg = analiz.manset(a)
+        sonuc, gol, kg = iki_tarafli(a)  # her pazar bütün taraflarıyla: tek taraf "seçim" gibi okunur
         skor, p_skor = a["skorlar"][0]
-        if seviye >= 2:  # kısa haller: saat (ve 3'te skor) görselde; en az iki yüzde her zaman
-            return (f'🆚 {a["ev"]} v {a["dep"]}\n🏆 {fav["ad"]} {_pct(fav["p"])}\n⚽ {gol["ad"]} {_pct(gol["p"])}\n'
+        if seviye == 4:  # en kısa: maç sonucunun üç tarafı (yine üç yüzde)
+            return f'🆚 {a["ev"]} v {a["dep"]}\n{sonuc}\n\n'
+        if seviye >= 2:  # kısa haller: saat (ve 3'te skor) görselde
+            return (f'🆚 {a["ev"]} v {a["dep"]}\n{sonuc}\n{gol}\n'
                     + (f'🎯 Likeliest score {skor} ({_pct(p_skor)})\n' if seviye == 2 else "") + "\n")
         saat = f" · {_saat(a, ayar)}" if ayar else ""
-        return (f'🆚 {a["ev"]} v {a["dep"]}{saat}\n🏆 {fav["ad"]} {_pct(fav["p"])}\n⚽ {gol["ad"]} {_pct(gol["p"])}\n'
-                + (f'🥅 {kg["ad"]} {_pct(kg["p"])}\n' if seviye == 0 else "")
+        return (f'🆚 {a["ev"]} v {a["dep"]}{saat}\n{sonuc}\n{gol}\n' + (f'{kg}\n' if seviye == 0 else "")
                 + f'🎯 Likeliest score {skor} ({_pct(p_skor)})\n\n')
 
     for adet in range(min(len(onemliler), 3), 0, -1):
@@ -668,7 +678,7 @@ def tablo_tweeti(gun: dict, liste: list[dict], ayar=None) -> str:
         # Etiketler yalnızca metinde adı geçen maçlardan (+ turnuva ve genel etiketler)
         etiketler = liste_etiketleri([(a.get("lig"), a.get("ulke")) for a in anilan], [(a["ev"], a["dep"]) for a in anilan])
         en_az = 1 if adet > 1 and etiketler else 0  # etiketsiz kalacaksa bir maç az ama etiketli
-        for seviye in (0, 1, 2, 3):
+        for seviye in (0, 1, 2, 3, 4):
             govde = "".join(blok(a, seviye) for a in anilan)
             for k in range(len(etiketler), en_az - 1, -1):  # etiket, uzun başlıktan önemli
                 for bas in basliklar:

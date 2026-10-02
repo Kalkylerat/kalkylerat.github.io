@@ -41,6 +41,9 @@ KURALLAR = """Hard rules (never break them):
   💡 tip, 💬 question); blank line between blocks; never two emojis in a row, never a wall of them.
 - Numbers: always write chances with a % sign (66%), never decimals like 0.66; no abbreviations like O2.5 or BTTS
   in running text ("Over 2.5 goals", "Both teams score").
+- We publish chances, not picks or predictions. Give every side of a market as the template does (e.g. "Kazakhstan
+  51% · Draw 26% · Moldova 23%", "Over 2.5 goals 43% · Under 57%"); never single out one side as our call, pick, tip,
+  prediction or verdict, and never say we were right or wrong.
 - Keep every percentage that is in the template (the pinned post promises the numbers). Never name a match without
   its own percentages; if it does not fit, leave the match out rather than its numbers.
 - Keep the team stats line (📈) of a match card: the stats percentage next to the market one, or the reason there is

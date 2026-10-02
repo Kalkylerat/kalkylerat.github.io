@@ -267,7 +267,7 @@ ETIKETLER = {
            "yok": "Team stats: not enough recent games to compare with the market.",
            "sadece": "No market price: every chance above comes from team stats.",
            "pazar": {"MS1": "{ev} win", "MSX": "Draw", "MS2": "{dep} win", "UST25": "Over 2.5 goals", "KGVAR": "Both teams score"},
-           "alt": "Data-driven analysis · not betting advice · 18+"},
+           "alt": "Chances, not picks · not betting advice · 18+"},
     "tr": {"baslik": "MAÇ ANALİZİ", "ms": "MAÇ SONUCU", "beraberlik": "Beraberlik", "gol": "GOL ALT / ÜST",
            "iy": "İLK YARI", "takim": "TAKIM GOLLERİ", "cs": "ÇİFTE ŞANS", "skor": "EN OLASI SKORLAR",
            "ust": "Üst", "kg": "Karşılıklı gol", "iy_ev": "İlk yarı {ev} önde", "iy_x": "İlk yarı berabere",
@@ -282,7 +282,7 @@ ETIKETLER = {
            "yok": "Takım istatistiği: piyasayla karşılaştırmaya yetecek kadar maç yok.",
            "sadece": "Piyasa fiyatı yok: yukarıdaki bütün yüzdeler takım istatistiğinden.",
            "pazar": {"MS1": "{ev} kazanır", "MSX": "Beraberlik", "MS2": "{dep} kazanır", "UST25": "2.5 Üst", "KGVAR": "KG Var"},
-           "alt": "Veriye dayalı analiz · bahis tavsiyesi değildir · 18+"},
+           "alt": "Olasılık, tahmin değil · bahis tavsiyesi değildir · 18+"},
 }
 
 

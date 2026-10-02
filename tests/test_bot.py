@@ -2092,13 +2092,14 @@ def test_liste_postu_butun_mac_etiketlerini_tasir():
     def a(ev, dep, lig, ulke="", p=None):
         d = {"ev": ev, "dep": dep, "lig": lig, "ulke": ulke, "baslama": "2026-10-03T18:45:00+00:00"}
         if p:
-            d.update(p={"MS1": p[0], "MSX": 0.19, "MS2": 0.81 - p[0], "UST25": p[1], "KGVAR": 0.59}, skorlar=[["2-1", 0.10]])
+            d.update(p={"MS1": p[0], "MSX": 0.19, "MS2": 0.81 - p[0], "UST25": p[1], "ALT25": 1 - p[1], "KGVAR": 0.59,
+                        "KGYOK": 0.41}, skorlar=[["2-1", 0.10]])
         return d
     liste = [a("France", "Italy", "UEFA Nations League", p=(0.66, 0.66)), a("Small", "Club", "Division 2", "Sweden"),
              a("Belgium", "Türkiye", "UEFA Nations League", p=(0.63, 0.67)), a("Germany", "Wales", "UEFA Nations League")]
     metin = etkilesim.tablo_tweeti({"tarih": "2026-10-03", "analiz_sayisi": 142}, liste, AYAR)
-    assert "🆚 France v Italy" in metin and "🏆 France win 66%\n⚽ Over 2.5 goals 66%" in metin
-    assert "🆚 Belgium v Türkiye" in metin and "🏆 Belgium win 63%\n⚽ Over 2.5 goals 67%" in metin
+    assert "🆚 France v Italy\n🏆 France 66% · Draw 19% · Italy 15%" in metin  # bütün taraflar: seçim değil
+    assert "🆚 Belgium v Türkiye\n🏆 Belgium 63% · Draw 19% · Türkiye 18%" in metin and "not picks" in metin
     assert "Germany" not in metin and "Also" not in metin  # rakamı olmayan maç adıyla anılmaz
     for blok in metin.split("🆚")[1:]:  # her maç bloğunda en az iki yüzde
         assert blok.split("\n\n")[0].count("%") >= 2
@@ -2107,7 +2108,8 @@ def test_liste_postu_butun_mac_etiketlerini_tasir():
     assert etiketler[:2] == ["#LesBleus", "#BizimÇocuklar"]  # yalnızca adı geçen maçlar
     assert tweets.uzunluk(metin) <= 280 and metin.endswith(tweets.ANSVAR)
     tek = etkilesim.tablo_tweeti({"tarih": "2026-10-03", "analiz_sayisi": 142}, liste[:2], AYAR)
-    assert "🥅 Both teams score 59%" in tek and "🎯 Likeliest score 2-1 (10%)" in tek  # yer varsa bütün rakamlar
+    assert "⚽ Over 2.5 goals 66% · Under 34%" in tek and "🥅 Both teams score 59% · Not both 41%" in tek
+    assert "🎯 Likeliest score 2-1 (10%)" in tek  # yer varsa bütün rakamlar
     b = AYAR.oran_bahiscileri
     assert direktor.kurala_uygun(metin, "tablo", b, set(etiketler))
     assert not direktor.kurala_uygun("x #Football #Arsenal\n" + tweets.ANSVAR, "analiz", b)  # genel etiket yalnız listede

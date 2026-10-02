@@ -824,12 +824,15 @@ def liste_simdi(ayar, gunler: list[dict], bugun: str, simdi: datetime, x) -> str
         raise RuntimeError("Listeye girecek kadar maç kalmadı.")
     # Elle istenen liste editör onaylı şablonla gider (direktör yeniden yazmaz). Bugünün önceki elle listesi silinir.
     metin = etkilesim.tablo_tweeti(gun, liste, ayar)
+    png = gorsel.analiz_tablosu(liste, bugun, [etkilesim._saat(a, ayar) for a in liste], "en")
+    hata = denetci.analiz_kontrolu("tablo", metin, liste, ayar, png)
+    if hata:
+        raise RuntimeError("Denetçi listeyi durdurdu: " + " ".join(hata))
     durum = gun.setdefault("etkilesim", {})
     for k, e in list(durum.items()):
         if k.startswith("tablo_") and e.get("elle") and e.get("durum") == "paylasildi":
             x.sil(e["tweet_id"])
             durum[k] = {**e, "durum": "silindi"}
-    png = gorsel.analiz_tablosu(liste, bugun, [etkilesim._saat(a, ayar) for a in liste], "en")
     tid = x.gonder(metin, medya=[x.medya_yukle(png)])
     anahtar = next(f"tablo_{n}" for n in range(2, 99) if f"tablo_{n}" not in durum)
     durum[anahtar] = {"durum": "paylasildi", "tweet_id": tid, "zaman": simdi.isoformat(timespec="seconds"), "elle": True}

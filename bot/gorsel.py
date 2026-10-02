@@ -378,55 +378,62 @@ def analiz_karti(a: dict, saat: str, dil: str = "en") -> bytes:
 
 TABLO_ETIKETLERI = {
     "en": {"baslik": "TODAY'S ANALYSIS BOARD", "mac": "MATCH",
-           "sutun": ["HOME\nWIN", "DRAW", "AWAY\nWIN", "OVER 2.5\nGOALS", "BOTH\nSCORE", "LIKELY\nSCORE"],
-           "alt": "Chances in % from our model · not betting advice · 18+"},
+           "sutun": ["HOME\nWIN", "DRAW", "AWAY\nWIN", "OVER 1.5\nGOALS", "OVER 2.5\nGOALS", "OVER 3.5\nGOALS",
+                     "BOTH\nSCORE", "GOAL IN\n1ST HALF", "LIKELY\nSCORE"],
+           "alt": "Chances in % from our model · full card for featured matches · not betting advice · 18+"},
     "tr": {"baslik": "GÜNÜN ANALİZ TABLOSU", "mac": "MAÇ",
-           "sutun": ["EV\nKAZANIR", "BERA-\nBERLİK", "DEP.\nKAZANIR", "2.5 ÜST\n(3+ GOL)", "KARŞI.\nGOL", "OLASI\nSKOR"],
+           "sutun": ["EV\nKAZANIR", "BERA-\nBERLİK", "DEPLASMAN\nKAZANIR", "1.5 ÜST\n(2+ GOL)", "2.5 ÜST\n(3+ GOL)",
+                     "3.5 ÜST\n(4+ GOL)", "KARŞILIKLI\nGOL", "İLK YARI\nGOL", "OLASI\nSKOR"],
            "alt": "Model olasılıkları (%) · bahis tavsiyesi değildir · 18+"},
 }
 
 
 def analiz_tablosu(liste: list[dict], tarih_iso: str, saatler: list[str], dil: str = "en") -> bytes:
-    """Günün analiz tablosu (1080×1350): her satırda maç, 1/X/2, 2.5 üst, KG var ve en olası skor."""
+    """Günün analiz tablosu (1080 genişlik): her maç iki satır: üstte maç, lig ve saat; altta dokuz pazarın yüzdesi
+    (1/X/2, 1.5/2.5/3.5 üst, karşılıklı gol, ilk yarıda gol, en olası skor ve yüzdesi). Yüzdesiz rakam yok."""
     r, e = PALETLER[dil], TABLO_ETIKETLERI[dil]
-    W, K = 1080, 50
-    satir = 84
-    H = 246 + satir * len(liste) + 90
+    W, K = 1080, 40
+    satir = 112
+    H = 200 + satir * len(liste) + 80
     im = Image.new("RGB", (W, H), r["arka"])
     d = ImageDraw.Draw(im)
     yuzde = (lambda x: f"%{100 * x:.0f}") if dil == "tr" else (lambda x: f"{100 * x:.0f}%")
-    d.text((K, 48), f"KALKYLERAT · {e['baslik']}", font=_font(26, True), fill=r["vurgu"])
+    d.text((K, 44), f"KALKYLERAT · {e['baslik']}", font=_font(26, True), fill=r["vurgu"])
     tarih = datetime.fromisoformat(tarih_iso).strftime("%-d %b %Y").upper()
-    d.text((W - K - d.textlength(tarih, font=_font(24, True)), 50), tarih, font=_font(24, True), fill=r["soluk"])
-    sutunlar = list(zip(e["sutun"], (500, 590, 680, 785, 885, 985)))
-    y = 112
-    fb = _font(16, True)
-    d.text((K, y + 10), e["mac"], font=_font(19, True), fill=r["soluk"])
+    d.text((W - K - d.textlength(tarih, font=_font(24, True)), 46), tarih, font=_font(24, True), fill=r["soluk"])
+    adim = (W - 2 * K) / len(e["sutun"])
+    sutunlar = [(ad, K + adim * i + adim / 2) for i, ad in enumerate(e["sutun"])]
+    y = 104
+    fb = _font(15, True)
     for ad, x in sutunlar:  # iki satırlı, kısaltmasız sütun başlıkları
         for j, parca in enumerate(ad.split("\n")):
-            d.text((x - d.textlength(parca, font=fb) / 2, y + j * 20), parca, font=fb, fill=r["soluk"])
-    y += 56
+            d.text((x - d.textlength(parca, font=fb) / 2, y + j * 19), parca, font=fb, fill=r["soluk"])
+    y += 64
     for i, (a, saat) in enumerate(zip(liste, saatler)):
         yy = y + satir * i
         if i % 2 == 0:
-            d.rounded_rectangle((K - 14, yy - 6, W - K + 14, yy + satir - 12), radius=14, fill=r["kart"])
-        mac, f = _sigdir(d, f'{a["ev"]} – {a["dep"]}', 410, 24, True, 16)
-        d.text((K, yy + 4), mac, font=f, fill=r["yazi"])
-        alt, f = _sigdir(d, f'{a["lig"]} · {saat}', 410, 18, en_kucuk=14)
-        d.text((K, yy + 40), alt, font=f, fill=r["soluk"])
+            d.rounded_rectangle((K - 14, yy - 8, W - K + 14, yy + satir - 14), radius=14, fill=r["kart"])
+        alt = f'{a["lig"]} · {saat}'
+        fa = _font(18)
+        alt_gen = min(d.textlength(alt, font=fa), 420)
+        alt, fa = _sigdir(d, alt, 420, 18, en_kucuk=13)
+        d.text((W - K - d.textlength(alt, font=fa), yy + 6), alt, font=fa, fill=r["soluk"])
+        mac, f = _sigdir(d, f'{a["ev"]} – {a["dep"]}', W - 2 * K - alt_gen - 30, 25, True, 16)
+        d.text((K, yy + 2), mac, font=f, fill=r["yazi"])
         p = a["p"]
         fav = max(("MS1", "MSX", "MS2"), key=lambda k: p[k])
-        degerler = [("MS1", p["MS1"]), ("MSX", p["MSX"]), ("MS2", p["MS2"]), ("UST25", p["UST25"]), ("KGVAR", p["KGVAR"])]
-        for (kod, v), (_, x) in zip(degerler, sutunlar):
+        kodlar = ("MS1", "MSX", "MS2", "UST15", "UST25", "UST35", "KGVAR", "IYU05")
+        for kod, (_, x) in zip(kodlar, sutunlar):
+            v = p[kod]
             t = yuzde(v)
-            renk = r["vurgu"] if kod == fav or (kod in ("UST25", "KGVAR") and v >= 0.6) else r["yazi"]
-            fb = _font(23, kod == fav)
-            d.text((x - d.textlength(t, font=fb) / 2, yy + 16), t, font=fb, fill=renk)
+            renk = r["vurgu"] if kod == fav or (kod not in ("MS1", "MSX", "MS2") and v >= 0.65) else r["yazi"]
+            fv = _font(24, kod == fav)
+            d.text((x - d.textlength(t, font=fv) / 2, yy + 46), t, font=fv, fill=renk)
         skor, p_skor = a["skorlar"][0]
-        d.text((sutunlar[-1][1] - d.textlength(skor, font=_font(25, True)) / 2, yy + 6), skor,
-               font=_font(25, True), fill=r["yazi"])
+        x = sutunlar[-1][1]
+        d.text((x - d.textlength(skor, font=_font(24, True)) / 2, yy + 38), skor, font=_font(24, True), fill=r["yazi"])
         t = yuzde(p_skor)  # skorun da yüzdesi: tabloda yüzdesiz rakam olmasın
-        d.text((sutunlar[-1][1] - d.textlength(t, font=_font(17)) / 2, yy + 38), t, font=_font(17), fill=r["soluk"])
+        d.text((x - d.textlength(t, font=_font(15)) / 2, yy + 68), t, font=_font(15), fill=r["soluk"])
     alt, f = _sigdir(d, e["alt"], W - 2 * K, 20)
     d.text(((W - d.textlength(alt, font=f)) / 2, H - 56), alt, font=f, fill=r["soluk"])
     tampon = io.BytesIO()

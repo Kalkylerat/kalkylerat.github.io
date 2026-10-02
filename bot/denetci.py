@@ -212,6 +212,66 @@ def yayin_kontrolu(gun: dict, metinler: list[str], gunler: list[dict], ayar, sim
     return hata
 
 
+_ANALIZ_PAZARLARI = ("MS1", "MSX", "MS2", "UST15", "UST25", "UST35", "KGVAR", "IYU05")
+
+
+def analiz_kontrolu(tur: str, metin: str, analizler: list[dict], ayar, png: bytes | None = None) -> list[str]:
+    """Analiz konsepti postlarının (kart, liste, ayrışma, maç sonu) yayın öncesi kod denetimi. Dönen her madde
+    engelleyicidir. Sabit tweetin sözü: adı geçen her maçın yüzdeleri yazılır ve kayıttaki rakamlarla aynıdır;
+    görsel açılır, yeterince büyüktür ve çizildiği verinin her pazarı vardır."""
+    from .tweets import ANSVAR, GENEL_ETIKETLER, LIMIT, LISTE_ETIKET_SINIRI, izinli_etiket, uzunluk
+    hata = []
+    if uzunluk(metin) > LIMIT:
+        hata.append(f"280 karakteri aşıyor ({uzunluk(metin)}).")
+    if _LINK.search(metin):
+        hata.append("Link ya da @ içeriyor.")
+    if _SITE.search(metin) or any(b.lower() in metin.lower() for b in ayar.oran_bahiscileri + [ayar.keskin_bahisci]):
+        hata.append("Bahis sitesi adı içeriyor.")
+    if _KESINLIK.search(metin):
+        hata.append("Kesinlik dili içeriyor.")
+    if not metin.rstrip().endswith(ANSVAR):
+        hata.append(f"'{ANSVAR}' satırıyla bitmiyor.")
+    etiketler = re.findall(r"#\w+", metin)
+    liste = tur == "tablo"
+    if len(etiketler) > (LISTE_ETIKET_SINIRI if liste else 2) or any(
+            not (izinli_etiket(e) or (liste and e in GENEL_ETIKETLER)) for e in etiketler):
+        hata.append(f"İzin verilmeyen ya da fazla hashtag ({' '.join(etiketler)}).")
+    for a in analizler:
+        ad = f'{a["ev"]} v {a["dep"]}'
+        if ad not in metin or tur not in ("analiz", "tablo", "ayrisma"):
+            continue
+        # Kart postunda maç başlıkta, rakamlar alttaki blokta: bütün metin; listede ve ayrışmada maçın kendi bloğu
+        blok = metin if tur == "analiz" else metin[metin.index(ad):].split("\n\n")[0]
+        yuzdeler = re.findall(r"(\d+)%", blok)
+        if len(yuzdeler) < 2:
+            hata.append(f"{ad}: adı geçiyor ama yüzdeleri yok (en az iki yüzde gerekir).")
+        gecerli = {round(100 * v) for v in a["p"].values()} | {round(100 * p) for _, p in a.get("skorlar") or []}
+        gecerli |= {round(100 * c[k]) for c in a.get("karsilastirma") or [] for k in ("piyasa", "istatistik")}
+        yanlis = [y for y in yuzdeler if int(y) not in gecerli]
+        if yanlis:
+            hata.append(f"{ad}: kayıtta olmayan yüzde ({', '.join(y + '%' for y in yanlis)}).")
+    if tur == "analiz" and analizler:
+        from . import analiz
+        a = analizler[0]
+        for c in analiz.manset(a):
+            if f'{round(100 * c["p"])}%' not in metin:
+                hata.append(f'{a["ev"]} v {a["dep"]}: ana çağrı "{c["ad"]}" yüzdesiyle yazılmamış.')
+    for a in analizler if png is not None else []:
+        eksik = [k for k in _ANALIZ_PAZARLARI if not 0 <= (a.get("p") or {}).get(k, -1) <= 1]
+        if eksik or not a.get("skorlar"):
+            hata.append(f'{a["ev"]} v {a["dep"]}: görselin verisi eksik ({", ".join(eksik) or "skor"}).')
+    if png is not None:
+        from io import BytesIO
+        from PIL import Image
+        try:
+            with Image.open(BytesIO(png)) as im:
+                if im.size[0] < 1000:
+                    hata.append(f"Görsel çok küçük ({im.size}).")
+        except Exception as e:
+            hata.append(f"Görsel açılamıyor: {e}")
+    return hata
+
+
 GORSEL_SISTEM = """You check coupon images before they are posted on X. For each image you get the values it must show.
 Report only real problems: a number on the image that differs from the expected value (bank, stake, potential return,
 odds, total odds, chance), a missing or wrong match or pick, or text that is cut off, overlapping or unreadable.

@@ -2049,7 +2049,8 @@ def test_istatistik_modeli_kucuk_orneklemde_kullanilmaz():
 def test_analiz_tablosu_ve_ayrisma_postu():
     from bot import analiz, etkilesim, gorsel
     def a(fid, lig_id, lig, ev, saat, guven="yuksek", kars=None):
-        p = {"MS1": 0.5, "MSX": 0.25, "MS2": 0.25, "UST25": 0.55, "KGVAR": 0.5}
+        p = {"MS1": 0.5, "MSX": 0.25, "MS2": 0.25, "UST15": 0.75, "UST25": 0.55, "UST35": 0.3, "KGVAR": 0.5,
+             "IYU05": 0.7}
         return {"fixture_id": fid, "lig_id": lig_id, "lig": lig, "ev": ev, "dep": ev + " B", "guven": guven,
                 "baslama": f"2026-10-03T{saat}:00+00:00", "p": p, "skorlar": [["1-0", 0.11]],
                 "karsilastirma": kars or []}
@@ -2110,3 +2111,29 @@ def test_direktor_yuzde_dusuremez():
     assert not direktor.yuzdeler_tam("France win 66%, Over 2.5 goals 66%. Also Belgium v Türkiye.", sablon, olg)
     assert not direktor.yuzdeler_tam("France win 66%. Belgium win 63%", sablon, olg)  # ikinci 66% düştü
     assert not direktor.yuzdeler_tam(sablon + "\n👀 Spain v Malta tonight", sablon, olg)  # rakamsız maç
+
+
+def test_denetci_analiz_postlarini_denetler():
+    """Denetçi analiz postlarını da denetler: adı geçen maçın yüzdeleri olmalı ve kayıttakiyle aynı olmalı; görselin
+    verisi eksiksiz olmalı. Direktör metni geçmezse şablon, o da geçmezse post çıkmaz."""
+    from bot import denetci, etkilesim, gorsel, model
+    def a(ev, dep):
+        return {"ev": ev, "dep": dep, "lig": "UEFA Nations League", "ulke": "", "baslama": "2026-10-03T18:45:00+00:00",
+                "p": {k: round(v, 3) for k, v in model.model_olasiliklari(1.9, 1.0).items()},
+                "skorlar": [["2-1", 0.10], ["1-1", 0.09]], "guven": "yuksek", "beklenen_gol": [1.9, 1.0]}
+    liste = [a("France", "Italy"), a("Belgium", "Türkiye"), a("Spain", "Malta")]
+    metin = etkilesim.tablo_tweeti({"tarih": "2026-10-03", "analiz_sayisi": 142}, liste, AYAR)
+    png = gorsel.analiz_tablosu(liste, "2026-10-03", ["20:45 CEST"] * 3)
+    assert denetci.analiz_kontrolu("tablo", metin, liste, AYAR, png) == []
+    fav = f'{round(100 * liste[0]["p"]["MS1"])}%'
+    assert any("kayıtta olmayan" in h for h in denetci.analiz_kontrolu("tablo", metin.replace(fav, "99%"), liste, AYAR))
+    yuzdesiz = metin.replace("💬", "🆚 Spain v Malta\n\n💬")
+    assert any("yüzdeleri yok" in h for h in denetci.analiz_kontrolu("tablo", yuzdesiz, liste, AYAR))
+    kart = etkilesim.analiz_tweeti(liste[0], AYAR)
+    assert denetci.analiz_kontrolu("analiz", kart, liste[:1], AYAR, gorsel.analiz_karti(liste[0], "20:45 CEST")) == []
+    eksik = {**liste[0], "p": {k: v for k, v in liste[0]["p"].items() if k != "UST35"}}
+    assert any("görselin verisi" in h for h in denetci.analiz_kontrolu("analiz", kart, [eksik], AYAR, b"x"))
+    # direktörün hatalı metni şablona döner; şablon da bozuksa None (post çıkmaz)
+    loglar = []
+    assert etkilesim._denetle("tablo", metin.replace(fav, "99%"), metin, liste, AYAR, None, loglar.append) == metin
+    assert etkilesim._denetle("tablo", yuzdesiz, yuzdesiz, liste, AYAR, None, loglar.append) is None and loglar

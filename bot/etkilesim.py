@@ -312,6 +312,17 @@ def _plan(gun: dict) -> list[tuple[str, datetime, datetime]]:
     return plan
 
 
+def _denetle(tur: str, metin: str, sablon: str, analizler: list[dict], ayar, png, yaz) -> str | None:
+    """Denetçi (kod): direktörün metni geçmezse şablon denenir; o da geçmezse post çıkmaz (None) ve neden yazılır."""
+    from . import denetci
+    for aday in dict.fromkeys((metin, sablon)):
+        hata = denetci.analiz_kontrolu(tur, aday, analizler, ayar, png)
+        if not hata:
+            return aday
+        yaz(f"⚠️ Denetçi ({tur}) {'direktör metnini' if aday != sablon else 'şablonu'} durdurdu: " + " ".join(hata))
+    return None
+
+
 def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_paylasimlar: tuple[str, ...] = (),
            haric_takimlar: set[str] = frozenset()) -> str | None:
     """Sıradaki etkileşim paylaşımını zamanı geldiyse atar (nabız başına en fazla bir tane).
@@ -335,24 +346,32 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_pay
         try:
             if tur.startswith("analiz_"):
                 a = gun["analizler"][int(tur.split("_")[1])]
-                metin = analiz_tweeti(a, ayar)
-                metin = yazar("analiz", analiz_olgulari(a, ayar), metin) if yazar else metin
+                sablon = analiz_tweeti(a, ayar)
+                metin = yazar("analiz", analiz_olgulari(a, ayar), sablon) if yazar else sablon
                 if not metin:
                     durum[tur] = {"durum": "atlandi", "neden": "direktör"}
                     continue
-                medya = x.medya_yukle(gorsel.analiz_karti(a, _saat(a, ayar), "en"))
-                tid = x.gonder(metin, medya=[medya])
+                png = gorsel.analiz_karti(a, _saat(a, ayar), "en")
+                metin = _denetle("analiz", metin, sablon, [a], ayar, png, yaz)
+                if not metin:
+                    durum[tur] = {"durum": "atlandi", "neden": "denetçi"}
+                    continue
+                tid = x.gonder(metin, medya=[x.medya_yukle(png)])
             elif tur == "tablo":
                 liste = [a for a in gun["tablo"] if datetime.fromisoformat(a["baslama"]) > simdi]
                 if len(liste) < 4:
                     durum[tur] = {"durum": "atlandi", "neden": "yeterli maç kalmadı"}
                     continue
-                metin = tablo_tweeti(gun, liste, ayar)
-                metin = yazar("tablo", tablo_olgulari(gun, liste, ayar), metin) if yazar else metin
+                sablon = tablo_tweeti(gun, liste, ayar)
+                metin = yazar("tablo", tablo_olgulari(gun, liste, ayar), sablon) if yazar else sablon
                 if not metin:
                     durum[tur] = {"durum": "atlandi", "neden": "direktör"}
                     continue
                 png = gorsel.analiz_tablosu(liste, gun["tarih"], [_saat(a, ayar) for a in liste], "en")
+                metin = _denetle("tablo", metin, sablon, liste, ayar, png, yaz)
+                if not metin:
+                    durum[tur] = {"durum": "atlandi", "neden": "denetçi"}
+                    continue
                 tid = x.gonder(metin, medya=[x.medya_yukle(png)])
             elif tur == "anket":
                 metin, secenekler, dakika = anket({**gun, "_simdi": zaman}, ayar)
@@ -368,11 +387,17 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_pay
                 if metin is None:  # içerik yok (ör. kupon dışı yeterli maç yok)
                     durum[tur] = {"durum": "atlandi"}
                     continue
+                sablon = metin
                 metin = yazar(tur, olgular(tur, {**gun, "_haric": haric_takimlar}, ayar), metin) if yazar else metin
                 if not metin:  # X Direktörü bugün bu paylaşımı uygun görmedi
                     durum[tur] = {"durum": "atlandi", "neden": "direktör"}
                     yaz(f"Etkileşim paylaşımı ({tur}): direktör bugün atlamayı seçti.")
                     continue
+                if tur == "ayrisma":
+                    metin = _denetle(tur, metin, sablon, gun.get("ayrisma") or [], ayar, None, yaz)
+                    if not metin:
+                        durum[tur] = {"durum": "atlandi", "neden": "denetçi"}
+                        continue
                 tid = x.gonder(metin)
         except Exception as e:
             # Tekrar tekrar denenip hata yağmasın: bu tür bugün atlanır.
@@ -549,6 +574,10 @@ def analiz_takibi(gun: dict, ayar, x, simdi: datetime, sonuc_getir, yaz=print, y
                    "our_most_likely_score": f'{a["skorlar"][0][0]} ({_pct(a["skorlar"][0][1])})',
                    "note": "quote of our pre-match card; be honest, right or wrong"}
             metin = yazar("analiz_sonuc", olg, metin) or metin
+        metin = _denetle("analiz_sonuc", metin, analiz_takip_tweeti(a, skor, isabet), [a], ayar, None, yaz)
+        if not metin:
+            e["takip"] = {"durum": "atlandi", "neden": "denetçi"}
+            continue
         try:
             tid = x.gonder(metin, alinti=e["tweet_id"])
         except Exception as hata:

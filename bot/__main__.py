@@ -789,10 +789,15 @@ def analiz_gunu(ayar, gunler: list[dict], bugun: str, simdi: datetime, api=None)
     klasor = config.DATA_FILE.parent / "analiz"
     klasor.mkdir(parents=True, exist_ok=True)
     (klasor / f"{bugun}.json").write_text(json.dumps(analizler, ensure_ascii=False) + "\n", encoding="utf-8")
+    one = analiz.one_cikanlar(analizler, ayar.ligler)
     gun = {"id": bugun, "tarih": bugun, "olusturma": simdi.isoformat(timespec="seconds"), "baslik": "",
            "secimler": [], "sonuc": "analiz", "tweet_id": None, "konsept": "analiz", "taranan": len(maclar),
            "analiz_sayisi": len(analizler), "vitrin": etkilesim.vitrin(maclar, oranlar, ayar, simdi),
-           "analizler": analiz.one_cikanlar(analizler, ayar.ligler)}
+           "analizler": one,
+           "tablo": [analiz.ozet(a) for a in analiz.tablo_secimi(  # kartı olan maçlar tabloda tekrar edilmez
+               analizler, ayar.ligler, en_erken=(simdi + timedelta(minutes=90)).isoformat(),
+               haric={a["fixture_id"] for a in one})],
+           "ayrisma": [analiz.ozet(a) for a in analiz.ayrisma_secimi(analizler)]}
     gunler.append(gun)
     guven = {g: sum(a["guven"] == g for a in analizler) for g in ("yuksek", "orta", "dusuk")}
     ayrisan = [a for a in analizler if analiz.dikkat_cekici(a)]
@@ -804,6 +809,23 @@ def analiz_gunu(ayar, gunler: list[dict], bugun: str, simdi: datetime, api=None)
               f"(güven yüksek {guven['yuksek']}, orta {guven['orta']}, düşük {guven['dusuk']}).\n"
               "Öne çıkanlar: " + ", ".join(f'{a["ev"]} v {a["dep"]} ({a["lig"]})' for a in gun["analizler"]))
     return gun
+
+
+def analiz_secimlerini_tamamla(ayar, gun: dict | None) -> None:
+    """Eski sürümün oluşturduğu analiz gününe tablo ve ayrışma seçimlerini ekler; henüz kart paylaşılmadıysa
+    öne çıkan maç sayısını da günceller (aynı post iki kez çıkmaz)."""
+    if not gun or gun.get("konsept") != "analiz" or "tablo" in gun:
+        return
+    dosya = config.DATA_FILE.parent / "analiz" / f'{gun["tarih"]}.json'
+    if not dosya.exists():
+        return
+    tum = json.loads(dosya.read_text(encoding="utf-8"))
+    if not any(t.startswith("analiz_") for t in gun.get("etkilesim") or {}):
+        gun["analizler"] = analiz.one_cikanlar(tum, ayar.ligler)
+    gun["tablo"] = [analiz.ozet(a) for a in analiz.tablo_secimi(
+        tum, ayar.ligler, en_erken=(kayit.simdi_utc() + timedelta(minutes=90)).isoformat(),
+        haric={a["fixture_id"] for a in gun["analizler"]})]
+    gun["ayrisma"] = [analiz.ozet(a) for a in analiz.ayrisma_secimi(tum)]
 
 
 def _mac_sonuclari(ayar, maclar: list[dict]) -> dict:
@@ -1127,6 +1149,7 @@ def main(argv=None) -> int:
                 _hata("Haftalık özet", e)
         if args.komut == "nabiz" and kayit.bul(gunler, bugun):
             try:
+                analiz_secimlerini_tamamla(ayar, kayit.bul(gunler, bugun))
                 diger = tuple(g["yayin"] for g in gunler if g["tarih"] == bugun and g["id"] != bugun and g.get("yayin"))
                 kupondakiler = {t.lower() for g in gunler if g["tarih"] == bugun for s in g["secimler"]
                                 for t in (s["ev"], s["dep"])}

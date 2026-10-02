@@ -370,3 +370,55 @@ def analiz_karti(a: dict, saat: str, dil: str = "en") -> bytes:
     tampon = io.BytesIO()
     im.save(tampon, "PNG", optimize=True)
     return tampon.getvalue()
+
+
+TABLO_ETIKETLERI = {
+    "en": {"baslik": "TODAY'S ANALYSIS BOARD", "mac": "MATCH", "ust": "O2.5", "kg": "BTTS", "skor": "SCORE",
+           "alt": "Model probabilities in % · not betting advice · 18+"},
+    "tr": {"baslik": "GÜNÜN ANALİZ TABLOSU", "mac": "MAÇ", "ust": "2.5Ü", "kg": "KG", "skor": "SKOR",
+           "alt": "Model olasılıkları (%) · bahis tavsiyesi değildir · 18+"},
+}
+
+
+def analiz_tablosu(liste: list[dict], tarih_iso: str, saatler: list[str], dil: str = "en") -> bytes:
+    """Günün analiz tablosu (1080×1350): her satırda maç, 1/X/2, 2.5 üst, KG var ve en olası skor."""
+    r, e = PALETLER[dil], TABLO_ETIKETLERI[dil]
+    W, K = 1080, 50
+    satir = 84
+    H = 230 + satir * len(liste) + 90
+    im = Image.new("RGB", (W, H), r["arka"])
+    d = ImageDraw.Draw(im)
+    yuzde = lambda x: f"{100 * x:.0f}"
+    d.text((K, 48), f"KALKYLERAT · {e['baslik']}", font=_font(26, True), fill=r["vurgu"])
+    tarih = datetime.fromisoformat(tarih_iso).strftime("%-d %b %Y").upper()
+    d.text((W - K - d.textlength(tarih, font=_font(24, True)), 50), tarih, font=_font(24, True), fill=r["soluk"])
+    sutunlar = [("1", 560), ("X", 640), ("2", 720), (e["ust"], 815), (e["kg"], 905), (e["skor"], 990)]
+    y = 120
+    d.text((K, y), e["mac"], font=_font(19, True), fill=r["soluk"])
+    for ad, x in sutunlar:
+        d.text((x - d.textlength(ad, font=_font(19, True)) / 2, y), ad, font=_font(19, True), fill=r["soluk"])
+    y += 40
+    for i, (a, saat) in enumerate(zip(liste, saatler)):
+        yy = y + satir * i
+        if i % 2 == 0:
+            d.rounded_rectangle((K - 14, yy - 6, W - K + 14, yy + satir - 12), radius=14, fill=r["kart"])
+        mac, f = _sigdir(d, f'{a["ev"]} – {a["dep"]}', 470, 25, True, 16)
+        d.text((K, yy + 4), mac, font=f, fill=r["yazi"])
+        alt, f = _sigdir(d, f'{a["lig"]} · {saat}', 470, 18, en_kucuk=14)
+        d.text((K, yy + 40), alt, font=f, fill=r["soluk"])
+        p = a["p"]
+        fav = max(("MS1", "MSX", "MS2"), key=lambda k: p[k])
+        degerler = [("MS1", p["MS1"]), ("MSX", p["MSX"]), ("MS2", p["MS2"]), ("UST25", p["UST25"]), ("KGVAR", p["KGVAR"])]
+        for (kod, v), (_, x) in zip(degerler, sutunlar):
+            t = yuzde(v)
+            renk = r["vurgu"] if kod == fav or (kod in ("UST25", "KGVAR") and v >= 0.6) else r["yazi"]
+            fb = _font(25, kod == fav)
+            d.text((x - d.textlength(t, font=fb) / 2, yy + 16), t, font=fb, fill=renk)
+        skor = a["skorlar"][0][0]
+        d.text((sutunlar[-1][1] - d.textlength(skor, font=_font(25, True)) / 2, yy + 16), skor,
+               font=_font(25, True), fill=r["yazi"])
+    alt, f = _sigdir(d, e["alt"], W - 2 * K, 20)
+    d.text(((W - d.textlength(alt, font=f)) / 2, H - 56), alt, font=f, fill=r["soluk"])
+    tampon = io.BytesIO()
+    im.save(tampon, "PNG", optimize=True)
+    return tampon.getvalue()

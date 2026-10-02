@@ -166,6 +166,12 @@ def olgular(tur: str, gun: dict, ayar) -> dict:
         return {"game": mac(skor_maci(vit))}
     if tur == "istatistik":
         return {"game": mac(istatistik_maci(vit))}
+    if tur == "ayrisma":
+        return {"games": [{"home": a["ev"], "away": a["dep"], "kickoff": _saat(a, ayar), "market": c["ad"],
+                           "market_chance": _pct(c["piyasa"]), "team_stats_chance": _pct(c["istatistik"])}
+                          for a in gun.get("ayrisma") or [] for c in [analiz.dikkat_cekici(a)] if c],
+                "note": "market = bookmaker prices with the margin removed; team stats = home/away scoring "
+                        "averages. Ask who is right; no betting advice."}
     if tur == "bilgi":
         k = bilgi.gunun_konusu(gun["tarih"])
         return {"topic": k["baslik"], "facts_to_use": k["govde"], "question_idea": k["soru"],
@@ -276,9 +282,15 @@ def _plan(gun: dict) -> list[tuple[str, datetime, datetime]]:
     plan.append(("bilgi", gun_bas + timedelta(hours=9), gun_bas + timedelta(hours=19, minutes=30)))  # günlük bilgi
     if gun.get("konsept") == "analiz":
         # Kupon yok: günün maçları, öne çıkan maçların analiz kartları (maçtan ~4 saat – 35 dk önce), anket.
-        if vit:
+        if gun.get("tablo"):  # günün analiz tablosu (görsel): sabah, tablodaki ilk maçtan önce
+            ilk = min(datetime.fromisoformat(a["baslama"]) for a in gun["tablo"])
+            plan.append(("tablo", gun_bas + timedelta(hours=8), ilk - timedelta(minutes=10)))
+        elif vit:
             ilk = min(datetime.fromisoformat(v["baslama"]) for v in vit)
             plan.append(("maclar", ilk - timedelta(hours=5), ilk - timedelta(minutes=15)))
+        if len(gun.get("ayrisma") or []) >= 2:  # istatistik piyasaya katılmıyor: kim haklı?
+            ilk = min(datetime.fromisoformat(a["baslama"]) for a in gun["ayrisma"])
+            plan.append(("ayrisma", gun_bas + timedelta(hours=10), ilk - timedelta(minutes=30)))
         for i, a in enumerate(gun.get("analizler") or []):
             b = datetime.fromisoformat(a["baslama"])
             plan.append((f"analiz_{i}", b - timedelta(hours=4), b - timedelta(minutes=35)))
@@ -330,12 +342,25 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_pay
                     continue
                 medya = x.medya_yukle(gorsel.analiz_karti(a, _saat(a, ayar), "en"))
                 tid = x.gonder(metin, medya=[medya])
+            elif tur == "tablo":
+                liste = [a for a in gun["tablo"] if datetime.fromisoformat(a["baslama"]) > simdi]
+                if len(liste) < 4:
+                    durum[tur] = {"durum": "atlandi", "neden": "yeterli maç kalmadı"}
+                    continue
+                metin = tablo_tweeti(gun, liste)
+                metin = yazar("tablo", tablo_olgulari(gun, liste, ayar), metin) if yazar else metin
+                if not metin:
+                    durum[tur] = {"durum": "atlandi", "neden": "direktör"}
+                    continue
+                png = gorsel.analiz_tablosu(liste, gun["tarih"], [_saat(a, ayar) for a in liste], "en")
+                tid = x.gonder(metin, medya=[x.medya_yukle(png)])
             elif tur == "anket":
                 metin, secenekler, dakika = anket({**gun, "_simdi": zaman}, ayar)
                 metin = yazar(tur, olgular(tur, gun, ayar), metin) if yazar else metin
                 tid = x.gonder(metin, anket={"options": secenekler, "duration_minutes": dakika})
             else:
-                metin = {"pas": lambda: pas_tweeti(gun), "bilgi": lambda: bilgi_tweeti(gun), "maclar": lambda: maclar_tweeti(gun, ayar),
+                metin = {"pas": lambda: pas_tweeti(gun), "bilgi": lambda: bilgi_tweeti(gun),
+                         "ayrisma": lambda: ayrisma_tweeti(gun, ayar, simdi), "maclar": lambda: maclar_tweeti(gun, ayar),
                          "skor": lambda: skor_tweeti(gun, ayar),
                          "istatistik": lambda: istatistik_tweeti(gun, ayar),
                          "radar": lambda: radar_tweeti(gun, ayar, haric_takimlar),
@@ -537,3 +562,38 @@ def analiz_takibi(gun: dict, ayar, x, simdi: datetime, sonuc_getir, yaz=print, y
         yaz(f"Analiz takibi (alıntı):\n```\n{metin}\n```")
         paylasilan += 1
     return paylasilan
+
+
+def tablo_tweeti(gun: dict, liste: list[dict]) -> str:
+    tarih = datetime.fromisoformat(gun["tarih"]).strftime("%-d %b")
+    ligler = len({a["lig"] for a in liste})
+    n = gun.get("analiz_sayisi")
+    kapsam = f"{n} matches analysed today. " if n else ""
+    return (f"📋 TODAY'S ANALYSIS BOARD | {tarih}\n\n{kapsam}Here are {len(liste)} of them from {ligler} competitions: "
+            f"win/draw/win, over 2.5, both teams to score and the most likely score.\n\n"
+            f"Which one would you pick out? 👇\n{ANSVAR}")
+
+
+def tablo_olgulari(gun: dict, liste: list[dict], ayar) -> dict:
+    return {"date": gun["tarih"], "matches_analysed_today": gun.get("analiz_sayisi"), "on_the_board": len(liste),
+            "competitions": len({a["lig"] for a in liste}),
+            "games": [{"match": f'{a["ev"]} v {a["dep"]}', "competition": a["lig"], "kickoff": _saat(a, ayar),
+                       "home_draw_away": [_pct(a["p"][k]) for k in ("MS1", "MSX", "MS2")],
+                       "over_2_5": _pct(a["p"]["UST25"]), "btts": _pct(a["p"]["KGVAR"]),
+                       "most_likely_score": a["skorlar"][0][0]} for a in liste],
+            "note": "the image shows the board; the text introduces it"}
+
+
+def ayrisma_tweeti(gun: dict, ayar, simdi: datetime) -> str | None:
+    liste = [(a, analiz.dikkat_cekici(a)) for a in gun.get("ayrisma") or []
+             if datetime.fromisoformat(a["baslama"]) > simdi and analiz.dikkat_cekici(a)]
+    if len(liste) < 2:
+        return None
+    satirlar = [f'- {a["ev"]} v {a["dep"]}: {c["ad"]}, market {_pct(c["piyasa"])} vs stats {_pct(c["istatistik"])}'
+                for a, c in liste]
+    for n in range(len(satirlar), 1, -1):
+        metin = ("📈 WHERE STATS DISAGREE\n\nThe market and the team stats don't agree on these:\n"
+                 + "\n".join(satirlar[:n]) + "\n\nWho's right? 👇\n" + ANSVAR)
+        if uzunluk(metin) <= LIMIT:
+            return metin
+    return None

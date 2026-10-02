@@ -1967,6 +1967,7 @@ def test_analiz_gunu_kartlar_ve_mac_sonu_takibi(monkeypatch, tmp_path):
     assert gun["analiz_sayisi"] == 4 and len(tum) == 4  # verisi olmayan maç analiz edilmez
     assert {a["fixture_id"]: a["guven"] for a in tum}[4] == "dusuk" and {a["fixture_id"]: a["guven"] for a in tum}[1] == "yuksek"
     assert [a["ev"] for a in gun["analizler"]] == ["Arsenal", "Leeds", "Spurs"]  # alt lig öne çıkmaz
+    assert "tablo" in gun and not {a["fixture_id"] for a in gun["tablo"]} & {1, 2, 3}  # kartlı maç tabloda yok
     for a in tum:  # tek modelden: tutarlı olasılıklar
         p = a["p"]
         assert abs(p["MS1"] + p["MSX"] + p["MS2"] - 1) < 0.01 and abs(p["UST25"] + p["ALT25"] - 1) < 0.01
@@ -2036,3 +2037,28 @@ def test_istatistik_modeli_kucuk_orneklemde_kullanilmaz():
     m = {"fixture_id": 1, "lig": "X", "ev": "A", "dep": "B", "baslama": "2026-10-02T18:00:00+00:00"}
     kucuk = {"ev": takim(1, 1, 3.0, 0.0), "dep": takim(1, 2, 0.0, 2.0)}
     assert analiz.mac_analizi(m, None, kucuk, AYAR) is None  # oranı yok, istatistik güvenilmez: analiz yok
+
+
+def test_analiz_tablosu_ve_ayrisma_postu():
+    from bot import analiz, etkilesim, gorsel
+    def a(fid, lig_id, lig, ev, saat, guven="yuksek", kars=None):
+        p = {"MS1": 0.5, "MSX": 0.25, "MS2": 0.25, "UST25": 0.55, "KGVAR": 0.5}
+        return {"fixture_id": fid, "lig_id": lig_id, "lig": lig, "ev": ev, "dep": ev + " B", "guven": guven,
+                "baslama": f"2026-10-03T{saat}:00+00:00", "p": p, "skorlar": [["1-0", 0.11]],
+                "karsilastirma": kars or []}
+    lig = AYAR.ligler[0]
+    tum = [a(1, lig, "PL", "Arsenal", "14:00"), a(2, lig, "PL", "Leeds", "16:00"), a(3, lig, "PL", "Spurs", "18:00"),
+           a(4, 999, "Low", "Small", "09:00"), a(5, 999, "Low", "Tiny", "13:00"), a(6, 998, "Low2", "Team", "13:00"),
+           a(7, 997, "Low3", "Weak", "13:00", guven="dusuk")]
+    t = analiz.tablo_secimi(tum, AYAR.ligler, en_erken="2026-10-03T10:00:00+00:00")
+    ids = [x["fixture_id"] for x in t]
+    assert 4 not in ids and 7 not in ids and 6 not in ids  # erken, güveni düşük, adı bozuk
+    assert ids.count(1) + ids.count(2) + ids.count(3) == 2 and 5 in ids  # lig başına 2, alt lig de girer
+    png = gorsel.analiz_tablosu(t, "2026-10-03", ["16:00"] * len(t), "en")
+    assert png[:4] == b"\x89PNG"
+    kars = lambda pi, ist: [{"pazar": "UST25", "ad": "Over 2.5 goals", "piyasa": pi, "istatistik": ist}]
+    gun = {"tarih": "2026-10-03", "ayrisma": [a(8, 1, "X", "Alpha", "19:00", kars=kars(0.5, 0.7)),
+                                              a(9, 1, "X", "Beta", "19:00", kars=kars(0.6, 0.45))]}
+    m = etkilesim.ayrisma_tweeti(gun, AYAR, datetime(2026, 10, 3, 12, 0, tzinfo=timezone.utc))
+    assert "WHERE STATS DISAGREE" in m and "market 50% vs stats 70%" in m and tweets.uzunluk(m) <= 280
+    assert etkilesim.ayrisma_tweeti(gun, AYAR, datetime(2026, 10, 3, 20, 0, tzinfo=timezone.utc)) is None  # başladı

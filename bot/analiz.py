@@ -92,12 +92,12 @@ def manset(a: dict) -> list[dict]:
             {"pazar": kg[0], "ad": kg[1], "p": p[kg[0]]}]
 
 
-def one_cikanlar(analizler: list[dict], izinli: list[int], adet: int = 3) -> list[dict]:
+def one_cikanlar(analizler: list[dict], izinli: list[int], adet: int = 5) -> list[dict]:
     """X'te paylaşılacak maçlar: önce izinli (büyük) ligler, veri güveni yüksek olanlar; aynı saate yığılmasın diye
     farklı başlama saatleri tercih edilir."""
     sira = {lig: i for i, lig in enumerate(izinli)}
     puan = {"yuksek": 0, "orta": 1, "dusuk": 2}
-    aday = sorted((a for a in analizler if a.get("lig_id") in sira and a["guven"] != "dusuk"),
+    aday = sorted((a for a in analizler if a.get("lig_id") in sira and a["guven"] != "dusuk" and _gecerli(a)),
                   key=lambda a: (puan[a["guven"]], sira[a["lig_id"]], a["baslama"]))
     secilen: list[dict] = []
     for a in aday:  # önce farklı saatler
@@ -109,3 +109,37 @@ def one_cikanlar(analizler: list[dict], izinli: list[int], adet: int = 3) -> lis
         if len(secilen) < adet and a not in secilen:
             secilen.append(a)
     return sorted(secilen, key=lambda a: a["baslama"])
+
+
+def _gecerli(a: dict) -> bool:
+    """Takım adı bozuk kayıtlar (ör. "Team") tabloya ve öne çıkanlara girmez."""
+    return all(len(t.strip()) > 2 and t.strip().lower() != "team" for t in (a["ev"], a["dep"]))
+
+
+def tablo_secimi(analizler: list[dict], izinli: list[int] = (), adet: int = 12, lig_basina: int = 2,
+                 en_erken: str | None = None, haric: set = frozenset()) -> list[dict]:
+    """Günün analiz tablosu: önce büyük (izinli) liglerin maçları, sonra alt ligler; veri güveni yüksek/orta;
+    lig başına en fazla 2 maç; tablonun paylaşılacağı saatten sonra başlayanlar; saat sırasıyla."""
+    puan = {"yuksek": 0, "orta": 1}
+    sira = {lig: i for i, lig in enumerate(izinli)}
+    aday = [a for a in analizler if a["guven"] in puan and _gecerli(a) and a["fixture_id"] not in haric
+            and (en_erken is None or datetime.fromisoformat(a["baslama"]) > datetime.fromisoformat(en_erken))]
+    aday.sort(key=lambda a: (a.get("lig_id") not in sira, sira.get(a.get("lig_id"), 0), puan[a["guven"]], a["baslama"]))
+    secilen, sayac = [], {}
+    for a in aday:
+        if len(secilen) < adet and sayac.get(a["lig"], 0) < lig_basina:
+            secilen.append(a)
+            sayac[a["lig"]] = sayac.get(a["lig"], 0) + 1
+    return sorted(secilen, key=lambda a: a["baslama"])
+
+
+def ayrisma_secimi(analizler: list[dict], adet: int = 3) -> list[dict]:
+    """Takım istatistiklerinin piyasadan en çok ayrıştığı maçlar (güvenilir piyasa ve istatistik olanlar)."""
+    aday = [a for a in analizler if a["guven"] in ("yuksek", "orta") and dikkat_cekici(a) and _gecerli(a)]
+    return sorted(aday, key=lambda a: -abs(fark_puani(dikkat_cekici(a))))[:adet]
+
+
+def ozet(a: dict) -> dict:
+    """Kayıtta saklanacak kısa hali (tablo ve ayrışma postları için)."""
+    return {k: a[k] for k in ("fixture_id", "lig", "ulke", "lig_id", "ev", "dep", "baslama", "p", "skorlar", "guven",
+                              "karsilastirma", "beklenen_gol") if k in a}

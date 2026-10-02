@@ -67,7 +67,9 @@ plain way with a real-life angle and end with one open question. Use exactly the
 others; never add stats, history or claims of your own. Keep the 18+ line.
 "analiz" introduces our match analysis card (image attached): mention the headline chances and the most likely
 score from the facts, invite opinions; analysis only, never tell people to bet. "analiz_sonuc" quotes that card after
-full time: the score and which calls came in, honest either way. Use only numbers from the facts.""" + _rehber()
+full time: the score and which calls came in, honest either way. Use only numbers from the facts.
+"tablo" introduces the image of today's analysis board (many matches, lower leagues too). "ayrisma" lists games
+where team stats and the market disagree and asks who is right: explain briefly what each side is, no advice.""" + _rehber()
 
 HAFTALIK_SISTEM = f"""You are the X (Twitter) growth director of @kalkylerat, a football stats account that publishes
 data-driven match analysis every day (probabilities for every market, most likely scores) and checks every call in public
@@ -145,7 +147,7 @@ def kurala_uygun(metin: str, tur: str, bahisciler: list[str], izinli: set[str] |
         return False  # yalnızca gerçek turnuva etiketleri, en fazla iki
     if any(b.lower() in metin.lower() for b in bahisciler):
         return False
-    return tur not in ("pas", "radar", "deger", "deger_sonuc", "bilgi", "analiz", "analiz_sonuc") or metin.rstrip().endswith(ANSVAR)
+    return tur not in ("pas", "radar", "deger", "deger_sonuc", "bilgi", "analiz", "analiz_sonuc", "tablo", "ayrisma") or metin.rstrip().endswith(ANSVAR)
 
 
 def yukle() -> dict:
@@ -184,7 +186,7 @@ def yazar(ayar, client=None, yaz=print):
         etiketler = sorted(set(re.findall(r"#\w+", sablon)))  # yalnızca şablonun (kodun doğruladığı) etiketleri
         icerik = json.dumps({"post_type": tur, "facts": olgular, "template_for_reference": sablon,
                              "allowed_hashtags": etiketler, "this_week_strategy": strateji}, ensure_ascii=False, indent=1)
-        if tur in ("pas", "radar", "deger", "deger_sonuc", "bilgi", "analiz", "analiz_sonuc"):
+        if tur in ("pas", "radar", "deger", "deger_sonuc", "bilgi", "analiz", "analiz_sonuc", "tablo", "ayrisma"):
             icerik += f'\nThe post must end with the line "{ANSVAR}".'
         try:
             cevap = _cagir(client or anthropic.Anthropic(), [(ayar.direktor_model, ayar.direktor_effort),
@@ -196,7 +198,7 @@ def yazar(ayar, client=None, yaz=print):
         if cevap.get("paylas") is False and tur != "pas":
             return ""  # direktör bugün bu paylaşımı uygun görmedi (pas açıklaması her zaman gider)
         metin = (cevap.get("metin") or "").strip()
-        if tur in ("bilgi", "analiz", "analiz_sonuc") and not sayilar_dogru(metin, json.dumps(olgular, ensure_ascii=False) + sablon):
+        if tur in ("bilgi", "analiz", "analiz_sonuc", "tablo", "ayrisma") and not sayilar_dogru(metin, json.dumps(olgular, ensure_ascii=False) + sablon):
             yaz("Direktör bilgi metninde olgularda olmayan bir sayı kullandı; şablon kullanıldı.")
             return sablon
         if not kurala_uygun(metin, tur, ayar.oran_bahiscileri + [ayar.keskin_bahisci], set(etiketler)):

@@ -2068,3 +2068,20 @@ def test_analiz_tablosu_ve_ayrisma_postu():
     m = etkilesim.ayrisma_tweeti(gun, AYAR, datetime(2026, 10, 3, 12, 0, tzinfo=timezone.utc))
     assert "WHERE STATS DISAGREE" in m and "💹 market 50% · 📈 stats 70%" in m and tweets.uzunluk(m) <= 280
     assert etkilesim.ayrisma_tweeti(gun, AYAR, datetime(2026, 10, 3, 20, 0, tzinfo=timezone.utc)) is None  # başladı
+
+
+def test_liste_postu_butun_mac_etiketlerini_tasir():
+    from bot import direktor, etkilesim
+    def a(ev, dep, lig, ulke=""):
+        return {"ev": ev, "dep": dep, "lig": lig, "ulke": ulke, "baslama": "2026-10-03T18:00:00+00:00"}
+    liste = [a("Belgium", "Türkiye", "UEFA Nations League"), a("Arsenal", "Fulham", "Premier League", "England"),
+             a("Small", "Club", "Division 2", "Sweden"), a("France", "Italy", "UEFA Nations League")]
+    metin = etkilesim.tablo_tweeti({"tarih": "2026-10-03", "analiz_sayisi": 140}, liste)
+    etiketler = metin.split("\n")[-2].split()
+    assert etiketler == ["#BizimÇocuklar", "#Arsenal", "#LesBleus", "#NationsLeague", "#PremierLeague", "#Football",
+                         "#FootballPredictions"]
+    assert tweets.uzunluk(metin) <= 280 and metin.endswith(tweets.ANSVAR)
+    b = AYAR.oran_bahiscileri
+    assert direktor.kurala_uygun(metin, "tablo", b, set(etiketler))
+    assert not direktor.kurala_uygun("x #Football #Arsenal\n" + tweets.ANSVAR, "analiz", b)  # genel etiket yalnız listede
+    assert not direktor.kurala_uygun(metin.replace("#Football", "#BettingTips"), "tablo", b)  # bahis etiketi yok

@@ -25,7 +25,11 @@ _ULUSAL = {("premier league", "england"): "#PremierLeague", ("la liga", "spain")
            ("serie a", "italy"): "#SerieA", ("bundesliga", "germany"): "#Bundesliga", ("ligue 1", "france"): "#Ligue1",
            ("eredivisie", "netherlands"): "#Eredivisie", ("süper lig", "turkey"): "#SuperLig",
            ("allsvenskan", "sweden"): "#Allsvenskan"}
-IZINLI_ETIKETLER = {e for _, e in _ULUSLARARASI} | set(_ULUSAL.values())
+# Liste (tablo) postunda kullanılan genel etiketler: analiz ve tahmin hesaplarının yaygın kullandığı, bahis içermeyen
+# etiketler. Bahis etiketleri (#BettingTips vb.) bilerek yok: konsept analiz, bahis tavsiyesi değil.
+GENEL_ETIKETLER = ("#Football", "#FootballPredictions")
+IZINLI_ETIKETLER = {e for _, e in _ULUSLARARASI} | set(_ULUSAL.values())  # genel etiketler yalnızca liste postunda
+LISTE_ETIKET_SINIRI = 8
 
 # Milli takımlar: resmi FIFA kodları (maç etiketi #DENPOR gibi). Ad kırpılarak üretilmez: "NET" değil "NED".
 FIFA_KODLARI = {
@@ -100,6 +104,14 @@ def etiket_satiri(ligler: list[tuple[str, str]], maclar: list[tuple[str, str]] =
     mac = next((e for e in (mac_etiketi(ev, dep) for ev, dep in maclar) if e), None)
     etiketler = turnuva[:1] + ([mac] if mac else turnuva[1:2])
     return " ".join(etiketler[:en_fazla])
+
+
+def liste_etiketleri(ligler: list[tuple[str, str]], maclar: list[tuple[str, str]]) -> list[str]:
+    """Liste postu için: tablodaki bütün maçların taraftar/kulüp etiketleri, sonra turnuva etiketleri, sonra genel
+    etiketler (tekrarsız, en fazla LISTE_ETIKET_SINIRI). Uydurma etiket yok."""
+    takim = list(dict.fromkeys(e for e in (mac_etiketi(ev, dep) for ev, dep in maclar) if e))[:4]
+    turnuva = list(dict.fromkeys(e for e in (hashtag(l, u) for l, u in ligler) if e))[:2]
+    return (takim + turnuva + list(GENEL_ETIKETLER))[:LISTE_ETIKET_SINIRI]
 
 
 def uzunluk(metin: str) -> int:

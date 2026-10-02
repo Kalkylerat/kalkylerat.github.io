@@ -17,7 +17,7 @@ from datetime import datetime, timedelta
 import anthropic
 
 from . import config, kayit
-from .tweets import ANSVAR, LIMIT, izinli_etiket, uzunluk
+from .tweets import GENEL_ETIKETLER, LISTE_ETIKET_SINIRI, ANSVAR, LIMIT, izinli_etiket, uzunluk
 
 DOSYA = config.ROOT / "data" / "direktor.json"
 REHBER_DOSYASI = config.ROOT / ".claude" / "skills" / "sosyal-medya" / "SKILL.md"
@@ -41,7 +41,8 @@ KURALLAR = """Hard rules (never break them):
   💡 tip, 💬 question); blank line between blocks; never two emojis in a row, never a wall of them.
 - Numbers: always write chances with a % sign (66%), never decimals like 0.66; no abbreviations like O2.5 or BTTS
   in running text ("Over 2.5 goals", "Both teams score").
-- Hashtags: only from "allowed_hashtags" in the facts (real competition tags), at most two; none if the list is empty.
+- Hashtags: only from "allowed_hashtags" in the facts (real tags fans already use), at most two; none if the list is
+  empty. Exception: the "tablo" (analysis board) post ends with a line carrying ALL its allowed_hashtags.
 - Never say "lock", "guaranteed", "sure thing", "banker", "free money" or promise wins. Talk in chances.
 - No engagement bait ("RT", "like if", "follow for"). Ask one real question people want to answer.
 - No betting tips: posts are about football and our numbers (analysis, never advice to bet).
@@ -147,7 +148,9 @@ def kurala_uygun(metin: str, tur: str, bahisciler: list[str], izinli: set[str] |
     if not metin or uzunluk(metin) > LIMIT or yasak.search(metin) or _ALAN_ADI.search(metin):
         return False
     etiketler = re.findall(r"#\w+", metin)
-    if len(etiketler) > 2 or any(not izinli_etiket(e) or (izinli is not None and e not in izinli) for e in etiketler):
+    liste = tur == "tablo"  # liste postu: daha çok etiket ve genel etiketler serbest
+    if len(etiketler) > (LISTE_ETIKET_SINIRI if liste else 2) or any(
+            not (izinli_etiket(e) or (liste and e in GENEL_ETIKETLER)) or (izinli is not None and e not in izinli) for e in etiketler):
         return False  # yalnızca gerçek turnuva etiketleri, en fazla iki
     if any(b.lower() in metin.lower() for b in bahisciler):
         return False

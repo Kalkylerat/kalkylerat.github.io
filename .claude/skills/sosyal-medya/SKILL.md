@@ -49,7 +49,10 @@ zamanlama `.github/workflows/kalkylerat.yml`.
    %1 kasa, Kelly, Asya handikapı, Poisson, xG, örneklem, kapanış oranı… Sayıların hepsi tanım gereği doğru ya da
    kodda hesaplanmış; istatistik iddiası yok. Direktör doğal dille yazar ama olgularda olmayan sayı kullanamaz (kod
    denetler). Sonunda gerçek bir soru. Robot gibi değil: her gün farklı açılış, kalıp cümle yok.
-10. Hashtag en fazla 1–2 ve yalnızca büyük turnuva/lig için (#UCL, #PremierLeague); her tweette değil.
+10. **Hashtag:** taraftarların zaten kullandığı etiketler (`tweets.MILLI_ETIKETLER`: #BizimÇocuklar, #ThreeLions,
+    #LesBleus...; kulüpler: #Arsenal, #COYS...). Uydurma kod etiketi (#FRAITA) yok. Liste postu (günün analiz tablosu)
+    istisna (sahibinin kararı): tablodaki maçların takım etiketleri + turnuva + #Football #FootballPredictions, en
+    fazla 8. Bahis etiketleri (#BettingTips) hiçbir postta yok. Diğer postlarda en fazla 1–2 ve yalnızca büyük turnuva/lig için (#UCL, #PremierLeague); her tweette değil.
 
 ## Öneri verirken
 - Önce "otomatik mi, elle mi" ayır; otomatik olanı yukarıdaki kurallara göre denetle.

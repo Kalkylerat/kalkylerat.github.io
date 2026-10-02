@@ -9,7 +9,7 @@ from zoneinfo import ZoneInfo
 
 from . import analiz, bilgi, gorsel, model
 from .oddsapi import ima_edilen_goller
-from .tweets import ANSVAR, LIMIT, etiket_satiri, uzunluk
+from .tweets import ANSVAR, LIMIT, etiket_satiri, liste_etiketleri, uzunluk
 
 VITRIN_MAX = 6
 ARALIK_DK = 45
@@ -572,11 +572,16 @@ def tablo_tweeti(gun: dict, liste: list[dict]) -> str:
     tarih = datetime.fromisoformat(gun["tarih"]).strftime("%-d %b")
     ligler = len({a["lig"] for a in liste})
     n = gun.get("analiz_sayisi")
-    return (f"📋 TODAY'S ANALYSIS BOARD | {tarih}\n\n"
-            + (f"🔢 {n} matches analysed today\n" if n else "")
-            + f"🗂️ {len(liste)} of them on the board\n🌍 {ligler} competitions\n\n"
-            f"🏆 Win chances · ⚽ Over 2.5 goals\n🥅 Both teams score · 🎯 Likely score\n\n"
-            f"💬 Which one stands out to you? 👇\n{ANSVAR}")
+    govde = (f"📋 TODAY'S ANALYSIS BOARD | {tarih}\n\n"
+             + (f"🔢 {n} matches analysed, {len(liste)} on the board\n" if n else f"🔢 {len(liste)} matches on the board\n")
+             + f"🌍 {ligler} competitions\n\n💬 Which one stands out to you? 👇\n\n")
+    # Liste postu: tablodaki bütün maçların etiketleri + genel etiketler; sığmazsa sondan düşer.
+    etiketler = liste_etiketleri([(a.get("lig"), a.get("ulke")) for a in liste], [(a["ev"], a["dep"]) for a in liste])
+    for n_ in range(len(etiketler), -1, -1):
+        metin = govde + (" ".join(etiketler[:n_]) + "\n" if n_ else "") + ANSVAR
+        if uzunluk(metin) <= LIMIT:
+            return metin
+    return govde + ANSVAR
 
 
 def tablo_olgulari(gun: dict, liste: list[dict], ayar) -> dict:

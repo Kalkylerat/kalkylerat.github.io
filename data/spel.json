@@ -7150,12 +7150,34 @@
       "analiz_8": {
         "durum": "paylasildi",
         "tweet_id": "2106449241568587922",
-        "zaman": "2026-10-03T18:20:05+00:00"
+        "zaman": "2026-10-03T18:20:05+00:00",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2106503539790877118",
+          "skor": "2-3",
+          "isabet": [
+            false,
+            false,
+            false
+          ],
+          "zaman": "2026-10-03T21:55:51+00:00"
+        }
       },
       "analiz_9": {
         "durum": "paylasildi",
         "tweet_id": "2106454592880095264",
-        "zaman": "2026-10-03T18:41:21+00:00"
+        "zaman": "2026-10-03T18:41:21+00:00",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2106503551660724686",
+          "skor": "0-0",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "zaman": "2026-10-03T21:55:51+00:00"
+        }
       },
       "analiz_10": {
         "durum": "paylasildi",

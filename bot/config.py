@@ -55,6 +55,8 @@ class Ayarlar:
     yogun_aralik_dk: int = 15
     yogun_kart: int = 20
     yogun_ek_ligler: tuple = ()
+    yogun_hafta_sonu: bool = False  # Cumartesi ve Pazar her zaman yoğun gün
+    alarm_kime: str = ""  # sorun olunca GitHub issue'sunda etiketlenecek kullanıcı (bildirim gider)
 
 
 # Tek çalışmalık istisna (elle çalıştırmada "ek" alanı): ör. "guvenli_min_deger=-0.03 api_yedek=8".
@@ -123,12 +125,21 @@ def _yukle(path: Path) -> Ayarlar:
         yogun_aralik_dk=int(t.get("yogun", {}).get("aralik_dk", 15)),
         yogun_kart=int(t.get("yogun", {}).get("kart", 20)),
         yogun_ek_ligler=tuple(t.get("yogun", {}).get("ek_ligler", [])),
+        yogun_hafta_sonu=bool(t.get("yogun", {}).get("hafta_sonu", False)),
+        alarm_kime=str(t.get("alarm", {}).get("kime", "")),
         **({"direktor_aktif": bool(t["direktor"].get("aktif", True)),
             "direktor_model": t["direktor"].get("gunluk_model", "claude-sonnet-5-5"),
             "direktor_effort": t["direktor"].get("gunluk_effort", "medium"),
             "direktor_strateji_model": t["direktor"].get("strateji_model", "claude-fable-5-1"),
             "direktor_strateji_effort": t["direktor"].get("strateji_effort", "high")} if "direktor" in t else {}),
     )
+
+
+def yogun_mu(ayar, tarih: str) -> bool:
+    """Yoğun gün mü: listede ya da (açıksa) Cumartesi/Pazar."""
+    from datetime import date
+    return tarih in getattr(ayar, "yogun_gunler", ()) or (
+        getattr(ayar, "yogun_hafta_sonu", False) and date.fromisoformat(tarih).weekday() >= 5)
 
 
 def env(name: str) -> str:

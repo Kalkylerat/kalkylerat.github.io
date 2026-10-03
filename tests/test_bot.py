@@ -2209,3 +2209,44 @@ def test_yogun_gun_kisa_aralik_ve_aksam_kartlari():
     assert etkilesim.yogun_kartlari_ekle(gun, tum, ayar, simdi) == 2  # Spurs 18:00 penceresi kapandı, Primera C yok
     assert [x["ev"] for x in gun["analizler"]] == ["Arsenal", "Newells", "Tucuman"]  # eskiler yerinde, yeniler sonda
     assert etkilesim.yogun_kartlari_ekle(gun, tum, AYAR, simdi) == 0  # yoğun gün değilse dokunmaz
+
+
+def test_saglik_alarmi_kacan_ve_duran_postu_bildirir(tmp_path, monkeypatch):
+    """Kaçan kart, gecikmiş maç sonu postu, hata ve yoğun günde durgunluk alarm olur; aynı sorun iki kez
+    bildirilmez; aynı gün yeni sorunlar aynı issue'ya yorum olarak eklenir."""
+    from dataclasses import replace
+    from bot import model, saglik
+    monkeypatch.setattr(saglik, "DOSYA", tmp_path / "alarm.json")
+    ayar = replace(AYAR, yogun_hafta_sonu=True, yogun_aralik_dk=13)
+    def a(ev, saat):
+        return {"fixture_id": hash(ev), "ev": ev, "dep": ev + " B", "lig": "X", "baslama": f"2026-10-03T{saat}:00+00:00",
+                "beklenen_gol": [1.3, 1.1], "skorlar": [["1-1", 0.12]], "guven": "yuksek",
+                "p": {k: round(v, 3) for k, v in model.model_olasiliklari(1.3, 1.1).items()}}
+    gun = {"tarih": "2026-10-03", "konsept": "analiz", "secimler": [], "analizler":
+           [a("Albacete", "12:00"), a("Almeria", "14:15"), a("Newells", "20:00"), a("Hata", "21:00")],
+           "etkilesim": {"analiz_0": {"durum": "atlandi"},
+                         "analiz_1": {"durum": "paylasildi", "zaman": "2026-10-03T13:28:00+00:00"},
+                         "analiz_3": {"durum": "hata", "hata": "X 503"}}}
+    simdi = datetime(2026, 10, 3, 18, 0, tzinfo=timezone.utc)  # Cumartesi
+    bulunan = dict(saglik.sorunlar([gun], simdi, ayar, ["Etkileşim paylaşımı: boom"]))
+    metin = " ".join(bulunan.values())
+    assert "Albacete" in metin and "penceresi geçti" in metin  # kaçan kart
+    assert "Almeria" in metin and "maç sonu postu hâlâ çıkmadı" in metin  # 14:15 + 3,5 saat geçti
+    assert "X 503" in metin and "boom" in metin and "dakikadır post yok" in metin  # Newells kartı sırada, 4,5 saattir sessiz
+
+    class GH:
+        def __init__(self):
+            self.acilan, self.yorumlar = [], []
+
+        def issue_ac(self, baslik, govde, etiket):
+            self.acilan.append((baslik, govde, etiket))
+            return 7
+
+        def yorum(self, no, govde):
+            self.yorumlar.append((no, govde))
+    gh = GH()
+    n = saglik.bildir(list(bulunan.items()), gh, "Kalkylerat-desk", simdi, yaz=lambda m: None)
+    assert n == len(bulunan) and gh.acilan[0][2] == "alarm" and gh.acilan[0][1].startswith("@Kalkylerat-desk")
+    assert saglik.bildir(list(bulunan.items()), gh, "Kalkylerat-desk", simdi, yaz=lambda m: None) == 0  # tekrar yok
+    saglik.bildir([("yeni", "🔇 yeni sorun")], gh, "Kalkylerat-desk", simdi, yaz=lambda m: None)
+    assert len(gh.acilan) == 1 and gh.yorumlar == [(7, gh.yorumlar[0][1])] and "yeni sorun" in gh.yorumlar[0][1]

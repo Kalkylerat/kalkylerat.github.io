@@ -2,7 +2,7 @@ name: Kalkylerat Nöbetçi
 
 # GitHub'ın 15 dakikalık zamanlayıcısı yoğun saatlerde saatlerce hiç tetiklenmeyebiliyor (3 Ekim: 11:04–13:27 ve
 # 13:27–17:18 arası hiç nabız yok, kartlar ve maç sonu postları kaçtı). Nöbetçi saatte iki kez tetiklenir; biri
-# tutsa yeter: ~5,5 saat açık kalır ve botun son çalışması 13 dakikadan eskiyse nabzı kendisi başlatır.
+# tutsa yeter: ~5,5 saat açık kalır ve botun son çalışması 14 dakikadan eskiyse nabzı kendisi başlatır.
 # Depo herkese açık olduğu için Actions dakikaları ücretsiz.
 on:
   schedule:
@@ -13,6 +13,7 @@ on:
 permissions:
   actions: write  # ana botu workflow_dispatch ile başlatmak için
   contents: read
+  issues: write   # bot çalışamıyorsa alarm issue'su
 
 concurrency:
   group: kalkylerat-nobet  # aynı anda tek nöbetçi; sıradaki, öncekinin bitişini bekler
@@ -30,6 +31,13 @@ jobs:
           DAL: ${{ github.ref_name }}
         run: |
           bitis=$(( $(date +%s) + 330 * 60 ))
+          bildirilen=""
+          durgun_bildirildi=""
+          alarm() {  # botun kendisi çalışamıyorsa (çökme, kurulum hatası) Python'daki alarm devreye giremez
+            gh label create alarm --repo "$REPO" --color d73a4a --force >/dev/null 2>&1 || true
+            gh issue create --repo "$REPO" --label alarm --title "⚠️ Kalkylerat alarmı (nöbetçi) $(date -u '+%Y-%m-%d %H:%M')" \
+              --body "@Kalkylerat-desk $1" || echo "::warning::Alarm açılamadı"
+          }
           while [ "$(date +%s)" -lt "$bitis" ]; do
             son=$(gh api "repos/$REPO/actions/workflows/kalkylerat.yml/runs?per_page=1" --jq '.workflow_runs[0].created_at' || true)
             if [ -n "$son" ]; then
@@ -37,10 +45,23 @@ jobs:
             else
               fark=99999
             fi
-            if [ "$fark" -ge 780 ]; then
+            if [ "$fark" -ge 840 ]; then
               echo "$(date -u '+%H:%M') son çalışma $((fark / 60)) dk önce: nabız başlatılıyor"
               gh workflow run kalkylerat.yml --repo "$REPO" --ref "$DAL" -f komut=nabiz \
                 || echo "::warning::Nabız başlatılamadı"
             fi
-            sleep 300
+            if [ "$fark" -lt 840 ]; then
+              durgun_bildirildi=""  # bot yeniden çalıştı; bir sonraki durgunluk yine bildirilir
+            elif [ "$fark" -ge 2400 ] && [ -z "$durgun_bildirildi" ]; then
+              alarm "Bot $((fark / 60)) dakikadır çalışmıyor; nöbetçi başlatmayı denedi ama çalışma başlamadı. Actions sekmesine bakın."
+              durgun_bildirildi=1
+            fi
+            sonuc=$(gh api "repos/$REPO/actions/workflows/kalkylerat.yml/runs?status=completed&per_page=1" \
+                    --jq '.workflow_runs[0] | "\(.id) \(.conclusion) \(.html_url)"' || true)
+            set -- $sonuc
+            if [ "${2:-}" = "failure" ] && ! echo "$bildirilen" | grep -q "$1"; then
+              alarm "Bot çalışması hata verdi: $3"
+              bildirilen="$bildirilen $1"
+            fi
+            sleep 60
           done

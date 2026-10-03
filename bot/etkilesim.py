@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 from itertools import product
 from zoneinfo import ZoneInfo
 
-from . import analiz, bilgi, gorsel, model
+from . import analiz, bilgi, config, gorsel, model
 from .oddsapi import ima_edilen_goller
 from .tweets import ANSVAR, LIMIT, etiket_satiri, ilk_sigan, liste_etiketleri, uzunluk
 
@@ -316,7 +316,7 @@ def _plan(gun: dict) -> list[tuple[str, datetime, datetime]]:
 def yogun_kartlari_ekle(gun: dict, tum: list[dict], ayar, simdi: datetime) -> int:
     """Yoğun günde öne çıkan kartlar akşam maçlarıyla genişler (kart penceresi kapanmamış olanlar). Var olan
     kartların sırası değişmez (etkileşim kayıtları analiz_<sıra> ile tutulur); yeniler sona eklenir."""
-    if gun.get("konsept") != "analiz" or gun["tarih"] not in ayar.yogun_gunler:
+    if gun.get("konsept") != "analiz" or not config.yogun_mu(ayar, gun["tarih"]):
         return 0
     analizler = gun.setdefault("analizler", [])
     yer = ayar.yogun_kart - len(analizler)
@@ -348,7 +348,7 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_pay
         return None  # kupon henüz paylaşılmadı (onay bekliyor): önce kupon
     durum = gun.setdefault("etkilesim", {})
     son = _son_paylasim(gun, diger_paylasimlar)
-    aralik = getattr(ayar, "yogun_aralik_dk", ARALIK_DK) if gun["tarih"] in getattr(ayar, "yogun_gunler", ()) else ARALIK_DK
+    aralik = getattr(ayar, "yogun_aralik_dk", ARALIK_DK) if config.yogun_mu(ayar, gun["tarih"]) else ARALIK_DK
     if son and simdi < son + timedelta(minutes=aralik):
         return None
     # Son paylaşım saati en yakın olan önce: maçtan önce çıkması gereken kart, gün boyu çıkabilen bilgi postu

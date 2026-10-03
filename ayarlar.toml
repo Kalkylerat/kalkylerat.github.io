@@ -96,10 +96,17 @@ onay_suresi_dk = 90
 # Yoğun günler (maç dolu günler): postlar arası aralik_dk dakika (normalde 45), öne çıkan kart sayısı "kart"a kadar
 # genişler; büyük liglerin yanında ek_ligler'in maçları da kart alır (ör. akşam Arjantin/Brezilya maçları).
 # Her post farklı bir maçın analizi ya da maç sonu: aynı içerik tekrar edilmez (X spam kuralı).
-gunler = ["2026-10-03"]
-aralik_dk = 15
+gunler = []
+hafta_sonu = true  # Cumartesi ve Pazar bütün gün maç var: her zaman yoğun
+# 13 dk: nöbetçi nabzı ~14. dakikada başlatır; 15 olsaydı 14. dakikadaki nabız boş geçer, post 28. dakikaya kalırdı.
+aralik_dk = 13
 kart = 20
 ek_ligler = [128, 71, 239, 253, 262, 479]  # Arjantin, Brezilya Serie A, Kolombiya, MLS, Liga MX, Kanada
+
+[alarm]
+# Bir post kaçınca, durunca ya da hata verince GitHub'da "alarm" etiketli issue açılır ve bu kullanıcı etiketlenir
+# (e-posta ve GitHub mobil bildirimi gelir). Boş bırakılırsa alarm kapalı.
+kime = "Kalkylerat-desk"
 
 [direktor]
 # X Direktörü: kupon dışı paylaşımların metnini yazar (günlük, hızlı model) ve her Pazartesi hesabın

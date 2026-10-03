@@ -10,7 +10,7 @@ import time
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-from . import analiz, config, denetci, direktor, editor, etkilesim, football, gorsel, kayit, model, oddsapi, onay, panel, temizlik, tweets
+from . import analiz, config, denetci, direktor, editor, etkilesim, football, gorsel, kayit, model, oddsapi, onay, panel, saglik, temizlik, tweets
 from .model import adaylari_uret, bet_builder, etiketler
 
 # Çalışma sırasında yakalanan hatalar: iş sonunda "başarısız" işaretlenir, GitHub sahibine e-posta atar.
@@ -1233,7 +1233,7 @@ def main(argv=None) -> int:
             try:
                 analiz_secimlerini_tamamla(ayar, kayit.bul(gunler, bugun))
                 dosya = config.DATA_FILE.parent / "analiz" / f"{bugun}.json"
-                if bugun in ayar.yogun_gunler and dosya.exists():  # yoğun gün: akşam maçlarına da kart
+                if config.yogun_mu(ayar, bugun) and dosya.exists():  # yoğun gün: akşam maçlarına da kart
                     eklenen = etkilesim.yogun_kartlari_ekle(kayit.bul(gunler, bugun),
                                                             json.loads(dosya.read_text(encoding="utf-8")), ayar, simdi)
                     if eklenen:
@@ -1384,6 +1384,13 @@ def main(argv=None) -> int:
         # Tweet atıldıktan sonra hata olsa bile kimlikler kaydedilir; tekrar paylaşım olmaz.
         kayit.kaydet(config.DATA_FILE, gunler)
         panel.olustur(gunler, config.PANEL_FILE, ayar)
+        # Sağlık kontrolü: kaçan, duran, hata veren her şey sahibine alarm olarak bildirilir (GitHub bildirimi).
+        if args.komut in ("nabiz", "otomatik") and os.environ.get("GH_TOKEN") and ayar.alarm_kime:
+            try:
+                saglik.bildir(saglik.sorunlar(gunler, simdi, ayar, HATALAR), onay.GitHub(), ayar.alarm_kime, simdi,
+                              yaz=_ozet_yaz)
+            except Exception as e:
+                _ozet_yaz(f"⚠️ Alarm bildirilemedi: {e}")
     return 1 if HATALAR else 0
 
 

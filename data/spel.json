@@ -3719,6 +3719,706 @@
             "istatistik": 0.723
           }
         ]
+      },
+      {
+        "fixture_id": 1545653,
+        "lig": "UEFA Nations League",
+        "ulke": "World",
+        "lig_id": 5,
+        "ev": "Switzerland",
+        "dep": "Slovenia",
+        "baslama": "2026-10-03T20:45:00+02:00",
+        "beklenen_gol": [
+          2.15,
+          0.55
+        ],
+        "p": {
+          "MS1": 0.745,
+          "MSX": 0.173,
+          "MS2": 0.081,
+          "CS1X": 0.919,
+          "CSX2": 0.255,
+          "CS12": 0.826,
+          "KGVAR": 0.374,
+          "KGYOK": 0.626,
+          "UST15": 0.751,
+          "ALT15": 0.249,
+          "UST25": 0.506,
+          "ALT25": 0.494,
+          "UST35": 0.286,
+          "ALT35": 0.714,
+          "IY1": 0.535,
+          "IYX": 0.372,
+          "IY2": 0.093,
+          "IYU05": 0.703,
+          "IYA05": 0.297,
+          "IYU15": 0.343,
+          "IYA15": 0.657,
+          "EVU05": 0.883,
+          "EVA05": 0.116,
+          "EVU15": 0.633,
+          "EVA15": 0.367,
+          "EVU25": 0.364,
+          "EVA25": 0.636,
+          "DPU05": 0.423,
+          "DPA05": 0.577,
+          "DPU15": 0.106,
+          "DPA15": 0.894,
+          "DPU25": 0.018,
+          "DPA25": 0.981,
+          "YYU05": 0.773,
+          "YYA05": 0.227,
+          "YYU15": 0.437,
+          "YYA15": 0.563
+        },
+        "skorlar": [
+          [
+            "2-0",
+            0.1553
+          ],
+          [
+            "1-0",
+            0.1445
+          ],
+          [
+            "3-0",
+            0.1113
+          ],
+          [
+            "2-1",
+            0.0854
+          ],
+          [
+            "1-1",
+            0.0795
+          ]
+        ],
+        "guven": "yuksek",
+        "kaynak": "piyasa",
+        "istatistik_gol": [
+          1.5,
+          0.5
+        ],
+        "istatistik_kaynak": "son5",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.506,
+            "istatistik": 0.323
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Switzerland win",
+            "piyasa": 0.745,
+            "istatistik": 0.621
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.173,
+            "istatistik": 0.258
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.374,
+            "istatistik": 0.306
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Slovenia win",
+            "piyasa": 0.081,
+            "istatistik": 0.122
+          }
+        ]
+      },
+      {
+        "fixture_id": 1545660,
+        "lig": "UEFA Nations League",
+        "ulke": "World",
+        "lig_id": 5,
+        "ev": "FYR Macedonia",
+        "dep": "Scotland",
+        "baslama": "2026-10-03T20:45:00+02:00",
+        "beklenen_gol": [
+          0.75,
+          1.6
+        ],
+        "p": {
+          "MS1": 0.174,
+          "MSX": 0.249,
+          "MS2": 0.577,
+          "CS1X": 0.423,
+          "CSX2": 0.826,
+          "CS12": 0.751,
+          "KGVAR": 0.421,
+          "KGYOK": 0.579,
+          "UST15": 0.681,
+          "ALT15": 0.319,
+          "UST25": 0.417,
+          "ALT25": 0.583,
+          "UST35": 0.211,
+          "ALT35": 0.789,
+          "IY1": 0.156,
+          "IYX": 0.437,
+          "IY2": 0.407,
+          "IYU05": 0.653,
+          "IYA05": 0.347,
+          "IYU15": 0.285,
+          "IYA15": 0.715,
+          "EVU05": 0.528,
+          "EVA05": 0.472,
+          "EVU15": 0.173,
+          "EVA15": 0.827,
+          "EVU25": 0.041,
+          "EVA25": 0.959,
+          "DPU05": 0.798,
+          "DPA05": 0.202,
+          "DPU15": 0.475,
+          "DPA15": 0.525,
+          "DPU25": 0.217,
+          "DPA25": 0.783,
+          "YYU05": 0.725,
+          "YYA05": 0.275,
+          "YYU15": 0.371,
+          "YYA15": 0.629
+        },
+        "skorlar": [
+          [
+            "0-1",
+            0.1526
+          ],
+          [
+            "0-2",
+            0.1221
+          ],
+          [
+            "1-1",
+            0.1144
+          ],
+          [
+            "0-0",
+            0.0954
+          ],
+          [
+            "1-2",
+            0.0916
+          ]
+        ],
+        "guven": "yuksek",
+        "kaynak": "piyasa",
+        "istatistik_gol": [
+          0.75,
+          1.25
+        ],
+        "istatistik_kaynak": "son5",
+        "karsilastirma": [
+          {
+            "pazar": "MS2",
+            "ad": "Scotland win",
+            "piyasa": 0.577,
+            "istatistik": 0.482
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.417,
+            "istatistik": 0.323
+          },
+          {
+            "pazar": "MS1",
+            "ad": "FYR Macedonia win",
+            "piyasa": 0.174,
+            "istatistik": 0.223
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.249,
+            "istatistik": 0.295
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.421,
+            "istatistik": 0.376
+          }
+        ]
+      },
+      {
+        "fixture_id": 1549803,
+        "lig": "Primera A",
+        "ulke": "Colombia",
+        "lig_id": 239,
+        "ev": "Águilas Doradas",
+        "dep": "Jaguares",
+        "baslama": "2026-10-03T21:00:00+02:00",
+        "beklenen_gol": [
+          1.95,
+          0.8
+        ],
+        "p": {
+          "MS1": 0.644,
+          "MSX": 0.21,
+          "MS2": 0.146,
+          "CS1X": 0.854,
+          "CSX2": 0.356,
+          "CS12": 0.79,
+          "KGVAR": 0.472,
+          "KGYOK": 0.528,
+          "UST15": 0.76,
+          "ALT15": 0.24,
+          "UST25": 0.519,
+          "ALT25": 0.481,
+          "UST35": 0.297,
+          "ALT35": 0.703,
+          "IY1": 0.465,
+          "IYX": 0.389,
+          "IY2": 0.145,
+          "IYU05": 0.71,
+          "IYA05": 0.29,
+          "IYU15": 0.351,
+          "IYA15": 0.649,
+          "EVU05": 0.858,
+          "EVA05": 0.142,
+          "EVU15": 0.58,
+          "EVA15": 0.42,
+          "EVU25": 0.31,
+          "EVA25": 0.69,
+          "DPU05": 0.551,
+          "DPA05": 0.449,
+          "DPU15": 0.191,
+          "DPA15": 0.809,
+          "DPU25": 0.047,
+          "DPA25": 0.953,
+          "YYU05": 0.78,
+          "YYA05": 0.22,
+          "YYU15": 0.446,
+          "YYA15": 0.554
+        },
+        "skorlar": [
+          [
+            "1-0",
+            0.1247
+          ],
+          [
+            "2-0",
+            0.1215
+          ],
+          [
+            "1-1",
+            0.0997
+          ],
+          [
+            "2-1",
+            0.0972
+          ],
+          [
+            "3-0",
+            0.079
+          ]
+        ],
+        "guven": "yuksek",
+        "kaynak": "piyasa",
+        "istatistik_gol": null,
+        "istatistik_kaynak": null,
+        "karsilastirma": []
+      },
+      {
+        "fixture_id": 1493153,
+        "lig": "Liga Profesional Argentina",
+        "ulke": "Argentina",
+        "lig_id": 128,
+        "ev": "Atletico Tucuman",
+        "dep": "Barracas Central",
+        "baslama": "2026-10-03T22:00:00+02:00",
+        "beklenen_gol": [
+          1.3,
+          0.7
+        ],
+        "p": {
+          "MS1": 0.51,
+          "MSX": 0.29,
+          "MS2": 0.201,
+          "CS1X": 0.799,
+          "CSX2": 0.49,
+          "CS12": 0.71,
+          "KGVAR": 0.366,
+          "KGYOK": 0.634,
+          "UST15": 0.594,
+          "ALT15": 0.406,
+          "UST25": 0.323,
+          "ALT25": 0.677,
+          "UST35": 0.143,
+          "ALT35": 0.857,
+          "IY1": 0.351,
+          "IYX": 0.485,
+          "IY2": 0.164,
+          "IYU05": 0.593,
+          "IYA05": 0.407,
+          "IYU15": 0.228,
+          "IYA15": 0.772,
+          "EVU05": 0.727,
+          "EVA05": 0.273,
+          "EVU15": 0.373,
+          "EVA15": 0.627,
+          "EVU25": 0.143,
+          "EVA25": 0.857,
+          "DPU05": 0.503,
+          "DPA05": 0.497,
+          "DPU15": 0.156,
+          "DPA15": 0.844,
+          "DPU25": 0.034,
+          "DPA25": 0.966,
+          "YYU05": 0.667,
+          "YYA05": 0.333,
+          "YYU15": 0.301,
+          "YYA15": 0.699
+        },
+        "skorlar": [
+          [
+            "1-0",
+            0.1759
+          ],
+          [
+            "0-0",
+            0.1353
+          ],
+          [
+            "1-1",
+            0.1232
+          ],
+          [
+            "2-0",
+            0.1144
+          ],
+          [
+            "0-1",
+            0.0947
+          ]
+        ],
+        "guven": "yuksek",
+        "kaynak": "piyasa",
+        "istatistik_gol": null,
+        "istatistik_kaynak": null,
+        "karsilastirma": []
+      },
+      {
+        "fixture_id": 1493163,
+        "lig": "Liga Profesional Argentina",
+        "ulke": "Argentina",
+        "lig_id": 128,
+        "ev": "Newells Old Boys",
+        "dep": "Lanus",
+        "baslama": "2026-10-03T22:00:00+02:00",
+        "beklenen_gol": [
+          1.05,
+          1.05
+        ],
+        "p": {
+          "MS1": 0.35,
+          "MSX": 0.3,
+          "MS2": 0.35,
+          "CS1X": 0.65,
+          "CSX2": 0.65,
+          "CS12": 0.7,
+          "KGVAR": 0.423,
+          "KGYOK": 0.577,
+          "UST15": 0.62,
+          "ALT15": 0.38,
+          "UST25": 0.35,
+          "ALT25": 0.65,
+          "UST35": 0.161,
+          "ALT35": 0.839,
+          "IY1": 0.26,
+          "IYX": 0.48,
+          "IY2": 0.26,
+          "IYU05": 0.611,
+          "IYA05": 0.389,
+          "IYU15": 0.244,
+          "IYA15": 0.756,
+          "EVU05": 0.65,
+          "EVA05": 0.35,
+          "EVU15": 0.283,
+          "EVA15": 0.717,
+          "EVU25": 0.09,
+          "EVA25": 0.91,
+          "DPU05": 0.65,
+          "DPA05": 0.35,
+          "DPU15": 0.283,
+          "DPA15": 0.717,
+          "DPU25": 0.09,
+          "DPA25": 0.91,
+          "YYU05": 0.685,
+          "YYA05": 0.315,
+          "YYU15": 0.321,
+          "YYA15": 0.679
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.135
+          ],
+          [
+            "0-1",
+            0.1286
+          ],
+          [
+            "1-0",
+            0.1286
+          ],
+          [
+            "0-0",
+            0.1225
+          ],
+          [
+            "1-2",
+            0.0709
+          ]
+        ],
+        "guven": "yuksek",
+        "kaynak": "piyasa",
+        "istatistik_gol": null,
+        "istatistik_kaynak": null,
+        "karsilastirma": []
+      },
+      {
+        "fixture_id": 1517359,
+        "lig": "Canadian Premier League",
+        "ulke": "Canada",
+        "lig_id": 479,
+        "ev": "Forge",
+        "dep": "HFX Wanderers FC",
+        "baslama": "2026-10-03T22:00:00+02:00",
+        "beklenen_gol": [
+          2.0,
+          0.95
+        ],
+        "p": {
+          "MS1": 0.618,
+          "MSX": 0.21,
+          "MS2": 0.172,
+          "CS1X": 0.828,
+          "CSX2": 0.382,
+          "CS12": 0.79,
+          "KGVAR": 0.53,
+          "KGYOK": 0.47,
+          "UST15": 0.793,
+          "ALT15": 0.207,
+          "UST25": 0.565,
+          "ALT25": 0.434,
+          "UST35": 0.342,
+          "ALT35": 0.658,
+          "IY1": 0.454,
+          "IYX": 0.377,
+          "IY2": 0.168,
+          "IYU05": 0.735,
+          "IYA05": 0.265,
+          "IYU15": 0.383,
+          "IYA15": 0.617,
+          "EVU05": 0.865,
+          "EVA05": 0.135,
+          "EVU15": 0.594,
+          "EVA15": 0.406,
+          "EVU25": 0.323,
+          "EVA25": 0.677,
+          "DPU05": 0.613,
+          "DPA05": 0.387,
+          "DPU15": 0.246,
+          "DPA15": 0.754,
+          "DPU25": 0.071,
+          "DPA25": 0.929,
+          "YYU05": 0.803,
+          "YYA05": 0.197,
+          "YYU15": 0.482,
+          "YYA15": 0.518
+        },
+        "skorlar": [
+          [
+            "2-0",
+            0.1047
+          ],
+          [
+            "1-0",
+            0.1047
+          ],
+          [
+            "2-1",
+            0.0994
+          ],
+          [
+            "1-1",
+            0.0994
+          ],
+          [
+            "3-0",
+            0.0698
+          ]
+        ],
+        "guven": "yuksek",
+        "kaynak": "piyasa",
+        "istatistik_gol": null,
+        "istatistik_kaynak": null,
+        "karsilastirma": []
+      },
+      {
+        "fixture_id": 1549807,
+        "lig": "Primera A",
+        "ulke": "Colombia",
+        "lig_id": 239,
+        "ev": "Deportes Tolima",
+        "dep": "Chico",
+        "baslama": "2026-10-03T23:05:00+02:00",
+        "beklenen_gol": [
+          2.1,
+          0.6
+        ],
+        "p": {
+          "MS1": 0.724,
+          "MSX": 0.183,
+          "MS2": 0.094,
+          "CS1X": 0.906,
+          "CSX2": 0.276,
+          "CS12": 0.817,
+          "KGVAR": 0.396,
+          "KGYOK": 0.604,
+          "UST15": 0.751,
+          "ALT15": 0.249,
+          "UST25": 0.506,
+          "ALT25": 0.494,
+          "UST35": 0.286,
+          "ALT35": 0.714,
+          "IY1": 0.519,
+          "IYX": 0.377,
+          "IY2": 0.104,
+          "IYU05": 0.703,
+          "IYA05": 0.297,
+          "IYU15": 0.343,
+          "IYA15": 0.657,
+          "EVU05": 0.878,
+          "EVA05": 0.122,
+          "EVU15": 0.62,
+          "EVA15": 0.38,
+          "EVU25": 0.35,
+          "EVA25": 0.65,
+          "DPU05": 0.451,
+          "DPA05": 0.549,
+          "DPU15": 0.122,
+          "DPA15": 0.878,
+          "DPU25": 0.023,
+          "DPA25": 0.977,
+          "YYU05": 0.773,
+          "YYA05": 0.227,
+          "YYU15": 0.437,
+          "YYA15": 0.563
+        },
+        "skorlar": [
+          [
+            "2-0",
+            0.1482
+          ],
+          [
+            "1-0",
+            0.1411
+          ],
+          [
+            "3-0",
+            0.1037
+          ],
+          [
+            "2-1",
+            0.0889
+          ],
+          [
+            "1-1",
+            0.0847
+          ]
+        ],
+        "guven": "yuksek",
+        "kaynak": "piyasa",
+        "istatistik_gol": null,
+        "istatistik_kaynak": null,
+        "karsilastirma": []
+      },
+      {
+        "fixture_id": 1492310,
+        "lig": "Serie A",
+        "ulke": "Brazil",
+        "lig_id": 71,
+        "ev": "Atletico-MG",
+        "dep": "RB Bragantino",
+        "baslama": "2026-10-03T23:30:00+02:00",
+        "beklenen_gol": [
+          1.6,
+          1.15
+        ],
+        "p": {
+          "MS1": 0.478,
+          "MSX": 0.248,
+          "MS2": 0.274,
+          "CS1X": 0.726,
+          "CSX2": 0.522,
+          "CS12": 0.752,
+          "KGVAR": 0.545,
+          "KGYOK": 0.455,
+          "UST15": 0.76,
+          "ALT15": 0.24,
+          "UST25": 0.519,
+          "ALT25": 0.481,
+          "UST35": 0.297,
+          "ALT35": 0.703,
+          "IY1": 0.359,
+          "IYX": 0.409,
+          "IY2": 0.232,
+          "IYU05": 0.71,
+          "IYA05": 0.29,
+          "IYU15": 0.351,
+          "IYA15": 0.649,
+          "EVU05": 0.798,
+          "EVA05": 0.202,
+          "EVU15": 0.475,
+          "EVA15": 0.525,
+          "EVU25": 0.217,
+          "EVA25": 0.783,
+          "DPU05": 0.683,
+          "DPA05": 0.317,
+          "DPU15": 0.319,
+          "DPA15": 0.681,
+          "DPU25": 0.11,
+          "DPA25": 0.89,
+          "YYU05": 0.78,
+          "YYA05": 0.22,
+          "YYU15": 0.446,
+          "YYA15": 0.554
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1176
+          ],
+          [
+            "1-0",
+            0.1023
+          ],
+          [
+            "2-1",
+            0.0941
+          ],
+          [
+            "2-0",
+            0.0818
+          ],
+          [
+            "0-1",
+            0.0735
+          ]
+        ],
+        "guven": "yuksek",
+        "kaynak": "piyasa",
+        "istatistik_gol": null,
+        "istatistik_kaynak": null,
+        "karsilastirma": []
       }
     ],
     "tablo": [
@@ -6283,6 +6983,14 @@
         "durum": "paylasildi",
         "tweet_id": "2106433916160667950",
         "zaman": "2026-10-03T17:19:11+00:00"
+      },
+      "anket": {
+        "durum": "atlandi"
+      },
+      "analiz_5": {
+        "durum": "paylasildi",
+        "tweet_id": "2106438138503557432",
+        "zaman": "2026-10-03T17:35:52+00:00"
       }
     }
   }

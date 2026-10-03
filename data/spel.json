@@ -7071,7 +7071,22 @@
       "analiz_4": {
         "durum": "paylasildi",
         "tweet_id": "2106433916160667950",
-        "zaman": "2026-10-03T17:19:11+00:00"
+        "zaman": "2026-10-03T17:19:11+00:00",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2106486758393479603",
+          "skor": "3-1",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "zaman": "2026-10-03T20:49:10+00:00",
+          "brier": {
+            "piyasa": 0.5115,
+            "istatistik": 0.3453
+          }
+        }
       },
       "anket": {
         "durum": "atlandi"
@@ -7079,12 +7094,42 @@
       "analiz_5": {
         "durum": "paylasildi",
         "tweet_id": "2106438138503557432",
-        "zaman": "2026-10-03T17:35:52+00:00"
+        "zaman": "2026-10-03T17:35:52+00:00",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2106486770544345106",
+          "skor": "2-1",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "zaman": "2026-10-03T20:49:10+00:00",
+          "brier": {
+            "piyasa": 0.7374,
+            "istatistik": 1.1651
+          }
+        }
       },
       "analiz_6": {
         "durum": "paylasildi",
         "tweet_id": "2106442072773259636",
-        "zaman": "2026-10-03T17:51:36+00:00"
+        "zaman": "2026-10-03T17:51:36+00:00",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2106486781478858860",
+          "skor": "0-2",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "zaman": "2026-10-03T20:49:10+00:00",
+          "brier": {
+            "piyasa": 0.6223,
+            "istatistik": 0.6508
+          }
+        }
       },
       "analiz_7": {
         "durum": "paylasildi",
@@ -7115,11 +7160,15 @@
         "durum": "paylasildi",
         "tweet_id": "2106465310974832793",
         "zaman": "2026-10-03T19:23:56+00:00"
+      },
+      "maclar": {
+        "durum": "atlandi"
       }
     },
     "yanit_kiti": {
       "issue": 9,
       "zaman": "2026-10-03T19:32:15+00:00"
-    }
+    },
+    "tablo_aksam": []
   }
 ]

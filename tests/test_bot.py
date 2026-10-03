@@ -2190,3 +2190,22 @@ def test_son_saati_yakin_kart_bilgi_postundan_once_cikar():
             return str(self.n)
     tur = etkilesim.paylas(gun, AYAR, X(), datetime(2026, 10, 3, 9, 30, tzinfo=timezone.utc), yaz=lambda m: None)
     assert tur == "analiz_0" and "bilgi" not in gun["etkilesim"]  # bilgi sonra (son saati akşam)
+
+
+def test_yogun_gun_kisa_aralik_ve_aksam_kartlari():
+    """Yoğun günde postlar arası kısa, kart listesi kapanmamış akşam maçlarıyla genişler (ek ligler dahil)."""
+    from dataclasses import replace
+    from bot import etkilesim, model
+    ayar = replace(AYAR, yogun_gunler=("2026-10-03",), yogun_aralik_dk=15, yogun_kart=4, yogun_ek_ligler=(128,))
+    def a(fid, lig_id, lig, ev, saat):
+        return {"fixture_id": fid, "lig_id": lig_id, "lig": lig, "ev": ev, "dep": ev + " B", "guven": "yuksek",
+                "baslama": f"2026-10-03T{saat}:00+00:00", "beklenen_gol": [1.4, 1.1], "skorlar": [["1-1", 0.12]],
+                "p": {k: round(v, 3) for k, v in model.model_olasiliklari(1.4, 1.1).items()}, "karsilastirma": []}
+    tum = [a(1, AYAR.ligler[0], "PL", "Arsenal", "14:00"), a(2, 128, "Liga Profesional", "Newells", "20:00"),
+           a(3, 128, "Liga Profesional", "Tucuman", "20:00"), a(4, 999, "Primera C", "Small", "20:00"),
+           a(5, AYAR.ligler[0], "PL", "Spurs", "18:00")]
+    gun = {"tarih": "2026-10-03", "konsept": "analiz", "analizler": [tum[0]], "secimler": [], "etkilesim": {}}
+    simdi = datetime(2026, 10, 3, 17, 30, tzinfo=timezone.utc)
+    assert etkilesim.yogun_kartlari_ekle(gun, tum, ayar, simdi) == 2  # Spurs 18:00 penceresi kapandı, Primera C yok
+    assert [x["ev"] for x in gun["analizler"]] == ["Arsenal", "Newells", "Tucuman"]  # eskiler yerinde, yeniler sonda
+    assert etkilesim.yogun_kartlari_ekle(gun, tum, AYAR, simdi) == 0  # yoğun gün değilse dokunmaz

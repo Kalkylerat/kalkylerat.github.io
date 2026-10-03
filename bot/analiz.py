@@ -133,6 +133,23 @@ def one_cikanlar(analizler: list[dict], izinli: list[int], adet: int = 5) -> lis
     return sorted(secilen, key=lambda a: a["baslama"])
 
 
+def ek_kart_secimi(analizler: list[dict], izinli: list[int], ek_ligler, haric: set, en_erken: str,
+                   adet: int) -> list[dict]:
+    """Yoğun gün: henüz kartı olmayan, en_erken'den sonra başlayan maçlardan önemli maçlar, büyük ligler ve ek
+    ligler (veri güveni yüksek/orta); lig başına en fazla 2; saat sırasıyla."""
+    sira = {lig: i for i, lig in enumerate(list(izinli) + list(ek_ligler))}
+    aday = [a for a in analizler if a["fixture_id"] not in haric and _gecerli(a) and a["guven"] != "dusuk"
+            and (a.get("lig_id") in sira or onemli(a))
+            and datetime.fromisoformat(a["baslama"]) > datetime.fromisoformat(en_erken)]
+    aday.sort(key=lambda a: (not onemli(a), sira.get(a.get("lig_id"), 999), a["baslama"]))
+    secilen, sayac = [], {}
+    for a in aday:
+        if len(secilen) < adet and sayac.get(a["lig"], 0) < 2:
+            secilen.append(a)
+            sayac[a["lig"]] = sayac.get(a["lig"], 0) + 1
+    return sorted(secilen, key=lambda a: a["baslama"])
+
+
 def _gecerli(a: dict) -> bool:
     """Takım adı bozuk kayıtlar (ör. "Team") tabloya ve öne çıkanlara girmez."""
     return all(len(t.strip()) > 2 and t.strip().lower() != "team" for t in (a["ev"], a["dep"]))

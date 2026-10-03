@@ -92,6 +92,15 @@ otomatik_paylas = true
 onay_bekle = true
 onay_suresi_dk = 90
 
+[yogun]
+# Yoğun günler (maç dolu günler): postlar arası aralik_dk dakika (normalde 45), öne çıkan kart sayısı "kart"a kadar
+# genişler; büyük liglerin yanında ek_ligler'in maçları da kart alır (ör. akşam Arjantin/Brezilya maçları).
+# Her post farklı bir maçın analizi ya da maç sonu: aynı içerik tekrar edilmez (X spam kuralı).
+gunler = ["2026-10-03"]
+aralik_dk = 15
+kart = 20
+ek_ligler = [128, 71, 239, 253, 262, 479]  # Arjantin, Brezilya Serie A, Kolombiya, MLS, Liga MX, Kanada
+
 [direktor]
 # X Direktörü: kupon dışı paylaşımların metnini yazar (günlük, hızlı model) ve her Pazartesi hesabın
 # etkileşim rakamlarını inceleyip haftanın stratejisini ve sahibine Türkçe raporu hazırlar (en güçlü model).

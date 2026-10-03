@@ -50,6 +50,11 @@ class Ayarlar:
     direktor_strateji_effort: str = "high"
     # "kupon": eski düzen (kupon + sanal kasa). "analiz": kupon yok; günlük maç analizi kartları.
     konsept: str = "kupon"
+    # Yoğun gün (ör. maç dolu Cumartesi): postlar arası daha kısa, öne çıkan kart sayısı akşam maçlarıyla genişler.
+    yogun_gunler: tuple = ()
+    yogun_aralik_dk: int = 15
+    yogun_kart: int = 20
+    yogun_ek_ligler: tuple = ()
 
 
 # Tek çalışmalık istisna (elle çalıştırmada "ek" alanı): ör. "guvenli_min_deger=-0.03 api_yedek=8".
@@ -114,6 +119,10 @@ def _yukle(path: Path) -> Ayarlar:
         onay_bekle=bool(t["yayin"]["onay_bekle"]),
         onay_suresi_dk=int(t["yayin"]["onay_suresi_dk"]),
         konsept=t.get("konsept", {}).get("mod", "kupon"),
+        yogun_gunler=tuple(str(g) for g in t.get("yogun", {}).get("gunler", [])),
+        yogun_aralik_dk=int(t.get("yogun", {}).get("aralik_dk", 15)),
+        yogun_kart=int(t.get("yogun", {}).get("kart", 20)),
+        yogun_ek_ligler=tuple(t.get("yogun", {}).get("ek_ligler", [])),
         **({"direktor_aktif": bool(t["direktor"].get("aktif", True)),
             "direktor_model": t["direktor"].get("gunluk_model", "claude-sonnet-5-5"),
             "direktor_effort": t["direktor"].get("gunluk_effort", "medium"),

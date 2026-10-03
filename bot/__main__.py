@@ -1232,6 +1232,12 @@ def main(argv=None) -> int:
         if args.komut == "nabiz" and kayit.bul(gunler, bugun):
             try:
                 analiz_secimlerini_tamamla(ayar, kayit.bul(gunler, bugun))
+                dosya = config.DATA_FILE.parent / "analiz" / f"{bugun}.json"
+                if bugun in ayar.yogun_gunler and dosya.exists():  # yoğun gün: akşam maçlarına da kart
+                    eklenen = etkilesim.yogun_kartlari_ekle(kayit.bul(gunler, bugun),
+                                                            json.loads(dosya.read_text(encoding="utf-8")), ayar, simdi)
+                    if eklenen:
+                        _ozet_yaz(f"Yoğun gün: {eklenen} maç daha kart listesine eklendi.")
                 diger = tuple(g["yayin"] for g in gunler if g["tarih"] == bugun and g["id"] != bugun and g.get("yayin"))
                 kupondakiler = {t.lower() for g in gunler if g["tarih"] == bugun for s in g["secimler"]
                                 for t in (s["ev"], s["dep"])}

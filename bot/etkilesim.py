@@ -313,6 +313,21 @@ def _plan(gun: dict) -> list[tuple[str, datetime, datetime]]:
     return plan
 
 
+def yogun_kartlari_ekle(gun: dict, tum: list[dict], ayar, simdi: datetime) -> int:
+    """Yoğun günde öne çıkan kartlar akşam maçlarıyla genişler (kart penceresi kapanmamış olanlar). Var olan
+    kartların sırası değişmez (etkileşim kayıtları analiz_<sıra> ile tutulur); yeniler sona eklenir."""
+    if gun.get("konsept") != "analiz" or gun["tarih"] not in ayar.yogun_gunler:
+        return 0
+    analizler = gun.setdefault("analizler", [])
+    yer = ayar.yogun_kart - len(analizler)
+    if yer <= 0:
+        return 0
+    yeni = analiz.ek_kart_secimi(tum, ayar.ligler, ayar.yogun_ek_ligler, {a["fixture_id"] for a in analizler},
+                                 (simdi + timedelta(minutes=40)).isoformat(), yer)
+    analizler.extend(yeni)
+    return len(yeni)
+
+
 def _denetle(tur: str, metin: str, sablon: str, analizler: list[dict], ayar, png, yaz) -> str | None:
     """Denetçi (kod): direktörün metni geçmezse şablon denenir; o da geçmezse post çıkmaz (None) ve neden yazılır."""
     from . import denetci
@@ -333,7 +348,8 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_pay
         return None  # kupon henüz paylaşılmadı (onay bekliyor): önce kupon
     durum = gun.setdefault("etkilesim", {})
     son = _son_paylasim(gun, diger_paylasimlar)
-    if son and simdi < son + timedelta(minutes=ARALIK_DK):
+    aralik = getattr(ayar, "yogun_aralik_dk", ARALIK_DK) if gun["tarih"] in getattr(ayar, "yogun_gunler", ()) else ARALIK_DK
+    if son and simdi < son + timedelta(minutes=aralik):
         return None
     # Son paylaşım saati en yakın olan önce: maçtan önce çıkması gereken kart, gün boyu çıkabilen bilgi postu
     # yüzünden kaçmasın (aralık kuralı yüzünden bir nabızda yalnızca bir post çıkar).

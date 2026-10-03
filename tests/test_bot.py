@@ -2252,39 +2252,37 @@ def test_saglik_alarmi_kacan_ve_duran_postu_bildirir(tmp_path, monkeypatch):
     assert len(gh.acilan) == 1 and gh.yorumlar == [(7, gh.yorumlar[0][1])] and "yeni sorun" in gh.yorumlar[0][1]
 
 
-def test_gunun_tablosuna_mac_sonu_yaniti():
-    """Tablodaki maçlar bitince tablo postuna görselli yanıt: skorlar ve olanların maç öncesi yüzdeleri; seçim
-    dili yok. Maçlar bitmeden ya da eski günde paylaşılmaz."""
+def test_tablodaki_mac_bittikce_tabloya_yanit():
+    """Tablodaki her maç bittikçe tablo postuna yanıt: skor, olanların maç öncesi yüzdeleri, istatistik varsa
+    oranla yan yana. Bitmeyen beklenir, oynanmayan atlanır, aynı maç iki kez yazılmaz."""
     from bot import denetci, etkilesim, model
-    def a(fid, ev, saat):
+    def a(fid, ev, saat, kars=None):
         return {"fixture_id": fid, "ev": ev, "dep": ev + " B", "lig": "PL", "baslama": f"2026-10-03T{saat}:00+00:00",
-                "beklenen_gol": [1.5, 1.0], "skorlar": [["1-0", 0.12]],
+                "beklenen_gol": [1.5, 1.0], "skorlar": [["1-0", 0.12]], "karsilastirma": kars or [],
                 "p": {k: round(v, 3) for k, v in model.model_olasiliklari(1.5, 1.0).items()}}
-    gun = {"tarih": "2026-10-03", "tablo": [a(1, "Arsenal", "12:00"), a(2, "Leeds", "16:30"), a(3, "Spurs", "16:30")],
+    kars = [{"pazar": "MSX", "ad": "Draw", "piyasa": 0.25, "istatistik": 0.31},
+            {"pazar": "UST25", "ad": "Over 2.5 goals", "piyasa": 0.5, "istatistik": 0.62},
+            {"pazar": "KGVAR", "ad": "Both teams score", "piyasa": 0.5, "istatistik": 0.58}]
+    gun = {"tarih": "2026-10-03", "tablo": [a(1, "Burton", "12:00", kars), a(2, "Leeds", "16:30"), a(3, "Spurs", "12:00")],
            "etkilesim": {"tablo": {"durum": "paylasildi", "tweet_id": "50", "zaman": "2026-10-03T08:35:00+00:00",
                                    "maclar": [1, 2, 3]}}}
-    sonuc = {1: {"durum": "bitti", "skor": (1, 0)}, 2: {"durum": "bitti", "skor": (0, 2)}, 3: {"durum": "iptal"}}
+    sonuc = {1: {"durum": "bitti", "skor": (2, 2)}, 2: {"durum": "bitti", "skor": (0, 1)}, 3: {"durum": "iptal"}}
 
     class X:
         def __init__(self):
             self.giden = []
 
-        def medya_yukle(self, png):
-            assert png[:4] == b"\x89PNG"
-            return "m"
-
         def gonder(self, metin, **k):
             self.giden.append((metin, k))
-            return "77"
+            return str(len(self.giden))
     x = X()
-    assert etkilesim.tablo_takibi(gun, AYAR, x, datetime(2026, 10, 3, 18, 0, tzinfo=timezone.utc), lambda l: sonuc) == 0
-    assert etkilesim.tablo_takibi(gun, AYAR, x, datetime(2026, 10, 3, 19, 0, tzinfo=timezone.utc), lambda l: sonuc) == 1
+    assert etkilesim.tablo_takibi(gun, AYAR, x, datetime(2026, 10, 3, 14, 0, tzinfo=timezone.utc), lambda l: sonuc) == 1
     metin, k = x.giden[0]
-    assert k == {"yanit": "50", "medya": ["m"]} and "2 matches" in metin and "favourite won 1 of 2" in metin
-    assert "likeliest score landed 1 of 2" in metin and denetci.analiz_kontrolu("tablo_sonuc", metin, [], AYAR) == []
-    assert gun["etkilesim"]["tablo"]["takip"]["durum"] == "paylasildi"
-    eski = {"tarih": "2026-10-02", "tablo": [a(4, "Old", "12:00")],
-            "etkilesim": {"tablo": {"durum": "paylasildi", "tweet_id": "1", "zaman": "2026-10-02T08:00:00+00:00"}}}
-    eski["tablo"][0]["baslama"] = "2026-10-02T12:00:00+00:00"
-    assert etkilesim.tablo_takibi(eski, AYAR, x, datetime(2026, 10, 3, 19, 0, tzinfo=timezone.utc), lambda l: sonuc) == 0
-    assert eski["etkilesim"]["tablo"]["takip"]["neden"] == "eski"
+    assert k == {"yanit": "50"} and "🆚 Burton 2–2 Burton B" in metin
+    assert "🏆 Draw: odds" in metin and "stats 31%" in metin and "⚽ Over 2.5 goals:" in metin and "stats 62%" in metin
+    assert "🥅 Both teams scored:" in metin and "stats 58%" in metin and "🎯 Score 2-2:" in metin
+    assert tweets.uzunluk(metin) <= 280 and denetci.analiz_kontrolu("tablo_sonuc", metin, [], AYAR) == []
+    assert gun["etkilesim"]["tablo"]["sonuclar"]["3"]["neden"] == "maç oynanmadı" and not gun["etkilesim"]["tablo"].get("takip")
+    assert etkilesim.tablo_takibi(gun, AYAR, x, datetime(2026, 10, 3, 14, 15, tzinfo=timezone.utc), lambda l: sonuc) == 0
+    assert etkilesim.tablo_takibi(gun, AYAR, x, datetime(2026, 10, 3, 18, 30, tzinfo=timezone.utc), lambda l: sonuc) == 1
+    assert "Leeds 0–1" in x.giden[1][0] and gun["etkilesim"]["tablo"]["takip"]["durum"] == "tamam"

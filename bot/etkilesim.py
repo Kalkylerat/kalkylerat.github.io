@@ -615,23 +615,31 @@ def analiz_takip_tweeti(a: dict, skor: str, isabet: list | None = None) -> str:
                      bas + "\n\n💡 Chances, not picks.\n💬 Saw it coming? 👇\n" + ANSVAR, bas + "\n\n" + ANSVAR)
 
 
-def tablo_takip_tweeti(satirlar: list[tuple[dict, tuple[int, int] | None, list[float]]]) -> str:
-    """Günün tablosunun maç sonu alıntısı: skorlar ve olanların maç öncesi yüzdeleri görselde; metinde kısa özet.
-    Seçim dili yok (kart olasılıktı)."""
-    biten = [(a, s) for a, s, _ in satirlar if s]
-    fav = sum(1 for a, (ev, dep) in biten
-              if max(("MS1", "MSX", "MS2"), key=lambda k: a["p"][k]) == ("MS1" if ev > dep else "MS2" if dep > ev else "MSX"))
-    skor = sum(1 for a, (ev, dep) in biten if a.get("skorlar") and a["skorlar"][0][0] == f"{ev}-{dep}")
-    bas = (f"🔁 FULL TIME · this morning's board\n⚽ {len(biten)} matches, every score in the image\n\n"
-           f"📊 Each with the chance we gave it before kick-off\n🏆 The favourite won {fav} of {len(biten)}\n"
-           f"🎯 The likeliest score landed {skor} of {len(biten)}")
-    return ilk_sigan(bas + "\n\n💡 Chances, not picks. One day proves little.\n💬 Which result surprised you? 👇\n" + ANSVAR,
-                     bas + "\n\n💬 Which result surprised you? 👇\n" + ANSVAR)
+def tablo_mac_sonu_tweeti(a: dict, ev: int, dep: int) -> str:
+    """Tablodaki bir maç bitince tablo postuna yanıt: skor ve olanların maç öncesi yüzdeleri, istatistik varsa
+    oranla yan yana (karşılaştırmalı). Seçim dili yok."""
+    kars = {c["pazar"]: c["istatistik"] for c in a.get("karsilastirma") or []}
+    sonuc = "MS1" if ev > dep else "MS2" if dep > ev else "MSX"
+    ist = [kars.get(sonuc),
+           (kars["UST25"] if ev + dep >= 3 else 1 - kars["UST25"]) if "UST25" in kars else None,
+           (kars["KGVAR"] if ev and dep else 1 - kars["KGVAR"]) if "KGVAR" in kars else None, None]
+    satirlar = []
+    for o, i in zip(olan_sanslar(a, ev, dep), ist):
+        p = _pct(o["p"]) if o["p"] >= 0.005 else "under 1%"
+        satirlar.append(f'{o["emoji"]} {o["ad"]}: odds {p} · stats {_pct(i)}' if i is not None else
+                        f'{o["emoji"]} {o["ad"]}: {p}')
+    mac = f'🆚 {a["ev"]} {ev}–{dep} {a["dep"]}\n\n'
+    uzun = "⚽ FULL TIME · from this morning's board\n" + mac + "📊 Our pre-match chance of what happened:\n"
+    kisa = "⚽ FT · from today's board\n" + mac + "📊 Pre-match chance:\n"
+    sik = [x.replace("odds ", "").replace(" · stats ", " / stats ") for x in satirlar]
+    adaylar = [uzun + "\n".join(satirlar) + "\n\n💬 Saw it coming? 👇", uzun + "\n".join(satirlar),
+               kisa + "\n".join(satirlar), kisa + "\n".join(sik), kisa + "\n".join(sik[:3])]
+    return ilk_sigan(*(x + "\n" + ("" if x.endswith("👇") else "\n") + ANSVAR for x in adaylar))
 
 
 def tablo_takibi(gun: dict, ayar, x, simdi: datetime, sonuc_getir, tum: list[dict] | None = None, yaz=print) -> int:
-    """Günün tablosu (ve elle paylaşılan liste) postuna, maçları bitince skorlar ve olanların maç öncesi yüzdeleriyle
-    (görsel) yanıt verilir. Son maçın başlamasından 12 saat geçtiyse (eski gün) atlanır."""
+    """Günün tablosundaki (ve elle paylaşılan listedeki) her maç bittikçe tablo postuna yanıt: skor ve olanların
+    maç öncesi yüzdeleri. Maç başlamasından 1 saat 50 dk sonra bakılmaya başlanır, 6 saat sonra vazgeçilir."""
     paylasilan = 0
     for tur, e in (gun.get("etkilesim") or {}).items():
         if not (tur == "tablo" or tur.startswith("tablo_")) or e.get("durum") != "paylasildi" or e.get("takip"):
@@ -644,47 +652,38 @@ def tablo_takibi(gun: dict, ayar, x, simdi: datetime, sonuc_getir, tum: list[dic
         else:
             e["takip"] = {"durum": "atlandi", "neden": "liste kaydı yok"}
             continue
-        if not liste:
-            e["takip"] = {"durum": "atlandi", "neden": "maç yok"}
-            continue
-        son = max(datetime.fromisoformat(a["baslama"]) for a in liste)
-        if simdi < son + TAKIP_GECIKME:
-            continue
-        if simdi > son + timedelta(hours=12):
-            e["takip"] = {"durum": "atlandi", "neden": "eski"}
-            continue
-        sonuclar = sonuc_getir(liste)
-        bekleyen = [a for a in liste if (sonuclar.get(a["fixture_id"]) or {}).get("durum") not in ("bitti", "iptal")]
-        if bekleyen and simdi < son + timedelta(hours=5):
-            continue  # biri hâlâ bitmedi ya da sonucu girilmedi; biraz daha beklenir
-        satirlar = []
-        for a in liste:
+        biten = e.setdefault("sonuclar", {})
+        bekleyen = [a for a in liste if str(a["fixture_id"]) not in biten]
+        for a in [a for a in bekleyen if simdi > datetime.fromisoformat(a["baslama"]) + timedelta(hours=6)]:
+            biten[str(a["fixture_id"])] = {"durum": "atlandi", "neden": "sonuç gelmedi"}
+        sorulacak = [a for a in bekleyen if datetime.fromisoformat(a["baslama"]) + timedelta(hours=1, minutes=50) < simdi
+                     <= datetime.fromisoformat(a["baslama"]) + timedelta(hours=6)]
+        sonuclar = sonuc_getir(sorulacak) if sorulacak else {}
+        for a in sorulacak:
             r = sonuclar.get(a["fixture_id"]) or {}
-            if r.get("durum") == "bitti" and a.get("beklenen_gol"):
-                ev, dep = r["skor"]
-                satirlar.append((a, (ev, dep), [o["p"] for o in olan_sanslar(a, ev, dep)]))
-            else:
-                satirlar.append((a, None, []))
-        if not any(s for _, s, _ in satirlar):
-            e["takip"] = {"durum": "atlandi", "neden": "sonuç gelmedi"}
-            continue
-        metin = tablo_takip_tweeti(satirlar)
-        png = gorsel.tablo_sonuc_gorseli(satirlar, gun["tarih"])
-        metin = _denetle("tablo_sonuc", metin, metin, [], ayar, png, yaz)
-        if not metin:
-            e["takip"] = {"durum": "atlandi", "neden": "denetçi"}
-            continue
-        try:
-            # Görselli yanıt (alıntı ile görsel X API'de birlikte gönderilemiyor): sonuçlar tablonun altında, zincirde
-            tid = x.gonder(metin, yanit=e["tweet_id"], medya=[x.medya_yukle(png)])
-        except Exception as hata:
-            e["takip"] = {"durum": "hata", "hata": str(hata)[:300]}
-            yaz(f"⚠️ Tablo takibi paylaşılamadı: {hata}")
-            continue
-        e["takip"] = {"durum": "paylasildi", "tweet_id": tid, "zaman": simdi.isoformat(timespec="seconds"),
-                      "skorlar": {str(a["fixture_id"]): list(s) for a, s, _ in satirlar if s}}
-        yaz(f"Tablo takibi (alıntı):\n```\n{metin}\n```")
-        paylasilan += 1
+            if r.get("durum") == "iptal":
+                biten[str(a["fixture_id"])] = {"durum": "atlandi", "neden": "maç oynanmadı"}
+                continue
+            if r.get("durum") != "bitti" or not a.get("beklenen_gol"):
+                continue
+            ev, dep = r["skor"]
+            metin = _denetle("tablo_sonuc", tablo_mac_sonu_tweeti(a, ev, dep), tablo_mac_sonu_tweeti(a, ev, dep),
+                             [], ayar, None, yaz)
+            if not metin:
+                biten[str(a["fixture_id"])] = {"durum": "atlandi", "neden": "denetçi"}
+                continue
+            try:
+                tid = x.gonder(metin, yanit=e["tweet_id"])  # tablonun altında, zincirde
+            except Exception as hata:
+                biten[str(a["fixture_id"])] = {"durum": "hata", "hata": str(hata)[:300]}
+                yaz(f"⚠️ Tablo maç sonu yanıtı paylaşılamadı: {hata}")
+                continue
+            biten[str(a["fixture_id"])] = {"durum": "paylasildi", "tweet_id": tid, "skor": [ev, dep],
+                                           "zaman": simdi.isoformat(timespec="seconds")}
+            yaz(f"Tablo maç sonu yanıtı:\n```\n{metin}\n```")
+            paylasilan += 1
+        if liste and all(str(a["fixture_id"]) in biten for a in liste):
+            e["takip"] = {"durum": "tamam", "zaman": simdi.isoformat(timespec="seconds")}
     return paylasilan
 
 

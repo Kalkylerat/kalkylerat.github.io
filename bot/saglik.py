@@ -39,10 +39,10 @@ def sorunlar(gunler: list[dict], simdi: datetime, ayar, hatalar: list[str] = ())
                 bulunan.append((anahtar + ":kacti", f'⏰ {g["tarih"]} {ad}: paylaşım penceresi geçti, post çıkmadı '
                                                    f'(bot o saatlerde çalışmadı ya da sıra gelmedi)'))
             t = e.get("takip") or {}
-            if (tur == "tablo" or tur.startswith("tablo_")) and t.get("durum") in ("hata", "atlandi") and t.get("neden") != "eski":
-                if t.get("durum") == "hata" or t.get("neden") == "denetçi":
-                    bulunan.append((anahtar + ":tablo_takip", f'❌ {g["tarih"]} {tur}: tablonun maç sonu yanıtı çıkmadı '
-                                                             f'({t.get("hata") or t.get("neden")})'))
+            for fid, r in (e.get("sonuclar") or {}).items() if tur == "tablo" or tur.startswith("tablo_") else ():
+                if r.get("durum") == "hata" or r.get("neden") == "denetçi":
+                    bulunan.append((f"{anahtar}:{fid}:tablo_sonuc", f'❌ {g["tarih"]} {tur}: maç {fid} için tablo yanıtı '
+                                                                   f'çıkmadı ({r.get("hata") or r.get("neden")})'))
             if tur.startswith("analiz_") and e.get("durum") == "paylasildi" and g.get("analizler"):
                 a = g["analizler"][int(tur.split("_")[1])]
                 if t.get("durum") == "hata":

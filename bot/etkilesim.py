@@ -328,6 +328,22 @@ def yogun_kartlari_ekle(gun: dict, tum: list[dict], ayar, simdi: datetime) -> in
     return len(yeni)
 
 
+class _TekrarKorumasi:
+    """X spam kuralı: aynı metin iki kez paylaşılmaz. Bugünün kayıtlı post metinleriyle aynıysa gönderim reddedilir."""
+
+    def __init__(self, x, gun: dict):
+        self.x, self.gun = x, gun
+
+    def __getattr__(self, ad):
+        return getattr(self.x, ad)
+
+    def gonder(self, metin: str, **k) -> str:
+        eski = {e.get("metin") for e in (self.gun.get("etkilesim") or {}).values()}
+        if metin.strip() in {m.strip() for m in eski if m}:
+            raise RuntimeError("aynı metin bugün zaten paylaşıldı (tekrar engellendi)")
+        return self.x.gonder(metin, **k)
+
+
 def _gonder(x, ayar, metin: str, yaz, **k) -> str:
     """Topluluk ayarlıysa postu X Topluluğu'na (takipçilere de görünür) atar; olmazsa normal post."""
     tid = getattr(ayar, "topluluk_id", "")
@@ -358,6 +374,10 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_pay
     if gun.get("secimler") and not gun.get("tweet_id"):
         return None  # kupon henüz paylaşılmadı (onay bekliyor): önce kupon
     durum = gun.setdefault("etkilesim", {})
+    bugun_sayi = sum(1 for e in durum.values() if e.get("durum") == "paylasildi")
+    if bugun_sayi >= getattr(ayar, "gunluk_post_siniri", 24):
+        return None  # X spam kuralları: otomatik hesap günde makul sayıda post
+    x = _TekrarKorumasi(x, gun)
     son = _son_paylasim(gun, diger_paylasimlar)
     aralik = getattr(ayar, "yogun_aralik_dk", ARALIK_DK) if config.yogun_mu(ayar, gun["tarih"]) else ARALIK_DK
     if son and simdi < son + timedelta(minutes=aralik):
@@ -386,7 +406,7 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_pay
                 if not metin:
                     durum[tur] = {"durum": "atlandi", "neden": "denetçi"}
                     continue
-                tid = _gonder(x, ayar, metin, yaz, medya=[x.medya_yukle(png)])
+                tid = x.gonder(metin, medya=[x.medya_yukle(png)])  # kartlar topluluğa gitmez (günde 2 post sınırı)
             elif tur == "tablo":
                 liste = [a for a in gun["tablo"] if datetime.fromisoformat(a["baslama"]) > simdi]
                 if len(liste) < 4:
@@ -446,7 +466,7 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_pay
             durum[tur] = {"durum": "hata", "hata": str(e)[:300], "zaman": zaman}
             yaz(f"⚠️ Etkileşim paylaşımı ({tur}) başarısız: {e}")
             return None
-        durum[tur] = {"durum": "paylasildi", "tweet_id": tid, "zaman": zaman}
+        durum[tur] = {"durum": "paylasildi", "tweet_id": tid, "zaman": zaman, "metin": metin}
         if tur == "tablo":  # maç sonu yanıtı için tablodaki maçlar
             durum[tur]["maclar"] = [a["fixture_id"] for a in liste]
         if tur == "deger":  # maçlar bitince bu post alıntılanıp nasıl bittikleri yazılır
@@ -685,6 +705,8 @@ def tablo_takibi(gun: dict, ayar, x, simdi: datetime, sonuc_getir, tum: list[dic
                      <= datetime.fromisoformat(a["baslama"]) + timedelta(hours=6)]
         sonuclar = sonuc_getir(sorulacak) if sorulacak else {}
         for a in sorulacak:
+            if paylasilan >= 3:
+                break  # bir nabızda en fazla 3 yanıt: art arda yığılmasın (kalanlar sonraki nabızda)
             r = sonuclar.get(a["fixture_id"]) or {}
             if r.get("durum") == "iptal":
                 biten[str(a["fixture_id"])] = {"durum": "atlandi", "neden": "maç oynanmadı"}

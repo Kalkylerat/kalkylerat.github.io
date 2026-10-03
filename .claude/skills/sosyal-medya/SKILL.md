@@ -39,6 +39,18 @@ zamanlama `.github/workflows/kalkylerat.yml`.
   sahibinin isteğiyle maçların taraftar etiketleri var; etkileşim verisine göre azaltmayı değerlendir.
 - Kapanış: genel "ne düşünüyorsun?" yerine belirli soru; tek bir net çağrı (yanıt, kaydet ya da repost), hepsi değil.
 
+## X kuralları: ban riskine karşı kodda sabit olanlar (her değişiklikte koru)
+- Hesap "Automated" etiketi taşımalı ve sahibinin insan hesabına bağlı olmalı (X ayarı; sahibi elle açar).
+- Başkalarına otomatik yanıt, etiketleme, DM, takip, beğeni YOK. Bot yalnızca kendi postlarına yanıt/alıntı yapar;
+  başkalarına yanıtlar yanıt kitiyle sahibi tarafından elle, metni değiştirilerek atılır.
+- Trend konularda otomatik post yok; otomatik postta en fazla 1 ilgili hashtag (liste postunda 2), genel/trend
+  etiketi (#Football, #FootballPredictions) yok (tweets.LISTE_ETIKET_SINIRI, etiket_satiri).
+- Aynı metin aynı gün iki kez paylaşılmaz (etkilesim._TekrarKorumasi); günde en fazla 24 etkileşim postu, yoğun
+  günde postlar arası ≥28 dk ([yogun]); tablo yanıtları nabız başına en fazla 3.
+- Topluluğa günde yalnızca tablo ve oran/istatistik postu; kartlar gitmez.
+- Yalnızca resmi API; kazıyıcı, tarayıcı otomasyonu, Cloudflare atlatma yok.
+- Bahis dili yok, kesinlik dili yok, link yok (denetçi + direktör kuralları).
+
 ## Ölçülen durum (3 Ekim 2026, `metrik` komutu → data/metrikler.json)
 - 37 post, post başına ~5,6 görüntülenme, 1 takipçi, 0 takip edilen, 0 beğeni. Yayın tek başına görünürlük getirmiyor.
 - Kaldıraçlar: (1) sahibinin elle, büyük hesapların maç postlarına ilk 30–60 dakikada yanıtları (bot her sabah

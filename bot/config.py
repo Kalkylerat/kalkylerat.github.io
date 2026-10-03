@@ -57,7 +57,8 @@ class Ayarlar:
     yogun_ek_ligler: tuple = ()
     yogun_hafta_sonu: bool = False  # Cumartesi ve Pazar her zaman yoğun gün
     alarm_kime: str = ""
-    topluluk_id: str = ""  # X Topluluğu kimliği: tablo, kıyas ve kart postları oraya da gider (hesap üye olmalı)  # sorun olunca GitHub issue'sunda etiketlenecek kullanıcı (bildirim gider)
+    topluluk_id: str = ""
+    gunluk_post_siniri: int = 24  # etkileşim postları (maç sonu yanıtları hariç) günde en fazla  # X Topluluğu kimliği: tablo, kıyas ve kart postları oraya da gider (hesap üye olmalı)  # sorun olunca GitHub issue'sunda etiketlenecek kullanıcı (bildirim gider)
 
 
 # Tek çalışmalık istisna (elle çalıştırmada "ek" alanı): ör. "guvenli_min_deger=-0.03 api_yedek=8".
@@ -129,6 +130,7 @@ def _yukle(path: Path) -> Ayarlar:
         yogun_hafta_sonu=bool(t.get("yogun", {}).get("hafta_sonu", False)),
         alarm_kime=str(t.get("alarm", {}).get("kime", "")),
         topluluk_id=str(t.get("topluluk", {}).get("id", "")).strip(),
+        gunluk_post_siniri=int(t.get("yogun", {}).get("gunluk_sinir", 24)),
         **({"direktor_aktif": bool(t["direktor"].get("aktif", True)),
             "direktor_model": t["direktor"].get("gunluk_model", "claude-sonnet-5-5"),
             "direktor_effort": t["direktor"].get("gunluk_effort", "medium"),

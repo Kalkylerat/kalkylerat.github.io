@@ -52,8 +52,8 @@ KURALLAR = """Hard rules (never break them):
   its own percentages; if it does not fit, leave the match out rather than its numbers.
 - Keep the team stats line (📈) of a match card: the stats percentage next to the market one, or the reason there is
   none. The account promises market and team stats side by side.
-- Hashtags: only from "allowed_hashtags" in the facts (real tags fans already use), at most two; none if the list is
-  empty. Exception: the "tablo" (analysis board) post ends with a line carrying ALL its allowed_hashtags.
+- Hashtags: only from "allowed_hashtags" in the facts, at most one (the "tablo" board post at most two); none if the
+  list is empty. X's automation rules treat trend-chasing or unrelated hashtags on automated posts as spam.
 - Never say "lock", "guaranteed", "sure thing", "banker", "free money" or promise wins. Talk in chances.
 - No engagement bait ("RT", "like if", "follow for"). Ask one real question people want to answer.
 - No betting tips: posts are about football and our numbers (analysis, never advice to bet).
@@ -211,8 +211,8 @@ def kurala_uygun(metin: str, tur: str, bahisciler: list[str], izinli: set[str] |
         return False
     etiketler = re.findall(r"#\w+", metin)
     liste = tur == "tablo"  # liste postu: daha çok etiket ve genel etiketler serbest
-    if len(etiketler) > (LISTE_ETIKET_SINIRI if liste else 2) or any(
-            not (izinli_etiket(e) or (liste and e in GENEL_ETIKETLER)) or (izinli is not None and e not in izinli) for e in etiketler):
+    if len(etiketler) > (LISTE_ETIKET_SINIRI if liste else 1) or any(
+            not izinli_etiket(e) or (izinli is not None and e not in izinli) for e in etiketler):
         return False  # yalnızca gerçek turnuva etiketleri, en fazla iki
     if any(b.lower() in metin.lower() for b in bahisciler):
         return False

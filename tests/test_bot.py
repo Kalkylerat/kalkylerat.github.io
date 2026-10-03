@@ -1722,15 +1722,16 @@ def test_takim_ve_mac_etiketleri_yaygin_olanlar():
     assert tweets.mac_etiketi("Brentford", "Arsenal") == "#Arsenal"
     assert tweets.mac_etiketi("Tottenham", "Wolves") == "#COYS"
     assert tweets.mac_etiketi("Bastia", "Orleans") is None
-    assert tweets.etiket_satiri([("UEFA Nations League", "")], [("Belgium", "Türkiye")]) == "#NationsLeague #BizimÇocuklar"
+    assert tweets.etiket_satiri([("UEFA Nations League", "")], [("Belgium", "Türkiye")]) == "#NationsLeague"  # kartta tek etiket
     assert tweets.etiket_satiri([("UEFA Nations League", "")], [("Kazakhstan", "Moldova")]) == "#NationsLeague"
     assert tweets.etiket_satiri([("Ligue 2", "France")], [("Bastia", "Orleans")]) == ""
     assert tweets.izinli_etiket("#BizimÇocuklar") and not tweets.izinli_etiket("#DENPOR")
     assert not tweets.izinli_etiket("#ABCDEF") and not tweets.izinli_etiket("#bets")
     from bot import direktor
     b = AYAR.oran_bahiscileri + [AYAR.keskin_bahisci]
-    assert direktor.kurala_uygun("Big one ⚽ #NationsLeague #BizimÇocuklar", "maclar", b,
-                                 {"#NationsLeague", "#BizimÇocuklar"})
+    assert direktor.kurala_uygun("Big one ⚽ #NationsLeague", "maclar", b, {"#NationsLeague", "#BizimÇocuklar"})
+    assert not direktor.kurala_uygun("Big one ⚽ #NationsLeague #BizimÇocuklar", "maclar", b,
+                                     {"#NationsLeague", "#BizimÇocuklar"})  # otomatik postta en fazla bir etiket
     assert not direktor.kurala_uygun("Big one #Azzurri", "maclar", b, {"#NationsLeague", "#BizimÇocuklar"})  # şablonda yok
 
 
@@ -2109,7 +2110,7 @@ def test_liste_postu_butun_mac_etiketlerini_tasir():
         assert blok.split("\n\n")[0].count("%") >= 2
     assert "Which number looks wrong?" in metin and "Small" not in metin
     etiketler = re.findall(r"#\w+", metin)
-    assert etiketler[:2] == ["#LesBleus", "#BizimÇocuklar"]  # yalnızca adı geçen maçlar
+    assert etiketler == ["#NationsLeague", "#LesBleus"]  # turnuva + adı geçen maç; en fazla iki, genel etiket yok
     assert tweets.uzunluk(metin) <= 280 and metin.endswith(tweets.ANSVAR)
     tek = etkilesim.tablo_tweeti({"tarih": "2026-10-03", "analiz_sayisi": 142}, liste[:2], AYAR)
     assert "⚽ Over 2.5 goals 66% · Under 34%" in tek and "🥅 Both teams score 59% · Not both 41%" in tek
@@ -2321,3 +2322,26 @@ def test_yanit_kiti_taslak_hazirlar_gunde_bir_kez(tmp_path, monkeypatch):
     for t in kit.yanitlar(gun["analizler"][0]):
         assert len(t) <= 280 and not denetci._SECIM_DILI.search(t) and "bet" not in t.lower()
     assert kit.gonder(gun, AYAR, gh, lambda x: "", simdi, "u") is None and len(gh.acilan) == 1  # günde bir kez
+
+
+def test_x_kurallari_tekrar_ve_gunluk_sinir():
+    """X spam kuralları: aynı metin aynı gün iki kez gitmez; günlük post sınırı aşılmaz; otomatik postta en fazla bir
+    (listede iki) ilgili etiket, genel etiket yok."""
+    from dataclasses import replace
+    from bot import etkilesim
+    gun = {"tarih": "2026-10-04", "etkilesim": {"bilgi": {"durum": "paylasildi", "metin": "Aynı metin\n18+"}}}
+
+    class X:
+        def gonder(self, metin, **k):
+            return "1"
+    k = etkilesim._TekrarKorumasi(X(), gun)
+    assert k.gonder("Başka metin") == "1"
+    with pytest.raises(RuntimeError, match="tekrar"):
+        k.gonder("Aynı metin\n18+")
+    dolu = {"tarih": "2026-10-04", "konsept": "analiz", "secimler": [], "analizler": [], "vitrin": [],
+            "etkilesim": {f"x{i}": {"durum": "paylasildi", "zaman": "2026-10-04T08:00:00+00:00"} for i in range(3)}}
+    assert etkilesim.paylas(dolu, replace(AYAR, gunluk_post_siniri=3), X(),
+                            datetime(2026, 10, 4, 12, 0, tzinfo=timezone.utc), yaz=lambda m: None) is None
+    assert tweets.liste_etiketleri([("UEFA Nations League", "")] * 3, [("France", "Italy"), ("Belgium", "Türkiye"),
+                                                                     ("England", "Wales")]) == ["#NationsLeague", "#LesBleus"]
+    assert "#Football" not in tweets.liste_etiketleri([("Premier League", "England")], [("Arsenal", "Leeds")])

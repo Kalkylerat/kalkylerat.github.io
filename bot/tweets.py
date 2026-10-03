@@ -29,7 +29,7 @@ _ULUSAL = {("premier league", "england"): "#PremierLeague", ("la liga", "spain")
 # etiketler. Bahis etiketleri (#BettingTips vb.) bilerek yok: konsept analiz, bahis tavsiyesi değil.
 GENEL_ETIKETLER = ("#Football", "#FootballPredictions")
 IZINLI_ETIKETLER = {e for _, e in _ULUSLARARASI} | set(_ULUSAL.values())  # genel etiketler yalnızca liste postunda
-LISTE_ETIKET_SINIRI = 8
+LISTE_ETIKET_SINIRI = 2  # X kuralı: trend/alakasız etiket spam sayılır; otomatik postta az ve ilgili etiket
 
 # Milli takımlar: resmi FIFA kodları (maç etiketi #DENPOR gibi). Ad kırpılarak üretilmez: "NET" değil "NED".
 FIFA_KODLARI = {
@@ -93,7 +93,7 @@ def hashtag(lig: str | None, ulke: str | None = "") -> str | None:
     return _ULUSAL.get((l.strip(), (ulke or "").lower().strip()))
 
 
-def etiket_satiri(ligler: list[tuple[str, str]], maclar: list[tuple[str, str]] = (), en_fazla: int = 2) -> str:
+def etiket_satiri(ligler: list[tuple[str, str]], maclar: list[tuple[str, str]] = (), en_fazla: int = 1) -> str:
     """En fazla iki etiket: öndeki maçın turnuvası + o maçın etiketi (#DENPOR / #Arsenal); maç etiketi yoksa
     ikinci turnuva. (lig, ülke) ve (ev, dep) listeleri aynı sıradadır (öndeki maç ilk)."""
     turnuva = []
@@ -107,11 +107,11 @@ def etiket_satiri(ligler: list[tuple[str, str]], maclar: list[tuple[str, str]] =
 
 
 def liste_etiketleri(ligler: list[tuple[str, str]], maclar: list[tuple[str, str]]) -> list[str]:
-    """Liste postu için: tablodaki bütün maçların taraftar/kulüp etiketleri, sonra turnuva etiketleri, sonra genel
-    etiketler (tekrarsız, en fazla LISTE_ETIKET_SINIRI). Uydurma etiket yok."""
-    takim = list(dict.fromkeys(e for e in (mac_etiketi(ev, dep) for ev, dep in maclar) if e))[:4]
-    turnuva = list(dict.fromkeys(e for e in (hashtag(l, u) for l, u in ligler) if e))[:2]
-    return (takim + turnuva + list(GENEL_ETIKETLER))[:LISTE_ETIKET_SINIRI]
+    """Liste postu için en fazla iki ilgili etiket: turnuva, sonra adı geçen maçın taraftar/kulüp etiketi. Genel
+    etiketler (#Football gibi) otomatik postlara konmaz: X otomasyon kuralları trend ve alakasız etiketi spam sayar."""
+    takim = list(dict.fromkeys(e for e in (mac_etiketi(ev, dep) for ev, dep in maclar) if e))
+    turnuva = list(dict.fromkeys(e for e in (hashtag(l, u) for l, u in ligler) if e))
+    return (turnuva[:1] + takim + turnuva[1:])[:LISTE_ETIKET_SINIRI]
 
 
 def uzunluk(metin: str) -> int:

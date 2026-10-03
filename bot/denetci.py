@@ -236,8 +236,8 @@ def analiz_kontrolu(tur: str, metin: str, analizler: list[dict], ayar, png: byte
         hata.append(f"'{ANSVAR}' satırıyla bitmiyor.")
     etiketler = re.findall(r"#\w+", metin)
     liste = tur == "tablo"
-    if len(etiketler) > (LISTE_ETIKET_SINIRI if liste else 2) or any(
-            not (izinli_etiket(e) or (liste and e in GENEL_ETIKETLER)) for e in etiketler):
+    if len(etiketler) > (LISTE_ETIKET_SINIRI if liste else 1) or any(
+            not izinli_etiket(e) for e in etiketler):
         hata.append(f"İzin verilmeyen ya da fazla hashtag ({' '.join(etiketler)}).")
     if tur in ("analiz", "analiz_sonuc", "tablo_sonuc") and _SECIM_DILI.search(metin):
         hata.append("Olasılığı seçim/tahmin gibi yazıyor (doğru/yanlış, ✅/❌, 'our pick'): kart seçim değil.")

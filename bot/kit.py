@@ -42,7 +42,10 @@ def kit_metni(gun: dict, maclar: list[dict], saatler: list[str], resimler: list[
                 "maç postlarına verilen yanıtlardan gelir. Her maç için: aramayı aç, en çok etkileşim alan **yeni** "
                 "(son 1 saat) postu bul, taslaklardan birini kendi cümlenle düzelt, kart görselini ekleyip yanıtla. "
                 "Günde 10–20 yanıt, maç saatinden 1–2 saat önce en iyisi. Yanıt gelirse geri yaz (sohbet en güçlü sinyal).",
-                "", "**Hızlı kurallar:** link yok, hashtag yok, aynı metni iki kez yapıştırma, tartışmaya girme.", ""]
+                "", "**X kuralları (ban yememek için):** yanıtları elle ve tek tek at; aynı metni iki kez yapıştırma, "
+                "taslağı her seferinde kendi cümlenle değiştir; art arda değil, aralıklı yanıtla (günde en fazla ~20); "
+                "kimseyi toplu etiketleme, DM atma; link ve hashtag koyma; yalnızca konuyla ilgili postlara yanıt ver; "
+                "tartışmaya girme. Takip/beğeni de elle ve ölçülü.", ""]
     hesaplar = " OR ".join(f"from:{h}" for h in BUYUK_HESAPLAR)
     for a, saat, resim in zip(maclar, saatler, resimler):
         ara = quote(f'{a["ev"]} {a["dep"]}')

@@ -39,6 +39,14 @@ zamanlama `.github/workflows/kalkylerat.yml`.
   sahibinin isteğiyle maçların taraftar etiketleri var; etkileşim verisine göre azaltmayı değerlendir.
 - Kapanış: genel "ne düşünüyorsun?" yerine belirli soru; tek bir net çağrı (yanıt, kaydet ya da repost), hepsi değil.
 
+## Ölçülen durum (3 Ekim 2026, `metrik` komutu → data/metrikler.json)
+- 37 post, post başına ~5,6 görüntülenme, 1 takipçi, 0 takip edilen, 0 beğeni. Yayın tek başına görünürlük getirmiyor.
+- Kaldıraçlar: (1) sahibinin elle, büyük hesapların maç postlarına ilk 30–60 dakikada yanıtları (bot her sabah
+  "yanıt kiti" issue'su hazırlar: kit.py); (2) X Toplulukları ([topluluk] id, API community_id); (3) hesabın insan
+  gibi davranması: ilgili 50–100 hesabı takip, beğeni, sohbet (otomatikleştirilemez, X kuralı).
+- Otomatik takip/beğeni/yanıt yapan araçlar (XActions, Cloudflare atlatan kazıyıcılar) X kurallarına aykırı:
+  hesabı kapatır. Kullanılmaz.
+
 ## Kalkylerat için işe yarayanlar
 1. **Şeffaf rekor** en büyük koz: kazanç ve kayıp aynı görünürlükte, haftalık özet, zamanla kasa grafiği.
 2. **Her gün aynı saatlerde** (hafta içi öğle, hafta sonu sabah) kupon + gece sonuç: alışkanlık yaratır.

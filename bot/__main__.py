@@ -10,7 +10,7 @@ import time
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-from . import analiz, config, denetci, direktor, editor, etkilesim, football, gorsel, kayit, model, oddsapi, onay, panel, saglik, temizlik, tweets
+from . import analiz, config, denetci, direktor, editor, etkilesim, football, gorsel, kayit, kit, model, oddsapi, onay, panel, saglik, temizlik, tweets
 from .model import adaylari_uret, bet_builder, etiketler
 
 # Çalışma sırasında yakalanan hatalar: iş sonunda "başarısız" işaretlenir, GitHub sahibine e-posta atar.
@@ -1261,6 +1261,14 @@ def main(argv=None) -> int:
                                  yazar=_direktor_yazar(ayar), diger_paylasimlar=diger, haric_takimlar=kupondakiler)
             except Exception as e:
                 _hata("Etkileşim paylaşımı", e)
+        if args.komut in ("nabiz", "otomatik") and os.environ.get("GH_TOKEN") and kayit.bul(gunler, bugun) \
+                and simdi.hour >= 7:
+            try:  # günlük yanıt kiti: sahibinin elle yanıtlaması için taslaklar (telefona bildirim)
+                ham = f'https://raw.githubusercontent.com/{os.environ.get("GITHUB_REPOSITORY")}/{os.environ.get("GITHUB_REF_NAME")}'
+                kit.gonder(kayit.bul(gunler, bugun), ayar, onay.GitHub(), lambda a: etkilesim._saat(a, ayar), simdi, ham,
+                           yaz=_ozet_yaz)
+            except Exception as e:
+                _hata("Yanıt kiti", e)
         if args.komut == "nabiz":
             for g in gunler[-2:]:  # günün tablosu: maçlar bitince skorlar ve olanların maç öncesi yüzdeleri (yanıt)
                 try:

@@ -108,6 +108,12 @@ ek_ligler = [128, 71, 239, 253, 262, 479]  # Arjantin, Brezilya Serie A, Kolombi
 # (e-posta ve GitHub mobil bildirimi gelir). Boş bırakılırsa alarm kapalı.
 kime = "Kalkylerat-desk"
 
+[topluluk]
+# X Topluluğu (Communities): küçük hesaplar için en etkili erişim yolu. Hesapla bir futbol/istatistik topluluğuna
+# katılın, adresindeki numarayı (x.com/i/communities/NUMARA) buraya yazın. Tablo, oran/istatistik ve kart postları
+# toplulukta da paylaşılır (takipçilere de görünür). Boşsa kapalı. Gönderim hata verirse normal post atılır.
+id = ""
+
 [direktor]
 # X Direktörü: kupon dışı paylaşımların metnini yazar (günlük, hızlı model) ve her Pazartesi hesabın
 # etkileşim rakamlarını inceleyip haftanın stratejisini ve sahibine Türkçe raporu hazırlar (en güçlü model).

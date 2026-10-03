@@ -2286,3 +2286,34 @@ def test_tablodaki_mac_bittikce_tabloya_yanit():
     assert etkilesim.tablo_takibi(gun, AYAR, x, datetime(2026, 10, 3, 14, 15, tzinfo=timezone.utc), lambda l: sonuc) == 0
     assert etkilesim.tablo_takibi(gun, AYAR, x, datetime(2026, 10, 3, 18, 30, tzinfo=timezone.utc), lambda l: sonuc) == 1
     assert "Leeds 0–1" in x.giden[1][0] and gun["etkilesim"]["tablo"]["takip"]["durum"] == "tamam"
+
+
+def test_yanit_kiti_taslak_hazirlar_gunde_bir_kez(tmp_path, monkeypatch):
+    """Yanıt kiti: büyük maçlar için arama bağlantıları ve kayıttaki rakamlarla yanıt taslakları; seçim/bahis dili
+    yok; günde bir kez; sahibi etiketlenir."""
+    from bot import denetci, kit, model
+    monkeypatch.setattr(kit, "KLASOR", tmp_path / "kit")
+    def a(fid, ev, saat):
+        return {"fixture_id": fid, "ev": ev, "dep": ev + " B", "lig": "PL", "baslama": f"2026-10-04T{saat}:00+00:00",
+                "beklenen_gol": [1.5, 1.0], "skorlar": [["1-0", 0.12]], "guven": "yuksek",
+                "karsilastirma": [{"pazar": "UST25", "ad": "Over 2.5 goals", "piyasa": 0.5, "istatistik": 0.62}],
+                "p": {k: round(v, 3) for k, v in model.model_olasiliklari(1.5, 1.0).items()}}
+    gun = {"tarih": "2026-10-04", "konsept": "analiz", "analizler": [a(1, "Spain", "18:45"), a(2, "Old", "06:00")]}
+
+    class GH:
+        def __init__(self):
+            self.acilan = []
+
+        def issue_ac(self, baslik, govde, etiket):
+            self.acilan.append((baslik, govde, etiket))
+            return 12
+    gh = GH()
+    simdi = datetime(2026, 10, 4, 8, 0, tzinfo=timezone.utc)
+    assert kit.gonder(gun, AYAR, gh, lambda x: "20:45 CEST", simdi, "https://raw/x") == 12
+    baslik, govde, etiket = gh.acilan[0]
+    assert etiket == "yanit-kiti" and "Spain v Spain B" in govde and "Old v" not in govde  # başlamış maç yok
+    assert "x.com/search?q=Spain%20Spain%20B&f=top" in govde and "https://raw/x/docs/kit/2026-10-04/1.png" in govde
+    assert "team stats say 62%" in govde and (tmp_path / "kit" / "2026-10-04" / "1.png").exists()
+    for t in kit.yanitlar(gun["analizler"][0]):
+        assert len(t) <= 280 and not denetci._SECIM_DILI.search(t) and "bet" not in t.lower()
+    assert kit.gonder(gun, AYAR, gh, lambda x: "", simdi, "u") is None and len(gh.acilan) == 1  # günde bir kez

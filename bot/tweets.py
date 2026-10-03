@@ -461,8 +461,11 @@ class XClient:
         return str(veri.get("id") or veri["media_id_string"])
 
     def gonder(self, metin: str, yanit: str | None = None, medya: list[str] | None = None,
-               alinti: str | None = None, anket: dict | None = None) -> str:
+               alinti: str | None = None, anket: dict | None = None, topluluk: str | None = None) -> str:
         body: dict = {"text": metin}
+        if topluluk:  # X Topluluğu'na post; takipçilere de gösterilir
+            body["community_id"] = str(topluluk)
+            body["share_with_followers"] = True
         if anket:
             body["poll"] = anket
         if yanit:
@@ -522,9 +525,10 @@ class KonsolClient:
         return f"gorsel-{len(png) // 1024}KB"
 
     def gonder(self, metin: str, yanit: str | None = None, medya: list[str] | None = None,
-               alinti: str | None = None, anket: dict | None = None) -> str:
+               alinti: str | None = None, anket: dict | None = None, topluluk: str | None = None) -> str:
         self.sayac += 1
         ek = (f" + {', '.join(medya)}" if medya else "") + (f" (alıntı: {alinti})" if alinti else "")
+        ek += f" (topluluk: {topluluk})" if topluluk else ""
         ek += f" (anket: {' / '.join(anket['options'])}, {anket['duration_minutes']} dk)" if anket else ""
         print(f"\n----- TWEET #{self.sayac}{' (yanıt)' if yanit else ''}{ek} [{uzunluk(metin)}/280] -----\n{metin}")
         return f"demo-{self.sayac}"

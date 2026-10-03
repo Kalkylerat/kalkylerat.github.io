@@ -328,6 +328,17 @@ def yogun_kartlari_ekle(gun: dict, tum: list[dict], ayar, simdi: datetime) -> in
     return len(yeni)
 
 
+def _gonder(x, ayar, metin: str, yaz, **k) -> str:
+    """Topluluk ayarlıysa postu X Topluluğu'na (takipçilere de görünür) atar; olmazsa normal post."""
+    tid = getattr(ayar, "topluluk_id", "")
+    if tid:
+        try:
+            return x.gonder(metin, topluluk=tid, **k)
+        except Exception as hata:
+            yaz(f"⚠️ Topluluğa paylaşılamadı ({hata}); normal post atılıyor.")
+    return x.gonder(metin, **k)
+
+
 def _denetle(tur: str, metin: str, sablon: str, analizler: list[dict], ayar, png, yaz) -> str | None:
     """Denetçi (kod): direktörün metni geçmezse şablon denenir; o da geçmezse post çıkmaz (None) ve neden yazılır."""
     from . import denetci
@@ -375,7 +386,7 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_pay
                 if not metin:
                     durum[tur] = {"durum": "atlandi", "neden": "denetçi"}
                     continue
-                tid = x.gonder(metin, medya=[x.medya_yukle(png)])
+                tid = _gonder(x, ayar, metin, yaz, medya=[x.medya_yukle(png)])
             elif tur == "tablo":
                 liste = [a for a in gun["tablo"] if datetime.fromisoformat(a["baslama"]) > simdi]
                 if len(liste) < 4:
@@ -391,7 +402,7 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_pay
                 if not metin:
                     durum[tur] = {"durum": "atlandi", "neden": "denetçi"}
                     continue
-                tid = x.gonder(metin, medya=[x.medya_yukle(png)])
+                tid = _gonder(x, ayar, metin, yaz, medya=[x.medya_yukle(png)])
             elif tur == "ayrisma":
                 sablon = ayrisma_tweeti(gun, ayar, simdi)
                 if sablon is None:
@@ -408,7 +419,7 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_pay
                 if not metin:
                     durum[tur] = {"durum": "atlandi", "neden": "denetçi"}
                     continue
-                tid = x.gonder(metin, medya=[x.medya_yukle(png)]) if png else x.gonder(metin)
+                tid = _gonder(x, ayar, metin, yaz, **({"medya": [x.medya_yukle(png)]} if png else {}))
             elif tur == "anket":
                 metin, secenekler, dakika = anket({**gun, "_simdi": zaman}, ayar)
                 metin = yazar(tur, olgular(tur, gun, ayar), metin) if yazar else metin

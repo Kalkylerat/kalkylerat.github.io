@@ -1118,6 +1118,21 @@ def profil() -> None:
         f"- Ham: {str(veri)[:300] if r.status_code >= 400 else '-'}"]))
 
 
+def metrik() -> None:
+    """Son postların görüntülenme ve etkileşim rakamları + takipçi sayısı: data/metrikler.json ve özet sayfası."""
+    x = _x_client()
+    u = x.session.get("https://api.x.com/2/users/me", params={"user.fields": "public_metrics"}, timeout=30).json()["data"]
+    tweetler = x.metrikler(100)
+    veri = {"zaman": kayit.simdi_utc().isoformat(timespec="seconds"), "hesap": u.get("public_metrics"),
+            "tweetler": [{"id": t["id"], "zaman": t.get("created_at"), "metin": t.get("text", "")[:120],
+                          **(t.get("public_metrics") or {})} for t in tweetler]}
+    (config.DATA_FILE.parent / "metrikler.json").write_text(json.dumps(veri, ensure_ascii=False, indent=1) + "\n",
+                                                            encoding="utf-8")
+    goruntu = [t.get("impression_count", 0) for t in veri["tweetler"]]
+    _ozet_yaz(f"### Metrikler\n- Hesap: {u.get('public_metrics')}\n- Son {len(goruntu)} post: toplam görüntülenme "
+              f"{sum(goruntu)}, ortalama {sum(goruntu) / max(1, len(goruntu)):.1f}, en yüksek {max(goruntu, default=0)}")
+
+
 def oran_testi(ayar) -> None:
     """Toplu oran taramasının ücretsiz planda çalışıp çalışmadığını ölçer (paylaşım yok, ~4 istek)."""
     from collections import Counter
@@ -1162,7 +1177,7 @@ def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="bot")
     p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt", "sabit", "hafta", "yenile", "oran_testi",
                                           "onay_kontrol", "onay_testi", "onay_yenile", "nabiz",
-                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir", "kasa_duzelt", "direktor", "skor_duzelt", "sonuc_duzelt", "kasa_defteri", "temizle", "liste", "kiyas", "takip_yenile"])
+                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir", "kasa_duzelt", "direktor", "skor_duzelt", "sonuc_duzelt", "kasa_defteri", "temizle", "liste", "kiyas", "takip_yenile", "metrik"])
     args = p.parse_args(argv)
     ayar = config.yukle()
     from dataclasses import replace as _degistir
@@ -1288,6 +1303,8 @@ def main(argv=None) -> int:
             liste_simdi(ayar, gunler, bugun, simdi, _x_client())
         if args.komut == "kiyas":
             kiyas_simdi(ayar, gunler, bugun, simdi, _x_client())
+        if args.komut == "metrik":
+            metrik()
         if args.komut == "takip_yenile":
             takip_yenile(ayar, gunler, simdi, _x_client())
         if args.komut == "kasa_defteri":

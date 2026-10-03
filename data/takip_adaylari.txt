@@ -3,7 +3,6 @@ understat
 ESPNStatsInfo
 FootballFactly
 Orbinho
-TrendyolSuperLig
 MLS
 FIFAcom
 ScoutedFtbl
@@ -13,3 +12,4 @@ SkySportsNews
 BBCSport
 OptaJavier
 DataScoutHQ
+SuperLig

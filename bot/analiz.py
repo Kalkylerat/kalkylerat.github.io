@@ -199,4 +199,4 @@ def ozet(a: dict) -> dict:
     """Kayıtta saklanacak kısa hali (tablo ve ayrışma postları için)."""
     return {k: a[k] for k in ("fixture_id", "lig", "ulke", "lig_id", "ev", "dep", "baslama", "p", "skorlar", "guven",
                               "karsilastirma", "beklenen_gol", "kaynak",
-                                                       "istatistik_kaynak") if k in a}
+                                                       "istatistik_kaynak", "odds_id", "odds_spor") if k in a}

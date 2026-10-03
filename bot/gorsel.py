@@ -543,3 +543,64 @@ def kiyas_tablosu(liste: list[dict], tarih_iso: str, saatler: list[str], dil: st
     tampon = io.BytesIO()
     im.save(tampon, "PNG", optimize=True)
     return tampon.getvalue()
+
+
+SONUC_ETIKETLERI = {
+    "en": {"baslik": "FULL TIME · TODAY'S BOARD", "sutun": ["FINAL", "RESULT", "GOALS", "BOTH\nSCORED", "EXACT\nSCORE"],
+           "ev": "Home win", "x": "Draw", "dep": "Away win", "ust": "Over 2.5", "alt": "Under 2.5", "kg": "Yes",
+           "kgy": "No", "oynanmadi": "Not played / no result yet", "dipnot": "Each % = the chance we gave, before kick-off, to what then happened · chances, not picks · 18+"},
+    "tr": {"baslik": "MAÇ SONU · GÜNÜN TABLOSU", "sutun": ["SKOR", "SONUÇ", "GOL", "KARŞILIKLI\nGOL", "TAM\nSKOR"],
+           "ev": "Ev kazandı", "x": "Beraberlik", "dep": "Dep. kazandı", "ust": "2.5 üst", "alt": "2.5 alt", "kg": "Var",
+           "kgy": "Yok", "oynanmadi": "Oynanmadı / sonuç yok", "dipnot": "Her % = olanın maç öncesi verdiğimiz olasılığı · tahmin değil · 18+"},
+}
+
+
+def tablo_sonuc_gorseli(satirlar: list[tuple[dict, tuple[int, int] | None, list[float]]], tarih_iso: str,
+                        dil: str = "en") -> bytes:
+    """Günün tablosunun maç sonu: her maçta skor ve olanların (sonuç, 2.5 alt/üst, karşılıklı gol, tam skor) maç
+    öncesi yüzdesi. Oynanmayan maç "–". satirlar: (analiz, (ev, dep) ya da None, [4 olasılık])."""
+    r, e = PALETLER[dil], SONUC_ETIKETLERI[dil]
+    W, K = 1080, 40
+    satir = 112
+    H = 200 + satir * len(satirlar) + 80
+    im = Image.new("RGB", (W, H), r["arka"])
+    d = ImageDraw.Draw(im)
+    yuzde = (lambda x: f"%{100 * x:.0f}") if dil == "tr" else (lambda x: f"{100 * x:.0f}%")
+    d.text((K, 44), f"KALKYLERAT · {e['baslik']}", font=_font(26, True), fill=r["vurgu"])
+    tarih = datetime.fromisoformat(tarih_iso).strftime("%-d %b %Y").upper()
+    d.text((W - K - d.textlength(tarih, font=_font(24, True)), 46), tarih, font=_font(24, True), fill=r["soluk"])
+    x0 = K + 300
+    adim = (W - K - x0) / (len(e["sutun"]) - 1)
+    sutunlar = [K + 40] + [x0 + adim * i + adim / 2 for i in range(len(e["sutun"]) - 1)]
+    fb = _font(15, True)
+    for ad, x in zip(e["sutun"], sutunlar):
+        for j, parca in enumerate(ad.split("\n")):
+            xx = x - 40 if x == sutunlar[0] else x - d.textlength(parca, font=fb) / 2
+            d.text((xx, 104 + j * 19), parca, font=fb, fill=r["soluk"])
+    y = 168
+    for i, (a, skor, sanslar) in enumerate(satirlar):
+        yy = y + satir * i
+        if i % 2 == 0:
+            d.rounded_rectangle((K - 14, yy - 8, W - K + 14, yy + satir - 14), radius=14, fill=r["kart"])
+        mac, f = _sigdir(d, f'{a["ev"]} – {a["dep"]}', x0 - K - 20, 22, True, 14)
+        d.text((K, yy + 2), mac, font=f, fill=r["yazi"])
+        lig, f = _sigdir(d, a.get("lig", ""), x0 - K - 20, 16, en_kucuk=12)
+        d.text((K, yy + 32), lig, font=f, fill=r["soluk"])
+        if skor is None:
+            d.text((K, yy + 58), e["oynanmadi"], font=_font(20, True), fill=r["soluk"])
+            continue
+        ev, dep = skor
+        d.text((K, yy + 54), f"{ev}–{dep}", font=_font(28, True), fill=r["vurgu"])
+        etiketler = [e["ev"] if ev > dep else e["dep"] if dep > ev else e["x"], e["ust"] if ev + dep >= 3 else e["alt"],
+                     e["kg"] if ev and dep else e["kgy"], f"{ev}-{dep}"]
+        for x, p, et in zip(sutunlar[1:], sanslar, etiketler):
+            t = yuzde(p) if p >= 0.005 else "<1%"
+            fv = _font(26, True)
+            d.text((x - d.textlength(t, font=fv) / 2, yy + 14), t, font=fv, fill=r["yazi"])
+            fe = _font(15)
+            d.text((x - d.textlength(et, font=fe) / 2, yy + 50), et, font=fe, fill=r["soluk"])
+    alt, f = _sigdir(d, e["dipnot"], W - 2 * K, 18)
+    d.text(((W - d.textlength(alt, font=f)) / 2, H - 56), alt, font=f, fill=r["soluk"])
+    tampon = io.BytesIO()
+    im.save(tampon, "PNG", optimize=True)
+    return tampon.getvalue()

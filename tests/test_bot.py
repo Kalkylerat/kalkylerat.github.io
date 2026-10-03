@@ -2250,3 +2250,41 @@ def test_saglik_alarmi_kacan_ve_duran_postu_bildirir(tmp_path, monkeypatch):
     assert saglik.bildir(list(bulunan.items()), gh, "Kalkylerat-desk", simdi, yaz=lambda m: None) == 0  # tekrar yok
     saglik.bildir([("yeni", "🔇 yeni sorun")], gh, "Kalkylerat-desk", simdi, yaz=lambda m: None)
     assert len(gh.acilan) == 1 and gh.yorumlar == [(7, gh.yorumlar[0][1])] and "yeni sorun" in gh.yorumlar[0][1]
+
+
+def test_gunun_tablosuna_mac_sonu_yaniti():
+    """Tablodaki maçlar bitince tablo postuna görselli yanıt: skorlar ve olanların maç öncesi yüzdeleri; seçim
+    dili yok. Maçlar bitmeden ya da eski günde paylaşılmaz."""
+    from bot import denetci, etkilesim, model
+    def a(fid, ev, saat):
+        return {"fixture_id": fid, "ev": ev, "dep": ev + " B", "lig": "PL", "baslama": f"2026-10-03T{saat}:00+00:00",
+                "beklenen_gol": [1.5, 1.0], "skorlar": [["1-0", 0.12]],
+                "p": {k: round(v, 3) for k, v in model.model_olasiliklari(1.5, 1.0).items()}}
+    gun = {"tarih": "2026-10-03", "tablo": [a(1, "Arsenal", "12:00"), a(2, "Leeds", "16:30"), a(3, "Spurs", "16:30")],
+           "etkilesim": {"tablo": {"durum": "paylasildi", "tweet_id": "50", "zaman": "2026-10-03T08:35:00+00:00",
+                                   "maclar": [1, 2, 3]}}}
+    sonuc = {1: {"durum": "bitti", "skor": (1, 0)}, 2: {"durum": "bitti", "skor": (0, 2)}, 3: {"durum": "iptal"}}
+
+    class X:
+        def __init__(self):
+            self.giden = []
+
+        def medya_yukle(self, png):
+            assert png[:4] == b"\x89PNG"
+            return "m"
+
+        def gonder(self, metin, **k):
+            self.giden.append((metin, k))
+            return "77"
+    x = X()
+    assert etkilesim.tablo_takibi(gun, AYAR, x, datetime(2026, 10, 3, 18, 0, tzinfo=timezone.utc), lambda l: sonuc) == 0
+    assert etkilesim.tablo_takibi(gun, AYAR, x, datetime(2026, 10, 3, 19, 0, tzinfo=timezone.utc), lambda l: sonuc) == 1
+    metin, k = x.giden[0]
+    assert k == {"yanit": "50", "medya": ["m"]} and "2 matches" in metin and "favourite won 1 of 2" in metin
+    assert "likeliest score landed 1 of 2" in metin and denetci.analiz_kontrolu("tablo_sonuc", metin, [], AYAR) == []
+    assert gun["etkilesim"]["tablo"]["takip"]["durum"] == "paylasildi"
+    eski = {"tarih": "2026-10-02", "tablo": [a(4, "Old", "12:00")],
+            "etkilesim": {"tablo": {"durum": "paylasildi", "tweet_id": "1", "zaman": "2026-10-02T08:00:00+00:00"}}}
+    eski["tablo"][0]["baslama"] = "2026-10-02T12:00:00+00:00"
+    assert etkilesim.tablo_takibi(eski, AYAR, x, datetime(2026, 10, 3, 19, 0, tzinfo=timezone.utc), lambda l: sonuc) == 0
+    assert eski["etkilesim"]["tablo"]["takip"]["neden"] == "eski"

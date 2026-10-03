@@ -837,7 +837,8 @@ def liste_simdi(ayar, gunler: list[dict], bugun: str, simdi: datetime, x) -> str
             durum[k] = {**e, "durum": "silindi"}
     tid = x.gonder(metin, medya=[x.medya_yukle(png)])
     anahtar = next(f"tablo_{n}" for n in range(2, 99) if f"tablo_{n}" not in durum)
-    durum[anahtar] = {"durum": "paylasildi", "tweet_id": tid, "zaman": simdi.isoformat(timespec="seconds"), "elle": True}
+    durum[anahtar] = {"durum": "paylasildi", "tweet_id": tid, "zaman": simdi.isoformat(timespec="seconds"), "elle": True,
+                      "maclar": [a["fixture_id"] for a in liste]}
     _ozet_yaz(f"Liste paylaşıldı ({anahtar}): https://x.com/kalkylerat/status/{tid}\n```\n{metin}\n```")
     return tid
 
@@ -1245,6 +1246,15 @@ def main(argv=None) -> int:
                                  yazar=_direktor_yazar(ayar), diger_paylasimlar=diger, haric_takimlar=kupondakiler)
             except Exception as e:
                 _hata("Etkileşim paylaşımı", e)
+        if args.komut == "nabiz":
+            for g in gunler[-2:]:  # günün tablosu: maçlar bitince skorlar ve olanların maç öncesi yüzdeleri (yanıt)
+                try:
+                    dosya = config.DATA_FILE.parent / "analiz" / f'{g["tarih"]}.json'
+                    tum = json.loads(dosya.read_text(encoding="utf-8")) if dosya.exists() else []
+                    etkilesim.tablo_takibi(g, ayar, _x_client(), simdi, lambda m: _mac_sonuclari(ayar, m), tum,
+                                           yaz=_ozet_yaz)
+                except Exception as e:
+                    _hata("Tablo takibi", e)
         if args.komut == "nabiz":
             for g in gunler[-6:]:  # analiz kartı paylaşılan maçlar bitince: "ne dedik, ne oldu" (alıntı)
                 try:

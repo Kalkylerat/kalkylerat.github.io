@@ -6259,7 +6259,30 @@
       "analiz_2": {
         "durum": "paylasildi",
         "tweet_id": "2106375821531427070",
-        "zaman": "2026-10-03T13:28:21+00:00"
+        "zaman": "2026-10-03T13:28:21+00:00",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2106433927069962730",
+          "skor": "2-1",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "zaman": "2026-10-03T17:19:11+00:00",
+          "brier": {
+            "piyasa": 0.7886,
+            "istatistik": 0.8985
+          }
+        }
+      },
+      "analiz_3": {
+        "durum": "atlandi"
+      },
+      "analiz_4": {
+        "durum": "paylasildi",
+        "tweet_id": "2106433916160667950",
+        "zaman": "2026-10-03T17:19:11+00:00"
       }
     }
   }

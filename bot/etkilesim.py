@@ -537,6 +537,19 @@ def deger_takibi(gun: dict, ayar, x, simdi: datetime, sonuc_getir, yaz=print, ya
 MANSET_EMOJI = ("🏆", "⚽", "🥅")
 
 
+def kart_sorusu(a: dict) -> str:
+    """Kartın kapanış sorusu, o maçın kendi rakamlarıyla (genel "ne düşünüyorsun?" yerine belirli soru; X benzer
+    postları geri plana atar). Maça göre sırayla değişir; yalnızca kartta olan yüzdeler kullanılır."""
+    p = a["p"]
+    fav_k = max(("MS1", "MS2"), key=lambda k: p[k])
+    zayif_k = "MS2" if fav_k == "MS1" else "MS1"
+    takim = {"MS1": a["ev"], "MS2": a["dep"]}
+    skor, p_skor = a["skorlar"][0]
+    sorular = [f"{takim[fav_k]} {_pct(p[fav_k])}: too high? 👇", "More or fewer than 2.5 goals? 👇",
+               f"Can {takim[zayif_k]} beat {_pct(p[zayif_k])}? 👇", "What's your score? 👇"]
+    return sorular[int(a.get("fixture_id") or 0) % len(sorular)]
+
+
 def iki_tarafli(a: dict) -> list[str]:
     """Her pazar iki (sonuçta üç) tarafıyla: tek taraf yazılınca "seçimimiz" gibi okunuyordu. Kart seçim yapmaz,
     olasılık dağılımı verir."""
@@ -560,14 +573,15 @@ def analiz_tweeti(a: dict, ayar) -> str:
                 f'\n\n📈 Stats: {c["ad"]} {_pct(c["istatistik"])} · odds {_pct(c["piyasa"])}') if c else
                ("\n\n📈 Every % here is from team stats (no odds)",) if a.get("kaynak") == "istatistik" else
                ("\n\n📈 Team stats: not enough recent games to compare with the odds", "\n\n📈 Team stats: too few recent games"))
-    sonlar = ("\n\n🔍 Every market is in the card.\n💬 How do you see it? 👇",
-              "\n\n🔍 Chances, not picks. Every market is in the card.\n💬 Your read? 👇",
+    soru = kart_sorusu(a)  # maça özel kapanış: aynı soru her kartta tekrar etmesin (X benzer post cezası)
+    sonlar = ("\n\n💬 Chances, not picks. " + soru, "\n\n💬 Not picks. " + soru,
               "\n\n💬 Chances, not picks. Your read? 👇", "\n\n💬 Not picks. Your read? 👇")
     etiket = _etiket(a)
     etiketler = dict.fromkeys((etiket, etiket.split(" ")[0] if etiket else "", ""))
     # Öncelik: istatistik satırı > skor satırı (görselde de var) > etiketler > uzun başlık ve soru
-    secenekler = [*product(govdeler, farklar, etiketler, baslar, sonlar), *product(govdeler, ("",), etiketler, baslar, sonlar)]
-    for satirlar, fark, et, bas, son in secenekler:
+    # Maça özel soru, uzun başlıktan önemli: önce başlık kısalır
+    secenekler = [*product(govdeler, farklar, etiketler, sonlar, baslar), *product(govdeler, ("",), etiketler, sonlar, baslar)]
+    for satirlar, fark, et, son, bas in secenekler:
         metin = bas + satirlar + fark + son + et + f"\n{ANSVAR}"
         if "not picks" in metin.lower() and uzunluk(metin) <= LIMIT:  # her kart postu seçim olmadığını söyler
             return metin

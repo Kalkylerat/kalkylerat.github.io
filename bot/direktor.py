@@ -44,6 +44,10 @@ KURALLAR = """Hard rules (never break them):
 - We publish chances, not picks or predictions. Give every side of a market as the template does (e.g. "Kazakhstan
   51% · Draw 26% · Moldova 23%", "Over 2.5 goals 43% · Under 57%"); never single out one side as our call, pick, tip,
   prediction or verdict, and never say we were right or wrong.
+- Sound like a person, not a model: no "The result?", "Here's what/how", "It's not X, it's Y", "let me be honest";
+  no clusters of words like significant, crucial, notably, comprehensive, insights, robust, leverage, landscape,
+  ultimately; at most one em dash. End with a specific question about this match's numbers, never a generic
+  "what do you think?". Do not repeat the same closing line across posts.
 - Keep every percentage that is in the template (the pinned post promises the numbers). Never name a match without
   its own percentages; if it does not fit, leave the match out rather than its numbers.
 - Keep the team stats line (📈) of a match card: the stats percentage next to the market one, or the reason there is
@@ -177,6 +181,30 @@ def yuzdeler_tam(metin: str, sablon: str, olgular: dict | None = None) -> bool:
     return True
 
 
+# Yapay zekâ izleri (kaynak: sergebulaev/x-skills, MIT, "scrub rules"): okur yapay zekâyı tek kelimeden değil
+# kalıplardan tanır. Tek vuruşta reddedilenler: "The result?", "Here's what", "It's not X, it's Y", samimiyet
+# ilanları. Yaygın yapay zekâ kelimelerinden aynı postta 3 ve üstü de reddedilir; birden fazla uzun tire de.
+_YZ_KALIP = re.compile(r"(?im)^the (result|outcome|answer|lesson|catch|kicker|truth)\?|^here'?s (what|how|why|the thing)\b|"
+                       r"\bit'?s not \w[^,.\n]{0,40}, it'?s\b|\bisn'?t about \w[^,.\n]{0,40}, it'?s about\b|"
+                       r"^(plot twist|spoiler|the twist)[:?]|\blet that sink in\b|\bthat'?s the real story\b|"
+                       r"\b(let me be honest|not gonna lie|to be honest|honestly,)")
+_YZ_KELIME = re.compile(r"\b(significant|crucial(ly)?|notably|comprehensive|holistic|insights?|robust|leverag\w*|"
+                        r"foster|landscape|nuanced|multifaceted|streamline|elevate|empower|utili[sz]e|harness|"
+                        r"facilitate|unlock|seamless|ecosystem|fundamentally|essentially|ultimately|particularly|"
+                        r"arguably|undoubtedly|delve|tapestry)\b", re.IGNORECASE)
+
+
+def yz_izi(metin: str) -> list[str]:
+    """Metindeki yapay zekâ izleri (boşsa temiz)."""
+    iz = [m.group(0) for m in _YZ_KALIP.finditer(metin)]
+    kelimeler = [m.group(0) for m in _YZ_KELIME.finditer(metin)]
+    if len(kelimeler) >= 3:
+        iz.append("kelime yığını: " + ", ".join(kelimeler))
+    if metin.count("—") > 1:
+        iz.append(f"{metin.count('—')} uzun tire")
+    return iz
+
+
 def kurala_uygun(metin: str, tur: str, bahisciler: list[str], izinli: set[str] | None = None) -> bool:
     yasak = _YASAK_BILGI if tur == "bilgi" else _YASAK
     if not metin or uzunluk(metin) > LIMIT or yasak.search(metin) or _ALAN_ADI.search(metin):
@@ -248,6 +276,9 @@ def yazar(ayar, client=None, yaz=print):
             return sablon
         if tur in ("analiz", "analiz_sonuc", "tablo", "ayrisma") and not yuzdeler_tam(metin, sablon, olgular):
             yaz(f"Direktör metni şablondaki yüzdelerden birini düşürdü ({tur}); şablon kullanıldı.")
+            return sablon
+        if yz_izi(metin):
+            yaz(f"Direktör metninde yapay zekâ izi ({tur}: {'; '.join(yz_izi(metin))}); şablon kullanıldı.")
             return sablon
         if not kurala_uygun(metin, tur, ayar.oran_bahiscileri + [ayar.keskin_bahisci], set(etiketler)):
             yaz(f"Direktör metni kurala uymadı ({tur}); şablon kullanıldı.")

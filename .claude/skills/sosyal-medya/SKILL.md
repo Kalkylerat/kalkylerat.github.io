@@ -28,6 +28,16 @@ zamanlama `.github/workflows/kalkylerat.yml`.
   tekrarlamaktan, etkileşim tuzağından ("RT yap", "beğen kazan") kaçın. Premium erişimi artırır.
 - Anlamlı, bilgi veren yanıtlar öne çıkar; tek kelimelik/genel yanıtlar filtrelenir.
 - Yerel video (<2:20) en yüksek erişimli format; görseller metinden iyidir.
+- Yanıt > repost ≈ bookmark > beğeni; "ilgilenmiyorum", sessize alma, şikâyet ağır ceza. Tablolar ve sayılar
+  bookmark aldırır (kaydedilecek içerik). Ayrıntı: references/x-algoritma.md (sergebulaev/x-skills, MIT).
+- Birbirine çok benzeyen postlar benzerlik cezası alır: hafta sonu 15 dakikalık kart akışında kapanış sorusu maça
+  özel ve dönüşümlü (etkilesim.kart_sorusu); aynı kalıp art arda gitmesin.
+- Yapay zekâ izleri erişimi ve güveni düşürür: "The result?", "Here's what", "It's not X, it's Y", samimiyet
+  ilanları, aynı postta 3+ yapay zekâ kelimesi (significant, crucial, notably, leverage…), 1'den fazla uzun tire.
+  Direktör metninde varsa kod şablona döner (direktor.yz_izi).
+- Hashtag: kaynak rehber 0–1 öneriyor (2+ spam gibi okunabilir). Bizde kart postunda en fazla 2, liste postunda
+  sahibinin isteğiyle maçların taraftar etiketleri var; etkileşim verisine göre azaltmayı değerlendir.
+- Kapanış: genel "ne düşünüyorsun?" yerine belirli soru; tek bir net çağrı (yanıt, kaydet ya da repost), hepsi değil.
 
 ## Kalkylerat için işe yarayanlar
 1. **Şeffaf rekor** en büyük koz: kazanç ve kayıp aynı görünürlükte, haftalık özet, zamanla kasa grafiği.

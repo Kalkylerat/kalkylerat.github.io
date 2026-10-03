@@ -1,7 +1,245 @@
 {
- "bulunan": [],
+ "bulunan": [
+  {
+   "created_at": "2018-10-22T06:29:29.000Z",
+   "description": "Stats and insights related to football ⚽ | @SofascoreBR | @SofascoreLA | @SofascoreARB Download Sofascore live score app ⬇️",
+   "id": "1054258421942358016",
+   "name": "Sofascore Football",
+   "public_metrics": {
+    "followers_count": 255195,
+    "following_count": 2374,
+    "like_count": 9853,
+    "listed_count": 1192,
+    "media_count": 16551,
+    "tweet_count": 20751
+   },
+   "username": "Sofascore",
+   "verified": true,
+   "verified_type": "business"
+  },
+  {
+   "created_at": "2010-10-13T10:42:02.000Z",
+   "description": "",
+   "id": "202123269",
+   "name": "linchoy",
+   "public_metrics": {
+    "followers_count": 9,
+    "following_count": 2,
+    "like_count": 0,
+    "listed_count": 0,
+    "media_count": 0,
+    "tweet_count": 0
+   },
+   "username": "understat",
+   "verified": false,
+   "verified_type": "none"
+  },
+  {
+   "created_at": "2014-01-24T17:15:28.000Z",
+   "description": "Betwoon tek gerçek twitter x hesabıdır\nSahte sitelere ve hesaplara itibar etmeyiniz.\n#betwoon",
+   "id": "2301831317",
+   "name": "Betwoon Yeni",
+   "public_metrics": {
+    "followers_count": 3309,
+    "following_count": 3357,
+    "like_count": 2249,
+    "listed_count": 4,
+    "media_count": 516,
+    "tweet_count": 5445
+   },
+   "username": "ESPNStatsInfo",
+   "verified": false,
+   "verified_type": "none"
+  },
+  {
+   "created_at": "2013-04-22T17:56:36.000Z",
+   "description": "Follow us to know interesting facts & stats about football players, managers & teams. 18+ https://t.co/IGMHBM7A2b\n\nFor Advertising: Footballfactly@gmail.com",
+   "id": "1372726615",
+   "name": "Football Factly",
+   "public_metrics": {
+    "followers_count": 487854,
+    "following_count": 324,
+    "like_count": 375,
+    "listed_count": 1353,
+    "media_count": 29621,
+    "tweet_count": 37003
+   },
+   "username": "FootballFactly",
+   "verified": true,
+   "verified_type": "blue"
+  },
+  {
+   "created_at": "2009-07-25T09:55:31.000Z",
+   "description": "Arsenal facts. Former Opta stalwart. Creator of @OptaJoe Trying to convince people to use data better.",
+   "id": "60026651",
+   "name": "Orbinho",
+   "public_metrics": {
+    "followers_count": 155404,
+    "following_count": 2,
+    "like_count": 1432,
+    "listed_count": 2369,
+    "media_count": 753,
+    "tweet_count": 41860
+   },
+   "username": "Orbinho",
+   "verified": true,
+   "verified_type": "blue"
+  },
+  {
+   "created_at": "2010-01-21T17:42:20.000Z",
+   "description": "Come kick it with us 🌎 | Watch MLS on  Apple TV 📺 | En español: @MLSes",
+   "id": "107146095",
+   "name": "Major League Soccer",
+   "public_metrics": {
+    "followers_count": 3463425,
+    "following_count": 8776,
+    "like_count": 30130,
+    "listed_count": 9071,
+    "media_count": 109417,
+    "tweet_count": 221368
+   },
+   "username": "MLS",
+   "verified": true,
+   "verified_type": "business"
+  },
+  {
+   "created_at": "2010-05-04T13:48:36.000Z",
+   "description": "Bringing you news on FIFA and celebrating how football unites the world.",
+   "id": "140070953",
+   "name": "FIFA",
+   "public_metrics": {
+    "followers_count": 15258993,
+    "following_count": 334,
+    "like_count": 8117,
+    "listed_count": 23578,
+    "media_count": 33945,
+    "tweet_count": 96644
+   },
+   "username": "FIFAcom",
+   "verified": true,
+   "verified_type": "business"
+  },
+  {
+   "created_at": "2016-10-05T21:54:14.000Z",
+   "description": "A magazine from the future of football.",
+   "id": "783787407938314240",
+   "name": "SCOUTED",
+   "public_metrics": {
+    "followers_count": 149394,
+    "following_count": 1020,
+    "like_count": 15535,
+    "listed_count": 1328,
+    "media_count": 18437,
+    "tweet_count": 46545
+   },
+   "username": "scoutedftbl",
+   "verified": true,
+   "verified_type": "blue"
+  },
+  {
+   "created_at": "2017-05-10T14:50:02.000Z",
+   "description": "Focussed on the meta-strategy of football clubs.",
+   "id": "862318821075537920",
+   "name": "FootballMeta",
+   "public_metrics": {
+    "followers_count": 5,
+    "following_count": 50,
+    "like_count": 0,
+    "listed_count": 0,
+    "media_count": 0,
+    "tweet_count": 0
+   },
+   "username": "FootballMeta",
+   "verified": false,
+   "verified_type": "none"
+  },
+  {
+   "created_at": "2010-01-26T10:22:29.000Z",
+   "description": "The Official Sky Sports News X Account",
+   "id": "108568373",
+   "name": "Sky Sports News",
+   "public_metrics": {
+    "followers_count": 12785142,
+    "following_count": 22,
+    "like_count": 463,
+    "listed_count": 21082,
+    "media_count": 71119,
+    "tweet_count": 135700
+   },
+   "username": "SkySportsNews",
+   "verified": true,
+   "verified_type": "business"
+  },
+  {
+   "created_at": "2011-03-14T09:44:40.000Z",
+   "description": "Official BBC Sport account. \nAlso follow @bbcmotd and @bbctms.",
+   "id": "265902729",
+   "name": "BBC Sport",
+   "public_metrics": {
+    "followers_count": 10196984,
+    "following_count": 720,
+    "like_count": 2973,
+    "listed_count": 23155,
+    "media_count": 335414,
+    "tweet_count": 654110
+   },
+   "username": "BBCSport",
+   "verified": true,
+   "verified_type": "business"
+  },
+  {
+   "created_at": "2012-07-16T12:04:13.000Z",
+   "description": "1 - Cuenta oficial en X de @StatsPerform para la cobertura del fútbol de Sudamérica. Pasión.",
+   "id": "636918011",
+   "name": "OptaJavier",
+   "public_metrics": {
+    "followers_count": 55349,
+    "following_count": 361,
+    "like_count": 1590,
+    "listed_count": 803,
+    "media_count": 10620,
+    "tweet_count": 22344
+   },
+   "username": "OptaJavier",
+   "verified": true,
+   "verified_type": "business"
+  },
+  {
+   "created_at": "2024-08-07T20:47:39.000Z",
+   "description": "📊 Football Data & Recruitment Analysis | Player Scouting | Performance Insights",
+   "id": "1821287063888465921",
+   "name": "Tom",
+   "public_metrics": {
+    "followers_count": 10,
+    "following_count": 28,
+    "like_count": 7043,
+    "listed_count": 0,
+    "media_count": 63,
+    "tweet_count": 218
+   },
+   "username": "DataScoutHQ",
+   "verified": true,
+   "verified_type": "blue"
+  },
+  {
+   "created_at": "2022-08-02T15:24:16.000Z",
+   "description": "⚽️ Trendyol Süper Lig resmi X hesabı! 📱 🇹🇷",
+   "id": "1554488226555072513",
+   "name": "Trendyol Süper Lig",
+   "public_metrics": {
+    "followers_count": 689295,
+    "following_count": 35,
+    "like_count": 0,
+    "listed_count": 551,
+    "media_count": 8345,
+    "tweet_count": 12409
+   },
+   "username": "superlig",
+   "verified": true,
+   "verified_type": "blue"
+  }
+ ],
  "hatalar": [
-  null,
-  "HTTP 400: {'detail': 'One or more parameters to your request was invalid.', 'errors': [{'message': 'The `usernames` query parameter value [TrendyolSuperLig] does not match ^[A-Za-z0-9_]{1,15}$', 'parameters': {"
+  "Football__Stats"
  ]
 }

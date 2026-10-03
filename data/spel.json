@@ -6249,6 +6249,17 @@
         "durum": "paylasildi",
         "tweet_id": "2106332077558059417",
         "zaman": "2026-10-03T10:34:31+00:00"
+      },
+      "analiz_0": {
+        "durum": "atlandi"
+      },
+      "analiz_1": {
+        "durum": "atlandi"
+      },
+      "analiz_2": {
+        "durum": "paylasildi",
+        "tweet_id": "2106375821531427070",
+        "zaman": "2026-10-03T13:28:21+00:00"
       }
     }
   }

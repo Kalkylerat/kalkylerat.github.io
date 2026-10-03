@@ -275,8 +275,12 @@ def test_kupon_dogrulama():
     assert "coupons" in editor.secimi_dogrula(secim + [{"aday_id": "1-UST15"}], a, AYAR, dort)
 
 
-def test_demo_uctan_uca(monkeypatch, capsys):
+def test_demo_uctan_uca(monkeypatch, capsys, tmp_path):
+    import shutil
     monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    # Demo çıktıları (örnek görseller, panel) depodaki ornek/ yerine geçici kopyaya yazılsın: test depoyu kirletmesin
+    shutil.copytree(config.ROOT / "ornek", tmp_path / "ornek")
+    monkeypatch.setattr(config, "ROOT", tmp_path)
     assert main(["demo"]) == 0
     cikti = capsys.readouterr().out
     assert "TWEET #1 + gorsel-" in cikti and "TODAY'S COUPON" in cikti and "RESULTS | 3 Oct" in cikti

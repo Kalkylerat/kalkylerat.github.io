@@ -2345,3 +2345,23 @@ def test_x_kurallari_tekrar_ve_gunluk_sinir():
     assert tweets.liste_etiketleri([("UEFA Nations League", "")] * 3, [("France", "Italy"), ("Belgium", "Türkiye"),
                                                                      ("England", "Wales")]) == ["#NationsLeague", "#LesBleus"]
     assert "#Football" not in tweets.liste_etiketleri([("Premier League", "England")], [("Arsenal", "Leeds")])
+
+
+def test_aksam_tablosu_yogun_gunde_bir_kez():
+    """Yoğun günde 16:00 UTC'den sonra sabah tablosunda ve kartlarda olmayan akşam maçlarıyla ikinci tablo."""
+    from dataclasses import replace
+    from bot import etkilesim, model
+    ayar = replace(AYAR, yogun_hafta_sonu=True)
+    def a(fid, ev, saat, lig_id=None, lig="PL"):
+        return {"fixture_id": fid, "ev": ev, "dep": ev + " B", "lig": lig, "lig_id": lig_id or AYAR.ligler[0],
+                "baslama": f"2026-10-03T{saat}:00+00:00", "guven": "yuksek", "beklenen_gol": [1.4, 1.1],
+                "skorlar": [["1-1", 0.12]], "p": {k: round(v, 3) for k, v in model.model_olasiliklari(1.4, 1.1).items()}}
+    tum = [a(i, f"Club{i}", "19:30", lig=f"L{i % 3}") for i in range(1, 7)] + [a(9, "Early", "16:30")]
+    gun = {"tarih": "2026-10-03", "konsept": "analiz", "tablo": [a(1, "Club1", "19:30", lig="L1")], "analizler": [a(2, "Club2", "19:30", lig="L2")],
+           "etkilesim": {}}
+    assert etkilesim.aksam_tablosu_ekle(gun, tum, ayar, datetime(2026, 10, 3, 15, 0, tzinfo=timezone.utc)) == 0
+    assert etkilesim.aksam_tablosu_ekle(gun, tum, ayar, datetime(2026, 10, 3, 17, 0, tzinfo=timezone.utc)) == 4
+    ids = {x["fixture_id"] for x in gun["tablo_aksam"]}
+    assert ids == {3, 4, 5, 6} and any(t == "tablo_aksam" for t, _, _ in etkilesim._plan(gun))
+    assert etkilesim.aksam_tablosu_ekle(gun, tum, ayar, datetime(2026, 10, 3, 18, 0, tzinfo=timezone.utc)) == 0  # bir kez
+    assert "from tonight's board" in etkilesim.tablo_mac_sonu_tweeti(gun["tablo_aksam"][0], 1, 0, aksam=True)

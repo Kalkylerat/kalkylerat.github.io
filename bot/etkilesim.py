@@ -286,6 +286,9 @@ def _plan(gun: dict) -> list[tuple[str, datetime, datetime]]:
         if gun.get("tablo"):  # günün analiz tablosu (görsel): sabah, tablodaki ilk maçtan önce
             ilk = min(datetime.fromisoformat(a["baslama"]) for a in gun["tablo"])
             plan.append(("tablo", gun_bas + timedelta(hours=8), ilk - timedelta(minutes=10)))
+        if gun.get("tablo_aksam"):  # yoğun gün: akşam maçlarının tablosu (16:00 UTC'den, ilk maçtan önce)
+            ilk = min(datetime.fromisoformat(a["baslama"]) for a in gun["tablo_aksam"])
+            plan.append(("tablo_aksam", gun_bas + timedelta(hours=16), ilk - timedelta(minutes=10)))
         elif vit:
             ilk = min(datetime.fromisoformat(v["baslama"]) for v in vit)
             plan.append(("maclar", ilk - timedelta(hours=5), ilk - timedelta(minutes=15)))
@@ -311,6 +314,19 @@ def _plan(gun: dict) -> list[tuple[str, datetime, datetime]]:
         plan.append(("radar", ilk - timedelta(hours=2, minutes=15), ilk - timedelta(minutes=40)))
         plan.append(("skor", s - timedelta(minutes=75), s - timedelta(minutes=10)))
     return plan
+
+
+def aksam_tablosu_ekle(gun: dict, tum: list[dict], ayar, simdi: datetime) -> int:
+    """Yoğun günde 16:00 UTC'den sonra bir kez: sabah tablosunda ve kartlarda olmayan akşam maçlarının tablosu
+    (en az 4 maç). Paylaşımı ve maç sonu yanıtları sabah tablosu gibi."""
+    if gun.get("konsept") != "analiz" or not config.yogun_mu(ayar, gun["tarih"]) or "tablo_aksam" in gun \
+            or simdi.hour < 16:
+        return 0
+    haric = {a["fixture_id"] for a in (gun.get("tablo") or []) + (gun.get("analizler") or [])}
+    liste = analiz.tablo_secimi(tum, ayar.ligler, en_erken=(simdi + timedelta(minutes=60)).isoformat(), haric=haric,
+                                lig_basina=3)
+    gun["tablo_aksam"] = [analiz.ozet(a) for a in liste] if len(liste) >= 4 else []
+    return len(gun["tablo_aksam"])
 
 
 def yogun_kartlari_ekle(gun: dict, tum: list[dict], ayar, simdi: datetime) -> int:
@@ -407,8 +423,8 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_pay
                     durum[tur] = {"durum": "atlandi", "neden": "denetçi"}
                     continue
                 tid = x.gonder(metin, medya=[x.medya_yukle(png)])  # kartlar topluluğa gitmez (günde 2 post sınırı)
-            elif tur == "tablo":
-                liste = [a for a in gun["tablo"] if datetime.fromisoformat(a["baslama"]) > simdi]
+            elif tur in ("tablo", "tablo_aksam"):  # sabah tablosu ve yoğun günde akşam maçları tablosu
+                liste = [a for a in gun[tur] if datetime.fromisoformat(a["baslama"]) > simdi]
                 if len(liste) < 4:
                     durum[tur] = {"durum": "atlandi", "neden": "yeterli maç kalmadı"}
                     continue
@@ -467,7 +483,7 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_pay
             yaz(f"⚠️ Etkileşim paylaşımı ({tur}) başarısız: {e}")
             return None
         durum[tur] = {"durum": "paylasildi", "tweet_id": tid, "zaman": zaman, "metin": metin}
-        if tur == "tablo":  # maç sonu yanıtı için tablodaki maçlar
+        if tur in ("tablo", "tablo_aksam"):  # maç sonu yanıtı için tablodaki maçlar
             durum[tur]["maclar"] = [a["fixture_id"] for a in liste]
         if tur == "deger":  # maçlar bitince bu post alıntılanıp nasıl bittikleri yazılır
             durum[tur]["maclar"] = [{k: v[k] for k in ("fixture_id", "odds_id", "odds_spor", "ev", "dep", "lig", "ulke",
@@ -478,7 +494,9 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_pay
     return None
 
 
-TAKIP_GECIKME = timedelta(hours=2, minutes=15)  # son maçın başlamasından sonra (bitmiş ve sonuç girilmiş olur)
+# Maç başlamasından bu kadar sonra sonuç sorulmaya başlanır; maç bitmemişse sonraki nabızda tekrar sorulur
+# (2 saat 15 dk beklemek maç sonu postunu düdükten ~40 dk sonraya bırakıyordu).
+TAKIP_GECIKME = timedelta(hours=1, minutes=50)
 ORNEK_TUTAR = 100
 
 
@@ -660,7 +678,7 @@ def analiz_takip_tweeti(a: dict, skor: str, isabet: list | None = None) -> str:
                      bas + "\n\n💡 Chances, not picks.\n💬 Saw it coming? 👇\n" + ANSVAR, bas + "\n\n" + ANSVAR)
 
 
-def tablo_mac_sonu_tweeti(a: dict, ev: int, dep: int) -> str:
+def tablo_mac_sonu_tweeti(a: dict, ev: int, dep: int, aksam: bool = False) -> str:
     """Tablodaki bir maç bitince tablo postuna yanıt: skor ve olanların maç öncesi yüzdeleri, istatistik varsa
     oranla yan yana (karşılaştırmalı). Seçim dili yok."""
     kars = {c["pazar"]: c["istatistik"] for c in a.get("karsilastirma") or []}
@@ -674,7 +692,7 @@ def tablo_mac_sonu_tweeti(a: dict, ev: int, dep: int) -> str:
         satirlar.append(f'{o["emoji"]} {o["ad"]}: odds {p} · stats {_pct(i)}' if i is not None else
                         f'{o["emoji"]} {o["ad"]}: {p}')
     mac = f'🆚 {a["ev"]} {ev}–{dep} {a["dep"]}\n\n'
-    uzun = "⚽ FULL TIME · from this morning's board\n" + mac + "📊 Our pre-match chance of what happened:\n"
+    uzun = f"⚽ FULL TIME · from {'tonight' if aksam else 'this morning'}'s board\n" + mac + "📊 Our pre-match chance of what happened:\n"
     kisa = "⚽ FT · from today's board\n" + mac + "📊 Pre-match chance:\n"
     sik = [x.replace("odds ", "").replace(" · stats ", " / stats ") for x in satirlar]
     adaylar = [uzun + "\n".join(satirlar) + "\n\n💬 Saw it coming? 👇", uzun + "\n".join(satirlar),
@@ -714,7 +732,8 @@ def tablo_takibi(gun: dict, ayar, x, simdi: datetime, sonuc_getir, tum: list[dic
             if r.get("durum") != "bitti" or not a.get("beklenen_gol"):
                 continue
             ev, dep = r["skor"]
-            metin = _denetle("tablo_sonuc", tablo_mac_sonu_tweeti(a, ev, dep), tablo_mac_sonu_tweeti(a, ev, dep),
+            sablon = tablo_mac_sonu_tweeti(a, ev, dep, aksam=tur == "tablo_aksam")
+            metin = _denetle("tablo_sonuc", sablon, sablon,
                              [], ayar, None, yaz)
             if not metin:
                 biten[str(a["fixture_id"])] = {"durum": "atlandi", "neden": "denetçi"}

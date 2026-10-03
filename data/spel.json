@@ -1444,7 +1444,11 @@
       "tablo": {
         "durum": "paylasildi",
         "tweet_id": "2105945801184739646",
-        "zaman": "2026-10-02T08:59:36+00:00"
+        "zaman": "2026-10-02T08:59:36+00:00",
+        "takip": {
+          "durum": "atlandi",
+          "neden": "eski"
+        }
       },
       "bilgi": {
         "durum": "paylasildi",
@@ -1527,7 +1531,11 @@
         "durum": "paylasildi",
         "tweet_id": "2106016175154934175",
         "zaman": "2026-10-02T13:39:17+00:00",
-        "elle": true
+        "elle": true,
+        "takip": {
+          "durum": "atlandi",
+          "neden": "liste kaydı yok"
+        }
       },
       "analiz_2": {
         "durum": "paylasildi",
@@ -7001,6 +7009,11 @@
         "durum": "paylasildi",
         "tweet_id": "2106445646446448796",
         "zaman": "2026-10-03T18:05:48+00:00"
+      },
+      "analiz_8": {
+        "durum": "paylasildi",
+        "tweet_id": "2106449241568587922",
+        "zaman": "2026-10-03T18:20:05+00:00"
       }
     }
   }

@@ -6233,6 +6233,13 @@
         "kaynak": "piyasa",
         "istatistik_kaynak": "son5"
       }
-    ]
+    ],
+    "etkilesim": {
+      "tablo": {
+        "durum": "paylasildi",
+        "tweet_id": "2106302221893750906",
+        "zaman": "2026-10-03T08:35:45+00:00"
+      }
+    }
   }
 ]

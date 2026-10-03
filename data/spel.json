@@ -7134,7 +7134,18 @@
       "analiz_7": {
         "durum": "paylasildi",
         "tweet_id": "2106445646446448796",
-        "zaman": "2026-10-03T18:05:48+00:00"
+        "zaman": "2026-10-03T18:05:48+00:00",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2106488777514549294",
+          "skor": "2-0",
+          "isabet": [
+            true,
+            false,
+            true
+          ],
+          "zaman": "2026-10-03T20:57:11+00:00"
+        }
       },
       "analiz_8": {
         "durum": "paylasildi",

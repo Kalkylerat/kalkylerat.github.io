@@ -1,0 +1,46 @@
+name: Kalkylerat Nöbetçi
+
+# GitHub'ın 15 dakikalık zamanlayıcısı yoğun saatlerde saatlerce hiç tetiklenmeyebiliyor (3 Ekim: 11:04–13:27 ve
+# 13:27–17:18 arası hiç nabız yok, kartlar ve maç sonu postları kaçtı). Nöbetçi saatte iki kez tetiklenir; biri
+# tutsa yeter: ~5,5 saat açık kalır ve botun son çalışması 13 dakikadan eskiyse nabzı kendisi başlatır.
+# Depo herkese açık olduğu için Actions dakikaları ücretsiz.
+on:
+  schedule:
+    - cron: "13 * * * *"
+    - cron: "43 * * * *"
+  workflow_dispatch:
+
+permissions:
+  actions: write  # ana botu workflow_dispatch ile başlatmak için
+  contents: read
+
+concurrency:
+  group: kalkylerat-nobet  # aynı anda tek nöbetçi; sıradaki, öncekinin bitişini bekler
+  cancel-in-progress: false
+
+jobs:
+  nobet:
+    runs-on: ubuntu-latest
+    timeout-minutes: 345
+    steps:
+      - name: Bot düzenli çalışıyor mu? Çalışmıyorsa nabzı başlat
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          DAL: ${{ github.ref_name }}
+        run: |
+          bitis=$(( $(date +%s) + 330 * 60 ))
+          while [ "$(date +%s)" -lt "$bitis" ]; do
+            son=$(gh api "repos/$REPO/actions/workflows/kalkylerat.yml/runs?per_page=1" --jq '.workflow_runs[0].created_at' || true)
+            if [ -n "$son" ]; then
+              fark=$(( $(date +%s) - $(date -d "$son" +%s) ))
+            else
+              fark=99999
+            fi
+            if [ "$fark" -ge 780 ]; then
+              echo "$(date -u '+%H:%M') son çalışma $((fark / 60)) dk önce: nabız başlatılıyor"
+              gh workflow run kalkylerat.yml --repo "$REPO" --ref "$DAL" -f komut=nabiz \
+                || echo "::warning::Nabız başlatılamadı"
+            fi
+            sleep 300
+          done

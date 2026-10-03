@@ -335,7 +335,9 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_pay
     son = _son_paylasim(gun, diger_paylasimlar)
     if son and simdi < son + timedelta(minutes=ARALIK_DK):
         return None
-    for tur, erken, gec in _plan(gun):
+    # Son paylaşım saati en yakın olan önce: maçtan önce çıkması gereken kart, gün boyu çıkabilen bilgi postu
+    # yüzünden kaçmasın (aralık kuralı yüzünden bir nabızda yalnızca bir post çıkar).
+    for tur, erken, gec in sorted(_plan(gun), key=lambda t: t[2]):
         if tur in durum:
             continue
         if simdi > gec:

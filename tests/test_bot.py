@@ -2167,3 +2167,26 @@ def test_mac_sonu_postu_secim_dili_kullanmaz():
     assert denetci.analiz_kontrolu("analiz_sonuc", t, [a], AYAR) == []
     for kotu in ("❌ Kazakhstan win: 51%", "We got it wrong today", "0 of 3 headline calls came in"):
         assert denetci.analiz_kontrolu("analiz_sonuc", kotu + "\n" + tweets.ANSVAR, [a], AYAR)
+
+
+def test_son_saati_yakin_kart_bilgi_postundan_once_cikar():
+    """Nabız seyrek çalışsa da maçtan önce çıkması gereken kart, gün boyu çıkabilen bilgi postu yüzünden kaçmaz."""
+    from bot import etkilesim, model
+    a = {"fixture_id": 1, "ev": "Albacete", "dep": "Eibar", "lig": "Segunda División", "ulke": "Spain", "guven": "yuksek",
+         "baslama": "2026-10-03T12:00:00+00:00", "beklenen_gol": [1.2, 1.0], "skorlar": [["1-1", 0.12]],
+         "p": {k: round(v, 3) for k, v in model.model_olasiliklari(1.2, 1.0).items()}, "karsilastirma": []}
+    gun = {"id": "2026-10-03", "tarih": "2026-10-03", "konsept": "analiz", "secimler": [], "sonuc": "analiz",
+           "analizler": [a], "vitrin": [], "etkilesim": {}}
+
+    class X:
+        def __init__(self):
+            self.n = 0
+
+        def medya_yukle(self, png):
+            return "m"
+
+        def gonder(self, metin, **k):
+            self.n += 1
+            return str(self.n)
+    tur = etkilesim.paylas(gun, AYAR, X(), datetime(2026, 10, 3, 9, 30, tzinfo=timezone.utc), yaz=lambda m: None)
+    assert tur == "analiz_0" and "bilgi" not in gun["etkilesim"]  # bilgi sonra (son saati akşam)

@@ -177,3 +177,5 @@ Gerçekçi süre: **2–3 oturum.** Sıfırdan başlamak 3–4 hafta sürerdi.
 3. **Ek API anahtarları:** OpenAI ve Google (Gemini) anahtarı gerekiyor — ölçülecek modeller onlar.
    10$ kredi her biri için aylarca yeter.
 4. **Ücretli katman:** 9. haftada mı açılsın, yoksa önce 1000 takipçi mi beklenir?
+
+> **Düzeltme (3 Ekim 2026):** bu dosyadaki X reklam payı eşikleri artık geçerli değil — program yeni hesaplara kapandı. Bkz. `marka/KEYIF_VE_YUK.md` bölüm 0.

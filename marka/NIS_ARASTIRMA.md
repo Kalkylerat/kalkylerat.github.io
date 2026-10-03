@@ -76,3 +76,5 @@ iki yerde düzeltiyor:**
 2. **Rakip netleşti.** Artificial Analysis ve LMArena aynı kategoride. Ayrışma noktamız artık tahmin değil
    zorunluluk: onlar *ham fiyat/hız* ve *tercih oylaması* ölçüyor; biz **"başarılı iş başına kuruş"**
    ölçeceğiz — gerçek, sıkıcı, makine-kontrol edilebilir ticari işlerde. Bu kutu boş.
+
+> **Düzeltme (3 Ekim 2026):** 1. bulgudaki X reklam payı artık yeni hesaplara açık değil; sonuç güçlenerek aynı kalıyor (gelir X dışından). Bkz. `marka/KEYIF_VE_YUK.md` bölüm 0.

@@ -5,13 +5,20 @@ sorunlar aynı issue'ya yorum olarak eklenir) ve sahibi etiketlenir: GitHub e-po
 Aynı sorun iki kez bildirilmez (data/alarm.json)."""
 
 import json
+import re
 from datetime import datetime, timedelta
 
 from . import config, etkilesim
 
 DOSYA = config.DATA_FILE.parent / "alarm.json"
 ETIKET = "alarm"
-TAKIP_GECIKME = timedelta(hours=3, minutes=30)  # maç başlangıcından bu kadar sonra maç sonu postu hâlâ yoksa
+# SÖZLEŞME (SOZLESME.md B1): maç sonu postu düdükten 5–15 dk sonra. Düdük ≈ başlama + 1 sa 55 dk; 25 dk pay.
+TAHMINI_BITIS = timedelta(hours=1, minutes=55)
+MAC_SONU_PAYI = timedelta(minutes=25)
+TAKIP_GECIKME = TAHMINI_BITIS + MAC_SONU_PAYI
+TABLO_SONUC_SINIR = timedelta(hours=2, minutes=30)  # tablodaki maçın sonucu yanıtı (B2)
+_ETIKET = re.compile(r"#\w+")
+_KISALTMA = re.compile(r"\b(O|U)\d\.\d\b|\bBTTS\b")
 DURGUNLUK = timedelta(minutes=20)  # yoğun günde, sırada post varken aralık + bu kadar sessizlik
 
 
@@ -50,8 +57,34 @@ def sorunlar(gunler: list[dict], simdi: datetime, ayar, hatalar: list[str] = ())
                 elif t.get("durum") == "atlandi" and t.get("neden") == "denetçi":
                     bulunan.append((anahtar + ":takip_denetci", f'🛑 {ad}: maç sonu postunu denetçi durdurdu'))
                 elif not t and simdi > datetime.fromisoformat(a["baslama"]) + TAKIP_GECIKME:
-                    bulunan.append((anahtar + ":takip_gec", f'⏰ {ad}: maç bitti ama maç sonu postu hâlâ çıkmadı'))
+                    bulunan.append((anahtar + ":takip_gec", f'⏰ {ad}: maç bitti ama maç sonu postu hâlâ çıkmadı '
+                                                           f'(sözleşme: düdükten 5–15 dk sonra)'))
+                elif t.get("durum") == "paylasildi" and t.get("zaman") and datetime.fromisoformat(t["zaman"]) > \
+                        datetime.fromisoformat(a["baslama"]) + TAKIP_GECIKME:
+                    dk = int((datetime.fromisoformat(t["zaman"]) - datetime.fromisoformat(a["baslama"])
+                              - TAHMINI_BITIS).total_seconds() // 60)
+                    bulunan.append((anahtar + ":takip_gecikti", f'⏰ {ad}: maç sonu postu düdükten ~{dk} dk sonra çıktı '
+                                                               f'(sözleşme: 5–15 dk)'))
+            if (tur == "tablo" or tur.startswith("tablo_")) and e.get("durum") == "paylasildi" and e.get("maclar"):
+                havuz = {a["fixture_id"]: a for a in (g.get("tablo") or []) + (g.get("tablo_aksam") or [])}
+                for fid in e["maclar"]:
+                    a = havuz.get(fid)
+                    if a and str(fid) not in (e.get("sonuclar") or {}) and \
+                            simdi > datetime.fromisoformat(a["baslama"]) + TABLO_SONUC_SINIR:
+                        bulunan.append((f"{anahtar}:{fid}:tablo_gec", f'⏰ {g["tarih"]} {tur}: {a["ev"]} v {a["dep"]} '
+                                                                     f'bitti ama tablonun altına sonucu gelmedi'))
+            metin = e.get("metin") or ""
+            if e.get("durum") == "paylasildi" and metin:  # paylaşılan metin sözleşmeye uyuyor mu (A bölümü)
+                from .denetci import _SECIM_DILI
+                sinir = 2 if tur.startswith("tablo") else 1
+                ihlal = ([f"{len(_ETIKET.findall(metin))} hashtag (en fazla {sinir})"] if len(_ETIKET.findall(metin)) > sinir else []) \
+                    + (["seçim/tahmin dili"] if _SECIM_DILI.search(metin) else []) \
+                    + (["kısaltma (O2.5/BTTS)"] if _KISALTMA.search(metin) else [])
+                if ihlal:
+                    bulunan.append((anahtar + ":kural", f'📏 {g["tarih"]} {ad}: paylaşılan metin sözleşme dışı: {", ".join(ihlal)}'))
     bugun = next((g for g in reversed(gunler) if g["tarih"] == gun_adi and g.get("konsept") == "analiz"), None)
+    if ayar.konsept == "analiz" and not any(g["tarih"] == gun_adi for g in gunler) and simdi.hour >= 10:
+        bulunan.append((f"{gun_adi}:sabah", "🌅 Bugünün sabah analizi yapılmadı (tablo, kartlar ve kit çıkmayacak)"))
     if bugun and config.yogun_mu(ayar, gun_adi):
         durum = bugun.get("etkilesim") or {}
         bekleyen = [tur for tur, erken, gec in etkilesim._plan(bugun) if tur not in durum and erken <= simdi <= gec]

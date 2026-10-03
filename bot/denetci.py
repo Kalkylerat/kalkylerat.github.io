@@ -245,10 +245,12 @@ def analiz_kontrolu(tur: str, metin: str, analizler: list[dict], ayar, png: byte
         ad = f'{a["ev"]} v {a["dep"]}'
         if ad not in metin or tur not in ("analiz", "tablo", "ayrisma"):
             continue
-        # Kart postunda maç başlıkta, rakamlar alttaki blokta: bütün metin; listede ve ayrışmada maçın kendi bloğu
-        blok = metin if tur == "analiz" else metin[metin.index(ad):].split("\n\n")[0]
-        yuzdeler = re.findall(r"(\d+)%", blok)
-        if len(yuzdeler) < 2:
+        # Kart postunda maç başlıkta, rakamlar alttaki blokta: bütün metin; listede ve ayrışmada maçın adının geçtiği
+        # HER yerin kendi bloğu (ikinci, yüzdesiz bir anılış da yakalanır)
+        bloklar = [metin] if tur == "analiz" else [metin[i:].split("\n\n")[0] for i in
+                                                   (m.start() for m in re.finditer(re.escape(ad), metin))]
+        yuzdeler = [y for blok in bloklar for y in re.findall(r"(\d+)%", blok)]
+        if any(len(re.findall(r"\d+%", blok)) < 2 for blok in bloklar):
             hata.append(f"{ad}: adı geçiyor ama yüzdeleri yok (en az iki yüzde gerekir).")
         gecerli = {round(100 * v) for v in a["p"].values()} | {round(100 * p) for _, p in a.get("skorlar") or []}
         gecerli |= {round(100 * c[k]) for c in a.get("karsilastirma") or [] for k in ("piyasa", "istatistik")}

@@ -53,7 +53,7 @@ jobs:
             fi
             if [ "$fark" -lt 420 ]; then
               durgun_bildirildi=""  # bot yeniden çalıştı; bir sonraki durgunluk yine bildirilir
-            elif [ "$fark" -ge 2400 ] && [ -z "$durgun_bildirildi" ]; then
+            elif [ "$fark" -ge 1200 ] && [ -z "$durgun_bildirildi" ]; then  # 20 dk çalışmadıysa alarm
               alarm "Bot $((fark / 60)) dakikadır çalışmıyor; nöbetçi başlatmayı denedi ama çalışma başlamadı. Actions sekmesine bakın."
               durgun_bildirildi=1
             fi

@@ -7214,7 +7214,18 @@
       "analiz_12": {
         "durum": "paylasildi",
         "tweet_id": "2106465310974832793",
-        "zaman": "2026-10-03T19:23:56+00:00"
+        "zaman": "2026-10-03T19:23:56+00:00",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2106528665248964971",
+          "skor": "1-0",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "zaman": "2026-10-03T23:35:41+00:00"
+        }
       },
       "maclar": {
         "durum": "atlandi"

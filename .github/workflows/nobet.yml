@@ -2,7 +2,8 @@ name: Kalkylerat Nöbetçi
 
 # GitHub'ın 15 dakikalık zamanlayıcısı yoğun saatlerde saatlerce hiç tetiklenmeyebiliyor (3 Ekim: 11:04–13:27 ve
 # 13:27–17:18 arası hiç nabız yok, kartlar ve maç sonu postları kaçtı). Nöbetçi saatte iki kez tetiklenir; biri
-# tutsa yeter: ~5,5 saat açık kalır ve botun son çalışması 14 dakikadan eskiyse nabzı kendisi başlatır.
+# tutsa yeter: ~5,5 saat açık kalır ve botun son çalışması 7 dakikadan eskiyse nabzı kendisi başlatır (maç sonu
+# postu düdükten ~5–12 dk sonra; postlar arası aralığı ayarlar.toml belirler, bu sıklık post sayısını artırmaz).
 # Depo herkese açık olduğu için Actions dakikaları ücretsiz.
 on:
   schedule:
@@ -45,12 +46,12 @@ jobs:
             else
               fark=99999
             fi
-            if [ "$fark" -ge 840 ]; then
+            if [ "$fark" -ge 420 ]; then  # 7 dk: maç sonu postu düdükten ~5–12 dk sonra çıksın
               echo "$(date -u '+%H:%M') son çalışma $((fark / 60)) dk önce: nabız başlatılıyor"
               gh workflow run kalkylerat.yml --repo "$REPO" --ref "$DAL" -f komut=nabiz \
                 || echo "::warning::Nabız başlatılamadı"
             fi
-            if [ "$fark" -lt 840 ]; then
+            if [ "$fark" -lt 420 ]; then
               durgun_bildirildi=""  # bot yeniden çalıştı; bir sonraki durgunluk yine bildirilir
             elif [ "$fark" -ge 2400 ] && [ -z "$durgun_bildirildi" ]; then
               alarm "Bot $((fark / 60)) dakikadır çalışmıyor; nöbetçi başlatmayı denedi ama çalışma başlamadı. Actions sekmesine bakın."

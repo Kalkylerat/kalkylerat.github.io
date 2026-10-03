@@ -496,7 +496,7 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_pay
 
 # Maç başlamasından bu kadar sonra sonuç sorulmaya başlanır; maç bitmemişse sonraki nabızda tekrar sorulur
 # (2 saat 15 dk beklemek maç sonu postunu düdükten ~40 dk sonraya bırakıyordu).
-TAKIP_GECIKME = timedelta(hours=1, minutes=50)
+TAKIP_GECIKME = timedelta(hours=1, minutes=45)
 ORNEK_TUTAR = 100
 
 

@@ -1832,7 +1832,7 @@ def test_deger_postu_maclar_bitince_alintilanir():
     def getir(maclar):
         istenen.append(len(maclar))
         return {2: {"durum": "bitti", "skor": (3, 0)}, 3: {"durum": "bitti", "skor": (1, 0)}}
-    assert not etkilesim.deger_takibi(gun, AYAR, x, t(20, 30), getir, yaz=lambda m: None) and not istenen  # erken
+    assert not etkilesim.deger_takibi(gun, AYAR, x, t(20, 25), getir, yaz=lambda m: None) and not istenen  # erken
     once = x.sayac
     assert etkilesim.deger_takibi(gun, AYAR, x, t(21, 15), getir, yaz=lambda m: None)
     assert x.sayac == once + 1 and e["takip"]["durum"] == "paylasildi"

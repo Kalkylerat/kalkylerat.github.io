@@ -97,7 +97,7 @@ def sorunlar(gunler: list[dict], simdi: datetime, ayar, hatalar: list[str] = ())
         durum = bugun.get("etkilesim") or {}
         bekleyen = [tur for tur, erken, gec in etkilesim._plan(bugun) if tur not in durum and erken <= simdi <= gec]
         son = etkilesim._son_paylasim(bugun)
-        if bekleyen and son and simdi - son > timedelta(minutes=ayar.yogun_aralik_dk) + DURGUNLUK:
+        if bekleyen and son and simdi - son > timedelta(minutes=etkilesim.aralik_dk(bugun, ayar, simdi)) + DURGUNLUK:
             dk = int((simdi - son).total_seconds() // 60)
             bulunan.append((f"{gun_adi}:durgun:{son.isoformat()}",
                             f"🔇 {dk} dakikadır post yok, sırada bekleyen var: {', '.join(bekleyen[:5])}"))

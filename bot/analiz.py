@@ -148,7 +148,8 @@ def one_cikanlar(analizler: list[dict], izinli: list[int], adet: int = 5) -> lis
 def ek_kart_secimi(analizler: list[dict], izinli: list[int], ek_ligler, haric: set, en_erken: str,
                    adet: int) -> list[dict]:
     """Yoğun gün: henüz kartı olmayan, en_erken'den sonra başlayan maçlardan önemli maçlar, büyük ligler ve ek
-    ligler (veri güveni yüksek/orta); yalnızca ek liglerde lig başına en fazla 2; saat sırasıyla."""
+    ligler (veri güveni yüksek/orta); yalnızca ek liglerde lig başına en fazla 2; saat sırasıyla. Alt ligler
+    (ör. 4. lig) kart almaz: maç iyi olmalı."""
     sira = {lig: i for i, lig in enumerate(list(izinli) + list(ek_ligler))}
     aday = [a for a in analizler if a["fixture_id"] not in haric and _gecerli(a) and a["guven"] != "dusuk"
             and (a.get("lig_id") in sira or onemli(a))

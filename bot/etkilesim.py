@@ -272,6 +272,10 @@ def _son_paylasim(gun: dict, diger: tuple[str, ...] = ()) -> datetime | None:
     return max(zamanlar) if zamanlar else None
 
 
+KART_PENCERESI = timedelta(hours=8)  # SÖZLEŞME B4: kart maçtan bu kadar önce paylaşılabilir (boşluk doldurur)
+YAKIN_KART = timedelta(hours=4)  # bundan erken kart, sırada başka post yoksa çıkar
+
+
 def _plan(gun: dict) -> list[tuple[str, datetime, datetime]]:
     """(tür, en erken, en geç) — sırayla; en geç geçtiyse o tür o gün atlanır."""
     plan = []
@@ -282,7 +286,8 @@ def _plan(gun: dict) -> list[tuple[str, datetime, datetime]]:
     gun_bas = datetime.fromisoformat(gun["tarih"] + "T00:00:00+00:00")
     plan.append(("bilgi", gun_bas + timedelta(hours=9), gun_bas + timedelta(hours=19, minutes=30)))  # günlük bilgi
     if gun.get("konsept") == "analiz":
-        # Kupon yok: günün maçları, öne çıkan maçların analiz kartları (maçtan ~4 saat – 35 dk önce), anket.
+        # Kupon yok: günün maçları, öne çıkan maçların analiz kartları (maçtan 8 saat – 35 dk önce, en erken 08:00 UTC;
+        # 15 dakikalık akışta öğleden önce boşluk kalmasın), anket.
         if gun.get("tablo"):  # günün analiz tablosu (görsel): sabah, tablodaki ilk maçtan önce
             ilk = min(datetime.fromisoformat(a["baslama"]) for a in gun["tablo"])
             plan.append(("tablo", gun_bas + timedelta(hours=8), ilk - timedelta(minutes=10)))
@@ -297,7 +302,7 @@ def _plan(gun: dict) -> list[tuple[str, datetime, datetime]]:
             plan.append(("ayrisma", gun_bas + timedelta(hours=10), ilk - timedelta(minutes=30)))
         for i, a in enumerate(gun.get("analizler") or []):
             b = datetime.fromisoformat(a["baslama"])
-            plan.append((f"analiz_{i}", b - timedelta(hours=4), b - timedelta(minutes=35)))
+            plan.append((f"analiz_{i}", max(b - KART_PENCERESI, gun_bas + timedelta(hours=8)), b - timedelta(minutes=35)))
         if vit:
             a = datetime.fromisoformat(anket_maci(vit)["baslama"])
             plan.append(("anket", a - timedelta(hours=3), a - timedelta(minutes=30)))
@@ -382,6 +387,21 @@ def _denetle(tur: str, metin: str, sablon: str, analizler: list[dict], ayar, png
     return None
 
 
+def aralik_dk(gun: dict, ayar, simdi: datetime) -> float:
+    """Postlar arası dakika. Normal gün 45. Yoğun günde en az ayar.yogun_aralik_dk (~15 dk); sırada az post varsa
+    kalanlar günün geri kalanına yayılır (öğlen hepsi tükenip akşam boş kalmasın), ama en fazla 45 dk ve son saati
+    1 saatten yakın post varken hiç beklemeden en kısa aralık."""
+    if not config.yogun_mu(ayar, gun["tarih"]):
+        return ARALIK_DK
+    en_az = getattr(ayar, "yogun_aralik_dk", ARALIK_DK)
+    durum = gun.get("etkilesim") or {}
+    kalan = [gec for tur, _, gec in _plan(gun) if tur not in durum and gec > simdi]
+    if not kalan or min(kalan) < simdi + timedelta(hours=1):
+        return en_az
+    yayilim = (max(kalan) - simdi).total_seconds() / 60 / len(kalan)
+    return min(max(en_az, yayilim), ARALIK_DK)
+
+
 def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_paylasimlar: tuple[str, ...] = (),
            haric_takimlar: set[str] = frozenset()) -> str | None:
     """Sıradaki etkileşim paylaşımını zamanı geldiyse atar (nabız başına en fazla bir tane).
@@ -395,19 +415,19 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_pay
         return None  # X spam kuralları: otomatik hesap günde makul sayıda post
     x = _TekrarKorumasi(x, gun)
     son = _son_paylasim(gun, diger_paylasimlar)
-    aralik = getattr(ayar, "yogun_aralik_dk", ARALIK_DK) if config.yogun_mu(ayar, gun["tarih"]) else ARALIK_DK
-    if son and simdi < son + timedelta(minutes=aralik):
+    if son and simdi < son + timedelta(minutes=aralik_dk(gun, ayar, simdi)):
         return None
     # Son paylaşım saati en yakın olan önce: maçtan önce çıkması gereken kart, gün boyu çıkabilen bilgi postu
     # yüzünden kaçmasın (aralık kuralı yüzünden bir nabızda yalnızca bir post çıkar).
-    def oncelik(t):  # büyük maçın kartı önce (SÖZLEŞME B6); diğer kartlar sıralamada 3 saat geride sayılır
-        tur, _, gec = t
+    def oncelik(t):  # büyük maçın kartı önce (SÖZLEŞME B6); diğer kartlar sıralamada 3 saat geride sayılır.
+        tur, _, gec = t  # Maça 4 saatten çok varsa kart ancak başka post yoksa (boşluk doldurur, maça yakın kalsın)
+        erken_kart = tur.startswith("analiz_") and simdi < gec + timedelta(minutes=35) - YAKIN_KART
         if tur.startswith("analiz_"):
             i = int(tur.split("_")[1])
             a = (gun.get("analizler") or [])[i] if i < len(gun.get("analizler") or []) else None
             if a is not None and not analiz.onemli(a):
-                return gec + timedelta(hours=3)
-        return gec
+                return erken_kart, gec + timedelta(hours=3)
+        return erken_kart, gec
     for tur, erken, gec in sorted(_plan(gun), key=oncelik):
         if tur in durum:
             continue

@@ -142,6 +142,14 @@ def test_B4_hafta_sonu_yogun_gun():
     assert config.yogun_mu(AYAR, "2026-10-03") and config.yogun_mu(AYAR, "2026-10-04")  # Cumartesi, Pazar
     assert not config.yogun_mu(AYAR, "2026-10-05")
     assert 13 <= AYAR.yogun_aralik_dk <= 15 and AYAR.gunluk_post_siniri <= 40 and AYAR.yogun_kart >= 20
+    # kart penceresi 8 saat: öğle boşluğunda akşam maçının kartı paylaşılabilir
+    gun = {"tarih": "2026-10-03", "konsept": "analiz", "analizler": [mac(1, "France", "Italy", saat="18:45")]}
+    erken, gec = next((e, l) for t, e, l in etkilesim._plan(gun) if t == "analiz_0")
+    assert erken == datetime(2026, 10, 3, 10, 45, tzinfo=UTC) and gec == datetime(2026, 10, 3, 18, 10, tzinfo=UTC)
+    # az post kaldıysa günün geri kalanına yayılır (en fazla 45 dk); son saati yakın post varken en kısa aralık
+    gun["etkilesim"] = {}
+    assert AYAR.yogun_aralik_dk < etkilesim.aralik_dk(gun, AYAR, datetime(2026, 10, 3, 11, 0, tzinfo=UTC)) <= 45
+    assert etkilesim.aralik_dk(gun, AYAR, datetime(2026, 10, 3, 17, 30, tzinfo=UTC)) == AYAR.yogun_aralik_dk
 
 
 def test_B5_sabah_analizi_yoksa_alarm():

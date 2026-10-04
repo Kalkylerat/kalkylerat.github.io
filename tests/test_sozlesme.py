@@ -141,7 +141,7 @@ def test_B3_kart_bilgi_postundan_once():
 def test_B4_hafta_sonu_yogun_gun():
     assert config.yogun_mu(AYAR, "2026-10-03") and config.yogun_mu(AYAR, "2026-10-04")  # Cumartesi, Pazar
     assert not config.yogun_mu(AYAR, "2026-10-05")
-    assert 28 <= AYAR.yogun_aralik_dk <= 30 and AYAR.gunluk_post_siniri <= 24 and AYAR.yogun_kart >= 10
+    assert 13 <= AYAR.yogun_aralik_dk <= 15 and AYAR.gunluk_post_siniri <= 40 and AYAR.yogun_kart >= 20
 
 
 def test_B5_sabah_analizi_yoksa_alarm():
@@ -159,6 +159,10 @@ def test_B6_buyuk_maclar_kart_ve_tabloda():
     assert {a["fixture_id"] for a in uluslar} <= kartlar
     ek = analiz.ek_kart_secimi(uluslar, AYAR.ligler, [], set(), "2026-10-03T08:00:00+00:00", adet=20)
     assert len(ek) == 8  # yoğun günde lig sınırı büyük maçı dışarıda bırakmaz
+    pl = [dict(mac(50 + i, f"Club{i}", f"Other{i}", saat="16:00", lig="Premier League"), lig_id=39) for i in range(6)]
+    assert len(analiz.tablo_secimi(pl, AYAR.ligler)) == 6  # büyük ligde "lig başına 2" sınırı yok
+    assert len(analiz.tablo_secimi(pl + uluslar + [dict(a, fixture_id=a["fixture_id"] + 100) for a in uluslar],
+                                   AYAR.ligler)) == 15  # tablo en fazla 15 maç
     # liste metni büyük maçı anar; yalnızca alt lig maçını anan metni denetçi durdurur
     secilen = analiz.tablo_secimi(alt[:1] + uluslar[:2], AYAR.ligler)
     metin = etkilesim.tablo_tweeti({"tarih": "2026-10-03"}, secilen, AYAR)

@@ -98,11 +98,12 @@ onay_suresi_dk = 90
 # Her post farklı bir maçın analizi ya da maç sonu: aynı içerik tekrar edilmez (X spam kuralı).
 gunler = []
 hafta_sonu = true  # Cumartesi ve Pazar bütün gün maç var: her zaman yoğun
-# X spam kuralları ve hesabın itibarı için: yoğun günde postlar arası 30 dk (normal gün 45), günde en fazla 24 post
-# (maç sonu yanıtları hariç). Benzer şablonlu postların çok sık atılması spam sayılabilir.
-aralik_dk = 28
-gunluk_sinir = 24
-kart = 20
+# Yoğun günde ~15 dakikada bir post (nabız 7 dakikada bir: aralık 13 → pratikte 14 dk; normal gün 45), günde en
+# fazla 40 post (maç sonu ve tablo yanıtları hariç; hepsi birlikte X API'nin günlük 100 post sınırının altında kalır).
+# Her post farklı bir maç: aynı metin iki kez gitmez (X spam kuralı).
+aralik_dk = 13
+gunluk_sinir = 40
+kart = 30
 ek_ligler = [128, 71, 239, 253, 262, 479]  # Arjantin, Brezilya Serie A, Kolombiya, MLS, Liga MX, Kanada
 
 [alarm]

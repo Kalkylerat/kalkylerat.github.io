@@ -2067,9 +2067,10 @@ def test_analiz_tablosu_ve_ayrisma_postu():
     ids = [x["fixture_id"] for x in t]
     assert 4 not in ids and 7 not in ids and 6 not in ids  # erken, güveni düşük, adı bozuk
     assert {1, 2, 3} <= set(ids) and 5 in ids  # büyük ligde sınır yok (B6), tablo zayıfsa alt lig de girer
-    orta = AYAR.ligler[AYAR.ligler.index(40)]  # izinli ama büyük olmayan lig: en fazla 2
+    orta = AYAR.ligler[AYAR.ligler.index(40)]  # izinli ligde de lig sınırı yok; alt lig en fazla 2
     t2 = analiz.tablo_secimi([a(40 + i, orta, "Championship", f"Mid{i}", "15:00") for i in range(4)], AYAR.ligler)
-    assert len(t2) == 2
+    t3 = analiz.tablo_secimi([a(60 + i, 999, "Low", f"Low{i}", "15:00") for i in range(4)], AYAR.ligler)
+    assert len(t2) == 4 and len(t3) == 2
     png = gorsel.analiz_tablosu(t, "2026-10-03", ["16:00"] * len(t), "en")
     assert png[:4] == b"\x89PNG"
     kars = lambda pi, ist: [{"pazar": "UST25", "ad": "Over 2.5 goals", "piyasa": pi, "istatistik": ist}]

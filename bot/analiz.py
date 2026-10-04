@@ -148,15 +148,15 @@ def one_cikanlar(analizler: list[dict], izinli: list[int], adet: int = 5) -> lis
 def ek_kart_secimi(analizler: list[dict], izinli: list[int], ek_ligler, haric: set, en_erken: str,
                    adet: int) -> list[dict]:
     """Yoğun gün: henüz kartı olmayan, en_erken'den sonra başlayan maçlardan önemli maçlar, büyük ligler ve ek
-    ligler (veri güveni yüksek/orta); büyük maç dışında lig başına en fazla 2; saat sırasıyla."""
+    ligler (veri güveni yüksek/orta); yalnızca ek liglerde lig başına en fazla 2; saat sırasıyla."""
     sira = {lig: i for i, lig in enumerate(list(izinli) + list(ek_ligler))}
     aday = [a for a in analizler if a["fixture_id"] not in haric and _gecerli(a) and a["guven"] != "dusuk"
             and (a.get("lig_id") in sira or onemli(a))
             and datetime.fromisoformat(a["baslama"]) > datetime.fromisoformat(en_erken)]
     aday.sort(key=lambda a: (not onemli(a), sira.get(a.get("lig_id"), 999), a["baslama"]))
     secilen, sayac = [], {}
-    for a in aday:  # büyük maçlara lig sınırı yok (SÖZLEŞME B6)
-        if len(secilen) < adet and (onemli(a) or sayac.get(a["lig"], 0) < 2):
+    for a in aday:  # büyük ve izinli liglerde lig sınırı yok (SÖZLEŞME B6); ek liglerde en fazla 2
+        if len(secilen) < adet and (onemli(a) or a.get("lig_id") in izinli or sayac.get(a["lig"], 0) < 2):
             secilen.append(a)
             sayac[a["lig"]] = sayac.get(a["lig"], 0) + 1
     return sorted(secilen, key=lambda a: a["baslama"])
@@ -167,10 +167,10 @@ def _gecerli(a: dict) -> bool:
     return all(len(t.strip()) > 2 and t.strip().lower() != "team" for t in (a["ev"], a["dep"]))
 
 
-def tablo_secimi(analizler: list[dict], izinli: list[int] = (), adet: int = 10, lig_basina: int = 2,
+def tablo_secimi(analizler: list[dict], izinli: list[int] = (), adet: int = 15, lig_basina: int = 2,
                  en_erken: str | None = None, haric: set = frozenset()) -> list[dict]:
-    """Günün analiz tablosu: önce günün büyük maçları (lig sınırı yok), sonra izinli ligler (lig başına en fazla 2),
-    alt ligler yalnızca tablo 6 maçtan azsa; veri güveni yüksek/orta; paylaşım saatinden sonra başlayanlar."""
+    """Günün analiz tablosu (en fazla 15 maç): önce günün büyük maçları, sonra izinli ligler (ikisinde de lig sınırı yok;
+    ölçüt veri güveni), alt ligler yalnızca tablo 6 maçtan azsa ve lig başına en fazla 2; paylaşım saatinden sonra."""
     puan = {"yuksek": 0, "orta": 1}
     sira = {lig: i for i, lig in enumerate(izinli)}
     aday = [a for a in analizler if a["guven"] in puan and _gecerli(a) and a["fixture_id"] not in haric
@@ -178,10 +178,9 @@ def tablo_secimi(analizler: list[dict], izinli: list[int] = (), adet: int = 10, 
     aday.sort(key=lambda a: (not onemli(a), a.get("lig_id") not in sira, sira.get(a.get("lig_id"), 0),
                              puan[a["guven"]], a["baslama"]))  # önce günün önemli maçları
     secilen, sayac = [], {}
-    for a in aday:  # büyük maçlara lig sınırı yok (SÖZLEŞME B6); alt ligler ancak yer kalırsa
-        buyuk = onemli(a)
-        alt = not buyuk and a.get("lig_id") not in sira
-        if len(secilen) < adet and (buyuk or sayac.get(a["lig"], 0) < lig_basina) and not (alt and len(secilen) >= 6):
+    for a in aday:  # büyük ve izinli liglerde lig sınırı yok, ölçüt maçın kalitesi (SÖZLEŞME B6); alt ligler yer kalırsa
+        alt = not onemli(a) and a.get("lig_id") not in sira
+        if len(secilen) < adet and (not alt or sayac.get(a["lig"], 0) < lig_basina) and not (alt and len(secilen) >= 6):
             secilen.append(a)
             sayac[a["lig"]] = sayac.get(a["lig"], 0) + 1
     return sorted(secilen, key=lambda a: a["baslama"])
@@ -190,16 +189,15 @@ def tablo_secimi(analizler: list[dict], izinli: list[int] = (), adet: int = 10, 
 def kiyas_secimi(analizler: list[dict], izinli: list[int] = (), adet: int = 10, lig_basina: int = 3,
                  en_erken: str | None = None) -> list[dict]:
     """İkinci tablo (oran ve takım istatistiği yan yana): istatistiği olan maçlardan önce günün önemli maçları,
-    sonra büyük (izinli) ligler, sonra en çok ayrışanlar; büyük maç dışında lig başına en fazla 3; saat sırasıyla."""
+    sonra büyük (izinli) ligler, sonra en çok ayrışanlar; yalnızca alt liglerde lig başına en fazla 3; saat sırasıyla."""
     sira = {lig: i for i, lig in enumerate(izinli)}
     aday = [a for a in analizler if a.get("karsilastirma") and a["guven"] in ("yuksek", "orta") and _gecerli(a)
             and (en_erken is None or datetime.fromisoformat(a["baslama"]) > datetime.fromisoformat(en_erken))]
     aday.sort(key=lambda a: (not onemli(a), a.get("lig_id") not in sira, -abs(fark_puani(a["karsilastirma"][0]))))
     secilen, sayac = [], {}
-    for a in aday:  # büyük maçlara lig sınırı yok (SÖZLEŞME B6); alt ligler ancak yer kalırsa ve tablo zayıfsa
-        buyuk = onemli(a)
-        alt = not buyuk and a.get("lig_id") not in sira
-        if len(secilen) < adet and (buyuk or sayac.get(a["lig"], 0) < lig_basina) and not (alt and len(secilen) >= 6):
+    for a in aday:  # büyük ve izinli liglerde lig sınırı yok, ölçüt maçın kalitesi (SÖZLEŞME B6); alt ligler yer kalırsa
+        alt = not onemli(a) and a.get("lig_id") not in sira
+        if len(secilen) < adet and (not alt or sayac.get(a["lig"], 0) < lig_basina) and not (alt and len(secilen) >= 6):
             secilen.append(a)
             sayac[a["lig"]] = sayac.get(a["lig"], 0) + 1
     return sorted(secilen, key=lambda a: a["baslama"])

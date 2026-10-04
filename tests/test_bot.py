@@ -1885,9 +1885,9 @@ def test_bilgi_postu_gunluk_dogru_ve_sayi_uydurulamaz():
         assert tweets.uzunluk(metin) <= 280, k["id"]
         assert direktor.kurala_uygun(metin, "bilgi", AYAR.oran_bahiscileri), k["id"]
     konu = {k["id"]: k["govde"] for k in bilgi.KONULAR}
-    assert "about 10% back" in konu["deger"] and "34.3%" in konu["kombine"] and "32.8%" in konu["kombine"]
-    assert "90.4%" in konu["yuzde1"] and "34.9%" in konu["yuzde1"] and "83.3%" in konu["basabas"]
-    assert "128×" in konu["martingale"] and "1-1 at just 12.6%" in konu["skor"]
+    assert "34.3%" in konu["kombine"] and "32.8%" in konu["kombine"] and "83.3%" in konu["basabas"]
+    assert "25.7%" in konu["yuzde1"] and "8.2%" in konu["kelly"] and "1-1 at just 12.6%" in konu["skor"]
+    assert not any(re.search(r"\b(stake|bank|bet|pick|tipster|chase)", k["govde"] + k["soru"], re.I) for k in bilgi.KONULAR)
     assert abs(bilgi._en_az_bir_seri(5, 5, 0.4) - 0.4 ** 5) < 1e-12  # 5 bahiste 5'li seri = hepsi kayıp
     assert abs(bilgi._binom_en_fazla(10, 10, 0.3) - 1) < 1e-12 and abs(math.exp(-1.5) - 0.2231) < 1e-4
     # 20 konu her gün sırayla döner

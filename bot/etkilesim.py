@@ -500,6 +500,9 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_pay
                     continue
                 sablon = metin
                 metin = yazar(tur, olgular(tur, {**gun, "_haric": haric_takimlar}, ayar), metin) if yazar else metin
+                from .denetci import KISALTMA
+                if metin and KISALTMA.search(metin):  # SÖZLEŞME A5: kısaltmalı metin yerine şablon (o da değilse atla)
+                    metin = None if KISALTMA.search(sablon) else sablon
                 if not metin:  # X Direktörü bugün bu paylaşımı uygun görmedi
                     durum[tur] = {"durum": "atlandi", "neden": "direktör"}
                     yaz(f"Etkileşim paylaşımı ({tur}): direktör bugün atlamayı seçti.")

@@ -47,6 +47,9 @@ _TAHMIN = re.compile(r"likel|expect|predict|project|should end|could end|forecas
 _SKOR = re.compile(r"\b(\d{1,2})\s*[-–]\s*(\d{1,2})\b")
 
 
+# SÖZLEŞME A5: kısaltma yok ("Over 2.5 goals", "Both teams score", "expected goals")
+KISALTMA = re.compile(r"\b(O|U)\d\.\d\b|\bBTTS\b|\bxG\b")
+
 def _cumleler(metin: str) -> list[str]:
     return [c for c in re.split(r"(?<=[.!?])\s+", (metin or "").strip()) if c]
 

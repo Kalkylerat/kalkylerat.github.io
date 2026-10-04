@@ -76,6 +76,13 @@ def test_A5_yuzde_isareti_kisaltma_yok(a):
                 assert "%" in satir
 
 
+def test_A5_bilgi_postlarinda_kisaltma_yok():
+    for k in __import__("bot.bilgi", fromlist=["KONULAR"]).KONULAR:
+        metin = " ".join(str(v) for v in k.values())
+        assert not denetci.KISALTMA.search(metin), k["id"]
+        assert not re.search(r"\b0\.\d+\b", metin), k["id"]  # olasılık ondalıkla değil yüzdeyle
+
+
 def test_A6_gorselde_yuzdesiz_rakam_yok(monkeypatch):
     yazilan = []
     asil = gorsel.ImageDraw.ImageDraw.text

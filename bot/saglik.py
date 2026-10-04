@@ -18,7 +18,7 @@ MAC_SONU_PAYI = timedelta(minutes=25)
 TAKIP_GECIKME = TAHMINI_BITIS + MAC_SONU_PAYI
 TABLO_SONUC_SINIR = timedelta(hours=2, minutes=30)  # tablodaki maçın sonucu yanıtı (B2)
 _ETIKET = re.compile(r"#\w+")
-_KISALTMA = re.compile(r"\b(O|U)\d\.\d\b|\bBTTS\b")
+from .denetci import KISALTMA as _KISALTMA
 DURGUNLUK = timedelta(minutes=20)  # yoğun günde, sırada post varken aralık + bu kadar sessizlik
 
 

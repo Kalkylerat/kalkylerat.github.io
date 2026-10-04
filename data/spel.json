@@ -11954,7 +11954,22 @@
         "durum": "paylasildi",
         "tweet_id": "2106694748874392060",
         "zaman": "2026-10-04T10:35:39+00:00",
-        "metin": "🆚 VVV Venlo v Roda\n\n🏆 VVV Venlo 40% · Draw 23% · Roda 36%\n⚽ Over 2.5 goals 62% · Under 38%\n🥅 Both teams score 64% · Not both 36%\n🎯 Most likely score: 1-1 (10%)\n\n📈 Team stats: VVV Venlo win 55%\n💹 Odds: 40%\n\n💬 Chances, not picks. Can Roda beat 36%? 👇\n18+ | Play responsibly"
+        "metin": "🆚 VVV Venlo v Roda\n\n🏆 VVV Venlo 40% · Draw 23% · Roda 36%\n⚽ Over 2.5 goals 62% · Under 38%\n🥅 Both teams score 64% · Not both 36%\n🎯 Most likely score: 1-1 (10%)\n\n📈 Team stats: VVV Venlo win 55%\n💹 Odds: 40%\n\n💬 Chances, not picks. Can Roda beat 36%? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2106754252697747616",
+          "skor": "2-0",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "zaman": "2026-10-04T14:32:06+00:00",
+          "brier": {
+            "piyasa": 1.3299,
+            "istatistik": 0.8458
+          }
+        }
       },
       "analiz_7": {
         "durum": "paylasildi",

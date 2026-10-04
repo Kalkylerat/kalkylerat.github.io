@@ -12137,7 +12137,18 @@
         "durum": "paylasildi",
         "tweet_id": "2106750638394667302",
         "zaman": "2026-10-04T14:17:44+00:00",
-        "metin": "🆚 Huracan v Aldosivi\n\n🏆 Huracan 55% · Draw 27% · Aldosivi 18%\n⚽ Over 2.5 goals 36% · Under 64%\n🥅 Both teams score 38% · Not both 62%\n🎯 Most likely score: 1-0 (17%)\n\n📈 Team stats: too few recent games\n\n💬 Chances, not picks. Huracan 55%: too high? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Huracan v Aldosivi\n\n🏆 Huracan 55% · Draw 27% · Aldosivi 18%\n⚽ Over 2.5 goals 36% · Under 64%\n🥅 Both teams score 38% · Not both 62%\n🎯 Most likely score: 1-0 (17%)\n\n📈 Team stats: too few recent games\n\n💬 Chances, not picks. Huracan 55%: too high? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2106833092119867859",
+          "skor": "1-0",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "zaman": "2026-10-04T19:45:22+00:00"
+        }
       },
       "analiz_2": {
         "durum": "paylasildi",
@@ -12164,7 +12175,17 @@
           1528943,
           1569955
         ],
-        "sonuclar": {}
+        "sonuclar": {
+          "1493160": {
+            "durum": "paylasildi",
+            "tweet_id": "2106833078496707035",
+            "skor": [
+              1,
+              0
+            ],
+            "zaman": "2026-10-04T19:45:22+00:00"
+          }
+        }
       },
       "analiz_4": {
         "durum": "paylasildi",

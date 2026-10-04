@@ -2113,7 +2113,7 @@ def test_liste_postu_butun_mac_etiketlerini_tasir():
     assert "Germany" not in metin and "Also" not in metin  # rakamı olmayan maç adıyla anılmaz
     for blok in metin.split("🆚")[1:]:  # her maç bloğunda en az iki yüzde
         assert blok.split("\n\n")[0].count("%") >= 2
-    assert "Which number looks wrong?" in metin and "Small" not in metin
+    assert "Which % surprises you?" in metin and "Small" not in metin
     etiketler = re.findall(r"#\w+", metin)
     assert etiketler == ["#NationsLeague", "#LesBleus"]  # turnuva + adı geçen maç; en fazla iki, genel etiket yok
     assert tweets.uzunluk(metin) <= 280 and metin.endswith(tweets.ANSVAR)

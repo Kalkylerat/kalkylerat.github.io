@@ -242,7 +242,7 @@ def analiz_kontrolu(tur: str, metin: str, analizler: list[dict], ayar, png: byte
     if len(etiketler) > (LISTE_ETIKET_SINIRI if liste else 1) or any(
             not izinli_etiket(e) for e in etiketler):
         hata.append(f"İzin verilmeyen ya da fazla hashtag ({' '.join(etiketler)}).")
-    if tur in ("analiz", "analiz_sonuc", "tablo_sonuc") and _SECIM_DILI.search(metin):
+    if tur in ("analiz", "analiz_sonuc", "tablo_sonuc", "tablo", "ayrisma") and _SECIM_DILI.search(metin):
         hata.append("Olasılığı seçim/tahmin gibi yazıyor (doğru/yanlış, ✅/❌, 'our pick'): kart seçim değil.")
     for a in analizler:
         ad = f'{a["ev"]} v {a["dep"]}'

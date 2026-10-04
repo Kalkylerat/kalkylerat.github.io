@@ -855,7 +855,7 @@ def tablo_tweeti(gun: dict, liste: list[dict], ayar=None) -> str:
                  f"📋 Today's chances, not picks · every % in the image\n\n")
     adaylar = [a for a in liste if a.get("p") and a.get("skorlar")]
     onemliler = sorted([a for a in adaylar if analiz.onemli(a)], key=_vitrin_sirasi) or adaylar[:1]
-    soru = "💬 Which number looks wrong? 👇\n\n"
+    soru = "💬 Which % surprises you? 👇\n\n"
 
     def blok(a: dict, seviye: int) -> str:
         sonuc, gol, kg = iki_tarafli(a)  # her pazar bütün taraflarıyla: tek taraf "seçim" gibi okunur

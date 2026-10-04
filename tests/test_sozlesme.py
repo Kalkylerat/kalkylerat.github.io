@@ -56,6 +56,9 @@ def test_A3_olasilik_secim_degil():
     assert "✅" not in takip and "❌" not in takip and "not picks" in takip.lower()
     for kotu in ("❌ France win", "We got it wrong", "our pick tonight"):
         assert denetci.analiz_kontrolu("analiz_sonuc", kotu + "\n" + tweets.ANSVAR, [FRA], AYAR)
+    liste = etkilesim.tablo_tweeti({"tarih": "2026-10-03"}, [FRA, BEL], AYAR)  # liste şablonu da seçim dili taşımaz
+    assert not denetci._SECIM_DILI.search(liste)
+    assert denetci.analiz_kontrolu("tablo", liste.replace("Which % surprises you", "Which number looks wrong"), [FRA, BEL], AYAR)
 
 
 def test_A4_oran_ve_istatistik_yan_yana():

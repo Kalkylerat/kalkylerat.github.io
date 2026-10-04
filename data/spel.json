@@ -12272,6 +12272,33 @@
               0
             ],
             "zaman": "2026-10-04T20:49:34+00:00"
+          },
+          "1528941": {
+            "durum": "paylasildi",
+            "tweet_id": "2106850959762592176",
+            "skor": [
+              2,
+              1
+            ],
+            "zaman": "2026-10-04T20:56:24+00:00"
+          },
+          "1528942": {
+            "durum": "paylasildi",
+            "tweet_id": "2106850961301938395",
+            "skor": [
+              0,
+              1
+            ],
+            "zaman": "2026-10-04T20:56:24+00:00"
+          },
+          "1528943": {
+            "durum": "paylasildi",
+            "tweet_id": "2106850962526622074",
+            "skor": [
+              1,
+              1
+            ],
+            "zaman": "2026-10-04T20:56:24+00:00"
           }
         }
       },
@@ -12342,7 +12369,22 @@
         "durum": "paylasildi",
         "tweet_id": "2106802485876883804",
         "zaman": "2026-10-04T17:43:45+00:00",
-        "metin": "🆚 Girona v Mallorca\n\n🏆 Girona 39% · Draw 26% · Mallorca 35%\n⚽ Over 2.5 goals 51% · Under 49%\n🥅 Both teams score 55% · Not both 45%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: Girona win 54%\n💹 Odds: 39%\n\n💬 Chances, not picks. What's your score? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Girona v Mallorca\n\n🏆 Girona 39% · Draw 26% · Mallorca 35%\n⚽ Over 2.5 goals 51% · Under 49%\n🥅 Both teams score 55% · Not both 45%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: Girona win 54%\n💹 Odds: 39%\n\n💬 Chances, not picks. What's your score? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2106850976871207368",
+          "skor": "0-0",
+          "isabet": [
+            false,
+            false,
+            false
+          ],
+          "zaman": "2026-10-04T20:56:24+00:00",
+          "brier": {
+            "piyasa": 1.3832,
+            "istatistik": 1.2205
+          }
+        }
       },
       "analiz_11": {
         "durum": "paylasildi",

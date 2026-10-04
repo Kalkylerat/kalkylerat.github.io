@@ -9259,6 +9259,119 @@
             "istatistik": 0.215
           }
         ]
+      },
+      {
+        "fixture_id": 1569955,
+        "lig": "Segunda División",
+        "ulke": "Spain",
+        "lig_id": 141,
+        "ev": "Girona",
+        "dep": "Mallorca",
+        "baslama": "2026-10-04T21:00:00+02:00",
+        "beklenen_gol": [
+          1.4,
+          1.3
+        ],
+        "p": {
+          "MS1": 0.394,
+          "MSX": 0.258,
+          "MS2": 0.348,
+          "CS1X": 0.652,
+          "CSX2": 0.606,
+          "CS12": 0.742,
+          "KGVAR": 0.548,
+          "KGYOK": 0.452,
+          "UST15": 0.751,
+          "ALT15": 0.249,
+          "UST25": 0.506,
+          "ALT25": 0.494,
+          "UST35": 0.286,
+          "ALT35": 0.714,
+          "IY1": 0.306,
+          "IYX": 0.417,
+          "IY2": 0.277,
+          "IYU05": 0.703,
+          "IYA05": 0.297,
+          "IYU15": 0.343,
+          "IYA15": 0.657,
+          "EVU05": 0.753,
+          "EVA05": 0.247,
+          "EVU15": 0.408,
+          "EVA15": 0.592,
+          "EVU25": 0.167,
+          "EVA25": 0.833,
+          "DPU05": 0.727,
+          "DPA05": 0.273,
+          "DPU15": 0.373,
+          "DPA15": 0.627,
+          "DPU25": 0.143,
+          "DPA25": 0.857,
+          "YYU05": 0.773,
+          "YYA05": 0.227,
+          "YYU15": 0.437,
+          "YYA15": 0.563
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1223
+          ],
+          [
+            "1-0",
+            0.0941
+          ],
+          [
+            "0-1",
+            0.0874
+          ],
+          [
+            "2-1",
+            0.0856
+          ],
+          [
+            "1-2",
+            0.0795
+          ]
+        ],
+        "guven": "yuksek",
+        "kaynak": "piyasa",
+        "istatistik_gol": [
+          1.5,
+          0.8
+        ],
+        "istatistik_kaynak": "lig",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Girona win",
+            "piyasa": 0.394,
+            "istatistik": 0.538
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Mallorca win",
+            "piyasa": 0.348,
+            "istatistik": 0.2
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.548,
+            "istatistik": 0.428
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.506,
+            "istatistik": 0.404
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.258,
+            "istatistik": 0.262
+          }
+        ]
       }
     ],
     "tablo": [

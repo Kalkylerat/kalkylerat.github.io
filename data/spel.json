@@ -12437,13 +12437,35 @@
         "durum": "paylasildi",
         "tweet_id": "2106825948071154034",
         "zaman": "2026-10-04T19:16:59+00:00",
-        "metin": "🆚 Cucuta v Deportivo Pereira\n\n🏆 Cucuta 54% · Draw 24% · Deportivo Pereira 22%\n⚽ Over 2.5 goals 48% · Under 52%\n🥅 Both teams score 50% · Not both 50%\n🎯 Most likely score: 1-0 (12%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Cucuta v Deportivo Pereira\n\n🏆 Cucuta 54% · Draw 24% · Deportivo Pereira 22%\n⚽ Over 2.5 goals 48% · Under 52%\n🥅 Both teams score 50% · Not both 50%\n🎯 Most likely score: 1-0 (12%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2106882985920245971",
+          "skor": "4-0",
+          "isabet": [
+            true,
+            false,
+            true
+          ],
+          "zaman": "2026-10-04T23:03:38+00:00"
+        }
       },
       "analiz_14": {
         "durum": "paylasildi",
         "tweet_id": "2106829494556205073",
         "zaman": "2026-10-04T19:31:05+00:00",
-        "metin": "🆚 Internacional de Bogota v Once Caldas\n\n🏆 Internacional de Bogota 36% · Draw 27% · Once Caldas 38%\n⚽ Over 2.5 goals 47% · Under 53%\n🥅 Both teams score 52% · Not both 48%\n\n📈 Team stats: too few recent games\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Internacional de Bogota v Once Caldas\n\n🏆 Internacional de Bogota 36% · Draw 27% · Once Caldas 38%\n⚽ Over 2.5 goals 47% · Under 53%\n🥅 Both teams score 52% · Not both 48%\n\n📈 Team stats: too few recent games\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2106882997538447870",
+          "skor": "1-1",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "zaman": "2026-10-04T23:03:38+00:00"
+        }
       }
     },
     "yanit_kiti": {

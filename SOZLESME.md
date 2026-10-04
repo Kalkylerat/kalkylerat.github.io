@@ -31,6 +31,7 @@ Bir kuralı değiştirmek isterseniz önce burayı, sonra testi, en son kodu de�
 | B3 | Maç öncesi kart, son saati yakın olan önce: bilgi postu kartı kaçırtamaz. | `test_B3` | `saglik`: kaçan kart alarmı |
 | B4 | **Cumartesi ve Pazar yoğun gün**: postlar arası ≥28 dk, günde en fazla 24 post, kart listesi akşam maçlarıyla genişler, akşam tablosu. | `test_B4` | `saglik`: sırada post varken durgunluk alarmı |
 | B5 | Sabah analizi her gün yapılır; yanıt kiti her sabah gelir. | `test_B5` | `saglik`: 10:00 UTC'de analiz yoksa alarm |
+| B6 | **Günün büyük maçları** (Uluslar Ligi, Avrupa kupaları, Dünya/Avrupa elemeleri, büyük 5 lig, Süper Lig, taraftar etiketli milli takım/kulüp) **her zaman kart alır**, tabloda **lig sınırı olmadan** yer alır (kartı olsa da) ve kartları önce çıkar; alt ligler tabloya ancak yer kalırsa (6 maçtan azsa) girer. | `test_B6` | `saglik`: büyük maçın kartı kaçarsa alarm |
 
 ## C. Güvenilirlik
 

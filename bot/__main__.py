@@ -794,9 +794,8 @@ def analiz_gunu(ayar, gunler: list[dict], bugun: str, simdi: datetime, api=None)
            "secimler": [], "sonuc": "analiz", "tweet_id": None, "konsept": "analiz", "taranan": len(maclar),
            "analiz_sayisi": len(analizler), "vitrin": etkilesim.vitrin(maclar, oranlar, ayar, simdi),
            "analizler": one,
-           "tablo": [analiz.ozet(a) for a in analiz.tablo_secimi(  # kartı olan maçlar tabloda tekrar edilmez
-               analizler, ayar.ligler, en_erken=(simdi + timedelta(minutes=90)).isoformat(),
-               haric={a["fixture_id"] for a in one})],
+           "tablo": [analiz.ozet(a) for a in analiz.tablo_secimi(  # günün büyük maçları tabloda (kartı olsa da)
+               analizler, ayar.ligler, en_erken=(simdi + timedelta(minutes=90)).isoformat())],
            "ayrisma": [analiz.ozet(a) for a in analiz.ayrisma_secimi(analizler)],
            "kiyas": [analiz.ozet(a) for a in analiz.kiyas_secimi(  # ikinci tablo: oran ve istatistik yan yana
                analizler, ayar.ligler, en_erken=(simdi + timedelta(hours=2)).isoformat())]}
@@ -815,7 +814,8 @@ def analiz_gunu(ayar, gunler: list[dict], bugun: str, simdi: datetime, api=None)
 
 def liste_simdi(ayar, gunler: list[dict], bugun: str, simdi: datetime, x) -> str | None:
     """Elle: günün kalan önemli maçlarının listesini (analiz tablosu, bütün maç etiketleriyle) şimdi paylaşır.
-    Kartı olan maçlar da girer; ayrı etkileşim kaydı (tablo_N) olarak saklanır."""
+    Kartı olan maçlar da girer; ayrı etkileşim kaydı (tablo_N) olarak saklanır. Altına henüz sonuç gelmemiş otomatik
+    sabah tablosu ve önceki elle liste silinir (yanlış seçilmiş tablo düzeltilir)."""
     gun = kayit.bul(gunler, bugun)
     dosya = config.DATA_FILE.parent / "analiz" / f"{bugun}.json"
     if not gun or not dosya.exists():
@@ -831,8 +831,9 @@ def liste_simdi(ayar, gunler: list[dict], bugun: str, simdi: datetime, x) -> str
     if hata:
         raise RuntimeError("Denetçi listeyi durdurdu: " + " ".join(hata))
     durum = gun.setdefault("etkilesim", {})
-    for k, e in list(durum.items()):
-        if k.startswith("tablo_") and e.get("elle") and e.get("durum") == "paylasildi":
+    for k, e in list(durum.items()):  # önceki elle liste ve henüz sonucu gelmemiş otomatik sabah tablosu yerine geçer
+        if e.get("durum") == "paylasildi" and e.get("tweet_id") and (
+                (k.startswith("tablo_") and e.get("elle")) or (k == "tablo" and not e.get("sonuclar"))):
             x.sil(e["tweet_id"])
             durum[k] = {**e, "durum": "silindi"}
     tid = x.gonder(metin, medya=[x.medya_yukle(png)])
@@ -904,8 +905,7 @@ def analiz_secimlerini_tamamla(ayar, gun: dict | None) -> None:
     if not any(t.startswith("analiz_") for t in gun.get("etkilesim") or {}):
         gun["analizler"] = analiz.one_cikanlar(tum, ayar.ligler)
     gun["tablo"] = [analiz.ozet(a) for a in analiz.tablo_secimi(
-        tum, ayar.ligler, en_erken=(kayit.simdi_utc() + timedelta(minutes=90)).isoformat(),
-        haric={a["fixture_id"] for a in gun["analizler"]})]
+        tum, ayar.ligler, en_erken=(kayit.simdi_utc() + timedelta(minutes=90)).isoformat())]
     gun["ayrisma"] = [analiz.ozet(a) for a in analiz.ayrisma_secimi(tum)]
     gun["kiyas"] = [analiz.ozet(a) for a in analiz.kiyas_secimi(
         tum, ayar.ligler, en_erken=(kayit.simdi_utc() + timedelta(hours=2)).isoformat())]

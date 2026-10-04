@@ -322,7 +322,7 @@ def aksam_tablosu_ekle(gun: dict, tum: list[dict], ayar, simdi: datetime) -> int
     if gun.get("konsept") != "analiz" or not config.yogun_mu(ayar, gun["tarih"]) or "tablo_aksam" in gun \
             or simdi.hour < 16:
         return 0
-    haric = {a["fixture_id"] for a in (gun.get("tablo") or []) + (gun.get("analizler") or [])}
+    haric = {a["fixture_id"] for a in gun.get("tablo") or []}  # sabah tablosunda olmayanlar (kartlı da olabilir)
     liste = analiz.tablo_secimi(tum, ayar.ligler, en_erken=(simdi + timedelta(minutes=60)).isoformat(), haric=haric,
                                 lig_basina=3)
     gun["tablo_aksam"] = [analiz.ozet(a) for a in liste] if len(liste) >= 4 else []
@@ -400,7 +400,15 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_pay
         return None
     # Son paylaşım saati en yakın olan önce: maçtan önce çıkması gereken kart, gün boyu çıkabilen bilgi postu
     # yüzünden kaçmasın (aralık kuralı yüzünden bir nabızda yalnızca bir post çıkar).
-    for tur, erken, gec in sorted(_plan(gun), key=lambda t: t[2]):
+    def oncelik(t):  # büyük maçın kartı önce (SÖZLEŞME B6); diğer kartlar sıralamada 3 saat geride sayılır
+        tur, _, gec = t
+        if tur.startswith("analiz_"):
+            i = int(tur.split("_")[1])
+            a = (gun.get("analizler") or [])[i] if i < len(gun.get("analizler") or []) else None
+            if a is not None and not analiz.onemli(a):
+                return gec + timedelta(hours=3)
+        return gec
+    for tur, erken, gec in sorted(_plan(gun), key=oncelik):
         if tur in durum:
             continue
         if simdi > gec:
@@ -807,6 +815,13 @@ def analiz_takibi(gun: dict, ayar, x, simdi: datetime, sonuc_getir, yaz=print, y
     return paylasilan
 
 
+def _vitrin_sirasi(a: dict) -> tuple:
+    """Metinde önce taraftar etiketli (herkesin takip ettiği) takımların maçları, sonra saat sırası."""
+    from .tweets import KULUP_ETIKETLERI, MILLI_ETIKETLER
+    etiketli = sum(t.lower().strip() in MILLI_ETIKETLER or t.lower().strip() in KULUP_ETIKETLERI for t in (a["ev"], a["dep"]))
+    return (-etiketli, a["baslama"])
+
+
 def tablo_tweeti(gun: dict, liste: list[dict], ayar=None) -> str:
     """Liste postu. Kural (sabit tweetin sözü): metinde adı geçen HER maçın yüzdeleri de yazılır; yüzdesiz maç adı
     yok. Sığmazsa önce etiketler, sonra blok kısalır, sonra maç (rakamı değil, maçın kendisi) düşer. Tablonun tamamı
@@ -816,7 +831,7 @@ def tablo_tweeti(gun: dict, liste: list[dict], ayar=None) -> str:
                  + "\n📸 Chances, not picks: every % is in the image\n\n",
                  f"📋 Today's chances, not picks · every % in the image\n\n")
     adaylar = [a for a in liste if a.get("p") and a.get("skorlar")]
-    onemliler = [a for a in adaylar if analiz.onemli(a)] or adaylar[:1]
+    onemliler = sorted([a for a in adaylar if analiz.onemli(a)], key=_vitrin_sirasi) or adaylar[:1]
     soru = "💬 Which number looks wrong? 👇\n\n"
 
     def blok(a: dict, seviye: int) -> str:
@@ -853,7 +868,8 @@ def tablo_olgulari(gun: dict, liste: list[dict], ayar) -> dict:
                        "home_draw_away": [_pct(a["p"][k]) for k in ("MS1", "MSX", "MS2")],
                        "over_2_5": _pct(a["p"]["UST25"]), "btts": _pct(a["p"]["KGVAR"]),
                        "most_likely_score": a["skorlar"][0][0]} for a in liste],
-            "note": "the image shows the board; the text introduces it"}
+            "headline_games": [f'{a["ev"]} v {a["dep"]}' for a in sorted((a for a in liste if analiz.onemli(a)), key=_vitrin_sirasi)[:3]],
+            "note": "the image shows the board; the text introduces it and names the headline games first"}
 
 
 KIYAS_EMOJI = {"MS1": "🏆", "MSX": "🤝", "MS2": "🏆", "UST25": "⚽", "KGVAR": "🥅"}

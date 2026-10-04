@@ -149,6 +149,38 @@ def test_B5_sabah_analizi_yoksa_alarm():
     assert any("sabah analizi" in m for m in bulunan.values())
 
 
+def test_B6_buyuk_maclar_kart_ve_tabloda():
+    uluslar = [dict(mac(10 + i, f"Nation{i}", f"Rival{i}", saat="18:45"), lig_id=5) for i in range(8)]
+    alt = [dict(mac(30 + i, f"Astur{i}", f"Mosconia{i}", saat="15:00", lig="Tercera"), lig_id=999) for i in range(4)]
+    assert all(analiz.onemli(a) for a in uluslar) and not any(analiz.onemli(a) for a in alt)
+    tablo = {a["fixture_id"] for a in analiz.tablo_secimi(alt + uluslar, AYAR.ligler)}
+    assert tablo == {a["fixture_id"] for a in uluslar}  # Uluslar Ligi'nin hepsi; alt lig yer kalmadığı için yok
+    kartlar = {a["fixture_id"] for a in analiz.one_cikanlar(alt + uluslar, AYAR.ligler, adet=10)}
+    assert {a["fixture_id"] for a in uluslar} <= kartlar
+    ek = analiz.ek_kart_secimi(uluslar, AYAR.ligler, [], set(), "2026-10-03T08:00:00+00:00", adet=20)
+    assert len(ek) == 8  # yoğun günde lig sınırı büyük maçı dışarıda bırakmaz
+    # liste metni büyük maçı anar; yalnızca alt lig maçını anan metni denetçi durdurur
+    secilen = analiz.tablo_secimi(alt[:1] + uluslar[:2], AYAR.ligler)
+    metin = etkilesim.tablo_tweeti({"tarih": "2026-10-03"}, secilen, AYAR)
+    assert "Nation0 v Rival0" in metin and not denetci.analiz_kontrolu("tablo", metin, secilen, AYAR)
+    kucuk = etkilesim.tablo_tweeti({"tarih": "2026-10-03"}, alt[:1], AYAR)
+    assert any("büyük maç" in h for h in denetci.analiz_kontrolu("tablo", kucuk, secilen, AYAR))
+    # sıralama: alt lig kartı büyük maç kartının önüne geçmez
+    gun = {"id": "d", "tarih": "2026-10-03", "konsept": "analiz", "secimler": [], "sonuc": "analiz", "vitrin": [],
+           "analizler": [dict(alt[0], baslama="2026-10-03T17:00:00+00:00"), uluslar[0]], "etkilesim": {}}
+
+    class X:
+        def medya_yukle(self, png):
+            return "m"
+
+        def gonder(self, metin, **k):
+            return "1"
+    assert etkilesim.paylas(gun, AYAR, X(), datetime(2026, 10, 3, 15, 0, tzinfo=UTC), yaz=lambda m: None) == "analiz_1"
+    # kaçan büyük maç kartı alarm olur
+    gun["etkilesim"] = {"analiz_1": {"durum": "atlandi"}}
+    assert any("penceresi geçti" in m for _, m in saglik.sorunlar([gun], datetime(2026, 10, 3, 21, 0, tzinfo=UTC), AYAR))
+
+
 # ---------- C. Güvenilirlik ----------
 
 def test_C1_nobetci_7_dk_nabiz_20_dk_alarm():

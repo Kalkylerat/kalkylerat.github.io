@@ -257,6 +257,11 @@ def analiz_kontrolu(tur: str, metin: str, analizler: list[dict], ayar, png: byte
         yanlis = [y for y in yuzdeler if int(y) not in gecerli]
         if yanlis:
             hata.append(f"{ad}: kayıtta olmayan yüzde ({', '.join(y + '%' for y in yanlis)}).")
+    if tur == "tablo" and analizler:  # SÖZLEŞME B6: listede büyük maç varsa metin onu anar (alt lig maçını değil)
+        from . import analiz as _analiz
+        buyukler = [a for a in analizler if _analiz.onemli(a)]
+        if buyukler and not any(f'{a["ev"]} v {a["dep"]}' in metin for a in buyukler):
+            hata.append("Listede büyük maç var ama metin yalnızca küçük maçları anıyor.")
     if tur == "analiz" and analizler:
         from . import analiz
         a = analizler[0]

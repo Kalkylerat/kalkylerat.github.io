@@ -1979,7 +1979,7 @@ def test_analiz_gunu_kartlar_ve_mac_sonu_takibi(monkeypatch, tmp_path):
     assert gun["analiz_sayisi"] == 4 and len(tum) == 4  # verisi olmayan maç analiz edilmez
     assert {a["fixture_id"]: a["guven"] for a in tum}[4] == "dusuk" and {a["fixture_id"]: a["guven"] for a in tum}[1] == "yuksek"
     assert [a["ev"] for a in gun["analizler"]] == ["Arsenal", "Leeds", "Spurs"]  # alt lig öne çıkmaz
-    assert "tablo" in gun and not {a["fixture_id"] for a in gun["tablo"]} & {1, 2, 3}  # kartlı maç tabloda yok
+    assert "tablo" in gun and {1, 2} <= {a["fixture_id"] for a in gun["tablo"]}  # kartlı büyük maç tabloda da var (B6)
     for a in tum:  # tek modelden: tutarlı olasılıklar
         p = a["p"]
         assert abs(p["MS1"] + p["MSX"] + p["MS2"] - 1) < 0.01 and abs(p["UST25"] + p["ALT25"] - 1) < 0.01
@@ -2066,7 +2066,10 @@ def test_analiz_tablosu_ve_ayrisma_postu():
     t = analiz.tablo_secimi(tum, AYAR.ligler, en_erken="2026-10-03T10:00:00+00:00")
     ids = [x["fixture_id"] for x in t]
     assert 4 not in ids and 7 not in ids and 6 not in ids  # erken, güveni düşük, adı bozuk
-    assert ids.count(1) + ids.count(2) + ids.count(3) == 2 and 5 in ids  # lig başına 2, alt lig de girer
+    assert {1, 2, 3} <= set(ids) and 5 in ids  # büyük ligde sınır yok (B6), tablo zayıfsa alt lig de girer
+    orta = AYAR.ligler[AYAR.ligler.index(40)]  # izinli ama büyük olmayan lig: en fazla 2
+    t2 = analiz.tablo_secimi([a(40 + i, orta, "Championship", f"Mid{i}", "15:00") for i in range(4)], AYAR.ligler)
+    assert len(t2) == 2
     png = gorsel.analiz_tablosu(t, "2026-10-03", ["16:00"] * len(t), "en")
     assert png[:4] == b"\x89PNG"
     kars = lambda pi, ist: [{"pazar": "UST25", "ad": "Over 2.5 goals", "piyasa": pi, "istatistik": ist}]
@@ -2081,7 +2084,8 @@ def test_analiz_tablosu_ve_ayrisma_postu():
     tum2 = [a(20 + i, lig, "PL", f"Club{i}", f"{14 + i}:00", kars=sorted(k5(0.53, 0.53 + 0.05 * i),
             key=lambda c: -abs(analiz.fark_puani(c)))) for i in range(5)] + [a(30, 999, "Low", "Nostat", "15:00")]
     kiyas = analiz.kiyas_secimi(tum2, AYAR.ligler, en_erken="2026-10-03T10:00:00+00:00")
-    assert len(kiyas) == 3 and 30 not in [k["fixture_id"] for k in kiyas]  # lig başına 3, istatistiksiz maç yok
+    assert len(kiyas) == 5 and 30 not in [k["fixture_id"] for k in kiyas]  # büyük ligde sınır yok, istatistiksiz yok
+    kiyas = [k for k in kiyas if k["fixture_id"] in (22, 23, 24)]
     gun2 = {"tarih": "2026-10-03", "kiyas": kiyas}
     m = etkilesim.ayrisma_tweeti(gun2, AYAR, datetime(2026, 10, 3, 12, 0, tzinfo=timezone.utc))
     assert "📸 3 matches side by side in the image" in m and "💹 odds 53% · 📈 stats 73%" in m
@@ -2224,7 +2228,8 @@ def test_saglik_alarmi_kacan_ve_duran_postu_bildirir(tmp_path, monkeypatch):
     monkeypatch.setattr(saglik, "DOSYA", tmp_path / "alarm.json")
     ayar = replace(AYAR, yogun_hafta_sonu=True, yogun_aralik_dk=13)
     def a(ev, saat):
-        return {"fixture_id": hash(ev), "ev": ev, "dep": ev + " B", "lig": "X", "baslama": f"2026-10-03T{saat}:00+00:00",
+        return {"fixture_id": hash(ev), "ev": ev, "dep": ev + " B", "lig": "X", "lig_id": 5,  # Uluslar Ligi: büyük maç
+                "baslama": f"2026-10-03T{saat}:00+00:00",
                 "beklenen_gol": [1.3, 1.1], "skorlar": [["1-1", 0.12]], "guven": "yuksek",
                 "p": {k: round(v, 3) for k, v in model.model_olasiliklari(1.3, 1.1).items()}}
     gun = {"tarih": "2026-10-03", "konsept": "analiz", "secimler": [], "analizler":
@@ -2348,7 +2353,7 @@ def test_x_kurallari_tekrar_ve_gunluk_sinir():
 
 
 def test_aksam_tablosu_yogun_gunde_bir_kez():
-    """Yoğun günde 16:00 UTC'den sonra sabah tablosunda ve kartlarda olmayan akşam maçlarıyla ikinci tablo."""
+    """Yoğun günde 16:00 UTC'den sonra sabah tablosunda olmayan (kartlı olsa da) akşam maçlarıyla ikinci tablo."""
     from dataclasses import replace
     from bot import etkilesim, model
     ayar = replace(AYAR, yogun_hafta_sonu=True)
@@ -2360,8 +2365,39 @@ def test_aksam_tablosu_yogun_gunde_bir_kez():
     gun = {"tarih": "2026-10-03", "konsept": "analiz", "tablo": [a(1, "Club1", "19:30", lig="L1")], "analizler": [a(2, "Club2", "19:30", lig="L2")],
            "etkilesim": {}}
     assert etkilesim.aksam_tablosu_ekle(gun, tum, ayar, datetime(2026, 10, 3, 15, 0, tzinfo=timezone.utc)) == 0
-    assert etkilesim.aksam_tablosu_ekle(gun, tum, ayar, datetime(2026, 10, 3, 17, 0, tzinfo=timezone.utc)) == 4
+    assert etkilesim.aksam_tablosu_ekle(gun, tum, ayar, datetime(2026, 10, 3, 17, 0, tzinfo=timezone.utc)) == 5  # kartlı maç da girer
     ids = {x["fixture_id"] for x in gun["tablo_aksam"]}
-    assert ids == {3, 4, 5, 6} and any(t == "tablo_aksam" for t, _, _ in etkilesim._plan(gun))
+    assert ids == {2, 3, 4, 5, 6} and any(t == "tablo_aksam" for t, _, _ in etkilesim._plan(gun))
     assert etkilesim.aksam_tablosu_ekle(gun, tum, ayar, datetime(2026, 10, 3, 18, 0, tzinfo=timezone.utc)) == 0  # bir kez
     assert "from tonight's board" in etkilesim.tablo_mac_sonu_tweeti(gun["tablo_aksam"][0], 1, 0, aksam=True)
+
+
+def test_liste_simdi_sonucsuz_sabah_tablosunu_buyuk_maclarla_degistirir(monkeypatch, tmp_path):
+    """Yanlış seçilmiş (alt lig) sabah tablosu, altına sonuç gelmediyse elle listeyle silinip büyük maçlarla yenilenir;
+    sonucu gelmiş tablo silinmez."""
+    import bot.__main__ as ana
+    monkeypatch.setattr(config, "DATA_FILE", tmp_path / "spel.json")
+    (tmp_path / "analiz").mkdir()
+    def a(fid, ev, lig_id, saat):
+        return {"fixture_id": fid, "ev": ev, "dep": ev + " B", "lig": f"L{lig_id}", "ulke": "", "lig_id": lig_id,
+                "guven": "yuksek", "baslama": f"2026-10-04T{saat}:00+00:00", "beklenen_gol": [1.4, 1.1],
+                "skorlar": [["1-1", 0.12]], "p": {k: round(v, 3) for k, v in model.model_olasiliklari(1.4, 1.1).items()}}
+    tum = [a(i, f"Nation{i}", 5, "18:45") for i in range(1, 7)] + [a(20, "Astur", 440, "12:15")]
+    (tmp_path / "analiz" / "2026-10-04.json").write_text(json.dumps(tum))
+    gun = {"id": "2026-10-04", "tarih": "2026-10-04", "konsept": "analiz", "analizler": [],
+           "etkilesim": {"tablo": {"durum": "paylasildi", "tweet_id": "111", "maclar": [20]}}}
+
+    class X:
+        silinen = []
+        def sil(self, tid): self.silinen.append(tid)
+        def medya_yukle(self, png): return "m"
+        def gonder(self, metin, **k): self.metin = metin; return "222"
+    x = X()
+    assert ana.liste_simdi(AYAR, [gun], "2026-10-04", datetime(2026, 10, 4, 9, 0, tzinfo=timezone.utc), x) == "222"
+    assert x.silinen == ["111"] and gun["etkilesim"]["tablo"]["durum"] == "silindi"
+    assert set(gun["etkilesim"]["tablo_2"]["maclar"]) == set(range(1, 7)) and "Nation" in x.metin
+    gun["etkilesim"]["tablo_2"]["sonuclar"] = {"1": {"durum": "paylasildi"}}
+    gun["etkilesim"]["tablo_2"]["elle"] = False
+    x.silinen = []
+    ana.liste_simdi(AYAR, [gun], "2026-10-04", datetime(2026, 10, 4, 9, 30, tzinfo=timezone.utc), x)
+    assert x.silinen == []  # sonucu gelmiş liste korunur

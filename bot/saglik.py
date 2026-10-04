@@ -22,6 +22,13 @@ _KISALTMA = re.compile(r"\b(O|U)\d\.\d\b|\bBTTS\b")
 DURGUNLUK = timedelta(minutes=20)  # yoğun günde, sırada post varken aralık + bu kadar sessizlik
 
 
+def _buyuk_kart(g: dict, tur: str) -> bool:
+    from .analiz import onemli
+    i = int(tur.split("_")[1])
+    analizler = g.get("analizler") or []
+    return i < len(analizler) and onemli(analizler[i])
+
+
 def sorunlar(gunler: list[dict], simdi: datetime, ayar, hatalar: list[str] = ()) -> list[tuple[str, str]]:
     """(anahtar, açıklama) listesi. Anahtar, aynı sorunun tekrar bildirilmemesi için."""
     bulunan = []
@@ -42,7 +49,8 @@ def sorunlar(gunler: list[dict], simdi: datetime, ayar, hatalar: list[str] = ())
                 bulunan.append((anahtar + ":hata", f'❌ {g["tarih"]} {ad}: paylaşılamadı ({(e.get("hata") or "")[:200]})'))
             elif e.get("durum") == "atlandi" and e.get("neden") == "denetçi":
                 bulunan.append((anahtar + ":denetci", f'🛑 {g["tarih"]} {ad}: denetçi durdurdu (kayıttaki rakamla uyuşmayan metin)'))
-            elif e.get("durum") == "atlandi" and not e.get("neden") and (tur.startswith("analiz_") or tur in ("tablo", "ayrisma")):
+            elif e.get("durum") == "atlandi" and not e.get("neden") and (tur in ("tablo", "ayrisma") or (
+                    tur.startswith("analiz_") and _buyuk_kart(g, tur))):  # büyük maçın kartı kaçmamalı (B6)
                 bulunan.append((anahtar + ":kacti", f'⏰ {g["tarih"]} {ad}: paylaşım penceresi geçti, post çıkmadı '
                                                    f'(bot o saatlerde çalışmadı ya da sıra gelmedi)'))
             t = e.get("takip") or {}

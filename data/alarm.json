@@ -1,6 +1,6 @@
 {
- "issue": 8,
- "tarih": "2026-10-03",
+ "issue": 11,
+ "tarih": "2026-10-04",
  "bildirilen": [
   "2026-10-02:analiz_0:takip_gecikti",
   "2026-10-02:analiz_1:takip_gecikti",
@@ -10,6 +10,7 @@
   "2026-10-03:analiz_0:kacti",
   "2026-10-03:analiz_1:kacti",
   "2026-10-03:analiz_2:takip_gecikti",
-  "2026-10-03:analiz_3:kacti"
+  "2026-10-03:analiz_3:kacti",
+  "2026-10-04:bilgi:kural"
  ]
 }

@@ -12095,7 +12095,22 @@
         "durum": "paylasildi",
         "tweet_id": "2106732779606081592",
         "zaman": "2026-10-04T13:06:46+00:00",
-        "metin": "🆚 Castellón v AD Ceuta FC\n\n🏆 Castellón 78% · Draw 14% · AD Ceuta FC 9%\n⚽ Over 2.5 goals 71% · Under 29%\n🥅 Both teams score 54% · Not both 46%\n🎯 Most likely score: 2-0 (10%)\n\n📈 Team stats: Both teams score 28%\n💹 Odds: 54%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Castellón v AD Ceuta FC\n\n🏆 Castellón 78% · Draw 14% · AD Ceuta FC 9%\n⚽ Over 2.5 goals 71% · Under 29%\n🥅 Both teams score 54% · Not both 46%\n🎯 Most likely score: 2-0 (10%)\n\n📈 Team stats: Both teams score 28%\n💹 Odds: 54%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2106813450429050913",
+          "skor": "1-1",
+          "isabet": [
+            false,
+            false,
+            true
+          ],
+          "zaman": "2026-10-04T18:27:20+00:00",
+          "brier": {
+            "piyasa": 2.0695,
+            "istatistik": 2.5798
+          }
+        }
       },
       "analiz_16": {
         "durum": "paylasildi",

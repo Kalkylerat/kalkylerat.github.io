@@ -11911,6 +11911,15 @@
               0
             ],
             "zaman": "2026-10-04T15:00:30+00:00"
+          },
+          "1569954": {
+            "durum": "paylasildi",
+            "tweet_id": "2106782788149981539",
+            "skor": [
+              3,
+              2
+            ],
+            "zaman": "2026-10-04T16:25:32+00:00"
           }
         }
       },
@@ -11999,7 +12008,22 @@
         "durum": "paylasildi",
         "tweet_id": "2106698377266118681",
         "zaman": "2026-10-04T10:49:53+00:00",
-        "metin": "🆚 Sporting Gijon v Celta de Vigo II\n\n🏆 Sporting Gijon 59% · Draw 23% · Celta de Vigo II 18%\n⚽ Over 2.5 goals 51% · Under 49%\n🥅 Both teams score 50% · Not both 50%\n\n📈 Team stats: Over 2.5 goals 13%\n💹 Odds: 51%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Sporting Gijon v Celta de Vigo II\n\n🏆 Sporting Gijon 59% · Draw 23% · Celta de Vigo II 18%\n⚽ Over 2.5 goals 51% · Under 49%\n🥅 Both teams score 50% · Not both 50%\n\n📈 Team stats: Over 2.5 goals 13%\n💹 Odds: 51%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2106782802364522732",
+          "skor": "3-2",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "zaman": "2026-10-04T16:25:32+00:00",
+          "brier": {
+            "piyasa": 0.7571,
+            "istatistik": 2.2937
+          }
+        }
       },
       "bilgi": {
         "durum": "paylasildi",

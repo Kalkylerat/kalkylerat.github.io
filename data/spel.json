@@ -12403,7 +12403,18 @@
         "durum": "paylasildi",
         "tweet_id": "2106811658840764701",
         "zaman": "2026-10-04T18:20:12+00:00",
-        "metin": "🆚 Talleres Cordoba v Belgrano Cordoba\n\n🏆 Talleres Cordoba 36% · Draw 30% · Belgrano Cordoba 34%\n⚽ Over 2.5 goals 36% · Under 64%\n🥅 Both teams score 43% · Not both 57%\n\n📈 Team stats: too few recent games\n\n💬 Not picks. More or fewer than 2.5 goals? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Talleres Cordoba v Belgrano Cordoba\n\n🏆 Talleres Cordoba 36% · Draw 30% · Belgrano Cordoba 34%\n⚽ Over 2.5 goals 36% · Under 64%\n🥅 Both teams score 43% · Not both 57%\n\n📈 Team stats: too few recent games\n\n💬 Not picks. More or fewer than 2.5 goals? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2106866342582247744",
+          "skor": "0-1",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "zaman": "2026-10-04T21:57:30+00:00"
+        }
       },
       "analiz_12": {
         "durum": "paylasildi",

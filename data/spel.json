@@ -11902,6 +11902,15 @@
               3
             ],
             "zaman": "2026-10-04T13:57:02+00:00"
+          },
+          "1528937": {
+            "durum": "paylasildi",
+            "tweet_id": "2106761392938483992",
+            "skor": [
+              1,
+              0
+            ],
+            "zaman": "2026-10-04T15:00:30+00:00"
           }
         }
       },
@@ -11909,7 +11918,22 @@
         "durum": "paylasildi",
         "tweet_id": "2106676898898313251",
         "zaman": "2026-10-04T09:24:43+00:00",
-        "metin": "🆚 Azerbaijan v Lithuania\n\n🏆 Azerbaijan 42% · Draw 29% · Lithuania 29%\n⚽ Over 2.5 goals 36% · Under 64%\n🥅 Both teams score 43% · Not both 57%\n🎯 Most likely score: 1-0 (14%)\n\n📈 Team stats: Azerbaijan win 18%\n💹 Odds: 42%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Azerbaijan v Lithuania\n\n🏆 Azerbaijan 42% · Draw 29% · Lithuania 29%\n⚽ Over 2.5 goals 36% · Under 64%\n🥅 Both teams score 43% · Not both 57%\n🎯 Most likely score: 1-0 (14%)\n\n📈 Team stats: Azerbaijan win 18%\n💹 Odds: 42%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2106761407786258841",
+          "skor": "1-0",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "zaman": "2026-10-04T15:00:30+00:00",
+          "brier": {
+            "piyasa": 0.8264,
+            "istatistik": 1.1119
+          }
+        }
       },
       "maclar": {
         "durum": "paylasildi",

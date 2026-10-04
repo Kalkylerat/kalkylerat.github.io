@@ -11893,7 +11893,17 @@
           1528942,
           1528943
         ],
-        "sonuclar": {}
+        "sonuclar": {
+          "1569957": {
+            "durum": "paylasildi",
+            "tweet_id": "2106745417673081205",
+            "skor": [
+              2,
+              3
+            ],
+            "zaman": "2026-10-04T13:57:02+00:00"
+          }
+        }
       },
       "analiz_0": {
         "durum": "paylasildi",
@@ -11911,7 +11921,22 @@
         "durum": "paylasildi",
         "tweet_id": "2106683994020471115",
         "zaman": "2026-10-04T09:52:55+00:00",
-        "metin": "🆚 Real Sociedad II v Granada CF\n\n🏆 Real Sociedad II 39% · Draw 26% · Granada CF 34%\n⚽ Over 2.5 goals 48% · Under 52%\n🥅 Both teams score 53% · Not both 47%\n\n📈 Team stats: Over 2.5 goals 38%\n💹 Odds: 48%\n\n💬 Not picks. More or fewer than 2.5 goals? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Real Sociedad II v Granada CF\n\n🏆 Real Sociedad II 39% · Draw 26% · Granada CF 34%\n⚽ Over 2.5 goals 48% · Under 52%\n🥅 Both teams score 53% · Not both 47%\n\n📈 Team stats: Over 2.5 goals 38%\n💹 Odds: 48%\n\n💬 Not picks. More or fewer than 2.5 goals? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2106745434186088940",
+          "skor": "2-3",
+          "isabet": [
+            false,
+            false,
+            true
+          ],
+          "zaman": "2026-10-04T13:57:02+00:00",
+          "brier": {
+            "piyasa": 1.1425,
+            "istatistik": 1.2746
+          }
+        }
       },
       "ayrisma": {
         "durum": "paylasildi",

@@ -11920,6 +11920,15 @@
               2
             ],
             "zaman": "2026-10-04T16:25:32+00:00"
+          },
+          "1545610": {
+            "durum": "paylasildi",
+            "tweet_id": "2106804407753138497",
+            "skor": [
+              1,
+              0
+            ],
+            "zaman": "2026-10-04T17:51:26+00:00"
           }
         }
       },
@@ -12041,7 +12050,22 @@
         "durum": "paylasildi",
         "tweet_id": "2106723792965841273",
         "zaman": "2026-10-04T12:31:03+00:00",
-        "metin": "🆚 Malta v Andorra\n\n🏆 Malta 59% · Draw 26% · Andorra 15%\n⚽ Over 2.5 goals 35% · Under 65%\n🥅 Both teams score 35% · Not both 65%\n🎯 Most likely score: 1-0 (18%)\n\n📈 Team stats: Malta win 48%\n💹 Odds: 59%\n\n💬 Not picks. Your read? 👇\n#NationsLeague\n18+ | Play responsibly"
+        "metin": "🆚 Malta v Andorra\n\n🏆 Malta 59% · Draw 26% · Andorra 15%\n⚽ Over 2.5 goals 35% · Under 65%\n🥅 Both teams score 35% · Not both 65%\n🎯 Most likely score: 1-0 (18%)\n\n📈 Team stats: Malta win 48%\n💹 Odds: 59%\n\n💬 Not picks. Your read? 👇\n#NationsLeague\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2106804423515349288",
+          "skor": "1-0",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "zaman": "2026-10-04T17:51:26+00:00",
+          "brier": {
+            "piyasa": 0.5017,
+            "istatistik": 0.6508
+          }
+        }
       },
       "analiz_15": {
         "durum": "paylasildi",

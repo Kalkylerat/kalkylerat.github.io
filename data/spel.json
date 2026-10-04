@@ -11965,7 +11965,29 @@
               1
             ],
             "zaman": "2026-10-04T20:42:25+00:00"
+          },
+          "1528941": {
+            "durum": "paylasildi",
+            "tweet_id": "2106849237405258197",
+            "skor": [
+              2,
+              1
+            ],
+            "zaman": "2026-10-04T20:49:34+00:00"
+          },
+          "1528943": {
+            "durum": "paylasildi",
+            "tweet_id": "2106849238634070433",
+            "skor": [
+              1,
+              1
+            ],
+            "zaman": "2026-10-04T20:49:34+00:00"
           }
+        },
+        "takip": {
+          "durum": "tamam",
+          "zaman": "2026-10-04T20:49:34+00:00"
         }
       },
       "analiz_0": {
@@ -12202,7 +12224,22 @@
         "durum": "paylasildi",
         "tweet_id": "2106768521187275048",
         "zaman": "2026-10-04T15:28:47+00:00",
-        "metin": "🆚 Portugal v Norway\n\n🏆 Portugal 60% · Draw 20% · Norway 20%\n⚽ Over 2.5 goals 66% · Under 34%\n🥅 Both teams score 62% · Not both 38%\n🎯 Most likely score: 2-1 (10%)\n\n📈 Team stats: Portugal win 56%\n💹 Odds: 60%\n\n💬 Not picks. Your read? 👇\n#NationsLeague\n18+ | Play responsibly"
+        "metin": "🆚 Portugal v Norway\n\n🏆 Portugal 60% · Draw 20% · Norway 20%\n⚽ Over 2.5 goals 66% · Under 34%\n🥅 Both teams score 62% · Not both 38%\n🎯 Most likely score: 2-1 (10%)\n\n📈 Team stats: Portugal win 56%\n💹 Odds: 60%\n\n💬 Not picks. Your read? 👇\n#NationsLeague\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2106849260813574317",
+          "skor": "2-1",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "zaman": "2026-10-04T20:49:34+00:00",
+          "brier": {
+            "piyasa": 0.4984,
+            "istatistik": 0.5171
+          }
+        }
       },
       "tablo_aksam": {
         "durum": "paylasildi",
@@ -12226,6 +12263,15 @@
               0
             ],
             "zaman": "2026-10-04T19:45:22+00:00"
+          },
+          "1528939": {
+            "durum": "paylasildi",
+            "tweet_id": "2106849245735063555",
+            "skor": [
+              0,
+              0
+            ],
+            "zaman": "2026-10-04T20:49:34+00:00"
           }
         }
       },

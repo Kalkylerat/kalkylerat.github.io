@@ -12116,7 +12116,22 @@
         "durum": "paylasildi",
         "tweet_id": "2106741710222979241",
         "zaman": "2026-10-04T13:42:15+00:00",
-        "metin": "🆚 Las Palmas v Valladolid\n\n🏆 Las Palmas 44% · Draw 27% · Valladolid 30%\n⚽ Over 2.5 goals 46% · Under 54%\n🥅 Both teams score 50% · Not both 50%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Team stats: Over 2.5 goals 30%\n💹 Odds: 46%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Las Palmas v Valladolid\n\n🏆 Las Palmas 44% · Draw 27% · Valladolid 30%\n⚽ Over 2.5 goals 46% · Under 54%\n🥅 Both teams score 50% · Not both 50%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Team stats: Over 2.5 goals 30%\n💹 Odds: 46%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2106815241594024341",
+          "skor": "2-2",
+          "isabet": [
+            false,
+            false,
+            true
+          ],
+          "zaman": "2026-10-04T18:34:24+00:00",
+          "brier": {
+            "piyasa": 1.3612,
+            "istatistik": 1.6428
+          }
+        }
       },
       "analiz_9": {
         "durum": "paylasildi",
@@ -12180,6 +12195,12 @@
         "tweet_id": "2106811658840764701",
         "zaman": "2026-10-04T18:20:12+00:00",
         "metin": "🆚 Talleres Cordoba v Belgrano Cordoba\n\n🏆 Talleres Cordoba 36% · Draw 30% · Belgrano Cordoba 34%\n⚽ Over 2.5 goals 36% · Under 64%\n🥅 Both teams score 43% · Not both 57%\n\n📈 Team stats: too few recent games\n\n💬 Not picks. More or fewer than 2.5 goals? 👇\n18+ | Play responsibly"
+      },
+      "analiz_12": {
+        "durum": "paylasildi",
+        "tweet_id": "2106815229879325099",
+        "zaman": "2026-10-04T18:34:24+00:00",
+        "metin": "🆚 Supra du Quebec v Pacific FC\n\n🏆 Supra du Quebec 53% · Draw 22% · Pacific FC 26%\n⚽ Over 2.5 goals 65% · Under 35%\n🥅 Both teams score 64% · Not both 36%\n🎯 Most likely score: 1-1 (9%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
       }
     },
     "yanit_kiti": {

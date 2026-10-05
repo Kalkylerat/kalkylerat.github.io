@@ -10,14 +10,14 @@ on:
     # sonra) paylaşır, Pazar akşamı haftalık özeti atar. API isteği yalnızca bitmiş olması gereken maçlar için.
     - cron: "7,22,37,52 * * * *"  # çeyrek başları GitHub'ın en yoğun anı, gecikmesin
   issue_comment:
-    types: [created]  # onay isteğine "ok" / "iptal" cevabı
+    types: [created]  # onay isteğine "ok" / "iptal" cevabı; Mr. Likely paketine kupon seçimi
   workflow_dispatch:
     inputs:
       komut:
         description: "Ne yapılsın?"
         type: choice
         default: yayinla
-        options: [yayinla, profil, sonuc_yeniden, demo, nabiz, onay_yenile, onay_testi, onay_kontrol, onizleme, duzelt, yenile, sabit, hafta, oran_testi, otomatik, tahmin, sonuc, panel, tani, odds_tani, odds_pazar, vitrin, ek_kupon, af_pazar, ayir, kasa_duzelt, direktor, skor_duzelt, sonuc_duzelt, kasa_defteri, temizle, liste, kiyas, takip_yenile, metrik, hesap_kontrol]
+        options: [yayinla, profil, sonuc_yeniden, demo, nabiz, onay_yenile, onay_testi, onay_kontrol, onizleme, duzelt, yenile, sabit, hafta, oran_testi, otomatik, tahmin, sonuc, panel, tani, odds_tani, odds_pazar, vitrin, ek_kupon, af_pazar, ayir, kasa_duzelt, direktor, skor_duzelt, sonuc_duzelt, kasa_defteri, temizle, liste, kiyas, takip_yenile, metrik, hesap_kontrol, likely, likely_paket]
       ek:
         description: "Tek çalışmalık istisna (ör. guvenli_min_deger=-0.03 api_yedek=8); boş bırakın"
         type: string
@@ -30,11 +30,11 @@ permissions:
 
 jobs:
   calistir:
-    # Yorumlarda yalnızca onay isteklerine tepki verilir.
+    # Yorumlarda yalnızca onay isteklerine ve Mr. Likely paketlerine tepki verilir.
     # Yalnızca onay isteklerine, sahibinin/üyenin/ortağın yorumlarında (yabancı yorumlar sıradaki işleri iptal edemesin).
     if: >-
       github.event_name != 'issue_comment' ||
-      (contains(github.event.issue.labels.*.name, 'onay') &&
+      ((contains(github.event.issue.labels.*.name, 'onay') || contains(github.event.issue.labels.*.name, 'mr-likely')) &&
        contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association))
     runs-on: ubuntu-latest
     # İş düzeyinde: atlanan işler (yabancı yorumlar) sıradaki çalışmayı iptal edemez.

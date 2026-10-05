@@ -10,7 +10,7 @@ import time
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-from . import analiz, config, denetci, direktor, editor, etkilesim, football, gorsel, kayit, kit, model, oddsapi, onay, panel, saglik, temizlik, tweets
+from . import analiz, config, denetci, direktor, editor, etkilesim, football, gorsel, kayit, kit, likely, model, oddsapi, onay, panel, saglik, temizlik, tweets
 from .model import adaylari_uret, bet_builder, etiketler
 
 # Çalışma sırasında yakalanan hatalar: iş sonunda "başarısız" işaretlenir, GitHub sahibine e-posta atar.
@@ -809,6 +809,11 @@ def analiz_gunu(ayar, gunler: list[dict], bugun: str, simdi: datetime, api=None)
     _ozet_yaz(f"### {bugun}: {len(maclar)} maç tarandı, {len(analizler)} maç analiz edildi "
               f"(güven yüksek {guven['yuksek']}, orta {guven['orta']}, düşük {guven['dusuk']}).\n"
               "Öne çıkanlar: " + ", ".join(f'{a["ev"]} v {a["dep"]} ({a["lig"]})' for a in gun["analizler"]))
+    if os.environ.get("GH_TOKEN"):
+        try:  # Mr. Likely (elle paylaşılan ikinci hesap): aynı taramadan günün adayları ve hazır kuponlar, issue olarak
+            likely.sabah(ayar, analizler, oranlar, simdi, onay.GitHub(), yaz=_ozet_yaz)
+        except Exception as e:
+            _hata("Mr. Likely paketi", e)
     return gun
 
 
@@ -922,6 +927,42 @@ def _mac_sonuclari(ayar, maclar: list[dict]) -> dict:
     if af:
         sonuc.update(football.sonuclari_al(_api(ayar), af))
     return sonuc
+
+
+def _likely_sonuc_al(ayar):
+    """Mr. Likely kuponlarının maç sonuçları (korner pazarı varsa korner sayısıyla), maçın geldiği kaynaktan."""
+    def al(maclar: list[dict], korner_idleri: set[int]) -> dict:
+        sonuc = _mac_sonuclari(ayar, [m for m in maclar if m.get("odds_id")])
+        af = [m["fixture_id"] for m in maclar if not m.get("odds_id")]
+        if af:
+            sonuc.update(football.sonuclari_al(_api(ayar), af, korner_idleri))
+        return sonuc
+    return al
+
+
+def _likely_yazici(ayar):
+    """Mr. Likely metinlerini karakterin sesiyle yazar; Claude anahtarı yoksa şablon kullanılır."""
+    if ayar.direktor_aktif and os.environ.get("ANTHROPIC_API_KEY"):
+        return lambda sablon, zorunlu: likely.ses_yaz(ayar, sablon, zorunlu, yaz=_ozet_yaz)
+    return None
+
+
+def likely_nabiz(ayar, simdi: datetime, sonuclar: bool = True) -> None:
+    """Mr. Likely: sahibinin issue yorumlarındaki seçimler ve (nabızda) biten kuponların sonuçları. X'e paylaşım yok."""
+    if not os.environ.get("GH_TOKEN") or not likely.ayar_yukle().aktif:
+        return
+    gh = onay.GitHub()
+    try:
+        likely.kontrol(ayar, gh, simdi, yazici=_likely_yazici(ayar), yaz=_ozet_yaz)
+    except Exception as e:
+        _hata("Mr. Likely seçim kontrolü", e)
+    if not sonuclar:
+        return
+    try:
+        likely.sonuclar(ayar, _likely_sonuc_al(ayar), gh, simdi, yazici=_likely_yazici(ayar), yaz=_ozet_yaz)
+        likely.eskileri_kapat(gh, simdi)
+    except Exception as e:
+        _hata("Mr. Likely sonuçları", e)
 
 
 def _api(ayar):
@@ -1198,7 +1239,7 @@ def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="bot")
     p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt", "sabit", "hafta", "yenile", "oran_testi",
                                           "onay_kontrol", "onay_testi", "onay_yenile", "nabiz",
-                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir", "kasa_duzelt", "direktor", "skor_duzelt", "sonuc_duzelt", "kasa_defteri", "temizle", "liste", "kiyas", "takip_yenile", "metrik", "hesap_kontrol"])
+                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir", "kasa_duzelt", "direktor", "skor_duzelt", "sonuc_duzelt", "kasa_defteri", "temizle", "liste", "kiyas", "takip_yenile", "metrik", "hesap_kontrol", "likely", "likely_paket"])
     args = p.parse_args(argv)
     ayar = config.yukle()
     from dataclasses import replace as _degistir
@@ -1397,6 +1438,18 @@ def main(argv=None) -> int:
                 onay.kontrol(ayar, onay.GitHub(), _x_client(), gunler, simdi, yayinla)
             except Exception as e:
                 _hata("Onay kontrolü", e)
+        if args.komut == "likely_paket":
+            # Elle: bugünün Mr. Likely paketini kayıtlı analizden ve güncel oranlardan hazırlar (sabah gelmediyse).
+            try:
+                dosya = config.DATA_FILE.parent / "analiz" / f"{bugun}.json"
+                oranlar = football.toplu_oranlar(_api(ayar), bugun, ayar.saat_dilimi, ayar.max_oran_sayfasi)
+                if not likely.sabah(ayar, json.loads(dosya.read_text(encoding="utf-8")), oranlar, simdi, onay.GitHub(),
+                                    yaz=_ozet_yaz):
+                    _ozet_yaz("Mr. Likely paketi hazırlanmadı: bugün zaten gönderilmiş ya da ayarlarda kapalı.")
+            except Exception as e:
+                _hata("Mr. Likely paketi", e)
+        if args.komut in ("onay_kontrol", "nabiz", "likely"):
+            likely_nabiz(ayar, simdi, sonuclar=args.komut != "onay_kontrol")
         if args.komut == "sonuc_yeniden":
             # Son sonuç paylaşımını (eski biçim: kupon altında yanıt) silip yeni biçimle (alıntı) tekrar paylaşır.
             g = next((g for g in sorted(gunler, key=lambda g: g["tarih"], reverse=True) if g.get("sonuc_tweet_idleri")), None)

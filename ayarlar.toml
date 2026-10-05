@@ -126,3 +126,22 @@ gunluk_model = "claude-sonnet-5-5"
 gunluk_effort = "medium"
 strateji_model = "claude-fable-5-1"
 strateji_effort = "high"
+
+[likely]
+# Mr. Likely: elle paylaşılan ikinci hesap (tahmin/kupon). Bot X'e hiçbir şey paylaşmaz: her sabah adayları ve hazır
+# kuponları GitHub issue'su olarak gönderir, sahibi yorumla seçer ("C", "3 7 12", "pas"), post metni yoruma gelir,
+# postu sahibi elle atar. Sonuç postunun taslağı ve karne maçlar bitince aynı issue'ya gelir. Ek API isteği yok.
+aktif = true
+# Havuza girmek için en düşük kazanma ihtimali (keskin piyasanın marjsız fiyatı) ve "80+" etiketinin sınırı.
+min_olasilik = 0.65
+yuksek_olasilik = 0.80
+# Oran adil fiyatın en fazla bu kadar altında olabilir (bahisçi payı): daha pahalı oyunlar havuza girmez.
+min_deger = -0.05
+oran_min = 1.10
+oran_max = 2.60
+# En fazla kaç aday ve kaç hazır kupon; maça en az kaç dakika kalmış olmalı (seçip paylaşmaya vakit).
+havuz = 30
+kupon = 10
+min_dakika_once = 120
+# Kendi kurduğun kuponda en fazla maç sayısı.
+max_ayak = 4

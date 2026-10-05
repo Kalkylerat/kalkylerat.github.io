@@ -18,7 +18,7 @@ Görseller bu klasörde: `mr_likely_logo.png` (profil fotoğrafı, 800×800) ve 
 ### Biyografi (Bio)
 
 ```
-Football coupons from a numbers model, picked by a man who is often nearly right. Every coupon counted, losers too. Likely, never certain. Not advice. 18+
+Football coupons from a man who is often nearly right. Plus how to bet smarter: odds, value, short coupons, games to skip. Likely, never certain. 18+
 ```
 
 ### Sabitlenecek post (elle at, profilde sabitle)
@@ -26,9 +26,11 @@ Football coupons from a numbers model, picked by a man who is often nearly right
 ```
 I'm Mr. Likely.
 
-A model does the numbers. I pick the coupons. Short ones, mostly two legs.
+Two things on this page:
 
-Each coupon goes up before kick-off with how often I think it lands. Afterwards it gets counted, losers included.
+⚽ Coupons. Short ones, up before kick-off, with how often I think they land.
+
+🧠 Smarter betting. What price is worth taking, why two legs beat five, which games to leave alone.
 
 Likely. Never certain.
 

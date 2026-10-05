@@ -16390,6 +16390,33 @@
               1
             ],
             "zaman": "2026-10-05T17:55:34+00:00"
+          },
+          "1569952": {
+            "durum": "paylasildi",
+            "tweet_id": "2107222802919260535",
+            "skor": [
+              3,
+              2
+            ],
+            "zaman": "2026-10-05T21:33:57+00:00"
+          },
+          "1528944": {
+            "durum": "paylasildi",
+            "tweet_id": "2107222803984580773",
+            "skor": [
+              4,
+              1
+            ],
+            "zaman": "2026-10-05T21:33:57+00:00"
+          },
+          "1528945": {
+            "durum": "paylasildi",
+            "tweet_id": "2107222805058331104",
+            "skor": [
+              3,
+              1
+            ],
+            "zaman": "2026-10-05T21:33:57+00:00"
           }
         }
       },
@@ -16403,25 +16430,81 @@
         "durum": "paylasildi",
         "tweet_id": "2107109760877416839",
         "zaman": "2026-10-05T14:04:45+00:00",
-        "metin": "🆚 France v Belgium\n\n🏆 France 66% · Draw 19% · Belgium 16%\n⚽ Over 2.5 goals 63% · Under 37%\n🥅 Both teams score 56% · Not both 43%\n🎯 Most likely score: 2-0 (10%)\n\n📈 Team stats: France win 23%\n💹 Odds: 66%\n\n💬 Not picks. Your read? 👇\n#NationsLeague\n18+ | Play responsibly"
+        "metin": "🆚 France v Belgium\n\n🏆 France 66% · Draw 19% · Belgium 16%\n⚽ Over 2.5 goals 63% · Under 37%\n🥅 Both teams score 56% · Not both 43%\n🎯 Most likely score: 2-0 (10%)\n\n📈 Team stats: France win 23%\n💹 Odds: 66%\n\n💬 Not picks. Your read? 👇\n#NationsLeague\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2107222828164788417",
+          "skor": "4-1",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "zaman": "2026-10-05T21:33:57+00:00",
+          "brier": {
+            "piyasa": 0.5042,
+            "istatistik": 1.9689
+          }
+        }
       },
       "analiz_5": {
         "durum": "paylasildi",
         "tweet_id": "2107119081090408880",
         "zaman": "2026-10-05T14:41:36+00:00",
-        "metin": "🆚 Cordoba v Tenerife\n\n🏆 Cordoba 51% · Draw 24% · Tenerife 24%\n⚽ Over 2.5 goals 51% · Under 49%\n🥅 Both teams score 52% · Not both 48%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: Tenerife win 38%\n💹 Odds: 24%\n\n💬 Not picks. Cordoba 51%: too high? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Cordoba v Tenerife\n\n🏆 Cordoba 51% · Draw 24% · Tenerife 24%\n⚽ Over 2.5 goals 51% · Under 49%\n🥅 Both teams score 52% · Not both 48%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: Tenerife win 38%\n💹 Odds: 24%\n\n💬 Not picks. Cordoba 51%: too high? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2107222842542784939",
+          "skor": "3-2",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "zaman": "2026-10-05T21:33:57+00:00",
+          "brier": {
+            "piyasa": 0.824,
+            "istatistik": 0.8286
+          }
+        }
       },
       "analiz_2": {
         "durum": "paylasildi",
         "tweet_id": "2107126744163459140",
         "zaman": "2026-10-05T15:12:15+00:00",
-        "metin": "🆚 Italy v Türkiye\n\n🏆 Italy 69% · Draw 18% · Türkiye 13%\n⚽ Over 2.5 goals 62% · Under 38%\n🥅 Both teams score 53% · Not both 47%\n🎯 Most likely score: 2-0 (11%)\n\n📈 Team stats: Over 2.5 goals 58%\n💹 Odds: 62%\n\n💬 Not picks. Your read? 👇\n#NationsLeague\n18+ | Play responsibly"
+        "metin": "🆚 Italy v Türkiye\n\n🏆 Italy 69% · Draw 18% · Türkiye 13%\n⚽ Over 2.5 goals 62% · Under 38%\n🥅 Both teams score 53% · Not both 47%\n🎯 Most likely score: 2-0 (11%)\n\n📈 Team stats: Over 2.5 goals 58%\n💹 Odds: 62%\n\n💬 Not picks. Your read? 👇\n#NationsLeague\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2107222854676967578",
+          "skor": "3-1",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "zaman": "2026-10-05T21:33:57+00:00",
+          "brier": {
+            "piyasa": 0.5087,
+            "istatistik": 0.582
+          }
+        }
       },
       "analiz_3": {
         "durum": "paylasildi",
         "tweet_id": "2107135242859389182",
         "zaman": "2026-10-05T15:46:00+00:00",
-        "metin": "🆚 Ukraine v Hungary\n\n🏆 Ukraine 37% · Draw 29% · Hungary 34%\n⚽ Over 2.5 goals 39% · Under 61%\n🥅 Both teams score 46% · Not both 54%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Team stats: too few recent games\n\n💬 Chances, not picks. Your read? 👇\n#NationsLeague\n18+ | Play responsibly"
+        "metin": "🆚 Ukraine v Hungary\n\n🏆 Ukraine 37% · Draw 29% · Hungary 34%\n⚽ Over 2.5 goals 39% · Under 61%\n🥅 Both teams score 46% · Not both 54%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Team stats: too few recent games\n\n💬 Chances, not picks. Your read? 👇\n#NationsLeague\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2107222867729637575",
+          "skor": "1-2",
+          "isabet": [
+            false,
+            false,
+            false
+          ],
+          "zaman": "2026-10-05T21:33:57+00:00"
+        }
       },
       "tablo_aksam": {
         "durum": "paylasildi",
@@ -16442,25 +16525,81 @@
         "durum": "paylasildi",
         "tweet_id": "2107150597635846597",
         "zaman": "2026-10-05T16:47:02+00:00",
-        "metin": "🆚 Northern Ireland v Georgia\n\n🏆 Northern Ireland 39% · Draw 30% · Georgia 31%\n⚽ Over 2.5 goals 34% · Under 66%\n🥅 Both teams score 41% · Not both 59%\n🎯 Most likely score: 1-0 (14%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Northern Ireland v Georgia\n\n🏆 Northern Ireland 39% · Draw 30% · Georgia 31%\n⚽ Over 2.5 goals 34% · Under 66%\n🥅 Both teams score 41% · Not both 59%\n🎯 Most likely score: 1-0 (14%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2107222877699498168",
+          "skor": "0-0",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "zaman": "2026-10-05T21:33:57+00:00"
+        }
       },
       "analiz_6": {
         "durum": "paylasildi",
         "tweet_id": "2107157566128005328",
         "zaman": "2026-10-05T17:14:43+00:00",
-        "metin": "🆚 Bosnia & Herzegovina v Poland\n\n🏆 Bosnia & Herzegovina 34% · Draw 26% · Poland 41%\n⚽ Over 2.5 goals 52% · Under 48%\n🥅 Both teams score 56% · Not both 44%\n\n📈 Team stats: Over 2.5 goals 58%\n💹 Odds: 52%\n\n💬 Not picks. Your read? 👇\n#NationsLeague\n18+ | Play responsibly"
+        "metin": "🆚 Bosnia & Herzegovina v Poland\n\n🏆 Bosnia & Herzegovina 34% · Draw 26% · Poland 41%\n⚽ Over 2.5 goals 52% · Under 48%\n🥅 Both teams score 56% · Not both 44%\n\n📈 Team stats: Over 2.5 goals 58%\n💹 Odds: 52%\n\n💬 Not picks. Your read? 👇\n#NationsLeague\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2107222888407543845",
+          "skor": "1-0",
+          "isabet": [
+            false,
+            false,
+            false
+          ],
+          "zaman": "2026-10-05T21:33:57+00:00",
+          "brier": {
+            "piyasa": 1.2485,
+            "istatistik": 1.4176
+          }
+        }
       },
       "analiz_7": {
         "durum": "paylasildi",
         "tweet_id": "2107161918733722097",
         "zaman": "2026-10-05T17:32:00+00:00",
-        "metin": "🆚 Romania v Sweden\n\n🏆 Romania 24% · Draw 22% · Sweden 54%\n⚽ Over 2.5 goals 60% · Under 40%\n🥅 Both teams score 59% · Not both 41%\n🎯 Most likely score: 1-1 (10%)\n\n📈 Team stats: Sweden win 78%\n💹 Odds: 54%\n\n💬 Not picks. Your read? 👇\n#NationsLeague\n18+ | Play responsibly"
+        "metin": "🆚 Romania v Sweden\n\n🏆 Romania 24% · Draw 22% · Sweden 54%\n⚽ Over 2.5 goals 60% · Under 40%\n🥅 Both teams score 59% · Not both 41%\n🎯 Most likely score: 1-1 (10%)\n\n📈 Team stats: Sweden win 78%\n💹 Odds: 54%\n\n💬 Not picks. Your read? 👇\n#NationsLeague\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2107222899472077017",
+          "skor": "0-1",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "zaman": "2026-10-05T21:33:57+00:00",
+          "brier": {
+            "piyasa": 1.0329,
+            "istatistik": 1.0157
+          }
+        }
       },
       "analiz_8": {
         "durum": "paylasildi",
         "tweet_id": "2107165798179717375",
         "zaman": "2026-10-05T17:47:25+00:00",
-        "metin": "🆚 Montenegro v Armenia\n\n🏆 Montenegro 62% · Draw 21% · Armenia 17%\n⚽ Over 2.5 goals 54% · Under 46%\n🥅 Both teams score 51% · Not both 49%\n🎯 Most likely score: 1-0 (11%)\n\n📈 Team stats: Both teams score 63%\n💹 Odds: 51%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Montenegro v Armenia\n\n🏆 Montenegro 62% · Draw 21% · Armenia 17%\n⚽ Over 2.5 goals 54% · Under 46%\n🥅 Both teams score 51% · Not both 49%\n🎯 Most likely score: 1-0 (11%)\n\n📈 Team stats: Both teams score 63%\n💹 Odds: 51%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2107222916010266861",
+          "skor": "0-0",
+          "isabet": [
+            false,
+            false,
+            false
+          ],
+          "zaman": "2026-10-05T21:33:57+00:00",
+          "brier": {
+            "piyasa": 1.5817,
+            "istatistik": 1.7706
+          }
+        }
       },
       "anket": {
         "durum": "paylasildi",

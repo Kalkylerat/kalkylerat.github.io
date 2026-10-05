@@ -3,7 +3,7 @@
   {
    "tarih": "2026-10-05",
    "olusturma": "2026-10-05T13:57:16+00:00",
-   "durum": "secildi",
+   "durum": "bitti",
    "havuz": [
     {
      "aday_id": "1528945-CS1X",
@@ -735,8 +735,8 @@
        "oran": 1.1,
        "olasilik": 0.88,
        "deger": -0.032,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "3-1"
       },
       {
        "aday_id": "1545611-CS1X",
@@ -765,8 +765,8 @@
        "oran": 1.53,
        "olasilik": 0.63,
        "deger": -0.036,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "4-1"
       },
       {
        "aday_id": "1528947-UST25",
@@ -780,16 +780,18 @@
        "oran": 2.7,
        "olasilik": 0.337,
        "deger": -0.09,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "0-0"
       }
      ],
      "oran": 5.0,
      "olasilik": 0.16,
      "deger": -0.2,
-     "durum": "bekliyor",
+     "durum": "yatti",
      "secim": "2026-10-05T14:56:39+00:00",
-     "metin": "First coupon. Four legs, so a long shot.\n\n⚽ Italy v Türkiye: Double chance 1X · 1.10\n⚽ Cyprus v Latvia: Double chance 1X · 1.10\n⚽ France v Belgium: Over 2.5 goals · 1.53\n⚽ N. Ireland v Georgia: Over 2.5 goals · 2.70\n\nCombined 5.00. About 16% to land.\n\n18+ | Play responsibly"
+     "metin": "First coupon. Four legs, so a long shot.\n\n⚽ Italy v Türkiye: Double chance 1X · 1.10\n⚽ Cyprus v Latvia: Double chance 1X · 1.10\n⚽ France v Belgium: Over 2.5 goals · 1.53\n⚽ N. Ireland v Georgia: Over 2.5 goals · 2.70\n\nCombined 5.00. About 16% to land.\n\n18+ | Play responsibly",
+     "son_oran": 1.85,
+     "sonuc_metni": "One leg short. The classic. Coupon down.\n\n✅ Italy 3-1 Türkiye: Double chance 1X\n✅ Cyprus 2-1 Latvia: Double chance 1X\n✅ France 4-1 Belgium: Over 2.5 goals\n❌ Northern Ireland 0-0 Georgia: Over 2.5 goals\n\nRecord: 0 of 1 landed.\n18+ | Play responsibly"
     },
     {
      "ad": "elle-2",
@@ -821,8 +823,8 @@
        "oran": 1.28,
        "olasilik": 0.719,
        "deger": -0.08,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "4-1"
       },
       {
        "aday_id": "1528944-CS1X",
@@ -836,8 +838,8 @@
        "oran": 1.0,
        "olasilik": 1.0,
        "deger": 0.0,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "4-1"
       },
       {
        "aday_id": "1528950-UST15",
@@ -851,8 +853,8 @@
        "oran": 1.2,
        "olasilik": 0.777,
        "deger": -0.068,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "0-0"
       },
       {
        "aday_id": "1528949-CSX2",
@@ -866,8 +868,8 @@
        "oran": 1.18,
        "olasilik": 0.761,
        "deger": -0.102,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "0-1"
       },
       {
        "aday_id": "1528945-UST15",
@@ -881,8 +883,8 @@
        "oran": 1.16,
        "olasilik": 0.829,
        "deger": -0.038,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "3-1"
       },
       {
        "aday_id": "1528946-ALT35",
@@ -896,17 +898,19 @@
        "oran": 1.16,
        "olasilik": 0.809,
        "deger": -0.062,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-2"
       }
      ],
      "oran": 3.9,
      "olasilik": 0.175,
      "deger": -0.318,
-     "durum": "bekliyor",
+     "durum": "yatti",
      "secim": "2026-10-05T15:35:43+00:00",
      "metin": "Second one. Six legs, which I know, I know.\n\nFive of them are the dull, sensible sort. Cyprus to win at home is the one doing the heavy lifting.\n\n3.90 the lot. I make it about a 1 in 6 shot, so same rule as before: pocket money.\n\n18+ | Play responsibly",
-     "not": "France v Belgium: tek oyun (bet builder) 1.28; iki ayak olarak kayıtlı, ikisi de tutmalı."
+     "not": "France v Belgium: tek oyun (bet builder) 1.28; iki ayak olarak kayıtlı, ikisi de tutmalı.",
+     "son_oran": 3.19,
+     "sonuc_metni": "So close it hurts a bit.\n\nRecord: 0 of 2 landed.\n18+ | Play responsibly"
     }
    ],
    "islenen": [],

@@ -1,6 +1,6 @@
 {
- "issue": 11,
- "tarih": "2026-10-04",
+ "issue": 16,
+ "tarih": "2026-10-05",
  "bildirilen": [
   "2026-10-02:analiz_0:takip_gecikti",
   "2026-10-02:analiz_1:takip_gecikti",
@@ -12,6 +12,25 @@
   "2026-10-03:analiz_2:takip_gecikti",
   "2026-10-03:analiz_3:kacti",
   "2026-10-04:bilgi:kural",
-  "2026-10-04:tablo_aksam:kural"
+  "2026-10-04:tablo_aksam:kural",
+  "2026-10-05:analiz_1:takip_gecikti",
+  "2026-10-05:analiz_2:takip_gecikti",
+  "2026-10-05:analiz_3:takip_gecikti",
+  "2026-10-05:analiz_4:takip_gecikti",
+  "2026-10-05:analiz_5:takip_gecikti",
+  "2026-10-05:analiz_6:takip_gecikti",
+  "2026-10-05:analiz_7:takip_gecikti",
+  "2026-10-05:analiz_8:takip_gecikti",
+  "2026-10-05:tablo:1528946:tablo_gec",
+  "2026-10-05:tablo:1528947:tablo_gec",
+  "2026-10-05:tablo:1528948:tablo_gec",
+  "2026-10-05:tablo:1528949:tablo_gec",
+  "2026-10-05:tablo:1528950:tablo_gec",
+  "2026-10-05:tablo_aksam:1499670:tablo_gec",
+  "2026-10-05:tablo_aksam:1500141:tablo_gec",
+  "2026-10-05:tablo_aksam:1500142:tablo_gec",
+  "2026-10-05:tablo_aksam:1500192:tablo_gec",
+  "2026-10-05:tablo_aksam:1596001:tablo_gec",
+  "2026-10-05:tablo_aksam:1639992:tablo_gec"
  ]
 }

@@ -1,26 +1,28 @@
 {
-  "hafta": "2026-W40",
-  "guncelleme": "2026-10-01T17:43:45+02:00",
+  "hafta": "2026-W41",
+  "guncelleme": "2026-10-05T09:04:55+02:00",
   "strateji": {
-    "ton": "Calm, friendly, numbers-first. We are 4 days old and 5/5 at average odds 1.28, so stay humble: a win at 1.28 is the expected outcome, not a triumph. Talk in chances (%), never certainties. Short lines, one idea per line, plain English a casual fan gets in 3 seconds.",
+    "ton": "Calm, curious, numbers-first. Week 1 of analysis mode: ~100 posts, best post 15 views, 0 likes, 0 bookmarks, 0 replies from strangers. So write less and better: 3 cards on the day's most famous matches, one full-time quote per card, one board, one poll, one knowledge post. Short lines, every number on its own line, market % and team-stats % side by side. Every post ends with a question about one specific number in that post, and the question is the closing line, nothing after it.",
     "soru_ornekleri": [
-      "Our numbers give Germany 80% tonight. Too high, too low, or about right?",
-      "Which leg would you have left out of today's coupon?",
-      "Spain 2–0 is our most likely score. What's yours?",
-      "Their last two meetings finished 1-1 and 1-0. Does the low-scoring run end tonight?",
-      "If you could only keep one pick from today, which one and why?"
+      "Netherlands sit at 83% in the market but their recent stats say 57%. Which number would you trust tonight?",
+      "Odds give Over 2.5 goals 51%, team form says 13%. Who's closer here, the market or the last few games?",
+      "1-1 is our most likely score at only 12%. Is there a scoreline you'd put above it?",
+      "A 0-0 carried 4% on our card. Did it feel like a 4% game to you?",
+      "Germany 54% away in Athens. Would you have them higher or lower?",
+      "Draw at 30% is the highest we have all weekend. Does this one really end level?"
     ],
     "kacinilacaklar": [
-      "More than 2 coupons on one day (1 Oct had 3: the bonus posts got 0–1 impressions and the bank risked 3% instead of 1%).",
-      "A most-likely score that contradicts the pick (1 Oct: Over 1.5 goals with most likely score 0–1). Check every leg before it goes out.",
-      "Headers that say nothing about the games ('Why these picks 👇'). The header must carry the best match, pick, our % and the question, because it gets 3–10x the views of the legs.",
-      "Results posted the next morning (28 Sep results went out at 06:41). Post within an hour of the last final whistle.",
-      "Burying the famous match at leg 3. Lead with the game most people know.",
-      "Selling the streak ('5 in a row', 100%). At these odds it is normal; say so if mentioned at all.",
-      "Anything that could read as a link in the text; only the image. No bookmaker names, no @, max one hashtag for a big competition."
+      "Two or three full-time posts for the same match (Portugal v Norway got four on 4 Oct, Ireland v Israel three). One quote per card and nothing else.",
+      "The same closing line in every post: 'Chances, not picks. One match proves little.' ran in 20+ posts this week. The question is the closer; rotate it per match.",
+      "Batch dumps: six posts in the same second (18:41:29 on 3 Oct) and ~60 posts on 4 Oct. Space posts at least 28 minutes apart, aim for 12–15 a day.",
+      "Abbreviations in running text: 'BTTS fan or...' in the 4 Oct knowledge post. Write 'Both teams score'.",
+      "Generic closers and soft bait: 'Did you see this one coming?', 'Agree or not? Tell us why in the replies.' Ask one concrete question with a number.",
+      "Cards for matches almost nobody on X follows (Supra du Quebec v Pacific FC, Internacional de Bogota v Once Caldas: 0–2 views). Pick the three best-known matches of the day; club leagues on weekdays, big Nations League games when they play.",
+      "Posting the identical board text twice in a day (📋 post at 09:10 and 16:04 on 4 Oct, same text).",
+      "Dropping or trimming the 📈 team-stats line; if there are too few games, say so in that line, as the cards already do."
     ],
-    "odak": "Headers and the Day 1 post earned 65–87 impressions; thread legs 6–11; everything else under 10 and zero likes/bookmarks. So: 1) make the header a standalone post (match + pick + our % + one real question), 2) lead with the biggest game, 3) same-night results with the bank line, 4) make sure the poll, score prediction and stat of the day actually go out every day – none appeared this week. Target for next week: first likes/bookmarks and first replies from strangers, not raw impressions.",
-    "gunluk_max_kupon": 2
+    "odak": "Cut volume by half and make each post count. 1) Three cards on the most famous matches of the day, posted 2–3 hours before kick-off, market % and stats % together. 2) Exactly one full-time quote per card, within an hour of the whistle, closing with a question about the score's or the result's %. 3) Board once a day, knowledge post once, poll once; no duplicates. 4) Every closing question names a number from the post and changes from post to post. Target for next week: first reply or bookmark from someone who is not us, and no day over 15 posts.",
+    "gunluk_max_kupon": 1
   },
-  "rapor_issue": 7
+  "rapor_issue": 12
 }

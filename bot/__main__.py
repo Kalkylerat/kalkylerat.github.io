@@ -744,11 +744,11 @@ def ek_kupon(ayar, gunler: list[dict], bugun: str, simdi: datetime) -> dict | No
 
 
 def _sabah_penceresi(simdi: datetime, ayar) -> bool:
-    """Planlı sabah çalışmasından 20 dk sonra ile 2,5 saat sonrası arası (yerel saat, yaz/kış aynı kalır)."""
+    """Planlı sabah çalışmasından (her gün 07:17 yerel) 20 dk sonra ile akşam 21:00 arası: sabah çalışması atlandıysa
+    nabız günün analizini hazırlar (erken maçlar kaçmasın diye analiz sabah erken; geç kalırsa yine de yapılır)."""
     yerel = simdi.astimezone(ZoneInfo(ayar.saat_dilimi))
-    bas = (12 * 60 + 47) if yerel.weekday() < 5 else (10 * 60 + 17)
     dk = yerel.hour * 60 + yerel.minute
-    return bas + 20 <= dk <= bas + 150
+    return config.SABAH_YEREL_DK + 20 <= dk <= 21 * 60
 
 
 ANALIZ_ISTATISTIK_MAX = 300  # analiz günü en fazla bu kadar istatistik isteği (Pro: günde 7.500 hak)
@@ -790,7 +790,10 @@ def analiz_gunu(ayar, gunler: list[dict], bugun: str, simdi: datetime, api=None)
     klasor.mkdir(parents=True, exist_ok=True)
     (klasor / f"{bugun}.json").write_text(json.dumps(analizler, ensure_ascii=False) + "\n", encoding="utf-8")
     one = analiz.one_cikanlar(analizler, ayar.ligler)
-    gun = {"id": bugun, "tarih": bugun, "olusturma": simdi.isoformat(timespec="seconds"), "baslik": "",
+    buyuk = [a for a in analizler if (analiz.onemli(a) or a.get("lig_id") in ayar.ligler) and a["guven"] != "dusuk"
+             and datetime.fromisoformat(a["baslama"]) > simdi]
+    gun = {"yogun": len(buyuk) >= config.YOGUN_MAC_ESIGI,  # maç çoksa hafta içi de yoğun gün temposu (B4)
+           "id": bugun, "tarih": bugun, "olusturma": simdi.isoformat(timespec="seconds"), "baslik": "",
            "secimler": [], "sonuc": "analiz", "tweet_id": None, "konsept": "analiz", "taranan": len(maclar),
            "analiz_sayisi": len(analizler), "vitrin": etkilesim.vitrin(maclar, oranlar, ayar, simdi),
            "analizler": one,
@@ -1270,7 +1273,7 @@ def main(argv=None) -> int:
             try:
                 analiz_secimlerini_tamamla(ayar, kayit.bul(gunler, bugun))
                 dosya = config.DATA_FILE.parent / "analiz" / f"{bugun}.json"
-                if config.yogun_mu(ayar, bugun) and dosya.exists():  # yoğun gün: akşam maçlarına da kart
+                if config.yogun_mu(ayar, bugun, kayit.bul(gunler, bugun)) and dosya.exists():  # yoğun gün: akşam maçlarına da kart
                     eklenen = etkilesim.yogun_kartlari_ekle(kayit.bul(gunler, bugun),
                                                             json.loads(dosya.read_text(encoding="utf-8")), ayar, simdi)
                     if eklenen:

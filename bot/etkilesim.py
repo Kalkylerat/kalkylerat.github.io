@@ -324,7 +324,7 @@ def _plan(gun: dict) -> list[tuple[str, datetime, datetime]]:
 def aksam_tablosu_ekle(gun: dict, tum: list[dict], ayar, simdi: datetime) -> int:
     """Yoğun günde 16:00 UTC'den sonra bir kez: sabah tablosunda ve kartlarda olmayan akşam maçlarının tablosu
     (en az 4 maç). Paylaşımı ve maç sonu yanıtları sabah tablosu gibi."""
-    if gun.get("konsept") != "analiz" or not config.yogun_mu(ayar, gun["tarih"]) or "tablo_aksam" in gun \
+    if gun.get("konsept") != "analiz" or not config.yogun_mu(ayar, gun["tarih"], gun) or "tablo_aksam" in gun \
             or simdi.hour < 16:
         return 0
     haric = {a["fixture_id"] for a in gun.get("tablo") or []}  # sabah tablosunda olmayanlar (kartlı da olabilir)
@@ -337,7 +337,7 @@ def aksam_tablosu_ekle(gun: dict, tum: list[dict], ayar, simdi: datetime) -> int
 def yogun_kartlari_ekle(gun: dict, tum: list[dict], ayar, simdi: datetime) -> int:
     """Yoğun günde öne çıkan kartlar akşam maçlarıyla genişler (kart penceresi kapanmamış olanlar). Var olan
     kartların sırası değişmez (etkileşim kayıtları analiz_<sıra> ile tutulur); yeniler sona eklenir."""
-    if gun.get("konsept") != "analiz" or not config.yogun_mu(ayar, gun["tarih"]):
+    if gun.get("konsept") != "analiz" or not config.yogun_mu(ayar, gun["tarih"], gun):
         return 0
     analizler = gun.setdefault("analizler", [])
     yer = ayar.yogun_kart - len(analizler)
@@ -391,7 +391,7 @@ def aralik_dk(gun: dict, ayar, simdi: datetime) -> float:
     """Postlar arası dakika. Normal gün 45. Yoğun günde en az ayar.yogun_aralik_dk (~15 dk); sırada az post varsa
     kalanlar günün geri kalanına yayılır (öğlen hepsi tükenip akşam boş kalmasın), ama en fazla 45 dk ve son saati
     1 saatten yakın post varken hiç beklemeden en kısa aralık."""
-    if not config.yogun_mu(ayar, gun["tarih"]):
+    if not config.yogun_mu(ayar, gun["tarih"], gun):
         return ARALIK_DK
     en_az = getattr(ayar, "yogun_aralik_dk", ARALIK_DK)
     durum = gun.get("etkilesim") or {}

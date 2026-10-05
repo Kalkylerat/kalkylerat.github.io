@@ -151,6 +151,7 @@ def test_B3_kart_bilgi_postundan_once():
 def test_B4_hafta_sonu_yogun_gun():
     assert config.yogun_mu(AYAR, "2026-10-03") and config.yogun_mu(AYAR, "2026-10-04")  # Cumartesi, Pazar
     assert not config.yogun_mu(AYAR, "2026-10-05")
+    assert config.yogun_mu(AYAR, "2026-10-05", {"yogun": True})  # hafta içi maç çoksa da yoğun
     assert 13 <= AYAR.yogun_aralik_dk <= 15 and AYAR.gunluk_post_siniri <= 40 and AYAR.yogun_kart >= 20
     # kart penceresi 8 saat: öğle boşluğunda akşam maçının kartı paylaşılabilir
     gun = {"tarih": "2026-10-03", "konsept": "analiz", "analizler": [mac(1, "France", "Italy", saat="18:45")]}
@@ -165,9 +166,11 @@ def test_B4_hafta_sonu_yogun_gun():
 def test_B5_sabah_analizi_yoksa_alarm():
     bulunan = dict(saglik.sorunlar([], datetime(2026, 10, 4, 10, 30, tzinfo=UTC), AYAR))
     assert any("sabah analizi" in m for m in bulunan.values())
-    # hafta içi analiz 12:47 (İsveç) planlı: 10:30 UTC'de henüz alarm yok, 12:00 UTC'de var
-    assert not any("sabah analizi" in m for _, m in saglik.sorunlar([], datetime(2026, 10, 5, 10, 30, tzinfo=UTC), AYAR))
-    assert any("sabah analizi" in m for _, m in saglik.sorunlar([], datetime(2026, 10, 5, 12, 0, tzinfo=UTC), AYAR))
+    # analiz her gün 07:17 (İsveç) planlı: 05:30 UTC'de henüz alarm yok, 06:30 UTC'de var (hafta içi de)
+    assert not any("sabah analizi" in m for _, m in saglik.sorunlar([], datetime(2026, 10, 5, 5, 30, tzinfo=UTC), AYAR))
+    assert any("sabah analizi" in m for _, m in saglik.sorunlar([], datetime(2026, 10, 5, 6, 30, tzinfo=UTC), AYAR))
+    wf = (ROOT / ".github/workflows/kalkylerat.yml").read_text()
+    assert 'cron: "17 5 * * *"' in wf and config.SABAH_YEREL_DK == 7 * 60 + 17
 
 
 def test_B6_buyuk_maclar_kart_ve_tabloda():

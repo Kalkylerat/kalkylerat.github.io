@@ -139,10 +139,14 @@ def _yukle(path: Path) -> Ayarlar:
     )
 
 
-def yogun_mu(ayar, tarih: str) -> bool:
-    """Yoğun gün mü: listede ya da (açıksa) Cumartesi/Pazar."""
+YOGUN_MAC_ESIGI = 8  # hafta içi de bu kadar büyük/izinli lig maçı varsa gün yoğundur (SÖZLEŞME B4)
+SABAH_YEREL_DK = 7 * 60 + 17  # sabah analizi her gün 07:17 (İsveç saati; workflow cron'u ile aynı, SÖZLEŞME B5)
+
+
+def yogun_mu(ayar, tarih: str, gun: dict | None = None) -> bool:
+    """Yoğun gün mü: listede, (açıksa) Cumartesi/Pazar ya da sabah analizinde çok maç bulunan gün (gun["yogun"])."""
     from datetime import date
-    return tarih in getattr(ayar, "yogun_gunler", ()) or (
+    return tarih in getattr(ayar, "yogun_gunler", ()) or bool(gun and gun.get("yogun")) or (
         getattr(ayar, "yogun_hafta_sonu", False) and date.fromisoformat(tarih).weekday() >= 5)
 
 

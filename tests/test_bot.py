@@ -949,9 +949,10 @@ def test_takilan_mac_saatte_bir_sorulur():
 
 def test_sabah_penceresi_ve_sponsorlu_lig_adi():
     from bot.__main__ import _sabah_penceresi, _lig_adi
-    assert _sabah_penceresi(datetime(2026, 9, 29, 11, 20, tzinfo=timezone.utc), AYAR)      # Salı 13:20 CEST
-    assert not _sabah_penceresi(datetime(2026, 9, 29, 10, 50, tzinfo=timezone.utc), AYAR)  # planlı çalışma daha yeni
-    assert not _sabah_penceresi(datetime(2026, 9, 29, 15, 0, tzinfo=timezone.utc), AYAR)
+    assert _sabah_penceresi(datetime(2026, 9, 29, 5, 40, tzinfo=timezone.utc), AYAR)       # Salı 07:40 CEST
+    assert _sabah_penceresi(datetime(2026, 9, 29, 11, 0, tzinfo=timezone.utc), AYAR)       # geç kaldıysa gün içinde
+    assert not _sabah_penceresi(datetime(2026, 9, 29, 5, 20, tzinfo=timezone.utc), AYAR)   # planlı çalışma daha yeni
+    assert not _sabah_penceresi(datetime(2026, 9, 29, 20, 0, tzinfo=timezone.utc), AYAR)
     assert _lig_adi({"lig": "Betsson Superettan", "ulke": "Sweden"}, AYAR) == "Sweden league"
     assert _lig_adi({"lig": "Premier League", "ulke": "England"}, AYAR) == "Premier League"
 

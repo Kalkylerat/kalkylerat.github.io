@@ -2,10 +2,9 @@ name: Kalkylerat Botu
 
 on:
   schedule:
-    # Günün kuponu (dünkü sonuçlar da): hafta içi öğle (akşam maçlarından saatler önce, öğle etkileşim zirvesi),
-    # hafta sonu erken (öğleden sonra başlayan maçlar için). Tam saat yerine :47/:17 = GitHub'ın yoğun saatinde gecikme azalır.
-    - cron: "47 10 * * 1-5"  # 12:47 İsveç yaz saati (kışın 11:47)
-    - cron: "17 8 * * 0,6"   # 10:17 İsveç yaz saati (kışın 09:17)
+    # Günün analizi her gün sabah erken: Asya/Okyanusya'daki öğle maçları (ör. Japonya) da kart alsın.
+    # Tam saat yerine :17 = GitHub'ın yoğun saatinde gecikme azalır. Atlanırsa nabız gün içinde tamamlar.
+    - cron: "17 5 * * *"   # 07:17 İsveç yaz saati (kışın 06:17); config.SABAH_YEREL_DK ile aynı
     # Nabız, 15 dakikada bir: süresi dolan onaylı kuponu paylaşır, biten maçların sonucunu (son maçtan ~15 dk
     # sonra) paylaşır, Pazar akşamı haftalık özeti atar. API isteği yalnızca bitmiş olması gereken maçlar için.
     - cron: "7,22,37,52 * * * *"  # çeyrek başları GitHub'ın en yoğun anı, gecikmesin

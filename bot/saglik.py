@@ -30,11 +30,10 @@ def _buyuk_kart(g: dict, tur: str) -> bool:
 
 
 def _sabah_gecti(simdi: datetime, ayar) -> bool:
-    """Planlı sabah çalışmasından (yerel: hafta içi 12:47, hafta sonu 10:17) 1 saat geçti mi (SÖZLEŞME B5)."""
+    """Planlı sabah çalışmasından (her gün 07:17 yerel) 1 saat geçti mi (SÖZLEŞME B5)."""
     from zoneinfo import ZoneInfo
     yerel = simdi.astimezone(ZoneInfo(ayar.saat_dilimi))
-    bas = (12 * 60 + 47) if yerel.weekday() < 5 else (10 * 60 + 17)
-    return yerel.hour * 60 + yerel.minute >= bas + 60
+    return yerel.hour * 60 + yerel.minute >= config.SABAH_YEREL_DK + 60
 
 
 def sorunlar(gunler: list[dict], simdi: datetime, ayar, hatalar: list[str] = ()) -> list[tuple[str, str]]:
@@ -101,7 +100,7 @@ def sorunlar(gunler: list[dict], simdi: datetime, ayar, hatalar: list[str] = ())
     bugun = next((g for g in reversed(gunler) if g["tarih"] == gun_adi and g.get("konsept") == "analiz"), None)
     if ayar.konsept == "analiz" and not any(g["tarih"] == gun_adi for g in gunler) and _sabah_gecti(simdi, ayar):
         bulunan.append((f"{gun_adi}:sabah", "🌅 Bugünün sabah analizi yapılmadı (tablo, kartlar ve kit çıkmayacak)"))
-    if bugun and config.yogun_mu(ayar, gun_adi):
+    if bugun and config.yogun_mu(ayar, gun_adi, bugun):
         durum = bugun.get("etkilesim") or {}
         bekleyen = [tur for tur, erken, gec in etkilesim._plan(bugun) if tur not in durum and erken <= simdi <= gec]
         son = etkilesim._son_paylasim(bugun)

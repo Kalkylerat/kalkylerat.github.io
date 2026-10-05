@@ -6,6 +6,8 @@ uygulaması/API anahtarı açılmaz. Bot yalnızca GitHub'da taslak hazırlar (`
 
 ## Hesap bilgileri (kopyala-yapıştır)
 
+Görseller bu klasörde: `mr_likely_logo.png` (profil fotoğrafı, 800×800) ve `mr_likely_kapak.png` (kapak, 1500×500).
+
 | Alan | Değer |
 |---|---|
 | İsim (Name) | `Mr. Likely` |

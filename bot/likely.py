@@ -148,6 +148,7 @@ def ornek_kuponlar(adaylar: list[dict], cfg: LikelyAyar) -> list[dict]:
     tarifler = [
         ("Tek maç · en yüksek ihtimal", kombinasyon(saglam, 1)),
         ("İkili · en yüksek ihtimal", kombinasyon(saglam, 2)),
+        ("Üçlü · 2 sağlam + 1 riskli", (a + (d,) for a in kombinasyon(saglam, 2, 5) for d in deger[:3] if _farkli_mac(a + (d,)))),
         ("İkili · ikisi de 80+", kombinasyon(yuksek, 2)),
         ("İkili · büyük maçlar", kombinasyon(buyuk, 2)),
         ("Üçlü · en yüksek ihtimal", kombinasyon(saglam, 3)),
@@ -252,7 +253,7 @@ def karne(veri: dict) -> dict:
 
 
 def karne_satiri(k: dict) -> str:
-    return f'Record: {k["tutan"]} of {k["kupon"]} landed, {_birim(k["kar"])} units.'
+    return f'Record: {k["tutan"]} of {k["kupon"]} landed.'
 
 
 def sonuc_metni(kupon: dict, k: dict, tohum: str) -> str:
@@ -420,7 +421,7 @@ def paket_metni(gun: dict, veri: dict, ayar, cfg: LikelyAyar) -> str:
          "Birkaç dakika içinde kopyalanacak post metni buraya gelir; postu X'te **sen** atarsın (ilk maçtan önce). "
          "Seçtiğin her kupon karneye yazılır, kaybeden de. Vazgeçersen maç başlamadan `iptal` yaz.",
          "",
-         f"**Karne:** {k['kupon']} kupon, {k['tutan']} tuttu, {_birim(k['kar'])} birim."
+         f"**Karne:** {k['kupon']} kupon, {k['tutan']} tuttu."
          if k["kupon"] else "**Karne:** henüz sonuçlanan kupon yok.",
          "", "## Hazır kuponlar",
          "Tutma ihtimali ayakların ihtimallerinin çarpımıdır. Değer: artıysa oran ihtimale göre iyi, eksiyse bahisçi payı kadar pahalı."]
@@ -649,8 +650,7 @@ def sonuclar(ayar, sonuc_al, gh, simdi: datetime, yazici=None, yaz=print) -> int
             gun["durum"] = "bitti"
             kr = karne(veri)
             if gun.get("issue"):
-                gh.kapat(gun["issue"], f"Günün kuponları sonuçlandı. Karne: {kr['kupon']} kupon, {kr['tutan']} tuttu, "
-                                       f"{_birim(kr['kar'])} birim (kupon başına 1 birim).")
+                gh.kapat(gun["issue"], f"Günün kuponları sonuçlandı. Karne: {kr['kupon']} kupon, {kr['tutan']} tuttu.")
     kaydet(veri)
     if biten:
         yaz(f"Mr. Likely: {biten} kupon sonuçlandı.")

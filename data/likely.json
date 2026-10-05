@@ -3,7 +3,7 @@
   {
    "tarih": "2026-10-05",
    "olusturma": "2026-10-05T13:57:16+00:00",
-   "durum": "bekliyor",
+   "durum": "secildi",
    "havuz": [
     {
      "aday_id": "1528945-CS1X",
@@ -719,7 +719,79 @@
      "harf": "J"
     }
    ],
-   "secilen": [],
+   "secilen": [
+    {
+     "ad": "elle-1",
+     "ayaklar": [
+      {
+       "aday_id": "1528945-CS1X",
+       "fixture_id": 1528945,
+       "pazar": "CS1X",
+       "ev": "Italy",
+       "dep": "Türkiye",
+       "lig": "UEFA Nations League",
+       "baslama": "2026-10-05T20:45:00+02:00",
+       "etiket": "Double chance 1X",
+       "oran": 1.1,
+       "olasilik": 0.88,
+       "deger": -0.032,
+       "durum": "bekliyor",
+       "skor": null
+      },
+      {
+       "aday_id": "1545611-CS1X",
+       "fixture_id": 1545611,
+       "pazar": "CS1X",
+       "ev": "Cyprus",
+       "dep": "Latvia",
+       "lig": "UEFA Nations League",
+       "baslama": "2026-10-05T18:00:00+02:00",
+       "etiket": "Double chance 1X",
+       "oran": 1.1,
+       "olasilik": 0.858,
+       "deger": -0.056,
+       "durum": "bekliyor",
+       "skor": null
+      },
+      {
+       "aday_id": "1528944-UST25",
+       "fixture_id": 1528944,
+       "pazar": "UST25",
+       "ev": "France",
+       "dep": "Belgium",
+       "lig": "UEFA Nations League",
+       "baslama": "2026-10-05T20:45:00+02:00",
+       "etiket": "Over 2.5 goals",
+       "oran": 1.53,
+       "olasilik": 0.63,
+       "deger": -0.036,
+       "durum": "bekliyor",
+       "skor": null
+      },
+      {
+       "aday_id": "1528947-UST25",
+       "fixture_id": 1528947,
+       "pazar": "UST25",
+       "ev": "Northern Ireland",
+       "dep": "Georgia",
+       "lig": "UEFA Nations League",
+       "baslama": "2026-10-05T20:45:00+02:00",
+       "etiket": "Over 2.5 goals",
+       "oran": 2.7,
+       "olasilik": 0.337,
+       "deger": -0.09,
+       "durum": "bekliyor",
+       "skor": null
+      }
+     ],
+     "oran": 5.0,
+     "olasilik": 0.16,
+     "deger": -0.2,
+     "durum": "bekliyor",
+     "secim": "2026-10-05T14:56:39+00:00",
+     "metin": "First coupon. Four legs, so a long shot.\n\n⚽ Italy v Türkiye: Double chance 1X · 1.10\n⚽ Cyprus v Latvia: Double chance 1X · 1.10\n⚽ France v Belgium: Over 2.5 goals · 1.53\n⚽ N. Ireland v Georgia: Over 2.5 goals · 2.70\n\nCombined 5.00. About 16% to land. Small stakes.\n\n18+ | Play responsibly"
+    }
+   ],
    "islenen": [],
    "ders": "If you can't say roughly how often your coupon should win, you're not placing a coupon, you're buying a raffle ticket.\n\n18+ | Play responsibly",
    "issue": 15

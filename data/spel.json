@@ -16348,7 +16348,22 @@
         "durum": "paylasildi",
         "tweet_id": "2107080191512027300",
         "zaman": "2026-10-05T12:06:59+00:00",
-        "metin": "🆚 Cyprus v Latvia\n\n🏆 Cyprus 61% · Draw 23% · Latvia 16%\n⚽ Over 2.5 goals 46% · Under 54%\n🥅 Both teams score 44% · Not both 56%\n🎯 Likeliest: 1-0 (14%)\n\n📈 Over 2.5 goals: stats 23%, market 46%\n\n💬 Stats 23%, market 46%. Who's closer?\n18+ | Play responsibly"
+        "metin": "🆚 Cyprus v Latvia\n\n🏆 Cyprus 61% · Draw 23% · Latvia 16%\n⚽ Over 2.5 goals 46% · Under 54%\n🥅 Both teams score 44% · Not both 56%\n🎯 Likeliest: 1-0 (14%)\n\n📈 Over 2.5 goals: stats 23%, market 46%\n\n💬 Stats 23%, market 46%. Who's closer?\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2107167856957751392",
+          "skor": "2-1",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "zaman": "2026-10-05T17:55:34+00:00",
+          "brier": {
+            "piyasa": 0.8415,
+            "istatistik": 1.4853
+          }
+        }
       },
       "tablo": {
         "durum": "paylasildi",
@@ -16366,7 +16381,17 @@
           1528949,
           1528950
         ],
-        "sonuclar": {}
+        "sonuclar": {
+          "1545611": {
+            "durum": "paylasildi",
+            "tweet_id": "2107167836204306731",
+            "skor": [
+              2,
+              1
+            ],
+            "zaman": "2026-10-05T17:55:34+00:00"
+          }
+        }
       },
       "bilgi": {
         "durum": "paylasildi",

@@ -750,8 +750,8 @@
        "oran": 1.1,
        "olasilik": 0.858,
        "deger": -0.056,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "2-1"
       },
       {
        "aday_id": "1528944-UST25",
@@ -806,8 +806,8 @@
        "oran": 1.57,
        "olasilik": 0.613,
        "deger": -0.038,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "2-1"
       },
       {
        "aday_id": "1528944-UST15",

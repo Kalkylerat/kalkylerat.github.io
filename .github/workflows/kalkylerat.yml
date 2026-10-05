@@ -35,7 +35,7 @@ jobs:
       github.event_name != 'issue_comment' ||
       ((contains(github.event.issue.labels.*.name, 'onay') || contains(github.event.issue.labels.*.name, 'mr-likely')) &&
        contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association))
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04  # sabit sürüm: ubuntu-latest havuzu 5 Ekim akşamı iş almadı
     # İş düzeyinde: atlanan işler (yabancı yorumlar) sıradaki çalışmayı iptal edemez.
     concurrency:
       group: kalkylerat-botu

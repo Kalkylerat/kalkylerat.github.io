@@ -22,7 +22,7 @@ concurrency:
 
 jobs:
   nobet:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04  # sabit sürüm: ubuntu-latest havuzu 5 Ekim akşamı iş almadı
     timeout-minutes: 345
     steps:
       - name: Bot düzenli çalışıyor mu? Çalışmıyorsa nabzı başlat

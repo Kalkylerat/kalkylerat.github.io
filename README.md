@@ -84,6 +84,15 @@ Bot içeriği üretir; takipçiyi etkileşim getirir:
 - Hafta sonları gelen yorumlara cevap verin.
 - Bahis sitesi linki/reklamı **yok**: ne İsveç ne Türkiye için. Affiliate konusu ancak 3. aydan sonra, yalnızca İsveç lisanslı şirketlerle ve kurallara uygun şekilde.
 
+## Mr. Likely (ikinci hesap, elle paylaşılır)
+
+Uluslararası kupon/tahmin sayfası. Aynı sabah taramasını kullanır (ek API isteği yok) ama **bot X'e hiçbir şey
+paylaşmaz**: her sabah GitHub'da `🎩 Mr. Likely <tarih>` bildirimi gelir (numaralı adaylar, harfli hazır kuponlar),
+yorumla seçersiniz (`C`, `3 7 12`, `pas`), post metni aynı yere gelir, postu siz atarsınız. Maçlar bitince sonuç
+postunun taslağı ve karne gelir. Karakter, profil metinleri ve günlük kullanım: **[marka/MR_LIKELY.md](marka/MR_LIKELY.md)**.
+Kurallar: SOZLESME.md E bölümü. Ayarlar: `ayarlar.toml` → `[likely]`. Elle komutlar: `likely_paket` (bugünün paketini
+şimdi hazırla), `likely` (yorumları ve sonuçları şimdi işle).
+
 ## Ayarlar (`ayarlar.toml`)
 
 GitHub'da dosyaya tıklayın → kalem ikonu → değiştirin → Commit.

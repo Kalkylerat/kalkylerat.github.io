@@ -50,3 +50,15 @@ Bir kuralı değiştirmek isterseniz önce burayı, sonra testi, en son kodu de�
 | D3 | Başkalarına otomatik yanıt, etiketleme, DM, takip, beğeni yok. Yanıt kiti yalnızca taslaktır. | `test_D3` |
 | D4 | Topluluğa günde yalnızca tablo ve oran/istatistik postu gider. | `test_D4` |
 | D5 | Hesap "Automated" etiketli, @kalkyleratkonto'ya bağlı (X ayarı, sahibi yaptı). | — |
+
+## E. Mr. Likely (elle paylaşılan ikinci hesap)
+
+Testler `tests/test_likely.py` içinde. Karakter ve hesap rehberi: `marka/MR_LIKELY.md`.
+
+| # | Kural | Test |
+|---|---|---|
+| E1 | Bot bu hesap adına X'e **hiçbir şey paylaşmaz**: taslak GitHub'a gelir, postu sahibi elle atar. Hesap otomatik değildir; X anahtarı yoktur. | `test_E1` |
+| E2 | Her kupon postu **tutma ihtimalini** yazar ve "18+" satırıyla biter; kesinlik dili, link, bahis sitesi adı, etiket ve kayıtta olmayan sayı (uydurma karne) yok. Karakter metni kurala uymazsa şablon kullanılır. | `test_E2` |
+| E3 | Kupon oranı ve tutma ihtimali ayakların **çarpımıdır**; aynı maçtan iki oyun aynı kupona girmez. | `test_E3` |
+| E4 | İlk maç başladıktan sonra kupon seçilemez. | `test_E4` |
+| E5 | **Karne seçilen her kuponu sayar**; kaybeden de yazılır. Maç başladıktan sonra kupon geri alınamaz. | `test_E5` |

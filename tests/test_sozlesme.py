@@ -165,6 +165,9 @@ def test_B4_hafta_sonu_yogun_gun():
 def test_B5_sabah_analizi_yoksa_alarm():
     bulunan = dict(saglik.sorunlar([], datetime(2026, 10, 4, 10, 30, tzinfo=UTC), AYAR))
     assert any("sabah analizi" in m for m in bulunan.values())
+    # hafta içi analiz 12:47 (İsveç) planlı: 10:30 UTC'de henüz alarm yok, 12:00 UTC'de var
+    assert not any("sabah analizi" in m for _, m in saglik.sorunlar([], datetime(2026, 10, 5, 10, 30, tzinfo=UTC), AYAR))
+    assert any("sabah analizi" in m for _, m in saglik.sorunlar([], datetime(2026, 10, 5, 12, 0, tzinfo=UTC), AYAR))
 
 
 def test_B6_buyuk_maclar_kart_ve_tabloda():

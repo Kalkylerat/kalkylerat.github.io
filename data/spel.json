@@ -16402,6 +16402,662 @@
     "yanit_kiti": {
       "issue": 14,
       "zaman": "2026-10-05T10:51:58+00:00"
-    }
+    },
+    "tablo_aksam": [
+      {
+        "fixture_id": 1499670,
+        "lig": "Primera B Metropolitana",
+        "ulke": "Argentina",
+        "lig_id": 131,
+        "ev": "UAI Urquiza",
+        "dep": "Ituzaingó",
+        "baslama": "2026-10-05T20:00:00+02:00",
+        "p": {
+          "MS1": 0.565,
+          "MSX": 0.261,
+          "MS2": 0.174,
+          "CS1X": 0.826,
+          "CSX2": 0.435,
+          "CS12": 0.739,
+          "KGVAR": 0.391,
+          "KGYOK": 0.609,
+          "UST15": 0.645,
+          "ALT15": 0.355,
+          "UST25": 0.377,
+          "ALT25": 0.623,
+          "UST35": 0.181,
+          "ALT35": 0.819,
+          "IY1": 0.393,
+          "IYX": 0.455,
+          "IY2": 0.152,
+          "IYU05": 0.628,
+          "IYA05": 0.372,
+          "IYU15": 0.261,
+          "IYA15": 0.739,
+          "EVU05": 0.777,
+          "EVA05": 0.223,
+          "EVU15": 0.442,
+          "EVA15": 0.558,
+          "EVU25": 0.191,
+          "EVA25": 0.809,
+          "DPU05": 0.503,
+          "DPA05": 0.497,
+          "DPU15": 0.156,
+          "DPA15": 0.844,
+          "DPU25": 0.034,
+          "DPA25": 0.966,
+          "YYU05": 0.702,
+          "YYA05": 0.298,
+          "YYU15": 0.341,
+          "YYA15": 0.659
+        },
+        "skorlar": [
+          [
+            "1-0",
+            0.1662
+          ],
+          [
+            "2-0",
+            0.1247
+          ],
+          [
+            "1-1",
+            0.1163
+          ],
+          [
+            "0-0",
+            0.1108
+          ],
+          [
+            "2-1",
+            0.0873
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "UAI Urquiza win",
+            "piyasa": 0.565,
+            "istatistik": 0.482
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.377,
+            "istatistik": 0.323
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Ituzaingó win",
+            "piyasa": 0.174,
+            "istatistik": 0.223
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.261,
+            "istatistik": 0.295
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.391,
+            "istatistik": 0.376
+          }
+        ],
+        "beklenen_gol": [
+          1.5,
+          0.7
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1500141,
+        "lig": "Primera C",
+        "ulke": "Argentina",
+        "lig_id": 132,
+        "ev": "Deportivo Paraguayo",
+        "dep": "Mercedes",
+        "baslama": "2026-10-05T20:00:00+02:00",
+        "p": {
+          "MS1": 0.295,
+          "MSX": 0.306,
+          "MS2": 0.399,
+          "CS1X": 0.601,
+          "CSX2": 0.705,
+          "CS12": 0.694,
+          "KGVAR": 0.396,
+          "KGYOK": 0.604,
+          "UST15": 0.594,
+          "ALT15": 0.406,
+          "UST25": 0.323,
+          "ALT25": 0.677,
+          "UST35": 0.143,
+          "ALT35": 0.857,
+          "IY1": 0.223,
+          "IYX": 0.492,
+          "IY2": 0.285,
+          "IYU05": 0.593,
+          "IYA05": 0.407,
+          "IYU15": 0.228,
+          "IYA15": 0.772,
+          "EVU05": 0.593,
+          "EVA05": 0.407,
+          "EVU15": 0.228,
+          "EVA15": 0.772,
+          "EVU25": 0.063,
+          "EVA25": 0.937,
+          "DPU05": 0.667,
+          "DPA05": 0.333,
+          "DPU15": 0.301,
+          "DPA15": 0.699,
+          "DPU25": 0.1,
+          "DPA25": 0.9,
+          "YYU05": 0.667,
+          "YYA05": 0.333,
+          "YYU15": 0.301,
+          "YYA15": 0.699
+        },
+        "skorlar": [
+          [
+            "0-1",
+            0.1489
+          ],
+          [
+            "0-0",
+            0.1353
+          ],
+          [
+            "1-1",
+            0.134
+          ],
+          [
+            "1-0",
+            0.1218
+          ],
+          [
+            "0-2",
+            0.0819
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.323,
+            "istatistik": 0.256
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.396,
+            "istatistik": 0.34
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Mercedes win",
+            "piyasa": 0.399,
+            "istatistik": 0.347
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Deportivo Paraguayo win",
+            "piyasa": 0.295,
+            "istatistik": 0.319
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.306,
+            "istatistik": 0.334
+          }
+        ],
+        "beklenen_gol": [
+          0.9,
+          1.1
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1500142,
+        "lig": "Primera C",
+        "ulke": "Argentina",
+        "lig_id": 132,
+        "ev": "El Porvenir",
+        "dep": "Canuelas",
+        "baslama": "2026-10-05T20:00:00+02:00",
+        "p": {
+          "MS1": 0.289,
+          "MSX": 0.316,
+          "MS2": 0.395,
+          "CS1X": 0.605,
+          "CSX2": 0.711,
+          "CS12": 0.684,
+          "KGVAR": 0.372,
+          "KGYOK": 0.628,
+          "UST15": 0.566,
+          "ALT15": 0.434,
+          "UST25": 0.296,
+          "ALT25": 0.704,
+          "UST35": 0.125,
+          "ALT35": 0.875,
+          "IY1": 0.215,
+          "IYX": 0.506,
+          "IY2": 0.279,
+          "IYU05": 0.575,
+          "IYA05": 0.425,
+          "IYU15": 0.211,
+          "IYA15": 0.789,
+          "EVU05": 0.573,
+          "EVA05": 0.427,
+          "EVU15": 0.209,
+          "EVA15": 0.791,
+          "EVU25": 0.055,
+          "EVA25": 0.945,
+          "DPU05": 0.65,
+          "DPA05": 0.35,
+          "DPU15": 0.283,
+          "DPA15": 0.717,
+          "DPU25": 0.09,
+          "DPA25": 0.91,
+          "YYU05": 0.648,
+          "YYA05": 0.352,
+          "YYU15": 0.281,
+          "YYA15": 0.719
+        },
+        "skorlar": [
+          [
+            "0-1",
+            0.157
+          ],
+          [
+            "0-0",
+            0.1496
+          ],
+          [
+            "1-1",
+            0.1335
+          ],
+          [
+            "1-0",
+            0.1271
+          ],
+          [
+            "0-2",
+            0.0824
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "El Porvenir win",
+            "piyasa": 0.289,
+            "istatistik": 0.224
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Canuelas win",
+            "piyasa": 0.395,
+            "istatistik": 0.465
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.372,
+            "istatistik": 0.344
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.296,
+            "istatistik": 0.283
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.316,
+            "istatistik": 0.312
+          }
+        ],
+        "beklenen_gol": [
+          0.85,
+          1.05
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1500192,
+        "lig": "Primera C",
+        "ulke": "Argentina",
+        "lig_id": 132,
+        "ev": "Sportivo Barracas",
+        "dep": "Leones de Rosario",
+        "baslama": "2026-10-05T20:00:00+02:00",
+        "p": {
+          "MS1": 0.368,
+          "MSX": 0.318,
+          "MS2": 0.314,
+          "CS1X": 0.686,
+          "CSX2": 0.632,
+          "CS12": 0.682,
+          "KGVAR": 0.375,
+          "KGYOK": 0.625,
+          "UST15": 0.566,
+          "ALT15": 0.434,
+          "UST25": 0.296,
+          "ALT25": 0.704,
+          "UST35": 0.125,
+          "ALT35": 0.875,
+          "IY1": 0.263,
+          "IYX": 0.506,
+          "IY2": 0.231,
+          "IYU05": 0.575,
+          "IYA05": 0.425,
+          "IYU15": 0.211,
+          "IYA15": 0.789,
+          "EVU05": 0.632,
+          "EVA05": 0.368,
+          "EVU15": 0.264,
+          "EVA15": 0.736,
+          "EVU25": 0.08,
+          "EVA25": 0.92,
+          "DPU05": 0.593,
+          "DPA05": 0.407,
+          "DPU15": 0.228,
+          "DPA15": 0.772,
+          "DPU25": 0.063,
+          "DPA25": 0.937,
+          "YYU05": 0.648,
+          "YYA05": 0.352,
+          "YYU15": 0.281,
+          "YYA15": 0.719
+        },
+        "skorlar": [
+          [
+            "0-0",
+            0.1496
+          ],
+          [
+            "1-0",
+            0.1496
+          ],
+          [
+            "0-1",
+            0.1346
+          ],
+          [
+            "1-1",
+            0.1346
+          ],
+          [
+            "2-0",
+            0.0748
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.296,
+            "istatistik": 0.269
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.375,
+            "istatistik": 0.351
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Sportivo Barracas win",
+            "piyasa": 0.368,
+            "istatistik": 0.363
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.318,
+            "istatistik": 0.328
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Leones de Rosario win",
+            "piyasa": 0.314,
+            "istatistik": 0.309
+          }
+        ],
+        "beklenen_gol": [
+          1.0,
+          0.9
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1596001,
+        "lig": "Non League Premier - Isthmian",
+        "ulke": "England",
+        "lig_id": 58,
+        "ev": "Carshalton Athletic",
+        "dep": "Eastbourne Borough",
+        "baslama": "2026-10-05T20:45:00+02:00",
+        "p": {
+          "MS1": 0.343,
+          "MSX": 0.229,
+          "MS2": 0.428,
+          "CS1X": 0.572,
+          "CSX2": 0.657,
+          "CS12": 0.771,
+          "KGVAR": 0.651,
+          "KGYOK": 0.349,
+          "UST15": 0.841,
+          "ALT15": 0.159,
+          "UST25": 0.641,
+          "ALT25": 0.359,
+          "UST35": 0.42,
+          "ALT35": 0.58,
+          "IY1": 0.289,
+          "IYX": 0.369,
+          "IY2": 0.342,
+          "IYU05": 0.773,
+          "IYA05": 0.226,
+          "IYU15": 0.437,
+          "IYA15": 0.563,
+          "EVU05": 0.788,
+          "EVA05": 0.212,
+          "EVU15": 0.459,
+          "EVA15": 0.541,
+          "EVU25": 0.204,
+          "EVA25": 0.796,
+          "DPU05": 0.826,
+          "DPA05": 0.174,
+          "DPU15": 0.522,
+          "DPA15": 0.478,
+          "DPU25": 0.256,
+          "DPA25": 0.744,
+          "YYU05": 0.837,
+          "YYA05": 0.163,
+          "YYU15": 0.542,
+          "YYA15": 0.458
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1
+          ],
+          [
+            "1-2",
+            0.0875
+          ],
+          [
+            "2-1",
+            0.0775
+          ],
+          [
+            "2-2",
+            0.0678
+          ],
+          [
+            "0-1",
+            0.0645
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS2",
+            "ad": "Eastbourne Borough win",
+            "piyasa": 0.428,
+            "istatistik": 0.237
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Carshalton Athletic win",
+            "piyasa": 0.343,
+            "istatistik": 0.513
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.641,
+            "istatistik": 0.482
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.651,
+            "istatistik": 0.504
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.229,
+            "istatistik": 0.25
+          }
+        ],
+        "beklenen_gol": [
+          1.55,
+          1.75
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1639992,
+        "lig": "CONCACAF Nations League",
+        "ulke": "World",
+        "lig_id": 536,
+        "ev": "Guadeloupe",
+        "dep": "St. Lucia",
+        "baslama": "2026-10-05T21:00:00+02:00",
+        "p": {
+          "MS1": 0.274,
+          "MSX": 0.235,
+          "MS2": 0.491,
+          "CS1X": 0.509,
+          "CSX2": 0.726,
+          "CS12": 0.765,
+          "KGVAR": 0.59,
+          "KGYOK": 0.41,
+          "UST15": 0.801,
+          "ALT15": 0.199,
+          "UST25": 0.577,
+          "ALT25": 0.423,
+          "UST35": 0.353,
+          "ALT35": 0.647,
+          "IY1": 0.238,
+          "IYX": 0.387,
+          "IY2": 0.375,
+          "IYU05": 0.741,
+          "IYA05": 0.259,
+          "IYU15": 0.391,
+          "IYA15": 0.609,
+          "EVU05": 0.713,
+          "EVA05": 0.287,
+          "EVU15": 0.355,
+          "EVA15": 0.645,
+          "EVU25": 0.132,
+          "EVA25": 0.868,
+          "DPU05": 0.826,
+          "DPA05": 0.174,
+          "DPU15": 0.522,
+          "DPA15": 0.478,
+          "DPU25": 0.256,
+          "DPA25": 0.744,
+          "YYU05": 0.808,
+          "YYA05": 0.192,
+          "YYU15": 0.491,
+          "YYA15": 0.509
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1089
+          ],
+          [
+            "1-2",
+            0.0953
+          ],
+          [
+            "0-1",
+            0.0871
+          ],
+          [
+            "0-2",
+            0.0762
+          ],
+          [
+            "2-1",
+            0.0681
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.577,
+            "istatistik": 0.706
+          },
+          {
+            "pazar": "MS2",
+            "ad": "St. Lucia win",
+            "piyasa": 0.491,
+            "istatistik": 0.608
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Guadeloupe win",
+            "piyasa": 0.274,
+            "istatistik": 0.201
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.59,
+            "istatistik": 0.658
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.235,
+            "istatistik": 0.191
+          }
+        ],
+        "beklenen_gol": [
+          1.25,
+          1.75
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "son5"
+      }
+    ]
   }
 ]

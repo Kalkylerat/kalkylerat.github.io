@@ -16417,6 +16417,33 @@
               1
             ],
             "zaman": "2026-10-05T21:33:57+00:00"
+          },
+          "1528946": {
+            "durum": "paylasildi",
+            "tweet_id": "2107223161544839422",
+            "skor": [
+              1,
+              2
+            ],
+            "zaman": "2026-10-05T21:35:23+00:00"
+          },
+          "1528947": {
+            "durum": "paylasildi",
+            "tweet_id": "2107223162647900406",
+            "skor": [
+              0,
+              0
+            ],
+            "zaman": "2026-10-05T21:35:23+00:00"
+          },
+          "1528948": {
+            "durum": "paylasildi",
+            "tweet_id": "2107223163742609489",
+            "skor": [
+              1,
+              0
+            ],
+            "zaman": "2026-10-05T21:35:23+00:00"
           }
         }
       },
@@ -16611,7 +16638,22 @@
         "durum": "paylasildi",
         "tweet_id": "2107174599368544377",
         "zaman": "2026-10-05T18:22:05+00:00",
-        "metin": "🆚 Riestra v Central Cordoba\n\n🏆 Riestra 52% · Draw 28% · Cordoba 19%\n⚽ Over 2.5 goals 34% · Under 66%\n🥅 Both teams score 37% · Not both 63%\n🎯 Likeliest: 1-0 (17%)\n\n📈 Team stats: 24% · 29%\n\n💬 Over 2.5 goals: 34% market vs 24% stats. Who's closer?\n18+ | Play responsibly"
+        "metin": "🆚 Riestra v Central Cordoba\n\n🏆 Riestra 52% · Draw 28% · Cordoba 19%\n⚽ Over 2.5 goals 34% · Under 66%\n🥅 Both teams score 37% · Not both 63%\n🎯 Likeliest: 1-0 (17%)\n\n📈 Team stats: 24% · 29%\n\n💬 Over 2.5 goals: 34% market vs 24% stats. Who's closer?\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2107223187272663413",
+          "skor": "1-1",
+          "isabet": [
+            false,
+            true,
+            false
+          ],
+          "zaman": "2026-10-05T21:35:23+00:00",
+          "brier": {
+            "piyasa": 1.3344,
+            "istatistik": 1.3171
+          }
+        }
       }
     },
     "yanit_kiti": {

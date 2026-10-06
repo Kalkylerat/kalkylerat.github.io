@@ -21041,13 +21041,38 @@
           1545655,
           1545657
         ],
-        "sonuclar": {}
+        "sonuclar": {
+          "1528951": {
+            "durum": "paylasildi",
+            "tweet_id": "2107500953729368097",
+            "skor": [
+              2,
+              2
+            ],
+            "zaman": "2026-10-06T15:59:16+00:00"
+          }
+        }
       },
       "analiz_0": {
         "durum": "paylasildi",
         "tweet_id": "2107393543312396473",
         "zaman": "2026-10-06T08:52:11+00:00",
-        "metin": "🆚 Kazakhstan v Faroe Islands\n\n🏆 Kazakhstan 39% · Draw 29% · Faroe Islands 32%\n⚽ Over 2.5 goals 36% · Under 64%\n🥅 Both teams score 43% · Not both 57%\n🎯 Likely score 1-0 (13%)\n\n📈 Faroe Islands: stats 45% · odds 32%\n\n💬 45% or 32%: who's closer?\n18+ | Play responsibly"
+        "metin": "🆚 Kazakhstan v Faroe Islands\n\n🏆 Kazakhstan 39% · Draw 29% · Faroe Islands 32%\n⚽ Over 2.5 goals 36% · Under 64%\n🥅 Both teams score 43% · Not both 57%\n🎯 Likely score 1-0 (13%)\n\n📈 Faroe Islands: stats 45% · odds 32%\n\n💬 45% or 32%: who's closer?\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2107500966262055005",
+          "skor": "2-2",
+          "isabet": [
+            false,
+            false,
+            false
+          ],
+          "zaman": "2026-10-06T15:59:16+00:00",
+          "brier": {
+            "piyasa": 1.4777,
+            "istatistik": 1.426
+          }
+        }
       },
       "maclar": {
         "durum": "paylasildi",

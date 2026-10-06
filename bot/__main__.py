@@ -10,7 +10,7 @@ import time
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-from . import analiz, config, denetci, direktor, editor, etkilesim, football, gorsel, kayit, kit, likely, likely_gorsel, model, oddsapi, onay, panel, saglik, temizlik, tweets
+from . import analiz, config, denetci, direktor, editor, etkilesim, football, gorsel, kayit, kit, likely, likely_gorsel, likely_yetki, model, oddsapi, onay, panel, saglik, temizlik, tweets
 from .model import adaylari_uret, bet_builder, etiketler
 
 # Çalışma sırasında yakalanan hatalar: iş sonunda "başarısız" işaretlenir, GitHub sahibine e-posta atar.
@@ -950,6 +950,42 @@ def _likely_yazici(ayar):
     return None
 
 
+def _x_likely():
+    """Mr. Likely hesabının X istemcisi. Önce hesabın mevcut uygulamaya verdiği izin (data/likely_x.enc, şifreli);
+    yoksa ayrı uygulama anahtarları (X_LIKELY_*). İkisi de yoksa None."""
+    if os.environ.get("X_API_SECRET"):
+        kayit_ = likely_yetki.anahtarlar(os.environ["X_API_SECRET"])
+        if kayit_:
+            return tweets.XClient(config.env("X_API_KEY"), config.env("X_API_SECRET"), kayit_["token"], kayit_["secret"])
+    if os.environ.get("X_LIKELY_ACCESS_TOKEN"):
+        return tweets.XClient(config.env("X_LIKELY_API_KEY"), config.env("X_LIKELY_API_SECRET"),
+                              config.env("X_LIKELY_ACCESS_TOKEN"), config.env("X_LIKELY_ACCESS_SECRET"))
+    return None
+
+
+def likely_yetki_komutu(ayar) -> None:
+    """Mr. Likely hesabının uygulamaya paylaşım izni: "ek" boşsa izin bağlantısı issue olarak gelir; "ek" alanına
+    dönülen adres yapıştırılırsa izin tamamlanır ve anahtar şifreli kaydedilir (loglara anahtar yazılmaz)."""
+    gh = onay.GitHub()
+    parca = likely_yetki.coz(os.environ.get("BOT_EK", ""))
+    try:
+        if parca:
+            hesap = likely_yetki.tamamla(config.env("X_API_KEY"), config.env("X_API_SECRET"), *parca)
+            mesaj = (f"✅ Mr. Likely paylaşım izni tamam: @{hesap}. Anahtar depoda şifreli duruyor; bot bundan sonra bu hesapta "
+                     "paylaşabilir. Hesapta \"Automated\" etiketi açık olmalı.")
+            gh.issue_ac("🎩 Mr. Likely: paylaşım izni tamam", (f"@{ayar.alarm_kime} " if ayar.alarm_kime else "") + mesaj, likely.ETIKET)
+        else:
+            url = likely_yetki.baslat(config.env("X_API_KEY"), config.env("X_API_SECRET"))
+            mesaj = ("Mr. Likely hesabının paylaşım izni için:\n\n1. Tarayıcıda X'e **Mr. Likely hesabıyla** giriş yapmış ol.\n"
+                     f"2. Şu bağlantıyı aç ve **Authorize app**'e bas: {url}\n"
+                     "3. Sayfa github.com'a döner; adres çubuğundaki adresin tamamını kopyalayıp Claude'a gönder.\n\n"
+                     "Bağlantı birkaç dakika geçerlidir.")
+            gh.issue_ac("🎩 Mr. Likely: paylaşım izni bağlantısı", (f"@{ayar.alarm_kime} " if ayar.alarm_kime else "") + mesaj, likely.ETIKET)
+        _ozet_yaz(mesaj)
+    except Exception as e:
+        _hata("Mr. Likely paylaşım izni", e)
+
+
 def likely_nabiz(ayar, simdi: datetime, sonuclar: bool = True) -> None:
     """Mr. Likely: sahibinin issue yorumlarındaki seçimler ve (nabızda) biten kuponların sonuçları. X'e paylaşım yok."""
     if not os.environ.get("GH_TOKEN") or not likely.ayar_yukle().aktif:
@@ -969,11 +1005,10 @@ def likely_nabiz(ayar, simdi: datetime, sonuclar: bool = True) -> None:
     if likely.ayar_yukle().mod != "otomatik":
         return
     # Otomatik mod: Mr. Likely hesabında kupon postu, sonuç yanıtı ve günün dersi (SOZLESME E1). Anahtarlar yoksa beklenir.
-    if not os.environ.get("X_LIKELY_ACCESS_TOKEN"):
-        print("Mr. Likely otomatik modda ama X_LIKELY_* anahtarları yok; paylaşım yapılmadı.")
+    x = _x_likely()
+    if x is None:
+        print("Mr. Likely otomatik modda ama hesap henüz paylaşım izni vermemiş; paylaşım yapılmadı.")
         return
-    x = tweets.XClient(config.env("X_LIKELY_API_KEY"), config.env("X_LIKELY_API_SECRET"),
-                       config.env("X_LIKELY_ACCESS_TOKEN"), config.env("X_LIKELY_ACCESS_SECRET"))
     for ad, adim in (("kupon paylaşımı", lambda: likely.oto_paylas(ayar, x, simdi, yazici=_likely_yazici(ayar),
                                                                      kart=likely_gorsel.kupon_karti, yaz=_ozet_yaz)),
                      ("sonuç paylaşımı", lambda: likely.oto_sonuc_paylas(ayar, x, simdi, yaz=_ozet_yaz)),
@@ -1258,7 +1293,7 @@ def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="bot")
     p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt", "sabit", "hafta", "yenile", "oran_testi",
                                           "onay_kontrol", "onay_testi", "onay_yenile", "nabiz",
-                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir", "kasa_duzelt", "direktor", "skor_duzelt", "sonuc_duzelt", "kasa_defteri", "temizle", "liste", "kiyas", "takip_yenile", "metrik", "hesap_kontrol", "likely", "likely_paket"])
+                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir", "kasa_duzelt", "direktor", "skor_duzelt", "sonuc_duzelt", "kasa_defteri", "temizle", "liste", "kiyas", "takip_yenile", "metrik", "hesap_kontrol", "likely", "likely_paket", "likely_yetki"])
     args = p.parse_args(argv)
     ayar = config.yukle()
     from dataclasses import replace as _degistir
@@ -1273,6 +1308,9 @@ def main(argv=None) -> int:
     if args.komut == "profil":
         profil()
         return 0
+    if args.komut == "likely_yetki":
+        likely_yetki_komutu(ayar)
+        return 1 if HATALAR else 0
     if args.komut == "odds_tani":
         odds_tani(ayar)
         return 0

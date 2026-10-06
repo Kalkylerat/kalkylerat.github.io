@@ -737,7 +737,7 @@
   {
    "tarih": "2026-10-06",
    "olusturma": "2026-10-06T11:25:46+00:00",
-   "durum": "secildi",
+   "durum": "bitti",
    "havuz": [
     {
      "aday_id": "1528956-CSX2",
@@ -1407,8 +1407,8 @@
        "oran": 1.23,
        "olasilik": 0.788,
        "deger": -0.031,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-2"
       },
       {
        "aday_id": "1588876-CS12",
@@ -1454,7 +1454,9 @@
      ],
      "tweet_id": "2107438110212764088",
      "yayin": "2026-10-06T11:49:30+00:00",
-     "son_oran": 1.28
+     "son_oran": 1.57,
+     "sonuc_metni": "One leg short. The classic. Coupon down. I had it at 47%, which was never 100.\n\n✅ Scotland 1-2 Slovenia: Under 3.5 goals\n✅ Wycombe 4-1 Bristol Rovers: Double chance 12\n❌ Belarus 1-0 Finland: Double chance X2\n\nRecord: 0 of 2 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2107572522468233381"
     },
     {
      "ad": "long-shot",

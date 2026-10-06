@@ -21077,6 +21077,33 @@
               0
             ],
             "zaman": "2026-10-06T20:36:00+00:00"
+          },
+          "1528952": {
+            "durum": "paylasildi",
+            "tweet_id": "2107572442579243503",
+            "skor": [
+              1,
+              2
+            ],
+            "zaman": "2026-10-06T20:43:18+00:00"
+          },
+          "1528954": {
+            "durum": "paylasildi",
+            "tweet_id": "2107572443963375827",
+            "skor": [
+              2,
+              1
+            ],
+            "zaman": "2026-10-06T20:43:18+00:00"
+          },
+          "1528956": {
+            "durum": "paylasildi",
+            "tweet_id": "2107572445188157652",
+            "skor": [
+              0,
+              4
+            ],
+            "zaman": "2026-10-06T20:43:18+00:00"
           }
         }
       },
@@ -21129,7 +21156,22 @@
         "durum": "paylasildi",
         "tweet_id": "2107450337410105778",
         "zaman": "2026-10-06T12:38:05+00:00",
-        "metin": "🆚 Croatia v Spain\n\n🏆 Croatia 9% · Draw 14% · Spain 77%\n⚽ Over 2.5 goals 67% · Under 33%\n🥅 Both teams score 51% · Not both 49%\n🎯 Most likely score: 0-2 (11%)\n\n📈 Team stats: Over 2.5 goals 86%\n💹 Odds: 67%\n\n💬 Not picks. Your read? 👇\n#NationsLeague\n18+ | Play responsibly"
+        "metin": "🆚 Croatia v Spain\n\n🏆 Croatia 9% · Draw 14% · Spain 77%\n⚽ Over 2.5 goals 67% · Under 33%\n🥅 Both teams score 51% · Not both 49%\n🎯 Most likely score: 0-2 (11%)\n\n📈 Team stats: Over 2.5 goals 86%\n💹 Odds: 67%\n\n💬 Not picks. Your read? 👇\n#NationsLeague\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2107572463353700828",
+          "skor": "1-2",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "zaman": "2026-10-06T20:43:18+00:00",
+          "brier": {
+            "piyasa": 0.43,
+            "istatistik": 0.1801
+          }
+        }
       },
       "analiz_2": {
         "durum": "paylasildi",
@@ -21156,7 +21198,22 @@
         "durum": "paylasildi",
         "tweet_id": "2107471177794965836",
         "zaman": "2026-10-06T14:00:54+00:00",
-        "metin": "🆚 Albania v San Marino\n\n🏆 Albania 91% · Draw 7% · San Marino 2%\n⚽ Over 2.5 goals 76% · Under 24%\n🥅 Both teams score 38% · Not both 62%\n🎯 Most likely score: 3-0 (13%)\n\n📈 Team stats: Both teams score 28%\n💹 Odds: 38%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Albania v San Marino\n\n🏆 Albania 91% · Draw 7% · San Marino 2%\n⚽ Over 2.5 goals 76% · Under 24%\n🥅 Both teams score 38% · Not both 62%\n🎯 Most likely score: 3-0 (13%)\n\n📈 Team stats: Both teams score 28%\n💹 Odds: 38%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2107572475957584349",
+          "skor": "2-1",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "zaman": "2026-10-06T20:43:18+00:00",
+          "brier": {
+            "piyasa": 0.454,
+            "istatistik": 0.604
+          }
+        }
       },
       "analiz_4": {
         "durum": "paylasildi",
@@ -21183,7 +21240,22 @@
         "durum": "paylasildi",
         "tweet_id": "2107489163930988599",
         "zaman": "2026-10-06T15:12:13+00:00",
-        "metin": "🆚 Moldova v Slovakia\n\n🏆 Moldova 11% · Draw 19% · Slovakia 70%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 44% · Not both 56%\n🎯 Most likely: 0-2 (13%)\n\n📈 Slovakia win, stats 52%\n💹 Market 70%\n\n💬 Slovakia 70% or 52%: which is closer?\n18+ | Play responsibly"
+        "metin": "🆚 Moldova v Slovakia\n\n🏆 Moldova 11% · Draw 19% · Slovakia 70%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 44% · Not both 56%\n🎯 Most likely: 0-2 (13%)\n\n📈 Slovakia win, stats 52%\n💹 Market 70%\n\n💬 Slovakia 70% or 52%: which is closer?\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2107572487475155213",
+          "skor": "0-4",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "zaman": "2026-10-06T20:43:18+00:00",
+          "brier": {
+            "piyasa": 0.5542,
+            "istatistik": 0.8776
+          }
+        }
       },
       "analiz_6": {
         "durum": "paylasildi",
@@ -21309,7 +21381,22 @@
         "durum": "paylasildi",
         "tweet_id": "2107524264131703091",
         "zaman": "2026-10-06T17:31:51+00:00",
-        "metin": "🆚 Scotland v Slovenia\n\n🏆 Scotland 56% · Draw 26% · Slovenia 18%\n⚽ Over 2.5 goals 40% · Under 60%\n🥅 Both teams score 42% · Not both 58%\n🎯 Most likely score: 1-0 (16%)\n\n📈 Team stats: Scotland win 25%\n💹 Odds: 56%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Scotland v Slovenia\n\n🏆 Scotland 56% · Draw 26% · Slovenia 18%\n⚽ Over 2.5 goals 40% · Under 60%\n🥅 Both teams score 42% · Not both 58%\n🎯 Most likely score: 1-0 (16%)\n\n📈 Team stats: Scotland win 25%\n💹 Odds: 56%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2107572498900439167",
+          "skor": "1-2",
+          "isabet": [
+            false,
+            false,
+            false
+          ],
+          "zaman": "2026-10-06T20:43:18+00:00",
+          "brier": {
+            "piyasa": 1.7518,
+            "istatistik": 1.5535
+          }
+        }
       }
     },
     "yanit_kiti": {

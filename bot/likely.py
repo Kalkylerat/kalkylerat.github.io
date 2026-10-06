@@ -478,6 +478,14 @@ def paket_metni(gun: dict, veri: dict, ayar, cfg: LikelyAyar) -> str:
         if t:
             s += [f"Tarama: {t['mac']} maç, {t['oranli']} tanesinin oranı var. Büyük maç: {t['buyuk']}, oranı olan {t['buyuk_oranli']}, "
                   f"adayı çıkan {t['buyuk_aday']}.", ""]
+            if t.get("buyukler"):
+                s += ["<details><summary>Büyük maçların durumu</summary>", "",
+                      "| Maç | Bahisçi | Keskin | Zorunlu | En olası oyun | İhtimal | Oran | Değer | Site |", "|---|---|---|---|---|---|---|---|---|"]
+                s += [f"| {b['mac']} | {b['bahisci']} | {'var' if b['keskin'] else 'yok'} | {'var' if b['zorunlu'] else 'yok'} | "
+                      + (f"{b['oyun']} | %{round(100 * b['olasilik'])} | {b['oran']:.2f} | {round(100 * b['deger']):+d}% | "
+                         f"{b['site']}{'' if b['zorunlu_oyunda'] else ' (zorunlu yok)'} |" if "oyun" in b else "- | - | - | - | - |")
+                      for b in t["buyukler"]]
+                s += ["", "</details>", ""]
     else:
         s = [f"Mr. Likely günün paketi ({gun['tarih']}). **Bu issue'ya yorum yazarak seç:**",
              "- Hazır kupon: harfini yaz → `C`",
@@ -507,6 +515,25 @@ def paket_metni(gun: dict, veri: dict, ayar, cfg: LikelyAyar) -> str:
     return "\n".join(s)
 
 
+def _buyuk_tani(a: dict, b: dict, ayar, cfg: LikelyAyar) -> dict:
+    """Büyük maçın adayı neden çıktı/çıkmadı: kaç bahisçi var, keskin ve zorunlu bahisçi var mı, en yüksek ihtimalli
+    oyunun fiyatı nasıl. Günlük bildirimde görünür (büyük maç kaçıyorsa nedeni belli olsun)."""
+    adil, _ = model.adil_olasiliklar(b, ayar.keskin_bahisci) if b else ({}, {})
+    fiyat = model.piyasa_oranlari(b, ayar.oran_bahiscileri, ayar.oran_yontemi) if b else {}
+    en_iyi = max(((p, pz) for pz, p in adil.items() if pz in fiyat and cfg.oran_min <= fiyat[pz][0] <= cfg.oran_max),
+                 default=None)
+    kayit = {"mac": f'{a["ev"]} v {a["dep"]}', "bahisci": len(b),
+             "keskin": any(x.lower() == ayar.keskin_bahisci.lower() for x in b),
+             "zorunlu": all(any(x.lower() == z.lower() for x in b) for z in ayar.zorunlu_bahisciler)}
+    if en_iyi:
+        p_, pz = en_iyi
+        oran, _, siteler = fiyat[pz]
+        kayit.update(oyun=model.etiketler(pz, a["ev"], a["dep"])[0], olasilik=round(p_, 3), oran=oran,
+                     deger=round(p_ * oran - 1, 3), site=len(siteler),
+                     zorunlu_oyunda=all(any(x.lower() == z.lower() for x in siteler) for z in ayar.zorunlu_bahisciler))
+    return kayit
+
+
 def sabah(ayar, analizler: list[dict], oranlar: dict, simdi: datetime, gh, yaz=print) -> dict | None:
     """Günün paketini hazırlar ve issue olarak gönderir. Bugün zaten gönderildiyse ya da kapalıysa None."""
     cfg = ayar_yukle()
@@ -524,6 +551,7 @@ def sabah(ayar, analizler: list[dict], oranlar: dict, simdi: datetime, gh, yaz=p
     gun["tani"] = {"mac": len(analizler), "oranli": sum(1 for a in analizler if oranlar.get(a["fixture_id"])),
                    "buyuk": len(buyukler), "buyuk_oranli": sum(1 for a in buyukler if oranlar.get(a["fixture_id"])),
                    "buyuk_aday": len({a["fixture_id"] for a in adaylar if a["buyuk"]})}
+    gun["tani"]["buyukler"] = [_buyuk_tani(a, oranlar.get(a["fixture_id"]) or {}, ayar, cfg) for a in buyukler][:15]
     oto = cfg.mod == "otomatik"
     if oto:
         harita = {a["aday_id"]: a for a in adaylar}

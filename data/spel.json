@@ -21023,6 +21023,10 @@
         "istatistik_kaynak": "son5"
       }
     ],
-    "etkilesim": {}
+    "etkilesim": {},
+    "yanit_kiti": {
+      "issue": 18,
+      "zaman": "2026-10-06T07:01:16+00:00"
+    }
   }
 ]

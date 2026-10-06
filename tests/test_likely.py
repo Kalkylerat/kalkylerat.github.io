@@ -300,13 +300,14 @@ def test_E1_elle_modda_paylasmaz_ve_modul_x_anahtari_okumaz(ortam):
     gh.yaz("A")
     likely.kontrol(AYAR, gh, SIMDI)
     assert likely.oto_paylas(AYAR, x, SIMDI + timedelta(hours=5)) == 0 and likely.oto_sonuc_paylas(AYAR, x, SIMDI) == 0
-    assert likely.oto_ders(AYAR, x, SIMDI + timedelta(hours=6)) is False and not x.postlar
+    assert likely.oto_bilgi(AYAR, x, SIMDI + timedelta(hours=6)) is False and not x.postlar
+    assert likely.yeniden_paylas(AYAR, x, SIMDI) == 0 and not x.silinen
     kaynak = Path(likely.__file__).read_text(encoding="utf-8")
     assert "X_API_KEY" not in kaynak and "X_LIKELY" not in kaynak and "XClient" not in kaynak
     agac = ast.parse(kaynak)
     cagrilar = {n.func.attr for n in ast.walk(agac) if isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute)
                 and isinstance(n.func.value, ast.Name) and n.func.value.id == "x"}
-    assert cagrilar == {"gonder", "medya_yukle"}  # yalnızca kendi postu ve görseli; takip/beğeni/DM yok
+    assert cagrilar == {"gonder", "medya_yukle", "sil"}  # yalnızca kendi postu, görseli ve kendi postunu silme; takip/beğeni/DM yok
 
 
 # ---------- Otomatik mod ----------
@@ -316,7 +317,10 @@ OTO = likely.LikelyAyar(aktif=True, mod="otomatik")
 
 class SahteX:
     def __init__(self):
-        self.postlar, self.medya = [], 0
+        self.postlar, self.medya, self.silinen = [], 0, []
+
+    def sil(self, tweet_id):
+        self.silinen.append(tweet_id)
 
     def medya_yukle(self, png):
         self.medya += 1
@@ -396,7 +400,7 @@ def test_E6_long_shot_kurallari():
     adaylar = likely.havuz(saglam + orta, oranlar, AYAR, OTO, SIMDI)
     harita = {a["aday_id"]: a for a in adaylar}
     secilen = likely.otomatik_sec(adaylar, OTO)
-    assert [k["ad"] for k in secilen] == ["gunun-kuponu", "long-shot"]
+    assert [k["ad"] for k in secilen][:2] == ["gunun-kuponu", "long-shot"]
     uzun = secilen[1]
     assert OTO.oto_uzun_oran_min <= uzun["oran"] <= OTO.oto_uzun_oran_max
     assert uzun["olasilik"] >= OTO.oto_uzun_min_tutma and uzun["deger"] >= OTO.oto_uzun_min_kupon_deger
@@ -405,7 +409,31 @@ def test_E6_long_shot_kurallari():
     metin = likely.kupon_metni(dict(uzun, ad="long-shot"), [harita[i] for i in uzun["ayaklar"]], "t", gorselli=True)
     assert any(a in metin for a in likely.UZUN_ACILIS) and f"{round(100 * uzun['olasilik'])}% to land" in metin
     # Yalnızca çok düşük oranlı maçlar varsa long shot çıkmaz
-    assert [k["ad"] for k in likely.otomatik_sec(likely.havuz(saglam, oranlar, AYAR, OTO, SIMDI), OTO)] in ([], ["gunun-kuponu"])
+    assert "long-shot" not in [k["ad"] for k in likely.otomatik_sec(likely.havuz(saglam, oranlar, AYAR, OTO, SIMDI), OTO)]
+
+
+def test_E6_buyuk_maclar_kuponu_yalniz_buyuk_maclardan():
+    """Üçüncü kupon: yalnızca büyük maçlar, günün kuponunun sınırlarıyla, öncekilerle maç paylaşmaz; günde en fazla 3 kupon."""
+    kucuk = [dict(mac(600 + i, f"Kasaba {i}", f"Mahalle {i}", 8, lig_id=41), lig="League One") for i in range(4)]
+    orta = [dict(mac(700 + i, f"Denk {i}", f"Rakip {i}", 8, lig_id=41), lig="League One") for i in range(5)]
+    buyuk = [mac(800 + i, f"Baskent {i}", f"Liman {i}", 8, lig_id=39) for i in range(9)]
+    oranlar = {**{m["fixture_id"]: oran_seti(0.84, 0.10, 0.50, 0.70) for m in kucuk},
+               **{m["fixture_id"]: oran_seti(0.66, 0.18, 0.50, 0.60) for m in orta},
+               **{m["fixture_id"]: oran_seti(0.74, 0.16, 0.50, 0.70) for m in buyuk}}
+    adaylar = likely.havuz(kucuk + orta + buyuk, oranlar, AYAR, OTO, SIMDI)
+    harita = {a["aday_id"]: a for a in adaylar}
+    secilen = likely.otomatik_sec(adaylar, OTO)
+    adlar = [k["ad"] for k in secilen]
+    assert OTO.oto_max_kupon == 3 and len(secilen) <= 3 and adlar[0] == "gunun-kuponu" and "buyuk-maclar" in adlar
+    b = secilen[adlar.index("buyuk-maclar")]
+    assert all(harita[i]["buyuk"] for i in b["ayaklar"]) and len(b["ayaklar"]) <= OTO.oto_max_ayak
+    assert OTO.oto_oran_min <= b["oran"] <= OTO.oto_oran_max and b["olasilik"] >= OTO.oto_min_tutma and b["deger"] >= OTO.oto_min_kupon_deger
+    maclar = [harita[i]["fixture_id"] for k in secilen for i in k["ayaklar"]]
+    assert len(maclar) == len(set(maclar))
+    metin = likely.kupon_metni(b, [harita[i] for i in b["ayaklar"]], "t", gorselli=True)
+    assert any(a in metin for a in likely.BUYUK_ACILIS) and f"{round(100 * b['olasilik'])}% to land" in metin
+    # Büyük maç yoksa üçüncü kupon çıkmaz
+    assert "buyuk-maclar" not in [k["ad"] for k in likely.otomatik_sec(likely.havuz(kucuk + orta, oranlar, AYAR, OTO, SIMDI), OTO)]
 
 
 def test_gorselli_kupon_metni_emojili_ve_soruyla_biter():
@@ -482,17 +510,86 @@ def test_otomatik_iptal_paylasilmamis_kuponu_durdurur(oto):
     assert not likely.yukle()["gunler"][0]["secilen"] and "Otomatik modda" in oto.yorum_kutusu[-1]
 
 
-def test_gunun_dersi_gunde_bir_kez_ve_kupondan_uzakta(oto):
+def buyuk_analiz(fid, ev, dep, saat, p1, px, ust):
+    return dict(mac(fid, ev, dep, saat, lig_id=39), kaynak="piyasa", guven="yuksek",
+                p={"MS1": p1, "MSX": px, "MS2": round(1 - p1 - px, 3), "UST25": ust, "ALT25": round(1 - ust, 3)})
+
+
+def test_bilgi_postlari_rakamlari_kayittan_sinirda_ve_kurala_uygun():
+    """Bilgi postları: iki ders + günün büyük maçlarından rakamlar. Rakam analiz kaydından; kesinlik dili, link, tavsiye yok."""
+    analizler = [buyuk_analiz(1, "France", "Malta", 8, 0.86, 0.10, 0.55), buyuk_analiz(2, "Germany", "Spain", 9, 0.38, 0.28, 0.63),
+                 buyuk_analiz(3, "Wales", "Norway", 9, 0.36, 0.30, 0.44)]
+    bilgi = likely.bilgi_hazirla(analizler, "2026-10-10", SIMDI, OTO)
+    assert [b["tur"] for b in bilgi] == ["ders", "favori", "gol", "ders"] and len(bilgi) <= OTO.oto_bilgi_sayisi
+    assert [b["saat"] for b in bilgi] == sorted(b["saat"] for b in bilgi) and len({b["metin"] for b in bilgi}) == len(bilgi)
+    favori, gol = bilgi[1]["metin"], bilgi[2]["metin"]
+    assert "France" in favori and "86%" in favori and "Malta" in favori and "one time in 7" in favori
+    assert "Germany v Spain" in gol and "63%" in gol
+    for b in bilgi:
+        m = b["metin"]
+        assert uzunluk(m) <= LIMIT and m.endswith(ANSVAR) and m[0] in "💡📈⚽⚖"
+        assert not denetci._KESINLIK.search(m) and not denetci._LINK.search(m) and "#" not in m and "@" not in m
+        assert not likely._TUZAK.search(m) if hasattr(likely, "_TUZAK") else True
+    # Gol beklentisi düşükse en dengeli maç; büyük maç yoksa yalnızca dersler
+    denk = likely.bilgi_hazirla([dict(a, p=dict(a["p"], UST25=0.45)) for a in analizler], "2026-10-10", SIMDI, OTO)
+    assert [b["tur"] for b in denk] == ["ders", "favori", "denk", "ders"] and "Wales v Norway" in denk[2]["metin"]
+    assert [b["tur"] for b in likely.bilgi_hazirla([], "2026-10-10", SIMDI, OTO)] == ["ders", "ders"]
+    # Başlamış ya da başlamak üzere olan maçtan rakam yazılmaz
+    gec = likely.bilgi_hazirla([dict(a, baslama=(SIMDI + timedelta(minutes=30)).isoformat()) for a in analizler], "2026-10-10", SIMDI, OTO)
+    assert [b["tur"] for b in gec] == ["ders", "ders"]
+
+
+def test_bilgi_postu_saatinde_bir_kez_ve_diger_postlardan_uzakta(oto):
     x = SahteX()
-    assert likely.oto_ders(AYAR, x, SIMDI.replace(hour=10)) is False  # 12:00 İsveç: saatinden önce
     gun = likely.yukle()["gunler"][0]
+    assert gun["bilgi"] and gun["bilgi"][0]["tur"] == "ders" and gun["bilgi"][0]["saat"] == 10.0
+    assert likely.oto_bilgi(AYAR, x, SIMDI.replace(hour=7)) is False  # 09:00 İsveç: ilk bilgi postunun saatinden önce
     zamanlar = [datetime.fromisoformat(k["paylas"]) for k in gun["secilen"]]
-    yakin = next(z for z in zamanlar if z.astimezone(UTC).hour >= 12)  # 14:00 İsveç'ten sonra bir kupon postu
-    assert likely.oto_ders(AYAR, x, yakin - timedelta(minutes=20)) is False and not x.postlar  # kupon postuna 20 dk var
-    uzak = next(t for t in (SIMDI.replace(hour=12) + timedelta(minutes=30 * i) for i in range(16))
-                if all(abs((t - z).total_seconds()) >= 3660 for z in zamanlar))
-    assert likely.oto_ders(AYAR, x, uzak) is True and x.postlar[-1]["metin"] == gun["ders"]
-    assert likely.oto_ders(AYAR, x, uzak + timedelta(minutes=30)) is False and len(x.postlar) == 1
+    yakin = next(z for z in zamanlar if z.astimezone(UTC).hour >= 8)
+    assert likely.oto_bilgi(AYAR, x, yakin - timedelta(minutes=20)) is False and not x.postlar  # kupon postuna 20 dk var
+    uzak = next(t for t in (SIMDI.replace(hour=8) + timedelta(minutes=10 * i) for i in range(60))
+                if all(abs((t - z).total_seconds()) >= 60 * OTO.oto_bilgi_aralik_dk for z in zamanlar))
+    assert likely.oto_bilgi(AYAR, x, uzak) is True and x.postlar[-1]["metin"] == gun["bilgi"][0]["metin"]
+    assert x.postlar[-1]["yanit"] is None and x.postlar[-1]["medya"] is None
+    # Bir sonraki bilgi postu öncekinden en az oto_bilgi_aralik_dk sonra; gün sonunda her biri bir kez
+    assert likely.oto_bilgi(AYAR, x, uzak + timedelta(minutes=10)) is False and len(x.postlar) == 1
+    t = uzak
+    for _ in range(120):
+        t += timedelta(minutes=10)
+        likely.oto_bilgi(AYAR, x, t)
+    bilgi = likely.yukle()["gunler"][0]["bilgi"]
+    metinler = [p["metin"] for p in x.postlar]
+    assert len(metinler) == len(set(metinler)) <= OTO.oto_bilgi_sayisi and all(b.get("tweet_id") for b in bilgi if b["saat"] < 23)
+    atilan = sorted(datetime.fromisoformat(b["zaman"]) for b in bilgi if b.get("zaman"))
+    assert all((b - a).total_seconds() >= 60 * OTO.oto_bilgi_aralik_dk for a, b in zip(atilan, atilan[1:]))
+
+
+def test_yeniden_paylas_mac_baslamadan_siler_ve_ayni_kuponu_yeniden_atar(oto):
+    """Sahibinin isteğiyle: paylaşılmış kupon postu maç başlamadan silinip aynı kuponla yeniden atılır (E5: maç başladıysa dokunulmaz)."""
+    x = SahteX()
+    k0 = likely.yukle()["gunler"][0]["secilen"][0]
+    zaman = datetime.fromisoformat(k0["paylas"])
+    assert likely.oto_paylas(AYAR, x, zaman) == 1
+    assert likely.yeniden_paylas(AYAR, x, zaman + timedelta(minutes=5)) == 1 and x.silinen == ["t1"]
+    k = likely.yukle()["gunler"][0]["secilen"][0]
+    assert "tweet_id" not in k and k["silinen"] == ["t1"] and k["ayaklar"] == k0["ayaklar"] and k["oran"] == k0["oran"]
+    assert likely.oto_paylas(AYAR, x, zaman + timedelta(minutes=6)) == 1
+    k = likely.yukle()["gunler"][0]["secilen"][0]
+    assert k["tweet_id"] == "t2" and likely.yeniden_paylas(AYAR, SahteX(), zaman + timedelta(minutes=7)) == 1
+    # Maçı başlamış bir maçın rakam postu atılmaz
+    veri = likely.yukle()
+    veri["gunler"][0]["bilgi"] = [{"tur": "favori", "metin": "📈 x\n\n" + ANSVAR, "saat": 0.0, "baslama": (zaman - timedelta(hours=1)).isoformat()}]
+    likely.kaydet(veri)
+    x3 = SahteX()
+    assert likely.oto_bilgi(AYAR, x3, zaman + timedelta(hours=1, minutes=1)) is False and not x3.postlar
+    # Maç başladıktan sonra: silinmez
+    x2 = SahteX()
+    ilk = min(datetime.fromisoformat(a["baslama"]) for a in k["ayaklar"])
+    veri = likely.yukle()
+    veri["gunler"][0]["secilen"][0]["tweet_id"] = "t9"
+    likely.kaydet(veri)
+    silinecek = [kk for kk in veri["gunler"][0]["secilen"] if kk.get("tweet_id")]
+    assert likely.yeniden_paylas(AYAR, x2, ilk + timedelta(minutes=1)) == 0 and not x2.silinen and silinecek
 
 
 def test_kupon_karti_png():

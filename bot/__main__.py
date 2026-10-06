@@ -1035,7 +1035,7 @@ def likely_nabiz(ayar, simdi: datetime, sonuclar: bool = True) -> None:
     for ad, adim in (("kupon paylaşımı", lambda: likely.oto_paylas(ayar, x, simdi, yazici=_likely_yazici(ayar),
                                                                      kart=likely_gorsel.kupon_karti, yaz=_ozet_yaz)),
                      ("sonuç paylaşımı", lambda: likely.oto_sonuc_paylas(ayar, x, simdi, yaz=_ozet_yaz)),
-                     ("günün dersi", lambda: likely.oto_ders(ayar, x, simdi, yaz=_ozet_yaz))):
+                     ("bilgi postu", lambda: likely.oto_bilgi(ayar, x, simdi, yaz=_ozet_yaz))):
         try:
             adim()
         except Exception as e:
@@ -1316,7 +1316,7 @@ def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="bot")
     p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt", "sabit", "hafta", "yenile", "oran_testi",
                                           "onay_kontrol", "onay_testi", "onay_yenile", "nabiz",
-                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir", "kasa_duzelt", "direktor", "skor_duzelt", "sonuc_duzelt", "kasa_defteri", "temizle", "liste", "kiyas", "takip_yenile", "metrik", "hesap_kontrol", "likely", "likely_paket", "likely_yetki", "likely_ek"])
+                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir", "kasa_duzelt", "direktor", "skor_duzelt", "sonuc_duzelt", "kasa_defteri", "temizle", "liste", "kiyas", "takip_yenile", "metrik", "hesap_kontrol", "likely", "likely_paket", "likely_yetki", "likely_ek", "likely_yenile"])
     args = p.parse_args(argv)
     ayar = config.yukle()
     from dataclasses import replace as _degistir
@@ -1538,7 +1538,15 @@ def main(argv=None) -> int:
                 likely.ek_kupon(ayar, json.loads(dosya.read_text(encoding="utf-8")), oranlar, simdi, onay.GitHub(), yaz=_ozet_yaz)
             except Exception as e:
                 _hata("Mr. Likely ek kupon", e)
-        if args.komut in ("onay_kontrol", "nabiz", "likely", "likely_ek"):
+        if args.komut == "likely_yenile":
+            # Elle: bugün paylaşılmış, maçı başlamamış kupon postlarını siler; güncel düzenle hemen yeniden paylaşılır.
+            try:
+                x_ = _x_likely()
+                if x_ is not None:
+                    likely.yeniden_paylas(ayar, x_, simdi, yaz=_ozet_yaz)
+            except Exception as e:
+                _hata("Mr. Likely yeniden paylaşım", e)
+        if args.komut in ("onay_kontrol", "nabiz", "likely", "likely_ek", "likely_yenile"):
             likely_nabiz(ayar, simdi, sonuclar=args.komut != "onay_kontrol")
         if args.komut == "sonuc_yeniden":
             # Son sonuç paylaşımını (eski biçim: kupon altında yanıt) silip yeni biçimle (alıntı) tekrar paylaşır.

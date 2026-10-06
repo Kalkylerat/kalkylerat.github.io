@@ -1571,7 +1571,31 @@
     "not": "Öğleden sonra API yalnızca tek bahisçi verdiği için kupon sabah 07:34 taramasının aday havuzundan seçildi."
    },
    "oto": true,
-   "issue": 34
+   "issue": 34,
+   "bilgi": [
+    {
+     "tur": "ders",
+     "metin": "💡 \"Both teams to score\" and \"over 2.5\" are cousins, not twins. A 1-1 lands one and sinks the other. Know which story you're actually backing.\n\n18+ | Play responsibly",
+     "saat": 10.0
+    },
+    {
+     "tur": "favori",
+     "saat": 13.0,
+     "baslama": "2026-10-06T20:45:00+02:00",
+     "metin": "📈 Biggest favourite on today's card: Albania, about 91% to beat San Marino.\n\nSounds safe. It still fails roughly one time in 11, and the price already knows it.\n\n💬 Would you ever back it on its own?\n\n18+ | Play responsibly"
+    },
+    {
+     "tur": "gol",
+     "saat": 16.0,
+     "baslama": "2026-10-06T20:45:00+02:00",
+     "metin": "⚽ Likeliest goals game today: England v Czechia, about 71% for over 2.5 goals.\n\nWhich also means roughly 3 times in 10 it stays under. Goals markets feel safer than they are.\n\n💬 Over or under for you?\n\n18+ | Play responsibly"
+    },
+    {
+     "tur": "ders",
+     "metin": "💡 A winning week proves almost nothing. A losing week proves almost nothing. Ask me again after 200 coupons.\n\n18+ | Play responsibly",
+     "saat": 21.0
+    }
+   ]
   }
  ]
 }

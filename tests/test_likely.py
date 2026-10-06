@@ -455,3 +455,27 @@ def test_kapaliyken_hicbir_sey_yapmaz(monkeypatch, tmp_path):
     gh = SahteGH()
     assert likely.sabah(AYAR, MACLAR, ORANLAR, SIMDI, gh) is None and not gh.acilan
     assert likely.kontrol(AYAR, gh, SIMDI) == 0 and likely.sonuclar(AYAR, None, gh, SIMDI) == 0
+
+
+# ---------- Paylaşım izni (mevcut uygulamaya) ----------
+
+def test_paylasim_izni_sifreli_saklanir_ve_yanlis_hesap_kaydedilmez(monkeypatch, tmp_path):
+    from bot import likely_yetki
+    monkeypatch.setattr(likely_yetki, "DOSYA", tmp_path / "likely_x.enc")
+    assert likely_yetki.anahtarlar("gizli") is None
+    likely_yetki.kaydet("gizli", "tok-123", "sec-456", "MrLikely")
+    ham = (tmp_path / "likely_x.enc").read_bytes()
+    assert b"tok-123" not in ham and b"sec-456" not in ham                      # depoda düz metin yok
+    assert likely_yetki.anahtarlar("gizli") == {"token": "tok-123", "secret": "sec-456", "hesap": "MrLikely"}
+    assert likely_yetki.anahtarlar("baska-gizli") is None                        # yanlış anahtarla açılmaz
+    assert likely_yetki.coz("https://github.com/?oauth_token=AbC-1_x&oauth_verifier=Zz9_y") == ("AbC-1_x", "Zz9_y")
+    assert likely_yetki.coz("guvenli_min_deger=-0.03") is None
+
+    class Sahte:
+        def __init__(self, *a, **k): pass
+        def fetch_access_token(self, url):
+            return {"oauth_token": "t", "oauth_token_secret": "s", "screen_name": "Kalkylerat"}
+    monkeypatch.setattr(likely_yetki, "OAuth1Session", Sahte)
+    with pytest.raises(RuntimeError):
+        likely_yetki.tamamla("k", "gizli", "a", "b")
+    assert likely_yetki.anahtarlar("gizli")["hesap"] == "MrLikely"               # önceki kayıt bozulmadı

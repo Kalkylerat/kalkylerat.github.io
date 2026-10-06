@@ -523,14 +523,14 @@ def _buyuk_tani(a: dict, b: dict, ayar, cfg: LikelyAyar) -> dict:
     en_iyi = max(((p, pz) for pz, p in adil.items() if pz in fiyat and cfg.oran_min <= fiyat[pz][0] <= cfg.oran_max),
                  default=None)
     kayit = {"mac": f'{a["ev"]} v {a["dep"]}', "bahisci": len(b),
-             "keskin": any(x.lower() == ayar.keskin_bahisci.lower() for x in b),
-             "zorunlu": all(any(x.lower() == z.lower() for x in b) for z in ayar.zorunlu_bahisciler)}
+             "keskin": any(ad.lower() == ayar.keskin_bahisci.lower() for ad in b),
+             "zorunlu": all(any(ad.lower() == z.lower() for ad in b) for z in ayar.zorunlu_bahisciler)}
     if en_iyi:
         p_, pz = en_iyi
         oran, _, siteler = fiyat[pz]
         kayit.update(oyun=model.etiketler(pz, a["ev"], a["dep"])[0], olasilik=round(p_, 3), oran=oran,
                      deger=round(p_ * oran - 1, 3), site=len(siteler),
-                     zorunlu_oyunda=all(any(x.lower() == z.lower() for x in siteler) for z in ayar.zorunlu_bahisciler))
+                     zorunlu_oyunda=all(any(ad.lower() == z.lower() for ad in siteler) for z in ayar.zorunlu_bahisciler))
     return kayit
 
 

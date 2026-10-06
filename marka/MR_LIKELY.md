@@ -65,9 +65,11 @@ Example lines in his voice:
   takip, beğeni, DM yok (X otomasyon kuralı; bunları sahibi elle yapar).
 - Her kupon postunda tutma ihtimali yazar ve post "18+ | Play responsibly" ile biter.
 - Bahis sitesi adı, linki, reklamı yok. Kesinlik dili yok. Uydurma geçmiş, sahte kazanç görüntüsü yok.
-- Kupon kuralları sabit: günde en fazla 2 kupon, kuponda en fazla 4 maç, toplam oran 2.00–4.00 (sahibinin kararı),
-  ayak en az %65, kuponun tutma ihtimali en az %30; en olası kupona 3 puan yakın olanlar içinde büyük maçı en çok olan seçilir.
-  Kural sağlanmazsa o gün kupon yok.
+- Kupon kuralları sabit (SOZLESME E6): günde en fazla 2 kupon, kuponda en fazla 4 maç. **Günün kuponu** 2.00–4.00
+  oran, en olası seçenek (genelde 2.00 civarı, yaklaşık %47). **Long shot** 3.00–4.00 oran, tutma en az %22. İkisinde
+  de en olası kupona 3 puan yakın olanlar içinde büyük maçı en çok olan seçilir. Kural sağlanmazsa o kupon çıkmaz.
+- Post düzeni: 🎩 açılış, ⚽ maçlar, 📊 toplam oran ve tutma ihtimali, 💬 yanıt çağıran tek soru, 18+ satırı. Oyunlar ve
+  oranlar görseldeki kupon fişinde.
 - İlk maça 20 dakikadan az kaldıysa kupon paylaşılmaz. Paylaşılan kupon silinmez; kaybeden de karnede kalır.
 - Ücretli kanal/abonelik: en az 8–12 haftalık açık karneden sonra, ayrıca konuşulacak. Türk kitleye satış yok
   (bkz. `TURKCE_HESAP_PLANI.md`, avukat koşulu).

@@ -21050,6 +21050,33 @@
               2
             ],
             "zaman": "2026-10-06T15:59:16+00:00"
+          },
+          "1528953": {
+            "durum": "paylasildi",
+            "tweet_id": "2107570609475482105",
+            "skor": [
+              3,
+              0
+            ],
+            "zaman": "2026-10-06T20:36:00+00:00"
+          },
+          "1528955": {
+            "durum": "paylasildi",
+            "tweet_id": "2107570610733768987",
+            "skor": [
+              1,
+              0
+            ],
+            "zaman": "2026-10-06T20:36:00+00:00"
+          },
+          "1528957": {
+            "durum": "paylasildi",
+            "tweet_id": "2107570611828514912",
+            "skor": [
+              0,
+              0
+            ],
+            "zaman": "2026-10-06T20:36:00+00:00"
           }
         }
       },
@@ -21108,7 +21135,22 @@
         "durum": "paylasildi",
         "tweet_id": "2107460614863909015",
         "zaman": "2026-10-06T13:18:54+00:00",
-        "metin": "🆚 England v Czechia\n\n🏆 England 85% · Draw 10% · Czechia 4%\n⚽ Over 2.5 goals 71% · Under 29%\n🥅 Both teams score 43% · Not both 57%\n🎯 Most likely score: 3-0 (12%)\n\n📈 Team stats: Both teams score 54%\n💹 Odds: 43%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 England v Czechia\n\n🏆 England 85% · Draw 10% · Czechia 4%\n⚽ Over 2.5 goals 71% · Under 29%\n🥅 Both teams score 43% · Not both 57%\n🎯 Most likely score: 3-0 (12%)\n\n📈 Team stats: Both teams score 54%\n💹 Odds: 43%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2107570625606816185",
+          "skor": "3-0",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "zaman": "2026-10-06T20:36:00+00:00",
+          "brier": {
+            "piyasa": 0.3047,
+            "istatistik": 0.4234
+          }
+        }
       },
       "analiz_3": {
         "durum": "paylasildi",
@@ -21120,7 +21162,22 @@
         "durum": "paylasildi",
         "tweet_id": "2107480159515251171",
         "zaman": "2026-10-06T14:36:35+00:00",
-        "metin": "🆚 Belarus v Finland\n\n🏆 Belarus 24% · Draw 28% · Finland 48%\n⚽ Over 2.5 goals 38% · Under 62%\n🥅 Both teams score 42% · Not both 58%\n🎯 Most likely score: 0-1 (15%)\n\n📈 Team stats: Finland win 62%\n💹 Odds: 48%\n\n💬 Not picks. Your read? 👇\n#NationsLeague\n18+ | Play responsibly"
+        "metin": "🆚 Belarus v Finland\n\n🏆 Belarus 24% · Draw 28% · Finland 48%\n⚽ Over 2.5 goals 38% · Under 62%\n🥅 Both teams score 42% · Not both 58%\n🎯 Most likely score: 0-1 (15%)\n\n📈 Team stats: Finland win 62%\n💹 Odds: 48%\n\n💬 Not picks. Your read? 👇\n#NationsLeague\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2107570637740954005",
+          "skor": "1-0",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "zaman": "2026-10-06T20:36:00+00:00",
+          "brier": {
+            "piyasa": 1.2187,
+            "istatistik": 1.607
+          }
+        }
       },
       "analiz_5": {
         "durum": "paylasildi",
@@ -21132,7 +21189,22 @@
         "durum": "paylasildi",
         "tweet_id": "2107498904799379511",
         "zaman": "2026-10-06T15:51:02+00:00",
-        "metin": "🆚 Estonia v Iceland\n\n🏆 Estonia 17% · Draw 22% · Iceland 61%\n⚽ Over 2.5 goals 51% · Under 49%\n🥅 Both teams score 48% · Not both 52%\n🎯 Most likely score: 0-1 (12%)\n\n📈 Team stats: Over 2.5 goals 27%\n💹 Odds: 51%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Estonia v Iceland\n\n🏆 Estonia 17% · Draw 22% · Iceland 61%\n⚽ Over 2.5 goals 51% · Under 49%\n🥅 Both teams score 48% · Not both 52%\n🎯 Most likely score: 0-1 (12%)\n\n📈 Team stats: Over 2.5 goals 27%\n💹 Odds: 51%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2107570654945943581",
+          "skor": "0-0",
+          "isabet": [
+            false,
+            false,
+            true
+          ],
+          "zaman": "2026-10-06T20:36:00+00:00",
+          "brier": {
+            "piyasa": 1.4949,
+            "istatistik": 0.9962
+          }
+        }
       },
       "tablo_aksam": {
         "durum": "paylasildi",
@@ -21199,13 +21271,39 @@
         "durum": "paylasildi",
         "tweet_id": "2107514523167203617",
         "zaman": "2026-10-06T16:53:08+00:00",
-        "metin": "🆚 Luxembourg v Bulgaria\n\n🏆 Luxembourg 44% · Draw 29% · Bulgaria 27%\n⚽ Over 2.5 goals 36% · Under 64%\n🥅 Both teams score 42% · Not both 58%\n🎯 Most likely score: 1-0 (15%)\n\n📈 Team stats: Luxembourg win 41%\n💹 Odds: 44%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Luxembourg v Bulgaria\n\n🏆 Luxembourg 44% · Draw 29% · Bulgaria 27%\n⚽ Over 2.5 goals 36% · Under 64%\n🥅 Both teams score 42% · Not both 58%\n🎯 Most likely score: 1-0 (15%)\n\n📈 Team stats: Luxembourg win 41%\n💹 Odds: 44%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2107570665129726431",
+          "skor": "0-2",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "zaman": "2026-10-06T20:36:00+00:00",
+          "brier": {
+            "piyasa": 1.1294,
+            "istatistik": 1.0689
+          }
+        }
       },
       "analiz_8": {
         "durum": "paylasildi",
         "tweet_id": "2107519920917352704",
         "zaman": "2026-10-06T17:14:35+00:00",
-        "metin": "🆚 Switzerland v FYR Macedonia\n\n🏆 Switzerland 87% · Draw 10% · FYR Macedonia 4%\n⚽ Over 2.5 goals 68% · Under 32%\n🥅 Both teams score 37% · Not both 63%\n🎯 Most likely score: 2-0 (14%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Switzerland v FYR Macedonia\n\n🏆 Switzerland 87% · Draw 10% · FYR Macedonia 4%\n⚽ Over 2.5 goals 68% · Under 32%\n🥅 Both teams score 37% · Not both 63%\n🎯 Most likely score: 2-0 (14%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2107570677825802240",
+          "skor": "3-0",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "zaman": "2026-10-06T20:36:00+00:00"
+        }
       },
       "analiz_9": {
         "durum": "paylasildi",

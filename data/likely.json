@@ -1437,14 +1437,14 @@
        "oran": 1.27,
        "olasilik": 0.771,
        "deger": -0.021,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "1-0"
       }
      ],
      "oran": 2.0,
      "olasilik": 0.471,
      "deger": -0.058,
-     "durum": "bekliyor",
+     "durum": "yatti",
      "secim": "2026-10-06T11:26:52+00:00",
      "oto": true,
      "paylas": "2026-10-06T11:49:30+00:00",
@@ -1453,7 +1453,8 @@
       "2107432592291123211"
      ],
      "tweet_id": "2107438110212764088",
-     "yayin": "2026-10-06T11:49:30+00:00"
+     "yayin": "2026-10-06T11:49:30+00:00",
+     "son_oran": 1.28
     },
     {
      "ad": "long-shot",
@@ -1485,8 +1486,8 @@
        "oran": 1.91,
        "olasilik": 0.552,
        "deger": 0.055,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "2-2"
       }
      ],
      "oran": 3.09,
@@ -1499,7 +1500,9 @@
      "tweet_id": "2107486070602596421",
      "metin": "🎩 Long shot, this one. I'd be pleasantly surprised.\n\n⚽ AFC Wimbledon v Barnet\n⚽ Farnham Town v Truro City\n\n📊 Combined 3.09. I make it about 35% to land, so probably not.\n\n💬 Which one would you drop?\n\n18+ | Play responsibly",
      "yayin": "2026-10-06T15:00:04+00:00",
-     "son_oran": 1
+     "son_oran": 1.91,
+     "sonuc_metni": "So close it hurts a bit. Coupon down. I had it at 35%, which was never 100, and the goalless draw reminded me.\n\n❌ AFC Wimbledon 0-0 Barnet: Over 2.5 goals\n✅ Farnham Town 2-2 Truro City: Double chance 1X\n\nRecord: 0 of 2 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2107570717319450990"
     }
    ],
    "islenen": [],

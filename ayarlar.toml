@@ -149,6 +149,8 @@ oto_min_deger = -0.04
 oto_min_tutma = 0.30
 # Kuponun toplam fiyatı adil fiyatın en fazla bu kadar altında olabilir (her maçta bahisçi payı birikir).
 oto_min_kupon_deger = -0.08
+# Büyük maç önceliği: tutma ihtimali en yüksek kupona bu kadar yakın kuponlar içinde büyük maçı en çok olan seçilir.
+oto_buyuk_tolerans = 0.03
 # Kupon ilk maçtan en erken kaç dakika önce paylaşılır; ilk maça bundan az kaldıysa paylaşılmaz.
 oto_once_dk = 180
 oto_son_dk = 20

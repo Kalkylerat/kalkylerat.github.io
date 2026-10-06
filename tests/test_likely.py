@@ -356,7 +356,7 @@ def test_E6_otomatik_kupon_kurallari():
     en_yuksek = max((likely.kupon_kur(list(c)) for n in range(1, OTO.oto_max_ayak + 1) for c in itertools.combinations(uygun, n)
                      if likely._farkli_mac(c)), key=lambda k: k["olasilik"] if OTO.oto_oran_min <= k["oran"] <= OTO.oto_oran_max
                     and k["deger"] >= OTO.oto_min_kupon_deger else -1)
-    assert secilen[0]["olasilik"] == en_yuksek["olasilik"]
+    assert secilen[0]["olasilik"] >= en_yuksek["olasilik"] - OTO.oto_buyuk_tolerans
     # İstatistiğin ayrıştığı aday girmez
     ayrisan = likely.havuz([dict(m, istatistik_gol=[0.4, 0.4]) for m in MACLAR], ORANLAR, AYAR, OTO, SIMDI)
     uyum = {a["aday_id"]: a["uyum"] for a in ayrisan}
@@ -365,6 +365,26 @@ def test_E6_otomatik_kupon_kurallari():
     # Kural sağlanmazsa kupon yok: aday yok
     zayif = {m["fixture_id"]: oran_seti(0.42, 0.30, 0.45, 0.60) for m in MACLAR}
     assert likely.otomatik_sec(likely.havuz(MACLAR, zayif, AYAR, OTO, SIMDI), OTO) == []
+
+
+def test_E6_yakin_kuponlar_icinde_buyuk_maclar_tercih_edilir():
+    """Aynı fiyatlı iki maç grubu: bilinmeyen lig (hafifçe daha olası) ve büyük lig. Fark toleransın içinde: büyük maçlar seçilir."""
+    kucuk = [dict(mac(100 + i, f"Kasaba {i}", f"Mahalle {i}", 8, lig_id=41), lig="League One") for i in range(4)]
+    buyuk = [mac(200 + i, f"Baskent {i}", f"Liman {i}", 8, lig_id=39) for i in range(4)]
+    oranlar = {**{m["fixture_id"]: oran_seti(0.80, 0.13, 0.50, 0.70) for m in kucuk},
+               **{m["fixture_id"]: oran_seti(0.795, 0.13, 0.50, 0.70) for m in buyuk}}
+    adaylar = likely.havuz(kucuk + buyuk, oranlar, AYAR, OTO, SIMDI)
+    harita = {a["aday_id"]: a for a in adaylar}
+    assert any(a["buyuk"] for a in adaylar) and any(not a["buyuk"] for a in adaylar)
+    ana = likely.otomatik_sec(adaylar, OTO)[0]
+    assert all(harita[i]["buyuk"] for i in ana["ayaklar"])
+    # Fark toleranstan büyükse ihtimal kazanır: büyük maçlar belirgin daha düşük ihtimalliyse seçilmez
+    oranlar2 = {**{m["fixture_id"]: oran_seti(0.84, 0.10, 0.50, 0.70) for m in kucuk},
+                **{m["fixture_id"]: oran_seti(0.70, 0.18, 0.50, 0.70) for m in buyuk}}
+    adaylar2 = likely.havuz(kucuk + buyuk, oranlar2, AYAR, OTO, SIMDI)
+    harita2 = {a["aday_id"]: a for a in adaylar2}
+    ana2 = likely.otomatik_sec(adaylar2, OTO)[0]
+    assert not all(harita2[i]["buyuk"] for i in ana2["ayaklar"])
 
 
 def test_otomatik_sabah_kuponu_secer_ve_zamanlar(oto):

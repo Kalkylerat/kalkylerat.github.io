@@ -29,7 +29,7 @@ DOSYA = config.ROOT / "data" / "likely.json"
 SES_REHBERI = config.ROOT / "marka" / "MR_LIKELY.md"
 ETIKET = "mr-likely"
 HARFLER = "ABCDEFGHIJ"
-KUPON_ADI = {"gunun-kuponu": "Günün kuponu", "deger-kuponu": "Değer kuponu (2 sağlam + 1 değer)"}
+KUPON_ADI = {"gunun-kuponu": "Günün kuponu", "ikinci-kupon": "İkinci kupon"}
 MAC_SURESI = timedelta(minutes=105)   # sonuç bu kadar sonra sorulmaya başlanır
 VAZGEC = timedelta(hours=30)          # sonuç bu kadar sonra da yoksa ayak iade sayılır
 YETKILI = {"OWNER", "MEMBER", "COLLABORATOR"}
@@ -52,12 +52,13 @@ class LikelyAyar:
     # "elle": taslak GitHub'a gelir, sahibi seçer ve postu kendisi atar. "otomatik": kuponu kurallar seçer, bot paylaşır.
     mod: str = "elle"
     oto_max_kupon: int = 2
-    oto_max_ayak: int = 3
-    oto_min_ayak: float = 0.75     # sağlam ayağın en düşük kazanma ihtimali
-    oto_min_deger: float = -0.04   # sağlam ayağın oranı adil fiyatın en fazla bu kadar altında
-    oto_min_tutma: float = 0.55    # günün kuponunun en düşük tutma ihtimali
-    oto_min_oran: float = 1.40     # günün kuponunun en düşük toplam oranı (altı paylaşmaya değmez)
-    oto_riskli_min_tutma: float = 0.35  # "2 sağlam + 1 değer" kuponunun en düşük tutma ihtimali
+    oto_max_ayak: int = 4
+    oto_oran_min: float = 2.0      # kuponun toplam oranı bu aralıkta olur (sahibinin kararı, 6 Ekim 2026)
+    oto_oran_max: float = 4.0
+    oto_min_ayak: float = 0.65     # sağlam ayağın en düşük kazanma ihtimali
+    oto_min_deger: float = -0.04   # ayağın oranı adil fiyatın en fazla bu kadar altında
+    oto_min_tutma: float = 0.30    # kuponun en düşük tutma ihtimali; altı paylaşılmaz
+    oto_min_kupon_deger: float = -0.08  # kuponun toplam fiyatı adil fiyatın en fazla bu kadar altında
     oto_once_dk: int = 180         # kupon ilk maçtan en erken bu kadar dakika önce paylaşılır
     oto_son_dk: int = 20           # ilk maça bundan az kaldıysa paylaşılmaz
     oto_ders_saati: int = 14       # günün dersi bu saatten (yerel) sonra paylaşılır
@@ -199,34 +200,30 @@ def ornek_kuponlar(adaylar: list[dict], cfg: LikelyAyar) -> list[dict]:
 
 def otomatik_sec(adaylar: list[dict], cfg: LikelyAyar) -> list[dict]:
     """Otomatik modun kuponları (SOZLESME E6): kurallar sabit, sağlanmazsa o gün kupon yok.
-    1) Günün kuponu: en fazla oto_max_ayak sağlam ayak (her biri ≥ oto_min_ayak, değeri ≥ oto_min_deger, istatistikle
-       uyumlu, ihtimali keskin piyasadan (ortalamadan değil), maç başına bir ayak); toplam oran ≥ oto_min_oran ve tutma ≥ oto_min_tutma olanlar içinde tutma ihtimali
-       en yüksek olan (eşitlikte kısa kupon).
-    2) Değer kuponu (varsa): günün kuponuyla maç paylaşmayan 2 sağlam ayak + 1 artı değerli ayak, tutma ≥ oto_riskli_min_tutma."""
-    en_iyi: dict[int, dict] = {}
-    for a in adaylar:
-        if a["tur"] == "guvenli" and a["uyum"] and a["olasilik"] >= cfg.oto_min_ayak and a["deger"] >= cfg.oto_min_deger \
-                and not a["kaynak"].lower().startswith("average") \
-                and a["olasilik"] > en_iyi.get(a["fixture_id"], {"olasilik": 0})["olasilik"]:
-            en_iyi[a["fixture_id"]] = a
-    saglam = sorted(en_iyi.values(), key=lambda a: -a["olasilik"])[:10]
+    Ayaklar: sağlam adaylar (ihtimal ≥ oto_min_ayak) ve artı değerli adaylar; hepsi istatistikle uyumlu, ihtimali keskin
+    piyasadan (ortalamadan değil), oranı adil fiyatın en fazla oto_min_deger altında. Kupon: farklı maçlardan en fazla
+    oto_max_ayak ayak, toplam oran oto_oran_min–oto_oran_max arasında, tutma ihtimali ≥ oto_min_tutma, toplam fiyat
+    adil fiyatın en fazla oto_min_kupon_deger altında. Bu koşulları
+    sağlayanlar içinde TUTMA İHTİMALİ EN YÜKSEK olan seçilir (eşitlikte fiyatı daha iyi, sonra kısa olan).
+    İkinci kupon (varsa) aynı kuralla, ilkiyle maç paylaşmayan ayaklardan kurulur."""
+    ayaklar = [a for a in adaylar if a["uyum"] and a["deger"] >= cfg.oto_min_deger
+               and not a["kaynak"].lower().startswith("average")
+               and (a["tur"] == "deger" or a["olasilik"] >= cfg.oto_min_ayak)]
+    ayaklar.sort(key=lambda a: -a["olasilik"])
     secilen: list[dict] = []
-    uygun = [kupon_kur(list(k), "gunun-kuponu") for n in range(1, cfg.oto_max_ayak + 1)
-             for k in itertools.combinations(saglam, n)]
-    uygun = [k for k in uygun if k["oran"] >= cfg.oto_min_oran and k["olasilik"] >= cfg.oto_min_tutma]
-    if uygun:
-        secilen.append(max(uygun, key=lambda k: (k["olasilik"], -len(k["ayaklar"]))))
-    if len(secilen) < cfg.oto_max_kupon:
-        harita = {a["aday_id"]: a for a in adaylar}
-        dolu = {harita[i]["fixture_id"] for k in secilen for i in k["ayaklar"]}
-        bos = [a for a in saglam if a["fixture_id"] not in dolu]
-        deger = [a for a in adaylar if a["tur"] == "deger" and a["uyum"] and a["fixture_id"] not in dolu]
-        riskli = [kupon_kur(list(ikili) + [d], "deger-kuponu") for ikili in itertools.combinations(bos[:5], 2)
-                  for d in deger[:3] if _farkli_mac(list(ikili) + [d])]
-        riskli = [k for k in riskli if k["olasilik"] >= cfg.oto_riskli_min_tutma]
-        if riskli:
-            secilen.append(max(riskli, key=lambda k: k["olasilik"]))
-    return secilen[:cfg.oto_max_kupon]
+    dolu: set[int] = set()
+    for ad in ("gunun-kuponu", "ikinci-kupon")[:cfg.oto_max_kupon]:
+        bos = [a for a in ayaklar if a["fixture_id"] not in dolu][:16]
+        uygun = [kupon_kur(list(k), ad) for n in range(1, cfg.oto_max_ayak + 1)
+                 for k in itertools.combinations(bos, n) if _farkli_mac(k)]
+        uygun = [k for k in uygun if cfg.oto_oran_min <= k["oran"] <= cfg.oto_oran_max and k["olasilik"] >= cfg.oto_min_tutma
+                 and k["deger"] >= cfg.oto_min_kupon_deger]
+        if not uygun:
+            break
+        en_iyi = max(uygun, key=lambda k: (k["olasilik"], k["deger"], -len(k["ayaklar"])))
+        secilen.append(en_iyi)
+        dolu |= {a["fixture_id"] for a in ayaklar if a["aday_id"] in en_iyi["ayaklar"]}
+    return secilen
 
 
 # ---------- 3. Karakterin sesi: post taslakları ----------

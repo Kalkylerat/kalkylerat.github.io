@@ -1470,8 +1470,8 @@
        "oran": 1.62,
        "olasilik": 0.639,
        "deger": 0.035,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "0-0"
       },
       {
        "aday_id": "1588352-CS1X",
@@ -1492,13 +1492,14 @@
      "oran": 3.09,
      "olasilik": 0.353,
      "deger": 0.091,
-     "durum": "bekliyor",
+     "durum": "yatti",
      "secim": "2026-10-06T11:36:26+00:00",
      "oto": true,
      "paylas": "2026-10-06T17:00:00+02:00",
      "tweet_id": "2107486070602596421",
      "metin": "🎩 Long shot, this one. I'd be pleasantly surprised.\n\n⚽ AFC Wimbledon v Barnet\n⚽ Farnham Town v Truro City\n\n📊 Combined 3.09. I make it about 35% to land, so probably not.\n\n💬 Which one would you drop?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-06T15:00:04+00:00"
+     "yayin": "2026-10-06T15:00:04+00:00",
+     "son_oran": 1
     }
    ],
    "islenen": [],

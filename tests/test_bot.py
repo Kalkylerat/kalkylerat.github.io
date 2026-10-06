@@ -2403,3 +2403,16 @@ def test_liste_simdi_sonucsuz_sabah_tablosunu_buyuk_maclarla_degistirir(monkeypa
     x.silinen = []
     ana.liste_simdi(AYAR, [gun], "2026-10-04", datetime(2026, 10, 4, 9, 30, tzinfo=timezone.utc), x)
     assert x.silinen == []  # sonucu gelmiş liste korunur
+
+
+def test_toplu_oranlarda_ayni_macin_kayitlari_birlestirilir():
+    """Aynı maç iki kayıtta (bahisçiler bölünmüş) gelirse sonraki kayıt öncekinin bahisçilerini silmez."""
+    def kayit(bahisci, oran):
+        return {"fixture": {"id": 7}, "bookmakers": [{"name": bahisci, "bets": [
+            {"name": "Match Winner", "values": [{"value": "Home", "odd": oran}, {"value": "Draw", "odd": "3.5"}, {"value": "Away", "odd": "4.0"}]}]}]}
+
+    class Api:
+        def get_body(self, path, **params):
+            return {"response": [kayit("Pinnacle", "1.90"), kayit("Bet365", "1.85")], "paging": {"current": 1, "total": 1}}
+    oranlar = football.toplu_oranlar(Api(), "2026-10-06", "Europe/Stockholm", 5)
+    assert set(oranlar[7]) == {"Pinnacle", "Bet365"} and oranlar[7]["Pinnacle"]["MS1"] == 1.90

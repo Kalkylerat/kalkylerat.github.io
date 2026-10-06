@@ -1451,6 +1451,48 @@
      "tweet_id": "2107432592291123211",
      "metin": "A treble today. Three legs, and every extra leg costs.\n\nScotland v Slovenia, Wycombe v Bristol Rovers, Belarus v Finland.\n\nCombined 2.00. I make it about 47% to land, so it loses roughly 5 times in 10. That's the maths, not a promise.\n\n18+ | Play responsibly",
      "yayin": "2026-10-06T11:27:33+00:00"
+    },
+    {
+     "ad": "long-shot",
+     "ayaklar": [
+      {
+       "aday_id": "1588893-UST25",
+       "fixture_id": 1588893,
+       "pazar": "UST25",
+       "ev": "AFC Wimbledon",
+       "dep": "Barnet",
+       "lig": "EFL Trophy",
+       "baslama": "2026-10-06T20:00:00+02:00",
+       "etiket": "Over 2.5 goals",
+       "oran": 1.62,
+       "olasilik": 0.639,
+       "deger": 0.035,
+       "durum": "bekliyor",
+       "skor": null
+      },
+      {
+       "aday_id": "1588352-CS1X",
+       "fixture_id": 1588352,
+       "pazar": "CS1X",
+       "ev": "Farnham Town",
+       "dep": "Truro City",
+       "lig": "National League - South",
+       "baslama": "2026-10-06T20:45:00+02:00",
+       "etiket": "Double chance 1X",
+       "oran": 1.91,
+       "olasilik": 0.552,
+       "deger": 0.055,
+       "durum": "bekliyor",
+       "skor": null
+      }
+     ],
+     "oran": 3.09,
+     "olasilik": 0.353,
+     "deger": 0.091,
+     "durum": "bekliyor",
+     "secim": "2026-10-06T11:36:26+00:00",
+     "oto": true,
+     "paylas": "2026-10-06T17:00:00+02:00"
     }
    ],
    "islenen": [],

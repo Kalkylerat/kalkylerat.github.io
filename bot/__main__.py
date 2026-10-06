@@ -813,7 +813,9 @@ def analiz_gunu(ayar, gunler: list[dict], bugun: str, simdi: datetime, api=None)
               f"(güven yüksek {guven['yuksek']}, orta {guven['orta']}, düşük {guven['dusuk']}).\n"
               "Öne çıkanlar: " + ", ".join(f'{a["ev"]} v {a["dep"]} ({a["lig"]})' for a in gun["analizler"]))
     if os.environ.get("GH_TOKEN"):
-        try:  # Mr. Likely (elle paylaşılan ikinci hesap): aynı taramadan günün adayları ve hazır kuponlar, issue olarak
+        try:  # Mr. Likely (ikinci hesap): aynı taramadan günün adayları ve kuponlar; bilgi issue olarak gider
+            if "odds_id" not in (maclar[0] if maclar else {}):
+                _likely_buyuk_oranlar(api, analizler, oranlar)
             likely.sabah(ayar, analizler, oranlar, simdi, onay.GitHub(), yaz=_ozet_yaz)
         except Exception as e:
             _hata("Mr. Likely paketi", e)
@@ -948,6 +950,25 @@ def _likely_yazici(ayar):
     if ayar.direktor_aktif and os.environ.get("ANTHROPIC_API_KEY"):
         return lambda sablon, zorunlu: likely.ses_yaz(ayar, sablon, zorunlu, yaz=_ozet_yaz)
     return None
+
+
+def _likely_buyuk_oranlar(api, analizler: list[dict], oranlar: dict, en_fazla: int = 25) -> int:
+    """Toplu oran taramasında oranı gelmeyen BÜYÜK maçların oranını tek tek ister (maç başına 1 istek): Mr. Likely
+    büyük maçları kaçırmasın. Eklenen maç sayısını döndürür."""
+    eksik = [a for a in analizler if analiz.onemli(a) and not oranlar.get(a["fixture_id"]) and "odds_id" not in a][:en_fazla]
+    eklenen = 0
+    for a in eksik:
+        try:
+            b = football.oranlari_al(api, a["fixture_id"])
+        except football.ApiHatasi as e:
+            print(f"Büyük maç oranı alınamadı ({a['ev']} v {a['dep']}): {e}")
+            break
+        if b:
+            oranlar[a["fixture_id"]] = b
+            eklenen += 1
+    if eksik:
+        _ozet_yaz(f"Mr. Likely: toplu taramada oranı olmayan {len(eksik)} büyük maçtan {eklenen} tanesinin oranı tek tek alındı.")
+    return eklenen
 
 
 def _x_likely():
@@ -1499,9 +1520,11 @@ def main(argv=None) -> int:
             # Elle: bugünün Mr. Likely paketini kayıtlı analizden ve güncel oranlardan hazırlar (sabah gelmediyse).
             try:
                 dosya = config.DATA_FILE.parent / "analiz" / f"{bugun}.json"
-                oranlar = football.toplu_oranlar(_api(ayar), bugun, ayar.saat_dilimi, ayar.max_oran_sayfasi)
-                if not likely.sabah(ayar, json.loads(dosya.read_text(encoding="utf-8")), oranlar, simdi, onay.GitHub(),
-                                    yaz=_ozet_yaz):
+                api_ = _api(ayar)
+                oranlar = football.toplu_oranlar(api_, bugun, ayar.saat_dilimi, ayar.max_oran_sayfasi)
+                analizler_ = json.loads(dosya.read_text(encoding="utf-8"))
+                _likely_buyuk_oranlar(api_, analizler_, oranlar)
+                if not likely.sabah(ayar, analizler_, oranlar, simdi, onay.GitHub(), yaz=_ozet_yaz):
                     _ozet_yaz("Mr. Likely paketi hazırlanmadı: bugün zaten gönderilmiş ya da ayarlarda kapalı.")
             except Exception as e:
                 _hata("Mr. Likely paketi", e)

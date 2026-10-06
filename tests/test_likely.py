@@ -387,6 +387,41 @@ def test_E6_yakin_kuponlar_icinde_buyuk_maclar_tercih_edilir():
     assert not all(harita2[i]["buyuk"] for i in ana2["ayaklar"])
 
 
+def test_E6_long_shot_kurallari():
+    """İkinci kupon: 3.00–4.00 oran, ayak oranı en az 1.30, günün kuponuyla maç paylaşmaz; sağlanmazsa çıkmaz."""
+    saglam = [mac(300 + i, f"Guclu {i}", f"Zayif {i}", 8) for i in range(4)]
+    orta = [mac(400 + i, f"Denk {i}", f"Rakip {i}", 8) for i in range(5)]
+    oranlar = {**{m["fixture_id"]: oran_seti(0.80, 0.13, 0.50, 0.70) for m in saglam},
+               **{m["fixture_id"]: oran_seti(0.66, 0.18, 0.50, 0.60) for m in orta}}
+    adaylar = likely.havuz(saglam + orta, oranlar, AYAR, OTO, SIMDI)
+    harita = {a["aday_id"]: a for a in adaylar}
+    secilen = likely.otomatik_sec(adaylar, OTO)
+    assert [k["ad"] for k in secilen] == ["gunun-kuponu", "long-shot"]
+    uzun = secilen[1]
+    assert OTO.oto_uzun_oran_min <= uzun["oran"] <= OTO.oto_uzun_oran_max
+    assert uzun["olasilik"] >= OTO.oto_uzun_min_tutma and uzun["deger"] >= OTO.oto_uzun_min_kupon_deger
+    assert all(harita[i]["oran"] >= OTO.oto_uzun_min_ayak_oran for i in uzun["ayaklar"]) and len(uzun["ayaklar"]) <= OTO.oto_max_ayak
+    assert not {harita[i]["fixture_id"] for i in uzun["ayaklar"]} & {harita[i]["fixture_id"] for i in secilen[0]["ayaklar"]}
+    metin = likely.kupon_metni(dict(uzun, ad="long-shot"), [harita[i] for i in uzun["ayaklar"]], "t", gorselli=True)
+    assert any(a in metin for a in likely.UZUN_ACILIS) and f"{round(100 * uzun['olasilik'])}% to land" in metin
+    # Yalnızca çok düşük oranlı maçlar varsa long shot çıkmaz
+    assert [k["ad"] for k in likely.otomatik_sec(likely.havuz(saglam, oranlar, AYAR, OTO, SIMDI), OTO)] in ([], ["gunun-kuponu"])
+
+
+def test_gorselli_kupon_metni_emojili_ve_soruyla_biter():
+    adaylar = likely.havuz(MACLAR, ORANLAR, AYAR, OTO, SIMDI)
+    harita = {a["aday_id"]: a for a in adaylar}
+    k = likely.otomatik_sec(adaylar, OTO)[0]
+    metin = likely.kupon_metni(k, [harita[i] for i in k["ayaklar"]], "2026-10-07", gorselli=True)
+    satirlar = metin.split("\n")
+    assert metin.startswith("🎩 ") and metin.endswith(ANSVAR) and uzunluk(metin) <= LIMIT
+    assert sum(s.startswith("⚽ ") for s in satirlar) == len(k["ayaklar"])
+    assert any(s.startswith("📊 ") and f"{round(100 * k['olasilik'])}% to land" in s for s in satirlar)
+    assert any(s.startswith("💬 ") and s.endswith("?") for s in satirlar)
+    assert likely.ses_uygun(metin, metin, []) == []
+    assert "etkileşim tuzağı" in likely.ses_uygun(metin.replace("💬 ", "💬 RT if you agree. "), metin, [])
+
+
 def test_otomatik_sabah_kuponu_secer_ve_zamanlar(oto):
     gun = likely.yukle()["gunler"][0]
     assert gun["oto"] and gun["durum"] == "secildi" and gun["secilen"] and all(k["oto"] for k in gun["secilen"])
@@ -499,3 +534,16 @@ def test_paylasim_izni_sifreli_saklanir_ve_yanlis_hesap_kaydedilmez(monkeypatch,
     with pytest.raises(RuntimeError):
         likely_yetki.tamamla("k", "gizli", "a", "b")
     assert likely_yetki.anahtarlar("gizli")["hesap"] == "MrLikely"               # önceki kayıt bozulmadı
+
+
+def test_ek_kupon_eksik_turu_tamamlar_mevcuda_dokunmaz(oto):
+    gun = likely.yukle()["gunler"][0]
+    once = [k["ad"] for k in gun["secilen"]]
+    dolu = {a["fixture_id"] for k in gun["secilen"] for a in k["ayaklar"]}
+    orta = [mac(500 + i, f"Denk {i}", f"Rakip {i}", 8) for i in range(5)]
+    oranlar = {**ORANLAR, **{m["fixture_id"]: oran_seti(0.66, 0.18, 0.50, 0.60) for m in orta}}
+    eklenen = likely.ek_kupon(AYAR, MACLAR + orta, oranlar, SIMDI + timedelta(minutes=10), oto)
+    gun = likely.yukle()["gunler"][0]
+    assert [k["ad"] for k in gun["secilen"]][:len(once)] == once and len(gun["secilen"]) == len(once) + eklenen <= OTO.oto_max_kupon
+    for k in gun["secilen"][len(once):]:
+        assert k["oto"] and k["ad"] not in once and not {a["fixture_id"] for a in k["ayaklar"]} & dolu

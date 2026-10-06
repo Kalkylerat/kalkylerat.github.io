@@ -1316,7 +1316,7 @@ def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="bot")
     p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt", "sabit", "hafta", "yenile", "oran_testi",
                                           "onay_kontrol", "onay_testi", "onay_yenile", "nabiz",
-                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir", "kasa_duzelt", "direktor", "skor_duzelt", "sonuc_duzelt", "kasa_defteri", "temizle", "liste", "kiyas", "takip_yenile", "metrik", "hesap_kontrol", "likely", "likely_paket", "likely_yetki"])
+                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir", "kasa_duzelt", "direktor", "skor_duzelt", "sonuc_duzelt", "kasa_defteri", "temizle", "liste", "kiyas", "takip_yenile", "metrik", "hesap_kontrol", "likely", "likely_paket", "likely_yetki", "likely_ek"])
     args = p.parse_args(argv)
     ayar = config.yukle()
     from dataclasses import replace as _degistir
@@ -1530,7 +1530,15 @@ def main(argv=None) -> int:
                     _ozet_yaz("Mr. Likely paketi hazırlanmadı: bugün zaten gönderilmiş ya da ayarlarda kapalı.")
             except Exception as e:
                 _hata("Mr. Likely paketi", e)
-        if args.komut in ("onay_kontrol", "nabiz", "likely"):
+        if args.komut == "likely_ek":
+            # Elle: bugün eksik kalan otomatik kupon türünü (ör. long shot) güncel oranlarla tamamlar.
+            try:
+                dosya = config.DATA_FILE.parent / "analiz" / f"{bugun}.json"
+                oranlar = football.toplu_oranlar(_api(ayar), bugun, ayar.saat_dilimi, ayar.max_oran_sayfasi)
+                likely.ek_kupon(ayar, json.loads(dosya.read_text(encoding="utf-8")), oranlar, simdi, onay.GitHub(), yaz=_ozet_yaz)
+            except Exception as e:
+                _hata("Mr. Likely ek kupon", e)
+        if args.komut in ("onay_kontrol", "nabiz", "likely", "likely_ek"):
             likely_nabiz(ayar, simdi, sonuclar=args.komut != "onay_kontrol")
         if args.komut == "sonuc_yeniden":
             # Son sonuç paylaşımını (eski biçim: kupon altında yanıt) silip yeni biçimle (alıntı) tekrar paylaşır.

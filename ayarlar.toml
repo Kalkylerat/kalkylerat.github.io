@@ -151,6 +151,13 @@ oto_min_tutma = 0.30
 oto_min_kupon_deger = -0.08
 # Büyük maç önceliği: tutma ihtimali en yüksek kupona bu kadar yakın kuponlar içinde büyük maçı en çok olan seçilir.
 oto_buyuk_tolerans = 0.03
+# İkinci kupon "long shot": daha yüksek oran (3.00–4.00), daha düşük tutma ihtimali. Fiyatı adil fiyatın en fazla %10
+# altında, tutma ihtimali en az %22; ayaklarının oranı en az 1.30. Sağlanmazsa o gün long shot çıkmaz.
+oto_uzun_oran_min = 3.0
+oto_uzun_oran_max = 4.0
+oto_uzun_min_tutma = 0.22
+oto_uzun_min_kupon_deger = -0.10
+oto_uzun_min_ayak_oran = 1.30
 # Kupon ilk maçtan en erken kaç dakika önce paylaşılır; ilk maça bundan az kaldıysa paylaşılmaz.
 oto_once_dk = 180
 oto_son_dk = 20
@@ -164,7 +171,7 @@ min_deger = -0.05
 oran_min = 1.10
 oran_max = 2.60
 # En fazla kaç aday ve kaç hazır kupon; maça en az kaç dakika kalmış olmalı (seçip paylaşmaya vakit).
-havuz = 30
+havuz = 80
 kupon = 10
 min_dakika_once = 120
 # Kendi kurduğun kuponda en fazla maç sayısı.

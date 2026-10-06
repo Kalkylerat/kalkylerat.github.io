@@ -16,7 +16,7 @@ on:
         description: "Ne yapılsın?"
         type: choice
         default: yayinla
-        options: [yayinla, profil, sonuc_yeniden, demo, nabiz, onay_yenile, onay_testi, onay_kontrol, onizleme, duzelt, yenile, sabit, hafta, oran_testi, otomatik, tahmin, sonuc, panel, tani, odds_tani, odds_pazar, vitrin, ek_kupon, af_pazar, ayir, kasa_duzelt, direktor, skor_duzelt, sonuc_duzelt, kasa_defteri, temizle, liste, kiyas, takip_yenile, metrik, hesap_kontrol, likely, likely_paket, likely_yetki]
+        options: [yayinla, profil, sonuc_yeniden, demo, nabiz, onay_yenile, onay_testi, onay_kontrol, onizleme, duzelt, yenile, sabit, hafta, oran_testi, otomatik, tahmin, sonuc, panel, tani, odds_tani, odds_pazar, vitrin, ek_kupon, af_pazar, ayir, kasa_duzelt, direktor, skor_duzelt, sonuc_duzelt, kasa_defteri, temizle, liste, kiyas, takip_yenile, metrik, hesap_kontrol, likely, likely_paket, likely_yetki, likely_ek]
       ek:
         description: "Tek çalışmalık istisna (ör. guvenli_min_deger=-0.03 api_yedek=8) ya da likely_yetki için dönülen adres; boş bırakın"
         type: string

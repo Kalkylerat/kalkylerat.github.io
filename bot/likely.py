@@ -29,7 +29,7 @@ DOSYA = config.ROOT / "data" / "likely.json"
 SES_REHBERI = config.ROOT / "marka" / "MR_LIKELY.md"
 ETIKET = "mr-likely"
 HARFLER = "ABCDEFGHIJ"
-KUPON_ADI = {"gunun-kuponu": "Günün kuponu", "ikinci-kupon": "İkinci kupon"}
+KUPON_ADI = {"gunun-kuponu": "Günün kuponu", "long-shot": "Long shot (yüksek oran)"}
 MAC_SURESI = timedelta(minutes=105)   # sonuç bu kadar sonra sorulmaya başlanır
 VAZGEC = timedelta(hours=30)          # sonuç bu kadar sonra da yoksa ayak iade sayılır
 YETKILI = {"OWNER", "MEMBER", "COLLABORATOR"}
@@ -60,6 +60,12 @@ class LikelyAyar:
     oto_min_tutma: float = 0.30    # kuponun en düşük tutma ihtimali; altı paylaşılmaz
     oto_min_kupon_deger: float = -0.08  # kuponun toplam fiyatı adil fiyatın en fazla bu kadar altında
     oto_buyuk_tolerans: float = 0.03    # en olası kupona bu kadar yakın kuponlar içinde büyük maçı çok olan seçilir
+    # İkinci kupon "long shot": daha yüksek oran, daha düşük tutma ihtimali (sahibinin kararı, 6 Ekim 2026)
+    oto_uzun_oran_min: float = 3.0
+    oto_uzun_oran_max: float = 4.0
+    oto_uzun_min_tutma: float = 0.22
+    oto_uzun_min_kupon_deger: float = -0.10
+    oto_uzun_min_ayak_oran: float = 1.30  # long shot ayakları: oranı en az bu kadar (çok düşük oranlı maçla 3.00'a çıkılmaz)
     oto_once_dk: int = 180         # kupon ilk maçtan en erken bu kadar dakika önce paylaşılır
     oto_son_dk: int = 20           # ilk maça bundan az kaldıysa paylaşılmaz
     oto_ders_saati: int = 14       # günün dersi bu saatten (yerel) sonra paylaşılır
@@ -200,31 +206,32 @@ def ornek_kuponlar(adaylar: list[dict], cfg: LikelyAyar) -> list[dict]:
 
 
 def otomatik_sec(adaylar: list[dict], cfg: LikelyAyar) -> list[dict]:
-    """Otomatik modun kuponları (SOZLESME E6): kurallar sabit, sağlanmazsa o gün kupon yok.
+    """Otomatik modun kuponları (SOZLESME E6): kurallar sabit, sağlanmazsa o kupon o gün çıkmaz.
     Ayaklar: sağlam adaylar (ihtimal ≥ oto_min_ayak) ve artı değerli adaylar; hepsi istatistikle uyumlu, ihtimali keskin
-    piyasadan (ortalamadan değil), oranı adil fiyatın en fazla oto_min_deger altında. Kupon: farklı maçlardan en fazla
-    oto_max_ayak ayak, toplam oran oto_oran_min–oto_oran_max arasında, tutma ihtimali ≥ oto_min_tutma, toplam fiyat
-    adil fiyatın en fazla oto_min_kupon_deger altında. Bu koşulları
-    sağlayanlar içinde tutma ihtimali en yüksek olana oto_buyuk_tolerans kadar yakın kuponlardan BÜYÜK MAÇI EN ÇOK olan
-    seçilir (eşitlikte tutma ihtimali, sonra fiyat, sonra kısa kupon).
-    İkinci kupon (varsa) aynı kuralla, ilkiyle maç paylaşmayan ayaklardan kurulur."""
+    piyasadan (ortalamadan değil), oranı adil fiyatın en fazla oto_min_deger altında; kupon farklı maçlardan en fazla
+    oto_max_ayak ayak.
+    1) Günün kuponu: toplam oran oto_oran_min–oto_oran_max, tutma ≥ oto_min_tutma, fiyat ≥ oto_min_kupon_deger.
+    2) Long shot (ilkiyle maç paylaşmaz): toplam oran oto_uzun_oran_min–oto_uzun_oran_max, tutma ≥ oto_uzun_min_tutma,
+       fiyat ≥ oto_uzun_min_kupon_deger; ayak oranı ≥ oto_uzun_min_ayak_oran.
+    Her birinde koşulu sağlayanlar içinde tutma ihtimali en yüksek olana oto_buyuk_tolerans kadar yakın kuponlardan
+    BÜYÜK MAÇI EN ÇOK olan seçilir (eşitlikte tutma ihtimali, sonra fiyat, sonra kısa kupon)."""
     ayaklar = [a for a in adaylar if a["uyum"] and a["deger"] >= cfg.oto_min_deger
                and not a["kaynak"].lower().startswith("average")
                and (a["tur"] == "deger" or a["olasilik"] >= cfg.oto_min_ayak)]
     ayaklar.sort(key=lambda a: -a["olasilik"])
     buyuk = {a["aday_id"]: bool(a.get("buyuk")) for a in ayaklar}
+    tarifler = [("gunun-kuponu", cfg.oto_oran_min, cfg.oto_oran_max, cfg.oto_min_tutma, cfg.oto_min_kupon_deger, 0.0),
+                ("long-shot", cfg.oto_uzun_oran_min, cfg.oto_uzun_oran_max, cfg.oto_uzun_min_tutma,
+                 cfg.oto_uzun_min_kupon_deger, cfg.oto_uzun_min_ayak_oran)]
     secilen: list[dict] = []
     dolu: set[int] = set()
-    for ad in ("gunun-kuponu", "ikinci-kupon")[:cfg.oto_max_kupon]:
-        bos = [a for a in ayaklar if a["fixture_id"] not in dolu][:16]
+    for ad, oran_min, oran_max, min_tutma, min_deger, min_ayak_oran in tarifler[:cfg.oto_max_kupon]:
+        bos = [a for a in ayaklar if a["fixture_id"] not in dolu and a["oran"] >= min_ayak_oran][:16]
         uygun = [kupon_kur(list(k), ad) for n in range(1, cfg.oto_max_ayak + 1)
                  for k in itertools.combinations(bos, n) if _farkli_mac(k)]
-        uygun = [k for k in uygun if cfg.oto_oran_min <= k["oran"] <= cfg.oto_oran_max and k["olasilik"] >= cfg.oto_min_tutma
-                 and k["deger"] >= cfg.oto_min_kupon_deger]
+        uygun = [k for k in uygun if oran_min <= k["oran"] <= oran_max and k["olasilik"] >= min_tutma and k["deger"] >= min_deger]
         if not uygun:
-            break
-        # Büyük maç önceliği: tutma ihtimali en yüksek kupona oto_buyuk_tolerans kadar yakın olanlar içinde büyük maçı en
-        # çok olan (takipçinin izlediği maçlar); eşitlikte tutma ihtimali, sonra fiyat, sonra kısa kupon.
+            continue
         esik = max(k["olasilik"] for k in uygun) - cfg.oto_buyuk_tolerans
         en_iyi = max((k for k in uygun if k["olasilik"] >= esik),
                      key=lambda k: (sum(buyuk[i] for i in k["ayaklar"]), k["olasilik"], k["deger"], -len(k["ayaklar"])))
@@ -247,6 +254,12 @@ ACILIS = {
         "Today's four.", "Four picks, one coupon.", "Four-fold today. I've kept the legs boring on purpose.",
         "Four legs. Yes, I know what I say about long coupons.", "Today's four-fold."],
 }
+UZUN_ACILIS = ["The long shot. Small stakes only.", "Today's long shot. It loses more often than it lands.",
+               "Long shot of the day. Pocket money stuff.", "The ambitious one. Treat it like a lottery ticket with better manners.",
+               "Long shot. I'd be surprised, pleasantly.", "Today's outsider. Stake accordingly."]
+SORULAR = ["Which leg lets me down?", "Which one would you drop?", "Would you take it at this price?",
+           "Which leg is the weak one?", "Anyone on the other side of one of these?", "What would you swap in?",
+           "Which of these do you trust least?", "Too cautious or about right?"]
 KAPANIS = ["Probably.", "No promises.", "We'll see.", "That's the maths, not a promise.", "Likely. Not certain.",
            "As ever: likely, not certain."]
 TUTTU = ["That'll do.", "Landed. I'll try not to be smug about it.", "In. Nice when the maths behaves.",
@@ -275,7 +288,7 @@ def kupon_metni(kupon: dict, ayaklar: list[dict], tohum: str, gorselli: bool = F
     """Kupon postunun şablonu (Mr. Likely'nin sesi). Rakamlar kayıttan; tutma ihtimali ve kaybetme payı açıkça yazılır.
     gorselli: oyunlar ve oranlar kupon kartında; metne sığmazsa maç adları ve toplam oranla kısa, sesli hali kullanılır."""
     n = len(ayaklar)
-    acilis = _sec(ACILIS[min(n, 4)], tohum)
+    acilis = _sec(UZUN_ACILIS if kupon.get("ad") == "long-shot" else ACILIS[min(n, 4)], tohum)
     uzun = [f'⚽ {a["ev"]} v {a["dep"]}: {a["etiket"]} · {a["oran"]:.2f}' for a in ayaklar]
     kisa = [f'⚽ {a["etiket"]} ({a["ev"]} v {a["dep"]}) {a["oran"]:.2f}' for a in ayaklar]
     p = kupon["olasilik"]
@@ -288,9 +301,17 @@ def kupon_metni(kupon: dict, ayaklar: list[dict], tohum: str, gorselli: bool = F
         ozet_kisa = f"Combined {kupon['oran']:.2f}, about {_pct(p)} to land."
     son = f"\n\n{ANSVAR}"
     maclar = ", ".join(f'{a["ev"]} v {a["dep"]}' for a in ayaklar) + "."
+    if gorselli:
+        # Görselli post (otomatik mod): oyunlar ve oranlar kartta. Metin taranabilir: emoji başlıklı satırlar, maç adları,
+        # toplam oran ve tutma ihtimali, sonda yanıt çağıran tek bir soru (etkileşim tuzağı değil).
+        liste = "\n".join(f'⚽ {a["ev"]} v {a["dep"]}' for a in ayaklar)
+        sayi = (f"📊 Combined {kupon['oran']:.2f}. I make it about {_pct(p)} to land." if n > 1
+                else f"📊 {ayaklar[0]['oran']:.2f}. I make it about {_pct(p)} to land.")
+        soru = f"💬 {_sec(SORULAR, tohum + 's')}"
+        return _kisalt(f"🎩 {acilis}\n\n{liste}\n\n{sayi}\n\n{soru}{son}", f"🎩 {acilis}\n\n{liste}\n\n{sayi}{son}",
+                       f"🎩 {acilis}\n\n{maclar}\n\n{sayi}{son}", f"🎩 {acilis}\n\n{sayi} The legs are on the card.{son}")
     return _kisalt(
         f"{acilis}\n\n" + "\n".join(uzun) + f"\n\n{ozet}{son}",
-        *([f"{acilis}\n\n{maclar}\n\n{ozet}{son}", f"{acilis}\n\n{maclar}\n\n{ozet_kisa}{son}"] if gorselli else []),
         "\n".join(uzun) + f"\n\n{ozet}{son}",
         "\n".join(uzun) + f"\n\n{ozet_kisa}{son}",
         "\n".join(kisa) + f"\n\n{ozet_kisa}{son}",
@@ -368,7 +389,7 @@ DERSLER = [
 
 def ders_metni(tarih: str, atla: int = 0) -> str:
     gun = datetime.fromisoformat(tarih).timetuple().tm_yday
-    return f"{DERSLER[(gun + atla) % len(DERSLER)]}\n\n{ANSVAR}"
+    return f"💡 {DERSLER[(gun + atla) % len(DERSLER)]}\n\n{ANSVAR}"
 
 
 SES_SISTEM = """You write posts for "Mr. Likely", a football coupon account on X. The coupons are picked by a numbers
@@ -387,7 +408,11 @@ Hard rules:
 - No links, no @ mentions, no hashtags, no bookmaker or site names, no "DM me", no "join", no selling.
 - Never tell people to bet more, chase losses or borrow. Never claim betting is a way to make a living.
 - Sound like a person: no "Here's the thing", "The result?", "It's not X, it's Y", no hype words, at most one dash.
-  Vary the opening; don't start two posts the same way."""
+  Vary the opening; don't start two posts the same way.
+- Layout: keep the draft's layout and emojis exactly as markers, one at the start of a line (🎩 opener, ⚽ each match,
+  📊 the numbers, 💬 the question, ✅/❌ results). No other emojis, never two in a row.
+- If the draft ends with a 💬 question, keep one short, specific question there that invites a reply. You may reword
+  it. No engagement bait: never ask for likes, reposts or follows."""
 SES_SEMA = {"type": "object", "properties": {"metin": {"type": "string"}}, "required": ["metin"],
             "additionalProperties": False}
 
@@ -419,6 +444,8 @@ def ses_uygun(metin: str, sablon: str, zorunlu: list[str]) -> list[str]:
         sorun.append("eksik maç/oyun/oran")
     if direktor.yz_izi(metin):
         sorun.append("yapay zekâ izi")
+    if re.search(r"\b(RT|retweet|repost|like if|follow (me|us|for))\b", metin, re.IGNORECASE):
+        sorun.append("etkileşim tuzağı")
     return sorun
 
 
@@ -517,11 +544,11 @@ def paket_metni(gun: dict, veri: dict, ayar, cfg: LikelyAyar) -> str:
         s += [f"- {_ayak_satiri(harita[i], ayar)}" for i in kp["ayaklar"]]
     if not gun["kuponlar"]:
         s += ["", "Bugün hazır kupon çıkmadı (ölçütü geçen aday yok ya da az). `pas` yazabilirsin."]
-    s += ["", f"## Adaylar ({len(adaylar)})", "",
+    s += ["", f"## Adaylar ({len(adaylar)})", *(["<details><summary>Listeyi aç</summary>"] if gun.get("oto") else []), "",
           "| # | Maç | Saat | Oyun | Oran | İhtimal | Değer | Not |", "|---|---|---|---|---|---|---|---|"]
     s += [f'| {a["no"]} | {a["ev"]} v {a["dep"]} | {_saat(a["baslama"], ayar)} | {a["etiket"]} | {a["oran"]:.2f} | '
           f'%{round(100 * a["olasilik"])} | {round(100 * a["deger"]):+d}% | {_not(a, cfg)} |' for a in adaylar]
-    s += ["", "## Günün dersi (ayrı post, istersen)", "```", gun["ders"], "```"]
+    s += [*(["", "</details>"] if gun.get("oto") else []), "", "## Günün dersi", "```", gun["ders"], "```"]
     return "\n".join(s)
 
 
@@ -589,6 +616,40 @@ def sabah(ayar, analizler: list[dict], oranlar: dict, simdi: datetime, gh, yaz=p
     kaydet(veri)
     yaz(f"Mr. Likely paketi gönderildi (issue #{gun['issue']}): {len(adaylar)} aday, {len(gun['kuponlar'])} kupon.")
     return gun
+
+
+def ek_kupon(ayar, analizler: list[dict], oranlar: dict, simdi: datetime, gh=None, yaz=print) -> int:
+    """Otomatik modda gün içinde eksik kalan kupon türünü (ör. sabah long shot çıkmadıysa) güncel oranlarla tamamlar.
+    Mevcut kuponlara dokunmaz; yeni kupon onlarla maç paylaşmaz. Eklenen kupon sayısını döndürür."""
+    cfg = ayar_yukle()
+    if not cfg.aktif or cfg.mod != "otomatik":
+        return 0
+    veri = yukle()
+    tarih = simdi.astimezone(ZoneInfo(ayar.saat_dilimi)).date().isoformat()
+    gun = next((g for g in veri["gunler"] if g["tarih"] == tarih and g.get("oto")), None)
+    if gun is None:
+        return 0
+    var = {k["ad"] for k in gun["secilen"]}
+    dolu = {a["fixture_id"] for k in gun["secilen"] for a in k["ayaklar"]}
+    adaylar = [a for a in havuz(analizler, oranlar, ayar, cfg, simdi) if a["fixture_id"] not in dolu]
+    harita = {a["aday_id"]: a for a in adaylar}
+    eklenen = 0
+    for k in otomatik_sec(adaylar, cfg):
+        if k["ad"] in var or len(gun["secilen"]) >= cfg.oto_max_kupon:
+            continue
+        d = _dondur([harita[i] for i in k["ayaklar"]], k["ad"], simdi)
+        ilk = min(datetime.fromisoformat(a["baslama"]) for a in d["ayaklar"])
+        zaman = min(max(simdi + timedelta(minutes=5), ilk - timedelta(minutes=cfg.oto_once_dk)), ilk - timedelta(minutes=45))
+        d.update(oto=True, paylas=zaman.isoformat(timespec="seconds"))
+        gun["secilen"].append(d)
+        gun["durum"] = "secildi"
+        eklenen += 1
+        if gh and gun.get("issue"):
+            gh.yorum(gun["issue"], f'Ek kupon: **{KUPON_ADI.get(d["ad"], d["ad"])}** · oran {d["oran"]:.2f} · tutma %{round(100 * d["olasilik"])} · '
+                                   f'paylaşım **{_saat(d["paylas"], ayar)}**\n' + "\n".join(f"- {_ayak_satiri(a, ayar)}" for a in d["ayaklar"]))
+    kaydet(veri)
+    yaz(f"Mr. Likely: {eklenen} ek kupon eklendi.")
+    return eklenen
 
 
 # ---------- 5. Sahibinin seçimi (yorum) ----------
@@ -837,11 +898,9 @@ def oto_paylas(ayar, x, simdi: datetime, yazici=None, kart=None, yaz=print) -> i
             if simdi < datetime.fromisoformat(k["paylas"]) or paylasilan:
                 continue
             sablon = kupon_metni(k, k["ayaklar"], gun["tarih"] + k["ad"], gorselli=bool(kart))
-            if uzunluk(sablon) > LIMIT:
-                # Çok uzun takım adları: maçlar görselde; metin kısa kalır (tutma ihtimali ve 18+ yine yazar).
-                metin = (f"{_sec(ACILIS[min(len(k['ayaklar']), 4)], gun['tarih'] + k['ad'])}\n\nCombined {k['oran']:.2f}. "
-                         f"I make it about {_pct(k['olasilik'])} to land. The legs are on the card.\n\n{ANSVAR}")
-            else:  # sesli yazımda şablondaki maç adları ve oranlar korunmalı
+            if uzunluk(sablon) > LIMIT:  # olağan dışı uzun adlar: en kısa güvenli metin
+                metin = f"🎩 Combined {k['oran']:.2f}. I make it about {_pct(k['olasilik'])} to land. The legs are on the card.\n\n{ANSVAR}"
+            else:  # sesli yazımda şablondaki maç adları ve toplam oran korunmalı
                 metin = yazici(sablon, [z for z in _zorunlu(k["ayaklar"]) + [f'{k["oran"]:.2f}'] if z in sablon])
             medya = [x.medya_yukle(kart(k, gun["tarih"]))] if kart else None
             k["tweet_id"] = x.gonder(metin, medya=medya)

@@ -955,7 +955,9 @@ def _likely_yazici(ayar):
 def _likely_buyuk_oranlar(api, analizler: list[dict], oranlar: dict, en_fazla: int = 25) -> int:
     """Toplu oran taramasında oranı gelmeyen BÜYÜK maçların oranını tek tek ister (maç başına 1 istek): Mr. Likely
     büyük maçları kaçırmasın. Eklenen maç sayısını döndürür."""
-    eksik = [a for a in analizler if analiz.onemli(a) and not oranlar.get(a["fixture_id"]) and "odds_id" not in a][:en_fazla]
+    def yetersiz(b: dict | None) -> bool:  # oran yok, bahisçi az ya da keskin bahisçi eksik: aday çıkmaz
+        return not b or len(b) < 4 or not any(ad.lower() == config.yukle().keskin_bahisci.lower() for ad in b)
+    eksik = [a for a in analizler if analiz.onemli(a) and yetersiz(oranlar.get(a["fixture_id"])) and "odds_id" not in a][:en_fazla]
     eklenen = 0
     for a in eksik:
         try:
@@ -963,11 +965,11 @@ def _likely_buyuk_oranlar(api, analizler: list[dict], oranlar: dict, en_fazla: i
         except football.ApiHatasi as e:
             print(f"Büyük maç oranı alınamadı ({a['ev']} v {a['dep']}): {e}")
             break
-        if b:
+        if len(b) > len(oranlar.get(a["fixture_id"]) or {}):
             oranlar[a["fixture_id"]] = b
             eklenen += 1
     if eksik:
-        _ozet_yaz(f"Mr. Likely: toplu taramada oranı olmayan {len(eksik)} büyük maçtan {eklenen} tanesinin oranı tek tek alındı.")
+        _ozet_yaz(f"Mr. Likely: toplu taramada oranı eksik {len(eksik)} büyük maçtan {eklenen} tanesinin oranı tek tek alındı.")
     return eklenen
 
 

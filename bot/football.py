@@ -233,7 +233,10 @@ def toplu_oranlar(api, tarih: str, saat_dilimi: str, max_sayfa: int) -> dict[int
         for kayit in body.get("response", []):
             oranlar = _bahisci_oranlari([kayit])
             if oranlar:
-                sonuc[kayit["fixture"]["id"]] = oranlar
+                # Aynı maç birden fazla kayıtta gelebilir (bahisçiler kayıtlara bölünmüş): üzerine yazılmaz, birleştirilir.
+                mevcut = sonuc.setdefault(kayit["fixture"]["id"], {})
+                for ad, pazarlar in oranlar.items():
+                    mevcut.setdefault(ad, {}).update(pazarlar)
         sayfa += 1
     print(f"Toplu oran taraması: {sayfa - 1}/{toplam} sayfa, {len(sonuc)} maç")
     return sonuc

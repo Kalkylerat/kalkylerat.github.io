@@ -21138,6 +21138,662 @@
     "yanit_kiti": {
       "issue": 18,
       "zaman": "2026-10-06T07:01:16+00:00"
-    }
+    },
+    "tablo_aksam": [
+      {
+        "fixture_id": 1588817,
+        "lig": "EFL Trophy",
+        "ulke": "England",
+        "lig_id": 46,
+        "ev": "Accrington ST",
+        "dep": "Salford City",
+        "baslama": "2026-10-06T20:00:00+02:00",
+        "p": {
+          "MS1": 0.277,
+          "MSX": 0.231,
+          "MS2": 0.492,
+          "CS1X": 0.508,
+          "CSX2": 0.723,
+          "CS12": 0.769,
+          "KGVAR": 0.607,
+          "KGYOK": 0.393,
+          "UST15": 0.815,
+          "ALT15": 0.185,
+          "UST25": 0.599,
+          "ALT25": 0.401,
+          "UST35": 0.375,
+          "ALT35": 0.625,
+          "IY1": 0.242,
+          "IYX": 0.38,
+          "IY2": 0.378,
+          "IYU05": 0.752,
+          "IYA05": 0.248,
+          "IYU15": 0.406,
+          "IYA15": 0.594,
+          "EVU05": 0.727,
+          "EVA05": 0.273,
+          "EVU15": 0.373,
+          "EVA15": 0.627,
+          "EVU25": 0.143,
+          "EVA25": 0.857,
+          "DPU05": 0.835,
+          "DPA05": 0.165,
+          "DPU15": 0.537,
+          "DPA15": 0.463,
+          "DPU25": 0.269,
+          "DPA25": 0.731,
+          "YYU05": 0.818,
+          "YYA05": 0.182,
+          "YYU15": 0.508,
+          "YYA15": 0.492
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1054
+          ],
+          [
+            "1-2",
+            0.0949
+          ],
+          [
+            "0-1",
+            0.0811
+          ],
+          [
+            "0-2",
+            0.073
+          ],
+          [
+            "2-1",
+            0.0685
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Accrington ST win",
+            "piyasa": 0.277,
+            "istatistik": 0.585
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.599,
+            "istatistik": 0.875
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Salford City win",
+            "piyasa": 0.492,
+            "istatistik": 0.247
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.607,
+            "istatistik": 0.821
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.231,
+            "istatistik": 0.168
+          }
+        ],
+        "beklenen_gol": [
+          1.3,
+          1.8
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "son5"
+      },
+      {
+        "fixture_id": 1588821,
+        "lig": "EFL Trophy",
+        "ulke": "England",
+        "lig_id": 46,
+        "ev": "Blackpool",
+        "dep": "Crewe",
+        "baslama": "2026-10-06T20:00:00+02:00",
+        "p": {
+          "MS1": 0.548,
+          "MSX": 0.216,
+          "MS2": 0.236,
+          "CS1X": 0.764,
+          "CSX2": 0.452,
+          "CS12": 0.784,
+          "KGVAR": 0.617,
+          "KGYOK": 0.383,
+          "UST15": 0.835,
+          "ALT15": 0.165,
+          "UST25": 0.63,
+          "ALT25": 0.37,
+          "UST35": 0.409,
+          "ALT35": 0.591,
+          "IY1": 0.417,
+          "IYX": 0.365,
+          "IY2": 0.218,
+          "IYU05": 0.768,
+          "IYA05": 0.232,
+          "IYU15": 0.43,
+          "IYA15": 0.57,
+          "EVU05": 0.865,
+          "EVA05": 0.135,
+          "EVU15": 0.594,
+          "EVA15": 0.406,
+          "EVU25": 0.323,
+          "EVA25": 0.677,
+          "DPU05": 0.713,
+          "DPA05": 0.286,
+          "DPU15": 0.355,
+          "DPA15": 0.645,
+          "DPU25": 0.132,
+          "DPA25": 0.868,
+          "YYU05": 0.833,
+          "YYA05": 0.167,
+          "YYU15": 0.533,
+          "YYA15": 0.467
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.0969
+          ],
+          [
+            "2-1",
+            0.0969
+          ],
+          [
+            "2-0",
+            0.0775
+          ],
+          [
+            "1-0",
+            0.0775
+          ],
+          [
+            "3-1",
+            0.0646
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS2",
+            "ad": "Crewe win",
+            "piyasa": 0.236,
+            "istatistik": 0.748
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Blackpool win",
+            "piyasa": 0.548,
+            "istatistik": 0.124
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.63,
+            "istatistik": 0.874
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.617,
+            "istatistik": 0.753
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.216,
+            "istatistik": 0.127
+          }
+        ],
+        "beklenen_gol": [
+          2.0,
+          1.25
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "son5"
+      },
+      {
+        "fixture_id": 1588827,
+        "lig": "EFL Trophy",
+        "ulke": "England",
+        "lig_id": 46,
+        "ev": "Rotherham",
+        "dep": "Bradford",
+        "baslama": "2026-10-06T20:00:00+02:00",
+        "p": {
+          "MS1": 0.286,
+          "MSX": 0.247,
+          "MS2": 0.467,
+          "CS1X": 0.533,
+          "CSX2": 0.714,
+          "CS12": 0.753,
+          "KGVAR": 0.558,
+          "KGYOK": 0.442,
+          "UST15": 0.769,
+          "ALT15": 0.231,
+          "UST25": 0.531,
+          "ALT25": 0.469,
+          "UST35": 0.308,
+          "ALT35": 0.692,
+          "IY1": 0.241,
+          "IYX": 0.405,
+          "IY2": 0.354,
+          "IYU05": 0.716,
+          "IYA05": 0.284,
+          "IYU15": 0.359,
+          "IYA15": 0.641,
+          "EVU05": 0.699,
+          "EVA05": 0.301,
+          "EVU15": 0.337,
+          "EVA15": 0.663,
+          "EVU25": 0.121,
+          "EVA25": 0.879,
+          "DPU05": 0.798,
+          "DPA05": 0.202,
+          "DPU15": 0.475,
+          "DPA15": 0.525,
+          "DPU25": 0.217,
+          "DPA25": 0.783,
+          "YYU05": 0.786,
+          "YYA05": 0.214,
+          "YYU15": 0.455,
+          "YYA15": 0.545
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1168
+          ],
+          [
+            "0-1",
+            0.0973
+          ],
+          [
+            "1-2",
+            0.0934
+          ],
+          [
+            "0-2",
+            0.0778
+          ],
+          [
+            "1-0",
+            0.073
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Rotherham win",
+            "piyasa": 0.286,
+            "istatistik": 0.378
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Bradford win",
+            "piyasa": 0.467,
+            "istatistik": 0.378
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.531,
+            "istatistik": 0.577
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.558,
+            "istatistik": 0.604
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.247,
+            "istatistik": 0.243
+          }
+        ],
+        "beklenen_gol": [
+          1.2,
+          1.6
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "son5"
+      },
+      {
+        "fixture_id": 1644165,
+        "lig": "Gulf Cup of Nations",
+        "ulke": "World",
+        "lig_id": 25,
+        "ev": "Saudi Arabia",
+        "dep": "United Arab Emirates",
+        "baslama": "2026-10-06T20:00:00+02:00",
+        "p": {
+          "MS1": 0.391,
+          "MSX": 0.294,
+          "MS2": 0.315,
+          "CS1X": 0.685,
+          "CSX2": 0.609,
+          "CS12": 0.706,
+          "KGVAR": 0.432,
+          "KGYOK": 0.568,
+          "UST15": 0.633,
+          "ALT15": 0.367,
+          "UST25": 0.364,
+          "ALT25": 0.636,
+          "UST35": 0.171,
+          "ALT35": 0.829,
+          "IY1": 0.286,
+          "IYX": 0.474,
+          "IY2": 0.24,
+          "IYU05": 0.62,
+          "IYA05": 0.38,
+          "IYU15": 0.252,
+          "IYA15": 0.748,
+          "EVU05": 0.683,
+          "EVA05": 0.317,
+          "EVU15": 0.319,
+          "EVA15": 0.681,
+          "EVU25": 0.11,
+          "EVA25": 0.89,
+          "DPU05": 0.632,
+          "DPA05": 0.368,
+          "DPU15": 0.264,
+          "DPA15": 0.736,
+          "DPU25": 0.08,
+          "DPA25": 0.92,
+          "YYU05": 0.693,
+          "YYA05": 0.307,
+          "YYU15": 0.331,
+          "YYA15": 0.669
+        },
+        "skorlar": [
+          [
+            "1-0",
+            0.134
+          ],
+          [
+            "1-1",
+            0.134
+          ],
+          [
+            "0-0",
+            0.1165
+          ],
+          [
+            "0-1",
+            0.1165
+          ],
+          [
+            "2-1",
+            0.077
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Saudi Arabia win",
+            "piyasa": 0.391,
+            "istatistik": 0.285
+          },
+          {
+            "pazar": "MS2",
+            "ad": "United Arab Emirates win",
+            "piyasa": 0.315,
+            "istatistik": 0.414
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.364,
+            "istatistik": 0.337
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.432,
+            "istatistik": 0.406
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.294,
+            "istatistik": 0.301
+          }
+        ],
+        "beklenen_gol": [
+          1.15,
+          1.0
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "son5"
+      },
+      {
+        "fixture_id": 1580734,
+        "lig": "FAW Championship",
+        "ulke": "Wales",
+        "lig_id": 111,
+        "ev": "Pontypridd Town",
+        "dep": "Llantwit Major",
+        "baslama": "2026-10-06T20:30:00+02:00",
+        "p": {
+          "MS1": 0.526,
+          "MSX": 0.224,
+          "MS2": 0.251,
+          "CS1X": 0.749,
+          "CSX2": 0.474,
+          "CS12": 0.776,
+          "KGVAR": 0.607,
+          "KGYOK": 0.393,
+          "UST15": 0.822,
+          "ALT15": 0.178,
+          "UST25": 0.61,
+          "ALT25": 0.39,
+          "UST35": 0.386,
+          "ALT35": 0.614,
+          "IY1": 0.4,
+          "IYX": 0.374,
+          "IY2": 0.226,
+          "IYU05": 0.758,
+          "IYA05": 0.242,
+          "IYU15": 0.414,
+          "IYA15": 0.586,
+          "EVU05": 0.85,
+          "EVA05": 0.15,
+          "EVU15": 0.566,
+          "EVA15": 0.434,
+          "EVU25": 0.296,
+          "EVA25": 0.704,
+          "DPU05": 0.713,
+          "DPA05": 0.286,
+          "DPU15": 0.355,
+          "DPA15": 0.645,
+          "DPU25": 0.132,
+          "DPA25": 0.868,
+          "YYU05": 0.823,
+          "YYA05": 0.177,
+          "YYU15": 0.517,
+          "YYA15": 0.483
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1018
+          ],
+          [
+            "2-1",
+            0.0967
+          ],
+          [
+            "1-0",
+            0.0814
+          ],
+          [
+            "2-0",
+            0.0773
+          ],
+          [
+            "1-2",
+            0.0636
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.61,
+            "istatistik": 0.706
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.607,
+            "istatistik": 0.674
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Pontypridd Town win",
+            "piyasa": 0.526,
+            "istatistik": 0.567
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.224,
+            "istatistik": 0.2
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Llantwit Major win",
+            "piyasa": 0.251,
+            "istatistik": 0.233
+          }
+        ],
+        "beklenen_gol": [
+          1.9,
+          1.25
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1588274,
+        "lig": "National League - South",
+        "ulke": "England",
+        "lig_id": 51,
+        "ev": "Ebbsfleet United",
+        "dep": "Folkestone Invicta",
+        "baslama": "2026-10-06T20:45:00+02:00",
+        "p": {
+          "MS1": 0.503,
+          "MSX": 0.235,
+          "MS2": 0.262,
+          "CS1X": 0.738,
+          "CSX2": 0.497,
+          "CS12": 0.765,
+          "KGVAR": 0.577,
+          "KGYOK": 0.423,
+          "UST15": 0.793,
+          "ALT15": 0.207,
+          "UST25": 0.566,
+          "ALT25": 0.434,
+          "UST35": 0.342,
+          "ALT35": 0.658,
+          "IY1": 0.38,
+          "IYX": 0.39,
+          "IY2": 0.229,
+          "IYU05": 0.735,
+          "IYA05": 0.265,
+          "IYU15": 0.383,
+          "IYA15": 0.617,
+          "EVU05": 0.826,
+          "EVA05": 0.174,
+          "EVU15": 0.522,
+          "EVA15": 0.478,
+          "EVU25": 0.256,
+          "EVA25": 0.744,
+          "DPU05": 0.699,
+          "DPA05": 0.301,
+          "DPU15": 0.337,
+          "DPA15": 0.663,
+          "DPU25": 0.121,
+          "DPA25": 0.879,
+          "YYU05": 0.803,
+          "YYA05": 0.197,
+          "YYU15": 0.482,
+          "YYA15": 0.518
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1099
+          ],
+          [
+            "2-1",
+            0.0962
+          ],
+          [
+            "1-0",
+            0.0916
+          ],
+          [
+            "2-0",
+            0.0801
+          ],
+          [
+            "1-2",
+            0.0659
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.566,
+            "istatistik": 0.404
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.577,
+            "istatistik": 0.447
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.235,
+            "istatistik": 0.272
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Folkestone Invicta win",
+            "piyasa": 0.262,
+            "istatistik": 0.242
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Ebbsfleet United win",
+            "piyasa": 0.503,
+            "istatistik": 0.486
+          }
+        ],
+        "beklenen_gol": [
+          1.75,
+          1.2
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      }
+    ]
   }
 ]

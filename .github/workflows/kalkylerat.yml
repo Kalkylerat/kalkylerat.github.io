@@ -69,6 +69,11 @@ jobs:
           X_API_SECRET: ${{ secrets.X_API_SECRET }}
           X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
           X_ACCESS_SECRET: ${{ secrets.X_ACCESS_SECRET }}
+          # Mr. Likely hesabı (otomatik mod); yoksa bot yalnızca taslak hazırlar.
+          X_LIKELY_API_KEY: ${{ secrets.X_LIKELY_API_KEY }}
+          X_LIKELY_API_SECRET: ${{ secrets.X_LIKELY_API_SECRET }}
+          X_LIKELY_ACCESS_TOKEN: ${{ secrets.X_LIKELY_ACCESS_TOKEN }}
+          X_LIKELY_ACCESS_SECRET: ${{ secrets.X_LIKELY_ACCESS_SECRET }}
         run: |
           case "$OLAY|$ZAMAN" in
             issue_comment\|*) KOMUT=onay_kontrol ;;

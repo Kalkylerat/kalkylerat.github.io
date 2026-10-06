@@ -10,7 +10,7 @@ import time
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-from . import analiz, config, denetci, direktor, editor, etkilesim, football, gorsel, kayit, kit, likely, model, oddsapi, onay, panel, saglik, temizlik, tweets
+from . import analiz, config, denetci, direktor, editor, etkilesim, football, gorsel, kayit, kit, likely, likely_gorsel, model, oddsapi, onay, panel, saglik, temizlik, tweets
 from .model import adaylari_uret, bet_builder, etiketler
 
 # Çalışma sırasında yakalanan hatalar: iş sonunda "başarısız" işaretlenir, GitHub sahibine e-posta atar.
@@ -966,6 +966,22 @@ def likely_nabiz(ayar, simdi: datetime, sonuclar: bool = True) -> None:
         likely.eskileri_kapat(gh, simdi)
     except Exception as e:
         _hata("Mr. Likely sonuçları", e)
+    if likely.ayar_yukle().mod != "otomatik":
+        return
+    # Otomatik mod: Mr. Likely hesabında kupon postu, sonuç yanıtı ve günün dersi (SOZLESME E1). Anahtarlar yoksa beklenir.
+    if not os.environ.get("X_LIKELY_ACCESS_TOKEN"):
+        print("Mr. Likely otomatik modda ama X_LIKELY_* anahtarları yok; paylaşım yapılmadı.")
+        return
+    x = tweets.XClient(config.env("X_LIKELY_API_KEY"), config.env("X_LIKELY_API_SECRET"),
+                       config.env("X_LIKELY_ACCESS_TOKEN"), config.env("X_LIKELY_ACCESS_SECRET"))
+    for ad, adim in (("kupon paylaşımı", lambda: likely.oto_paylas(ayar, x, simdi, yazici=_likely_yazici(ayar),
+                                                                     kart=likely_gorsel.kupon_karti, yaz=_ozet_yaz)),
+                     ("sonuç paylaşımı", lambda: likely.oto_sonuc_paylas(ayar, x, simdi, yaz=_ozet_yaz)),
+                     ("günün dersi", lambda: likely.oto_ders(ayar, x, simdi, yaz=_ozet_yaz))):
+        try:
+            adim()
+        except Exception as e:
+            _hata(f"Mr. Likely {ad}", e)
 
 
 def _api(ayar):

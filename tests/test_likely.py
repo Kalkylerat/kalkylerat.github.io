@@ -293,14 +293,154 @@ def test_cevapsiz_paket_kapanir(ortam):
 
 # ---------- Sözleşme ----------
 
-def test_E1_likely_x_e_paylasmaz():
-    """Mr. Likely modülü X istemcisini kullanmaz: postu sahibi elle atar (hesap otomatik değildir)."""
-    kaynak = (Path(likely.__file__)).read_text(encoding="utf-8")
+def test_E1_elle_modda_paylasmaz_ve_modul_x_anahtari_okumaz(ortam):
+    """Elle modda paylaşım işlevleri hiçbir şey yapmaz; modül X anahtarı okumaz, başkalarına yanıt/takip/beğeni kodu yok."""
+    x = SahteX()
+    gh = ortam
+    gh.yaz("A")
+    likely.kontrol(AYAR, gh, SIMDI)
+    assert likely.oto_paylas(AYAR, x, SIMDI + timedelta(hours=5)) == 0 and likely.oto_sonuc_paylas(AYAR, x, SIMDI) == 0
+    assert likely.oto_ders(AYAR, x, SIMDI + timedelta(hours=6)) is False and not x.postlar
+    kaynak = Path(likely.__file__).read_text(encoding="utf-8")
+    assert "X_API_KEY" not in kaynak and "X_LIKELY" not in kaynak and "XClient" not in kaynak
     agac = ast.parse(kaynak)
-    adlar = {n.id for n in ast.walk(agac) if isinstance(n, ast.Name)} | {n.attr for n in ast.walk(agac) if isinstance(n, ast.Attribute)}
-    assert not adlar & {"XClient", "KonsolClient", "tweet_at", "paylas", "requests_oauthlib", "OAuth1Session"}
-    ithal = {a.name for n in ast.walk(agac) if isinstance(n, ast.ImportFrom) for a in n.names}
-    assert "XClient" not in ithal and "X_API_KEY" not in kaynak
+    cagrilar = {n.func.attr for n in ast.walk(agac) if isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute)
+                and isinstance(n.func.value, ast.Name) and n.func.value.id == "x"}
+    assert cagrilar == {"gonder", "medya_yukle"}  # yalnızca kendi postu ve görseli; takip/beğeni/DM yok
+
+
+# ---------- Otomatik mod ----------
+
+OTO = likely.LikelyAyar(aktif=True, mod="otomatik")
+
+
+class SahteX:
+    def __init__(self):
+        self.postlar, self.medya = [], 0
+
+    def medya_yukle(self, png):
+        self.medya += 1
+        return f"m{self.medya}"
+
+    def gonder(self, metin, yanit=None, medya=None, **_):
+        self.postlar.append({"metin": metin, "yanit": yanit, "medya": medya})
+        return f"t{len(self.postlar)}"
+
+
+@pytest.fixture
+def oto(monkeypatch, tmp_path):
+    monkeypatch.setattr(likely, "DOSYA", tmp_path / "likely.json")
+    monkeypatch.setattr(likely, "ayar_yukle", lambda *a, **k: OTO)
+    gh = SahteGH()
+    likely.sabah(AYAR, MACLAR, ORANLAR, SIMDI, gh)
+    return gh
+
+
+def test_E6_otomatik_kupon_kurallari():
+    adaylar = likely.havuz(MACLAR, ORANLAR, AYAR, OTO, SIMDI)
+    harita = {a["aday_id"]: a for a in adaylar}
+    secilen = likely.otomatik_sec(adaylar, OTO)
+    assert 1 <= len(secilen) <= OTO.oto_max_kupon
+    ana = secilen[0]
+    assert ana["ad"] == "gunun-kuponu" and ana["olasilik"] >= OTO.oto_min_tutma and ana["oran"] >= OTO.oto_min_oran
+    for k in secilen:
+        ayaklar = [harita[i] for i in k["ayaklar"]]
+        assert len(ayaklar) <= OTO.oto_max_ayak and len({a["fixture_id"] for a in ayaklar}) == len(ayaklar)
+        assert all(a["uyum"] for a in ayaklar)
+        saglam = [a for a in ayaklar if a["tur"] == "guvenli"]
+        assert all(a["olasilik"] >= OTO.oto_min_ayak and a["deger"] >= OTO.oto_min_deger for a in saglam)
+    maclar = [harita[i]["fixture_id"] for k in secilen for i in k["ayaklar"]]
+    assert len(maclar) == len(set(maclar))  # iki kupon aynı maçı paylaşmaz
+    # İstatistiğin ayrıştığı aday girmez
+    ayrisan = likely.havuz([dict(m, istatistik_gol=[0.4, 0.4]) for m in MACLAR], ORANLAR, AYAR, OTO, SIMDI)
+    uyum = {a["aday_id"]: a["uyum"] for a in ayrisan}
+    assert not all(uyum.values())
+    assert all(uyum[i] for k in likely.otomatik_sec(ayrisan, OTO) for i in k["ayaklar"])
+    # Kural sağlanmazsa kupon yok: bütün maçlar düşük ihtimalli
+    zayif = {m["fixture_id"]: oran_seti(0.42, 0.30, 0.45, 0.70) for m in MACLAR}
+    assert likely.otomatik_sec(likely.havuz(MACLAR, zayif, AYAR, OTO, SIMDI), OTO) == []
+
+
+def test_otomatik_sabah_kuponu_secer_ve_zamanlar(oto):
+    gun = likely.yukle()["gunler"][0]
+    assert gun["oto"] and gun["durum"] == "secildi" and gun["secilen"] and all(k["oto"] for k in gun["secilen"])
+    for k in gun["secilen"]:
+        ilk = min(datetime.fromisoformat(a["baslama"]) for a in k["ayaklar"])
+        zaman = datetime.fromisoformat(k["paylas"])
+        assert SIMDI < zaman <= ilk - timedelta(minutes=45)
+    assert "otomatik" in oto.acilan[0][0] and "otomatik modda" in oto.acilan[0][1]
+
+
+def test_otomatik_paylasim_bir_kez_gorselli_ve_sonuc_yaniti(oto):
+    from bot import likely_gorsel
+    x = SahteX()
+    assert likely.oto_paylas(AYAR, x, SIMDI + timedelta(minutes=1), kart=likely_gorsel.kupon_karti) == 0  # zamanı gelmedi
+    gun = likely.yukle()["gunler"][0]
+    zaman = datetime.fromisoformat(gun["secilen"][0]["paylas"])
+    assert likely.oto_paylas(AYAR, x, zaman, kart=likely_gorsel.kupon_karti) == 1
+    likely.oto_paylas(AYAR, x, zaman, kart=likely_gorsel.kupon_karti)
+    assert sum(p["yanit"] is None for p in x.postlar) == len({p["metin"] for p in x.postlar})  # aynı kupon iki kez gitmez
+    k = likely.yukle()["gunler"][0]["secilen"][0]
+    post = x.postlar[0]
+    assert k["tweet_id"] == "t1" and post["medya"] == ["m1"] and post["yanit"] is None
+    assert post["metin"].endswith(ANSVAR) and f"{round(100 * k['olasilik'])}% to land" in post["metin"] and uzunluk(post["metin"]) <= LIMIT
+    # Sonuç: kupon postunun altına yanıt, bir kez
+    idler = {a["fixture_id"] for a in k["ayaklar"]}
+    adet = len(x.postlar)
+    likely.sonuclar(AYAR, bitir({f: (2, 0) for f in {a["fixture_id"] for kk in likely.yukle()["gunler"][0]["secilen"] for a in kk["ayaklar"]}}),
+                    oto, SIMDI + timedelta(hours=14))
+    assert likely.oto_sonuc_paylas(AYAR, x, SIMDI + timedelta(hours=14)) >= 1
+    yanit = x.postlar[adet]
+    assert yanit["yanit"] == "t1" and "Record:" in yanit["metin"] and yanit["metin"].endswith(ANSVAR)
+    assert likely.oto_sonuc_paylas(AYAR, x, SIMDI + timedelta(hours=15)) == 0 and idler
+
+
+def test_E4_ilk_maca_az_kaldiysa_otomatik_paylasilmaz_ve_karneye_girmez(oto):
+    x = SahteX()
+    gun = likely.yukle()["gunler"][0]
+    son = max(min(datetime.fromisoformat(a["baslama"]) for a in k["ayaklar"]) for k in gun["secilen"])
+    assert likely.oto_paylas(AYAR, x, son - timedelta(minutes=5)) == 0 and not x.postlar
+    veri = likely.yukle()
+    assert not veri["gunler"][0]["secilen"] and veri["gunler"][0]["kacan"]
+    assert likely.karne(veri)["kupon"] == 0
+
+
+def test_E5_paylasilmayan_otomatik_kupon_karneye_girmez(oto):
+    gun = likely.yukle()["gunler"][0]
+    idler = {a["fixture_id"] for k in gun["secilen"] for a in k["ayaklar"]}
+    likely.sonuclar(AYAR, bitir({f: (0, 0) for f in idler}), oto, SIMDI + timedelta(hours=14))
+    assert likely.karne(likely.yukle())["kupon"] == 0  # X'e hiç çıkmadı: sayılmaz
+
+
+def test_otomatik_iptal_paylasilmamis_kuponu_durdurur(oto):
+    oto.yaz("iptal")
+    likely.kontrol(AYAR, oto, SIMDI)
+    assert not likely.yukle()["gunler"][0]["secilen"] and "durduruldu" in oto.yorum_kutusu[-1]
+    oto.yaz("A")
+    likely.kontrol(AYAR, oto, SIMDI)
+    assert not likely.yukle()["gunler"][0]["secilen"] and "Otomatik modda" in oto.yorum_kutusu[-1]
+
+
+def test_gunun_dersi_gunde_bir_kez_ve_kupondan_uzakta(oto):
+    x = SahteX()
+    assert likely.oto_ders(AYAR, x, SIMDI.replace(hour=10)) is False  # 12:00 İsveç: saatinden önce
+    gun = likely.yukle()["gunler"][0]
+    zamanlar = [datetime.fromisoformat(k["paylas"]) for k in gun["secilen"]]
+    yakin = next(z for z in zamanlar if z.astimezone(UTC).hour >= 12)  # 14:00 İsveç'ten sonra bir kupon postu
+    assert likely.oto_ders(AYAR, x, yakin - timedelta(minutes=20)) is False and not x.postlar  # kupon postuna 20 dk var
+    uzak = next(t for t in (SIMDI.replace(hour=12) + timedelta(minutes=30 * i) for i in range(16))
+                if all(abs((t - z).total_seconds()) >= 3660 for z in zamanlar))
+    assert likely.oto_ders(AYAR, x, uzak) is True and x.postlar[-1]["metin"] == gun["ders"]
+    assert likely.oto_ders(AYAR, x, uzak + timedelta(minutes=30)) is False and len(x.postlar) == 1
+
+
+def test_kupon_karti_png():
+    from bot import likely_gorsel
+    k = {"oran": 1.52, "olasilik": 0.61, "ayaklar": [
+        {"ev": "Borussia Monchengladbach", "dep": "Eintracht Frankfurt", "etiket": "Borussia Monchengladbach Over 0.5 goals", "oran": 1.15},
+        {"ev": "Italy", "dep": "Türkiye", "etiket": "Double chance 1X", "oran": 1.12}]}
+    png = likely_gorsel.kupon_karti(k, "2026-10-06")
+    assert png[:8] == b"\x89PNG\r\n\x1a\n" and len(png) > 20_000
 
 
 def test_kapaliyken_hicbir_sey_yapmaz(monkeypatch, tmp_path):

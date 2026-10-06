@@ -51,14 +51,16 @@ Bir kuralı değiştirmek isterseniz önce burayı, sonra testi, en son kodu de�
 | D4 | Topluluğa günde yalnızca tablo ve oran/istatistik postu gider. | `test_D4` |
 | D5 | Hesap "Automated" etiketli, @kalkyleratkonto'ya bağlı (X ayarı, sahibi yaptı). | — |
 
-## E. Mr. Likely (elle paylaşılan ikinci hesap)
+## E. Mr. Likely (ikinci hesap)
 
-Testler `tests/test_likely.py` içinde. Karakter ve hesap rehberi: `marka/MR_LIKELY.md`.
+Testler `tests/test_likely.py` içinde. Karakter ve hesap rehberi: `marka/MR_LIKELY.md`. Mod: `ayarlar.toml` → `[likely] mod`.
+6 Ekim 2026: sahibinin isteğiyle hesap **otomatik moda** alındı (kuponu kurallar seçer, bot paylaşır).
 
 | # | Kural | Test |
 |---|---|---|
-| E1 | Bot bu hesap adına X'e **hiçbir şey paylaşmaz**: taslak GitHub'a gelir, postu sahibi elle atar. Hesap otomatik değildir; X anahtarı yoktur. | `test_E1` |
+| E1 | **Otomatik modda** bot yalnızca kendi postlarını atar: kupon postu, kendi kuponuna sonuç yanıtı, günde bir strateji notu. Başkalarına yanıt, etiketleme, DM, takip, beğeni yok. Hesap X'te "Automated" etiketlidir (X ayarı, sahibi yapar). **Elle modda** bot hiçbir şey paylaşmaz. | `test_E1` |
 | E2 | Her kupon postu **tutma ihtimalini** yazar ve "18+" satırıyla biter; kesinlik dili, link, bahis sitesi adı, etiket ve kayıtta olmayan sayı (uydurma karne) yok. Karakter metni kurala uymazsa şablon kullanılır. | `test_E2` |
 | E3 | Kupon oranı ve tutma ihtimali ayakların **çarpımıdır**; aynı maçtan iki oyun aynı kupona girmez. | `test_E3` |
-| E4 | İlk maç başladıktan sonra kupon seçilemez. | `test_E4` |
-| E5 | **Karne seçilen her kuponu sayar**; kaybeden de yazılır. Maç başladıktan sonra kupon geri alınamaz. | `test_E5` |
+| E4 | İlk maç başladıktan sonra kupon seçilemez; otomatik modda ilk maça 20 dakikadan az kaldıysa kupon paylaşılmaz. | `test_E4` |
+| E5 | **Karne paylaşılan her kuponu sayar**; kaybeden de yazılır. Maç başladıktan sonra kupon geri alınamaz. | `test_E5` |
+| E6 | **Otomatik kupon kuralları sabittir:** günde en fazla 2 kupon; kuponda en fazla 3 maç; sağlam ayak en az %75 ihtimal ve oranı adil fiyatın en fazla %4 altında; ihtimali keskin piyasadan gelir (ortalamadan değil); istatistiğin piyasadan ayrıştığı aday girmez; günün kuponu en az %55 tutma ihtimali ve en az 1.40 oran; iki kupon aynı maçı paylaşmaz. Kural sağlanmazsa o gün kupon yok. | `test_E6` |

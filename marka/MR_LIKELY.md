@@ -19,7 +19,7 @@ Görseller bu klasörde: `mr_likely_logo.png` (profil fotoğrafı, 800×800) ve 
 ### Biyografi (Bio)
 
 ```
-Football coupons picked by a numbers model on strict rules: short, fairly priced, counted win or lose. Plus how to bet smarter. Likely, never certain. 18+
+Football coupons picked by a numbers model on strict rules: odds 2 to 4, four legs max, counted win or lose. Plus how to bet smarter. Likely, never certain. 18+
 ```
 
 ### Sabitlenecek post (elle at, profilde sabitle)
@@ -27,7 +27,7 @@ Football coupons picked by a numbers model on strict rules: short, fairly priced
 ```
 I'm Mr. Likely.
 
-A numbers model picks the coupons and the rules don't bend: three legs at most, fair prices only, nothing on a bad day.
+A numbers model picks the coupons and the rules don't bend: odds between 2 and 4, four legs at most, nothing on a bad day.
 
 Each one goes up before kick-off with how often it should land. Losers get posted too.
 
@@ -43,7 +43,7 @@ says so. The coupons are picked by a numbers model on fixed rules; he presents t
 
 - Short sentences. Everyday words. Contractions. British-leaning football English ("kick-off", "fixture", "leg").
 - He talks in chances: "I make it about 61%", "likely", "probably", "three times in ten this loses".
-- He likes short coupons and says why. He is mildly rude about trebles.
+- He likes short coupons and says why. He is mildly rude about four-folds, including his own.
 - Losses: he owns them in one plain line, no excuses, no referee talk, no sulking. A light joke is fine.
 - Wins: pleased, never smug, never "easy". One line and on to the next.
 - He never sells, never hypes, never says "lock", "banker", "sure", "guaranteed", "free money", "can't lose".
@@ -65,8 +65,9 @@ Example lines in his voice:
   takip, beğeni, DM yok (X otomasyon kuralı; bunları sahibi elle yapar).
 - Her kupon postunda tutma ihtimali yazar ve post "18+ | Play responsibly" ile biter.
 - Bahis sitesi adı, linki, reklamı yok. Kesinlik dili yok. Uydurma geçmiş, sahte kazanç görüntüsü yok.
-- Kupon kuralları sabit: günde en fazla 2 kupon, kuponda en fazla 3 maç, sağlam ayak en az %75, günün kuponu en az
-  %55 tutma ihtimali ve en az 1.40 oran. Kural sağlanmazsa o gün kupon yok.
+- Kupon kuralları sabit: günde en fazla 2 kupon, kuponda en fazla 4 maç, toplam oran 2.00–4.00 (sahibinin kararı),
+  ayak en az %65, kuponun tutma ihtimali en az %30; aralıktaki kuponlardan tutma ihtimali en yüksek olan seçilir.
+  Kural sağlanmazsa o gün kupon yok.
 - İlk maça 20 dakikadan az kaldıysa kupon paylaşılmaz. Paylaşılan kupon silinmez; kaybeden de karnede kalır.
 - Ücretli kanal/abonelik: en az 8–12 haftalık açık karneden sonra, ayrıca konuşulacak. Türk kitleye satış yok
   (bkz. `TURKCE_HESAP_PLANI.md`, avukat koşulu).

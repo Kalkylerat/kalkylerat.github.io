@@ -340,24 +340,30 @@ def test_E6_otomatik_kupon_kurallari():
     adaylar = likely.havuz(MACLAR, ORANLAR, AYAR, OTO, SIMDI)
     harita = {a["aday_id"]: a for a in adaylar}
     secilen = likely.otomatik_sec(adaylar, OTO)
-    assert 1 <= len(secilen) <= OTO.oto_max_kupon
-    ana = secilen[0]
-    assert ana["ad"] == "gunun-kuponu" and ana["olasilik"] >= OTO.oto_min_tutma and ana["oran"] >= OTO.oto_min_oran
+    assert 1 <= len(secilen) <= OTO.oto_max_kupon and secilen[0]["ad"] == "gunun-kuponu"
     for k in secilen:
         ayaklar = [harita[i] for i in k["ayaklar"]]
+        assert OTO.oto_oran_min <= k["oran"] <= OTO.oto_oran_max                  # toplam oran 2.00–4.00
+        assert k["olasilik"] >= OTO.oto_min_tutma and k["deger"] >= OTO.oto_min_kupon_deger
         assert len(ayaklar) <= OTO.oto_max_ayak and len({a["fixture_id"] for a in ayaklar}) == len(ayaklar)
-        assert all(a["uyum"] for a in ayaklar)
-        saglam = [a for a in ayaklar if a["tur"] == "guvenli"]
-        assert all(a["olasilik"] >= OTO.oto_min_ayak and a["deger"] >= OTO.oto_min_deger for a in saglam)
+        assert all(a["uyum"] and a["deger"] >= OTO.oto_min_deger and not a["kaynak"].startswith("average") for a in ayaklar)
+        assert all(a["olasilik"] >= OTO.oto_min_ayak for a in ayaklar if a["tur"] == "guvenli")
     maclar = [harita[i]["fixture_id"] for k in secilen for i in k["ayaklar"]]
     assert len(maclar) == len(set(maclar))  # iki kupon aynı maçı paylaşmaz
+    # Aralıktaki kuponlar içinde tutma ihtimali en yüksek olan: aynı ayaklardan daha olası bir kupon kurulamaz
+    import itertools
+    uygun = [a for a in adaylar if a["uyum"] and a["deger"] >= OTO.oto_min_deger]
+    en_yuksek = max((likely.kupon_kur(list(c)) for n in range(1, OTO.oto_max_ayak + 1) for c in itertools.combinations(uygun, n)
+                     if likely._farkli_mac(c)), key=lambda k: k["olasilik"] if OTO.oto_oran_min <= k["oran"] <= OTO.oto_oran_max
+                    and k["deger"] >= OTO.oto_min_kupon_deger else -1)
+    assert secilen[0]["olasilik"] == en_yuksek["olasilik"]
     # İstatistiğin ayrıştığı aday girmez
     ayrisan = likely.havuz([dict(m, istatistik_gol=[0.4, 0.4]) for m in MACLAR], ORANLAR, AYAR, OTO, SIMDI)
     uyum = {a["aday_id"]: a["uyum"] for a in ayrisan}
     assert not all(uyum.values())
     assert all(uyum[i] for k in likely.otomatik_sec(ayrisan, OTO) for i in k["ayaklar"])
-    # Kural sağlanmazsa kupon yok: bütün maçlar düşük ihtimalli
-    zayif = {m["fixture_id"]: oran_seti(0.42, 0.30, 0.45, 0.70) for m in MACLAR}
+    # Kural sağlanmazsa kupon yok: aday yok
+    zayif = {m["fixture_id"]: oran_seti(0.42, 0.30, 0.45, 0.60) for m in MACLAR}
     assert likely.otomatik_sec(likely.havuz(MACLAR, zayif, AYAR, OTO, SIMDI), OTO) == []
 
 

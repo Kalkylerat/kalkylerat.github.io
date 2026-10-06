@@ -138,15 +138,17 @@ aktif = true
 mod = "otomatik"
 # Otomatik kupon kuralları (SOZLESME E6). Günde en fazla kaç kupon, kuponda en fazla kaç maç.
 oto_max_kupon = 2
-oto_max_ayak = 3
-# Sağlam ayak: en az bu kazanma ihtimali, oranı adil fiyatın en fazla bu kadar altında.
-oto_min_ayak = 0.75
+oto_max_ayak = 4
+# Kuponun toplam oranı bu aralıkta olur (sahibinin kararı): daha riskli, daha yüksek oranlı kuponlar.
+oto_oran_min = 2.0
+oto_oran_max = 4.0
+# Ayak: sağlam adayın en düşük kazanma ihtimali; oranı adil fiyatın en fazla bu kadar altında.
+oto_min_ayak = 0.65
 oto_min_deger = -0.04
-# Günün kuponu: en az bu tutma ihtimali ve en az bu toplam oran. Sağlanmazsa o gün kupon yok.
-oto_min_tutma = 0.55
-oto_min_oran = 1.40
-# Değer kuponu (2 sağlam + 1 artı değerli maç): en az bu tutma ihtimali.
-oto_riskli_min_tutma = 0.35
+# Kuponun en düşük tutma ihtimali. Aralıktaki kuponlar içinde tutma ihtimali en yüksek olan seçilir.
+oto_min_tutma = 0.30
+# Kuponun toplam fiyatı adil fiyatın en fazla bu kadar altında olabilir (her maçta bahisçi payı birikir).
+oto_min_kupon_deger = -0.08
 # Kupon ilk maçtan en erken kaç dakika önce paylaşılır; ilk maça bundan az kaldıysa paylaşılmaz.
 oto_once_dk = 180
 oto_son_dk = 20

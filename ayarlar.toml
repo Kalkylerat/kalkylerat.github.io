@@ -132,6 +132,26 @@ strateji_effort = "high"
 # kuponları GitHub issue'su olarak gönderir, sahibi yorumla seçer ("C", "3 7 12", "pas"), post metni yoruma gelir,
 # postu sahibi elle atar. Sonuç postunun taslağı ve karne maçlar bitince aynı issue'ya gelir. Ek API isteği yok.
 aktif = true
+# "otomatik": kuponu aşağıdaki sabit kurallar seçer ve bot Mr. Likely hesabında paylaşır (hesap X'te "Automated"
+# etiketli olmalı; GitHub'da X_LIKELY_API_KEY, X_LIKELY_API_SECRET, X_LIKELY_ACCESS_TOKEN, X_LIKELY_ACCESS_SECRET).
+# "elle": bot paylaşmaz; taslak GitHub'a gelir, sahibi seçer ve postu kendisi atar.
+mod = "otomatik"
+# Otomatik kupon kuralları (SOZLESME E6). Günde en fazla kaç kupon, kuponda en fazla kaç maç.
+oto_max_kupon = 2
+oto_max_ayak = 3
+# Sağlam ayak: en az bu kazanma ihtimali, oranı adil fiyatın en fazla bu kadar altında.
+oto_min_ayak = 0.75
+oto_min_deger = -0.04
+# Günün kuponu: en az bu tutma ihtimali ve en az bu toplam oran. Sağlanmazsa o gün kupon yok.
+oto_min_tutma = 0.55
+oto_min_oran = 1.40
+# Değer kuponu (2 sağlam + 1 artı değerli maç): en az bu tutma ihtimali.
+oto_riskli_min_tutma = 0.35
+# Kupon ilk maçtan en erken kaç dakika önce paylaşılır; ilk maça bundan az kaldıysa paylaşılmaz.
+oto_once_dk = 180
+oto_son_dk = 20
+# Günün dersi (kupon stratejisi notu) bu saatten sonra (İsveç saati), kupon postlarından uzakta paylaşılır.
+oto_ders_saati = 14
 # Havuza girmek için en düşük kazanma ihtimali (keskin piyasanın marjsız fiyatı) ve "80+" etiketinin sınırı.
 min_olasilik = 0.65
 yuksek_olasilik = 0.80

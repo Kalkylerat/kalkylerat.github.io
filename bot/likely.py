@@ -1,13 +1,17 @@
-"""Mr. Likely: elle paylaşılan ikinci hesap (tahmin/kupon sayfası) için günlük paket.
+"""Mr. Likely: ikinci hesap (tahmin/kupon sayfası). İki mod (ayarlar.toml [likely] mod):
 
-Kalkylerat'ın sabah taramasını kullanır (ek API isteği yok) ve X'e HİÇBİR ŞEY paylaşmaz:
+"otomatik": kuponu sabit kurallar seçer (otomatik_sec), bot Mr. Likely hesabında paylaşır: kupon postu (görselli),
+maçlar bitince sonuç yanıtı, günde bir kupon stratejisi notu. Hesap X'te "Automated" etiketlidir. Sahibine bilgi
+GitHub issue'su olarak gider; `iptal` yorumu paylaşılmamış kuponları durdurur.
+
+"elle": Kalkylerat'ın sabah taramasını kullanır (ek API isteği yok) ve X'e HİÇBİR ŞEY paylaşmaz:
 1) Sabah: yüksek ihtimalli adaylar (havuz) + hazır örnek kuponlar GitHub issue'su olarak sahibine gider.
 2) Sahibi issue'ya yorumla seçer ("C" = hazır kupon, "3 7 12" = kendi kuponu, "pas" = bugün yok).
 3) Bot, karakterin (Mr. Likely) ağzından kopyalanmaya hazır post metnini yoruma yazar; postu sahibi elle atar.
 4) Maçlar bitince sonuç postunun taslağı ve güncel karne aynı issue'ya gelir.
 
-Hesap otomatik değildir (postu insan seçer ve atar), bu yüzden X "Automated" etiketi gerekmez. Bu modül
-X anahtarı kullanmaz. Karne yalnızca seçilen kuponlardan oluşur; kaybedenler de sayılır, hiçbiri silinmez."""
+Bu modül X anahtarı okumaz; X istemcisini çağıran verir (yalnızca otomatik modda). Karne paylaşılan kuponlardan
+oluşur; kaybedenler de sayılır, hiçbiri silinmez."""
 
 import itertools
 import json
@@ -25,6 +29,7 @@ DOSYA = config.ROOT / "data" / "likely.json"
 SES_REHBERI = config.ROOT / "marka" / "MR_LIKELY.md"
 ETIKET = "mr-likely"
 HARFLER = "ABCDEFGHIJ"
+KUPON_ADI = {"gunun-kuponu": "Günün kuponu", "deger-kuponu": "Değer kuponu (2 sağlam + 1 değer)"}
 MAC_SURESI = timedelta(minutes=105)   # sonuç bu kadar sonra sorulmaya başlanır
 VAZGEC = timedelta(hours=30)          # sonuç bu kadar sonra da yoksa ayak iade sayılır
 YETKILI = {"OWNER", "MEMBER", "COLLABORATOR"}
@@ -44,6 +49,18 @@ class LikelyAyar:
     kupon: int = 10
     min_dakika_once: int = 120     # sahibinin seçip paylaşmasına vakit kalsın
     max_ayak: int = 4
+    # "elle": taslak GitHub'a gelir, sahibi seçer ve postu kendisi atar. "otomatik": kuponu kurallar seçer, bot paylaşır.
+    mod: str = "elle"
+    oto_max_kupon: int = 2
+    oto_max_ayak: int = 3
+    oto_min_ayak: float = 0.75     # sağlam ayağın en düşük kazanma ihtimali
+    oto_min_deger: float = -0.04   # sağlam ayağın oranı adil fiyatın en fazla bu kadar altında
+    oto_min_tutma: float = 0.55    # günün kuponunun en düşük tutma ihtimali
+    oto_min_oran: float = 1.40     # günün kuponunun en düşük toplam oranı (altı paylaşmaya değmez)
+    oto_riskli_min_tutma: float = 0.35  # "2 sağlam + 1 değer" kuponunun en düşük tutma ihtimali
+    oto_once_dk: int = 180         # kupon ilk maçtan en erken bu kadar dakika önce paylaşılır
+    oto_son_dk: int = 20           # ilk maça bundan az kaldıysa paylaşılmaz
+    oto_ders_saati: int = 14       # günün dersi bu saatten (yerel) sonra paylaşılır
 
 
 def ayar_yukle(path=config.ROOT / "ayarlar.toml") -> LikelyAyar:
@@ -180,6 +197,38 @@ def ornek_kuponlar(adaylar: list[dict], cfg: LikelyAyar) -> list[dict]:
     return kuponlar
 
 
+def otomatik_sec(adaylar: list[dict], cfg: LikelyAyar) -> list[dict]:
+    """Otomatik modun kuponları (SOZLESME E6): kurallar sabit, sağlanmazsa o gün kupon yok.
+    1) Günün kuponu: en fazla oto_max_ayak sağlam ayak (her biri ≥ oto_min_ayak, değeri ≥ oto_min_deger, istatistikle
+       uyumlu, ihtimali keskin piyasadan (ortalamadan değil), maç başına bir ayak); toplam oran ≥ oto_min_oran ve tutma ≥ oto_min_tutma olanlar içinde tutma ihtimali
+       en yüksek olan (eşitlikte kısa kupon).
+    2) Değer kuponu (varsa): günün kuponuyla maç paylaşmayan 2 sağlam ayak + 1 artı değerli ayak, tutma ≥ oto_riskli_min_tutma."""
+    en_iyi: dict[int, dict] = {}
+    for a in adaylar:
+        if a["tur"] == "guvenli" and a["uyum"] and a["olasilik"] >= cfg.oto_min_ayak and a["deger"] >= cfg.oto_min_deger \
+                and not a["kaynak"].lower().startswith("average") \
+                and a["olasilik"] > en_iyi.get(a["fixture_id"], {"olasilik": 0})["olasilik"]:
+            en_iyi[a["fixture_id"]] = a
+    saglam = sorted(en_iyi.values(), key=lambda a: -a["olasilik"])[:10]
+    secilen: list[dict] = []
+    uygun = [kupon_kur(list(k), "gunun-kuponu") for n in range(1, cfg.oto_max_ayak + 1)
+             for k in itertools.combinations(saglam, n)]
+    uygun = [k for k in uygun if k["oran"] >= cfg.oto_min_oran and k["olasilik"] >= cfg.oto_min_tutma]
+    if uygun:
+        secilen.append(max(uygun, key=lambda k: (k["olasilik"], -len(k["ayaklar"]))))
+    if len(secilen) < cfg.oto_max_kupon:
+        harita = {a["aday_id"]: a for a in adaylar}
+        dolu = {harita[i]["fixture_id"] for k in secilen for i in k["ayaklar"]}
+        bos = [a for a in saglam if a["fixture_id"] not in dolu]
+        deger = [a for a in adaylar if a["tur"] == "deger" and a["uyum"] and a["fixture_id"] not in dolu]
+        riskli = [kupon_kur(list(ikili) + [d], "deger-kuponu") for ikili in itertools.combinations(bos[:5], 2)
+                  for d in deger[:3] if _farkli_mac(list(ikili) + [d])]
+        riskli = [k for k in riskli if k["olasilik"] >= cfg.oto_riskli_min_tutma]
+        if riskli:
+            secilen.append(max(riskli, key=lambda k: k["olasilik"]))
+    return secilen[:cfg.oto_max_kupon]
+
+
 # ---------- 3. Karakterin sesi: post taslakları ----------
 
 ACILIS = {
@@ -245,7 +294,8 @@ def _birim(x: float) -> str:
 
 def karne(veri: dict) -> dict:
     """Sonuçlanan seçili kuponlar: her kupon 1 birim. Tutan (oran − 1) kazandırır, yatan 1 kaybettirir, iade 0."""
-    kuponlar = [k for g in veri["gunler"] for k in g.get("secilen", []) if k["durum"] in ("tuttu", "yatti", "iade")]
+    kuponlar = [k for g in veri["gunler"] for k in g.get("secilen", []) if k["durum"] in ("tuttu", "yatti", "iade")
+                and (not k.get("oto") or k.get("tweet_id"))]  # otomatik kupon ancak paylaşıldıysa sayılır
     sayilan = [k for k in kuponlar if k["durum"] != "iade"]
     kar = sum(k["son_oran"] - 1 if k["durum"] == "tuttu" else -1 for k in sayilan)
     return {"kupon": len(sayilan), "tutan": sum(k["durum"] == "tuttu" for k in sayilan), "kar": round(kar, 2),
@@ -309,8 +359,9 @@ def ders_metni(tarih: str, atla: int = 0) -> str:
     return f"{DERSLER[(gun + atla) % len(DERSLER)]}\n\n{ANSVAR}"
 
 
-SES_SISTEM = """You write posts for "Mr. Likely", a football coupon account on X run by one person. He picks the
-coupons himself from a numbers model and posts by hand. You get a draft with the exact facts; rewrite it in his voice.
+SES_SISTEM = """You write posts for "Mr. Likely", a football coupon account on X. The coupons are picked by a numbers
+model with fixed rules; Mr. Likely is the voice that presents them. You get a draft with the exact facts; rewrite it
+in his voice. Never claim a human hand-picked a coupon or watched a match.
 
 Voice: a dry, good-humoured bloke who likes numbers and never promises anything. Short sentences, everyday words,
 contractions, a little self-mockery. He says "probably", "likely", "I make it about 61%". He owns his losses in plain
@@ -412,18 +463,29 @@ def _not(a: dict, cfg: LikelyAyar) -> str:
 def paket_metni(gun: dict, veri: dict, ayar, cfg: LikelyAyar) -> str:
     adaylar, harita = gun["havuz"], {a["aday_id"]: a for a in gun["havuz"]}
     k = karne(veri)
-    s = [f"Mr. Likely günün paketi ({gun['tarih']}). **Bu issue'ya yorum yazarak seç:**",
-         "- Hazır kupon: harfini yaz → `C`",
-         "- Kendi kuponun: aday numaraları → `3 7 12`",
-         "- Birden fazla kupon: araya `/` koy → `C / 3 7`",
-         "- Bugün kupon yok: `pas`",
-         "",
-         "Birkaç dakika içinde kopyalanacak post metni buraya gelir; postu X'te **sen** atarsın (ilk maçtan önce). "
-         "Seçtiğin her kupon karneye yazılır, kaybeden de. Vazgeçersen maç başlamadan `iptal` yaz.",
-         "",
+    if gun.get("oto"):
+        s = [f"Mr. Likely ({gun['tarih']}) **otomatik modda**: kuponu kurallar seçti, bot paylaşacak. Bir şey yapmana gerek yok.", ""]
+        for kp in gun["secilen"]:
+            s += [f'**{KUPON_ADI.get(kp["ad"], kp["ad"])}** · oran {kp["oran"]:.2f} · tutma %{round(100 * kp["olasilik"])} · '
+                  f'değer {round(100 * kp["deger"]):+d}% · paylaşım **{_saat(kp["paylas"], ayar)}**']
+            s += [f"- {_ayak_satiri(a, ayar)}" for a in kp["ayaklar"]] + [""]
+        if not gun["secilen"]:
+            s += ["Bugün kurallara uyan kupon çıkmadı; kupon paylaşılmayacak (günün dersi yine çıkar).", ""]
+        s += ["Bugünün paylaşılmamış kuponlarını durdurmak için bu issue'ya `iptal` yaz.", ""]
+    else:
+        s = [f"Mr. Likely günün paketi ({gun['tarih']}). **Bu issue'ya yorum yazarak seç:**",
+             "- Hazır kupon: harfini yaz → `C`",
+             "- Kendi kuponun: aday numaraları → `3 7 12`",
+             "- Birden fazla kupon: araya `/` koy → `C / 3 7`",
+             "- Bugün kupon yok: `pas`",
+             "",
+             "Birkaç dakika içinde kopyalanacak post metni buraya gelir; postu X'te **sen** atarsın (ilk maçtan önce). "
+             "Seçtiğin her kupon karneye yazılır, kaybeden de. Vazgeçersen maç başlamadan `iptal` yaz.",
+             ""]
+    s += [
          f"**Karne:** {k['kupon']} kupon, {k['tutan']} tuttu."
          if k["kupon"] else "**Karne:** henüz sonuçlanan kupon yok.",
-         "", "## Hazır kuponlar",
+         "", "## Hazır kuponlar" + (" (bilgi için; otomatik modda seçilmez)" if gun.get("oto") else ""),
          "Tutma ihtimali ayakların ihtimallerinin çarpımıdır. Değer: artıysa oran ihtimale göre iyi, eksiyse bahisçi payı kadar pahalı."]
     for kp in gun["kuponlar"]:
         s += ["", f'**{kp["harf"]} · {kp["ad"]}** · oran {kp["oran"]:.2f} · tutma %{round(100 * kp["olasilik"])} · '
@@ -452,8 +514,26 @@ def sabah(ayar, analizler: list[dict], oranlar: dict, simdi: datetime, gh, yaz=p
     gun = {"tarih": tarih, "olusturma": simdi.isoformat(timespec="seconds"), "durum": "bekliyor",
            "havuz": adaylar, "kuponlar": ornek_kuponlar(adaylar, cfg), "secilen": [], "islenen": [],
            "ders": ders_metni(tarih)}
+    oto = cfg.mod == "otomatik"
+    if oto:
+        harita = {a["aday_id"]: a for a in adaylar}
+        onceki = None
+        for k in otomatik_sec(adaylar, cfg):
+            d = _dondur([harita[i] for i in k["ayaklar"]], k["ad"], simdi)
+            ilk = min(datetime.fromisoformat(a["baslama"]) for a in d["ayaklar"])
+            # İlk maçtan oto_once_dk önce (en geç 45 dk önce); iki kupon arasında en az 40 dk.
+            zaman = min(max(simdi + timedelta(minutes=5), ilk - timedelta(minutes=cfg.oto_once_dk)), ilk - timedelta(minutes=45))
+            if onceki:
+                zaman = max(zaman, onceki + timedelta(minutes=40))
+            onceki = zaman
+            d.update(oto=True, paylas=zaman.isoformat(timespec="seconds"))
+            gun["secilen"].append(d)
+        gun["durum"] = "secildi" if gun["secilen"] else "bekliyor"
+        gun["oto"] = True
     govde = (f"@{ayar.alarm_kime} " if ayar.alarm_kime else "") + paket_metni(gun, veri, ayar, cfg)
-    gun["issue"] = gh.issue_ac(f"🎩 Mr. Likely {tarih}: {len(adaylar)} aday, {len(gun['kuponlar'])} kupon", govde, ETIKET)
+    baslik = (f"🎩 Mr. Likely {tarih}: otomatik, {len(gun['secilen'])} kupon paylaşılacak" if oto
+              else f"🎩 Mr. Likely {tarih}: {len(adaylar)} aday, {len(gun['kuponlar'])} kupon")
+    gun["issue"] = gh.issue_ac(baslik, govde, ETIKET)
     veri["gunler"].append(gun)
     for eski in veri["gunler"][:-14]:  # eski günlerde yalnızca seçilen kuponlar (karne) kalır; dosya büyümesin
         eski.pop("havuz", None)
@@ -508,13 +588,18 @@ def _kupon_olustur(gun: dict, istek, cfg: LikelyAyar, simdi: datetime) -> tuple[
     baslamis = [a for a in ayaklar if datetime.fromisoformat(a["baslama"]) <= simdi]
     if baslamis:
         return None, f"`{ad}`: {baslamis[0]['ev']} v {baslamis[0]['dep']} başlamış; maç başladıktan sonra kupon paylaşılmaz."
+    return _dondur(ayaklar, ad, simdi), ""
+
+
+def _dondur(ayaklar: list[dict], ad: str, simdi: datetime) -> dict:
+    """Kuponun, ayak ayrıntılarıyla dondurulmuş kaydı (havuz sonradan silinse de sonuçlandırılabilsin)."""
     k = kupon_kur(ayaklar, ad)
     k.update(ayaklar=[{**{x: a[x] for x in ("aday_id", "fixture_id", "pazar", "ev", "dep", "lig", "baslama", "etiket",
                                              "oran", "olasilik", "deger") if x in a},
                        **{x: a[x] for x in ("odds_id", "odds_spor") if x in a},
                        "durum": "bekliyor", "skor": None} for a in ayaklar],
              durum="bekliyor", secim=simdi.isoformat(timespec="seconds"))
-    return k, ""
+    return k
 
 
 def _yetkili(gh, y: dict) -> bool:
@@ -544,7 +629,18 @@ def kontrol(ayar, gh, simdi: datetime, yazici=None, yaz=print) -> int:
             gun["islenen"].append(y["id"])
             komut = secim_coz(y.get("body") or "")
             islenen += 1
-            if komut is None:
+            if gun.get("oto"):
+                # Otomatik mod: kuponu kurallar seçer; sahibi yalnızca paylaşılmamış kuponları durdurabilir.
+                if komut in ("iptal", "pas"):
+                    kalan = [k for k in gun["secilen"] if k.get("tweet_id")]
+                    silinen = len(gun["secilen"]) - len(kalan)
+                    gun["secilen"] = kalan
+                    gh.yorum(gun["issue"], f"{silinen} kupon durduruldu, paylaşılmayacak."
+                                           + (" Paylaşılmış kuponlar karnede kalır." if kalan else ""))
+                else:
+                    gh.yorum(gun["issue"], "Otomatik modda kuponu kurallar seçer. Bugünün paylaşılmamış kuponlarını durdurmak "
+                                           "için `iptal` yaz; elle seçime dönmek için Claude'a söyle.")
+            elif komut is None:
                 gh.yorum(gun["issue"], YARDIM)
             elif komut == "pas":
                 if gun["secilen"]:
@@ -664,5 +760,79 @@ def eskileri_kapat(gh, simdi: datetime) -> None:
         if gun["durum"] == "bekliyor" and gun.get("issue") and \
                 datetime.fromisoformat(gun["olusturma"]) + timedelta(hours=40) <= simdi:
             gun["durum"] = "pas"
-            gh.kapat(gun["issue"], "Cevap gelmedi; paket kapatıldı. Karneye bir şey yazılmadı.")
+            gh.kapat(gun["issue"], "Gün kapandı." if gun.get("oto") else "Cevap gelmedi; paket kapatıldı. Karneye bir şey yazılmadı.")
     kaydet(veri)
+
+
+
+# ---------- 7. Otomatik mod: paylaşım (SOZLESME E1, E4, E6) ----------
+
+def oto_paylas(ayar, x, simdi: datetime, yazici=None, kart=None, yaz=print) -> int:
+    """Zamanı gelen otomatik kuponu Mr. Likely hesabında paylaşır (çalışma başına en fazla bir kupon).
+    İlk maça oto_son_dk'dan az kaldıysa kupon paylaşılmaz ve kayıttan çıkar (karneye girmez)."""
+    cfg = ayar_yukle()
+    if not cfg.aktif or cfg.mod != "otomatik":
+        return 0
+    veri = yukle()
+    yazici = yazici or (lambda sablon, zorunlu: sablon)
+    paylasilan = 0
+    for gun in veri["gunler"][-2:]:
+        for k in list(gun.get("secilen", [])):
+            if not k.get("oto") or k.get("tweet_id") or k["durum"] != "bekliyor":
+                continue
+            ilk = min(datetime.fromisoformat(a["baslama"]) for a in k["ayaklar"])
+            if simdi >= ilk - timedelta(minutes=cfg.oto_son_dk):
+                gun["secilen"].remove(k)
+                gun.setdefault("kacan", []).append({"ad": k["ad"], "zaman": simdi.isoformat(timespec="seconds")})
+                yaz(f"⚠️ Mr. Likely: {gun['tarih']} {k['ad']} zamanında paylaşılamadı; ilk maça az kaldığı için atlandı.")
+                continue
+            if simdi < datetime.fromisoformat(k["paylas"]) or paylasilan:
+                continue
+            sablon = kupon_metni(k, k["ayaklar"], gun["tarih"] + k["ad"])
+            metin = yazici(sablon, _zorunlu(k["ayaklar"]))
+            medya = [x.medya_yukle(kart(k, gun["tarih"]))] if kart else None
+            k["tweet_id"] = x.gonder(metin, medya=medya)
+            k["metin"], k["yayin"] = metin, simdi.isoformat(timespec="seconds")
+            paylasilan += 1
+            kaydet(veri)  # post atıldı: kayıt hemen yazılır (ikinci kez atılmasın)
+            yaz(f"Mr. Likely: {k['ad']} paylaşıldı (tweet {k['tweet_id']}).")
+    kaydet(veri)
+    return paylasilan
+
+
+def oto_sonuc_paylas(ayar, x, simdi: datetime, yaz=print) -> int:
+    """Sonuçlanan, paylaşılmış kuponun sonuç postunu kupon postunun altına yanıt olarak atar (bir kez)."""
+    cfg = ayar_yukle()
+    if not cfg.aktif or cfg.mod != "otomatik":
+        return 0
+    veri = yukle()
+    adet = 0
+    for gun in veri["gunler"][-6:]:
+        for k in gun.get("secilen", []):
+            if k.get("tweet_id") and k.get("sonuc_metni") and not k.get("sonuc_tweet_id"):
+                k["sonuc_tweet_id"] = x.gonder(k["sonuc_metni"], yanit=k["tweet_id"])
+                adet += 1
+                kaydet(veri)
+                yaz(f"Mr. Likely: {gun['tarih']} {k['ad']} sonucu paylaşıldı.")
+    return adet
+
+
+def oto_ders(ayar, x, simdi: datetime, yaz=print) -> bool:
+    """Günün dersi (kupon stratejisi notu): günde bir kez, oto_ders_saati'nden sonra, kupon postlarından en az 60 dk uzakta."""
+    cfg = ayar_yukle()
+    if not cfg.aktif or cfg.mod != "otomatik":
+        return False
+    veri = yukle()
+    yerel = simdi.astimezone(ZoneInfo(ayar.saat_dilimi))
+    gun = next((g for g in veri["gunler"][-2:] if g["tarih"] == yerel.date().isoformat()), None)
+    if not gun or not gun.get("oto") or gun.get("ders_tweet_id") or yerel.hour < cfg.oto_ders_saati or yerel.hour >= 23:
+        return False
+    for k in gun.get("secilen", []):
+        zaman = datetime.fromisoformat(k.get("yayin") or k.get("paylas") or gun["olusturma"])
+        if k.get("oto") and abs((simdi - zaman).total_seconds()) < 3600 and k["durum"] == "bekliyor":
+            return False
+    gun["ders_tweet_id"] = x.gonder(gun["ders"])
+    kaydet(veri)
+    yaz("Mr. Likely: günün dersi paylaşıldı.")
+    return True
+

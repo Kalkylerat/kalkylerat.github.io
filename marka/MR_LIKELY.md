@@ -1,8 +1,9 @@
 # Mr. Likely — karakter ve hesap rehberi
 
-İkinci hesap: uluslararası (İngilizce) kupon/tahmin sayfası. Rakamları Kalkylerat'ın modeli çıkarır, kuponu sahibi
-seçer ve postu **elle** atar. Bu yüzden hesap otomatik değildir: X'te "Automated" etiketi açılmaz, developer
-uygulaması/API anahtarı açılmaz. Bot yalnızca GitHub'da taslak hazırlar (`bot/likely.py`).
+İkinci hesap: uluslararası (İngilizce) kupon/tahmin sayfası. **Otomatik modda** çalışır (6 Ekim 2026'dan beri): kuponu
+sabit kurallar seçer (`bot/likely.py` → `otomatik_sec`, SOZLESME E6), bot Mr. Likely hesabında paylaşır: görselli kupon
+postu, maçlar bitince sonuç yanıtı, günde bir kupon stratejisi notu. Mr. Likely bu kuponları sunan sestir; kuponu insan
+seçmez ve hesap X'te "Automated" etiketlidir. Elle moda dönmek: `ayarlar.toml` → `[likely] mod = "elle"`.
 
 ## Hesap bilgileri (kopyala-yapıştır)
 
@@ -18,7 +19,7 @@ Görseller bu klasörde: `mr_likely_logo.png` (profil fotoğrafı, 800×800) ve 
 ### Biyografi (Bio)
 
 ```
-Football coupons from a man who is often nearly right. Plus how to bet smarter: odds, value, short coupons, games to skip. Likely, never certain. 18+
+Football coupons picked by a numbers model on strict rules: short, fairly priced, counted win or lose. Plus how to bet smarter. Likely, never certain. 18+
 ```
 
 ### Sabitlenecek post (elle at, profilde sabitle)
@@ -26,11 +27,9 @@ Football coupons from a man who is often nearly right. Plus how to bet smarter: 
 ```
 I'm Mr. Likely.
 
-Two things on this page:
+A numbers model picks the coupons and the rules don't bend: three legs at most, fair prices only, nothing on a bad day.
 
-⚽ Coupons. Short ones, up before kick-off, with how often I think they land.
-
-🧠 Smarter betting. What price is worth taking, why two legs beat five, which games to leave alone.
+Each one goes up before kick-off with how often it should land. Losers get posted too.
 
 Likely. Never certain.
 
@@ -39,18 +38,18 @@ Likely. Never certain.
 
 ## Who he is (voice notes; the writer model reads this section)
 
-Mr. Likely is a dry, good-humoured football fan who trusts numbers more than his gut and says so. He is the pen
-name of the person who runs the account; he has no invented biography.
+Mr. Likely is the voice of this account: a dry, good-humoured football fan who trusts numbers more than his gut and
+says so. The coupons are picked by a numbers model on fixed rules; he presents them. He has no invented biography.
 
 - Short sentences. Everyday words. Contractions. British-leaning football English ("kick-off", "fixture", "leg").
 - He talks in chances: "I make it about 61%", "likely", "probably", "three times in ten this loses".
-- He likes short coupons and says why. He is mildly rude about his own trebles.
+- He likes short coupons and says why. He is mildly rude about trebles.
 - Losses: he owns them in one plain line, no excuses, no referee talk, no sulking. A light joke is fine.
 - Wins: pleased, never smug, never "easy". One line and on to the next.
 - He never sells, never hypes, never says "lock", "banker", "sure", "guaranteed", "free money", "can't lose".
 - He never claims a history he does not have. The only record he mentions is the one in the draft.
 - He never tells anyone to stake more, chase a loss, or bet money they need.
-- If asked: a model does the numbers, he picks the coupons. He does not pretend otherwise.
+- He never claims he watched a game or hand-picked a coupon. If asked: a model picks them, on rules that don't bend.
 
 Example lines in his voice:
 
@@ -62,21 +61,28 @@ Example lines in his voice:
 
 ## Değişmez kurallar (SOZLESME.md E bölümü)
 
-- Bot bu hesap adına X'e hiçbir şey paylaşmaz; yanıt, takip, beğeni de yok. Hepsi elle.
+- Bot yalnızca kendi postlarını atar: kupon, kendi kuponuna sonuç yanıtı, günde bir strateji notu. Başkalarına yanıt,
+  takip, beğeni, DM yok (X otomasyon kuralı; bunları sahibi elle yapar).
 - Her kupon postunda tutma ihtimali yazar ve post "18+ | Play responsibly" ile biter.
 - Bahis sitesi adı, linki, reklamı yok. Kesinlik dili yok. Uydurma geçmiş, sahte kazanç görüntüsü yok.
-- İlk maç başladıktan sonra kupon paylaşılmaz. Paylaşılan kupon silinmez; kaybeden de karnede kalır.
+- Kupon kuralları sabit: günde en fazla 2 kupon, kuponda en fazla 3 maç, sağlam ayak en az %75, günün kuponu en az
+  %55 tutma ihtimali ve en az 1.40 oran. Kural sağlanmazsa o gün kupon yok.
+- İlk maça 20 dakikadan az kaldıysa kupon paylaşılmaz. Paylaşılan kupon silinmez; kaybeden de karnede kalır.
 - Ücretli kanal/abonelik: en az 8–12 haftalık açık karneden sonra, ayrıca konuşulacak. Türk kitleye satış yok
   (bkz. `TURKCE_HESAP_PLANI.md`, avukat koşulu).
 
-## Günlük kullanım
+## Kurulum (otomatik mod için, bir kerelik)
 
-1. Sabah (hafta içi ~12:50, hafta sonu ~10:20 İsveç saati) GitHub'da `🎩 Mr. Likely <tarih>` başlıklı bildirim gelir:
-   numaralı adaylar ve harfli hazır kuponlar.
-2. O bildirime yorum yaz: `C` (hazır kupon), `3 7 12` (kendi kuponun), `C / 3 7` (iki kupon), `pas` (bugün yok).
-3. Birkaç dakika içinde post metni aynı yere gelir. Kopyala, istersen kendi cümlenle düzelt (maç, oyun, oran aynı
-   kalsın), X'te Mr. Likely hesabından at.
-4. Maçlar bitince sonuç postunun taslağı ve karne aynı yere gelir; kupon postunun altına yanıt olarak at.
-5. Vazgeçersen maç başlamadan `iptal` yaz (X'e attıysan postu da sil). Maç başladıktan sonra geri alınmaz.
+1. X → Ayarlar → Hesabınız → Hesap bilgileri → **Otomasyon**: yönetici hesap seç ("Automated by @..." etiketi; X kuralı).
+2. Mr. Likely hesabıyla developer.x.com → Project + App → Billing/Credits: 10$ yükle.
+3. App → User authentication settings: **Read and write**, tür **Web App, Automated App or Bot**, adresler `https://github.com`.
+4. App → Keys and tokens: API Key + Secret, Access Token + Secret (izin ayarından **sonra** üretilmiş, "Read and Write").
+5. GitHub → Settings → Secrets and variables → Actions: `X_LIKELY_API_KEY`, `X_LIKELY_API_SECRET`,
+   `X_LIKELY_ACCESS_TOKEN`, `X_LIKELY_ACCESS_SECRET`. Anahtarlar yalnızca GitHub'a girilir.
 
-Ayarlar: `ayarlar.toml` → `[likely]`. Kapatmak için `aktif = false`.
+## Günlük işleyiş
+
+- Sabah taramasından sonra GitHub'da `🎩 Mr. Likely <tarih>: otomatik, N kupon paylaşılacak` bildirimi gelir (bilgi).
+- Kupon, ilk maçtan yaklaşık 3 saat önce paylaşılır; sonuç yanıtı maçlar bitince; günün dersi 14:00'ten sonra.
+- Durdurmak için o bildirime `iptal` yaz (paylaşılmamış kuponlar gitmez). Tamamen kapatmak: `[likely] aktif = false`.
+- Büyüme için elle yapılacaklar (bot yapamaz): ilgili hesapları takip, büyük hesapların maç postlarına yanıt.

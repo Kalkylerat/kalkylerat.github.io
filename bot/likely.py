@@ -474,6 +474,10 @@ def paket_metni(gun: dict, veri: dict, ayar, cfg: LikelyAyar) -> str:
         if not gun["secilen"]:
             s += ["Bugün kurallara uyan kupon çıkmadı; kupon paylaşılmayacak (günün dersi yine çıkar).", ""]
         s += ["Bugünün paylaşılmamış kuponlarını durdurmak için bu issue'ya `iptal` yaz.", ""]
+        t = gun.get("tani")
+        if t:
+            s += [f"Tarama: {t['mac']} maç, {t['oranli']} tanesinin oranı var. Büyük maç: {t['buyuk']}, oranı olan {t['buyuk_oranli']}, "
+                  f"adayı çıkan {t['buyuk_aday']}.", ""]
     else:
         s = [f"Mr. Likely günün paketi ({gun['tarih']}). **Bu issue'ya yorum yazarak seç:**",
              "- Hazır kupon: harfini yaz → `C`",
@@ -516,6 +520,10 @@ def sabah(ayar, analizler: list[dict], oranlar: dict, simdi: datetime, gh, yaz=p
     gun = {"tarih": tarih, "olusturma": simdi.isoformat(timespec="seconds"), "durum": "bekliyor",
            "havuz": adaylar, "kuponlar": ornek_kuponlar(adaylar, cfg), "secilen": [], "islenen": [],
            "ders": ders_metni(tarih)}
+    buyukler = [a for a in analizler if analiz.onemli(a) and datetime.fromisoformat(a["baslama"]) >= simdi + timedelta(minutes=cfg.min_dakika_once)]
+    gun["tani"] = {"mac": len(analizler), "oranli": sum(1 for a in analizler if oranlar.get(a["fixture_id"])),
+                   "buyuk": len(buyukler), "buyuk_oranli": sum(1 for a in buyukler if oranlar.get(a["fixture_id"])),
+                   "buyuk_aday": len({a["fixture_id"] for a in adaylar if a["buyuk"]})}
     oto = cfg.mod == "otomatik"
     if oto:
         harita = {a["aday_id"]: a for a in adaylar}

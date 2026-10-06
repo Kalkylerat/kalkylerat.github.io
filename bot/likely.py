@@ -59,6 +59,7 @@ class LikelyAyar:
     oto_min_deger: float = -0.04   # ayağın oranı adil fiyatın en fazla bu kadar altında
     oto_min_tutma: float = 0.30    # kuponun en düşük tutma ihtimali; altı paylaşılmaz
     oto_min_kupon_deger: float = -0.08  # kuponun toplam fiyatı adil fiyatın en fazla bu kadar altında
+    oto_buyuk_tolerans: float = 0.03    # en olası kupona bu kadar yakın kuponlar içinde büyük maçı çok olan seçilir
     oto_once_dk: int = 180         # kupon ilk maçtan en erken bu kadar dakika önce paylaşılır
     oto_son_dk: int = 20           # ilk maça bundan az kaldıysa paylaşılmaz
     oto_ders_saati: int = 14       # günün dersi bu saatten (yerel) sonra paylaşılır
@@ -204,12 +205,14 @@ def otomatik_sec(adaylar: list[dict], cfg: LikelyAyar) -> list[dict]:
     piyasadan (ortalamadan değil), oranı adil fiyatın en fazla oto_min_deger altında. Kupon: farklı maçlardan en fazla
     oto_max_ayak ayak, toplam oran oto_oran_min–oto_oran_max arasında, tutma ihtimali ≥ oto_min_tutma, toplam fiyat
     adil fiyatın en fazla oto_min_kupon_deger altında. Bu koşulları
-    sağlayanlar içinde TUTMA İHTİMALİ EN YÜKSEK olan seçilir (eşitlikte fiyatı daha iyi, sonra kısa olan).
+    sağlayanlar içinde tutma ihtimali en yüksek olana oto_buyuk_tolerans kadar yakın kuponlardan BÜYÜK MAÇI EN ÇOK olan
+    seçilir (eşitlikte tutma ihtimali, sonra fiyat, sonra kısa kupon).
     İkinci kupon (varsa) aynı kuralla, ilkiyle maç paylaşmayan ayaklardan kurulur."""
     ayaklar = [a for a in adaylar if a["uyum"] and a["deger"] >= cfg.oto_min_deger
                and not a["kaynak"].lower().startswith("average")
                and (a["tur"] == "deger" or a["olasilik"] >= cfg.oto_min_ayak)]
     ayaklar.sort(key=lambda a: -a["olasilik"])
+    buyuk = {a["aday_id"]: bool(a.get("buyuk")) for a in ayaklar}
     secilen: list[dict] = []
     dolu: set[int] = set()
     for ad in ("gunun-kuponu", "ikinci-kupon")[:cfg.oto_max_kupon]:
@@ -220,7 +223,11 @@ def otomatik_sec(adaylar: list[dict], cfg: LikelyAyar) -> list[dict]:
                  and k["deger"] >= cfg.oto_min_kupon_deger]
         if not uygun:
             break
-        en_iyi = max(uygun, key=lambda k: (k["olasilik"], k["deger"], -len(k["ayaklar"])))
+        # Büyük maç önceliği: tutma ihtimali en yüksek kupona oto_buyuk_tolerans kadar yakın olanlar içinde büyük maçı en
+        # çok olan (takipçinin izlediği maçlar); eşitlikte tutma ihtimali, sonra fiyat, sonra kısa kupon.
+        esik = max(k["olasilik"] for k in uygun) - cfg.oto_buyuk_tolerans
+        en_iyi = max((k for k in uygun if k["olasilik"] >= esik),
+                     key=lambda k: (sum(buyuk[i] for i in k["ayaklar"]), k["olasilik"], k["deger"], -len(k["ayaklar"])))
         secilen.append(en_iyi)
         dolu |= {a["fixture_id"] for a in ayaklar if a["aday_id"] in en_iyi["ayaklar"]}
     return secilen
@@ -332,10 +339,10 @@ def sonuc_metni(kupon: dict, k: dict, tohum: str) -> str:
 
 # Günün dersi: kupon stratejisi üzerine kısa, dürüst notlar (ayrı post). Her biri 280 sınırında ve 18+ ile biter.
 DERSLER = [
-    "Three legs at 80% each is a 51% coupon. Four is 41%. The legs don't know about each other, they just multiply.\n\nShorter coupons. That's the whole secret.",
+    "Three legs at 80% each is a 51% coupon. Four is 41%. The legs don't know about each other, they just multiply.\n\nIt's why mine stop at four, and why every leg is the dull sort.",
     "A pick that wins 80% of the time still loses one week in five. If one loss wrecks your month, the stake was the problem, not the pick.",
     "\"High odds\" and \"good odds\" are different things. Good means the price is bigger than the real chance deserves. A 1.30 can be good. A 12.00 can be terrible.",
-    "The quickest way to lose a good coupon is adding one more leg \"to boost the price\". That leg is where the money goes.",
+    "Every extra leg \"to boost the price\" is one more way to lose. If a leg isn't likely on its own, it has no business holding up three others.",
     "Same stake every coupon. Not double after a loss, not triple when you \"feel it\". Feelings are not a staking plan.",
     "If you can't say roughly how often your coupon should win, you're not placing a coupon, you're buying a raffle ticket.",
     "Chasing losses is just paying twice for the same bad evening. Close the app. The fixtures will still be there tomorrow.",
@@ -349,10 +356,13 @@ DERSLER = [
     "\"It was so close\" pays the same as \"it was miles off\". Don't raise stakes because a coupon nearly landed.",
     "No good pick today is a perfectly fine day. Passing is a decision, and some days it's the smartest one on the board.",
     "Late team news moves prices for a reason. If your pick needed a striker who's now on the bench, the pick has changed.",
-    "A double at 1.60 that lands six times in ten beats a 9.00 dream that lands once in fifteen. Slow is fine.",
+    "My coupons sit around 2.00 and lose about half the time. That's the deal at that price. Anyone promising you a 2.00 that lands eight times in ten is selling something.",
     "Don't back your own club. You already think they'll win every week, and the price doesn't care about your scarf.",
     "Set the amount before the weekend starts and stop when it's gone. Deciding in the 80th minute never ends well.",
     "Over 1.5 goals feels safe until the 0-0. Around one top-flight game in four finishes with fewer than two goals.",
+    "Why odds between 2 and 4? Below that there's little to talk about, above it you're buying a lottery ticket. In between you still lose about as often as you win, so the stake stays small.",
+    "Four boring legs beat two exciting ones. I'd rather build a 2.00 out of things that usually happen than out of one thing that rarely does.",
+    "A 2.00 coupon that lands half the time breaks even before the bookmaker takes his cut. After it, you're slightly behind. Worth knowing before you call it an income.",
 ]
 
 

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vezir – Personal Assistant</title>
+<meta name="robots" content="noindex">
+<style>
+:root { --bg:#f6f5f1; --card:#fff; --text:#1c2230; --muted:#5c6473; --line:#e3e1da; --accent:#8a5a00; }
+@media (prefers-color-scheme: dark) { :root { --bg:#141821; --card:#1c2230; --text:#eef0f4; --muted:#a2aab8; --line:#2c3445; --accent:#e0b84a; } }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--text); font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+main { max-width:680px; margin:0 auto; padding:48px 16px; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:28px; }
+h1 { margin:0 0 4px; font-size:28px; }
+.tag { color:var(--muted); margin:0 0 20px; }
+h2 { font-size:18px; margin:24px 0 6px; }
+ul { padding-left:20px; margin:6px 0; }
+a { color:var(--accent); }
+footer { color:var(--muted); font-size:14px; margin-top:20px; }
+</style>
+</head>
+<body>
+<main>
+  <div class="card">
+    <h1>Vezir</h1>
+    <p class="tag">A private, single-user personal assistant.</p>
+    <p>Vezir is a personal assistant that its owner talks to through a private Telegram chat. It is built and
+       used by one person for his own everyday organisation. It is not a public service and has no other users.</p>
+    <h2>What it does</h2>
+    <ul>
+      <li>Reads the owner's own Gmail inbox to notify him about school messages, receipts and invoices.</li>
+      <li>Keeps the inbox tidy: moves advertising mail to the trash or archive after the owner's approval. It never deletes mail permanently and never sends mail.</li>
+      <li>Shows the owner's Google Calendar and adds, moves or removes events after his approval.</li>
+      <li>Saves the owner's own invoice PDFs to a folder in his Google Drive and prepares mail drafts.</li>
+    </ul>
+    <h2>Google account access</h2>
+    <p>Vezir connects only to its owner's Google account, with his explicit consent. How that data is handled is
+       described in the <a href="privacy.html">privacy policy</a>.</p>
+    <footer><a href="privacy.html">Privacy policy</a></footer>
+  </div>
+</main>
+</body>
+</html>

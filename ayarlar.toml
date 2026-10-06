@@ -137,7 +137,7 @@ aktif = true
 # "elle": bot paylaşmaz; taslak GitHub'a gelir, sahibi seçer ve postu kendisi atar.
 mod = "otomatik"
 # Otomatik kupon kuralları (SOZLESME E6). Günde en fazla kaç kupon, kuponda en fazla kaç maç.
-oto_max_kupon = 2
+oto_max_kupon = 3
 oto_max_ayak = 4
 # Kuponun toplam oranı bu aralıkta olur (sahibinin kararı): daha riskli, daha yüksek oranlı kuponlar.
 oto_oran_min = 2.0
@@ -161,8 +161,10 @@ oto_uzun_min_ayak_oran = 1.30
 # Kupon ilk maçtan en erken kaç dakika önce paylaşılır; ilk maça bundan az kaldıysa paylaşılmaz.
 oto_once_dk = 180
 oto_son_dk = 20
-# Günün dersi (kupon stratejisi notu) bu saatten sonra (İsveç saati), kupon postlarından uzakta paylaşılır.
-oto_ders_saati = 14
+# Bilgi postları (strateji notları, günün büyük maçlarından rakamlar): günde en fazla kaç tane ve başka bir posttan
+# en az kaç dakika uzakta. Saatleri: 10:00 not, 13:00 günün favorisi, 16:00 gol/denk maç, 21:00 not (İsveç saati).
+oto_bilgi_sayisi = 4
+oto_bilgi_aralik_dk = 40
 # Havuza girmek için en düşük kazanma ihtimali (keskin piyasanın marjsız fiyatı) ve "80+" etiketinin sınırı.
 min_olasilik = 0.65
 yuksek_olasilik = 0.80

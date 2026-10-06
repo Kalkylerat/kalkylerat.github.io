@@ -87,11 +87,12 @@ Bot içeriği üretir; takipçiyi etkileşim getirir:
 ## Mr. Likely (ikinci hesap, otomatik)
 
 Uluslararası kupon/tahmin sayfası. Aynı sabah taramasını kullanır (ek API-Football isteği yok). **Otomatik modda**
-kuponu sabit kurallar seçer ve bot Mr. Likely hesabında paylaşır: görselli kupon postu, maçlar bitince sonuç yanıtı,
-günde bir kupon stratejisi notu. Sahibine bilgi GitHub'da `🎩 Mr. Likely <tarih>` bildirimiyle gelir; `iptal` yorumu
+kuponu sabit kurallar seçer ve bot Mr. Likely hesabında paylaşır: görselli kupon postu (günde en fazla 3), maçlar bitince sonuç yanıtı,
+günde en fazla 4 bilgi postu. Sahibine bilgi GitHub'da `🎩 Mr. Likely <tarih>` bildirimiyle gelir; `iptal` yorumu
 paylaşılmamış kuponları durdurur. Kurulum, karakter ve kurallar: **[marka/MR_LIKELY.md](marka/MR_LIKELY.md)** ve
 SOZLESME.md E bölümü. Ayarlar: `ayarlar.toml` → `[likely]` (`mod = "elle"` ile bot paylaşmaz, yalnızca taslak hazırlar).
-Elle komutlar: `likely_paket` (bugünün paketini şimdi hazırla), `likely` (yorumları, sonuçları ve paylaşımı şimdi işle).
+Elle komutlar: `likely_paket` (bugünün paketini şimdi hazırla), `likely` (yorumları, sonuçları ve paylaşımı şimdi işle), `likely_ek` (eksik kupon türünü tamamla), `likely_yenile`
+(paylaşılmış kuponu maç başlamadan silip yeniden paylaş).
 
 ## Ayarlar (`ayarlar.toml`)
 

@@ -233,10 +233,12 @@ ACILIS = {
         "One game, one opinion.", "Not forcing a double today. One pick.", "Today's pick, singular."],
     2: ["Today's double. Two legs, no heroics.", "Two picks, one coupon.", "A double today. Short and sensible.",
         "Two legs. That's the whole plan.", "Pairing these two today.", "Double for today, nothing clever."],
-    3: ["A treble today, which is one leg more than I like.", "Three legs. Yes, I know what I said about three legs.",
-        "Treble day. Small stake territory.", "Three picks on one coupon. Handle with care."],
-    4: ["Four legs. This is the long shot of the week, treat it like one.",
-        "A four-fold. Pocket money only.", "Four picks together. I'd expect this to lose more often than win."],
+    3: ["Today's treble.", "Three legs today.", "A treble. One leg more than I'd like, as usual.",
+        "Three picks, one coupon.", "Treble for today. Nothing fancy in it.", "Three legs. All of them dull, which is the point.",
+        "Today's three."],
+    4: ["Four legs today.", "A four-fold. Every leg is one more way to lose, so they're the dull sort.",
+        "Today's four.", "Four picks, one coupon.", "Four-fold today. I've kept the legs boring on purpose.",
+        "Four legs. Yes, I know what I say about long coupons.", "Today's four-fold."],
 }
 KAPANIS = ["Probably.", "No promises.", "We'll see.", "That's the maths, not a promise.", "Likely. Not certain.",
            "As ever: likely, not certain."]
@@ -262,8 +264,9 @@ def _kisalt(*secenekler: str) -> str:
     return next((s for s in secenekler if uzunluk(s) <= LIMIT), secenekler[-1])
 
 
-def kupon_metni(kupon: dict, ayaklar: list[dict], tohum: str) -> str:
-    """Kupon postunun şablonu (Mr. Likely'nin sesi). Rakamlar kayıttan; tutma ihtimali ve kaybetme payı açıkça yazılır."""
+def kupon_metni(kupon: dict, ayaklar: list[dict], tohum: str, gorselli: bool = False) -> str:
+    """Kupon postunun şablonu (Mr. Likely'nin sesi). Rakamlar kayıttan; tutma ihtimali ve kaybetme payı açıkça yazılır.
+    gorselli: oyunlar ve oranlar kupon kartında; metne sığmazsa maç adları ve toplam oranla kısa, sesli hali kullanılır."""
     n = len(ayaklar)
     acilis = _sec(ACILIS[min(n, 4)], tohum)
     uzun = [f'⚽ {a["ev"]} v {a["dep"]}: {a["etiket"]} · {a["oran"]:.2f}' for a in ayaklar]
@@ -277,8 +280,10 @@ def kupon_metni(kupon: dict, ayaklar: list[dict], tohum: str) -> str:
                 f"so it loses roughly {round(10 * (1 - p))} times in 10. {_sec(KAPANIS, tohum)}")
         ozet_kisa = f"Combined {kupon['oran']:.2f}, about {_pct(p)} to land."
     son = f"\n\n{ANSVAR}"
+    maclar = ", ".join(f'{a["ev"]} v {a["dep"]}' for a in ayaklar) + "."
     return _kisalt(
         f"{acilis}\n\n" + "\n".join(uzun) + f"\n\n{ozet}{son}",
+        *([f"{acilis}\n\n{maclar}\n\n{ozet}{son}", f"{acilis}\n\n{maclar}\n\n{ozet_kisa}{son}"] if gorselli else []),
         "\n".join(uzun) + f"\n\n{ozet}{son}",
         "\n".join(uzun) + f"\n\n{ozet_kisa}{son}",
         "\n".join(kisa) + f"\n\n{ozet_kisa}{son}",
@@ -785,8 +790,13 @@ def oto_paylas(ayar, x, simdi: datetime, yazici=None, kart=None, yaz=print) -> i
                 continue
             if simdi < datetime.fromisoformat(k["paylas"]) or paylasilan:
                 continue
-            sablon = kupon_metni(k, k["ayaklar"], gun["tarih"] + k["ad"])
-            metin = yazici(sablon, _zorunlu(k["ayaklar"]))
+            sablon = kupon_metni(k, k["ayaklar"], gun["tarih"] + k["ad"], gorselli=bool(kart))
+            if uzunluk(sablon) > LIMIT:
+                # Çok uzun takım adları: maçlar görselde; metin kısa kalır (tutma ihtimali ve 18+ yine yazar).
+                metin = (f"{_sec(ACILIS[min(len(k['ayaklar']), 4)], gun['tarih'] + k['ad'])}\n\nCombined {k['oran']:.2f}. "
+                         f"I make it about {_pct(k['olasilik'])} to land. The legs are on the card.\n\n{ANSVAR}")
+            else:  # sesli yazımda şablondaki maç adları ve oranlar korunmalı
+                metin = yazici(sablon, [z for z in _zorunlu(k["ayaklar"]) + [f'{k["oran"]:.2f}'] if z in sablon])
             medya = [x.medya_yukle(kart(k, gun["tarih"]))] if kart else None
             k["tweet_id"] = x.gonder(metin, medya=medya)
             k["metin"], k["yayin"] = metin, simdi.isoformat(timespec="seconds")

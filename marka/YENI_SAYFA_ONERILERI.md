@@ -486,3 +486,113 @@ Ek kaynaklar: [Prisjakt: 3 milyon fiyat, %13 Ekim'de yükseldi (Market)](https:/
 [HotUKDeals: sıcaklık ne demek](https://help.hotukdeals.com/help/votes-and-temperature-03f53346) ·
 [Nordic Black Friday Report 2025](https://uutishuone.hintaopas.fi/posts/pressreleases/nordic-black-friday-report-2025-shoppers-driv) ·
 [@BuyHatke (X)](https://x.com/BuyHatke/status/2105226352140181605)
+
+---
+
+# Ek 3: Düzeltme — kanıtı en sağlam model ve kategori hatası
+
+Sahibinin itirazı (7 Ekim 2026): *"Daha önce başarılı olan, doğruluğu kanıtlanmış, para kazanma ihtimali yüksek
+bir sayfanın konseptini geliştirip yapacağız."*
+
+**İtiraz yerinde ve Ek 2'nin zayıf noktasını buldu.** Ek 2'de gösterdiğim kanıt "içerik haber oluyor" (Prisjakt)
+ve "mekanik etkileşim getiriyor" (HotUKDeals) idi. **O konseptle para kazandığı belgelenmiş bir sayfa
+göstermedim.** Boşluk olması, orada para olduğunu kanıtlamaz — tersine, boşluk bazen orada para olmadığı için
+boştur. Aşağıdaki araştırma bu yüzden yapıldı.
+
+## 1. Belgelenmiş para: kim kazandı, ne kadar
+
+En sağlam kanıttan en zayıfa:
+
+| Sayfa | Kanıt | Model |
+|---|---|---|
+| **NerdWallet** (Nasdaq: NRDS) | **Denetlenmiş SEC dosyası: 2025 cirosu 836,6 M$, GAAP net kâr 48,7 M$, +%22** | Rehber/karşılaştırma içeriği → finansal ürün komisyonu |
+| **MoneySavingExpert** | 2003'te **100 £** ile kuruldu, 2012'de **87 M£'a kadar** satıldı; 13–16 M aylık ziyaretçi | Önce rehber yazılır, **sonra** ortaklık linki aranır; link yoksa ürün yine önerilir. Gelirin **%59'u tek ortaktan** (yoğunlaşma riski) |
+| **Compricer** (🇸🇪) | Schibsted 2013'te **135 MSEK** ödedi (işletme kârı ~12–13 MSEK); toplamın ~çeyrek milyar SEK'e çıktığı bildirildi | İsveç karşılaştırma sitesi — **bizim ölçeğimize en yakın kanıt** |
+| **Elskling** (🇸🇪) | ~150 şirketten ~5.000 elektrik sözleşmesi; **üç kez el değiştirdi** (Schibsted 2015 → Zmarta 2018 → Axo 2025) | Biri siteden geçiş yaptığında elektrik şirketi komisyon öder |
+| **The Points Guy** | 2012'de 20–28 M$ (kaynaklar çelişiyor) → Bankrate → Red Ventures 1,4 Mrd$ | Kredi kartı komisyonu. Özel şirket, rakamlar doğrulanamıyor |
+| **Going** | 2016'da ~963 bin $ satış | **Abonelik** (komisyon değil) |
+
+**Ortak nokta:** hepsi **karşılaştırma/doğrulama içeriği + eylem başına komisyon**. Hiçbiri X'ten para
+kazanmıyor; X/sosyal yalnızca huni. Bu, Ek 1 §1.3'teki bulguyla birebir aynı.
+
+## 2. Benim hatam: €4/satış bir konsept problemi değil, **kategori** problemi
+
+| Kategori | Gelir/eylem | Dönüşüm | **Gelir/tıklama** | Kaynak |
+|---|---|---|---|---|
+| Fiziksel ürün (100 € sepet, %4) | 4,00 € | %2,0 | **0,08 €** | Amazon %1–10; e-ticaret EPC 0,08–0,35 $ |
+| **Elektrik sözleşmesi geçişi** | **45,00 €** | %1,5 | **0,67 €** | 30–60 £/çift yakıt geçişi |
+| Sigorta lead | 76,26 € | %1,0 | 0,76 € | ort. 82,89 $/dönüşüm |
+
+**Bir elektrik geçişi ≈ 11 fiziksel ürün satışı.** Aynı trafik, aynı emek, aynı bot.
+
+## 3. Sayılar: aynı huni, iki kategori
+
+Maliyet **daha da düşük**, çünkü veri bedava: `elprisetjustnu.se` **açık ve bedava API**, SE1–SE4,
+1 Ekim 2025'ten beri **15 dakikalık** çözünürlük. Resmî API → kazıyıcı yasağımıza uygun.
+
+| Kalem | Aylık |
+|---|---|
+| elprisetjustnu.se API | **0,00 €** |
+| X API (300 post) | 4,14 € |
+| Anthropic API | 3,00 € |
+| Alan adı | 1,00 € |
+| **Toplam** | **8,14 €** → 6 ayda **49 €** |
+
+| | A) Sahte indirim (fiziksel ürün) | **B) Elektrik sözleşmesi karnesi** |
+|---|---|---|
+| Ay 6 geliri | 8,40 €/ay | **70,88 €/ay** |
+| **6 aylık gelir** | 22 € | **189 €** |
+| 6 aylık net | **−26 €** | **+140 €** |
+| Başabaş | 2,0 satış/ay | **0,18 geçiş/ay** (~6 ayda 1 geçiş tüm masrafı karşılar) |
+
+**Aynı trafikle 8,4x gelir — ve ilk kez 6 ayda artıda biten seçenek.**
+
+## 4. Neden bizim motorumuza en iyi uyan alan bu
+
+| Kalkylerat (bugün) | Elektrik sayfası |
+|---|---|
+| Keskin piyasanın adil olasılığı | **Spot fiyat** = adil fiyat (bedava, 15 dk) |
+| Bahisçinin verdiği oran | **Sabit sözleşmenin** teklif ettiği fiyat |
+| Değer % (oran vs adil fiyat) | Sabit mi spot mu — **fark %** |
+| **Maç sonu karnesi** | **"Ocak'ta sabit pahalı dedik; ne oldu" karnesi** |
+| `nobet.yml` 7 dk nabız | 15 dk'da yenilenen fiyat |
+| Anket → ifşa döngüsü | "Sence bu ay sabit mi spot mu kazandı?" → akşam cevap |
+
+Futbolda yaptığımız şeyin **birebir aynısı**: piyasa bir fiyat veriyor, biz adil fiyatı hesaplıyoruz, farkı
+yüzdeyle yazıyoruz, sonra kim haklıydı diye karne tutuyoruz. Kupon/bahis dili yok, hukuki risk yok.
+
+## 5. Dürüst riskler
+
+1. **Kanıtlanmış model şu anda bozuluyor.** NerdWallet'ın kendi dosyasında: tüketiciler aramadan **AI
+   Overviews ve LLM'lere** kayıyor, "organik aramada sert düşüş", **kredi kartı geliri −%24**. Sonuç:
+   **SEO'ya bağımlı bir varlık kurmayacağız.** Savunulabilir olan doğrudan kitle (X + bülten) — Going'in
+   kanıtladığı yol. Bu, fikir değil, denetlenmiş dosyadan çıkan strateji.
+2. **Rekabet güçlü ve köklü.** Elskling, Compricer; üstüne **Elpriskollen** (Energimarknadsinspektionen'in
+   aracı) bedava ve **komisyon almıyor**. Onlarla *karşılaştırmada* yarışamayız. Edge'imiz **karne**:
+   "ne tavsiye edilmişti, ne oldu"yu tutan kimse yok. Bu bizim zaten kanıtlanmış formatımız.
+3. **Nord Pool lisansı teyit edilmeli.** Bir forumda spot fiyatın izinsiz yeniden yayınının lisans
+   gerektirdiği belirtilmiş; elprisetjustnu verisinin Nord Pool mu ENTSO-E mi olduğu tartışılmış.
+   Kaynak eski ve yetkili değil. **CC BY 4.0 altında yayınlayan alternatifler var.** Kurmadan önce netleşecek.
+4. Komisyon çıkar çatışması Ek 2 §2.4'teki haliyle aynen geçerli (F4 kuralı).
+
+## 6. Güncellenen öneri
+
+**Seçenek 4'ün (veri kartı fabrikası) elektrik alanındaki hali: "spot vs sabit karnesi".**
+Kanıtlanmış model (karşılaştırma + komisyon: NerdWallet denetlenmiş, Compricer/Elskling İsveç'te satılmış),
+kanıtlanmış birim ekonomisi (geçiş başına 30–60 £), bedava resmî veri, bizim tam motorumuz, bizim tam karne
+mekaniğimiz, düşük hukuki risk, ve geliri ölmekte olan SEO'ya bağlı değil.
+
+Sahte indirim konsepti (Ek 2) **çöpe gitmiyor**: aynı motorun ikinci vitrini olarak sonra eklenebilir —
+ama birim ekonomisi 11 kat zayıf olduğu için **ilk sayfa o olmamalı.**
+
+Ek kaynaklar: [NerdWallet 2025 tam yıl sonuçları (SEC 8-K)](https://www.sec.gov/Archives/edgar/data/1625278/000162527825000017/earningsreleaseq4fy24.htm) ·
+[NerdWallet yatırımcı bülteni](https://investors.nerdwallet.com/news-releases/news-release-details/nerdwallet-reports-fourth-quarter-and-full-year-2025-results) ·
+[MSE satışı (The Register)](https://www.theregister.com/2012/06/06/moneysavingexpert_sold_to_moneysupermarket/) ·
+[MSE: bu site nasıl finanse ediliyor](https://www.moneysavingexpert.com/site/moneysavingexpert-finance/) ·
+[Schibsted, Compricer'ı 135 MSEK'e aldı](https://www.ehandel.se/schibsted-koper-compricer-for-135-miljoner-kronor_2964-html) ·
+[Compricer kâr patlaması (Breakit)](https://www.breakit.se/artikel/1182/vinstexplosion-i-compricer-forra-agarna-kan-fa-kvarts-miljard) ·
+[Elskling nasıl çalışır](https://elbyte.se/Elskling) ·
+[elprisetjustnu.se — açık ve bedava elpris API](https://www.elprisetjustnu.se/elpris-api) ·
+[Ortaklık komisyon ölçütleri (dikey bazında)](https://track360.io/blog/affiliate-marketing-benchmarks-kpis-by-vertical-2026) ·
+[Enerji geçişi komisyonu (The Energy Shop)](https://www.theenergyshop.com/affiliates) ·
+[Bankrate/Red Ventures 1,4 Mrd$ (SEC)](https://www.sec.gov/Archives/edgar/data/0001518222/000151822217000021/rate-20170703xex99_1.htm)

@@ -1617,7 +1617,7 @@
   {
    "tarih": "2026-10-07",
    "olusturma": "2026-10-07T05:36:27+00:00",
-   "durum": "secildi",
+   "durum": "bitti",
    "havuz": [
     {
      "aday_id": "1560844-CS1X",
@@ -2725,8 +2725,8 @@
        "oran": 1.35,
        "olasilik": 0.722,
        "deger": -0.025,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "2-2"
       },
       {
        "aday_id": "1639220-CSX2",
@@ -2754,7 +2754,9 @@
      "tweet_id": "2107784066556723418",
      "metin": "🎩 Today's the outsider. Stake accordingly.\n\n⚽ Silivrispor v Kartal Bulvarspor\n⚽ Urena SC v Trujillanos FC\n⚽ Valenzana v Saluzzo\n\n📊 Combined 3.00. About 34% to land, by my reckoning.\n\n💬 Would you take it at this price?\n\n18+ | Play responsibly",
      "yayin": "2026-10-07T10:44:06+00:00",
-     "son_oran": 1.33
+     "son_oran": 1.33,
+     "sonuc_metni": "❌ Coupon down.\n\n✅ Silivrispor 3-2 Kartal Bulvarspor: Double chance 12\n❌ Urena SC 2-2 Trujillanos FC: Double chance 12\n❌ Valenzana 3-2 Saluzzo: Double chance X2\n\nRecord: 0 of 4 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2107953418853613608"
     }
    ],
    "islenen": [],

@@ -2647,8 +2647,8 @@
        "oran": 1.33,
        "olasilik": 0.855,
        "deger": 0.137,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "0-3"
       },
       {
        "aday_id": "1640288-CSX2",
@@ -2691,7 +2691,9 @@
      "tweet_id": "2107773051932688622",
      "metin": "🎩 A treble today. Dull on purpose.\n\n⚽ Zamalek SC v Masr\n⚽ Asyut Petrol v Al Ahly\n⚽ Ancona v Fossombrone\n\n📊 Combined 2.03. I make it about 56% to land, so it misses a fair bit.\n\n💬 Which leg looks the weak one to you?\n\n18+ | Play responsibly",
      "yayin": "2026-10-07T10:00:26+00:00",
-     "son_oran": 1.22
+     "son_oran": 1.62,
+     "sonuc_metni": "❌ One leg short. Coupon down. I had it at 56%, which was never 100.\n\n✅ Zamalek SC 0-3 Masr: Double chance X2\n✅ Asyut Petrol 0-5 Al Ahly: Double chance X2\n❌ Ancona 1-1 Fossombrone: Double chance 12\n\nRecord: 0 of 4 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2107909051803951211"
     },
     {
      "ad": "long-shot",
@@ -2776,7 +2778,9 @@
     {
      "tur": "ders",
      "metin": "💡 Only stake money you'd be fine never seeing again. If that sentence stings, the stake is too big.\n\n18+ | Play responsibly",
-     "saat": 21.0
+     "saat": 21.0,
+     "tweet_id": "2107909053225808155",
+     "zaman": "2026-10-07T19:00:48+00:00"
     }
    ],
    "oto": true,

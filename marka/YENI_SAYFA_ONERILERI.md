@@ -596,3 +596,81 @@ Ek kaynaklar: [NerdWallet 2025 tam yıl sonuçları (SEC 8-K)](https://www.sec.g
 [Ortaklık komisyon ölçütleri (dikey bazında)](https://track360.io/blog/affiliate-marketing-benchmarks-kpis-by-vertical-2026) ·
 [Enerji geçişi komisyonu (The Energy Shop)](https://www.theenergyshop.com/affiliates) ·
 [Bankrate/Red Ventures 1,4 Mrd$ (SEC)](https://www.sec.gov/Archives/edgar/data/0001518222/000151822217000021/rate-20170703xex99_1.htm)
+
+---
+
+# Ek 4: Düzen — dört hedef, iki paralel hat, dört faz
+
+Sahibinin kararı (7 Ekim 2026): *"Aslında hepsini birden yapmak istiyorum. Ama hadi bir düzen ile yapalım."*
+
+Doğru karar: dördü birbirinin alternatifi değil, **aynı varlığın aşamaları**. Hepsinin altında tek bir şey var:
+**adil fiyatı hesaplayıp teklif edilen fiyatla karşılaştıran ve kararının karnesini açıkça tutan motor.**
+Değişen tek şey: bunu **kime** sattığımız.
+
+## Neden paralel: botun zamanı ≠ senin zamanın
+
+| | Hat A — Medya | Hat B — B2B |
+|---|---|---|
+| Kimin zamanı | **Botun** (otomatik, günde 0 dk) | **Senin** (satış, elle) |
+| Hız | Yavaş, birikimli | Hızlı |
+| Saat başı getiri | ~5 €/saat | **~32 €/saat** |
+| Gereken | 1.000 takipçi/abone | **5 müşteri** |
+| Maliyet | ~8 €/ay | ~0 € (zaman) |
+
+İkisi aynı motoru paylaşıyor, ama **farklı kaynak tüketiyorlar.** O yüzden gerçekten aynı anda yürüyebilirler:
+botu Hat A'ya koyuyoruz, senin 12 dakikanı Hat B'ye. **Senin zamanını X'te yanıt yazmaya harcamak saatlik 5 €;
+aynı zamanı müşteri aramaya harcamak saatlik 32 €.** Bu, "hepsini birden" isteğinin doğru uygulaması.
+
+## Fazlar ve kapılar (gate)
+
+Her faz **tek bir soruyu** cevaplar ve kapıyı geçmeden sonraki faz başlamaz. Kapı geçilmezse o hat durur,
+diğeri devam eder.
+
+### Faz 0 — Dağıtım testi (şimdi, ~6 hafta, ~0 €)
+- **Ne:** Çalışan iki hesaba e-posta toplama + haftalık özet bülteni. Yeni sayfa YOK, yeni içerik YOK —
+  zaten üretilen analizler haftalık bir özete dönüşür. Bülten bedava kademede (≈1.000 aboneye kadar).
+- **Soru:** *Birisi bunu e-posta adresi verecek kadar istiyor mu?*
+- **KAPI:** **6 haftada 50 abone.** İki canlı hesap her gün içerik üretirken 50 e-posta toplayamıyorsa,
+  Hat A ölüdür ve her şey Hat B'ye gider. Bu kapı dürüst ve yanlışlanabilir olmalı.
+- **Not:** Bu faz çalışan otomasyonların **koduna dokunmaz**; bülten ayrı modül, profil/sabit postta bağlantı.
+
+### Faz 1 — Niş sayfa, bülten merkezli (Faz 0 geçerse, ~5 ay, ~8 €/ay)
+- **Ne:** Elektrik sözleşmesi karnesi (Ek 3). X = **makbuz** (tarihli, değiştirilemez karne), bülten = ürün,
+  panel = linklerin yaşadığı yer. Kısa video (TikTok/Shorts) kitle edinme kanalı olarak denenir.
+- **Soru:** *Niş bir otonom sayfa yan gelir üretebilir mi?*
+- **KAPI:** **Ay 6'da 500 abone + ilk komisyon geldi.** (500 abone ≈ 60–120 €/ay sponsorluk potansiyeli)
+- Sahte indirim konsepti (Ek 2) aynı motorun ikinci vitrini olarak buraya eklenebilir; birim ekonomisi
+  11 kat zayıf olduğu için ilk sırada değil.
+
+### Faz 2 — B2B (Faz 0 ile **AYNI ANDA** başlar, kitle beklemez)
+- **Ne:** Aynı motorun çıktısı işletmeye satılır. Faz 0'ın 6 haftası boyunca sen müşteri konuşursun.
+  Gelir **Flow Event** üzerinden faturalanır (moms dahil, temiz muhasebe).
+- **Soru:** *Bir işletme bu analize para verir mi?*
+- **KAPI:** **8 haftada 1 ödeyen müşteri.** Tek müşteri (199 €/ay) tüm masrafı 24 kat karşılıyor.
+- **Açık olan:** kime, ne satacağımız henüz netleşmedi. Faz 2'nin ilk işi bu — araştırma, kod değil.
+
+### Faz 3 — Ölçek / maaş yerine gelir (Faz 1 **ve** 2 geçerse)
+- Faz 1 ve 2 ikisi de geçmediyse buraya gelinmez. Dürüst ön kabul: 2.000–3.000 €/ay'a giden yol
+  Hat B'den geçer, Hat A'dan geçmez. Faz 3 ancak gerçek verimiz olunca planlanır.
+
+## Özet tablo
+
+| Faz | Başlangıç | Süre | Maliyet | Kapı |
+|---|---|---|---|---|
+| **0** Dağıtım testi | **şimdi** | 6 hafta | ~0 € | 50 e-posta abonesi |
+| **1** Niş sayfa | Faz 0 geçerse | 5 ay | 8 €/ay | 500 abone + ilk komisyon |
+| **2** B2B | **şimdi** (paralel) | 8 hafta | ~0 € | 1 ödeyen müşteri |
+| **3** Ölçek | Faz 1 **ve** 2 geçerse | — | — | — |
+
+## Değişmeyen kurallar
+- Çalışan iki otomasyonun kodu ve workflow'ları **değişmez** (sahibinin şartı, 7 Ekim).
+- Sıra her zaman: **SOZLESME.md → test → kod.** Faz 0 ve 1 için F bölümü onaya sunulur.
+- `python -m pytest -q` yeşil olmadan hiçbir şey gönderilmez.
+- Her fazın kapısı **ölçülür ve dürüstçe raporlanır**; geçilmediyse geçilmedi denir. Karne felsefesi
+  kendi işimiz için de geçerli.
+
+## Bu planı öldürebilecek şeyler (dürüst liste)
+1. Faz 0 kapısı geçilmezse Hat A biter — ve bu ihtimal ciddi (mevcut ölçüm: 1 takipçi).
+2. Nord Pool / veri lisansı Faz 1'i engelleyebilir (Ek 3 §5.3).
+3. Faz 2'de "kime ne satacağız" cevabı yoksa Hat B de boş çıkar.
+4. SEO'ya bağımlı hiçbir plan kurulmuyor (NerdWallet'ın kendi dosyası: organik arama çöküyor).

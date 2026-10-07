@@ -2354,6 +2354,21 @@ def test_x_kurallari_tekrar_ve_gunluk_sinir():
     assert "#Football" not in tweets.liste_etiketleri([("Premier League", "England")], [("Arsenal", "Leeds")])
 
 
+def test_erken_ilk_macta_tablo_ve_ayrisma_penceresi_one_cekilir():
+    """İlk tablo maçı 08:00 UTC'de (Asya öğle maçı): pencere sabit açılıştan önce, analizden sonra açılır; boş kalmaz."""
+    from bot import etkilesim
+    m = {"baslama": "2026-10-07T08:00:00+00:00"}
+    gun = {"tarih": "2026-10-07", "konsept": "analiz", "olusturma": "2026-10-07T05:36:00+00:00",
+           "tablo": [m], "kiyas": [m, {"baslama": "2026-10-07T12:00:00+00:00"}]}
+    plan = {t: (e, l) for t, e, l in etkilesim._plan(gun)}
+    for tur in ("tablo", "ayrisma"):
+        e, l = plan[tur]
+        assert e < l and e >= datetime(2026, 10, 7, 5, 36, tzinfo=timezone.utc)
+    assert plan["tablo"][0] == datetime(2026, 10, 7, 6, 0, tzinfo=timezone.utc)
+    gec = {**gun, "tablo": [{"baslama": "2026-10-07T18:45:00+00:00"}], "kiyas": None}  # akşam maçı: sabit 08:00 kalır
+    assert dict((t, e) for t, e, _ in etkilesim._plan(gec))["tablo"] == datetime(2026, 10, 7, 8, 0, tzinfo=timezone.utc)
+
+
 def test_aksam_tablosu_yogun_gunde_bir_kez():
     """Yoğun günde 16:00 UTC'den sonra sabah tablosunda olmayan (kartlı olsa da) akşam maçlarıyla ikinci tablo."""
     from dataclasses import replace

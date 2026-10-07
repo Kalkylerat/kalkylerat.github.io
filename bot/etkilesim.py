@@ -288,9 +288,16 @@ def _plan(gun: dict) -> list[tuple[str, datetime, datetime]]:
     if gun.get("konsept") == "analiz":
         # Kupon yok: günün maçları, öne çıkan maçların analiz kartları (maçtan 8 saat – 35 dk önce, en erken 08:00 UTC;
         # 15 dakikalık akışta öğleden önce boşluk kalmasın), anket.
+        # Erken ilk maç (ör. Asya öğle maçı) sabit açılıştan önceyse pencere öne çekilir (en erken analiz anı),
+        # yoksa pencere boş kalır ve post kaçar.
+        olus = datetime.fromisoformat(gun["olusturma"]) if gun.get("olusturma") else gun_bas
+
+        def _acilis(saat: int, ilk: datetime) -> datetime:
+            return max(min(gun_bas + timedelta(hours=saat), ilk - timedelta(hours=2)), olus)
+
         if gun.get("tablo"):  # günün analiz tablosu (görsel): sabah, tablodaki ilk maçtan önce
             ilk = min(datetime.fromisoformat(a["baslama"]) for a in gun["tablo"])
-            plan.append(("tablo", gun_bas + timedelta(hours=8), ilk - timedelta(minutes=10)))
+            plan.append(("tablo", _acilis(8, ilk), ilk - timedelta(minutes=10)))
         if gun.get("tablo_aksam"):  # yoğun gün: akşam maçlarının tablosu (16:00 UTC'den, ilk maçtan önce)
             ilk = min(datetime.fromisoformat(a["baslama"]) for a in gun["tablo_aksam"])
             plan.append(("tablo_aksam", gun_bas + timedelta(hours=16), ilk - timedelta(minutes=10)))
@@ -299,7 +306,7 @@ def _plan(gun: dict) -> list[tuple[str, datetime, datetime]]:
             plan.append(("maclar", ilk - timedelta(hours=5), ilk - timedelta(minutes=15)))
         if len(gun.get("kiyas") or gun.get("ayrisma") or []) >= 2:  # oran vs istatistik (ikinci tablo): kim haklı?
             ilk = min(datetime.fromisoformat(a["baslama"]) for a in gun.get("kiyas") or gun["ayrisma"])
-            plan.append(("ayrisma", gun_bas + timedelta(hours=10), ilk - timedelta(minutes=30)))
+            plan.append(("ayrisma", _acilis(10, ilk), ilk - timedelta(minutes=30)))
         for i, a in enumerate(gun.get("analizler") or []):
             b = datetime.fromisoformat(a["baslama"])
             plan.append((f"analiz_{i}", max(b - KART_PENCERESI, gun_bas + timedelta(hours=8)), b - timedelta(minutes=35)))

@@ -1034,7 +1034,7 @@ def likely_nabiz(ayar, simdi: datetime, sonuclar: bool = True) -> None:
         return
     for ad, adim in (("kupon paylaşımı", lambda: likely.oto_paylas(ayar, x, simdi, yazici=_likely_yazici(ayar),
                                                                      kart=likely_gorsel.kupon_karti, yaz=_ozet_yaz)),
-                     ("sonuç paylaşımı", lambda: likely.oto_sonuc_paylas(ayar, x, simdi, yaz=_ozet_yaz)),
+                     ("sonuç paylaşımı", lambda: likely.oto_sonuc_paylas(ayar, x, simdi, kart=likely_gorsel.sonuc_karti, yaz=_ozet_yaz)),
                      ("bilgi postu", lambda: likely.oto_bilgi(ayar, x, simdi, yaz=_ozet_yaz))):
         try:
             adim()

@@ -326,8 +326,8 @@ class SahteX:
         self.medya += 1
         return f"m{self.medya}"
 
-    def gonder(self, metin, yanit=None, medya=None, **_):
-        self.postlar.append({"metin": metin, "yanit": yanit, "medya": medya})
+    def gonder(self, metin, yanit=None, medya=None, alinti=None, **_):
+        self.postlar.append({"metin": metin, "yanit": yanit, "medya": medya, "alinti": alinti})
         return f"t{len(self.postlar)}"
 
 
@@ -460,7 +460,7 @@ def test_otomatik_sabah_kuponu_secer_ve_zamanlar(oto):
     assert "otomatik" in oto.acilan[0][0] and "otomatik modda" in oto.acilan[0][1]
 
 
-def test_otomatik_paylasim_bir_kez_gorselli_ve_sonuc_yaniti(oto):
+def test_E1_otomatik_paylasim_bir_kez_gorselli_ve_sonuc_alintisi(oto):
     from bot import likely_gorsel
     x = SahteX()
     assert likely.oto_paylas(AYAR, x, SIMDI + timedelta(minutes=1), kart=likely_gorsel.kupon_karti) == 0  # zamanı gelmedi
@@ -468,20 +468,22 @@ def test_otomatik_paylasim_bir_kez_gorselli_ve_sonuc_yaniti(oto):
     zaman = datetime.fromisoformat(gun["secilen"][0]["paylas"])
     assert likely.oto_paylas(AYAR, x, zaman, kart=likely_gorsel.kupon_karti) == 1
     likely.oto_paylas(AYAR, x, zaman, kart=likely_gorsel.kupon_karti)
-    assert sum(p["yanit"] is None for p in x.postlar) == len({p["metin"] for p in x.postlar})  # aynı kupon iki kez gitmez
+    assert len(x.postlar) == len({p["metin"] for p in x.postlar})  # aynı kupon iki kez gitmez
     k = likely.yukle()["gunler"][0]["secilen"][0]
     post = x.postlar[0]
     assert k["tweet_id"] == "t1" and post["medya"] == ["m1"] and post["yanit"] is None
     assert post["metin"].endswith(ANSVAR) and f"{round(100 * k['olasilik'])}% to land" in post["metin"] and uzunluk(post["metin"]) <= LIMIT
-    # Sonuç: kupon postunun altına yanıt, bir kez
+    # Sonuç: kupon postunu alıntılayan ayrı post (yanıt değil), sonuç kartıyla, bir kez
     idler = {a["fixture_id"] for a in k["ayaklar"]}
     adet = len(x.postlar)
     likely.sonuclar(AYAR, bitir({f: (2, 0) for f in {a["fixture_id"] for kk in likely.yukle()["gunler"][0]["secilen"] for a in kk["ayaklar"]}}),
                     oto, SIMDI + timedelta(hours=14))
-    assert likely.oto_sonuc_paylas(AYAR, x, SIMDI + timedelta(hours=14)) >= 1
-    yanit = x.postlar[adet]
-    assert yanit["yanit"] == "t1" and "Record:" in yanit["metin"] and yanit["metin"].endswith(ANSVAR)
-    assert likely.oto_sonuc_paylas(AYAR, x, SIMDI + timedelta(hours=15)) == 0 and idler
+    assert likely.oto_sonuc_paylas(AYAR, x, SIMDI + timedelta(hours=14), kart=likely_gorsel.sonuc_karti) >= 1
+    sonuc = x.postlar[adet]
+    assert sonuc["alinti"] == "t1" and sonuc["yanit"] is None and sonuc["medya"] and len(sonuc["medya"]) == 1
+    assert "Record:" in sonuc["metin"] and sonuc["metin"].endswith(ANSVAR) and sonuc["metin"][0] in "✅❌↩" and uzunluk(sonuc["metin"]) <= LIMIT
+    assert all(p["yanit"] is None for p in x.postlar)  # hiçbir post yanıt olarak gitmez
+    assert likely.oto_sonuc_paylas(AYAR, x, SIMDI + timedelta(hours=15), kart=likely_gorsel.sonuc_karti) == 0 and idler
 
 
 def test_E4_ilk_maca_az_kaldiysa_otomatik_paylasilmaz_ve_karneye_girmez(oto):
@@ -599,6 +601,29 @@ def test_kupon_karti_png():
         {"ev": "Italy", "dep": "Türkiye", "etiket": "Double chance 1X", "oran": 1.12}]}
     png = likely_gorsel.kupon_karti(k, "2026-10-06")
     assert png[:8] == b"\x89PNG\r\n\x1a\n" and len(png) > 20_000
+
+
+def test_sonuc_karti_png_tutan_yatan_iade():
+    from bot import likely_gorsel
+    ayaklar = [{"ev": "Borussia Monchengladbach", "dep": "Eintracht Frankfurt", "etiket": "Borussia Monchengladbach Over 0.5 goals", "oran": 1.15, "skor": "2-1", "durum": "kazandi"},
+               {"ev": "Italy", "dep": "Türkiye", "etiket": "Double chance 1X", "oran": 1.12, "skor": "0-1", "durum": "kaybetti"},
+               {"ev": "Wales", "dep": "Norway", "etiket": "Over 1.5 goals", "oran": 1.30, "skor": None, "durum": "iade"}]
+    kartlar = [likely_gorsel.sonuc_karti({"oran": 1.67, "son_oran": son, "olasilik": 0.55, "durum": durum, "ayaklar": ayaklar}, "2026-10-06")
+               for durum, son in (("tuttu", 1.67), ("yatti", 1.67), ("iade", 1.0))]
+    assert all(png[:8] == b"\x89PNG\r\n\x1a\n" and len(png) > 20_000 for png in kartlar) and len(set(kartlar)) == 3
+
+
+def test_sonuc_karti_yuklenemezse_sonuc_yine_paylasilir(oto):
+    """E5: kaybeden de yazılır; görsel yükleme hatası sonuç postunu engellemez."""
+    x = SahteX()
+    gun = likely.yukle()["gunler"][0]
+    likely.oto_paylas(AYAR, x, datetime.fromisoformat(gun["secilen"][0]["paylas"]))
+    likely.sonuclar(AYAR, bitir({a["fixture_id"]: (0, 0) for k in gun["secilen"] for a in k["ayaklar"]}), oto, SIMDI + timedelta(hours=14))
+
+    def bozuk(k, tarih):
+        raise RuntimeError("medya")
+    assert likely.oto_sonuc_paylas(AYAR, x, SIMDI + timedelta(hours=14), kart=bozuk) == 1
+    assert x.postlar[-1]["alinti"] == "t1" and x.postlar[-1]["medya"] is None
 
 
 def test_kapaliyken_hicbir_sey_yapmaz(monkeypatch, tmp_path):

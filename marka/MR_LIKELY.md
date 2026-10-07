@@ -2,7 +2,7 @@
 
 İkinci hesap: uluslararası (İngilizce) kupon/tahmin sayfası. **Otomatik modda** çalışır (6 Ekim 2026'dan beri): kuponu
 sabit kurallar seçer (`bot/likely.py` → `otomatik_sec`, SOZLESME E6), bot Mr. Likely hesabında paylaşır: görselli kupon
-postu, maçlar bitince sonuç yanıtı, günde en fazla 4 bilgi postu (strateji notu, büyük maç rakamı). Mr. Likely bu kuponları sunan sestir; kuponu insan
+postu, maçlar bitince kupon postunu alıntılayan görselli sonuç postu, günde en fazla 4 bilgi postu (strateji notu, büyük maç rakamı). Mr. Likely bu kuponları sunan sestir; kuponu insan
 seçmez ve hesap X'te "Automated" etiketlidir. Elle moda dönmek: `ayarlar.toml` → `[likely] mod = "elle"`.
 
 ## Hesap bilgileri (kopyala-yapıştır)
@@ -61,7 +61,7 @@ Example lines in his voice:
 
 ## Değişmez kurallar (SOZLESME.md E bölümü)
 
-- Bot yalnızca kendi postlarını atar: kupon, kendi kuponuna sonuç yanıtı, günde en fazla 4 bilgi postu. Başkalarına yanıt,
+- Bot yalnızca kendi postlarını atar: kupon, kendi kuponunu alıntılayan sonuç postu, günde en fazla 4 bilgi postu. Başkalarına yanıt,
   takip, beğeni, DM yok (X otomasyon kuralı; bunları sahibi elle yapar).
 - Her kupon postunda tutma ihtimali yazar ve post "18+ | Play responsibly" ile biter.
 - Bahis sitesi adı, linki, reklamı yok. Kesinlik dili yok. Uydurma geçmiş, sahte kazanç görüntüsü yok.
@@ -86,7 +86,7 @@ Example lines in his voice:
 ## Günlük işleyiş
 
 - Sabah taramasından sonra GitHub'da `🎩 Mr. Likely <tarih>: otomatik, N kupon paylaşılacak` bildirimi gelir (bilgi).
-- Kupon, ilk maçtan yaklaşık 3 saat önce paylaşılır; sonuç yanıtı maçlar bitince.
+- Kupon, ilk maçtan yaklaşık 3 saat önce paylaşılır; sonuç postu maçlar bitince: kupon postunu alıntılar, sonuç kartı (skorlar, ✓/✗, LANDED/DOWN damgası) eklenir.
 - Bilgi postları: 10:00 strateji notu, 13:00 günün en büyük favorisi, 16:00 en gollü ya da en dengeli maç, 21:00
   ikinci strateji notu (başka bir posta 40 dakikadan yakınsa bekler). Günlük hedef 8–10 post: 3 kupon, 3 sonuç, 4 bilgi.
 - Paylaşılmış kuponu yeni düzenle yeniden atmak: Actions → `likely_yenile` (yalnızca maç başlamadan; aynı kupon).

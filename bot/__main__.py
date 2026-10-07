@@ -1391,14 +1391,14 @@ def main(argv=None) -> int:
             try:
                 analiz_secimlerini_tamamla(ayar, kayit.bul(gunler, bugun))
                 dosya = config.DATA_FILE.parent / "analiz" / f"{bugun}.json"
-                if config.yogun_mu(ayar, bugun, kayit.bul(gunler, bugun)) and dosya.exists():  # yoğun gün: akşam maçlarına da kart
+                if dosya.exists():  # akşam maçlarına da kart ve akşam tablosu (yoğun günde geniş; sakin günde B7)
                     eklenen = etkilesim.yogun_kartlari_ekle(kayit.bul(gunler, bugun),
                                                             json.loads(dosya.read_text(encoding="utf-8")), ayar, simdi)
                     if eklenen:
-                        _ozet_yaz(f"Yoğun gün: {eklenen} maç daha kart listesine eklendi.")
+                        _ozet_yaz(f"{eklenen} maç daha kart listesine eklendi.")
                     if etkilesim.aksam_tablosu_ekle(kayit.bul(gunler, bugun), json.loads(dosya.read_text(encoding="utf-8")),
                                                     ayar, simdi):
-                        _ozet_yaz("Yoğun gün: akşam maçları tablosu hazırlandı.")
+                        _ozet_yaz("Akşam maçları tablosu hazırlandı.")
                 diger = tuple(g["yayin"] for g in gunler if g["tarih"] == bugun and g["id"] != bugun and g.get("yayin"))
                 kupondakiler = {t.lower() for g in gunler if g["tarih"] == bugun for s in g["secimler"]
                                 for t in (s["ev"], s["dep"])}

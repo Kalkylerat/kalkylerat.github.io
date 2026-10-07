@@ -272,6 +272,7 @@ def _son_paylasim(gun: dict, diger: tuple[str, ...] = ()) -> datetime | None:
     return max(zamanlar) if zamanlar else None
 
 
+SAKIN_KART = 6  # SÖZLEŞME B7: büyük maç olmayan günde de en fazla bu kadar ek lig kartı
 KART_PENCERESI = timedelta(hours=8)  # SÖZLEŞME B4: kart maçtan bu kadar önce paylaşılabilir (boşluk doldurur)
 YAKIN_KART = timedelta(hours=4)  # bundan erken kart, sırada başka post yoksa çıkar
 
@@ -298,9 +299,9 @@ def _plan(gun: dict) -> list[tuple[str, datetime, datetime]]:
         if gun.get("tablo"):  # günün analiz tablosu (görsel): sabah, tablodaki ilk maçtan önce
             ilk = min(datetime.fromisoformat(a["baslama"]) for a in gun["tablo"])
             plan.append(("tablo", _acilis(8, ilk), ilk - timedelta(minutes=10)))
-        if gun.get("tablo_aksam"):  # yoğun gün: akşam maçlarının tablosu (16:00 UTC'den, ilk maçtan önce)
+        if gun.get("tablo_aksam"):  # akşam maçlarının tablosu (hazırlandığı andan, ilk maçtan önce)
             ilk = min(datetime.fromisoformat(a["baslama"]) for a in gun["tablo_aksam"])
-            plan.append(("tablo_aksam", gun_bas + timedelta(hours=16), ilk - timedelta(minutes=10)))
+            plan.append(("tablo_aksam", gun_bas + timedelta(hours=12), ilk - timedelta(minutes=10)))
         elif vit:
             ilk = min(datetime.fromisoformat(v["baslama"]) for v in vit)
             plan.append(("maclar", ilk - timedelta(hours=5), ilk - timedelta(minutes=15)))
@@ -329,10 +330,10 @@ def _plan(gun: dict) -> list[tuple[str, datetime, datetime]]:
 
 
 def aksam_tablosu_ekle(gun: dict, tum: list[dict], ayar, simdi: datetime) -> int:
-    """Yoğun günde 16:00 UTC'den sonra bir kez: sabah tablosunda ve kartlarda olmayan akşam maçlarının tablosu
-    (en az 4 maç). Paylaşımı ve maç sonu yanıtları sabah tablosu gibi."""
-    if gun.get("konsept") != "analiz" or not config.yogun_mu(ayar, gun["tarih"], gun) or "tablo_aksam" in gun \
-            or simdi.hour < 16:
+    """Bir kez: sabah tablosunda olmayan akşam maçlarının tablosu (en az 4 maç). Yoğun günde 16:00 UTC'den,
+    sakin günde (öğleden sonra boşluk kalmasın, B7) 12:00 UTC'den. Paylaşımı ve maç sonu yanıtları sabah tablosu gibi."""
+    acilis = 16 if config.yogun_mu(ayar, gun["tarih"], gun) else 12
+    if gun.get("konsept") != "analiz" or "tablo_aksam" in gun or simdi.hour < acilis:
         return 0
     haric = {a["fixture_id"] for a in gun.get("tablo") or []}  # sabah tablosunda olmayanlar (kartlı da olabilir)
     liste = analiz.tablo_secimi(tum, ayar.ligler, en_erken=(simdi + timedelta(minutes=60)).isoformat(), haric=haric,
@@ -342,12 +343,14 @@ def aksam_tablosu_ekle(gun: dict, tum: list[dict], ayar, simdi: datetime) -> int
 
 
 def yogun_kartlari_ekle(gun: dict, tum: list[dict], ayar, simdi: datetime) -> int:
-    """Yoğun günde öne çıkan kartlar akşam maçlarıyla genişler (kart penceresi kapanmamış olanlar). Var olan
+    """Kart listesi ek liglerin maçlarıyla genişler (kart penceresi kapanmamış olanlar): yoğun günde
+    ayar.yogun_kart'a, sakin günde SAKIN_KART'a kadar (SÖZLEŞME B4, B7: hesap sessiz kalmaz). Var olan
     kartların sırası değişmez (etkileşim kayıtları analiz_<sıra> ile tutulur); yeniler sona eklenir."""
-    if gun.get("konsept") != "analiz" or not config.yogun_mu(ayar, gun["tarih"], gun):
+    if gun.get("konsept") != "analiz":
         return 0
     analizler = gun.setdefault("analizler", [])
-    yer = ayar.yogun_kart - len(analizler)
+    tavan = ayar.yogun_kart if config.yogun_mu(ayar, gun["tarih"], gun) else SAKIN_KART
+    yer = tavan - len(analizler)
     if yer <= 0:
         return 0
     yeni = analiz.ek_kart_secimi(tum, ayar.ligler, ayar.yogun_ek_ligler, {a["fixture_id"] for a in analizler},

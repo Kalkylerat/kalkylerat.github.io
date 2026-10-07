@@ -211,6 +211,34 @@ def test_B6_buyuk_maclar_kart_ve_tabloda():
 
 # ---------- C. Güvenilirlik ----------
 
+
+def test_B7_hesap_sessiz_kalmaz():
+    from dataclasses import replace
+    ayar = replace(AYAR, yogun_gunler=(), yogun_hafta_sonu=False, yogun_ek_ligler=(128, 71, 239, 253))
+    sakin = "2026-10-07"  # çarşamba, büyük maç yok
+
+    def m(fid, saat, lig_id=128, lig="Liga Profesional"):
+        return dict(mac(fid, f"Club{fid}", f"Rival{fid}", saat=saat, lig=lig), lig_id=lig_id,
+                    baslama=f"{sakin}T{saat}:00+00:00")
+    tum = [m(i, "19:00", lig, f"L{lig}") for i, lig in enumerate((128, 128, 71, 71, 239, 239, 253, 253), 1)] \
+        + [m(20 + i, "19:30", 999, f"Alt{i}") for i in range(4)]
+    gun = {"id": sakin, "tarih": sakin, "konsept": "analiz", "secimler": [], "analizler": [], "vitrin": [],
+           "etkilesim": {"bilgi": {"durum": "paylasildi", "zaman": f"{sakin}T09:46:00+00:00"}}}
+    # büyük maç olmayan günde de ek lig kartları (en fazla 6), alt lig kartı yok
+    assert etkilesim.yogun_kartlari_ekle(gun, tum, ayar, datetime(2026, 10, 7, 9, 0, tzinfo=UTC)) == etkilesim.SAKIN_KART == 6
+    assert all(a["lig_id"] != 999 for a in gun["analizler"])
+    # akşam tablosu sakin günde 12:00 UTC'den
+    assert etkilesim.aksam_tablosu_ekle(gun, tum, ayar, datetime(2026, 10, 7, 11, 0, tzinfo=UTC)) == 0
+    assert etkilesim.aksam_tablosu_ekle(gun, tum, ayar, datetime(2026, 10, 7, 12, 30, tzinfo=UTC)) >= 4
+    assert any(t == "tablo_aksam" for t, _, _ in etkilesim._plan(gun))
+    # 3 saat sessizlik alarmı (gün yoğun olmasa da); gece alarm yok, yanıtlar da hareket sayılır
+    def sessiz(saat, dakika=0):
+        return [m for k, m in saglik.sorunlar([gun], datetime(2026, 10, 7, saat, dakika, tzinfo=UTC), ayar) if ":sessiz:" in k]
+    assert not sessiz(12, 30) and sessiz(12, 50) and not sessiz(22, 0)
+    gun["etkilesim"]["tablo_2"] = {"durum": "paylasildi", "zaman": f"{sakin}T08:08:00+00:00",
+                                   "sonuclar": {"1": {"durum": "paylasildi", "zaman": f"{sakin}T12:40:00+00:00"}}}
+    assert not sessiz(12, 50)
+
 def test_C1_nobetci_7_dk_nabiz_20_dk_alarm():
     nobet = (ROOT / ".github/workflows/nobet.yml").read_text()
     assert '-ge 420 ]' in nobet and '-ge 1200 ]' in nobet and 'conclusion' in nobet and "cron:" in nobet

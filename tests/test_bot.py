@@ -2219,7 +2219,7 @@ def test_yogun_gun_kisa_aralik_ve_aksam_kartlari():
     simdi = datetime(2026, 10, 3, 17, 30, tzinfo=timezone.utc)
     assert etkilesim.yogun_kartlari_ekle(gun, tum, ayar, simdi) == 2  # Spurs 18:00 penceresi kapandı, Primera C yok
     assert [x["ev"] for x in gun["analizler"]] == ["Arsenal", "Newells", "Tucuman"]  # eskiler yerinde, yeniler sonda
-    assert etkilesim.yogun_kartlari_ekle(gun, tum, AYAR, simdi) == 0  # yoğun gün değilse dokunmaz
+    assert etkilesim.yogun_kartlari_ekle(gun, tum, ayar, simdi) == 0  # eklenecek yeni maç kalmadı
 
 
 def test_saglik_alarmi_kacan_ve_duran_postu_bildirir(tmp_path, monkeypatch):

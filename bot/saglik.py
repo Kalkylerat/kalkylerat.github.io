@@ -19,6 +19,8 @@ TAKIP_GECIKME = TAHMINI_BITIS + MAC_SONU_PAYI
 TABLO_SONUC_SINIR = timedelta(hours=2, minutes=30)  # tablodaki maçın sonucu yanıtı (B2)
 _ETIKET = re.compile(r"#\w+")
 from .denetci import KISALTMA as _KISALTMA
+SESSIZLIK = timedelta(hours=3)  # SÖZLEŞME B7
+SESSIZ_BAS, SESSIZ_SON = 8, 21  # UTC saat aralığı
 DURGUNLUK = timedelta(minutes=20)  # yoğun günde, sırada post varken aralık + bu kadar sessizlik
 
 
@@ -108,7 +110,26 @@ def sorunlar(gunler: list[dict], simdi: datetime, ayar, hatalar: list[str] = ())
             dk = int((simdi - son).total_seconds() // 60)
             bulunan.append((f"{gun_adi}:durgun:{son.isoformat()}",
                             f"🔇 {dk} dakikadır post yok, sırada bekleyen var: {', '.join(bekleyen[:5])}"))
+    if bugun and SESSIZ_BAS <= simdi.hour < SESSIZ_SON:  # B7: gün türü ne olursa olsun 3 saat sessizlik alarmı
+        son = max([z for z in (_son_hareket(bugun),) if z] + [simdi.replace(hour=SESSIZ_BAS, minute=0, second=0, microsecond=0)])
+        if simdi - son > SESSIZLIK:
+            bulunan.append((f"{gun_adi}:sessiz:{son.isoformat()}",
+                            f"🔇 {int((simdi - son).total_seconds() // 3600)} saattir hesaptan hiç post/yanıt çıkmadı "
+                            f"(son: {son.strftime('%H:%M')} UTC)"))
     return bulunan
+
+
+def _son_hareket(gun: dict) -> datetime | None:
+    """Son post ya da yanıt (maç sonu, tablo sonucu) anı."""
+    zamanlar = [gun.get("yayin")]
+    for e in (gun.get("etkilesim") or {}).values():
+        if e.get("durum") == "paylasildi":
+            zamanlar.append(e.get("zaman"))
+        if isinstance(e.get("takip"), dict) and e["takip"].get("durum") == "paylasildi":
+            zamanlar.append(e["takip"].get("zaman"))
+        zamanlar += [r.get("zaman") for r in (e.get("sonuclar") or {}).values() if r.get("durum") == "paylasildi"]
+    zamanlar = [datetime.fromisoformat(z) for z in zamanlar if z]
+    return max(zamanlar) if zamanlar else None
 
 
 def _yukle() -> dict:

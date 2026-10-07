@@ -259,3 +259,95 @@ Kanıtlanmış modeller: [Going (Wikipedia)](https://en.wikipedia.org/wiki/Going
 Veri kaynağı: [Keepa – Plans & Tokens](https://keepa.com/api-docs/plans-tokens.html) ·
 [Keepa – Statistics Object](https://keepa.com/api-docs/statistics-object.html) ·
 [Keepa – Product Request](https://keepa.com/api-docs/product.html)
+
+---
+
+# Ek: Seçenek 1'in maliyeti ve ilk 6 ayın gerçekçi getirisi
+
+(7 Ekim 2026 hesabı. Fiyatlar aşağıdaki kaynaklardan; Keepa ve Awin rakamları üçüncü taraf, kendi hesabımızdan
+doğrulanmadı — kurmadan önce teyit edilecek.)
+
+## A. Aylık maliyet
+
+Varsayım: günde 10 post (ayda ~300), günde 300–500 ürün denetimi.
+
+| Kalem | Aylık | Not |
+|---|---|---|
+| **Keepa Pro** | **29,00 €** | 1 token/dk = günde 1.440 ürün. API Starter 49 €/ay (20 token/dk) — bize gerek yok |
+| X API | 4,14 € | deponun **kendi ölçümü**: ~0,015 $/gönderi (README) |
+| Anthropic API | 3,00 € | Sonnet 5.5 post metni + haftalık Opus 5.5 raporu. Haiku 5.5 ile 0,64 € |
+| Alan adı | 1,00 € | 12 €/yıl, panelin güvenilirliği için |
+| GitHub Actions + Pages | 0,00 € | depo açık → bedava |
+| Adtraction / Awin | 0,00 € | ~1 € tek seferlik depozito |
+| Bülten (bedava kademe) | 0,00 € | ~1.000 aboneye kadar |
+| **Toplam** | **37,14 €** | |
+| + X Premium (opsiyonel) | +8,50 € | → 45,64 €. Erişimi artırır; ödeme programı için **değil** (bkz. 1.3) |
+
+**6 aylık toplam: ~223 €** (Premium dahil ~274 €).
+
+## B. İlk 6 ayın getirisi
+
+Çıkış noktası uydurma değil: **kendi ölçümümüz** (`data/metrikler.json`, 3 Ekim 2026) — 37 post, post başına
+~5,6 görüntülenme, 1 takipçi. Yeni hesap da buradan başlar.
+
+Huni: panel ziyareti → %25 dışa tıklama → %2 satış → ~100 € sepet → %4 komisyon (Amazon 2026 kesintisi sonrası).
+
+| Senaryo | Ay 6 takipçi | Ay 6 geliri | **6 aylık toplam gelir** | Net (maliyet 223 €) |
+|---|---|---|---|---|
+| **Kötü** — bot tek başına, elle etkileşim yok | ~80 | 0,8 €/ay | **2 €** | −221 € |
+| **Gerçekçi** — sahibi günde 10–15 dk elle yanıt | ~550 | 8,4 €/ay | **22 €** | −200 € |
+| **İyi** — bir post patlar + uzun kuyruk SEO | ~2.200 | 49,5 €/ay | **132 €** | −91 € |
+
+**Başabaş:** aylık 37 € için **~9 satış/ay** = ~464 dışa tıklama = **~1.857 panel ziyareti/ay** gerekiyor.
+Gerçekçi senaryoda bu ay 6'da değil, kabaca **ay 12–18**'de geliyor.
+
+**Dürüst cevap: Seçenek 1 ilk 6 ayda kâr etmez.** Hiçbir senaryoda etmiyor. 6 ayın çıktısı para değil **varlık**:
+kitle, panel, şeffaf karne ve biriken fiyat geçmişi. (Going da öyle kurulmuş: ücretli kademe Ağustos 2015'te
+açılmış, 3,5 ayda 646 abone — ama zaten büyük bir bedava bülten listesinin üstüne.)
+
+## C. Maliyeti %80 düşüren yol: Keepa'yı hiç almamak
+
+Maliyetin **%78'i tek kalem** (Keepa 29 €). Ve kaçınılabilir: **Awin Create-a-Feed** yayıncılara ~200 milyon
+ürünün akışını veriyor ve akışta **indirim dahil fiyat** ile derin link var. Yani:
+
+- **Ay 1–3:** Keepa yok. Awin akışından fiyatları her gün kendimiz kaydederiz. Kart şöyle der: *"takibe
+  başladığımızdan beri (N gün) en düşük"* — yüzdeli, dürüst, ve her gün daha değerli olur. **Kuralımıza da uygun:
+  resmî API, kazıyıcı yok** (SOZLESME D).
+- **Ay 4+:** 90+ günlük **kendi** geçmişimiz var → Keepa'ya hiç gerek kalmaz. Üstelik bu geçmiş bizim
+  varlığımız olur, kiraladığımız veri değil.
+
+| | Variant A (Keepa Pro) | **Variant B (Awin akışı)** |
+|---|---|---|
+| Ay 1–3 aylık | 37,14 € | **5,78 €** (Haiku ile) |
+| Ay 4–6 aylık | 37,14 € | **8,14 €** |
+| **6 aylık maliyet** | **223 €** | **42 €** |
+| Gerçekçi gelirle net | −201 € | **−20 €** |
+| Başabaş | ~1.857 ziyaret/ay | **~407 ziyaret/ay** |
+
+Variant B gerçekçi senaryoda 6 ayda **neredeyse başabaş**. Bedeli: ilk 90 gün "90 günlük ortalama" diyemeyiz.
+
+**Variant B'nin sınırı:** Awin akışı günde bir yenilenir, yani **gün içi** fiyat düşüşünü kaçırır. Seçenek 1 için
+sorun değil (sahte indirim denetimi günlük veriyle çalışır); **Seçenek 3 (Düşüş Nöbetçisi) için ölümcül** —
+o seçenek dakika hassasiyeti ister, yani Keepa API (49 €/ay) zorunlu olur. Maliyet açısından da Seçenek 1 > 3.
+
+## D. Teyit edilecekler (kurmadan önce)
+
+1. **Awin Create-a-Feed yayıncılar için bedava mı?** Kaynaklar üyeliğin kapı olduğunu söylüyor ama ücret
+   konusunda net değil. Awin'e doğrudan sorulacak. Adtraction'ın akış karşılığı hiç bilinmiyor.
+2. **Keepa Pro'nun 1 token/dk'sı** gerçekten API'ye gidiyor mu (kaynaklar "test için" diyor) — Keepa'ya sorulacak.
+   Token 60 dakikada sönüyor, biriktirilemiyor: en fazla 60'lık kova.
+3. **Amazon Associates 180 günde 3 satış** eşiği: kötü senaryoda tutmayız ve hesap pasifleşir. Adtraction/Awin'de
+   böyle bir eşik yok → **birincil ağ Adtraction olmalı, Amazon ikincil.**
+4. Awin'in hangi İsveç satıcılarının akışına erişim verdiği (program onayı gerekiyor).
+
+## E. Bu rakamların değiştirdiği karar
+
+Önerim güncellendi: **Seçenek 1, Variant B ile başla.** Yani ilk 3 ay veri için **hiç para ödeme** (aylık ~6 €),
+kendi fiyat geçmişini biriktir, kitlenin büyüyüp büyümediğini gör. Büyüyorsa ay 4'te karar ver: kendi geçmişin
+zaten yeter. Büyümüyorsa 42 € kaybetmiş olursun, 223 € değil.
+
+Ek kaynaklar: [Keepa Pro fiyatı](https://revenuegeeks.com/software/keepa/pricing) ·
+[Keepa API token maliyeti](https://revenuegeeks.com/software/keepa/api) ·
+[Awin – ürün akışına erişim](https://success.awin.com/s/article/How-can-I-access-a-Product-Feed?language=en_US) ·
+[Awin – yayıncı akışı geliştirici rehberi](https://help.awin.com/developers/docs/product-feed-publisher-guide-intro) ·
+[Awin yayıncı araçları](https://www.awin.com/us/publishers/tools)

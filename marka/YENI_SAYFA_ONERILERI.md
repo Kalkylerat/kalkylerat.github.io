@@ -351,3 +351,138 @@ Ek kaynaklar: [Keepa Pro fiyatı](https://revenuegeeks.com/software/keepa/pricin
 [Awin – ürün akışına erişim](https://success.awin.com/s/article/How-can-I-access-a-Product-Feed?language=en_US) ·
 [Awin – yayıncı akışı geliştirici rehberi](https://help.awin.com/developers/docs/product-feed-publisher-guide-intro) ·
 [Awin yayıncı araçları](https://www.awin.com/us/publishers/tools)
+
+---
+
+# Ek 2: Karar — Variant B. Etkileşim konsepti, örnek sayfalar ve yasal dayanak
+
+Sahibinin kararı (7 Ekim 2026): **Variant B (6 ayda ~42 €)**. Gerekçesi: indirimler saatlik değil, anında
+indirim kovalamak başta gereksiz. **Bu gerekçe araştırmayla doğrulandı** — hatta sandığımızdan daha güçlü.
+
+## 1. Sahibinin gerekçesi neden doğru: dolandırıcılık haftalar sürüyor
+
+Prisjakt Ekim 2025'te **~3 milyon fiyatı** taradı: nenet butik fiyatlarının **%13'ü Ekim'de %10'dan fazla
+yükselmiş** (en çok giyim/ayakkabı, beyaz eşya, TV). Mekanizma şu: **butikler fiyatı kampanyadan haftalar önce
+yükseltiyor**, böylece "son 30 günün en düşük fiyatı" rea anındaki fiyattan yine yüksek kalıyor. SVT bunu haber
+yaptı ("Nya Black Friday-fusket: Så rundar butiken lagen").
+
+Yani hile **gün içi değil, hafta ölçeğinde** işliyor. Günlük anlık görüntü (snapshot) bu hileyi yakalamak için
+**yeterli ve doğru çözünürlük**. Dakika hassasiyeti bu işe hiçbir şey katmıyor. Karar doğru.
+
+## 2. Ama üç şey eksikti (ikisi planı iyileştiriyor)
+
+### 2.1 Ölçüt 90 gün değil, **30 gün** — ve bu bir kanun
+
+**Prisinformationslagen 2022'de güncellendi:** bir firma fiyat indirdiğinde **son 30 günün en düşük fiyatını**
+belirtmek zorunda, ve yüzde o fiyattan hesaplanmak zorunda. Konsumentverket rehberi daha da katı: "% indirim"
+herhangi bir "orijinal fiyattan" hesaplanamaz, etiketi ne olursa olsun.
+
+Bu, planı iki yerden iyileştiriyor:
+- **Variant B'nin bekleme süresi 90 gün değil ~30 gün.** Bir ayda yayına hazır oluruz, üç ayda değil.
+- **Ölçütümüz bizim kanaatimiz değil, kanun.** "Bence kötü fırsat" demiyoruz (öznel, hukuken riskli);
+  "kanun 30 günün en düşüğünden hesaplamayı şart koşuyor; bizim günlük kaydımız o fiyatı X kr görmüş" diyoruz.
+  Bu, **A2 kuralımızın** (uydurma sayı yok) yeni alandaki birebir karşılığı.
+
+### 2.2 Kayda **bugün** başlamak gerekiyor — geriye dönük doldurulamaz
+
+Hile Ekim'de fiyat yükseltmekle başlıyor; **Black Week 2026 Kasım sonunda.** Bugün 7 Ekim.
+Bu hafta kaydetmeye başlarsak Black Week'e **~7 haftalık kendi geçmişimizle** gireriz ve Prisjakt'ın belgelediği
+Ekim şişirmesini tam olarak yakalarız. Başlamazsak yılın en değerli içerik anını bir yıl erteleriz.
+
+**Bu yüzden ilk iş paylaşım botu değil, fiyat kaydedicisi.** X hesabı, kart, metin — hepsi sonra gelebilir.
+Kaydedici ucuz, sessiz ve her gün değer biriktiriyor.
+
+### 2.3 Üç teknik/etik tuzak
+
+| Tuzak | Ne yapılacak |
+|---|---|
+| **Günlük snapshot ≠ "hiç olmadığı kadar düşük"** | Metin hep "günlük kaydımıza göre" der. A2'nin aynısı: elimizde olmayanı iddia etmeyiz |
+| **Akıştaki fiyat ≠ kasadaki fiyat** (kargo, kuponu, üye fiyatı) | Akışta kargo dahil fiyat var; yine de "akışta görülen fiyat" diye çerçevelenir |
+| **Çıkar çatışması: denetlediğimiz satıcıdan komisyon alıyoruz** | **En ciddi olanı.** Aşağıda ayrı madde |
+
+### 2.4 Çıkar çatışması (sahibinin dikkatine)
+
+Awin/Adtraction komisyonu **denetlediğimiz satıcılardan** gelir. Şeffaflık markası kuran bir sayfa için bu
+gizlendiğinde ölümcül; kitle fark eder. Prisjakt'ta da aynı sorun var (karşılaştırma sitesi + ortaklık geliri).
+
+Çözüm, kurala bağlanmalı: **komisyon neyin denetlendiğine asla karar vermez**, ortaklık ilişkisi her sayfada
+yazılı olur, ve sahte indirim bulduğumuz satıcıyı komisyon aldığımız için yumuşatmayız. Uzun vadede gerçek
+çözüm **Seçenek 5**: gelir komisyondan değil abonelikten (Going'in modeli). Yani ilk planımızdaki "1 ile başla,
+5'i hedefle" rotası bu yüzden de doğru.
+
+## 3. Örnek alacağımız sayfalar (sahibinin sorusu)
+
+Dürüst cevap: **tam bu işi yapan otonom bir sayfa bulamadım.** Parçaları yapan dördü var; konsept bunların
+birleşimi.
+
+| Kaynak | Ne yapıyor | Bizim alacağımız |
+|---|---|---|
+| **Prisjakt** (İsveç) | ~3 milyon fiyatı tarayıp Ekim şişmesini raporluyor; SVT haber yapıyor, bakan yorum yapıyor | **İçeriğin kendisi.** Ama onlar bunu **yılda bir, PR için** yapıyor — **her gün yapan yok.** Boşluk bu. TikTok'ta 18,7 bin takipçi; X'te varlık bulamadım |
+| **HotUKDeals / Pepper** (Dealabs, mydealz, **Pepper Deals SE**) | Fırsat 0°'den başlar, topluluk **sıcak/soğuk** oylar; 100° = HOT DEAL + Trending. İlk **10 dakika sıcaklık gizli** (sürü etkisi olmasın). Oyla birlikte yorum yazmak teşvik ediliyor | **Etkileşim mekaniği.** Kanıtlanmış: kitle fırsatı *oylamak* istiyor |
+| **Konsumentverket / DGCCRF / ACCC** | İsveç: geçen yıl **e-ticaretin %40'ı** 30 gün kuralını ihlal etmiş. Black Friday'de 10 şirkete (Åhléns, XXL, Stadium, Webhallen, Power, Nakd, Bygghemma, Nordic Nest, Blomsterlandet, Soffadirekt) toplam 22 MSEK ceza riski; Mio ve Jysk soruşturması. Fransa: **Shein 40 M€** (ürünlerin %57'sinde indirim yokmuş), Boohoo 2,3 M€ | **Otorite ve haber çıpası.** Konu İsveç'te canlı ve kitle zaten kızgın. Ayrıca **%40 ihlal oranı** = içerik kuyusu asla kurumaz |
+| **@BuyHatke** (X, Hindistan) | "Sahte indirim" dili + gerçek fiyat düşüşü uygulaması | X'te bu dilin işlediğinin kanıtı; ama reklam ağırlıklı, denetçi değil |
+| **Sihoo Australia** | Her ürününde **90 günlük fiyat geçmişini kendisi yayınlıyor** | Şeffaflığın pazarlama kozu olduğunun kanıtı |
+
+**Konseptin bir cümlesi:** *Prisjakt'ın içeriği + HotUKDeals'in oylama mekaniği + bizim şeffaf karnemiz,
+her gün, bir bot tarafından, kanunun ölçütüne göre.*
+
+## 4. Etkileşim konsepti: "Rea eller bluff?" (günlük döngü)
+
+Sahibinin şartı: etkileşime açık olmalı. Mekanik, **mevcut kodun zaten yaptığı** şey:
+
+1. **Sabah — anket postu** (verdict YOK): ürün + reklam edilen indirim. *"Bu mont −%40 diye duyuruldu.
+   30 günlük kaydımıza göre gerçek indirim ___. Sence: gerçek mi, bluff mu?"*
+   → `etkilesim.anket` **zaten var**.
+2. **Akşam — ifşa postu**, sabahki anketi **alıntılayarak**: kart görseli, gerçek rakamlar, kanunun ne istediği.
+   → `etkilesim.analiz_takibi` ("ne dedik, ne oldu" alıntısı) **zaten var**.
+
+Neden işler (sosyal-medya skill'inin ölçtükleri): **yanıt beğeniden ~15x ağır**, ilk 30–60 dakikadaki hız
+dağıtımı belirliyor, **tablo ve sayı bookmark aldırıyor**. Anket, D3'ü bozmadan yanıt üreten en ucuz yol:
+başkalarına biz yanıt vermiyoruz, onlar bizim postumuza geliyor.
+
+Benzerlik cezasına karşı dönüşümlü formatlar:
+- **"30 günün en düşüğünü tahmin et"** — sayı tahmini, yanıt getirir
+- **Haftalık tablo**: "bu hafta N indirim denetledik, %X'i 30 gün kuralını karşılamadı" → bookmark
+- **Aylık karne**: kendi şeffaflık karnemiz, futboldaki karnenin aynısı
+- **"Fiyat readan önce yükseldi"** — Ekim kalıbı; SVT'nin haber yaptığı format, en viral olanı
+- **Black Week = finalimiz.** Bütün yıl Kasım sonuna çalışır (futbolda maç takvimi neyse, bu o)
+
+## 5. Onay bekleyen: SOZLESME F bölümü taslağı
+
+Kod yazılmadan önce sahibinin onaylaması gereken değişmez kurallar:
+
+| # | Taslak kural |
+|---|---|
+| F1 | Her kart **kanunun ölçütünü** yazar: son 30 günün en düşük fiyatı, reklam edilen referans fiyat, **gerçek indirim %**. Üçü de kayıttan; uydurma fiyat yok (A2'nin karşılığı) |
+| F2 | **"Günlük kaydımıza göre"** ibaresi zorunlu. 30 günümüz yoksa kaç günümüz varsa o yazılır |
+| F3 | **Ölçüm, tavsiye değil** (A3'ün karşılığı): "al/alma" yok, "kaçırma" yok, aciliyet dili yok |
+| F4 | **Komisyon neyin denetlendiğine karar vermez.** Ortaklık ilişkisi panelde ve profilde yazılı; komisyon aldığımız satıcıyı yumuşatmayız |
+| F5 | Ana postta **link yok** (erişim + Şubat 2026 ifşa kuralı). Link panelde |
+| F6 | Satıcı adı geçtiğinde yalnızca **kendi ölçtüğümüz sayı** ve **kanunun metni** söylenir; suç isnadı yok, hüküm vermeyiz. Konsumentverket yetkili merci, biz değiliz |
+| F7 | Mevcut iki hesabın kodu ve workflow'ları değişmez; yeni sayfa ayrı modül, ayrı X anahtarları |
+
+**F6 için not:** doğru fiyatı bildirmek hukuken güvenlidir, ama tanınmış bir satıcıyı "kanunu çiğniyor" diye
+adlandırmak farklı bir iddiadır. Türkçe hesapta 7258 için beklediğimiz gibi, **büyük satıcı adı geçecekse
+önce hukuki görüş** alınmalı. Sayı + kanun metni çerçevesi bu riski en aza indirir.
+
+## 6. Önerilen sıra
+
+1. **Bu hafta: fiyat kaydedicisi** (`bot/fiyat.py`) — Awin akışından günlük snapshot, `data/fiyat/` altına.
+   X hesabı, kart, metin gerekmez. Black Week'e 7 haftalık geçmişle girmek için tek şart bu.
+2. Awin yayıncı kaydı + akış erişiminin bedava olduğunun teyidi (Ek 1 §D).
+3. ~30 gün sonra: SOZLESME F bölümü → testler → kart görseli → anket/ifşa döngüsü → panel.
+4. Black Week: yılın en büyük içerik anı, elimizde gerçek veriyle.
+
+Ek kaynaklar: [Prisjakt: 3 milyon fiyat, %13 Ekim'de yükseldi (Market)](https://www.market.se/retailtrender/trender/ny-rapport-flaggar-for-hojda-priser-under-bade-black-friday-och-julhandeln/) ·
+[SVT: Nya Black Friday-fusket](https://www.svt.se/nyheter/inrikes/nya-black-friday-fusket-sa-rundar-butiken-lagen) ·
+[Bird & Bird: Sweden – Omnibus Directive](https://www.twobirds.com/en/trending-topics/omnibus-directive/omnibus-directive-countries/sweden) ·
+[Bird & Bird: İsveç fiyat bilgisi rehberi 2024](https://www.twobirds.com/en/insights/2024/sweden/clarity-on-price-transparency-new-guidance-on-price-indication-in-sweden) ·
+[EU Komisyonu: Madde 6a rehberi](https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX%3A52021XC1229%2806%29) ·
+[Konsumentverket Black Friday uyarısı (10 şirket)](https://swedenherald.com/article/consumer-ombudsman-warns-ten-companies-for-misleading-black-friday-prices) ·
+[Mio, Jysk soruşturması](https://www.interiordaily.com/article/9636218/swedish-consumer-agency-targets-mio-jysk-and-other-furniture-retailers-over-sale-fraud-allegations/) ·
+[Shein 40 M€ cezası](https://www.yahoo.com/news/france-fines-chinese-retailer-shein-153232791.html) ·
+[Boohoo cezası](https://www.retaildetail.eu/news/fashion/misleading-discounts-land-boohoo-a-fine-in-the-millions/) ·
+[HotUKDeals: sıcaklık ve oylama](https://help.hotukdeals.com/help/using-your-vote) ·
+[HotUKDeals: sıcaklık ne demek](https://help.hotukdeals.com/help/votes-and-temperature-03f53346) ·
+[Nordic Black Friday Report 2025](https://uutishuone.hintaopas.fi/posts/pressreleases/nordic-black-friday-report-2025-shoppers-driv) ·
+[@BuyHatke (X)](https://x.com/BuyHatke/status/2105226352140181605)

@@ -22103,5 +22103,1745 @@
         "istatistik_kaynak": "lig"
       }
     ]
+  },
+  {
+    "yogun": false,
+    "id": "2026-10-07",
+    "tarih": "2026-10-07",
+    "olusturma": "2026-10-07T05:36:27+00:00",
+    "baslik": "",
+    "secimler": [],
+    "sonuc": "analiz",
+    "tweet_id": null,
+    "konsept": "analiz",
+    "taranan": 157,
+    "analiz_sayisi": 103,
+    "vitrin": [
+      {
+        "fixture_id": 1528726,
+        "lig": "League One",
+        "ulke": "China",
+        "izinli": false,
+        "ev": "Dongguan United",
+        "dep": "Guangxi Hengchen",
+        "baslama": "2026-10-07T13:30:00+02:00",
+        "p": {
+          "MS1": 0.168,
+          "MSX": 0.224,
+          "MS2": 0.607
+        },
+        "beklenen_gol": [
+          0.95,
+          2.0
+        ],
+        "olasi_skor": "0-1",
+        "kisa": {
+          "pazar": "UST15",
+          "ad": "Over 1.5 goals",
+          "p": 0.78,
+          "oran": 1.22
+        }
+      },
+      {
+        "fixture_id": 1528727,
+        "lig": "League One",
+        "ulke": "China",
+        "izinli": false,
+        "ev": "Nanjing City",
+        "dep": "Shaanxi Union",
+        "baslama": "2026-10-07T13:30:00+02:00",
+        "p": {
+          "MS1": 0.256,
+          "MSX": 0.283,
+          "MS2": 0.462
+        },
+        "beklenen_gol": [
+          1.1,
+          1.5
+        ],
+        "olasi_skor": "1-1",
+        "kisa": {
+          "pazar": "UST15",
+          "ad": "Over 1.5 goals",
+          "p": 0.726,
+          "oran": 1.29
+        }
+      },
+      {
+        "fixture_id": 1638101,
+        "lig": "Veikkausliiga",
+        "ulke": "Finland",
+        "izinli": false,
+        "ev": "Gnistan",
+        "dep": "Inter Turku",
+        "baslama": "2026-10-07T18:00:00+02:00",
+        "p": {
+          "MS1": 0.253,
+          "MSX": 0.262,
+          "MS2": 0.485
+        },
+        "beklenen_gol": [
+          1.15,
+          1.65
+        ],
+        "olasi_skor": "1-1",
+        "kisa": {
+          "pazar": "UST15",
+          "ad": "Over 1.5 goals",
+          "p": 0.767,
+          "oran": 1.26
+        }
+      },
+      {
+        "fixture_id": 1635591,
+        "lig": "Emperor Cup",
+        "ulke": "Japan",
+        "izinli": false,
+        "ev": "Urawa",
+        "dep": "Omiya Ardija",
+        "baslama": "2026-10-07T11:00:00+02:00",
+        "p": {
+          "MS1": 0.536,
+          "MSX": 0.252,
+          "MS2": 0.211
+        },
+        "beklenen_gol": [
+          1.8,
+          1.05
+        ],
+        "olasi_skor": "1-1",
+        "kisa": {
+          "pazar": "UST15",
+          "ad": "Over 1.5 goals",
+          "p": 0.769,
+          "oran": 1.22
+        }
+      },
+      {
+        "fixture_id": 1635578,
+        "lig": "Emperor Cup",
+        "ulke": "Japan",
+        "izinli": false,
+        "ev": "Avispa Fukuoka",
+        "dep": "Yokohama FC",
+        "baslama": "2026-10-07T11:30:00+02:00",
+        "p": {
+          "MS1": 0.418,
+          "MSX": 0.312,
+          "MS2": 0.27
+        },
+        "beklenen_gol": [
+          1.25,
+          0.95
+        ],
+        "olasi_skor": "1-0",
+        "kisa": null
+      },
+      {
+        "fixture_id": 1635579,
+        "lig": "Emperor Cup",
+        "ulke": "Japan",
+        "izinli": false,
+        "ev": "Cerezo Osaka",
+        "dep": "Kagoshima United",
+        "baslama": "2026-10-07T11:30:00+02:00",
+        "p": {
+          "MS1": 0.636,
+          "MSX": 0.212,
+          "MS2": 0.152
+        },
+        "beklenen_gol": [
+          2.0,
+          0.9
+        ],
+        "olasi_skor": "1-0",
+        "kisa": {
+          "pazar": "UST15",
+          "ad": "Over 1.5 goals",
+          "p": 0.773,
+          "oran": 1.25
+        }
+      }
+    ],
+    "analizler": [],
+    "tablo": [
+      {
+        "fixture_id": 1638514,
+        "lig": "League Two",
+        "ulke": "China",
+        "lig_id": 929,
+        "ev": "Tai'an Tiankuang",
+        "dep": "Shangyu Pterosaur",
+        "baslama": "2026-10-07T10:00:00+02:00",
+        "p": {
+          "MS1": 0.626,
+          "MSX": 0.229,
+          "MS2": 0.145,
+          "CS1X": 0.855,
+          "CSX2": 0.374,
+          "CS12": 0.771,
+          "KGVAR": 0.416,
+          "KGYOK": 0.584,
+          "UST15": 0.702,
+          "ALT15": 0.298,
+          "UST25": 0.443,
+          "ALT25": 0.557,
+          "UST35": 0.232,
+          "ALT35": 0.768,
+          "IY1": 0.442,
+          "IYX": 0.42,
+          "IY2": 0.138,
+          "IYU05": 0.668,
+          "IYA05": 0.332,
+          "IYU15": 0.302,
+          "IYA15": 0.698,
+          "EVU05": 0.826,
+          "EVA05": 0.174,
+          "EVU15": 0.522,
+          "EVA15": 0.478,
+          "EVU25": 0.256,
+          "EVA25": 0.744,
+          "DPU05": 0.503,
+          "DPA05": 0.497,
+          "DPU15": 0.156,
+          "DPA15": 0.844,
+          "DPU25": 0.034,
+          "DPA25": 0.966,
+          "YYU05": 0.74,
+          "YYA05": 0.26,
+          "YYU15": 0.39,
+          "YYA15": 0.61
+        },
+        "skorlar": [
+          [
+            "1-0",
+            0.151
+          ],
+          [
+            "2-0",
+            0.1321
+          ],
+          [
+            "1-1",
+            0.1057
+          ],
+          [
+            "2-1",
+            0.0925
+          ],
+          [
+            "0-0",
+            0.0863
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.443,
+            "istatistik": 0.256
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.416,
+            "istatistik": 0.296
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Tai'an Tiankuang win",
+            "piyasa": 0.626,
+            "istatistik": 0.521
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.229,
+            "istatistik": 0.309
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Shangyu Pterosaur win",
+            "piyasa": 0.145,
+            "istatistik": 0.17
+          }
+        ],
+        "beklenen_gol": [
+          1.75,
+          0.7
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1635591,
+        "lig": "Emperor Cup",
+        "ulke": "Japan",
+        "lig_id": 102,
+        "ev": "Urawa",
+        "dep": "Omiya Ardija",
+        "baslama": "2026-10-07T11:00:00+02:00",
+        "p": {
+          "MS1": 0.549,
+          "MSX": 0.231,
+          "MS2": 0.219,
+          "CS1X": 0.781,
+          "CSX2": 0.451,
+          "CS12": 0.769,
+          "KGVAR": 0.543,
+          "KGYOK": 0.457,
+          "UST15": 0.777,
+          "ALT15": 0.223,
+          "UST25": 0.542,
+          "ALT25": 0.458,
+          "UST35": 0.319,
+          "ALT35": 0.681,
+          "IY1": 0.407,
+          "IYX": 0.394,
+          "IY2": 0.199,
+          "IYU05": 0.723,
+          "IYA05": 0.277,
+          "IYU15": 0.367,
+          "IYA15": 0.633,
+          "EVU05": 0.835,
+          "EVA05": 0.165,
+          "EVU15": 0.537,
+          "EVA15": 0.463,
+          "EVU25": 0.269,
+          "EVA25": 0.731,
+          "DPU05": 0.65,
+          "DPA05": 0.35,
+          "DPU15": 0.283,
+          "DPA15": 0.717,
+          "DPU25": 0.09,
+          "DPA25": 0.91,
+          "YYU05": 0.791,
+          "YYA05": 0.209,
+          "YYU15": 0.464,
+          "YYA15": 0.535
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1093
+          ],
+          [
+            "1-0",
+            0.1041
+          ],
+          [
+            "2-1",
+            0.0984
+          ],
+          [
+            "2-0",
+            0.0937
+          ],
+          [
+            "0-1",
+            0.0607
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.542,
+            "istatistik": 0.456
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Urawa win",
+            "piyasa": 0.549,
+            "istatistik": 0.488
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.543,
+            "istatistik": 0.491
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.231,
+            "istatistik": 0.26
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Omiya Ardija win",
+            "piyasa": 0.219,
+            "istatistik": 0.252
+          }
+        ],
+        "beklenen_gol": [
+          1.8,
+          1.05
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "son5"
+      },
+      {
+        "fixture_id": 1635578,
+        "lig": "Emperor Cup",
+        "ulke": "Japan",
+        "lig_id": 102,
+        "ev": "Avispa Fukuoka",
+        "dep": "Yokohama FC",
+        "baslama": "2026-10-07T11:30:00+02:00",
+        "p": {
+          "MS1": 0.432,
+          "MSX": 0.287,
+          "MS2": 0.281,
+          "CS1X": 0.719,
+          "CSX2": 0.568,
+          "CS12": 0.713,
+          "KGVAR": 0.438,
+          "KGYOK": 0.562,
+          "UST15": 0.645,
+          "ALT15": 0.355,
+          "UST25": 0.377,
+          "ALT25": 0.623,
+          "UST35": 0.181,
+          "ALT35": 0.819,
+          "IY1": 0.312,
+          "IYX": 0.466,
+          "IY2": 0.221,
+          "IYU05": 0.628,
+          "IYA05": 0.372,
+          "IYU15": 0.261,
+          "IYA15": 0.739,
+          "EVU05": 0.713,
+          "EVA05": 0.287,
+          "EVU15": 0.355,
+          "EVA15": 0.645,
+          "EVU25": 0.132,
+          "EVA25": 0.868,
+          "DPU05": 0.613,
+          "DPA05": 0.387,
+          "DPU15": 0.246,
+          "DPA15": 0.754,
+          "DPU25": 0.071,
+          "DPA25": 0.929,
+          "YYU05": 0.702,
+          "YYA05": 0.298,
+          "YYU15": 0.341,
+          "YYA15": 0.659
+        },
+        "skorlar": [
+          [
+            "1-0",
+            0.1385
+          ],
+          [
+            "1-1",
+            0.1316
+          ],
+          [
+            "0-0",
+            0.1108
+          ],
+          [
+            "0-1",
+            0.1053
+          ],
+          [
+            "2-0",
+            0.0866
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [],
+        "beklenen_gol": [
+          1.25,
+          0.95
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": null
+      },
+      {
+        "fixture_id": 1573272,
+        "lig": "Segunda División RFEF - Group 5",
+        "ulke": "Spain",
+        "lig_id": 879,
+        "ev": "Real Madrid III",
+        "dep": "Guadalajara",
+        "baslama": "2026-10-07T12:00:00+02:00",
+        "p": {
+          "MS1": 0.351,
+          "MSX": 0.273,
+          "MS2": 0.375,
+          "CS1X": 0.625,
+          "CSX2": 0.649,
+          "CS12": 0.727,
+          "KGVAR": 0.499,
+          "KGYOK": 0.501,
+          "UST15": 0.702,
+          "ALT15": 0.298,
+          "UST25": 0.443,
+          "ALT25": 0.557,
+          "UST35": 0.232,
+          "ALT35": 0.768,
+          "IY1": 0.272,
+          "IYX": 0.441,
+          "IY2": 0.287,
+          "IYU05": 0.668,
+          "IYA05": 0.332,
+          "IYU15": 0.302,
+          "IYA15": 0.698,
+          "EVU05": 0.699,
+          "EVA05": 0.301,
+          "EVU15": 0.337,
+          "EVA15": 0.663,
+          "EVU25": 0.121,
+          "EVA25": 0.879,
+          "DPU05": 0.713,
+          "DPA05": 0.287,
+          "DPU15": 0.355,
+          "DPA15": 0.645,
+          "DPU25": 0.132,
+          "DPA25": 0.868,
+          "YYU05": 0.74,
+          "YYA05": 0.26,
+          "YYU15": 0.39,
+          "YYA15": 0.61
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1294
+          ],
+          [
+            "0-1",
+            0.1079
+          ],
+          [
+            "1-0",
+            0.1036
+          ],
+          [
+            "0-0",
+            0.0863
+          ],
+          [
+            "1-2",
+            0.0809
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Real Madrid III win",
+            "piyasa": 0.351,
+            "istatistik": 0.286
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Guadalajara win",
+            "piyasa": 0.375,
+            "istatistik": 0.434
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.443,
+            "istatistik": 0.404
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.499,
+            "istatistik": 0.46
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.273,
+            "istatistik": 0.28
+          }
+        ],
+        "beklenen_gol": [
+          1.2,
+          1.25
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "son5"
+      },
+      {
+        "fixture_id": 1531106,
+        "lig": "Pro League A",
+        "ulke": "Uzbekistan",
+        "lig_id": 1075,
+        "ev": "BuxDu",
+        "dep": "Lochin",
+        "baslama": "2026-10-07T13:00:00+02:00",
+        "p": {
+          "MS1": 0.177,
+          "MSX": 0.207,
+          "MS2": 0.616,
+          "CS1X": 0.384,
+          "CSX2": 0.823,
+          "CS12": 0.793,
+          "KGVAR": 0.551,
+          "KGYOK": 0.449,
+          "UST15": 0.808,
+          "ALT15": 0.192,
+          "UST25": 0.588,
+          "ALT25": 0.412,
+          "UST35": 0.364,
+          "ALT35": 0.636,
+          "IY1": 0.174,
+          "IYX": 0.37,
+          "IY2": 0.456,
+          "IYU05": 0.747,
+          "IYA05": 0.253,
+          "IYU15": 0.399,
+          "IYA15": 0.601,
+          "EVU05": 0.632,
+          "EVA05": 0.368,
+          "EVU15": 0.264,
+          "EVA15": 0.736,
+          "EVU25": 0.08,
+          "EVA25": 0.92,
+          "DPU05": 0.871,
+          "DPA05": 0.129,
+          "DPU15": 0.607,
+          "DPA15": 0.393,
+          "DPU25": 0.337,
+          "DPA25": 0.663,
+          "YYU05": 0.813,
+          "YYA05": 0.187,
+          "YYU15": 0.5,
+          "YYA15": 0.5
+        },
+        "skorlar": [
+          [
+            "1-2",
+            0.0995
+          ],
+          [
+            "0-2",
+            0.0995
+          ],
+          [
+            "1-1",
+            0.0971
+          ],
+          [
+            "0-1",
+            0.0971
+          ],
+          [
+            "0-3",
+            0.068
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS2",
+            "ad": "Lochin win",
+            "piyasa": 0.616,
+            "istatistik": 0.48
+          },
+          {
+            "pazar": "MS1",
+            "ad": "BuxDu win",
+            "piyasa": 0.177,
+            "istatistik": 0.282
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.207,
+            "istatistik": 0.239
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.551,
+            "istatistik": 0.583
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.588,
+            "istatistik": 0.566
+          }
+        ],
+        "beklenen_gol": [
+          1.0,
+          2.05
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1640687,
+        "lig": "Türkiye Kupası",
+        "ulke": "Turkey",
+        "lig_id": 206,
+        "ev": "Hatayspor",
+        "dep": "Karaköprü Belediyespor",
+        "baslama": "2026-10-07T13:00:00+02:00",
+        "p": {
+          "MS1": 0.238,
+          "MSX": 0.236,
+          "MS2": 0.526,
+          "CS1X": 0.474,
+          "CSX2": 0.762,
+          "CS12": 0.764,
+          "KGVAR": 0.551,
+          "KGYOK": 0.449,
+          "UST15": 0.777,
+          "ALT15": 0.223,
+          "UST25": 0.542,
+          "ALT25": 0.458,
+          "UST35": 0.319,
+          "ALT35": 0.681,
+          "IY1": 0.211,
+          "IYX": 0.396,
+          "IY2": 0.392,
+          "IYU05": 0.723,
+          "IYA05": 0.277,
+          "IYU15": 0.367,
+          "IYA15": 0.633,
+          "EVU05": 0.667,
+          "EVA05": 0.333,
+          "EVU15": 0.301,
+          "EVA15": 0.699,
+          "EVU25": 0.1,
+          "EVA25": 0.9,
+          "DPU05": 0.826,
+          "DPA05": 0.174,
+          "DPU15": 0.522,
+          "DPA15": 0.478,
+          "DPU25": 0.256,
+          "DPA25": 0.744,
+          "YYU05": 0.791,
+          "YYA05": 0.209,
+          "YYU15": 0.464,
+          "YYA15": 0.535
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1114
+          ],
+          [
+            "0-1",
+            0.1012
+          ],
+          [
+            "1-2",
+            0.0974
+          ],
+          [
+            "0-2",
+            0.0886
+          ],
+          [
+            "1-0",
+            0.0636
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [],
+        "beklenen_gol": [
+          1.1,
+          1.75
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": null
+      }
+    ],
+    "ayrisma": [
+      {
+        "fixture_id": 1628500,
+        "lig": "NPFL",
+        "ulke": "Nigeria",
+        "lig_id": 399,
+        "ev": "Shooting Stars",
+        "dep": "Kano Pillars",
+        "baslama": "2026-10-07T17:00:00+02:00",
+        "p": {
+          "MS1": 0.628,
+          "MSX": 0.234,
+          "MS2": 0.139,
+          "CS1X": 0.861,
+          "CSX2": 0.372,
+          "CS12": 0.766,
+          "KGVAR": 0.391,
+          "KGYOK": 0.609,
+          "UST15": 0.681,
+          "ALT15": 0.319,
+          "UST25": 0.417,
+          "ALT25": 0.583,
+          "UST35": 0.211,
+          "ALT35": 0.789,
+          "IY1": 0.439,
+          "IYX": 0.429,
+          "IY2": 0.131,
+          "IYU05": 0.653,
+          "IYA05": 0.347,
+          "IYU15": 0.285,
+          "IYA15": 0.715,
+          "EVU05": 0.817,
+          "EVA05": 0.183,
+          "EVU15": 0.507,
+          "EVA15": 0.493,
+          "EVU25": 0.243,
+          "EVA25": 0.757,
+          "DPU05": 0.478,
+          "DPA05": 0.522,
+          "DPU15": 0.139,
+          "DPA15": 0.861,
+          "DPU25": 0.028,
+          "DPA25": 0.972,
+          "YYU05": 0.725,
+          "YYA05": 0.275,
+          "YYU15": 0.371,
+          "YYA15": 0.629
+        },
+        "skorlar": [
+          [
+            "1-0",
+            0.1621
+          ],
+          [
+            "2-0",
+            0.1378
+          ],
+          [
+            "1-1",
+            0.1054
+          ],
+          [
+            "0-0",
+            0.0954
+          ],
+          [
+            "2-1",
+            0.0896
+          ]
+        ],
+        "guven": "orta",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Shooting Stars win",
+            "piyasa": 0.628,
+            "istatistik": 0.222
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Kano Pillars win",
+            "piyasa": 0.139,
+            "istatistik": 0.538
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.391,
+            "istatistik": 0.517
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.417,
+            "istatistik": 0.506
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.234,
+            "istatistik": 0.24
+          }
+        ],
+        "beklenen_gol": [
+          1.7,
+          0.65
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1635590,
+        "lig": "Emperor Cup",
+        "ulke": "Japan",
+        "lig_id": 102,
+        "ev": "Shimizu S-pulse",
+        "dep": "V-varen Nagasaki",
+        "baslama": "2026-10-07T12:00:00+02:00",
+        "p": {
+          "MS1": 0.438,
+          "MSX": 0.266,
+          "MS2": 0.296,
+          "CS1X": 0.704,
+          "CSX2": 0.562,
+          "CS12": 0.734,
+          "KGVAR": 0.503,
+          "KGYOK": 0.497,
+          "UST15": 0.713,
+          "ALT15": 0.287,
+          "UST25": 0.456,
+          "ALT25": 0.544,
+          "UST35": 0.242,
+          "ALT35": 0.758,
+          "IY1": 0.327,
+          "IYX": 0.434,
+          "IY2": 0.239,
+          "IYU05": 0.675,
+          "IYA05": 0.325,
+          "IYU15": 0.31,
+          "IYA15": 0.69,
+          "EVU05": 0.753,
+          "EVA05": 0.247,
+          "EVU15": 0.408,
+          "EVA15": 0.592,
+          "EVU25": 0.167,
+          "EVA25": 0.833,
+          "DPU05": 0.667,
+          "DPA05": 0.333,
+          "DPU15": 0.301,
+          "DPA15": 0.699,
+          "DPU25": 0.1,
+          "DPA25": 0.9,
+          "YYU05": 0.747,
+          "YYA05": 0.253,
+          "YYU15": 0.4,
+          "YYA15": 0.6
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1264
+          ],
+          [
+            "1-0",
+            0.1149
+          ],
+          [
+            "0-1",
+            0.0903
+          ],
+          [
+            "2-1",
+            0.0885
+          ],
+          [
+            "0-0",
+            0.0821
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.456,
+            "istatistik": 0.762
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.503,
+            "istatistik": 0.748
+          },
+          {
+            "pazar": "MS2",
+            "ad": "V-varen Nagasaki win",
+            "piyasa": 0.296,
+            "istatistik": 0.396
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.266,
+            "istatistik": 0.207
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Shimizu S-pulse win",
+            "piyasa": 0.438,
+            "istatistik": 0.396
+          }
+        ],
+        "beklenen_gol": [
+          1.4,
+          1.1
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "son5"
+      },
+      {
+        "fixture_id": 1635579,
+        "lig": "Emperor Cup",
+        "ulke": "Japan",
+        "lig_id": 102,
+        "ev": "Cerezo Osaka",
+        "dep": "Kagoshima United",
+        "baslama": "2026-10-07T11:30:00+02:00",
+        "p": {
+          "MS1": 0.63,
+          "MSX": 0.209,
+          "MS2": 0.162,
+          "CS1X": 0.838,
+          "CSX2": 0.37,
+          "CS12": 0.791,
+          "KGVAR": 0.513,
+          "KGYOK": 0.487,
+          "UST15": 0.785,
+          "ALT15": 0.215,
+          "UST25": 0.554,
+          "ALT25": 0.446,
+          "UST35": 0.33,
+          "ALT35": 0.67,
+          "IY1": 0.461,
+          "IYX": 0.379,
+          "IY2": 0.16,
+          "IYU05": 0.729,
+          "IYA05": 0.271,
+          "IYU15": 0.375,
+          "IYA15": 0.625,
+          "EVU05": 0.865,
+          "EVA05": 0.135,
+          "EVU15": 0.594,
+          "EVA15": 0.406,
+          "EVU25": 0.323,
+          "EVA25": 0.677,
+          "DPU05": 0.593,
+          "DPA05": 0.407,
+          "DPU15": 0.228,
+          "DPA15": 0.772,
+          "DPU25": 0.063,
+          "DPA25": 0.937,
+          "YYU05": 0.797,
+          "YYA05": 0.203,
+          "YYU15": 0.473,
+          "YYA15": 0.527
+        },
+        "skorlar": [
+          [
+            "2-0",
+            0.11
+          ],
+          [
+            "1-0",
+            0.11
+          ],
+          [
+            "1-1",
+            0.099
+          ],
+          [
+            "2-1",
+            0.099
+          ],
+          [
+            "3-0",
+            0.0734
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Cerezo Osaka win",
+            "piyasa": 0.63,
+            "istatistik": 0.344
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Kagoshima United win",
+            "piyasa": 0.162,
+            "istatistik": 0.443
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.513,
+            "istatistik": 0.714
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.554,
+            "istatistik": 0.723
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.209,
+            "istatistik": 0.213
+          }
+        ],
+        "beklenen_gol": [
+          2.0,
+          0.9
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "son5"
+      }
+    ],
+    "kiyas": [
+      {
+        "fixture_id": 1635579,
+        "lig": "Emperor Cup",
+        "ulke": "Japan",
+        "lig_id": 102,
+        "ev": "Cerezo Osaka",
+        "dep": "Kagoshima United",
+        "baslama": "2026-10-07T11:30:00+02:00",
+        "p": {
+          "MS1": 0.63,
+          "MSX": 0.209,
+          "MS2": 0.162,
+          "CS1X": 0.838,
+          "CSX2": 0.37,
+          "CS12": 0.791,
+          "KGVAR": 0.513,
+          "KGYOK": 0.487,
+          "UST15": 0.785,
+          "ALT15": 0.215,
+          "UST25": 0.554,
+          "ALT25": 0.446,
+          "UST35": 0.33,
+          "ALT35": 0.67,
+          "IY1": 0.461,
+          "IYX": 0.379,
+          "IY2": 0.16,
+          "IYU05": 0.729,
+          "IYA05": 0.271,
+          "IYU15": 0.375,
+          "IYA15": 0.625,
+          "EVU05": 0.865,
+          "EVA05": 0.135,
+          "EVU15": 0.594,
+          "EVA15": 0.406,
+          "EVU25": 0.323,
+          "EVA25": 0.677,
+          "DPU05": 0.593,
+          "DPA05": 0.407,
+          "DPU15": 0.228,
+          "DPA15": 0.772,
+          "DPU25": 0.063,
+          "DPA25": 0.937,
+          "YYU05": 0.797,
+          "YYA05": 0.203,
+          "YYU15": 0.473,
+          "YYA15": 0.527
+        },
+        "skorlar": [
+          [
+            "2-0",
+            0.11
+          ],
+          [
+            "1-0",
+            0.11
+          ],
+          [
+            "1-1",
+            0.099
+          ],
+          [
+            "2-1",
+            0.099
+          ],
+          [
+            "3-0",
+            0.0734
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Cerezo Osaka win",
+            "piyasa": 0.63,
+            "istatistik": 0.344
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Kagoshima United win",
+            "piyasa": 0.162,
+            "istatistik": 0.443
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.513,
+            "istatistik": 0.714
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.554,
+            "istatistik": 0.723
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.209,
+            "istatistik": 0.213
+          }
+        ],
+        "beklenen_gol": [
+          2.0,
+          0.9
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "son5"
+      },
+      {
+        "fixture_id": 1635590,
+        "lig": "Emperor Cup",
+        "ulke": "Japan",
+        "lig_id": 102,
+        "ev": "Shimizu S-pulse",
+        "dep": "V-varen Nagasaki",
+        "baslama": "2026-10-07T12:00:00+02:00",
+        "p": {
+          "MS1": 0.438,
+          "MSX": 0.266,
+          "MS2": 0.296,
+          "CS1X": 0.704,
+          "CSX2": 0.562,
+          "CS12": 0.734,
+          "KGVAR": 0.503,
+          "KGYOK": 0.497,
+          "UST15": 0.713,
+          "ALT15": 0.287,
+          "UST25": 0.456,
+          "ALT25": 0.544,
+          "UST35": 0.242,
+          "ALT35": 0.758,
+          "IY1": 0.327,
+          "IYX": 0.434,
+          "IY2": 0.239,
+          "IYU05": 0.675,
+          "IYA05": 0.325,
+          "IYU15": 0.31,
+          "IYA15": 0.69,
+          "EVU05": 0.753,
+          "EVA05": 0.247,
+          "EVU15": 0.408,
+          "EVA15": 0.592,
+          "EVU25": 0.167,
+          "EVA25": 0.833,
+          "DPU05": 0.667,
+          "DPA05": 0.333,
+          "DPU15": 0.301,
+          "DPA15": 0.699,
+          "DPU25": 0.1,
+          "DPA25": 0.9,
+          "YYU05": 0.747,
+          "YYA05": 0.253,
+          "YYU15": 0.4,
+          "YYA15": 0.6
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1264
+          ],
+          [
+            "1-0",
+            0.1149
+          ],
+          [
+            "0-1",
+            0.0903
+          ],
+          [
+            "2-1",
+            0.0885
+          ],
+          [
+            "0-0",
+            0.0821
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.456,
+            "istatistik": 0.762
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.503,
+            "istatistik": 0.748
+          },
+          {
+            "pazar": "MS2",
+            "ad": "V-varen Nagasaki win",
+            "piyasa": 0.296,
+            "istatistik": 0.396
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.266,
+            "istatistik": 0.207
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Shimizu S-pulse win",
+            "piyasa": 0.438,
+            "istatistik": 0.396
+          }
+        ],
+        "beklenen_gol": [
+          1.4,
+          1.1
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "son5"
+      },
+      {
+        "fixture_id": 1635581,
+        "lig": "Emperor Cup",
+        "ulke": "Japan",
+        "lig_id": 102,
+        "ev": "Gainare Tottori",
+        "dep": "Tokyo Verdy",
+        "baslama": "2026-10-07T12:00:00+02:00",
+        "p": {
+          "MS1": 0.146,
+          "MSX": 0.202,
+          "MS2": 0.652,
+          "CS1X": 0.348,
+          "CSX2": 0.854,
+          "CS12": 0.798,
+          "KGVAR": 0.499,
+          "KGYOK": 0.501,
+          "UST15": 0.785,
+          "ALT15": 0.215,
+          "UST25": 0.554,
+          "ALT25": 0.446,
+          "UST35": 0.33,
+          "ALT35": 0.67,
+          "IY1": 0.148,
+          "IYX": 0.376,
+          "IY2": 0.476,
+          "IYU05": 0.729,
+          "IYA05": 0.271,
+          "IYU15": 0.375,
+          "IYA15": 0.625,
+          "EVU05": 0.573,
+          "EVA05": 0.427,
+          "EVU15": 0.209,
+          "EVA15": 0.791,
+          "EVU25": 0.055,
+          "EVA25": 0.945,
+          "DPU05": 0.871,
+          "DPA05": 0.129,
+          "DPU15": 0.607,
+          "DPA15": 0.393,
+          "DPU25": 0.337,
+          "DPA25": 0.663,
+          "YYU05": 0.797,
+          "YYA05": 0.203,
+          "YYU15": 0.473,
+          "YYA15": 0.527
+        },
+        "skorlar": [
+          [
+            "0-2",
+            0.1156
+          ],
+          [
+            "0-1",
+            0.1128
+          ],
+          [
+            "1-2",
+            0.0983
+          ],
+          [
+            "1-1",
+            0.0959
+          ],
+          [
+            "0-3",
+            0.079
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.554,
+            "istatistik": 0.826
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.499,
+            "istatistik": 0.773
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Gainare Tottori win",
+            "piyasa": 0.146,
+            "istatistik": 0.235
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Tokyo Verdy win",
+            "piyasa": 0.652,
+            "istatistik": 0.589
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.202,
+            "istatistik": 0.176
+          }
+        ],
+        "beklenen_gol": [
+          0.85,
+          2.05
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "son5"
+      },
+      {
+        "fixture_id": 1531005,
+        "lig": "Pro League A",
+        "ulke": "Uzbekistan",
+        "lig_id": 1075,
+        "ev": "Shortan",
+        "dep": "Jayxun",
+        "baslama": "2026-10-07T14:00:00+02:00",
+        "p": {
+          "MS1": 0.726,
+          "MSX": 0.174,
+          "MS2": 0.1,
+          "CS1X": 0.9,
+          "CSX2": 0.274,
+          "CS12": 0.826,
+          "KGVAR": 0.45,
+          "KGYOK": 0.55,
+          "UST15": 0.793,
+          "ALT15": 0.207,
+          "UST25": 0.565,
+          "ALT25": 0.434,
+          "UST35": 0.342,
+          "ALT35": 0.658,
+          "IY1": 0.529,
+          "IYX": 0.357,
+          "IY2": 0.114,
+          "IYU05": 0.735,
+          "IYA05": 0.265,
+          "IYU15": 0.383,
+          "IYA15": 0.617,
+          "EVU05": 0.895,
+          "EVA05": 0.105,
+          "EVU15": 0.657,
+          "EVA15": 0.343,
+          "EVU25": 0.391,
+          "EVA25": 0.609,
+          "DPU05": 0.503,
+          "DPA05": 0.497,
+          "DPU15": 0.156,
+          "DPA15": 0.844,
+          "DPU25": 0.034,
+          "DPA25": 0.966,
+          "YYU05": 0.803,
+          "YYA05": 0.197,
+          "YYU15": 0.482,
+          "YYA15": 0.518
+        },
+        "skorlar": [
+          [
+            "2-0",
+            0.1325
+          ],
+          [
+            "1-0",
+            0.1178
+          ],
+          [
+            "3-0",
+            0.0994
+          ],
+          [
+            "2-1",
+            0.0927
+          ],
+          [
+            "1-1",
+            0.0824
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Shortan win",
+            "piyasa": 0.726,
+            "istatistik": 0.497
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.565,
+            "istatistik": 0.364
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Jayxun win",
+            "piyasa": 0.1,
+            "istatistik": 0.222
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.174,
+            "istatistik": 0.281
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.45,
+            "istatistik": 0.408
+          }
+        ],
+        "beklenen_gol": [
+          2.25,
+          0.7
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1628500,
+        "lig": "NPFL",
+        "ulke": "Nigeria",
+        "lig_id": 399,
+        "ev": "Shooting Stars",
+        "dep": "Kano Pillars",
+        "baslama": "2026-10-07T17:00:00+02:00",
+        "p": {
+          "MS1": 0.628,
+          "MSX": 0.234,
+          "MS2": 0.139,
+          "CS1X": 0.861,
+          "CSX2": 0.372,
+          "CS12": 0.766,
+          "KGVAR": 0.391,
+          "KGYOK": 0.609,
+          "UST15": 0.681,
+          "ALT15": 0.319,
+          "UST25": 0.417,
+          "ALT25": 0.583,
+          "UST35": 0.211,
+          "ALT35": 0.789,
+          "IY1": 0.439,
+          "IYX": 0.429,
+          "IY2": 0.131,
+          "IYU05": 0.653,
+          "IYA05": 0.347,
+          "IYU15": 0.285,
+          "IYA15": 0.715,
+          "EVU05": 0.817,
+          "EVA05": 0.183,
+          "EVU15": 0.507,
+          "EVA15": 0.493,
+          "EVU25": 0.243,
+          "EVA25": 0.757,
+          "DPU05": 0.478,
+          "DPA05": 0.522,
+          "DPU15": 0.139,
+          "DPA15": 0.861,
+          "DPU25": 0.028,
+          "DPA25": 0.972,
+          "YYU05": 0.725,
+          "YYA05": 0.275,
+          "YYU15": 0.371,
+          "YYA15": 0.629
+        },
+        "skorlar": [
+          [
+            "1-0",
+            0.1621
+          ],
+          [
+            "2-0",
+            0.1378
+          ],
+          [
+            "1-1",
+            0.1054
+          ],
+          [
+            "0-0",
+            0.0954
+          ],
+          [
+            "2-1",
+            0.0896
+          ]
+        ],
+        "guven": "orta",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Shooting Stars win",
+            "piyasa": 0.628,
+            "istatistik": 0.222
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Kano Pillars win",
+            "piyasa": 0.139,
+            "istatistik": 0.538
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.391,
+            "istatistik": 0.517
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.417,
+            "istatistik": 0.506
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.234,
+            "istatistik": 0.24
+          }
+        ],
+        "beklenen_gol": [
+          1.7,
+          0.65
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1611405,
+        "lig": "Ligue 1",
+        "ulke": "Algeria",
+        "lig_id": 186,
+        "ev": "CR Belouizdad",
+        "dep": "Khenchela",
+        "baslama": "2026-10-07T21:00:00+02:00",
+        "p": {
+          "MS1": 0.695,
+          "MSX": 0.2,
+          "MS2": 0.105,
+          "CS1X": 0.895,
+          "CSX2": 0.305,
+          "CS12": 0.8,
+          "KGVAR": 0.387,
+          "KGYOK": 0.613,
+          "UST15": 0.723,
+          "ALT15": 0.277,
+          "UST25": 0.469,
+          "ALT25": 0.531,
+          "UST35": 0.253,
+          "ALT35": 0.747,
+          "IY1": 0.493,
+          "IYX": 0.397,
+          "IY2": 0.11,
+          "IYU05": 0.683,
+          "IYA05": 0.317,
+          "IYU15": 0.318,
+          "IYA15": 0.682,
+          "EVU05": 0.858,
+          "EVA05": 0.142,
+          "EVU15": 0.58,
+          "EVA15": 0.42,
+          "EVU25": 0.31,
+          "EVA25": 0.69,
+          "DPU05": 0.451,
+          "DPA05": 0.549,
+          "DPU15": 0.122,
+          "DPA15": 0.878,
+          "DPU25": 0.023,
+          "DPA25": 0.977,
+          "YYU05": 0.754,
+          "YYA05": 0.246,
+          "YYU15": 0.409,
+          "YYA15": 0.591
+        },
+        "skorlar": [
+          [
+            "1-0",
+            0.1523
+          ],
+          [
+            "2-0",
+            0.1485
+          ],
+          [
+            "3-0",
+            0.0965
+          ],
+          [
+            "1-1",
+            0.0914
+          ],
+          [
+            "2-1",
+            0.0891
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "CR Belouizdad win",
+            "piyasa": 0.695,
+            "istatistik": 0.436
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.469,
+            "istatistik": 0.283
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Khenchela win",
+            "piyasa": 0.105,
+            "istatistik": 0.248
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.2,
+            "istatistik": 0.316
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.387,
+            "istatistik": 0.352
+          }
+        ],
+        "beklenen_gol": [
+          1.95,
+          0.6
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "son5"
+      }
+    ]
   }
 ]

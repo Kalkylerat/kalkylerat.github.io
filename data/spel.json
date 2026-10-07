@@ -23872,7 +23872,17 @@
           1573272,
           1531106
         ],
-        "sonuclar": {}
+        "sonuclar": {
+          "1635591": {
+            "durum": "paylasildi",
+            "tweet_id": "2107787866579382330",
+            "skor": [
+              3,
+              2
+            ],
+            "zaman": "2026-10-07T10:59:22+00:00"
+          }
+        }
       },
       "anket": {
         "durum": "paylasildi",

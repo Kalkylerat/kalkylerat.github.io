@@ -58,7 +58,7 @@ Testler `tests/test_likely.py` içinde. Karakter ve hesap rehberi: `marka/MR_LIK
 
 | # | Kural | Test |
 |---|---|---|
-| E1 | **Otomatik modda** bot yalnızca kendi postlarını atar: kupon postu, kendi kuponuna sonuç yanıtı, günde en fazla 4 bilgi postu (kupon stratejisi notu ya da günün büyük maçından piyasa rakamı; rakam analiz kaydından, maç başladıktan sonra atılmaz, postlar arasında en az 40 dakika). Bot yalnızca kendi postunu siler. Başkalarına yanıt, etiketleme, DM, takip, beğeni yok. Hesap X'te "Automated" etiketlidir (X ayarı, sahibi yapar). **Elle modda** bot hiçbir şey paylaşmaz. | `test_E1` |
+| E1 | **Otomatik modda** bot yalnızca kendi postlarını atar: kupon postu, kendi kupon postunu **alıntılayan** sonuç postu (sonuç kartı görseliyle; yanıt olarak değil, sahibinin isteği 7 Ekim 2026), günde en fazla 4 bilgi postu (kupon stratejisi notu ya da günün büyük maçından piyasa rakamı; rakam analiz kaydından, maç başladıktan sonra atılmaz, postlar arasında en az 40 dakika). Bot yalnızca kendi postunu siler. Başkalarına yanıt, etiketleme, DM, takip, beğeni yok. Hesap X'te "Automated" etiketlidir (X ayarı, sahibi yapar). **Elle modda** bot hiçbir şey paylaşmaz. | `test_E1` |
 | E2 | Her kupon postu **tutma ihtimalini** yazar ve "18+" satırıyla biter; kesinlik dili, link, bahis sitesi adı, etiket ve kayıtta olmayan sayı (uydurma karne) yok. Karakter metni kurala uymazsa şablon kullanılır. | `test_E2` |
 | E3 | Kupon oranı ve tutma ihtimali ayakların **çarpımıdır**; aynı maçtan iki oyun aynı kupona girmez. | `test_E3` |
 | E4 | İlk maç başladıktan sonra kupon seçilemez; otomatik modda ilk maça 20 dakikadan az kaldıysa kupon paylaşılmaz. | `test_E4` |

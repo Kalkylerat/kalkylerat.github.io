@@ -1,7 +1,7 @@
 """Mr. Likely: ikinci hesap (tahmin/kupon sayfası). İki mod (ayarlar.toml [likely] mod):
 
 "otomatik": kuponu sabit kurallar seçer (otomatik_sec), bot Mr. Likely hesabında paylaşır: kupon postu (görselli),
-maçlar bitince sonuç yanıtı, günde bir kupon stratejisi notu. Hesap X'te "Automated" etiketlidir. Sahibine bilgi
+maçlar bitince kupon postunu alıntılayan sonuç postu, günde en fazla 4 bilgi postu. Hesap X'te "Automated" etiketlidir. Sahibine bilgi
 GitHub issue'su olarak gider; `iptal` yorumu paylaşılmamış kuponları durdurur.
 
 "elle": Kalkylerat'ın sabah taramasını kullanır (ek API isteği yok) ve X'e HİÇBİR ŞEY paylaşmaz:
@@ -360,6 +360,7 @@ def sonuc_metni(kupon: dict, k: dict, tohum: str) -> str:
         bas = f"Coupon down. {_sec(YATTI, tohum)}"
     if kupon["durum"] == "yatti":
         bas += f" I had it at {_pct(kupon['olasilik'])}, which was never 100."
+    bas = {"tuttu": "✅ ", "iade": "↩️ "}.get(kupon["durum"], "❌ ") + bas  # akışta ilk bakışta sonuç
     son = f"\n\n{karne_satiri(k)}\n{ANSVAR}"
     return _kisalt(f"{bas}\n\n" + "\n".join(skorlar) + son,
                    f"{bas.split('. ')[0]}.\n\n" + "\n".join(skorlar) + son,
@@ -919,7 +920,7 @@ def sonuclar(ayar, sonuc_al, gh, simdi: datetime, yazici=None, yaz=print) -> int
                 if gun.get("issue"):
                     gh.yorum(gun["issue"], f"### Sonuç: kupon `{k['ad']}` "
                                            f"{'✅ tuttu' if k['durum'] == 'tuttu' else '↩️ iade' if k['durum'] == 'iade' else '❌ yattı'}\n"
-                                           "Sonuç postu (kupon postunun altına yanıt olarak at):\n```\n" + k["sonuc_metni"] + "\n```")
+                                           "Sonuç postu (kupon postunu alıntılayarak):\n```\n" + k["sonuc_metni"] + "\n```")
         if gun["durum"] == "secildi" and all(k.get("sonuc_metni") for k in gun["secilen"]):
             gun["durum"] = "bitti"
             kr = karne(veri)
@@ -981,8 +982,9 @@ def oto_paylas(ayar, x, simdi: datetime, yazici=None, kart=None, yaz=print) -> i
     return paylasilan
 
 
-def oto_sonuc_paylas(ayar, x, simdi: datetime, yaz=print) -> int:
-    """Sonuçlanan, paylaşılmış kuponun sonuç postunu kupon postunun altına yanıt olarak atar (bir kez)."""
+def oto_sonuc_paylas(ayar, x, simdi: datetime, kart=None, yaz=print) -> int:
+    """Sonuçlanan, paylaşılmış kuponun sonuç postunu atar (bir kez): kupon postunu ALINTILAR, sonuç kartı eklenir.
+    Yanıt olarak değil: yanıtlar takipçilerin akışında görünmez, alıntı ayrı bir post olarak görünür (SOZLESME E1)."""
     cfg = ayar_yukle()
     if not cfg.aktif or cfg.mod != "otomatik":
         return 0
@@ -991,7 +993,13 @@ def oto_sonuc_paylas(ayar, x, simdi: datetime, yaz=print) -> int:
     for gun in veri["gunler"][-6:]:
         for k in gun.get("secilen", []):
             if k.get("tweet_id") and k.get("sonuc_metni") and not k.get("sonuc_tweet_id"):
-                k["sonuc_tweet_id"] = x.gonder(k["sonuc_metni"], yanit=k["tweet_id"])
+                medya = None
+                if kart:
+                    try:
+                        medya = [x.medya_yukle(kart(k, gun["tarih"]))]
+                    except Exception as e:  # görsel yüklenemezse sonuç yine de gider (kaybeden de yazılır, E5)
+                        yaz(f"⚠️ Mr. Likely: sonuç kartı eklenemedi ({e}); post görselsiz atılıyor.")
+                k["sonuc_tweet_id"] = x.gonder(k["sonuc_metni"], alinti=k["tweet_id"], medya=medya)
                 adet += 1
                 kaydet(veri)
                 yaz(f"Mr. Likely: {gun['tarih']} {k['ad']} sonucu paylaşıldı.")

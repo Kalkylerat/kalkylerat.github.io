@@ -1,6 +1,6 @@
 {
- "issue": 38,
- "tarih": "2026-10-07",
+ "issue": 41,
+ "tarih": "2026-10-08",
  "bildirilen": [
   "2026-10-02:analiz_0:takip_gecikti",
   "2026-10-02:analiz_1:takip_gecikti",
@@ -33,6 +33,7 @@
   "2026-10-05:tablo_aksam:1596001:tablo_gec",
   "2026-10-05:tablo_aksam:1639992:tablo_gec",
   "2026-10-07:sessiz:2026-10-07T12:55:14+00:00",
-  "2026-10-07:tablo:kacti"
+  "2026-10-07:tablo:kacti",
+  "2026-10-08:sessiz:2026-10-08T17:07:13+00:00"
  ]
 }

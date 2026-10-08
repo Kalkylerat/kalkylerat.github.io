@@ -25676,6 +25676,12 @@
           1633901
         ],
         "sonuclar": {}
+      },
+      "bilgi": {
+        "durum": "paylasildi",
+        "tweet_id": "2108120562820137207",
+        "zaman": "2026-10-08T09:01:20+00:00",
+        "metin": "💡 From expected goals to a result\n\nTake 1.4 v 1.1 expected goals and run them through a Poisson model:\n\n🏆 Home 44%\n🏆 Draw 27%\n🏆 Away 30%\n\nA small edge in goals is a small edge in results.\n\n💬 Is a 44% home edge bigger than you'd expect, or smaller? 👇\n\n18+ | Play responsibly"
       }
     }
   }

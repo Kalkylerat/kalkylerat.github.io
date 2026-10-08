@@ -25675,7 +25675,17 @@
           1642033,
           1633901
         ],
-        "sonuclar": {}
+        "sonuclar": {
+          "1551232": {
+            "durum": "paylasildi",
+            "tweet_id": "2108188508947193871",
+            "skor": [
+              0,
+              1
+            ],
+            "zaman": "2026-10-08T13:31:21+00:00"
+          }
+        }
       },
       "bilgi": {
         "durum": "paylasildi",

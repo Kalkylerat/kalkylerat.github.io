@@ -25661,6 +25661,22 @@
         "istatistik_kaynak": "son5"
       }
     ],
-    "etkilesim": {}
+    "etkilesim": {
+      "tablo": {
+        "durum": "paylasildi",
+        "tweet_id": "2108105487762014716",
+        "zaman": "2026-10-08T08:01:18+00:00",
+        "metin": "📋 Today's chances, not picks · every % in the image\n\n🆚 Home United v Công An Nhân Dân · 13:30 CEST\n🏆 Home United 38% · Draw 25% · Công An Nhân Dân 38%\n⚽ Over 2.5 goals 55% · Under 45%\n🎯 Likeliest score 1-1 (12%)\n\n💬 Which % surprises you? 👇\n\n18+ | Play responsibly",
+        "maclar": [
+          1551232,
+          1551231,
+          1558531,
+          1558535,
+          1642033,
+          1633901
+        ],
+        "sonuclar": {}
+      }
+    }
   }
 ]

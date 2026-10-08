@@ -238,6 +238,10 @@ def test_B7_hesap_sessiz_kalmaz():
     assert not {a["fixture_id"] for a in gun["tablo_gece"]} & {a["fixture_id"] for a in gun["tablo_aksam"]}
     assert any(t == "tablo_gece" for t, _, _ in etkilesim._plan(gun))
     assert etkilesim.gece_tablosu_ekle(gun, tum + gece, ayar, datetime(2026, 10, 7, 18, 0, tzinfo=UTC)) == 0  # bir kez
+    # akşam ikinci bilgi postu (18:00–20:30 UTC), sabahkinden farklı konu
+    bp = {t: (e, l) for t, e, l in etkilesim._plan(gun)}
+    assert bp["bilgi_aksam"][0].hour == 18 and (bp["bilgi_aksam"][1].hour, bp["bilgi_aksam"][1].minute) == (20, 30)
+    assert etkilesim.bilgi_tweeti(gun) != etkilesim.bilgi_tweeti(gun, kayma=1)
     # 3 saat sessizlik alarmı (gün yoğun olmasa da); gece alarm yok, yanıtlar da hareket sayılır
     def sessiz(saat, dakika=0):
         return [m for k, m in saglik.sorunlar([gun], datetime(2026, 10, 7, saat, dakika, tzinfo=UTC), ayar) if ":sessiz:" in k]

@@ -133,6 +133,6 @@ def _konular() -> list[dict]:
 KONULAR = _konular()
 
 
-def gunun_konusu(tarih: str) -> dict:
-    """Her gün sırayla başka konu (20 günde bir döner)."""
-    return KONULAR[date.fromisoformat(tarih).toordinal() % len(KONULAR)]
+def gunun_konusu(tarih: str, kayma: int = 0) -> dict:
+    """Her gün sırayla başka konu (20 günde bir döner); kayma: aynı günün ikinci (akşam) konusu."""
+    return KONULAR[(date.fromisoformat(tarih).toordinal() + kayma * (len(KONULAR) // 2)) % len(KONULAR)]

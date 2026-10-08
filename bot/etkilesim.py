@@ -252,8 +252,8 @@ def deger_tweeti(gun: dict, ayar, haric_takimlar: set[str] = frozenset()) -> str
     return None
 
 
-def bilgi_tweeti(gun: dict) -> str:
-    k = bilgi.gunun_konusu(gun["tarih"])
+def bilgi_tweeti(gun: dict, kayma: int = 0) -> str:
+    k = bilgi.gunun_konusu(gun["tarih"], kayma)
     return f'💡 {k["baslik"]}\n\n{k["govde"]}\n\n{k["soru"]}\n\n{ANSVAR}'
 
 
@@ -286,6 +286,8 @@ def _plan(gun: dict) -> list[tuple[str, datetime, datetime]]:
         plan.append(("pas", olusturma, olusturma + timedelta(hours=8)))
     gun_bas = datetime.fromisoformat(gun["tarih"] + "T00:00:00+00:00")
     plan.append(("bilgi", gun_bas + timedelta(hours=9), gun_bas + timedelta(hours=19, minutes=30)))  # günlük bilgi
+    # SÖZLEŞME B7: akşam (maçlar oynanırken, sonuçlardan önce) ikinci bilgi postu; akşam saatleri sessiz kalmasın
+    plan.append(("bilgi_aksam", gun_bas + timedelta(hours=18), gun_bas + timedelta(hours=20, minutes=30)))
     if gun.get("konsept") == "analiz":
         # Kupon yok: günün maçları, öne çıkan maçların analiz kartları (maçtan 8 saat – 35 dk önce, en erken 08:00 UTC;
         # 15 dakikalık akışta öğleden önce boşluk kalmasın), anket.
@@ -519,7 +521,7 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_pay
                 metin = yazar(tur, olgular(tur, gun, ayar), metin) if yazar else metin
                 tid = x.gonder(metin, anket={"options": secenekler, "duration_minutes": dakika})
             else:
-                metin = {"pas": lambda: pas_tweeti(gun), "bilgi": lambda: bilgi_tweeti(gun),
+                metin = {"pas": lambda: pas_tweeti(gun), "bilgi": lambda: bilgi_tweeti(gun), "bilgi_aksam": lambda: bilgi_tweeti(gun, kayma=1),
                          "maclar": lambda: maclar_tweeti(gun, ayar),
                          "skor": lambda: skor_tweeti(gun, ayar),
                          "istatistik": lambda: istatistik_tweeti(gun, ayar),
@@ -529,7 +531,8 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_pay
                     durum[tur] = {"durum": "atlandi"}
                     continue
                 sablon = metin
-                metin = yazar(tur, olgular(tur, {**gun, "_haric": haric_takimlar}, ayar), metin) if yazar else metin
+                if yazar and tur != "bilgi_aksam":  # akşam bilgisi onaylı şablonla gider
+                    metin = yazar(tur, olgular(tur, {**gun, "_haric": haric_takimlar}, ayar), metin)
                 from .denetci import KISALTMA
                 if metin and KISALTMA.search(metin):  # SÖZLEŞME A5: kısaltmalı metin yerine şablon (o da değilse atla)
                     metin = None if KISALTMA.search(sablon) else sablon

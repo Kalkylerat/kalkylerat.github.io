@@ -2791,7 +2791,7 @@
   {
    "tarih": "2026-10-08",
    "olusturma": "2026-10-08T05:36:54+00:00",
-   "durum": "secildi",
+   "durum": "bitti",
    "havuz": [
     {
      "aday_id": "1644203-CS1X",
@@ -3869,8 +3869,8 @@
        "oran": 1.42,
        "olasilik": 0.695,
        "deger": -0.013,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "0-0"
       },
       {
        "aday_id": "1621633-CSX2",
@@ -3891,13 +3891,16 @@
      "oran": 3.19,
      "olasilik": 0.336,
      "deger": 0.072,
-     "durum": "bekliyor",
+     "durum": "tuttu",
      "secim": "2026-10-08T05:36:54+00:00",
      "oto": true,
      "paylas": "2026-10-08T14:00:00+02:00",
      "tweet_id": "2108166083152634256",
      "metin": "🎩 The long shot. Small stakes only, please.\n\n⚽ Maghreb Fès v Raja Casablanca\n⚽ Hapoel Ramat HaSharon v Hapoel Azor\n\n📊 Combined 3.19. I make it about 34% to land, so probably not.\n\n💬 Which leg is the weak one?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-08T12:02:12+00:00"
+     "yayin": "2026-10-08T12:02:12+00:00",
+     "son_oran": 3.19,
+     "sonuc_metni": "✅ Both legs in at 3.19. Landed. I'll try not to be smug about it.\n\n✅ Maghreb Fès 0-0 Raja Casablanca: Double chance 1X\n✅ Hapoel Ramat HaSharon 1-1 Hapoel Azor: Double chance X2\n\nRecord: 2 of 6 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2108316182789181900"
     }
    ],
    "islenen": [],

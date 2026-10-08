@@ -299,6 +299,9 @@ def _plan(gun: dict) -> list[tuple[str, datetime, datetime]]:
         if gun.get("tablo"):  # günün analiz tablosu (görsel): sabah, tablodaki ilk maçtan önce
             ilk = min(datetime.fromisoformat(a["baslama"]) for a in gun["tablo"])
             plan.append(("tablo", _acilis(8, ilk), ilk - timedelta(minutes=10)))
+        if gun.get("tablo_gece"):  # sakin gün: gece maçlarının tablosu (B7, akşam sessiz kalmasın)
+            ilk = min(datetime.fromisoformat(a["baslama"]) for a in gun["tablo_gece"])
+            plan.append(("tablo_gece", gun_bas + timedelta(hours=GECE_TABLO_SAAT), ilk - timedelta(minutes=10)))
         if gun.get("tablo_aksam"):  # akşam maçlarının tablosu (hazırlandığı andan, ilk maçtan önce)
             ilk = min(datetime.fromisoformat(a["baslama"]) for a in gun["tablo_aksam"])
             plan.append(("tablo_aksam", gun_bas + timedelta(hours=12), ilk - timedelta(minutes=10)))
@@ -327,6 +330,23 @@ def _plan(gun: dict) -> list[tuple[str, datetime, datetime]]:
         plan.append(("radar", ilk - timedelta(hours=2, minutes=15), ilk - timedelta(minutes=40)))
         plan.append(("skor", s - timedelta(minutes=75), s - timedelta(minutes=10)))
     return plan
+
+
+TABLOLAR = ("tablo", "tablo_aksam", "tablo_gece")
+GECE_TABLO_SAAT = 16  # SÖZLEŞME B7: sakin günde gece maçları tablosu bu saatten (UTC) sonra hazırlanır
+
+
+def gece_tablosu_ekle(gun: dict, tum: list[dict], ayar, simdi: datetime) -> int:
+    """Sakin günde 16:00 UTC'den sonra bir kez: sabah ve akşam tablolarında olmayan, en az 1 saat sonra başlayan
+    maçların tablosu (en az 4 maç). Akşam saatleri sessiz kalmasın diye (B7); yoğun günde akşam tablosu zaten var."""
+    if gun.get("konsept") != "analiz" or "tablo_gece" in gun or simdi.hour < GECE_TABLO_SAAT \
+            or config.yogun_mu(ayar, gun["tarih"], gun):
+        return 0
+    haric = {a["fixture_id"] for a in (gun.get("tablo") or []) + (gun.get("tablo_aksam") or [])}
+    liste = analiz.tablo_secimi(tum, ayar.ligler, en_erken=(simdi + timedelta(minutes=60)).isoformat(), haric=haric,
+                                lig_basina=3)
+    gun["tablo_gece"] = [analiz.ozet(a) for a in liste] if len(liste) >= 4 else []
+    return len(gun["tablo_gece"])
 
 
 def aksam_tablosu_ekle(gun: dict, tum: list[dict], ayar, simdi: datetime) -> int:
@@ -461,7 +481,7 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_pay
                     durum[tur] = {"durum": "atlandi", "neden": "denetçi"}
                     continue
                 tid = x.gonder(metin, medya=[x.medya_yukle(png)])  # kartlar topluluğa gitmez (günde 2 post sınırı)
-            elif tur in ("tablo", "tablo_aksam"):  # sabah tablosu ve yoğun günde akşam maçları tablosu
+            elif tur in TABLOLAR:  # sabah tablosu, akşam maçları tablosu ve (sakin günde) gece tablosu
                 liste = [a for a in gun[tur] if datetime.fromisoformat(a["baslama"]) > simdi]
                 if len(liste) < 4:
                     durum[tur] = {"durum": "atlandi", "neden": "yeterli maç kalmadı"}
@@ -524,7 +544,7 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_pay
             yaz(f"⚠️ Etkileşim paylaşımı ({tur}) başarısız: {e}")
             return None
         durum[tur] = {"durum": "paylasildi", "tweet_id": tid, "zaman": zaman, "metin": metin}
-        if tur in ("tablo", "tablo_aksam"):  # maç sonu yanıtı için tablodaki maçlar
+        if tur in TABLOLAR:  # maç sonu yanıtı için tablodaki maçlar
             durum[tur]["maclar"] = [a["fixture_id"] for a in liste]
         if tur == "deger":  # maçlar bitince bu post alıntılanıp nasıl bittikleri yazılır
             durum[tur]["maclar"] = [{k: v[k] for k in ("fixture_id", "odds_id", "odds_spor", "ev", "dep", "lig", "ulke",
@@ -773,7 +793,7 @@ def tablo_takibi(gun: dict, ayar, x, simdi: datetime, sonuc_getir, tum: list[dic
             if r.get("durum") != "bitti" or not a.get("beklenen_gol"):
                 continue
             ev, dep = r["skor"]
-            sablon = tablo_mac_sonu_tweeti(a, ev, dep, aksam=tur == "tablo_aksam")
+            sablon = tablo_mac_sonu_tweeti(a, ev, dep, aksam=tur in ("tablo_aksam", "tablo_gece"))
             metin = _denetle("tablo_sonuc", sablon, sablon,
                              [], ayar, None, yaz)
             if not metin:

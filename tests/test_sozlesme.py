@@ -231,6 +231,13 @@ def test_B7_hesap_sessiz_kalmaz():
     assert etkilesim.aksam_tablosu_ekle(gun, tum, ayar, datetime(2026, 10, 7, 11, 0, tzinfo=UTC)) == 0
     assert etkilesim.aksam_tablosu_ekle(gun, tum, ayar, datetime(2026, 10, 7, 12, 30, tzinfo=UTC)) >= 4
     assert any(t == "tablo_aksam" for t, _, _ in etkilesim._plan(gun))
+    # 16:00 UTC'den sonra, sabah/akşam tablosunda olmayan gece maçlarıyla ikinci tablo (akşam sessiz kalmasın)
+    gece = [m(40 + i, "20:30", lig, f"G{lig}") for i, lig in enumerate((128, 71, 239, 253, 262))]
+    assert etkilesim.gece_tablosu_ekle(gun, tum + gece, ayar, datetime(2026, 10, 7, 15, 0, tzinfo=UTC)) == 0
+    assert etkilesim.gece_tablosu_ekle(gun, tum + gece, ayar, datetime(2026, 10, 7, 17, 0, tzinfo=UTC)) >= 4
+    assert not {a["fixture_id"] for a in gun["tablo_gece"]} & {a["fixture_id"] for a in gun["tablo_aksam"]}
+    assert any(t == "tablo_gece" for t, _, _ in etkilesim._plan(gun))
+    assert etkilesim.gece_tablosu_ekle(gun, tum + gece, ayar, datetime(2026, 10, 7, 18, 0, tzinfo=UTC)) == 0  # bir kez
     # 3 saat sessizlik alarmı (gün yoğun olmasa da); gece alarm yok, yanıtlar da hareket sayılır
     def sessiz(saat, dakika=0):
         return [m for k, m in saglik.sorunlar([gun], datetime(2026, 10, 7, saat, dakika, tzinfo=UTC), ayar) if ":sessiz:" in k]

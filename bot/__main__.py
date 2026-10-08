@@ -1399,6 +1399,9 @@ def main(argv=None) -> int:
                     if etkilesim.aksam_tablosu_ekle(kayit.bul(gunler, bugun), json.loads(dosya.read_text(encoding="utf-8")),
                                                     ayar, simdi):
                         _ozet_yaz("Akşam maçları tablosu hazırlandı.")
+                    if etkilesim.gece_tablosu_ekle(kayit.bul(gunler, bugun), json.loads(dosya.read_text(encoding="utf-8")),
+                                                   ayar, simdi):
+                        _ozet_yaz("Gece maçları tablosu hazırlandı.")
                 diger = tuple(g["yayin"] for g in gunler if g["tarih"] == bugun and g["id"] != bugun and g.get("yayin"))
                 kupondakiler = {t.lower() for g in gunler if g["tarih"] == bugun for s in g["secimler"]
                                 for t in (s["ev"], s["dep"])}

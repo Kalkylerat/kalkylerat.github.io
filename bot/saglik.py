@@ -83,7 +83,8 @@ def sorunlar(gunler: list[dict], simdi: datetime, ayar, hatalar: list[str] = ())
                     bulunan.append((anahtar + ":takip_gecikti", f'⏰ {ad}: maç sonu postu düdükten ~{dk} dk sonra çıktı '
                                                                f'(sözleşme: 5–15 dk)'))
             if (tur == "tablo" or tur.startswith("tablo_")) and e.get("durum") == "paylasildi" and e.get("maclar"):
-                havuz = {a["fixture_id"]: a for a in (g.get("tablo") or []) + (g.get("tablo_aksam") or [])}
+                havuz = {a["fixture_id"]: a for a in (g.get("tablo") or []) + (g.get("tablo_aksam") or [])
+                                                           + (g.get("tablo_gece") or [])}
                 for fid in e["maclar"]:
                     a = havuz.get(fid)
                     if a and str(fid) not in (e.get("sonuclar") or {}) and \

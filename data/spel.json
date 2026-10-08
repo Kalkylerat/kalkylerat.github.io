@@ -25701,6 +25701,600 @@
         "zaman": "2026-10-08T11:51:36+00:00",
         "metin": "🆚 Al Shamal v Al-Duhail SC, Stars League\n\n🕗 16:45 CEST\n\n🏆 Al Shamal 30% · Draw 26% · Al-Duhail SC 43%\n\n⚽ Expected goals: 1.35 v 1.65\n\n🎯 Most likely score: 1-1\n\nVote below: home, draw or away?\n\n💬 Al-Duhail SC are at 43% away from home. Would you put them higher or lower?"
       }
-    }
+    },
+    "tablo_aksam": [
+      {
+        "fixture_id": 1639238,
+        "lig": "League Cup",
+        "ulke": "United-Arab-Emirates",
+        "lig_id": 302,
+        "ev": "Al Ain",
+        "dep": "Al-Ittihad Kalba",
+        "baslama": "2026-10-08T15:10:00+02:00",
+        "p": {
+          "MS1": 0.719,
+          "MSX": 0.162,
+          "MS2": 0.119,
+          "CS1X": 0.881,
+          "CSX2": 0.28,
+          "CS12": 0.838,
+          "KGVAR": 0.565,
+          "KGYOK": 0.435,
+          "UST15": 0.864,
+          "ALT15": 0.136,
+          "UST25": 0.679,
+          "ALT25": 0.321,
+          "UST35": 0.463,
+          "ALT35": 0.537,
+          "IY1": 0.541,
+          "IYX": 0.322,
+          "IY2": 0.138,
+          "IYU05": 0.793,
+          "IYA05": 0.207,
+          "IYU15": 0.467,
+          "IYA15": 0.533,
+          "EVU05": 0.922,
+          "EVA05": 0.078,
+          "EVU15": 0.723,
+          "EVA15": 0.277,
+          "EVU25": 0.469,
+          "EVA25": 0.531,
+          "DPU05": 0.613,
+          "DPA05": 0.387,
+          "DPU15": 0.246,
+          "DPA15": 0.754,
+          "DPU25": 0.071,
+          "DPA25": 0.929,
+          "YYU05": 0.854,
+          "YYA05": 0.146,
+          "YYU15": 0.573,
+          "YYA15": 0.427
+        },
+        "skorlar": [
+          [
+            "2-0",
+            0.0982
+          ],
+          [
+            "2-1",
+            0.0933
+          ],
+          [
+            "3-0",
+            0.0835
+          ],
+          [
+            "3-1",
+            0.0793
+          ],
+          [
+            "1-0",
+            0.077
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Al Ain win",
+            "piyasa": 0.719,
+            "istatistik": 0.447
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Al-Ittihad Kalba win",
+            "piyasa": 0.119,
+            "istatistik": 0.354
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.565,
+            "istatistik": 0.773
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.679,
+            "istatistik": 0.796
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.162,
+            "istatistik": 0.199
+          }
+        ],
+        "beklenen_gol": [
+          2.55,
+          0.95
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "son5"
+      },
+      {
+        "fixture_id": 1640293,
+        "lig": "League Cup",
+        "ulke": "Egypt",
+        "lig_id": 895,
+        "ev": "El Mokawloon",
+        "dep": "El Gouna FC",
+        "baslama": "2026-10-08T16:00:00+02:00",
+        "p": {
+          "MS1": 0.51,
+          "MSX": 0.29,
+          "MS2": 0.201,
+          "CS1X": 0.799,
+          "CSX2": 0.49,
+          "CS12": 0.71,
+          "KGVAR": 0.366,
+          "KGYOK": 0.634,
+          "UST15": 0.594,
+          "ALT15": 0.406,
+          "UST25": 0.323,
+          "ALT25": 0.677,
+          "UST35": 0.143,
+          "ALT35": 0.857,
+          "IY1": 0.351,
+          "IYX": 0.485,
+          "IY2": 0.164,
+          "IYU05": 0.593,
+          "IYA05": 0.407,
+          "IYU15": 0.228,
+          "IYA15": 0.772,
+          "EVU05": 0.727,
+          "EVA05": 0.273,
+          "EVU15": 0.373,
+          "EVA15": 0.627,
+          "EVU25": 0.143,
+          "EVA25": 0.857,
+          "DPU05": 0.503,
+          "DPA05": 0.497,
+          "DPU15": 0.156,
+          "DPA15": 0.844,
+          "DPU25": 0.034,
+          "DPA25": 0.966,
+          "YYU05": 0.667,
+          "YYA05": 0.333,
+          "YYU15": 0.301,
+          "YYA15": 0.699
+        },
+        "skorlar": [
+          [
+            "1-0",
+            0.1759
+          ],
+          [
+            "0-0",
+            0.1353
+          ],
+          [
+            "1-1",
+            0.1232
+          ],
+          [
+            "2-0",
+            0.1144
+          ],
+          [
+            "0-1",
+            0.0947
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [],
+        "beklenen_gol": [
+          1.3,
+          0.7
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": null
+      },
+      {
+        "fixture_id": 1643948,
+        "lig": "Ligue 2",
+        "ulke": "Algeria",
+        "lig_id": 187,
+        "ev": "RC Kouba",
+        "dep": "Usm El Harrach",
+        "baslama": "2026-10-08T16:00:00+02:00",
+        "p": {
+          "MS1": 0.454,
+          "MSX": 0.3,
+          "MS2": 0.246,
+          "CS1X": 0.754,
+          "CSX2": 0.546,
+          "CS12": 0.7,
+          "KGVAR": 0.385,
+          "KGYOK": 0.615,
+          "UST15": 0.594,
+          "ALT15": 0.406,
+          "UST25": 0.323,
+          "ALT25": 0.677,
+          "UST35": 0.143,
+          "ALT35": 0.857,
+          "IY1": 0.318,
+          "IYX": 0.49,
+          "IY2": 0.193,
+          "IYU05": 0.593,
+          "IYA05": 0.407,
+          "IYU15": 0.228,
+          "IYA15": 0.772,
+          "EVU05": 0.699,
+          "EVA05": 0.301,
+          "EVU15": 0.337,
+          "EVA15": 0.663,
+          "EVU25": 0.121,
+          "EVA25": 0.879,
+          "DPU05": 0.551,
+          "DPA05": 0.449,
+          "DPU15": 0.191,
+          "DPA15": 0.809,
+          "DPU25": 0.047,
+          "DPA25": 0.953,
+          "YYU05": 0.667,
+          "YYA05": 0.333,
+          "YYU15": 0.301,
+          "YYA15": 0.699
+        },
+        "skorlar": [
+          [
+            "1-0",
+            0.1624
+          ],
+          [
+            "0-0",
+            0.1353
+          ],
+          [
+            "1-1",
+            0.1299
+          ],
+          [
+            "0-1",
+            0.1083
+          ],
+          [
+            "2-0",
+            0.0974
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.323,
+            "istatistik": 0.443
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.385,
+            "istatistik": 0.497
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Usm El Harrach win",
+            "piyasa": 0.246,
+            "istatistik": 0.328
+          },
+          {
+            "pazar": "MS1",
+            "ad": "RC Kouba win",
+            "piyasa": 0.454,
+            "istatistik": 0.4
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.3,
+            "istatistik": 0.272
+          }
+        ],
+        "beklenen_gol": [
+          1.2,
+          0.8
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "son5"
+      },
+      {
+        "fixture_id": 1597937,
+        "lig": "Stars League",
+        "ulke": "Qatar",
+        "lig_id": 305,
+        "ev": "Al Shamal",
+        "dep": "Al-Duhail SC",
+        "baslama": "2026-10-08T16:45:00+02:00",
+        "p": {
+          "MS1": 0.314,
+          "MSX": 0.24,
+          "MS2": 0.446,
+          "CS1X": 0.554,
+          "CSX2": 0.686,
+          "CS12": 0.76,
+          "KGVAR": 0.598,
+          "KGYOK": 0.402,
+          "UST15": 0.801,
+          "ALT15": 0.199,
+          "UST25": 0.577,
+          "ALT25": 0.423,
+          "UST35": 0.353,
+          "ALT35": 0.647,
+          "IY1": 0.264,
+          "IYX": 0.39,
+          "IY2": 0.346,
+          "IYU05": 0.741,
+          "IYA05": 0.259,
+          "IYU15": 0.391,
+          "IYA15": 0.609,
+          "EVU05": 0.741,
+          "EVA05": 0.259,
+          "EVU15": 0.391,
+          "EVA15": 0.609,
+          "EVU25": 0.155,
+          "EVA25": 0.845,
+          "DPU05": 0.808,
+          "DPA05": 0.192,
+          "DPU15": 0.491,
+          "DPA15": 0.509,
+          "DPU25": 0.23,
+          "DPA25": 0.77,
+          "YYU05": 0.808,
+          "YYA05": 0.192,
+          "YYU15": 0.491,
+          "YYA15": 0.509
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1109
+          ],
+          [
+            "1-2",
+            0.0915
+          ],
+          [
+            "0-1",
+            0.0821
+          ],
+          [
+            "2-1",
+            0.0749
+          ],
+          [
+            "0-2",
+            0.0678
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Al Shamal win",
+            "piyasa": 0.314,
+            "istatistik": 0.435
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Al-Duhail SC win",
+            "piyasa": 0.446,
+            "istatistik": 0.326
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.577,
+            "istatistik": 0.588
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.598,
+            "istatistik": 0.609
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.24,
+            "istatistik": 0.239
+          }
+        ],
+        "beklenen_gol": [
+          1.35,
+          1.65
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "son5"
+      },
+      {
+        "fixture_id": 1644617,
+        "lig": "Division 1",
+        "ulke": "Kuwait",
+        "lig_id": 331,
+        "ev": "Sporty",
+        "dep": "Khaitan",
+        "baslama": "2026-10-08T16:50:00+02:00",
+        "p": {
+          "MS1": 0.105,
+          "MSX": 0.172,
+          "MS2": 0.723,
+          "CS1X": 0.277,
+          "CSX2": 0.895,
+          "CS12": 0.828,
+          "KGVAR": 0.475,
+          "KGYOK": 0.525,
+          "UST15": 0.808,
+          "ALT15": 0.192,
+          "UST25": 0.588,
+          "ALT25": 0.412,
+          "UST35": 0.364,
+          "ALT35": 0.636,
+          "IY1": 0.119,
+          "IYX": 0.35,
+          "IY2": 0.53,
+          "IYU05": 0.746,
+          "IYA05": 0.253,
+          "IYU15": 0.399,
+          "IYA15": 0.601,
+          "EVU05": 0.528,
+          "EVA05": 0.472,
+          "EVU15": 0.173,
+          "EVA15": 0.827,
+          "EVU25": 0.041,
+          "EVA25": 0.959,
+          "DPU05": 0.9,
+          "DPA05": 0.1,
+          "DPU15": 0.669,
+          "DPA15": 0.331,
+          "DPU25": 0.404,
+          "DPA25": 0.596,
+          "YYU05": 0.813,
+          "YYA05": 0.187,
+          "YYU15": 0.5,
+          "YYA15": 0.5
+        },
+        "skorlar": [
+          [
+            "0-2",
+            0.1253
+          ],
+          [
+            "0-1",
+            0.1089
+          ],
+          [
+            "0-3",
+            0.096
+          ],
+          [
+            "1-2",
+            0.0939
+          ],
+          [
+            "1-1",
+            0.0817
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [],
+        "beklenen_gol": [
+          0.75,
+          2.3
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": null
+      },
+      {
+        "fixture_id": 1621353,
+        "lig": "Liga Alef",
+        "ulke": "Israel",
+        "lig_id": 496,
+        "ev": "Hapoel Ironi Karmiel",
+        "dep": "Hapoel Tirat HaCarmel",
+        "baslama": "2026-10-08T17:00:00+02:00",
+        "p": {
+          "MS1": 0.632,
+          "MSX": 0.212,
+          "MS2": 0.156,
+          "CS1X": 0.843,
+          "CSX2": 0.368,
+          "CS12": 0.788,
+          "KGVAR": 0.491,
+          "KGYOK": 0.509,
+          "UST15": 0.769,
+          "ALT15": 0.231,
+          "UST25": 0.531,
+          "ALT25": 0.469,
+          "UST35": 0.308,
+          "ALT35": 0.692,
+          "IY1": 0.459,
+          "IYX": 0.387,
+          "IY2": 0.154,
+          "IYU05": 0.716,
+          "IYA05": 0.284,
+          "IYU15": 0.359,
+          "IYA15": 0.641,
+          "EVU05": 0.858,
+          "EVA05": 0.142,
+          "EVU15": 0.58,
+          "EVA15": 0.42,
+          "EVU25": 0.31,
+          "EVA25": 0.69,
+          "DPU05": 0.573,
+          "DPA05": 0.427,
+          "DPU15": 0.209,
+          "DPA15": 0.791,
+          "DPU25": 0.055,
+          "DPA25": 0.945,
+          "YYU05": 0.786,
+          "YYA05": 0.214,
+          "YYU15": 0.455,
+          "YYA15": 0.545
+        },
+        "skorlar": [
+          [
+            "1-0",
+            0.1186
+          ],
+          [
+            "2-0",
+            0.1156
+          ],
+          [
+            "1-1",
+            0.1008
+          ],
+          [
+            "2-1",
+            0.0983
+          ],
+          [
+            "3-0",
+            0.0751
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Hapoel Ironi Karmiel win",
+            "piyasa": 0.632,
+            "istatistik": 0.487
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.531,
+            "istatistik": 0.43
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Hapoel Tirat HaCarmel win",
+            "piyasa": 0.156,
+            "istatistik": 0.247
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.212,
+            "istatistik": 0.266
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.491,
+            "istatistik": 0.469
+          }
+        ],
+        "beklenen_gol": [
+          1.95,
+          0.85
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "son5"
+      }
+    ]
   }
 ]

@@ -25828,6 +25828,21 @@
           "durum": "tamam",
           "zaman": "2026-10-08T17:02:14+00:00"
         }
+      },
+      "tablo_gece": {
+        "durum": "paylasildi",
+        "tweet_id": "2108242873879535893",
+        "zaman": "2026-10-08T17:07:13+00:00",
+        "metin": "📋 Today's board: 6 games, every % in the image\n\n🆚 Safa v Reyady Abaseya · 20:45 CEST\n🏆 Safa 57% · Draw 24% · Reyady Abaseya 19%\n⚽ Over 2.5 goals 47% · Under 53%\n🎯 Likeliest score 1-0 (13%)\n\n💬 Safa at 57%: higher or lower for you?\n\n18+ | Play responsibly",
+        "maclar": [
+          1642034,
+          1492780,
+          1611408,
+          1644205,
+          1549505,
+          1644709
+        ],
+        "sonuclar": {}
       }
     },
     "tablo_aksam": [
@@ -26419,6 +26434,631 @@
         "beklenen_gol": [
           1.95,
           0.85
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "son5"
+      }
+    ],
+    "tablo_gece": [
+      {
+        "fixture_id": 1642034,
+        "lig": "Premier League",
+        "ulke": "Lebanon",
+        "lig_id": 390,
+        "ev": "Safa",
+        "dep": "Reyady Abaseya",
+        "baslama": "2026-10-08T20:45:00+02:00",
+        "p": {
+          "MS1": 0.575,
+          "MSX": 0.239,
+          "MS2": 0.186,
+          "CS1X": 0.814,
+          "CSX2": 0.425,
+          "CS12": 0.761,
+          "KGVAR": 0.468,
+          "KGYOK": 0.532,
+          "UST15": 0.723,
+          "ALT15": 0.277,
+          "UST25": 0.469,
+          "ALT25": 0.531,
+          "UST35": 0.253,
+          "ALT35": 0.747,
+          "IY1": 0.414,
+          "IYX": 0.417,
+          "IY2": 0.169,
+          "IYU05": 0.683,
+          "IYA05": 0.317,
+          "IYU15": 0.318,
+          "IYA15": 0.682,
+          "EVU05": 0.817,
+          "EVA05": 0.183,
+          "EVU15": 0.507,
+          "EVA15": 0.493,
+          "EVU25": 0.243,
+          "EVA25": 0.757,
+          "DPU05": 0.573,
+          "DPA05": 0.427,
+          "DPU15": 0.209,
+          "DPA15": 0.791,
+          "DPU25": 0.055,
+          "DPA25": 0.945,
+          "YYU05": 0.754,
+          "YYA05": 0.246,
+          "YYU15": 0.409,
+          "YYA15": 0.591
+        },
+        "skorlar": [
+          [
+            "1-0",
+            0.1327
+          ],
+          [
+            "2-0",
+            0.1128
+          ],
+          [
+            "1-1",
+            0.1128
+          ],
+          [
+            "2-1",
+            0.0959
+          ],
+          [
+            "0-0",
+            0.0781
+          ]
+        ],
+        "guven": "orta",
+        "karsilastirma": [],
+        "beklenen_gol": [
+          1.7,
+          0.85
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": null
+      },
+      {
+        "fixture_id": 1492780,
+        "lig": "Premier Division",
+        "ulke": "Ireland",
+        "lig_id": 357,
+        "ev": "Shamrock Rovers",
+        "dep": "Drogheda United",
+        "baslama": "2026-10-08T21:00:00+02:00",
+        "p": {
+          "MS1": 0.696,
+          "MSX": 0.187,
+          "MS2": 0.117,
+          "CS1X": 0.883,
+          "CSX2": 0.304,
+          "CS12": 0.813,
+          "KGVAR": 0.466,
+          "KGYOK": 0.534,
+          "UST15": 0.785,
+          "ALT15": 0.215,
+          "UST25": 0.554,
+          "ALT25": 0.446,
+          "UST35": 0.33,
+          "ALT35": 0.67,
+          "IY1": 0.506,
+          "IYX": 0.367,
+          "IY2": 0.127,
+          "IYU05": 0.729,
+          "IYA05": 0.271,
+          "IYU15": 0.375,
+          "IYA15": 0.625,
+          "EVU05": 0.883,
+          "EVA05": 0.116,
+          "EVU15": 0.633,
+          "EVA15": 0.367,
+          "EVU25": 0.364,
+          "EVA25": 0.636,
+          "DPU05": 0.528,
+          "DPA05": 0.472,
+          "DPU15": 0.173,
+          "DPA15": 0.827,
+          "DPU25": 0.041,
+          "DPA25": 0.959,
+          "YYU05": 0.797,
+          "YYA05": 0.203,
+          "YYU15": 0.473,
+          "YYA15": 0.527
+        },
+        "skorlar": [
+          [
+            "2-0",
+            0.1272
+          ],
+          [
+            "1-0",
+            0.1183
+          ],
+          [
+            "2-1",
+            0.0954
+          ],
+          [
+            "3-0",
+            0.0911
+          ],
+          [
+            "1-1",
+            0.0887
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Shamrock Rovers win",
+            "piyasa": 0.696,
+            "istatistik": 0.56
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Drogheda United win",
+            "piyasa": 0.117,
+            "istatistik": 0.217
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.466,
+            "istatistik": 0.567
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.187,
+            "istatistik": 0.223
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.554,
+            "istatistik": 0.577
+          }
+        ],
+        "beklenen_gol": [
+          2.15,
+          0.75
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1611408,
+        "lig": "Ligue 1",
+        "ulke": "Algeria",
+        "lig_id": 186,
+        "ev": "MC Oran",
+        "dep": "ES Setif",
+        "baslama": "2026-10-08T21:00:00+02:00",
+        "p": {
+          "MS1": 0.469,
+          "MSX": 0.293,
+          "MS2": 0.238,
+          "CS1X": 0.762,
+          "CSX2": 0.531,
+          "CS12": 0.707,
+          "KGVAR": 0.393,
+          "KGYOK": 0.607,
+          "UST15": 0.607,
+          "ALT15": 0.393,
+          "UST25": 0.337,
+          "ALT25": 0.663,
+          "UST35": 0.152,
+          "ALT35": 0.848,
+          "IY1": 0.329,
+          "IYX": 0.482,
+          "IY2": 0.189,
+          "IYU05": 0.602,
+          "IYA05": 0.398,
+          "IYU15": 0.236,
+          "IYA15": 0.764,
+          "EVU05": 0.713,
+          "EVA05": 0.287,
+          "EVU15": 0.355,
+          "EVA15": 0.645,
+          "EVU25": 0.132,
+          "EVA25": 0.868,
+          "DPU05": 0.551,
+          "DPA05": 0.449,
+          "DPU15": 0.191,
+          "DPA15": 0.809,
+          "DPU25": 0.047,
+          "DPA25": 0.953,
+          "YYU05": 0.676,
+          "YYA05": 0.324,
+          "YYU15": 0.311,
+          "YYA15": 0.689
+        },
+        "skorlar": [
+          [
+            "1-0",
+            0.1609
+          ],
+          [
+            "0-0",
+            0.1287
+          ],
+          [
+            "1-1",
+            0.1287
+          ],
+          [
+            "0-1",
+            0.103
+          ],
+          [
+            "2-0",
+            0.1006
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.393,
+            "istatistik": 0.409
+          },
+          {
+            "pazar": "MS1",
+            "ad": "MC Oran win",
+            "piyasa": 0.469,
+            "istatistik": 0.456
+          },
+          {
+            "pazar": "MS2",
+            "ad": "ES Setif win",
+            "piyasa": 0.238,
+            "istatistik": 0.252
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.337,
+            "istatistik": 0.35
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.293,
+            "istatistik": 0.291
+          }
+        ],
+        "beklenen_gol": [
+          1.25,
+          0.8
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "son5"
+      },
+      {
+        "fixture_id": 1644205,
+        "lig": "Botola Pro",
+        "ulke": "Morocco",
+        "lig_id": 200,
+        "ev": "Maghreb Fès",
+        "dep": "Raja Casablanca",
+        "baslama": "2026-10-08T22:00:00+02:00",
+        "p": {
+          "MS1": 0.35,
+          "MSX": 0.3,
+          "MS2": 0.35,
+          "CS1X": 0.65,
+          "CSX2": 0.65,
+          "CS12": 0.7,
+          "KGVAR": 0.423,
+          "KGYOK": 0.577,
+          "UST15": 0.62,
+          "ALT15": 0.38,
+          "UST25": 0.35,
+          "ALT25": 0.65,
+          "UST35": 0.161,
+          "ALT35": 0.839,
+          "IY1": 0.26,
+          "IYX": 0.48,
+          "IY2": 0.26,
+          "IYU05": 0.611,
+          "IYA05": 0.389,
+          "IYU15": 0.244,
+          "IYA15": 0.756,
+          "EVU05": 0.65,
+          "EVA05": 0.35,
+          "EVU15": 0.283,
+          "EVA15": 0.717,
+          "EVU25": 0.09,
+          "EVA25": 0.91,
+          "DPU05": 0.65,
+          "DPA05": 0.35,
+          "DPU15": 0.283,
+          "DPA15": 0.717,
+          "DPU25": 0.09,
+          "DPA25": 0.91,
+          "YYU05": 0.685,
+          "YYA05": 0.315,
+          "YYU15": 0.321,
+          "YYA15": 0.679
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.135
+          ],
+          [
+            "0-1",
+            0.1286
+          ],
+          [
+            "1-0",
+            0.1286
+          ],
+          [
+            "0-0",
+            0.1225
+          ],
+          [
+            "1-2",
+            0.0709
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.35,
+            "istatistik": 0.323
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.423,
+            "istatistik": 0.4
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.3,
+            "istatistik": 0.309
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Maghreb Fès win",
+            "piyasa": 0.35,
+            "istatistik": 0.346
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Raja Casablanca win",
+            "piyasa": 0.35,
+            "istatistik": 0.346
+          }
+        ],
+        "beklenen_gol": [
+          1.05,
+          1.05
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "son5"
+      },
+      {
+        "fixture_id": 1549505,
+        "lig": "Primera División",
+        "ulke": "Peru",
+        "lig_id": 281,
+        "ev": "Atletico Grau",
+        "dep": "Club Deportivo Los Chankas",
+        "baslama": "2026-10-08T22:30:00+02:00",
+        "p": {
+          "MS1": 0.562,
+          "MSX": 0.235,
+          "MS2": 0.203,
+          "CS1X": 0.797,
+          "CSX2": 0.438,
+          "CS12": 0.765,
+          "KGVAR": 0.507,
+          "KGYOK": 0.493,
+          "UST15": 0.751,
+          "ALT15": 0.249,
+          "UST25": 0.506,
+          "ALT25": 0.494,
+          "UST35": 0.286,
+          "ALT35": 0.714,
+          "IY1": 0.41,
+          "IYX": 0.405,
+          "IY2": 0.184,
+          "IYU05": 0.703,
+          "IYA05": 0.297,
+          "IYU15": 0.343,
+          "IYA15": 0.657,
+          "EVU05": 0.826,
+          "EVA05": 0.174,
+          "EVU15": 0.522,
+          "EVA15": 0.478,
+          "EVU25": 0.256,
+          "EVA25": 0.744,
+          "DPU05": 0.613,
+          "DPA05": 0.387,
+          "DPU15": 0.246,
+          "DPA15": 0.754,
+          "DPU25": 0.071,
+          "DPA25": 0.929,
+          "YYU05": 0.773,
+          "YYA05": 0.227,
+          "YYU15": 0.437,
+          "YYA15": 0.563
+        },
+        "skorlar": [
+          [
+            "1-0",
+            0.1176
+          ],
+          [
+            "1-1",
+            0.1117
+          ],
+          [
+            "2-0",
+            0.1029
+          ],
+          [
+            "2-1",
+            0.0978
+          ],
+          [
+            "0-0",
+            0.0672
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.506,
+            "istatistik": 0.43
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.507,
+            "istatistik": 0.439
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.235,
+            "istatistik": 0.25
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Club Deportivo Los Chankas win",
+            "piyasa": 0.203,
+            "istatistik": 0.187
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Atletico Grau win",
+            "piyasa": 0.562,
+            "istatistik": 0.564
+          }
+        ],
+        "beklenen_gol": [
+          1.75,
+          0.95
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1644709,
+        "lig": "Premier League",
+        "ulke": "Jamaica",
+        "lig_id": 322,
+        "ev": "Portmore United",
+        "dep": "Waterhouse",
+        "baslama": "2026-10-08T22:30:00+02:00",
+        "p": {
+          "MS1": 0.348,
+          "MSX": 0.28,
+          "MS2": 0.372,
+          "CS1X": 0.628,
+          "CSX2": 0.652,
+          "CS12": 0.72,
+          "KGVAR": 0.478,
+          "KGYOK": 0.522,
+          "UST15": 0.681,
+          "ALT15": 0.319,
+          "UST25": 0.417,
+          "ALT25": 0.583,
+          "UST35": 0.211,
+          "ALT35": 0.789,
+          "IY1": 0.267,
+          "IYX": 0.451,
+          "IY2": 0.282,
+          "IYU05": 0.653,
+          "IYA05": 0.347,
+          "IYU15": 0.285,
+          "IYA15": 0.715,
+          "EVU05": 0.683,
+          "EVA05": 0.317,
+          "EVU15": 0.319,
+          "EVA15": 0.681,
+          "EVU25": 0.11,
+          "EVA25": 0.89,
+          "DPU05": 0.699,
+          "DPA05": 0.301,
+          "DPU15": 0.337,
+          "DPA15": 0.663,
+          "DPU25": 0.121,
+          "DPA25": 0.879,
+          "YYU05": 0.725,
+          "YYA05": 0.275,
+          "YYU15": 0.371,
+          "YYA15": 0.629
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1316
+          ],
+          [
+            "0-1",
+            0.1144
+          ],
+          [
+            "1-0",
+            0.1097
+          ],
+          [
+            "0-0",
+            0.0954
+          ],
+          [
+            "1-2",
+            0.079
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.417,
+            "istatistik": 0.747
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Waterhouse win",
+            "piyasa": 0.372,
+            "istatistik": 0.672
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Portmore United win",
+            "piyasa": 0.348,
+            "istatistik": 0.159
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.478,
+            "istatistik": 0.663
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.28,
+            "istatistik": 0.168
+          }
+        ],
+        "beklenen_gol": [
+          1.15,
+          1.2
         ],
         "kaynak": "piyasa",
         "istatistik_kaynak": "son5"

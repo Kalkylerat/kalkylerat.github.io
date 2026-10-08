@@ -3836,20 +3836,23 @@
        "oran": 1.5,
        "olasilik": 0.668,
        "deger": 0.002,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "2-0"
       }
      ],
      "oran": 2.0,
      "olasilik": 0.485,
      "deger": -0.03,
-     "durum": "bekliyor",
+     "durum": "tuttu",
      "secim": "2026-10-08T05:36:54+00:00",
      "oto": true,
      "paylas": "2026-10-08T11:00:00+02:00",
      "tweet_id": "2108120575537275072",
      "metin": "🎩 A double today. Nothing clever.\n\n⚽ Arsenal Tivat v Dečić\n⚽ El Mokawloon v El Gouna FC\n\n📊 Combined 2.00. I make it about 48% to land, so it probably doesn't.\n\n💬 Anyone on the other side of one of these?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-08T09:01:20+00:00"
+     "yayin": "2026-10-08T09:01:20+00:00",
+     "son_oran": 1.5,
+     "sonuc_metni": "✅ Both legs in at 1.50. Landed. I'll try not to be smug.\n\n↩️ Arsenal Tivat void Dečić: Double chance 12\n✅ El Mokawloon 2-0 El Gouna FC: Under 2.5 goals\n\nRecord: 1 of 5 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2108226462830510296"
     },
     {
      "ad": "long-shot",

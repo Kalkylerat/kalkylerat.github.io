@@ -23947,5 +23947,1719 @@
       }
     },
     "tablo_aksam": []
+  },
+  {
+    "yogun": false,
+    "id": "2026-10-08",
+    "tarih": "2026-10-08",
+    "olusturma": "2026-10-08T05:36:54+00:00",
+    "baslik": "",
+    "secimler": [],
+    "sonuc": "analiz",
+    "tweet_id": null,
+    "konsept": "analiz",
+    "taranan": 97,
+    "analiz_sayisi": 91,
+    "vitrin": [
+      {
+        "fixture_id": 1597937,
+        "lig": "Stars League",
+        "ulke": "Qatar",
+        "izinli": false,
+        "ev": "Al Shamal",
+        "dep": "Al-Duhail SC",
+        "baslama": "2026-10-08T16:45:00+02:00",
+        "p": {
+          "MS1": 0.303,
+          "MSX": 0.264,
+          "MS2": 0.433
+        },
+        "beklenen_gol": [
+          1.35,
+          1.65
+        ],
+        "olasi_skor": "1-1",
+        "kisa": {
+          "pazar": "UST15",
+          "ad": "Over 1.5 goals",
+          "p": 0.799,
+          "oran": 1.21
+        }
+      },
+      {
+        "fixture_id": 1638102,
+        "lig": "Veikkausliiga",
+        "ulke": "Finland",
+        "izinli": false,
+        "ev": "HJK Helsinki",
+        "dep": "VPS",
+        "baslama": "2026-10-08T17:00:00+02:00",
+        "p": {
+          "MS1": 0.61,
+          "MSX": 0.223,
+          "MS2": 0.167
+        },
+        "beklenen_gol": [
+          1.95,
+          0.95
+        ],
+        "olasi_skor": "1-0",
+        "kisa": {
+          "pazar": "UST15",
+          "ad": "Over 1.5 goals",
+          "p": 0.777,
+          "oran": 1.23
+        }
+      },
+      {
+        "fixture_id": 1638103,
+        "lig": "Veikkausliiga",
+        "ulke": "Finland",
+        "izinli": false,
+        "ev": "KuPS",
+        "dep": "AC Oulu",
+        "baslama": "2026-10-08T18:00:00+02:00",
+        "p": {
+          "MS1": 0.6,
+          "MSX": 0.234,
+          "MS2": 0.167
+        },
+        "beklenen_gol": [
+          1.85,
+          0.85
+        ],
+        "olasi_skor": "1-0",
+        "kisa": {
+          "pazar": "UST15",
+          "ad": "Over 1.5 goals",
+          "p": 0.742,
+          "oran": 1.28
+        }
+      },
+      {
+        "fixture_id": 1644202,
+        "lig": "Botola Pro",
+        "ulke": "Morocco",
+        "izinli": false,
+        "ev": "UTS Rabat",
+        "dep": "Renaissance Berkane",
+        "baslama": "2026-10-08T18:00:00+02:00",
+        "p": {
+          "MS1": 0.283,
+          "MSX": 0.318,
+          "MS2": 0.399
+        },
+        "beklenen_gol": [
+          1.0,
+          1.25
+        ],
+        "olasi_skor": "0-1",
+        "kisa": {
+          "pazar": "UST15",
+          "ad": "Over 1.5 goals",
+          "p": 0.663,
+          "oran": 1.44
+        }
+      },
+      {
+        "fixture_id": 1565207,
+        "lig": "Liga I",
+        "ulke": "Romania",
+        "izinli": false,
+        "ev": "CFR 1907 Cluj",
+        "dep": "Universitatea Cluj",
+        "baslama": "2026-10-08T19:30:00+02:00",
+        "p": {
+          "MS1": 0.381,
+          "MSX": 0.288,
+          "MS2": 0.331
+        },
+        "beklenen_gol": [
+          1.45,
+          1.35
+        ],
+        "olasi_skor": "1-1",
+        "kisa": {
+          "pazar": "UST15",
+          "ad": "Over 1.5 goals",
+          "p": 0.765,
+          "oran": 1.27
+        }
+      },
+      {
+        "fixture_id": 1549506,
+        "lig": "Primera División",
+        "ulke": "Peru",
+        "izinli": false,
+        "ev": "UCV Moquegua",
+        "dep": "Cienciano",
+        "baslama": "2026-10-08T20:00:00+02:00",
+        "p": {
+          "MS1": 0.292,
+          "MSX": 0.281,
+          "MS2": 0.427
+        },
+        "beklenen_gol": [
+          1.2,
+          1.5
+        ],
+        "olasi_skor": "1-1",
+        "kisa": {
+          "pazar": "UST15",
+          "ad": "Over 1.5 goals",
+          "p": 0.739,
+          "oran": 1.27
+        }
+      }
+    ],
+    "analizler": [],
+    "tablo": [
+      {
+        "fixture_id": 1551232,
+        "lig": "ASEAN Club Championship",
+        "ulke": "World",
+        "lig_id": 1129,
+        "ev": "Home United",
+        "dep": "Công An Nhân Dân",
+        "baslama": "2026-10-08T13:30:00+02:00",
+        "p": {
+          "MS1": 0.376,
+          "MSX": 0.248,
+          "MS2": 0.376,
+          "CS1X": 0.624,
+          "CSX2": 0.624,
+          "CS12": 0.752,
+          "KGVAR": 0.586,
+          "KGYOK": 0.414,
+          "UST15": 0.785,
+          "ALT15": 0.215,
+          "UST25": 0.554,
+          "ALT25": 0.446,
+          "UST35": 0.33,
+          "ALT35": 0.67,
+          "IY1": 0.3,
+          "IYX": 0.4,
+          "IY2": 0.3,
+          "IYU05": 0.729,
+          "IYA05": 0.271,
+          "IYU15": 0.375,
+          "IYA15": 0.625,
+          "EVU05": 0.765,
+          "EVA05": 0.235,
+          "EVU15": 0.425,
+          "EVA15": 0.575,
+          "EVU25": 0.179,
+          "EVA25": 0.821,
+          "DPU05": 0.765,
+          "DPA05": 0.235,
+          "DPU15": 0.425,
+          "DPA15": 0.575,
+          "DPU25": 0.179,
+          "DPA25": 0.821,
+          "YYU05": 0.797,
+          "YYA05": 0.203,
+          "YYU15": 0.473,
+          "YYA15": 0.527
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1157
+          ],
+          [
+            "1-2",
+            0.0839
+          ],
+          [
+            "2-1",
+            0.0839
+          ],
+          [
+            "0-1",
+            0.0798
+          ],
+          [
+            "1-0",
+            0.0798
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [],
+        "beklenen_gol": [
+          1.45,
+          1.45
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": null
+      },
+      {
+        "fixture_id": 1551231,
+        "lig": "ASEAN Club Championship",
+        "ulke": "World",
+        "lig_id": 1129,
+        "ev": "Johor Darul Takzim FC",
+        "dep": "Svay Rieng",
+        "baslama": "2026-10-08T14:00:00+02:00",
+        "p": {
+          "MS1": 0.711,
+          "MSX": 0.166,
+          "MS2": 0.123,
+          "CS1X": 0.877,
+          "CSX2": 0.289,
+          "CS12": 0.834,
+          "KGVAR": 0.563,
+          "KGYOK": 0.437,
+          "UST15": 0.859,
+          "ALT15": 0.141,
+          "UST25": 0.67,
+          "ALT25": 0.33,
+          "UST35": 0.452,
+          "ALT35": 0.547,
+          "IY1": 0.533,
+          "IYX": 0.326,
+          "IY2": 0.14,
+          "IYU05": 0.788,
+          "IYA05": 0.212,
+          "IYU15": 0.46,
+          "IYA15": 0.54,
+          "EVU05": 0.918,
+          "EVA05": 0.082,
+          "EVU15": 0.713,
+          "EVA15": 0.287,
+          "EVU25": 0.456,
+          "EVA25": 0.544,
+          "DPU05": 0.613,
+          "DPA05": 0.387,
+          "DPU15": 0.246,
+          "DPA15": 0.754,
+          "DPU25": 0.071,
+          "DPA25": 0.929,
+          "YYU05": 0.85,
+          "YYA05": 0.15,
+          "YYU15": 0.565,
+          "YYA15": 0.434
+        },
+        "skorlar": [
+          [
+            "2-0",
+            0.0992
+          ],
+          [
+            "2-1",
+            0.0942
+          ],
+          [
+            "3-0",
+            0.0827
+          ],
+          [
+            "1-0",
+            0.0794
+          ],
+          [
+            "3-1",
+            0.0785
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [],
+        "beklenen_gol": [
+          2.5,
+          0.95
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": null
+      },
+      {
+        "fixture_id": 1558531,
+        "lig": "First League",
+        "ulke": "Montenegro",
+        "lig_id": 355,
+        "ev": "Arsenal Tivat",
+        "dep": "Dečić",
+        "baslama": "2026-10-08T14:00:00+02:00",
+        "p": {
+          "MS1": 0.213,
+          "MSX": 0.262,
+          "MS2": 0.525,
+          "CS1X": 0.475,
+          "CSX2": 0.787,
+          "CS12": 0.738,
+          "KGVAR": 0.445,
+          "KGYOK": 0.555,
+          "UST15": 0.681,
+          "ALT15": 0.319,
+          "UST25": 0.417,
+          "ALT25": 0.583,
+          "UST35": 0.211,
+          "ALT35": 0.789,
+          "IY1": 0.182,
+          "IYX": 0.443,
+          "IY2": 0.375,
+          "IYU05": 0.653,
+          "IYA05": 0.347,
+          "IYU15": 0.285,
+          "IYA15": 0.715,
+          "EVU05": 0.573,
+          "EVA05": 0.427,
+          "EVU15": 0.209,
+          "EVA15": 0.791,
+          "EVU25": 0.055,
+          "EVA25": 0.945,
+          "DPU05": 0.777,
+          "DPA05": 0.223,
+          "DPU15": 0.442,
+          "DPA15": 0.558,
+          "DPU25": 0.191,
+          "DPA25": 0.809,
+          "YYU05": 0.725,
+          "YYA05": 0.275,
+          "YYU15": 0.371,
+          "YYA15": 0.629
+        },
+        "skorlar": [
+          [
+            "0-1",
+            0.1431
+          ],
+          [
+            "1-1",
+            0.1216
+          ],
+          [
+            "0-2",
+            0.1073
+          ],
+          [
+            "0-0",
+            0.0954
+          ],
+          [
+            "1-2",
+            0.0912
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.417,
+            "istatistik": 0.31
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.445,
+            "istatistik": 0.348
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.262,
+            "istatistik": 0.29
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Arsenal Tivat win",
+            "piyasa": 0.213,
+            "istatistik": 0.186
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Dečić win",
+            "piyasa": 0.525,
+            "istatistik": 0.523
+          }
+        ],
+        "beklenen_gol": [
+          0.85,
+          1.5
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1558535,
+        "lig": "First League",
+        "ulke": "Montenegro",
+        "lig_id": 355,
+        "ev": "Otrant-Olympic",
+        "dep": "Mladost DG",
+        "baslama": "2026-10-08T14:00:00+02:00",
+        "p": {
+          "MS1": 0.574,
+          "MSX": 0.234,
+          "MS2": 0.191,
+          "CS1X": 0.809,
+          "CSX2": 0.426,
+          "CS12": 0.766,
+          "KGVAR": 0.49,
+          "KGYOK": 0.51,
+          "UST15": 0.742,
+          "ALT15": 0.258,
+          "UST25": 0.494,
+          "ALT25": 0.506,
+          "UST35": 0.275,
+          "ALT35": 0.725,
+          "IY1": 0.417,
+          "IYX": 0.408,
+          "IY2": 0.175,
+          "IYU05": 0.697,
+          "IYA05": 0.303,
+          "IYU15": 0.335,
+          "IYA15": 0.665,
+          "EVU05": 0.826,
+          "EVA05": 0.174,
+          "EVU15": 0.522,
+          "EVA15": 0.478,
+          "EVU25": 0.256,
+          "EVA25": 0.744,
+          "DPU05": 0.593,
+          "DPA05": 0.407,
+          "DPU15": 0.228,
+          "DPA15": 0.772,
+          "DPU25": 0.063,
+          "DPA25": 0.937,
+          "YYU05": 0.767,
+          "YYA05": 0.233,
+          "YYU15": 0.428,
+          "YYA15": 0.572
+        },
+        "skorlar": [
+          [
+            "1-0",
+            0.1236
+          ],
+          [
+            "1-1",
+            0.1113
+          ],
+          [
+            "2-0",
+            0.1082
+          ],
+          [
+            "2-1",
+            0.0974
+          ],
+          [
+            "0-0",
+            0.0707
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Otrant-Olympic win",
+            "piyasa": 0.574,
+            "istatistik": 0.646
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Mladost DG win",
+            "piyasa": 0.191,
+            "istatistik": 0.14
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.49,
+            "istatistik": 0.449
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.234,
+            "istatistik": 0.213
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.494,
+            "istatistik": 0.494
+          }
+        ],
+        "beklenen_gol": [
+          1.75,
+          0.9
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1642033,
+        "lig": "Premier League",
+        "ulke": "Lebanon",
+        "lig_id": 390,
+        "ev": "Shabab Al Sahel",
+        "dep": "Tadamon Sour",
+        "baslama": "2026-10-08T14:00:00+02:00",
+        "p": {
+          "MS1": 0.551,
+          "MSX": 0.25,
+          "MS2": 0.199,
+          "CS1X": 0.801,
+          "CSX2": 0.449,
+          "CS12": 0.75,
+          "KGVAR": 0.457,
+          "KGYOK": 0.543,
+          "UST15": 0.702,
+          "ALT15": 0.298,
+          "UST25": 0.443,
+          "ALT25": 0.557,
+          "UST35": 0.232,
+          "ALT35": 0.768,
+          "IY1": 0.394,
+          "IYX": 0.43,
+          "IY2": 0.176,
+          "IYU05": 0.668,
+          "IYA05": 0.332,
+          "IYU15": 0.302,
+          "IYA15": 0.698,
+          "EVU05": 0.798,
+          "EVA05": 0.202,
+          "EVU15": 0.475,
+          "EVA15": 0.525,
+          "EVU25": 0.217,
+          "EVA25": 0.783,
+          "DPU05": 0.573,
+          "DPA05": 0.427,
+          "DPU15": 0.209,
+          "DPA15": 0.791,
+          "DPU25": 0.055,
+          "DPA25": 0.945,
+          "YYU05": 0.74,
+          "YYA05": 0.26,
+          "YYU15": 0.39,
+          "YYA15": 0.61
+        },
+        "skorlar": [
+          [
+            "1-0",
+            0.1381
+          ],
+          [
+            "1-1",
+            0.1174
+          ],
+          [
+            "2-0",
+            0.1105
+          ],
+          [
+            "2-1",
+            0.0939
+          ],
+          [
+            "0-0",
+            0.0863
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [],
+        "beklenen_gol": [
+          1.6,
+          0.85
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": null
+      },
+      {
+        "fixture_id": 1633901,
+        "lig": "V.League 1",
+        "ulke": "Vietnam",
+        "lig_id": 340,
+        "ev": "Viettel",
+        "dep": "Hồng Lĩnh Hà Tĩnh",
+        "baslama": "2026-10-08T14:15:00+02:00",
+        "p": {
+          "MS1": 0.616,
+          "MSX": 0.24,
+          "MS2": 0.144,
+          "CS1X": 0.856,
+          "CSX2": 0.384,
+          "CS12": 0.76,
+          "KGVAR": 0.386,
+          "KGYOK": 0.614,
+          "UST15": 0.669,
+          "ALT15": 0.331,
+          "UST25": 0.404,
+          "ALT25": 0.596,
+          "UST35": 0.201,
+          "ALT35": 0.799,
+          "IY1": 0.43,
+          "IYX": 0.437,
+          "IY2": 0.134,
+          "IYU05": 0.645,
+          "IYA05": 0.355,
+          "IYU15": 0.277,
+          "IYA15": 0.723,
+          "EVU05": 0.808,
+          "EVA05": 0.192,
+          "EVU15": 0.491,
+          "EVA15": 0.509,
+          "EVU25": 0.23,
+          "EVA25": 0.77,
+          "DPU05": 0.478,
+          "DPA05": 0.522,
+          "DPU15": 0.139,
+          "DPA15": 0.861,
+          "DPU25": 0.028,
+          "DPA25": 0.972,
+          "YYU05": 0.718,
+          "YYA05": 0.282,
+          "YYU15": 0.361,
+          "YYA15": 0.639
+        },
+        "skorlar": [
+          [
+            "1-0",
+            0.1654
+          ],
+          [
+            "2-0",
+            0.1365
+          ],
+          [
+            "1-1",
+            0.1075
+          ],
+          [
+            "0-0",
+            0.1003
+          ],
+          [
+            "2-1",
+            0.0887
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.404,
+            "istatistik": 0.191
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Viettel win",
+            "piyasa": 0.616,
+            "istatistik": 0.47
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.386,
+            "istatistik": 0.249
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.24,
+            "istatistik": 0.349
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Hồng Lĩnh Hà Tĩnh win",
+            "piyasa": 0.144,
+            "istatistik": 0.181
+          }
+        ],
+        "beklenen_gol": [
+          1.65,
+          0.65
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "son5"
+      }
+    ],
+    "ayrisma": [
+      {
+        "fixture_id": 1627997,
+        "lig": "Iraqi League",
+        "ulke": "Iraq",
+        "lig_id": 542,
+        "ev": "Naft Maysan",
+        "dep": "Erbil",
+        "baslama": "2026-10-08T17:45:00+02:00",
+        "p": {
+          "MS1": 0.252,
+          "MSX": 0.26,
+          "MS2": 0.488,
+          "CS1X": 0.512,
+          "CSX2": 0.748,
+          "CS12": 0.74,
+          "KGVAR": 0.491,
+          "KGYOK": 0.509,
+          "UST15": 0.713,
+          "ALT15": 0.287,
+          "UST25": 0.456,
+          "ALT25": 0.544,
+          "UST35": 0.242,
+          "ALT35": 0.758,
+          "IY1": 0.212,
+          "IYX": 0.431,
+          "IY2": 0.357,
+          "IYU05": 0.675,
+          "IYA05": 0.325,
+          "IYU15": 0.31,
+          "IYA15": 0.69,
+          "EVU05": 0.632,
+          "EVA05": 0.368,
+          "EVU15": 0.264,
+          "EVA15": 0.736,
+          "EVU25": 0.08,
+          "EVA25": 0.92,
+          "DPU05": 0.777,
+          "DPA05": 0.223,
+          "DPU15": 0.442,
+          "DPA15": 0.558,
+          "DPU25": 0.191,
+          "DPA25": 0.809,
+          "YYU05": 0.747,
+          "YYA05": 0.253,
+          "YYU15": 0.4,
+          "YYA15": 0.6
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1231
+          ],
+          [
+            "0-1",
+            0.1231
+          ],
+          [
+            "1-2",
+            0.0923
+          ],
+          [
+            "0-2",
+            0.0923
+          ],
+          [
+            "0-0",
+            0.0821
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.491,
+            "istatistik": 0.131
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.456,
+            "istatistik": 0.11
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Naft Maysan win",
+            "piyasa": 0.252,
+            "istatistik": 0.1
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.26,
+            "istatistik": 0.392
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Erbil win",
+            "piyasa": 0.488,
+            "istatistik": 0.508
+          }
+        ],
+        "beklenen_gol": [
+          1.0,
+          1.5
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1611410,
+        "lig": "Ligue 1",
+        "ulke": "Algeria",
+        "lig_id": 186,
+        "ev": "JS Saoura",
+        "dep": "Olympique Akbou",
+        "baslama": "2026-10-08T19:00:00+02:00",
+        "p": {
+          "MS1": 0.511,
+          "MSX": 0.282,
+          "MS2": 0.208,
+          "CS1X": 0.792,
+          "CSX2": 0.489,
+          "CS12": 0.718,
+          "KGVAR": 0.391,
+          "KGYOK": 0.609,
+          "UST15": 0.62,
+          "ALT15": 0.38,
+          "UST25": 0.35,
+          "ALT25": 0.65,
+          "UST35": 0.161,
+          "ALT35": 0.839,
+          "IY1": 0.356,
+          "IYX": 0.473,
+          "IY2": 0.172,
+          "IYU05": 0.611,
+          "IYA05": 0.389,
+          "IYU15": 0.244,
+          "IYA15": 0.756,
+          "EVU05": 0.741,
+          "EVA05": 0.259,
+          "EVU15": 0.391,
+          "EVA15": 0.609,
+          "EVU25": 0.155,
+          "EVA25": 0.845,
+          "DPU05": 0.528,
+          "DPA05": 0.472,
+          "DPU15": 0.173,
+          "DPA15": 0.827,
+          "DPU25": 0.041,
+          "DPA25": 0.959,
+          "YYU05": 0.685,
+          "YYA05": 0.315,
+          "YYU15": 0.321,
+          "YYA15": 0.679
+        },
+        "skorlar": [
+          [
+            "1-0",
+            0.1653
+          ],
+          [
+            "1-1",
+            0.124
+          ],
+          [
+            "0-0",
+            0.1225
+          ],
+          [
+            "2-0",
+            0.1116
+          ],
+          [
+            "0-1",
+            0.0918
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS2",
+            "ad": "Olympique Akbou win",
+            "piyasa": 0.208,
+            "istatistik": 0.563
+          },
+          {
+            "pazar": "MS1",
+            "ad": "JS Saoura win",
+            "piyasa": 0.511,
+            "istatistik": 0.192
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.35,
+            "istatistik": 0.456
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.391,
+            "istatistik": 0.463
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.282,
+            "istatistik": 0.244
+          }
+        ],
+        "beklenen_gol": [
+          1.35,
+          0.75
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "son5"
+      },
+      {
+        "fixture_id": 1565207,
+        "lig": "Liga I",
+        "ulke": "Romania",
+        "lig_id": 283,
+        "ev": "CFR 1907 Cluj",
+        "dep": "Universitatea Cluj",
+        "baslama": "2026-10-08T19:30:00+02:00",
+        "p": {
+          "MS1": 0.396,
+          "MSX": 0.252,
+          "MS2": 0.351,
+          "CS1X": 0.649,
+          "CSX2": 0.604,
+          "CS12": 0.748,
+          "KGVAR": 0.567,
+          "KGYOK": 0.433,
+          "UST15": 0.769,
+          "ALT15": 0.231,
+          "UST25": 0.531,
+          "ALT25": 0.469,
+          "UST35": 0.308,
+          "ALT35": 0.692,
+          "IY1": 0.31,
+          "IYX": 0.408,
+          "IY2": 0.282,
+          "IYU05": 0.716,
+          "IYA05": 0.284,
+          "IYU15": 0.359,
+          "IYA15": 0.641,
+          "EVU05": 0.765,
+          "EVA05": 0.235,
+          "EVU15": 0.425,
+          "EVA15": 0.575,
+          "EVU25": 0.179,
+          "EVA25": 0.821,
+          "DPU05": 0.741,
+          "DPA05": 0.259,
+          "DPU15": 0.391,
+          "DPA15": 0.609,
+          "DPU25": 0.155,
+          "DPA25": 0.845,
+          "YYU05": 0.786,
+          "YYA05": 0.214,
+          "YYU15": 0.455,
+          "YYA15": 0.545
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.119
+          ],
+          [
+            "1-0",
+            0.0882
+          ],
+          [
+            "2-1",
+            0.0863
+          ],
+          [
+            "0-1",
+            0.0821
+          ],
+          [
+            "1-2",
+            0.0803
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "CFR 1907 Cluj win",
+            "piyasa": 0.396,
+            "istatistik": 0.727
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Universitatea Cluj win",
+            "piyasa": 0.351,
+            "istatistik": 0.088
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.567,
+            "istatistik": 0.369
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.252,
+            "istatistik": 0.185
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.531,
+            "istatistik": 0.482
+          }
+        ],
+        "beklenen_gol": [
+          1.45,
+          1.35
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      }
+    ],
+    "kiyas": [
+      {
+        "fixture_id": 1639238,
+        "lig": "League Cup",
+        "ulke": "United-Arab-Emirates",
+        "lig_id": 302,
+        "ev": "Al Ain",
+        "dep": "Al-Ittihad Kalba",
+        "baslama": "2026-10-08T15:10:00+02:00",
+        "p": {
+          "MS1": 0.719,
+          "MSX": 0.162,
+          "MS2": 0.119,
+          "CS1X": 0.881,
+          "CSX2": 0.28,
+          "CS12": 0.838,
+          "KGVAR": 0.565,
+          "KGYOK": 0.435,
+          "UST15": 0.864,
+          "ALT15": 0.136,
+          "UST25": 0.679,
+          "ALT25": 0.321,
+          "UST35": 0.463,
+          "ALT35": 0.537,
+          "IY1": 0.541,
+          "IYX": 0.322,
+          "IY2": 0.138,
+          "IYU05": 0.793,
+          "IYA05": 0.207,
+          "IYU15": 0.467,
+          "IYA15": 0.533,
+          "EVU05": 0.922,
+          "EVA05": 0.078,
+          "EVU15": 0.723,
+          "EVA15": 0.277,
+          "EVU25": 0.469,
+          "EVA25": 0.531,
+          "DPU05": 0.613,
+          "DPA05": 0.387,
+          "DPU15": 0.246,
+          "DPA15": 0.754,
+          "DPU25": 0.071,
+          "DPA25": 0.929,
+          "YYU05": 0.854,
+          "YYA05": 0.146,
+          "YYU15": 0.573,
+          "YYA15": 0.427
+        },
+        "skorlar": [
+          [
+            "2-0",
+            0.0982
+          ],
+          [
+            "2-1",
+            0.0933
+          ],
+          [
+            "3-0",
+            0.0835
+          ],
+          [
+            "3-1",
+            0.0793
+          ],
+          [
+            "1-0",
+            0.077
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Al Ain win",
+            "piyasa": 0.719,
+            "istatistik": 0.447
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Al-Ittihad Kalba win",
+            "piyasa": 0.119,
+            "istatistik": 0.354
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.565,
+            "istatistik": 0.773
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.679,
+            "istatistik": 0.796
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.162,
+            "istatistik": 0.199
+          }
+        ],
+        "beklenen_gol": [
+          2.55,
+          0.95
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "son5"
+      },
+      {
+        "fixture_id": 1627997,
+        "lig": "Iraqi League",
+        "ulke": "Iraq",
+        "lig_id": 542,
+        "ev": "Naft Maysan",
+        "dep": "Erbil",
+        "baslama": "2026-10-08T17:45:00+02:00",
+        "p": {
+          "MS1": 0.252,
+          "MSX": 0.26,
+          "MS2": 0.488,
+          "CS1X": 0.512,
+          "CSX2": 0.748,
+          "CS12": 0.74,
+          "KGVAR": 0.491,
+          "KGYOK": 0.509,
+          "UST15": 0.713,
+          "ALT15": 0.287,
+          "UST25": 0.456,
+          "ALT25": 0.544,
+          "UST35": 0.242,
+          "ALT35": 0.758,
+          "IY1": 0.212,
+          "IYX": 0.431,
+          "IY2": 0.357,
+          "IYU05": 0.675,
+          "IYA05": 0.325,
+          "IYU15": 0.31,
+          "IYA15": 0.69,
+          "EVU05": 0.632,
+          "EVA05": 0.368,
+          "EVU15": 0.264,
+          "EVA15": 0.736,
+          "EVU25": 0.08,
+          "EVA25": 0.92,
+          "DPU05": 0.777,
+          "DPA05": 0.223,
+          "DPU15": 0.442,
+          "DPA15": 0.558,
+          "DPU25": 0.191,
+          "DPA25": 0.809,
+          "YYU05": 0.747,
+          "YYA05": 0.253,
+          "YYU15": 0.4,
+          "YYA15": 0.6
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1231
+          ],
+          [
+            "0-1",
+            0.1231
+          ],
+          [
+            "1-2",
+            0.0923
+          ],
+          [
+            "0-2",
+            0.0923
+          ],
+          [
+            "0-0",
+            0.0821
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.491,
+            "istatistik": 0.131
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.456,
+            "istatistik": 0.11
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Naft Maysan win",
+            "piyasa": 0.252,
+            "istatistik": 0.1
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.26,
+            "istatistik": 0.392
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Erbil win",
+            "piyasa": 0.488,
+            "istatistik": 0.508
+          }
+        ],
+        "beklenen_gol": [
+          1.0,
+          1.5
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1558532,
+        "lig": "First League",
+        "ulke": "Montenegro",
+        "lig_id": 355,
+        "ev": "Bokelj",
+        "dep": "Petrovac",
+        "baslama": "2026-10-08T18:00:00+02:00",
+        "p": {
+          "MS1": 0.335,
+          "MSX": 0.304,
+          "MS2": 0.361,
+          "CS1X": 0.639,
+          "CSX2": 0.665,
+          "CS12": 0.696,
+          "KGVAR": 0.411,
+          "KGYOK": 0.589,
+          "UST15": 0.607,
+          "ALT15": 0.393,
+          "UST25": 0.337,
+          "ALT25": 0.663,
+          "UST35": 0.152,
+          "ALT35": 0.848,
+          "IY1": 0.249,
+          "IYX": 0.487,
+          "IY2": 0.264,
+          "IYU05": 0.602,
+          "IYA05": 0.398,
+          "IYU15": 0.236,
+          "IYA15": 0.764,
+          "EVU05": 0.632,
+          "EVA05": 0.368,
+          "EVU15": 0.264,
+          "EVA15": 0.736,
+          "EVU25": 0.08,
+          "EVA25": 0.92,
+          "DPU05": 0.65,
+          "DPA05": 0.35,
+          "DPU15": 0.283,
+          "DPA15": 0.717,
+          "DPU25": 0.09,
+          "DPA25": 0.91,
+          "YYU05": 0.676,
+          "YYA05": 0.324,
+          "YYU15": 0.311,
+          "YYA15": 0.689
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1352
+          ],
+          [
+            "0-1",
+            0.1352
+          ],
+          [
+            "0-0",
+            0.1287
+          ],
+          [
+            "1-0",
+            0.1287
+          ],
+          [
+            "1-2",
+            0.071
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Bokelj win",
+            "piyasa": 0.335,
+            "istatistik": 0.624
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Petrovac win",
+            "piyasa": 0.361,
+            "istatistik": 0.105
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.411,
+            "istatistik": 0.248
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.337,
+            "istatistik": 0.269
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.304,
+            "istatistik": 0.272
+          }
+        ],
+        "beklenen_gol": [
+          1.0,
+          1.05
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1611410,
+        "lig": "Ligue 1",
+        "ulke": "Algeria",
+        "lig_id": 186,
+        "ev": "JS Saoura",
+        "dep": "Olympique Akbou",
+        "baslama": "2026-10-08T19:00:00+02:00",
+        "p": {
+          "MS1": 0.511,
+          "MSX": 0.282,
+          "MS2": 0.208,
+          "CS1X": 0.792,
+          "CSX2": 0.489,
+          "CS12": 0.718,
+          "KGVAR": 0.391,
+          "KGYOK": 0.609,
+          "UST15": 0.62,
+          "ALT15": 0.38,
+          "UST25": 0.35,
+          "ALT25": 0.65,
+          "UST35": 0.161,
+          "ALT35": 0.839,
+          "IY1": 0.356,
+          "IYX": 0.473,
+          "IY2": 0.172,
+          "IYU05": 0.611,
+          "IYA05": 0.389,
+          "IYU15": 0.244,
+          "IYA15": 0.756,
+          "EVU05": 0.741,
+          "EVA05": 0.259,
+          "EVU15": 0.391,
+          "EVA15": 0.609,
+          "EVU25": 0.155,
+          "EVA25": 0.845,
+          "DPU05": 0.528,
+          "DPA05": 0.472,
+          "DPU15": 0.173,
+          "DPA15": 0.827,
+          "DPU25": 0.041,
+          "DPA25": 0.959,
+          "YYU05": 0.685,
+          "YYA05": 0.315,
+          "YYU15": 0.321,
+          "YYA15": 0.679
+        },
+        "skorlar": [
+          [
+            "1-0",
+            0.1653
+          ],
+          [
+            "1-1",
+            0.124
+          ],
+          [
+            "0-0",
+            0.1225
+          ],
+          [
+            "2-0",
+            0.1116
+          ],
+          [
+            "0-1",
+            0.0918
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS2",
+            "ad": "Olympique Akbou win",
+            "piyasa": 0.208,
+            "istatistik": 0.563
+          },
+          {
+            "pazar": "MS1",
+            "ad": "JS Saoura win",
+            "piyasa": 0.511,
+            "istatistik": 0.192
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.35,
+            "istatistik": 0.456
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.391,
+            "istatistik": 0.463
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.282,
+            "istatistik": 0.244
+          }
+        ],
+        "beklenen_gol": [
+          1.35,
+          0.75
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "son5"
+      },
+      {
+        "fixture_id": 1565207,
+        "lig": "Liga I",
+        "ulke": "Romania",
+        "lig_id": 283,
+        "ev": "CFR 1907 Cluj",
+        "dep": "Universitatea Cluj",
+        "baslama": "2026-10-08T19:30:00+02:00",
+        "p": {
+          "MS1": 0.396,
+          "MSX": 0.252,
+          "MS2": 0.351,
+          "CS1X": 0.649,
+          "CSX2": 0.604,
+          "CS12": 0.748,
+          "KGVAR": 0.567,
+          "KGYOK": 0.433,
+          "UST15": 0.769,
+          "ALT15": 0.231,
+          "UST25": 0.531,
+          "ALT25": 0.469,
+          "UST35": 0.308,
+          "ALT35": 0.692,
+          "IY1": 0.31,
+          "IYX": 0.408,
+          "IY2": 0.282,
+          "IYU05": 0.716,
+          "IYA05": 0.284,
+          "IYU15": 0.359,
+          "IYA15": 0.641,
+          "EVU05": 0.765,
+          "EVA05": 0.235,
+          "EVU15": 0.425,
+          "EVA15": 0.575,
+          "EVU25": 0.179,
+          "EVA25": 0.821,
+          "DPU05": 0.741,
+          "DPA05": 0.259,
+          "DPU15": 0.391,
+          "DPA15": 0.609,
+          "DPU25": 0.155,
+          "DPA25": 0.845,
+          "YYU05": 0.786,
+          "YYA05": 0.214,
+          "YYU15": 0.455,
+          "YYA15": 0.545
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.119
+          ],
+          [
+            "1-0",
+            0.0882
+          ],
+          [
+            "2-1",
+            0.0863
+          ],
+          [
+            "0-1",
+            0.0821
+          ],
+          [
+            "1-2",
+            0.0803
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "CFR 1907 Cluj win",
+            "piyasa": 0.396,
+            "istatistik": 0.727
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Universitatea Cluj win",
+            "piyasa": 0.351,
+            "istatistik": 0.088
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.567,
+            "istatistik": 0.369
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.252,
+            "istatistik": 0.185
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.531,
+            "istatistik": 0.482
+          }
+        ],
+        "beklenen_gol": [
+          1.45,
+          1.35
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1644709,
+        "lig": "Premier League",
+        "ulke": "Jamaica",
+        "lig_id": 322,
+        "ev": "Portmore United",
+        "dep": "Waterhouse",
+        "baslama": "2026-10-08T22:30:00+02:00",
+        "p": {
+          "MS1": 0.348,
+          "MSX": 0.28,
+          "MS2": 0.372,
+          "CS1X": 0.628,
+          "CSX2": 0.652,
+          "CS12": 0.72,
+          "KGVAR": 0.478,
+          "KGYOK": 0.522,
+          "UST15": 0.681,
+          "ALT15": 0.319,
+          "UST25": 0.417,
+          "ALT25": 0.583,
+          "UST35": 0.211,
+          "ALT35": 0.789,
+          "IY1": 0.267,
+          "IYX": 0.451,
+          "IY2": 0.282,
+          "IYU05": 0.653,
+          "IYA05": 0.347,
+          "IYU15": 0.285,
+          "IYA15": 0.715,
+          "EVU05": 0.683,
+          "EVA05": 0.317,
+          "EVU15": 0.319,
+          "EVA15": 0.681,
+          "EVU25": 0.11,
+          "EVA25": 0.89,
+          "DPU05": 0.699,
+          "DPA05": 0.301,
+          "DPU15": 0.337,
+          "DPA15": 0.663,
+          "DPU25": 0.121,
+          "DPA25": 0.879,
+          "YYU05": 0.725,
+          "YYA05": 0.275,
+          "YYU15": 0.371,
+          "YYA15": 0.629
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1316
+          ],
+          [
+            "0-1",
+            0.1144
+          ],
+          [
+            "1-0",
+            0.1097
+          ],
+          [
+            "0-0",
+            0.0954
+          ],
+          [
+            "1-2",
+            0.079
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.417,
+            "istatistik": 0.747
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Waterhouse win",
+            "piyasa": 0.372,
+            "istatistik": 0.672
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Portmore United win",
+            "piyasa": 0.348,
+            "istatistik": 0.159
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.478,
+            "istatistik": 0.663
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.28,
+            "istatistik": 0.168
+          }
+        ],
+        "beklenen_gol": [
+          1.15,
+          1.2
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "son5"
+      }
+    ]
   }
 ]

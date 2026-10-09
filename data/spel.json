@@ -33791,6 +33791,15 @@
               0
             ],
             "zaman": "2026-10-09T18:28:25+00:00"
+          },
+          "1584424": {
+            "durum": "paylasildi",
+            "tweet_id": "2108635698689646607",
+            "skor": [
+              3,
+              1
+            ],
+            "zaman": "2026-10-09T19:08:20+00:00"
           }
         }
       },
@@ -33846,7 +33855,22 @@
         "durum": "paylasildi",
         "tweet_id": "2108492418471633293",
         "zaman": "2026-10-09T09:38:55+00:00",
-        "metin": "🆚 Galatasaray v Kasımpaşa\n\n🏆 Galatasaray 75% · Draw 16% · Kasımpaşa 9%\n⚽ Over 2.5 goals 62% · Under 38%\n🥅 Both teams score 48% · Not both 52%\n🎯 Most likely score: 2-0 (12%)\n\n📈 Team stats: Galatasaray win 38%\n💹 Odds: 75%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Galatasaray v Kasımpaşa\n\n🏆 Galatasaray 75% · Draw 16% · Kasımpaşa 9%\n⚽ Over 2.5 goals 62% · Under 38%\n🥅 Both teams score 48% · Not both 52%\n🎯 Most likely score: 2-0 (12%)\n\n📈 Team stats: Galatasaray win 38%\n💹 Odds: 75%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108635713336115234",
+          "skor": "3-1",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "zaman": "2026-10-09T19:08:20+00:00",
+          "brier": {
+            "piyasa": 0.51,
+            "istatistik": 1.048
+          }
+        }
       },
       "ayrisma": {
         "durum": "paylasildi",

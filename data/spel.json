@@ -33872,6 +33872,15 @@
               2
             ],
             "zaman": "2026-10-09T20:32:44+00:00"
+          },
+          "1552775": {
+            "durum": "paylasildi",
+            "tweet_id": "2108659187320299696",
+            "skor": [
+              2,
+              1
+            ],
+            "zaman": "2026-10-09T20:41:40+00:00"
           }
         }
       },
@@ -33996,7 +34005,22 @@
         "durum": "paylasildi",
         "tweet_id": "2108516685124645093",
         "zaman": "2026-10-09T11:15:22+00:00",
-        "metin": "🆚 Lens v Lyon\n\n🏆 Lens 43% · Draw 23% · Lyon 34%\n⚽ Over 2.5 goals 62% · Under 38%\n🥅 Both teams score 64% · Not both 36%\n🎯 Most likely score: 1-1 (10%)\n\n📈 Team stats: Lyon win 56%\n💹 Odds: 34%\n\n💬 Chances, not picks. What's your score? 👇\n#Ligue1\n18+ | Play responsibly"
+        "metin": "🆚 Lens v Lyon\n\n🏆 Lens 43% · Draw 23% · Lyon 34%\n⚽ Over 2.5 goals 62% · Under 38%\n🥅 Both teams score 64% · Not both 36%\n🎯 Most likely score: 1-1 (10%)\n\n📈 Team stats: Lyon win 56%\n💹 Odds: 34%\n\n💬 Chances, not picks. What's your score? 👇\n#Ligue1\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108659204844040445",
+          "skor": "2-1",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "zaman": "2026-10-09T20:41:40+00:00",
+          "brier": {
+            "piyasa": 0.7777,
+            "istatistik": 1.3428
+          }
+        }
       },
       "maclar": {
         "durum": "paylasildi",
@@ -34349,6 +34373,15 @@
               1
             ],
             "zaman": "2026-10-09T20:25:32+00:00"
+          },
+          "1558644": {
+            "durum": "paylasildi",
+            "tweet_id": "2108659189497172448",
+            "skor": [
+              1,
+              3
+            ],
+            "zaman": "2026-10-09T20:41:40+00:00"
           }
         }
       },
@@ -34464,7 +34497,22 @@
         "durum": "paylasildi",
         "tweet_id": "2108617521020711216",
         "zaman": "2026-10-09T17:56:03+00:00",
-        "metin": "🆚 SK Beveren v Lommel United\n\n🏆 SK Beveren 53% · Draw 23% · Lommel United 25%\n⚽ Over 2.5 goals 59% · Under 41%\n🥅 Both teams score 59% · Not both 41%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Stats: Both teams score 26% · odds 59%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 SK Beveren v Lommel United\n\n🏆 SK Beveren 53% · Draw 23% · Lommel United 25%\n⚽ Over 2.5 goals 59% · Under 41%\n🥅 Both teams score 59% · Not both 41%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Stats: Both teams score 26% · odds 59%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108659217452171627",
+          "skor": "1-3",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "zaman": "2026-10-09T20:41:40+00:00",
+          "brier": {
+            "piyasa": 1.2339,
+            "istatistik": 2.4115
+          }
+        }
       },
       "bilgi_aksam": {
         "durum": "paylasildi",

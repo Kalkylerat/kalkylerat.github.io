@@ -2203,6 +2203,30 @@ def test_son_saati_yakin_kart_bilgi_postundan_once_cikar():
     assert tur == "analiz_0" and "bilgi" not in gun["etkilesim"]  # bilgi sonra (son saati akşam)
 
 
+def test_yogun_gun_yayilim_kartlari_kacirtmaz():
+    """9 Ekim: aynı saatte başlayan çok sayıda kart varken postlar günün son postuna göre yayıldı ve 6 kart son
+    saatini kaçırdı. Aralık, paylaşım sırasındaki her postun kendi son saatine yetişeceği kadar sık olmalı."""
+    from bot import etkilesim
+    def a(i, saat):
+        return {"fixture_id": i, "lig_id": 999, "lig": "Eerste Divisie", "ev": f"Ev{i}", "dep": f"Dep{i}",
+                "baslama": f"2026-10-03T{saat}:00+00:00", "guven": "yuksek", "p": {}, "skorlar": []}
+    gun = {"tarih": "2026-10-03", "konsept": "analiz", "secimler": [], "etkilesim": {},
+           "analizler": [a(i, "18:00") for i in range(20)] + [a(99, "21:15")]}
+    simdi, son = datetime(2026, 10, 3, 8, 0, tzinfo=timezone.utc), None
+    while simdi < datetime(2026, 10, 3, 22, 0, tzinfo=timezone.utc):  # nabız 7 dakikada bir
+        if son is None or simdi >= son + timedelta(minutes=etkilesim.aralik_dk(gun, AYAR, simdi)):
+            for tur, erken, gec in sorted(etkilesim._plan(gun), key=etkilesim._oncelik(gun, simdi)):
+                if tur in gun["etkilesim"] or simdi < erken:
+                    continue
+                gun["etkilesim"][tur] = {"durum": "atlandi" if simdi > gec else "paylasildi"}
+                if simdi <= gec:
+                    son = simdi
+                    break
+        simdi += timedelta(minutes=7)
+    durumlar = {t: e["durum"] for t, e in gun["etkilesim"].items() if t.startswith("analiz_")}
+    assert len(durumlar) == 21 and set(durumlar.values()) == {"paylasildi"}
+
+
 def test_yogun_gun_kisa_aralik_ve_aksam_kartlari():
     """Yoğun günde postlar arası kısa, kart listesi kapanmamış akşam maçlarıyla genişler (ek ligler dahil)."""
     from dataclasses import replace

@@ -419,19 +419,41 @@ def _denetle(tur: str, metin: str, sablon: str, analizler: list[dict], ayar, png
     return None
 
 
+NABIZ_DK = 7  # nöbetçi botu en geç bu kadar dakikada bir çalıştırır
+
+
+def _oncelik(gun: dict, simdi: datetime):
+    """Paylaşım sırası anahtarı. Son paylaşım saati en yakın olan önce: maçtan önce çıkması gereken kart, gün boyu
+    çıkabilen bilgi postu yüzünden kaçmasın (aralık kuralı yüzünden bir nabızda yalnızca bir post çıkar)."""
+    def oncelik(t):  # büyük maçın kartı önce (SÖZLEŞME B6); diğer kartlar sıralamada 3 saat geride sayılır.
+        tur, _, gec = t  # Maça 4 saatten çok varsa kart ancak başka post yoksa (boşluk doldurur, maça yakın kalsın)
+        erken_kart = tur.startswith("analiz_") and simdi < gec + timedelta(minutes=35) - YAKIN_KART
+        if tur.startswith("analiz_"):
+            i = int(tur.split("_")[1])
+            a = (gun.get("analizler") or [])[i] if i < len(gun.get("analizler") or []) else None
+            if a is not None and not analiz.onemli(a):
+                return erken_kart, gec + timedelta(hours=3)
+        return erken_kart, gec
+    return oncelik
+
+
 def aralik_dk(gun: dict, ayar, simdi: datetime) -> float:
     """Postlar arası dakika. Normal gün 45. Yoğun günde en az ayar.yogun_aralik_dk (~15 dk); sırada az post varsa
-    kalanlar günün geri kalanına yayılır (öğlen hepsi tükenip akşam boş kalmasın), ama en fazla 45 dk ve son saati
-    1 saatten yakın post varken hiç beklemeden en kısa aralık."""
+    kalanlar günün geri kalanına yayılır (öğlen hepsi tükenip akşam boş kalmasın), ama en fazla 45 dk, her post son
+    saatine yetişecek kadar sık ve son saati 1 saatten yakın post varken hiç beklemeden en kısa aralık."""
     if not config.yogun_mu(ayar, gun["tarih"], gun):
         return ARALIK_DK
     en_az = getattr(ayar, "yogun_aralik_dk", ARALIK_DK)
     durum = gun.get("etkilesim") or {}
-    kalan = [gec for tur, _, gec in _plan(gun) if tur not in durum and gec > simdi]
+    sira = sorted((p for p in _plan(gun) if p[0] not in durum and p[2] > simdi), key=_oncelik(gun, simdi))
+    kalan = [gec for _, _, gec in sira]
     if not kalan or min(kalan) < simdi + timedelta(hours=1):
         return en_az
     yayilim = (max(kalan) - simdi).total_seconds() / 60 / len(kalan)
-    return min(max(en_az, yayilim), ARALIK_DK)
+    # Yayılım son saatleri kaçırtmasın (9 Ekim: aynı saatte başlayan 9 kartın 6'sı kaçtı): paylaşım sırasındaki
+    # k. post k aralık sonra çıkar ve kendi son saatine yetişmeli; nabız 7 dakikada bir olduğu için 7 dk pay.
+    sikilik = min((gec - simdi).total_seconds() / 60 / k for k, gec in enumerate(kalan, 1)) - NABIZ_DK
+    return max(en_az, min(yayilim, sikilik, ARALIK_DK))
 
 
 def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_paylasimlar: tuple[str, ...] = (),
@@ -449,18 +471,7 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_pay
     son = _son_paylasim(gun, diger_paylasimlar)
     if son and simdi < son + timedelta(minutes=aralik_dk(gun, ayar, simdi)):
         return None
-    # Son paylaşım saati en yakın olan önce: maçtan önce çıkması gereken kart, gün boyu çıkabilen bilgi postu
-    # yüzünden kaçmasın (aralık kuralı yüzünden bir nabızda yalnızca bir post çıkar).
-    def oncelik(t):  # büyük maçın kartı önce (SÖZLEŞME B6); diğer kartlar sıralamada 3 saat geride sayılır.
-        tur, _, gec = t  # Maça 4 saatten çok varsa kart ancak başka post yoksa (boşluk doldurur, maça yakın kalsın)
-        erken_kart = tur.startswith("analiz_") and simdi < gec + timedelta(minutes=35) - YAKIN_KART
-        if tur.startswith("analiz_"):
-            i = int(tur.split("_")[1])
-            a = (gun.get("analizler") or [])[i] if i < len(gun.get("analizler") or []) else None
-            if a is not None and not analiz.onemli(a):
-                return erken_kart, gec + timedelta(hours=3)
-        return erken_kart, gec
-    for tur, erken, gec in sorted(_plan(gun), key=oncelik):
+    for tur, erken, gec in sorted(_plan(gun), key=_oncelik(gun, simdi)):
         if tur in durum:
             continue
         if simdi > gec:

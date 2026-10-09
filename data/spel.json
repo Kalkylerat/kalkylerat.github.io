@@ -33990,7 +33990,22 @@
         "durum": "paylasildi",
         "tweet_id": "2108552524835737867",
         "zaman": "2026-10-09T13:37:40+00:00",
-        "metin": "🆚 Moreirense v GIL Vicente\n\n🏆 Moreirense 29% · Draw 28% · GIL Vicente 43%\n⚽ Over 2.5 goals 40% · Under 60%\n🥅 Both teams score 46% · Not both 54%\n🎯 Top score: 1-1 (13%)\n\n📈 Team stats: GIL Vicente win 38% (odds 43%)\n\n💬 Is GIL Vicente's 43% too high?\n18+ | Play responsibly"
+        "metin": "🆚 Moreirense v GIL Vicente\n\n🏆 Moreirense 29% · Draw 28% · GIL Vicente 43%\n⚽ Over 2.5 goals 40% · Under 60%\n🥅 Both teams score 46% · Not both 54%\n🎯 Top score: 1-1 (13%)\n\n📈 Team stats: GIL Vicente win 38% (odds 43%)\n\n💬 Is GIL Vicente's 43% too high?\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108645636866498998",
+          "skor": "0-1",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "zaman": "2026-10-09T19:47:46+00:00",
+          "brier": {
+            "piyasa": 0.8554,
+            "istatistik": 0.9527
+          }
+        }
       },
       "analiz_11": {
         "durum": "paylasildi",
@@ -34049,7 +34064,17 @@
           1558644,
           1575512
         ],
-        "sonuclar": {}
+        "sonuclar": {
+          "1575516": {
+            "durum": "paylasildi",
+            "tweet_id": "2108645621259485599",
+            "skor": [
+              0,
+              1
+            ],
+            "zaman": "2026-10-09T19:47:46+00:00"
+          }
+        }
       },
       "anket": {
         "durum": "paylasildi",

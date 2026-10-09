@@ -33863,6 +33863,15 @@
               1
             ],
             "zaman": "2026-10-09T20:25:32+00:00"
+          },
+          "1575176": {
+            "durum": "paylasildi",
+            "tweet_id": "2108656935361003957",
+            "skor": [
+              2,
+              2
+            ],
+            "zaman": "2026-10-09T20:32:44+00:00"
           }
         }
       },
@@ -33966,7 +33975,22 @@
         "durum": "paylasildi",
         "tweet_id": "2108511265601597608",
         "zaman": "2026-10-09T10:53:50+00:00",
-        "metin": "🆚 Borussia Dortmund v Werder Bremen\n\n🏆 Borussia Dortmund 74% · Draw 15% · Werder Bremen 11%\n⚽ Over 2.5 goals 70% · Under 30%\n🥅 Both teams score 57% · Not both 43%\n\n📈 Team stats: Borussia Dortmund win 58%\n💹 Odds: 74%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Borussia Dortmund v Werder Bremen\n\n🏆 Borussia Dortmund 74% · Draw 15% · Werder Bremen 11%\n⚽ Over 2.5 goals 70% · Under 30%\n🥅 Both teams score 57% · Not both 43%\n\n📈 Team stats: Borussia Dortmund win 58%\n💹 Odds: 74%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108656950972215580",
+          "skor": "2-2",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "zaman": "2026-10-09T20:32:44+00:00",
+          "brier": {
+            "piyasa": 1.545,
+            "istatistik": 1.2664
+          }
+        }
       },
       "analiz_3": {
         "durum": "paylasildi",

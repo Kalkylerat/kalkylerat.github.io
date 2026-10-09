@@ -34419,7 +34419,20 @@
               3
             ],
             "zaman": "2026-10-09T20:41:40+00:00"
+          },
+          "1575512": {
+            "durum": "paylasildi",
+            "tweet_id": "2108668473878385118",
+            "skor": [
+              1,
+              3
+            ],
+            "zaman": "2026-10-09T21:18:35+00:00"
           }
+        },
+        "takip": {
+          "durum": "tamam",
+          "zaman": "2026-10-09T21:18:35+00:00"
         }
       },
       "anket": {
@@ -34564,7 +34577,22 @@
         "durum": "paylasildi",
         "tweet_id": "2108625664261656725",
         "zaman": "2026-10-09T18:28:25+00:00",
-        "metin": "🆚 SC Braga v Sporting CP\n\n🏆 SC Braga 32% · Draw 26% · Sporting CP 42%\n⚽ Over 2.5 goals 48% · Under 52%\n🥅 Both teams score 53% · Not both 47%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: SC Braga win 23%\n💹 Odds: 32%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 SC Braga v Sporting CP\n\n🏆 SC Braga 32% · Draw 26% · Sporting CP 42%\n⚽ Over 2.5 goals 48% · Under 52%\n🥅 Both teams score 53% · Not both 47%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: SC Braga win 23%\n💹 Odds: 32%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108668487354777847",
+          "skor": "1-3",
+          "isabet": [
+            true,
+            false,
+            true
+          ],
+          "zaman": "2026-10-09T21:18:35+00:00",
+          "brier": {
+            "piyasa": 1.0064,
+            "istatistik": 0.9718
+          }
+        }
       }
     },
     "yanit_kiti": {

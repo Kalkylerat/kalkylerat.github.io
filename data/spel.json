@@ -33764,13 +33764,38 @@
           1570408,
           1563190
         ],
-        "sonuclar": {}
+        "sonuclar": {
+          "1525991": {
+            "durum": "paylasildi",
+            "tweet_id": "2108617524095156561",
+            "skor": [
+              0,
+              1
+            ],
+            "zaman": "2026-10-09T17:56:03+00:00"
+          }
+        }
       },
       "analiz_0": {
         "durum": "paylasildi",
         "tweet_id": "2108474983647252585",
         "zaman": "2026-10-09T08:29:21+00:00",
-        "metin": "🆚 Arsenal v Dinamo Brest\n\n🏆 Arsenal 17% · Draw 22% · Dinamo Brest 61%\n⚽ Over 2.5 goals 51% · Under 49%\n🥅 Both teams score 48% · Not both 52%\n🎯 Most likely score: 0-1 (12%)\n\n📈 Team stats: Over 2.5 goals 43%\n💹 Odds: 51%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Arsenal v Dinamo Brest\n\n🏆 Arsenal 17% · Draw 22% · Dinamo Brest 61%\n⚽ Over 2.5 goals 51% · Under 49%\n🥅 Both teams score 48% · Not both 52%\n🎯 Most likely score: 0-1 (12%)\n\n📈 Team stats: Over 2.5 goals 43%\n💹 Odds: 51%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108617537386881187",
+          "skor": "0-1",
+          "isabet": [
+            true,
+            false,
+            true
+          ],
+          "zaman": "2026-10-09T17:56:03+00:00",
+          "brier": {
+            "piyasa": 0.7189,
+            "istatistik": 0.7097
+          }
+        }
       },
       "analiz_5": {
         "durum": "paylasildi",
@@ -33956,6 +33981,12 @@
         "tweet_id": "2108613491569639519",
         "zaman": "2026-10-09T17:39:55+00:00",
         "metin": "🆚 Avellino v Sampdoria\n\n🏆 Avellino 36% · Draw 27% · Sampdoria 36%\n⚽ Over 2.5 goals 46% · Under 54%\n🥅 Both teams score 51% · Not both 49%\n🎯 Most likely 1-1 (13%)\n\n📈 Avellino win: stats 61%, odds 36%\n\n💬 Stats 61%, odds 36%. Who's closer?\n18+ | Play responsibly"
+      },
+      "analiz_27": {
+        "durum": "paylasildi",
+        "tweet_id": "2108617521020711216",
+        "zaman": "2026-10-09T17:56:03+00:00",
+        "metin": "🆚 SK Beveren v Lommel United\n\n🏆 SK Beveren 53% · Draw 23% · Lommel United 25%\n⚽ Over 2.5 goals 59% · Under 41%\n🥅 Both teams score 59% · Not both 41%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Stats: Both teams score 26% · odds 59%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
       }
     },
     "yanit_kiti": {

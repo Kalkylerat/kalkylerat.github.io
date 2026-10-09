@@ -33818,6 +33818,33 @@
               0
             ],
             "zaman": "2026-10-09T19:55:06+00:00"
+          },
+          "1552488": {
+            "durum": "paylasildi",
+            "tweet_id": "2108648200311582946",
+            "skor": [
+              0,
+              1
+            ],
+            "zaman": "2026-10-09T19:57:59+00:00"
+          },
+          "1552489": {
+            "durum": "paylasildi",
+            "tweet_id": "2108648201775349993",
+            "skor": [
+              2,
+              0
+            ],
+            "zaman": "2026-10-09T19:57:59+00:00"
+          },
+          "1552490": {
+            "durum": "paylasildi",
+            "tweet_id": "2108648203092459925",
+            "skor": [
+              1,
+              0
+            ],
+            "zaman": "2026-10-09T19:57:59+00:00"
           }
         }
       },
@@ -34029,13 +34056,43 @@
         "durum": "paylasildi",
         "tweet_id": "2108558658002928010",
         "zaman": "2026-10-09T14:02:09+00:00",
-        "metin": "🆚 Dunkerque v Annecy\n\n🏆 Dunkerque 42% · Draw 25% · Annecy 33%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 56% · Not both 44%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: Dunkerque win 46%\n💹 Odds: 42%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Dunkerque v Annecy\n\n🏆 Dunkerque 42% · Draw 25% · Annecy 33%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 56% · Not both 44%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: Dunkerque win 46%\n💹 Odds: 42%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108648234771939359",
+          "skor": "0-1",
+          "isabet": [
+            false,
+            false,
+            false
+          ],
+          "zaman": "2026-10-09T19:57:59+00:00",
+          "brier": {
+            "piyasa": 1.2908,
+            "istatistik": 1.4202
+          }
+        }
       },
       "analiz_12": {
         "durum": "paylasildi",
         "tweet_id": "2108563720146497962",
         "zaman": "2026-10-09T14:22:06+00:00",
-        "metin": "🆚 Montpellier v Grenoble\n\n🏆 Montpellier 60% · Draw 23% · Grenoble 17%\n⚽ Over 2.5 goals 47% · Under 53%\n🥅 Both teams score 46% · Not both 55%\n🎯 Most likely score: 1-0 (14%)\n\n📈 Stats: Montpellier win 47% (market 60%)\n\n💬 Trust 60% or 47%?\n18+ | Play responsibly"
+        "metin": "🆚 Montpellier v Grenoble\n\n🏆 Montpellier 60% · Draw 23% · Grenoble 17%\n⚽ Over 2.5 goals 47% · Under 53%\n🥅 Both teams score 46% · Not both 55%\n🎯 Most likely score: 1-0 (14%)\n\n📈 Stats: Montpellier win 47% (market 60%)\n\n💬 Trust 60% or 47%?\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108648246469947738",
+          "skor": "2-0",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "zaman": "2026-10-09T19:57:59+00:00",
+          "brier": {
+            "piyasa": 0.669,
+            "istatistik": 0.765
+          }
+        }
       },
       "analiz_13": {
         "durum": "paylasildi",
@@ -34158,7 +34215,22 @@
         "durum": "paylasildi",
         "tweet_id": "2108601423818608778",
         "zaman": "2026-10-09T16:51:55+00:00",
-        "metin": "🆚 Almere City v Eindhoven\n\n🏆 Almere 68% · Draw 17% · Eindhoven 15%\n⚽ Over 2.5 goals 72% · Under 28%\n🥅 Both teams score 63% · Not both 37%\n\n📈 Stats: Over 2.5 goals 51% · Both teams score 50%\n\n💬 Odds 72%, stats 51% for Over 2.5 goals. Who's closer?\n18+ | Play responsibly"
+        "metin": "🆚 Almere City v Eindhoven\n\n🏆 Almere 68% · Draw 17% · Eindhoven 15%\n⚽ Over 2.5 goals 72% · Under 28%\n🥅 Both teams score 63% · Not both 37%\n\n📈 Stats: Over 2.5 goals 51% · Both teams score 50%\n\n💬 Odds 72%, stats 51% for Over 2.5 goals. Who's closer?\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108648259086356603",
+          "skor": "3-0",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "zaman": "2026-10-09T19:57:59+00:00",
+          "brier": {
+            "piyasa": 0.6265,
+            "istatistik": 0.7471
+          }
+        }
       },
       "analiz_18": {
         "durum": "paylasildi",

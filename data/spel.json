@@ -33881,7 +33881,29 @@
               1
             ],
             "zaman": "2026-10-09T20:41:40+00:00"
+          },
+          "1570408": {
+            "durum": "paylasildi",
+            "tweet_id": "2108663072256844074",
+            "skor": [
+              1,
+              1
+            ],
+            "zaman": "2026-10-09T20:57:06+00:00"
+          },
+          "1563190": {
+            "durum": "paylasildi",
+            "tweet_id": "2108663073498354036",
+            "skor": [
+              1,
+              1
+            ],
+            "zaman": "2026-10-09T20:57:06+00:00"
           }
+        },
+        "takip": {
+          "durum": "tamam",
+          "zaman": "2026-10-09T20:57:06+00:00"
         }
       },
       "analiz_0": {
@@ -34032,7 +34054,22 @@
         "durum": "paylasildi",
         "tweet_id": "2108529922184818823",
         "zaman": "2026-10-09T12:07:58+00:00",
-        "metin": "🆚 Malaga v Espanyol\n\n🏆 Malaga 36% · Draw 27% · Espanyol 38%\n⚽ Over 2.5 goals 47% · Under 53%\n🥅 Both teams score 52% · Not both 48%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Team stats: Malaga win 29%\n💹 Odds: 36%\n\n💬 Chances, not picks. Your read? 👇\n#LaLiga\n18+ | Play responsibly"
+        "metin": "🆚 Malaga v Espanyol\n\n🏆 Malaga 36% · Draw 27% · Espanyol 38%\n⚽ Over 2.5 goals 47% · Under 53%\n🥅 Both teams score 52% · Not both 48%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Team stats: Malaga win 29%\n💹 Odds: 36%\n\n💬 Chances, not picks. Your read? 👇\n#LaLiga\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108663087494766795",
+          "skor": "1-1",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "zaman": "2026-10-09T20:57:06+00:00",
+          "brier": {
+            "piyasa": 1.2575,
+            "istatistik": 1.2434
+          }
+        }
       },
       "analiz_7": {
         "durum": "paylasildi",

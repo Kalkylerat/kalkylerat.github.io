@@ -425,10 +425,11 @@ NABIZ_DK = 7  # nöbetçi botu en geç bu kadar dakikada bir çalıştırır
 def _oncelik(gun: dict, simdi: datetime):
     """Paylaşım sırası anahtarı. Son paylaşım saati en yakın olan önce: maçtan önce çıkması gereken kart, gün boyu
     çıkabilen bilgi postu yüzünden kaçmasın (aralık kuralı yüzünden bir nabızda yalnızca bir post çıkar)."""
-    def oncelik(t):  # büyük maçın kartı önce (SÖZLEŞME B6); diğer kartlar sıralamada 3 saat geride sayılır.
-        tur, _, gec = t  # Maça 4 saatten çok varsa kart ancak başka post yoksa (boşluk doldurur, maça yakın kalsın)
+    def oncelik(t):  # büyük maçın kartı önce (SÖZLEŞME B6); diğer kartlar sıralamada 3 saat geride sayılır, ama
+        tur, _, gec = t  # son saatine 1 saatten az kaldıysa geride sayılmaz (9 Ekim: bilgi postu kartı kaçırttı, B3).
         erken_kart = tur.startswith("analiz_") and simdi < gec + timedelta(minutes=35) - YAKIN_KART
-        if tur.startswith("analiz_"):
+        # Maça 4 saatten çok varsa kart ancak başka post yoksa (boşluk doldurur, maça yakın kalsın)
+        if tur.startswith("analiz_") and gec - simdi > timedelta(hours=1):
             i = int(tur.split("_")[1])
             a = (gun.get("analizler") or [])[i] if i < len(gun.get("analizler") or []) else None
             if a is not None and not analiz.onemli(a):

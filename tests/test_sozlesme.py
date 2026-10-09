@@ -146,6 +146,11 @@ def test_B3_kart_bilgi_postundan_once():
         def gonder(self, metin, **k):
             return "1"
     assert etkilesim.paylas(gun, AYAR, X(), datetime(2026, 10, 3, 9, 30, tzinfo=UTC), yaz=lambda m: None) == "analiz_0"
+    # büyük maç olmayan kartın son saati yaklaşınca akşam bilgi postu da önüne geçemez (9 Ekim: kart kaçtı)
+    alt = dict(mac(2, "West Ham", "QPR", saat="19:00", lig="Championship"), lig_id=999)
+    gun = dict(gun, analizler=[alt], etkilesim={})
+    assert not analiz.onemli(alt)
+    assert etkilesim.paylas(gun, AYAR, X(), datetime(2026, 10, 3, 18, 14, tzinfo=UTC), yaz=lambda m: None) == "analiz_0"
 
 
 def test_B4_hafta_sonu_yogun_gun():

@@ -33915,7 +33915,22 @@
         "durum": "paylasildi",
         "tweet_id": "2108547126921933296",
         "zaman": "2026-10-09T13:16:05+00:00",
-        "metin": "🏆 Nordsjaelland 63% · Draw 19% · Odense 18%\n⚽ Over 2.5 goals 67% · Under 33%\n🥅 Both teams score 62% · Not both 38%\n🎯 Likeliest score 2-1 (10%)\n\n📈 Stats: Over 2.5 goals 36% · Both teams score 37%\n\n💬 Odds 67%, stats 36% on Over 2.5 goals. Who's closer?\n18+ | Play responsibly"
+        "metin": "🏆 Nordsjaelland 63% · Draw 19% · Odense 18%\n⚽ Over 2.5 goals 67% · Under 33%\n🥅 Both teams score 62% · Not both 38%\n🎯 Likeliest score 2-1 (10%)\n\n📈 Stats: Over 2.5 goals 36% · Both teams score 37%\n\n💬 Odds 67%, stats 36% on Over 2.5 goals. Who's closer?\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108632633542312190",
+          "skor": "0-0",
+          "isabet": [
+            false,
+            false,
+            false
+          ],
+          "zaman": "2026-10-09T18:56:06+00:00",
+          "brier": {
+            "piyasa": 1.9115,
+            "istatistik": 1.1763
+          }
+        }
       },
       "analiz_10": {
         "durum": "paylasildi",

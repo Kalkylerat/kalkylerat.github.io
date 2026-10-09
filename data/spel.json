@@ -33845,6 +33845,15 @@
               0
             ],
             "zaman": "2026-10-09T19:57:59+00:00"
+          },
+          "1552492": {
+            "durum": "paylasildi",
+            "tweet_id": "2108650014172180931",
+            "skor": [
+              3,
+              2
+            ],
+            "zaman": "2026-10-09T20:05:13+00:00"
           }
         }
       },
@@ -34119,7 +34128,22 @@
         "durum": "paylasildi",
         "tweet_id": "2108573921008292259",
         "zaman": "2026-10-09T15:02:48+00:00",
-        "metin": "🆚 PAU v Laval · 20:00 CEST\n\n🏆 PAU 46% · Draw 26% · Laval 28%\n⚽ Over 2.5 goals 48% · Under 52%\n🥅 Both teams score 52% · Not both 48%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: PAU win 49%\n💹 Odds: 46%\n\n💬 Chances, not picks. PAU 46%: too high? 👇\n18+ | Play responsibly"
+        "metin": "🆚 PAU v Laval · 20:00 CEST\n\n🏆 PAU 46% · Draw 26% · Laval 28%\n⚽ Over 2.5 goals 48% · Under 52%\n🥅 Both teams score 52% · Not both 48%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: PAU win 49%\n💹 Odds: 46%\n\n💬 Chances, not picks. PAU 46%: too high? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108650049039466865",
+          "skor": "3-2",
+          "isabet": [
+            true,
+            false,
+            true
+          ],
+          "zaman": "2026-10-09T20:05:13+00:00",
+          "brier": {
+            "piyasa": 0.9318,
+            "istatistik": 0.8982
+          }
+        }
       },
       "analiz_15": {
         "durum": "paylasildi",
@@ -34202,6 +34226,24 @@
               1
             ],
             "zaman": "2026-10-09T19:55:06+00:00"
+          },
+          "1551827": {
+            "durum": "paylasildi",
+            "tweet_id": "2108650033587573238",
+            "skor": [
+              3,
+              0
+            ],
+            "zaman": "2026-10-09T20:05:13+00:00"
+          },
+          "1551829": {
+            "durum": "paylasildi",
+            "tweet_id": "2108650034665509003",
+            "skor": [
+              0,
+              3
+            ],
+            "zaman": "2026-10-09T20:05:13+00:00"
           }
         }
       },

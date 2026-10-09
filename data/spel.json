@@ -33773,6 +33773,24 @@
               1
             ],
             "zaman": "2026-10-09T17:56:03+00:00"
+          },
+          "1576189": {
+            "durum": "paylasildi",
+            "tweet_id": "2108625672398635039",
+            "skor": [
+              1,
+              0
+            ],
+            "zaman": "2026-10-09T18:28:25+00:00"
+          },
+          "1576191": {
+            "durum": "paylasildi",
+            "tweet_id": "2108625673883369740",
+            "skor": [
+              0,
+              0
+            ],
+            "zaman": "2026-10-09T18:28:25+00:00"
           }
         }
       },
@@ -33801,7 +33819,22 @@
         "durum": "paylasildi",
         "tweet_id": "2108481071105097784",
         "zaman": "2026-10-09T08:53:50+00:00",
-        "metin": "🆚 Eintracht Braunschweig v Holstein Kiel\n\n🏆 Eintracht Braunschweig 33% · Draw 23% · Holstein Kiel 44%\n⚽ Over 2.5 goals 61% · Under 39%\n🥅 Both teams score 63% · Not both 37%\n🎯 Most likely score: 1-1 (11%)\n\n💬 Not picks. More or fewer than 2.5 goals? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Eintracht Braunschweig v Holstein Kiel\n\n🏆 Eintracht Braunschweig 33% · Draw 23% · Holstein Kiel 44%\n⚽ Over 2.5 goals 61% · Under 39%\n🥅 Both teams score 63% · Not both 37%\n🎯 Most likely score: 1-1 (11%)\n\n💬 Not picks. More or fewer than 2.5 goals? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108625685627469993",
+          "skor": "1-0",
+          "isabet": [
+            false,
+            false,
+            false
+          ],
+          "zaman": "2026-10-09T18:28:25+00:00",
+          "brier": {
+            "piyasa": 1.4591,
+            "istatistik": 1.4584
+          }
+        }
       },
       "bilgi": {
         "durum": "paylasildi",
@@ -33825,7 +33858,22 @@
         "durum": "paylasildi",
         "tweet_id": "2108504951752122786",
         "zaman": "2026-10-09T10:28:31+00:00",
-        "metin": "🆚 Heidenheim v Kaiserslautern\n\n🏆 Heidenheim 52% · Draw 22% · Kaiserslautern 26%\n⚽ Over 2.5 goals 62% · Under 38%\n🥅 Both teams score 62% · Not both 38%\n\n📈 Over 2.5 goals: stats 71%, odds 62%\n🎯 Top score 1-1 (10%)\n\n💬 Is 71% too high for goals here?\n18+ | Play responsibly"
+        "metin": "🆚 Heidenheim v Kaiserslautern\n\n🏆 Heidenheim 52% · Draw 22% · Kaiserslautern 26%\n⚽ Over 2.5 goals 62% · Under 38%\n🥅 Both teams score 62% · Not both 38%\n\n📈 Over 2.5 goals: stats 71%, odds 62%\n🎯 Top score 1-1 (10%)\n\n💬 Is 71% too high for goals here?\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108625697568690388",
+          "skor": "0-0",
+          "isabet": [
+            false,
+            false,
+            false
+          ],
+          "zaman": "2026-10-09T18:28:25+00:00",
+          "brier": {
+            "piyasa": 1.7036,
+            "istatistik": 1.9801
+          }
+        }
       },
       "analiz_2": {
         "durum": "paylasildi",
@@ -33993,6 +34041,15 @@
         "tweet_id": "2108622118191509718",
         "zaman": "2026-10-09T18:14:23+00:00",
         "metin": "💡 Take the draw out\n\nIf a game is 45% home, 27% draw, 28% away, then in the games that do have a winner the home side wins 61.6% of the time.\n\nDoes the draw change how you see a favourite? 👇\n\n18+ | Play responsibly"
+      },
+      "analiz_28": {
+        "durum": "atlandi"
+      },
+      "analiz_29": {
+        "durum": "paylasildi",
+        "tweet_id": "2108625664261656725",
+        "zaman": "2026-10-09T18:28:25+00:00",
+        "metin": "🆚 SC Braga v Sporting CP\n\n🏆 SC Braga 32% · Draw 26% · Sporting CP 42%\n⚽ Over 2.5 goals 48% · Under 52%\n🥅 Both teams score 53% · Not both 47%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: SC Braga win 23%\n💹 Odds: 32%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
       }
     },
     "yanit_kiti": {

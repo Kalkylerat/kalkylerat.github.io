@@ -33800,6 +33800,24 @@
               1
             ],
             "zaman": "2026-10-09T19:08:20+00:00"
+          },
+          "1552493": {
+            "durum": "paylasildi",
+            "tweet_id": "2108647476647645188",
+            "skor": [
+              1,
+              1
+            ],
+            "zaman": "2026-10-09T19:55:06+00:00"
+          },
+          "1552180": {
+            "durum": "paylasildi",
+            "tweet_id": "2108647477696147845",
+            "skor": [
+              2,
+              0
+            ],
+            "zaman": "2026-10-09T19:55:06+00:00"
           }
         }
       },
@@ -34023,7 +34041,22 @@
         "durum": "paylasildi",
         "tweet_id": "2108568748181631086",
         "zaman": "2026-10-09T14:42:01+00:00",
-        "metin": "🆚 Nancy v Guingamp\n\n🏆 Nancy 48% · Draw 25% · Guingamp 27%\n⚽ Over 2.5 goals 52% · Under 48%\n🥅 Both teams score 55% · Not both 46%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: Over 2.5 goals 42%\n💹 Odds: 52%\n\n💬 Not picks. Can Guingamp beat 27%? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Nancy v Guingamp\n\n🏆 Nancy 48% · Draw 25% · Guingamp 27%\n⚽ Over 2.5 goals 52% · Under 48%\n🥅 Both teams score 55% · Not both 46%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: Over 2.5 goals 42%\n💹 Odds: 52%\n\n💬 Not picks. Can Guingamp beat 27%? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108647513981083843",
+          "skor": "1-0",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "zaman": "2026-10-09T19:55:06+00:00",
+          "brier": {
+            "piyasa": 0.9755,
+            "istatistik": 0.85
+          }
+        }
       },
       "analiz_14": {
         "durum": "paylasildi",
@@ -34035,13 +34068,43 @@
         "durum": "paylasildi",
         "tweet_id": "2108580189877715025",
         "zaman": "2026-10-09T15:27:28+00:00",
-        "metin": "🆚 Sochaux v Boulogne\n\n🏆 Sochaux 41% · Draw 28% · Boulogne 31%\n⚽ Over 2.5 goals 43% · Under 57%\n🥅 Both teams score 48% · Not both 52%\n🎯 Likeliest score 1-1 (13%)\n\n📈 Stats: Over 2.5 goals 8%\n💹 Odds: 43%\n\n💬 Stats 8%, odds 43%. Who's closer?\n18+ | Play responsibly"
+        "metin": "🆚 Sochaux v Boulogne\n\n🏆 Sochaux 41% · Draw 28% · Boulogne 31%\n⚽ Over 2.5 goals 43% · Under 57%\n🥅 Both teams score 48% · Not both 52%\n🎯 Likeliest score 1-1 (13%)\n\n📈 Stats: Over 2.5 goals 8%\n💹 Odds: 43%\n\n💬 Stats 8%, odds 43%. Who's closer?\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108647525435764767",
+          "skor": "1-1",
+          "isabet": [
+            false,
+            true,
+            false
+          ],
+          "zaman": "2026-10-09T19:55:06+00:00",
+          "brier": {
+            "piyasa": 1.2433,
+            "istatistik": 1.1482
+          }
+        }
       },
       "analiz_16": {
         "durum": "paylasildi",
         "tweet_id": "2108586336152154530",
         "zaman": "2026-10-09T15:52:04+00:00",
-        "metin": "🆚 PSV Eindhoven v Heerenveen\n\n🏆 PSV Eindhoven 77% · Draw 12% · Heerenveen 10%\n⚽ Over 2.5 goals 84% · Under 16%\n🥅 Both teams score 69% · Not both 31%\n🎯 Most likely score: 3-1 (8%)\n\n📈 Stats: PSV Eindhoven win 50% · odds 77%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 PSV Eindhoven v Heerenveen\n\n🏆 PSV Eindhoven 77% · Draw 12% · Heerenveen 10%\n⚽ Over 2.5 goals 84% · Under 16%\n🥅 Both teams score 69% · Not both 31%\n🎯 Most likely score: 3-1 (8%)\n\n📈 Stats: PSV Eindhoven win 50% · odds 77%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108647536143876207",
+          "skor": "2-0",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "zaman": "2026-10-09T19:55:06+00:00",
+          "brier": {
+            "piyasa": 1.2512,
+            "istatistik": 1.7017
+          }
+        }
       },
       "tablo_aksam": {
         "durum": "paylasildi",
@@ -34073,6 +34136,15 @@
               1
             ],
             "zaman": "2026-10-09T19:47:46+00:00"
+          },
+          "1551828": {
+            "durum": "paylasildi",
+            "tweet_id": "2108647497736564875",
+            "skor": [
+              2,
+              1
+            ],
+            "zaman": "2026-10-09T19:55:06+00:00"
           }
         }
       },
@@ -34092,13 +34164,43 @@
         "durum": "paylasildi",
         "tweet_id": "2108605571578617863",
         "zaman": "2026-10-09T17:08:26+00:00",
-        "metin": "🆚 De Graafschap v Jong Utrecht\n\n🏆 De Graafschap 60% · Draw 19% · Jong Utrecht 21%\n⚽ Over 2.5 goals 71% · Under 28%\n🥅 Both teams score 67% · Not both 33%\n\n📈 De Graafschap win: stats 30%, market 60%\n\n💬 30% vs 60%: which is closer?\n18+ | Play responsibly"
+        "metin": "🆚 De Graafschap v Jong Utrecht\n\n🏆 De Graafschap 60% · Draw 19% · Jong Utrecht 21%\n⚽ Over 2.5 goals 71% · Under 28%\n🥅 Both teams score 67% · Not both 33%\n\n📈 De Graafschap win: stats 30%, market 60%\n\n💬 30% vs 60%: which is closer?\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108647548076642373",
+          "skor": "2-1",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "zaman": "2026-10-09T19:55:06+00:00",
+          "brier": {
+            "piyasa": 0.4345,
+            "istatistik": 0.9324
+          }
+        }
       },
       "analiz_19": {
         "durum": "paylasildi",
         "tweet_id": "2108609626287857873",
         "zaman": "2026-10-09T17:24:40+00:00",
-        "metin": "🆚 Dordrecht v Emmen\n\n🏆 Dordrecht 34% · Draw 23% · Emmen 44%\n⚽ Over 2.5 goals 65% · Under 35%\n🥅 Both teams score 66% · Not both 34%\n🎯 Most likely score: 1-1 (10%)\n\n📈 Team stats: Over 2.5 goals 85%\n💹 Odds: 65%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Dordrecht v Emmen\n\n🏆 Dordrecht 34% · Draw 23% · Emmen 44%\n⚽ Over 2.5 goals 65% · Under 35%\n🥅 Both teams score 66% · Not both 34%\n🎯 Most likely score: 1-1 (10%)\n\n📈 Team stats: Over 2.5 goals 85%\n💹 Odds: 65%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108647559367655496",
+          "skor": "0-3",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "zaman": "2026-10-09T19:55:06+00:00",
+          "brier": {
+            "piyasa": 1.0332,
+            "istatistik": 1.3417
+          }
+        }
       },
       "analiz_20": {
         "durum": "atlandi"

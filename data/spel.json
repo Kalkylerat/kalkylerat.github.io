@@ -33741,7 +33741,32 @@
         "istatistik_kaynak": "lig"
       }
     ],
-    "etkilesim": {},
+    "etkilesim": {
+      "tablo": {
+        "durum": "paylasildi",
+        "tweet_id": "2108467751207755822",
+        "zaman": "2026-10-09T08:00:54+00:00",
+        "metin": "📋 Today's chances, not picks · every % in the image\n\n🆚 Arsenal v Dinamo Brest\n🏆 Arsenal 17% · Draw 22% · Dinamo Brest 61%\n\n🆚 Galatasaray v Kasımpaşa\n🏆 Galatasaray 75% · Draw 16% · Kasımpaşa 9%\n\n💬 Which % surprises you? 👇\n\n#SuperLig #Arsenal\n18+ | Play responsibly",
+        "maclar": [
+          1525991,
+          1576189,
+          1576191,
+          1584424,
+          1552488,
+          1552489,
+          1552490,
+          1552492,
+          1552493,
+          1552180,
+          1575176,
+          1601544,
+          1552775,
+          1570408,
+          1563190
+        ],
+        "sonuclar": {}
+      }
+    },
     "yanit_kiti": {
       "issue": 43,
       "zaman": "2026-10-09T07:03:26+00:00"

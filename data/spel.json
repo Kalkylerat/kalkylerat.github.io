@@ -33854,6 +33854,15 @@
               2
             ],
             "zaman": "2026-10-09T20:05:13+00:00"
+          },
+          "1601544": {
+            "durum": "paylasildi",
+            "tweet_id": "2108655127728951643",
+            "skor": [
+              4,
+              1
+            ],
+            "zaman": "2026-10-09T20:25:32+00:00"
           }
         }
       },
@@ -34298,6 +34307,24 @@
               1
             ],
             "zaman": "2026-10-09T20:18:18+00:00"
+          },
+          "1551836": {
+            "durum": "paylasildi",
+            "tweet_id": "2108655131633832058",
+            "skor": [
+              1,
+              1
+            ],
+            "zaman": "2026-10-09T20:25:32+00:00"
+          },
+          "1567919": {
+            "durum": "paylasildi",
+            "tweet_id": "2108655132812464281",
+            "skor": [
+              3,
+              1
+            ],
+            "zaman": "2026-10-09T20:25:32+00:00"
           }
         }
       },
@@ -34392,7 +34419,22 @@
         "durum": "paylasildi",
         "tweet_id": "2108613491569639519",
         "zaman": "2026-10-09T17:39:55+00:00",
-        "metin": "🆚 Avellino v Sampdoria\n\n🏆 Avellino 36% · Draw 27% · Sampdoria 36%\n⚽ Over 2.5 goals 46% · Under 54%\n🥅 Both teams score 51% · Not both 49%\n🎯 Most likely 1-1 (13%)\n\n📈 Avellino win: stats 61%, odds 36%\n\n💬 Stats 61%, odds 36%. Who's closer?\n18+ | Play responsibly"
+        "metin": "🆚 Avellino v Sampdoria\n\n🏆 Avellino 36% · Draw 27% · Sampdoria 36%\n⚽ Over 2.5 goals 46% · Under 54%\n🥅 Both teams score 51% · Not both 49%\n🎯 Most likely 1-1 (13%)\n\n📈 Avellino win: stats 61%, odds 36%\n\n💬 Stats 61%, odds 36%. Who's closer?\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108655161719521575",
+          "skor": "4-1",
+          "isabet": [
+            true,
+            false,
+            true
+          ],
+          "zaman": "2026-10-09T20:25:32+00:00",
+          "brier": {
+            "piyasa": 1.1464,
+            "istatistik": 0.7409
+          }
+        }
       },
       "analiz_27": {
         "durum": "paylasildi",

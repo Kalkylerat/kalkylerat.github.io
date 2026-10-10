@@ -43219,7 +43219,22 @@
         "durum": "paylasildi",
         "tweet_id": "2108913772094181551",
         "zaman": "2026-10-10T13:33:15+00:00",
-        "metin": "🆚 GO Ahead Eagles v Sparta Rotterdam\n\n🏆 GO Ahead Eagles 57% · Draw 20% · Sparta Rotterdam 23%\n⚽ Over 2.5 goals 69% · Under 31%\n🥅 Both teams score 66% · Not both 34%\n\n📈 Team stats: GO Ahead Eagles win 62%\n💹 Odds: 57%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 GO Ahead Eagles v Sparta Rotterdam\n\n🏆 GO Ahead Eagles 57% · Draw 20% · Sparta Rotterdam 23%\n⚽ Over 2.5 goals 69% · Under 31%\n🥅 Both teams score 66% · Not both 34%\n\n📈 Team stats: GO Ahead Eagles win 62%\n💹 Odds: 57%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108956911576170588",
+          "skor": "3-3",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "zaman": "2026-10-10T16:24:37+00:00",
+          "brier": {
+            "piyasa": 1.2244,
+            "istatistik": 1.2675
+          }
+        }
       },
       "analiz_19": {
         "durum": "paylasildi",
@@ -43271,6 +43286,12 @@
           1558651
         ],
         "sonuclar": {}
+      },
+      "analiz_26": {
+        "durum": "paylasildi",
+        "tweet_id": "2108956895335903600",
+        "zaman": "2026-10-10T16:24:37+00:00",
+        "metin": "🆚 Lorient v Paris FC\n\n🏆 Lorient 29% · Draw 26% · Paris FC 45%\n⚽ Over 2.5 goals 47% · Under 53%\n🥅 Both teams score 51% · Not both 49%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: Over 2.5 goals 38%\n💹 Odds: 47%\n\n💬 Not picks. Your read? 👇\n#Ligue1\n18+ | Play responsibly"
       }
     },
     "yanit_kiti": {

@@ -42864,6 +42864,15 @@
               0
             ],
             "zaman": "2026-10-10T17:53:12+00:00"
+          },
+          "1557425": {
+            "durum": "paylasildi",
+            "tweet_id": "2108987828088586737",
+            "skor": [
+              1,
+              1
+            ],
+            "zaman": "2026-10-10T18:27:32+00:00"
           }
         }
       },
@@ -43300,7 +43309,22 @@
         "durum": "paylasildi",
         "tweet_id": "2108928444197446143",
         "zaman": "2026-10-10T14:31:33+00:00",
-        "metin": "🆚 Manchester United v Tottenham\n\n🏆 Manchester United 56% · Draw 22% · Tottenham 22%\n⚽ Over 2.5 goals 62% · Under 38%\n🥅 Both teams score 60% · Not both 40%\n\n📈 Team stats: Over 2.5 goals 48%\n💹 Odds: 62%\n\n💬 Not picks. Your read? 👇\n#PremierLeague\n18+ | Play responsibly"
+        "metin": "🆚 Manchester United v Tottenham\n\n🏆 Manchester United 56% · Draw 22% · Tottenham 22%\n⚽ Over 2.5 goals 62% · Under 38%\n🥅 Both teams score 60% · Not both 40%\n\n📈 Team stats: Over 2.5 goals 48%\n💹 Odds: 62%\n\n💬 Not picks. Your read? 👇\n#PremierLeague\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108987840256155904",
+          "skor": "1-1",
+          "isabet": [
+            false,
+            false,
+            true
+          ],
+          "zaman": "2026-10-10T18:27:32+00:00",
+          "brier": {
+            "piyasa": 1.519,
+            "istatistik": 1.3602
+          }
+        }
       },
       "analiz_24": {
         "durum": "paylasildi",
@@ -43364,6 +43388,12 @@
         "tweet_id": "2108975358900867128",
         "zaman": "2026-10-10T17:37:58+00:00",
         "metin": "🆚 Ajax v NEC Nijmegen\n\n🏆 Ajax 73% · Draw 15% · NEC Nijmegen 12%\n⚽ Over 2.5 goals 75% · Under 25%\n🥅 Both teams score 63% · Not both 37%\n🎯 Most likely score: 2-1 (9%)\n\n📈 Team stats: Ajax win 39%\n💹 Odds: 73%\n\n💬 Not picks. Your read? 👇\n#Eredivisie\n18+ | Play responsibly"
+      },
+      "bilgi": {
+        "durum": "paylasildi",
+        "tweet_id": "2108987824720564451",
+        "zaman": "2026-10-10T18:27:32+00:00",
+        "metin": "💡 Reading a three-way price\n\nOdds of 2.20, 3.40 and 3.40 imply 45.5%, 29.4% and 29.4%: 104.3% in total. Strip the margin and the home win is about 43.6%.\n\nDo you ever work out the real chance behind a price? 👇\n\n18+ | Play responsibly"
       }
     },
     "yanit_kiti": {

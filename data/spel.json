@@ -42855,6 +42855,15 @@
               0
             ],
             "zaman": "2026-10-10T17:13:38+00:00"
+          },
+          "1550141": {
+            "durum": "paylasildi",
+            "tweet_id": "2108979176170733664",
+            "skor": [
+              3,
+              0
+            ],
+            "zaman": "2026-10-10T17:53:12+00:00"
           }
         }
       },
@@ -43270,7 +43279,22 @@
         "durum": "paylasildi",
         "tweet_id": "2108923549616672787",
         "zaman": "2026-10-10T14:11:55+00:00",
-        "metin": "🆚 Inter v Parma\n\n🏆 Inter 85% · Draw 10% · Parma 4%\n⚽ Over 2.5 goals 71% · Under 29%\n🥅 Both teams score 43% · Not both 57%\n🎯 Most likely: 3-0 (12%)\n\n📈 Stats: Inter 60%, Both teams score 62%\n💹 Odds: 85%, 43%\n\n💬 Stats 62%, odds 43%. Who's closer?\n18+ | Play responsibly"
+        "metin": "🆚 Inter v Parma\n\n🏆 Inter 85% · Draw 10% · Parma 4%\n⚽ Over 2.5 goals 71% · Under 29%\n🥅 Both teams score 43% · Not both 57%\n🎯 Most likely: 3-0 (12%)\n\n📈 Stats: Inter 60%, Both teams score 62%\n💹 Odds: 85%, 43%\n\n💬 Stats 62%, odds 43%. Who's closer?\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108979190129410218",
+          "skor": "3-0",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "zaman": "2026-10-10T17:53:12+00:00",
+          "brier": {
+            "piyasa": 0.3047,
+            "istatistik": 0.7404
+          }
+        }
       },
       "analiz_21": {
         "durum": "paylasildi",

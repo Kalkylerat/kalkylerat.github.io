@@ -100,6 +100,11 @@ def _aile(pazar: str) -> str:
     return "sonuc" if pazar.startswith(("MS", "CS")) or pazar in ("IY1", "IYX", "IY2") else "gol"
 
 
+# Havuzda ve otomatik kupon aramasında oran bantlarına ayrılan yer: (alt, üst, aday sayısı).
+BANTLAR = ((1.19, 1.35, 20), (1.35, 9.99, 15))
+ARAMA_BANTLARI = ((0.0, 1.19, 8), (1.19, 1.35, 12), (1.35, 9.99, 10))
+
+
 def havuz(analizler: list[dict], oranlar: dict, ayar, cfg: LikelyAyar, simdi: datetime) -> list[dict]:
     """Günün maçlarından yüksek ihtimalli (ve değerli) adaylar; en yüksek ihtimal önce, numaralı (1..N).
     İhtimal: keskin piyasanın marjsız fiyatı. Oran: takipçinin büyük sitelerde bulabileceği fiyat."""
@@ -138,9 +143,15 @@ def havuz(analizler: list[dict], oranlar: dict, ayar, cfg: LikelyAyar, simdi: da
     guvenli = sorted((c for c in hepsi if c["tur"] == "guvenli"), key=lambda c: -c["olasilik"])
     deger = sorted((c for c in hepsi if c["tur"] == "deger"), key=lambda c: -c["deger"])[:6]
     buyuk = [c for c in guvenli if c["buyuk"]][:12]  # büyük maçlar kaçmasın: önce onlara yer ayrılır
-    kalan = [c for c in guvenli if c not in buyuk]
-    yer = max(cfg.havuz - len(buyuk) - len(deger), 0)
-    sonuc = sorted(buyuk + kalan[:yer], key=lambda c: -c["olasilik"]) + deger
+    # Oran bantlarına da yer ayrılır: yoğun günlerde en olası 80 aday hep 1.10–1.15 oluyor ve en fazla 4 ayakla
+    # 2.00'a ulaşılamıyordu (9–10 Ekim 2026'da günün kuponu çıkmadı). Her bantta en olası adaylar.
+    bantlar = []
+    for alt, ust, adet in BANTLAR:
+        bantlar += [c for c in guvenli if alt <= c["oran"] < ust and c not in buyuk][:adet]
+    ayrilan = buyuk + bantlar
+    kalan = [c for c in guvenli if c not in ayrilan]
+    yer = max(cfg.havuz - len(ayrilan) - len(deger), 0)
+    sonuc = sorted(ayrilan + kalan[:yer], key=lambda c: -c["olasilik"]) + deger
     for no, c in enumerate(sonuc, 1):
         c["no"] = no
     return sonuc
@@ -232,7 +243,11 @@ def otomatik_sec(adaylar: list[dict], cfg: LikelyAyar) -> list[dict]:
     dolu: set[int] = set()
     for ad, oran_min, oran_max, min_tutma, min_deger, min_ayak_oran, yalniz_buyuk in tarifler[:cfg.oto_max_kupon]:
         bos = [a for a in ayaklar if a["fixture_id"] not in dolu and a["oran"] >= min_ayak_oran
-               and (buyuk[a["aday_id"]] or not yalniz_buyuk)][:16]
+               and (buyuk[a["aday_id"]] or not yalniz_buyuk)]
+        # Arama her oran bandından en olası adayları alır (yalnızca en olası 16 aday değil: onlar yoğun günlerde
+        # hep ~1.10 olur ve 4 ayakla aralığa ulaşılamaz). Bantlar ayrık; sıralama ihtimale göre kalır.
+        bos = sorted((a for alt, ust, adet in ARAMA_BANTLARI for a in [b for b in bos if alt <= b["oran"] < ust][:adet]),
+                     key=lambda a: -a["olasilik"])
         uygun = [kupon_kur(list(k), ad) for n in range(1, cfg.oto_max_ayak + 1)
                  for k in itertools.combinations(bos, n) if _farkli_mac(k)]
         uygun = [k for k in uygun if oran_min <= k["oran"] <= oran_max and k["olasilik"] >= min_tutma and k["deger"] >= min_deger]
@@ -674,7 +689,8 @@ def sabah(ayar, analizler: list[dict], oranlar: dict, simdi: datetime, gh, yaz=p
         gun["durum"] = "secildi" if gun["secilen"] else "bekliyor"
         gun["oto"] = True
     govde = (f"@{ayar.alarm_kime} " if ayar.alarm_kime else "") + paket_metni(gun, veri, ayar, cfg)
-    baslik = (f"🎩 Mr. Likely {tarih}: otomatik, {len(gun['secilen'])} kupon paylaşılacak" if oto
+    baslik = ((f"🎩 Mr. Likely {tarih}: otomatik, {len(gun['secilen'])} kupon paylaşılacak" if gun["secilen"]
+               else f"⚠️ Mr. Likely {tarih}: otomatik, BUGÜN KUPON ÇIKMADI (kural sağlanmadı)") if oto
               else f"🎩 Mr. Likely {tarih}: {len(adaylar)} aday, {len(gun['kuponlar'])} kupon")
     gun["issue"] = gh.issue_ac(baslik, govde, ETIKET)
     veri["gunler"].append(gun)

@@ -436,6 +436,28 @@ def test_E6_buyuk_maclar_kuponu_yalniz_buyuk_maclardan():
     assert "buyuk-maclar" not in [k["ad"] for k in likely.otomatik_sec(likely.havuz(kucuk + orta, oranlar, AYAR, OTO, SIMDI), OTO)]
 
 
+def test_E6_yogun_gunde_de_gunun_kuponu_bulunur():
+    """9–10 Ekim 2026 hatası: çok maçlı günde en olası adayların hepsi ~1.08 idi; havuz ve arama yalnızca onlara
+    bakınca 4 ayakla 2.00'a ulaşılamadı ve kupon çıkmadı. Oran bantlarına yer ayrıldığı için kural sağlanan kupon bulunur."""
+    cok = [mac(900 + i, f"Dev {i}", f"Cuce {i}", 8, lig_id=41) for i in range(60)]
+    orta = [mac(1000 + i, f"Orta {i}", f"Rakip {i}", 8, lig_id=41) for i in range(4)]
+    oranlar = {**{m["fixture_id"]: oran_seti(0.92, 0.06, 0.62, 0.80) for m in cok},
+               **{m["fixture_id"]: oran_seti(0.80, 0.13, 0.50, 0.70) for m in orta}}
+    adaylar = likely.havuz(cok + orta, oranlar, AYAR, OTO, SIMDI)
+    assert len(adaylar) <= OTO.havuz and any(a["oran"] >= 1.19 for a in adaylar)  # bant: orta oranlı adaylar havuzda
+    secilen = likely.otomatik_sec(adaylar, OTO)
+    assert secilen and secilen[0]["ad"] == "gunun-kuponu" and OTO.oto_oran_min <= secilen[0]["oran"] <= OTO.oto_oran_max
+
+
+def test_kupon_cikmazsa_bildirim_uyarir(monkeypatch, tmp_path):
+    monkeypatch.setattr(likely, "DOSYA", tmp_path / "likely.json")
+    monkeypatch.setattr(likely, "ayar_yukle", lambda *a, **k: OTO)
+    gh = SahteGH()
+    zayif = {m["fixture_id"]: oran_seti(0.42, 0.30, 0.45, 0.60) for m in MACLAR}
+    likely.sabah(AYAR, MACLAR, zayif, SIMDI, gh)
+    assert gh.acilan[0][0].startswith("⚠️") and "KUPON ÇIKMADI" in gh.acilan[0][0]
+
+
 def test_gorselli_kupon_metni_emojili_ve_soruyla_biter():
     adaylar = likely.havuz(MACLAR, ORANLAR, AYAR, OTO, SIMDI)
     harita = {a["aday_id"]: a for a in adaylar}

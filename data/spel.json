@@ -42918,7 +42918,20 @@
               1
             ],
             "zaman": "2026-10-10T20:46:39+00:00"
+          },
+          "1552183": {
+            "durum": "paylasildi",
+            "tweet_id": "2109025705891643547",
+            "skor": [
+              1,
+              1
+            ],
+            "zaman": "2026-10-10T20:58:05+00:00"
           }
+        },
+        "takip": {
+          "durum": "tamam",
+          "zaman": "2026-10-10T20:58:05+00:00"
         }
       },
       "analiz_5": {
@@ -43596,7 +43609,22 @@
         "durum": "paylasildi",
         "tweet_id": "2108975358900867128",
         "zaman": "2026-10-10T17:37:58+00:00",
-        "metin": "🆚 Ajax v NEC Nijmegen\n\n🏆 Ajax 73% · Draw 15% · NEC Nijmegen 12%\n⚽ Over 2.5 goals 75% · Under 25%\n🥅 Both teams score 63% · Not both 37%\n🎯 Most likely score: 2-1 (9%)\n\n📈 Team stats: Ajax win 39%\n💹 Odds: 73%\n\n💬 Not picks. Your read? 👇\n#Eredivisie\n18+ | Play responsibly"
+        "metin": "🆚 Ajax v NEC Nijmegen\n\n🏆 Ajax 73% · Draw 15% · NEC Nijmegen 12%\n⚽ Over 2.5 goals 75% · Under 25%\n🥅 Both teams score 63% · Not both 37%\n🎯 Most likely score: 2-1 (9%)\n\n📈 Team stats: Ajax win 39%\n💹 Odds: 73%\n\n💬 Not picks. Your read? 👇\n#Eredivisie\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2109025719657332989",
+          "skor": "1-1",
+          "isabet": [
+            false,
+            false,
+            true
+          ],
+          "zaman": "2026-10-10T20:58:05+00:00",
+          "brier": {
+            "piyasa": 1.9621,
+            "istatistik": 1.6436
+          }
+        }
       },
       "bilgi": {
         "durum": "paylasildi",

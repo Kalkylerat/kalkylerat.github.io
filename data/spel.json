@@ -42846,6 +42846,15 @@
               2
             ],
             "zaman": "2026-10-10T16:05:19+00:00"
+          },
+          "1552776": {
+            "durum": "paylasildi",
+            "tweet_id": "2108969219463286848",
+            "skor": [
+              1,
+              0
+            ],
+            "zaman": "2026-10-10T17:13:38+00:00"
           }
         }
       },
@@ -43240,7 +43249,22 @@
         "durum": "paylasildi",
         "tweet_id": "2108917317833007315",
         "zaman": "2026-10-10T13:47:20+00:00",
-        "metin": "🆚 Lille v Le Havre\n\n🏆 Lille 67% · Draw 19% · Le Havre 14%\n⚽ Over 2.5 goals 58% · Under 42%\n🥅 Both teams score 51% · Not both 49%\n🎯 Most likely score: 2-0 (12%)\n\n📈 Team stats: Over 2.5 goals 40%\n💹 Odds: 58%\n\n💬 Not picks. Your read? 👇\n#Ligue1\n18+ | Play responsibly"
+        "metin": "🆚 Lille v Le Havre\n\n🏆 Lille 67% · Draw 19% · Le Havre 14%\n⚽ Over 2.5 goals 58% · Under 42%\n🥅 Both teams score 51% · Not both 49%\n🎯 Most likely score: 2-0 (12%)\n\n📈 Team stats: Over 2.5 goals 40%\n💹 Odds: 58%\n\n💬 Not picks. Your read? 👇\n#Ligue1\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108969232817910193",
+          "skor": "1-0",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "zaman": "2026-10-10T17:13:38+00:00",
+          "brier": {
+            "piyasa": 0.7519,
+            "istatistik": 0.6685
+          }
+        }
       },
       "analiz_20": {
         "durum": "paylasildi",

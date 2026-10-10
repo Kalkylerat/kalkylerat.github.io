@@ -43399,6 +43399,15 @@
               1
             ],
             "zaman": "2026-10-10T19:56:33+00:00"
+          },
+          "1552494": {
+            "durum": "paylasildi",
+            "tweet_id": "2109012172088951161",
+            "skor": [
+              2,
+              0
+            ],
+            "zaman": "2026-10-10T20:04:19+00:00"
           }
         }
       },
@@ -43412,7 +43421,22 @@
         "durum": "paylasildi",
         "tweet_id": "2108960796822892903",
         "zaman": "2026-10-10T16:40:07+00:00",
-        "metin": "🆚 Saint Etienne v Rodez\n\n🏆 Saint Etienne 69% · Draw 18% · Rodez 14%\n⚽ Over 2.5 goals 64% · Under 36%\n🥅 Both teams score 56% · Not both 44%\n🎯 Most likely score: 2-0 (10%)\n\n📈 Team stats: Over 2.5 goals 81%\n💹 Odds: 64%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Saint Etienne v Rodez\n\n🏆 Saint Etienne 69% · Draw 18% · Rodez 14%\n⚽ Over 2.5 goals 64% · Under 36%\n🥅 Both teams score 56% · Not both 44%\n🎯 Most likely score: 2-0 (10%)\n\n📈 Team stats: Over 2.5 goals 81%\n💹 Odds: 64%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2109012187226202566",
+          "skor": "2-0",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "zaman": "2026-10-10T20:04:19+00:00",
+          "brier": {
+            "piyasa": 0.8664,
+            "istatistik": 1.277
+          }
+        }
       },
       "analiz_27": {
         "durum": "paylasildi",

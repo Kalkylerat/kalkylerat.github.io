@@ -438,6 +438,27 @@ def _oncelik(gun: dict, simdi: datetime):
     return oncelik
 
 
+def _paylasim_sirasi(gun: dict, ayar, simdi: datetime) -> list[tuple[str, datetime, datetime]]:
+    """Planı paylaşım sırasına dizer: öncelikli post (büyük maç kartı, B6) ancak kalanların hepsi hâlâ son
+    saatine yetişiyorsa öne geçer; yoksa son saati en yakın açık post çıkar (10 Ekim: iki büyük maç kartı öne
+    geçince saati daha yakın bir kart kaçacaktı, B3)."""
+    durum = gun.get("etkilesim") or {}
+    sira = sorted(_plan(gun), key=_oncelik(gun, simdi))
+    gecmis = [p for p in sira if p[0] not in durum and simdi > p[2]]
+    acik = [p for p in sira if p[0] not in durum and p[1] <= simdi <= p[2]]
+    if not acik:
+        return sira
+    en_az = getattr(ayar, "yogun_aralik_dk", ARALIK_DK) if config.yogun_mu(ayar, gun["tarih"], gun) else ARALIK_DK
+    adim = timedelta(minutes=-(-en_az // NABIZ_DK) * NABIZ_DK + 2)  # nabız adımına yuvarlanır (13 -> 14 dk), +2 dk pay
+    bekleyen = sorted((p for p in sira if p[0] not in durum and p[2] > simdi), key=lambda p: p[2])
+
+    def yetisir(aday):
+        kalan = [gec for tur, _, gec in bekleyen if tur != aday[0]]
+        return all(gec >= simdi + k * adim for k, gec in enumerate(kalan, 1))
+    secilen = next((p for p in acik if yetisir(p)), min(acik, key=lambda p: p[2]))
+    return gecmis + [secilen] + [p for p in sira if p is not secilen and p not in gecmis]
+
+
 def aralik_dk(gun: dict, ayar, simdi: datetime) -> float:
     """Postlar arası dakika. Normal gün 45. Yoğun günde en az ayar.yogun_aralik_dk (~15 dk); sırada az post varsa
     kalanlar günün geri kalanına yayılır (öğlen hepsi tükenip akşam boş kalmasın), ama en fazla 45 dk, her post son
@@ -446,12 +467,11 @@ def aralik_dk(gun: dict, ayar, simdi: datetime) -> float:
         return ARALIK_DK
     en_az = getattr(ayar, "yogun_aralik_dk", ARALIK_DK)
     durum = gun.get("etkilesim") or {}
-    sira = sorted((p for p in _plan(gun) if p[0] not in durum and p[2] > simdi), key=_oncelik(gun, simdi))
-    kalan = [gec for _, _, gec in sira]
+    kalan = sorted(gec for tur, _, gec in _plan(gun) if tur not in durum and gec > simdi)
     if not kalan or min(kalan) < simdi + timedelta(hours=1):
         return en_az
     yayilim = (max(kalan) - simdi).total_seconds() / 60 / len(kalan)
-    # Yayılım son saatleri kaçırtmasın (9 Ekim: aynı saatte başlayan 9 kartın 6'sı kaçtı): paylaşım sırasındaki
+    # Yayılım son saatleri kaçırtmasın (9 Ekim: aynı saatte başlayan 9 kartın 6'sı kaçtı): son saat sırasındaki
     # k. post k aralık sonra çıkar ve kendi son saatine yetişmeli; nabız 7 dakikada bir olduğu için 7 dk pay.
     sikilik = min((gec - simdi).total_seconds() / 60 / k for k, gec in enumerate(kalan, 1)) - NABIZ_DK
     return max(en_az, min(yayilim, sikilik, ARALIK_DK))
@@ -472,7 +492,7 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_pay
     son = _son_paylasim(gun, diger_paylasimlar)
     if son and simdi < son + timedelta(minutes=aralik_dk(gun, ayar, simdi)):
         return None
-    for tur, erken, gec in sorted(_plan(gun), key=_oncelik(gun, simdi)):
+    for tur, erken, gec in _paylasim_sirasi(gun, ayar, simdi):
         if tur in durum:
             continue
         if simdi > gec:

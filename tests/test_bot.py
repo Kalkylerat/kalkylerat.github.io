@@ -2210,21 +2210,30 @@ def test_yogun_gun_yayilim_kartlari_kacirtmaz():
     def a(i, saat):
         return {"fixture_id": i, "lig_id": 999, "lig": "Eerste Divisie", "ev": f"Ev{i}", "dep": f"Dep{i}",
                 "baslama": f"2026-10-03T{saat}:00+00:00", "guven": "yuksek", "p": {}, "skorlar": []}
+    def gunu_oynat(gun, simdi):  # nabız 7 dakikada bir; kartların durumunu döndürür
+        son = None
+        while simdi < datetime(2026, 10, 3, 22, 0, tzinfo=timezone.utc):
+            if son is None or simdi >= son + timedelta(minutes=etkilesim.aralik_dk(gun, AYAR, simdi)):
+                for tur, erken, gec in etkilesim._paylasim_sirasi(gun, AYAR, simdi):
+                    if tur in gun["etkilesim"] or simdi < erken:
+                        continue
+                    gun["etkilesim"][tur] = {"durum": "atlandi" if simdi > gec else "paylasildi"}
+                    if simdi <= gec:
+                        son = simdi
+                        break
+            simdi += timedelta(minutes=7)
+        return {t: e["durum"] for t, e in gun["etkilesim"].items() if t.startswith("analiz_")}
     gun = {"tarih": "2026-10-03", "konsept": "analiz", "secimler": [], "etkilesim": {},
            "analizler": [a(i, "18:00") for i in range(20)] + [a(99, "21:15")]}
-    simdi, son = datetime(2026, 10, 3, 8, 0, tzinfo=timezone.utc), None
-    while simdi < datetime(2026, 10, 3, 22, 0, tzinfo=timezone.utc):  # nabız 7 dakikada bir
-        if son is None or simdi >= son + timedelta(minutes=etkilesim.aralik_dk(gun, AYAR, simdi)):
-            for tur, erken, gec in sorted(etkilesim._plan(gun), key=etkilesim._oncelik(gun, simdi)):
-                if tur in gun["etkilesim"] or simdi < erken:
-                    continue
-                gun["etkilesim"][tur] = {"durum": "atlandi" if simdi > gec else "paylasildi"}
-                if simdi <= gec:
-                    son = simdi
-                    break
-        simdi += timedelta(minutes=7)
-    durumlar = {t: e["durum"] for t, e in gun["etkilesim"].items() if t.startswith("analiz_")}
+    durumlar = gunu_oynat(gun, datetime(2026, 10, 3, 8, 0, tzinfo=timezone.utc))
     assert len(durumlar) == 21 and set(durumlar.values()) == {"paylasildi"}
+    # 10 Ekim: son saati daha geç iki büyük maç kartı (B6) öne geçince, aynı saatte başlayan dar pencereli kartlardan
+    # biri kaçacaktı. Büyük maç kartı ancak kalanların hepsi yetişiyorsa öne geçer.
+    buyuk = [dict(a(50 + i, saat), lig_id=5, lig="UEFA Nations League") for i, saat in enumerate(("15:15", "16:00"))]
+    gun = {"tarih": "2026-10-03", "konsept": "analiz", "secimler": [], "etkilesim": {},
+           "analizler": [a(i, "14:00") for i in range(9)] + buyuk}
+    durumlar = gunu_oynat(gun, datetime(2026, 10, 3, 11, 30, tzinfo=timezone.utc))
+    assert len(durumlar) == 11 and set(durumlar.values()) == {"paylasildi"}
 
 
 def test_yogun_gun_kisa_aralik_ve_aksam_kartlari():

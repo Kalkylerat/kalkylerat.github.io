@@ -42810,6 +42810,33 @@
               1
             ],
             "zaman": "2026-10-10T14:58:06+00:00"
+          },
+          "1557419": {
+            "durum": "paylasildi",
+            "tweet_id": "2108950039628242946",
+            "skor": [
+              5,
+              1
+            ],
+            "zaman": "2026-10-10T15:57:23+00:00"
+          },
+          "1557423": {
+            "durum": "paylasildi",
+            "tweet_id": "2108950040790159369",
+            "skor": [
+              2,
+              1
+            ],
+            "zaman": "2026-10-10T15:57:23+00:00"
+          },
+          "1557426": {
+            "durum": "paylasildi",
+            "tweet_id": "2108950042023207395",
+            "skor": [
+              0,
+              2
+            ],
+            "zaman": "2026-10-10T15:57:23+00:00"
           }
         }
       },
@@ -42955,19 +42982,64 @@
         "durum": "paylasildi",
         "tweet_id": "2108871845776699467",
         "zaman": "2026-10-10T10:46:39+00:00",
-        "metin": "🆚 Chelsea v Bournemouth\n\n🏆 Chelsea 55% · Draw 22% · Bournemouth 24%\n⚽ Over 2.5 goals 63% · Under 37%\n🥅 Both teams score 62% · Not both 38%\n🎯 Most likely score: 1-1 (10%)\n\n📈 Team stats: Chelsea win 39%\n💹 Odds: 55%\n\n💬 Not picks. What's your score? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Chelsea v Bournemouth\n\n🏆 Chelsea 55% · Draw 22% · Bournemouth 24%\n⚽ Over 2.5 goals 63% · Under 37%\n🥅 Both teams score 62% · Not both 38%\n🎯 Most likely score: 1-1 (10%)\n\n📈 Team stats: Chelsea win 39%\n💹 Odds: 55%\n\n💬 Not picks. What's your score? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108950055050772529",
+          "skor": "5-1",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "zaman": "2026-10-10T15:57:23+00:00",
+          "brier": {
+            "piyasa": 0.5902,
+            "istatistik": 0.7558
+          }
+        }
       },
       "analiz_3": {
         "durum": "paylasildi",
         "tweet_id": "2108876491568075074",
         "zaman": "2026-10-10T11:05:07+00:00",
-        "metin": "🆚 Ipswich v Fulham\n\n🏆 Ipswich 35% · Draw 25% · Fulham 40%\n⚽ Over 2.5 goals 55% · Under 45%\n🥅 Both teams score 58% · Not both 42%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: Over 2.5 goals 60%\n💹 Odds: 55%\n\n💬 Not picks. Your read? 👇\n#PremierLeague\n18+ | Play responsibly"
+        "metin": "🆚 Ipswich v Fulham\n\n🏆 Ipswich 35% · Draw 25% · Fulham 40%\n⚽ Over 2.5 goals 55% · Under 45%\n🥅 Both teams score 58% · Not both 42%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: Over 2.5 goals 60%\n💹 Odds: 55%\n\n💬 Not picks. Your read? 👇\n#PremierLeague\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108950066341740573",
+          "skor": "2-1",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "zaman": "2026-10-10T15:57:23+00:00",
+          "brier": {
+            "piyasa": 1.0087,
+            "istatistik": 0.9351
+          }
+        }
       },
       "analiz_4": {
         "durum": "paylasildi",
         "tweet_id": "2108881377898758154",
         "zaman": "2026-10-10T11:24:32+00:00",
-        "metin": "🆚 Sunderland v Brighton\n\n🏆 Sunderland 33% · Draw 25% · Brighton 42%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 56% · Not both 44%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: Brighton win 70%\n💹 Odds: 42%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Sunderland v Brighton\n\n🏆 Sunderland 33% · Draw 25% · Brighton 42%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 56% · Not both 44%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: Brighton win 70%\n💹 Odds: 42%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108950076471042280",
+          "skor": "0-2",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "zaman": "2026-10-10T15:57:23+00:00",
+          "brier": {
+            "piyasa": 1.1088,
+            "istatistik": 1.0301
+          }
+        }
       },
       "analiz_11": {
         "durum": "paylasildi",
@@ -42994,7 +43066,22 @@
         "durum": "paylasildi",
         "tweet_id": "2108888753737765080",
         "zaman": "2026-10-10T11:53:50+00:00",
-        "metin": "🆚 Bolton v Stoke City\n\n🏆 Bolton 36% · Draw 26% · Stoke City 38%\n⚽ Over 2.5 goals 49% · Under 51%\n🥅 Both teams score 54% · Not both 46%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: Bolton win 49%\n💹 Odds: 36%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Bolton v Stoke City\n\n🏆 Bolton 36% · Draw 26% · Stoke City 38%\n⚽ Over 2.5 goals 49% · Under 51%\n🥅 Both teams score 54% · Not both 46%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: Bolton win 49%\n💹 Odds: 36%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108950087468491132",
+          "skor": "1-2",
+          "isabet": [
+            true,
+            false,
+            true
+          ],
+          "zaman": "2026-10-10T15:57:23+00:00",
+          "brier": {
+            "piyasa": 1.048,
+            "istatistik": 1.1334
+          }
+        }
       },
       "analiz_13": {
         "durum": "paylasildi",

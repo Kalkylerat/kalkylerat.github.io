@@ -449,7 +449,7 @@ def _paylasim_sirasi(gun: dict, ayar, simdi: datetime) -> list[tuple[str, dateti
     if not acik:
         return sira
     en_az = getattr(ayar, "yogun_aralik_dk", ARALIK_DK) if config.yogun_mu(ayar, gun["tarih"], gun) else ARALIK_DK
-    adim = timedelta(minutes=-(-en_az // NABIZ_DK) * NABIZ_DK + 2)  # nabız adımına yuvarlanır (13 -> 14 dk), +2 dk pay
+    adim = timedelta(minutes=en_az + NABIZ_DK)  # en kötü durum: aralık doldu, sonraki nabız 7 dk sonra (10 Ekim: anket)
     bekleyen = sorted((p for p in sira if p[0] not in durum and p[2] > simdi), key=lambda p: p[2])
 
     def yetisir(aday):

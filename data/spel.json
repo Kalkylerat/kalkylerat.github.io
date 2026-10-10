@@ -42891,6 +42891,33 @@
               0
             ],
             "zaman": "2026-10-10T20:40:03+00:00"
+          },
+          "1552774": {
+            "durum": "paylasildi",
+            "tweet_id": "2109022832990523601",
+            "skor": [
+              5,
+              1
+            ],
+            "zaman": "2026-10-10T20:46:39+00:00"
+          },
+          "1552778": {
+            "durum": "paylasildi",
+            "tweet_id": "2109022834236215549",
+            "skor": [
+              2,
+              2
+            ],
+            "zaman": "2026-10-10T20:46:39+00:00"
+          },
+          "1552780": {
+            "durum": "paylasildi",
+            "tweet_id": "2109022835641369075",
+            "skor": [
+              3,
+              1
+            ],
+            "zaman": "2026-10-10T20:46:39+00:00"
           }
         }
       },
@@ -43390,7 +43417,22 @@
         "durum": "paylasildi",
         "tweet_id": "2108945450690601168",
         "zaman": "2026-10-10T15:39:07+00:00",
-        "metin": "🆚 Stade Brestois 29 v Angers\n\n🏆 Stade Brestois 29 48% · Draw 24% · Angers 28%\n⚽ Over 2.5 goals 54% · Under 46%\n🥅 Both teams score 56% · Not both 44%\n\n📈 Team stats: Stade Brestois 29 win 32%\n💹 Odds: 48%\n\n💬 Not picks. Can Angers beat 28%? 👇\n#Ligue1\n18+ | Play responsibly"
+        "metin": "🆚 Stade Brestois 29 v Angers\n\n🏆 Stade Brestois 29 48% · Draw 24% · Angers 28%\n⚽ Over 2.5 goals 54% · Under 46%\n🥅 Both teams score 56% · Not both 44%\n\n📈 Team stats: Stade Brestois 29 win 32%\n💹 Odds: 48%\n\n💬 Not picks. Can Angers beat 28%? 👇\n#Ligue1\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2109022853207097801",
+          "skor": "5-1",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "zaman": "2026-10-10T20:46:39+00:00",
+          "brier": {
+            "piyasa": 0.8068,
+            "istatistik": 1.1944
+          }
+        }
       },
       "tablo_aksam": {
         "durum": "paylasildi",
@@ -43499,13 +43541,43 @@
         "durum": "paylasildi",
         "tweet_id": "2108967395813462347",
         "zaman": "2026-10-10T17:06:20+00:00",
-        "metin": "🆚 Monaco v Toulouse\n\n🏆 Monaco 60% · Draw 21% · Toulouse 19%\n⚽ Over 2.5 goals 60% · Under 40%\n🥅 Both teams score 57% · Not both 43%\n🎯 Most likely score: 2-1 (10%)\n\n📈 Team stats: Over 2.5 goals 51%\n💹 Odds: 60%\n\n💬 Not picks. Your read? 👇\n#Ligue1\n18+ | Play responsibly"
+        "metin": "🆚 Monaco v Toulouse\n\n🏆 Monaco 60% · Draw 21% · Toulouse 19%\n⚽ Over 2.5 goals 60% · Under 40%\n🥅 Both teams score 57% · Not both 43%\n🎯 Most likely score: 2-1 (10%)\n\n📈 Team stats: Over 2.5 goals 51%\n💹 Odds: 60%\n\n💬 Not picks. Your read? 👇\n#Ligue1\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2109022865492197435",
+          "skor": "2-2",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "zaman": "2026-10-10T20:46:39+00:00",
+          "brier": {
+            "piyasa": 1.3746,
+            "istatistik": 1.3937
+          }
+        }
       },
       "analiz_28": {
         "durum": "paylasildi",
         "tweet_id": "2108971750189109572",
         "zaman": "2026-10-10T17:23:38+00:00",
-        "metin": "🆚 Paris Saint Germain v Le Mans\n\n🏆 Paris Saint Germain 88% · Draw 8% · Le Mans 4%\n⚽ Over 2.5 goals 77% · Under 23%\n🥅 Both teams score 46% · Not both 54%\n\n📈 Team stats: Paris Saint Germain win 41%\n💹 Odds: 88%\n\n💬 Not picks. Your read? 👇\n#Ligue1\n18+ | Play responsibly"
+        "metin": "🆚 Paris Saint Germain v Le Mans\n\n🏆 Paris Saint Germain 88% · Draw 8% · Le Mans 4%\n⚽ Over 2.5 goals 77% · Under 23%\n🥅 Both teams score 46% · Not both 54%\n\n📈 Team stats: Paris Saint Germain win 41%\n💹 Odds: 88%\n\n💬 Not picks. Your read? 👇\n#Ligue1\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2109022876380610827",
+          "skor": "3-1",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "zaman": "2026-10-10T20:46:39+00:00",
+          "brier": {
+            "piyasa": 0.3665,
+            "istatistik": 0.7882
+          }
+        }
       },
       "analiz_29": {
         "durum": "paylasildi",

@@ -43372,7 +43372,17 @@
           1558646,
           1558651
         ],
-        "sonuclar": {}
+        "sonuclar": {
+          "1561937": {
+            "durum": "paylasildi",
+            "tweet_id": "2109002131546030331",
+            "skor": [
+              0,
+              2
+            ],
+            "zaman": "2026-10-10T19:24:24+00:00"
+          }
+        }
       },
       "analiz_26": {
         "durum": "paylasildi",

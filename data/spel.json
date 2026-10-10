@@ -42973,7 +42973,22 @@
         "durum": "paylasildi",
         "tweet_id": "2108884902053581032",
         "zaman": "2026-10-10T11:38:32+00:00",
-        "metin": "🆚 Blackburn v Cardiff\n\n🏆 Blackburn 35% · Draw 24% · Cardiff 41%\n⚽ Over 2.5 goals 59% · Under 41%\n🥅 Both teams score 61% · Not both 39%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: Blackburn win 53%\n💹 Odds: 35%\n\n💬 Not picks. What's your score? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Blackburn v Cardiff\n\n🏆 Blackburn 35% · Draw 24% · Cardiff 41%\n⚽ Over 2.5 goals 59% · Under 41%\n🥅 Both teams score 61% · Not both 39%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: Blackburn win 53%\n💹 Odds: 35%\n\n💬 Not picks. What's your score? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108949265951445316",
+          "skor": "2-1",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "zaman": "2026-10-10T15:54:11+00:00",
+          "brier": {
+            "piyasa": 0.9756,
+            "istatistik": 0.7103
+          }
+        }
       },
       "analiz_12": {
         "durum": "paylasildi",
@@ -42985,31 +43000,106 @@
         "durum": "paylasildi",
         "tweet_id": "2108893292079513841",
         "zaman": "2026-10-10T12:11:52+00:00",
-        "metin": "🆚 Derby v Wrexham\n\n🏆 Derby 33% · Draw 27% · Wrexham 40%\n⚽ Over 2.5 goals 47% · Under 53%\n🥅 Both teams score 52% · Not both 48%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Team stats: Over 2.5 goals 53%\n💹 Odds: 47%\n\n💬 Chances, not picks. Can Derby beat 33%? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Derby v Wrexham\n\n🏆 Derby 33% · Draw 27% · Wrexham 40%\n⚽ Over 2.5 goals 47% · Under 53%\n🥅 Both teams score 52% · Not both 48%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Team stats: Over 2.5 goals 53%\n💹 Odds: 47%\n\n💬 Chances, not picks. Can Derby beat 33%? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108949277578068045",
+          "skor": "1-1",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "zaman": "2026-10-10T15:54:11+00:00",
+          "brier": {
+            "piyasa": 1.2629,
+            "istatistik": 1.3168
+          }
+        }
       },
       "analiz_14": {
         "durum": "paylasildi",
         "tweet_id": "2108897623897674044",
         "zaman": "2026-10-10T12:29:06+00:00",
-        "metin": "🆚 Middlesbrough v Wolves\n\n🏆 Middlesbrough 46% · Draw 24% · Wolves 31%\n⚽ Over 2.5 goals 59% · Under 41%\n🥅 Both teams score 60% · Not both 40%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: Over 2.5 goals 79%\n💹 Odds: 59%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Middlesbrough v Wolves\n\n🏆 Middlesbrough 46% · Draw 24% · Wolves 31%\n⚽ Over 2.5 goals 59% · Under 41%\n🥅 Both teams score 60% · Not both 40%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: Over 2.5 goals 79%\n💹 Odds: 59%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108949287803683081",
+          "skor": "1-0",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "zaman": "2026-10-10T15:54:11+00:00",
+          "brier": {
+            "piyasa": 1.1553,
+            "istatistik": 1.6294
+          }
+        }
       },
       "analiz_15": {
         "durum": "paylasildi",
         "tweet_id": "2108901058009301308",
         "zaman": "2026-10-10T12:42:43+00:00",
-        "metin": "🆚 Preston v Millwall\n\n🏆 Preston 34% · Draw 26% · Millwall 41%\n⚽ Over 2.5 goals 52% · Under 48%\n🥅 Both teams score 56% · Not both 44%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: Over 2.5 goals 68%\n💹 Odds: 52%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Preston v Millwall\n\n🏆 Preston 34% · Draw 26% · Millwall 41%\n⚽ Over 2.5 goals 52% · Under 48%\n🥅 Both teams score 56% · Not both 44%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: Over 2.5 goals 68%\n💹 Odds: 52%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108949300978073838",
+          "skor": "0-1",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "zaman": "2026-10-10T15:54:11+00:00",
+          "brier": {
+            "piyasa": 1.1105,
+            "istatistik": 1.5019
+          }
+        }
       },
       "analiz_16": {
         "durum": "paylasildi",
         "tweet_id": "2108904839971521010",
         "zaman": "2026-10-10T12:57:46+00:00",
-        "metin": "🆚 Sheffield Utd v Lincoln\n\n🏆 Sheffield Utd 44% · Draw 27% · Lincoln 30%\n⚽ Over 2.5 goals 46% · Under 54%\n🥅 Both teams score 50% · Not both 50%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Team stats: Sheffield Utd win 22% (odds 44%)\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Sheffield Utd v Lincoln\n\n🏆 Sheffield Utd 44% · Draw 27% · Lincoln 30%\n⚽ Over 2.5 goals 46% · Under 54%\n🥅 Both teams score 50% · Not both 50%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Team stats: Sheffield Utd win 22% (odds 44%)\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108949316450877887",
+          "skor": "3-0",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "zaman": "2026-10-10T15:54:11+00:00",
+          "brier": {
+            "piyasa": 1.0232,
+            "istatistik": 1.5228
+          }
+        }
       },
       "analiz_17": {
         "durum": "paylasildi",
         "tweet_id": "2108909356280426805",
         "zaman": "2026-10-10T13:15:42+00:00",
-        "metin": "🆚 Watford v Burnley\n\n🏆 Watford 35% · Draw 25% · Burnley 40%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 57% · Not both 43%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: Watford win 60%\n💹 Odds: 35%\n\n💬 Not picks. Burnley 40%: too high? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Watford v Burnley\n\n🏆 Watford 35% · Draw 25% · Burnley 40%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 57% · Not both 43%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: Watford win 60%\n💹 Odds: 35%\n\n💬 Not picks. Burnley 40%: too high? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108949328832471132",
+          "skor": "0-4",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "zaman": "2026-10-10T15:54:11+00:00",
+          "brier": {
+            "piyasa": 1.093,
+            "istatistik": 1.5437
+          }
+        }
       },
       "anket": {
         "durum": "atlandi"

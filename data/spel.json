@@ -42753,7 +42753,22 @@
         "durum": "paylasildi",
         "tweet_id": "2108831154170216557",
         "zaman": "2026-10-10T08:04:58+00:00",
-        "metin": "🆚 Arsenal v Leeds\n\n🏆 Arsenal 68% · Draw 20% · Leeds 13%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 46% · Not both 54%\n🎯 Most likely score: 2-0 (13%)\n\n📈 Team stats: Arsenal win 35%\n💹 Odds: 68%\n\n💬 Not picks. Your read? 👇\n#PremierLeague\n18+ | Play responsibly"
+        "metin": "🆚 Arsenal v Leeds\n\n🏆 Arsenal 68% · Draw 20% · Leeds 13%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 46% · Not both 54%\n🎯 Most likely score: 2-0 (13%)\n\n📈 Team stats: Arsenal win 35%\n💹 Odds: 68%\n\n💬 Not picks. Your read? 👇\n#PremierLeague\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108911987954753585",
+          "skor": "2-1",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "zaman": "2026-10-10T13:26:09+00:00",
+          "brier": {
+            "piyasa": 0.6706,
+            "istatistik": 1.3235
+          }
+        }
       },
       "tablo": {
         "durum": "paylasildi",
@@ -42777,19 +42792,59 @@
           1552780,
           1552183
         ],
-        "sonuclar": {}
+        "sonuclar": {
+          "1557417": {
+            "durum": "paylasildi",
+            "tweet_id": "2108911975581569415",
+            "skor": [
+              2,
+              1
+            ],
+            "zaman": "2026-10-10T13:26:09+00:00"
+          }
+        }
       },
       "analiz_5": {
         "durum": "paylasildi",
         "tweet_id": "2108838344771666039",
         "zaman": "2026-10-10T08:33:22+00:00",
-        "metin": "🆚 Charlton v Bristol City\n\n🏆 Charlton 30% · Draw 27% · Bristol City 42%\n⚽ Over 2.5 goals 44% · Under 56%\n🥅 Both teams score 49% · Not both 51%\n🎯 Likeliest 1-1 (13%)\n\n📈 Charlton win: stats 43%, odds 30%\n\n💬 Stats or odds on Charlton?\n18+ | Play responsibly"
+        "metin": "🆚 Charlton v Bristol City\n\n🏆 Charlton 30% · Draw 27% · Bristol City 42%\n⚽ Over 2.5 goals 44% · Under 56%\n🥅 Both teams score 49% · Not both 51%\n🎯 Likeliest 1-1 (13%)\n\n📈 Charlton win: stats 43%, odds 30%\n\n💬 Stats or odds on Charlton?\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108912002467016816",
+          "skor": "1-1",
+          "isabet": [
+            false,
+            true,
+            false
+          ],
+          "zaman": "2026-10-10T13:26:09+00:00",
+          "brier": {
+            "piyasa": 1.2574,
+            "istatistik": 1.2747
+          }
+        }
       },
       "analiz_6": {
         "durum": "paylasildi",
         "tweet_id": "2108842121360797742",
         "zaman": "2026-10-10T08:48:32+00:00",
-        "metin": "🆚 Swansea v Norwich\n\n🏆 Swansea 44% · Draw 24% · Norwich 31%\n⚽ Over 2.5 goals 55% · Under 45%\n🥅 Both teams score 58% · Not both 42%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: Swansea win 59%\n💹 Odds: 44%\n\n💬 Chances, not picks. What's your score? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Swansea v Norwich\n\n🏆 Swansea 44% · Draw 24% · Norwich 31%\n⚽ Over 2.5 goals 55% · Under 45%\n🥅 Both teams score 58% · Not both 42%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: Swansea win 59%\n💹 Odds: 44%\n\n💬 Chances, not picks. What's your score? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108912012273316102",
+          "skor": "2-1",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "zaman": "2026-10-10T13:26:09+00:00",
+          "brier": {
+            "piyasa": 0.8404,
+            "istatistik": 0.7571
+          }
+        }
       },
       "analiz_10": {
         "durum": "paylasildi",
@@ -42801,7 +42856,22 @@
         "durum": "paylasildi",
         "tweet_id": "2108851515528024147",
         "zaman": "2026-10-10T09:25:52+00:00",
-        "metin": "🆚 West Brom v Birmingham\n\n🏆 West Brom 39% · Draw 27% · Birmingham 34%\n⚽ Over 2.5 goals 46% · Under 54%\n🥅 Both teams score 51% · Not both 49%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Team stats: Over 2.5 goals 40%\n💹 Odds: 46%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 West Brom v Birmingham\n\n🏆 West Brom 39% · Draw 27% · Birmingham 34%\n⚽ Over 2.5 goals 46% · Under 54%\n🥅 Both teams score 51% · Not both 49%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Team stats: Over 2.5 goals 40%\n💹 Odds: 46%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108912022989766925",
+          "skor": "0-1",
+          "isabet": [
+            false,
+            true,
+            false
+          ],
+          "zaman": "2026-10-10T13:26:09+00:00",
+          "brier": {
+            "piyasa": 1.1245,
+            "istatistik": 1.1006
+          }
+        }
       },
       "ayrisma": {
         "durum": "paylasildi",

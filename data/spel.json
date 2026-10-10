@@ -42873,6 +42873,24 @@
               1
             ],
             "zaman": "2026-10-10T18:27:32+00:00"
+          },
+          "1550144": {
+            "durum": "paylasildi",
+            "tweet_id": "2109021182007693676",
+            "skor": [
+              3,
+              0
+            ],
+            "zaman": "2026-10-10T20:40:03+00:00"
+          },
+          "1552777": {
+            "durum": "paylasildi",
+            "tweet_id": "2109021183395996037",
+            "skor": [
+              1,
+              0
+            ],
+            "zaman": "2026-10-10T20:40:03+00:00"
           }
         }
       },
@@ -43330,7 +43348,22 @@
         "durum": "paylasildi",
         "tweet_id": "2108934160182301015",
         "zaman": "2026-10-10T14:54:16+00:00",
-        "metin": "🆚 Napoli v Frosinone\n\n🏆 Napoli 67% · Draw 18% · Frosinone 14%\n⚽ Over 2.5 goals 65% · Under 35%\n🥅 Both teams score 57% · Not both 43%\n🎯 Most likely score: 2-0 (10%)\n\n📈 Team stats: Napoli win 28%\n💹 Odds: 67%\n\n💬 Not picks. Your read? 👇\n#SerieA\n18+ | Play responsibly"
+        "metin": "🆚 Napoli v Frosinone\n\n🏆 Napoli 67% · Draw 18% · Frosinone 14%\n⚽ Over 2.5 goals 65% · Under 35%\n🥅 Both teams score 57% · Not both 43%\n🎯 Most likely score: 2-0 (10%)\n\n📈 Team stats: Napoli win 28%\n💹 Odds: 67%\n\n💬 Not picks. Your read? 👇\n#SerieA\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2109021210373668882",
+          "skor": "3-0",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "zaman": "2026-10-10T20:40:03+00:00",
+          "brier": {
+            "piyasa": 0.6097,
+            "istatistik": 1.3398
+          }
+        }
       },
       "analiz_22": {
         "durum": "paylasildi",
@@ -43408,6 +43441,15 @@
               0
             ],
             "zaman": "2026-10-10T20:04:19+00:00"
+          },
+          "1558646": {
+            "durum": "paylasildi",
+            "tweet_id": "2109021195274244141",
+            "skor": [
+              3,
+              0
+            ],
+            "zaman": "2026-10-10T20:40:03+00:00"
           }
         }
       },
@@ -43415,7 +43457,22 @@
         "durum": "paylasildi",
         "tweet_id": "2108956895335903600",
         "zaman": "2026-10-10T16:24:37+00:00",
-        "metin": "🆚 Lorient v Paris FC\n\n🏆 Lorient 29% · Draw 26% · Paris FC 45%\n⚽ Over 2.5 goals 47% · Under 53%\n🥅 Both teams score 51% · Not both 49%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: Over 2.5 goals 38%\n💹 Odds: 47%\n\n💬 Not picks. Your read? 👇\n#Ligue1\n18+ | Play responsibly"
+        "metin": "🆚 Lorient v Paris FC\n\n🏆 Lorient 29% · Draw 26% · Paris FC 45%\n⚽ Over 2.5 goals 47% · Under 53%\n🥅 Both teams score 51% · Not both 49%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: Over 2.5 goals 38%\n💹 Odds: 47%\n\n💬 Not picks. Your read? 👇\n#Ligue1\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2109021222923059479",
+          "skor": "1-0",
+          "isabet": [
+            false,
+            true,
+            false
+          ],
+          "zaman": "2026-10-10T20:40:03+00:00",
+          "brier": {
+            "piyasa": 1.2615,
+            "istatistik": 1.2683
+          }
+        }
       },
       "analiz_23": {
         "durum": "paylasildi",

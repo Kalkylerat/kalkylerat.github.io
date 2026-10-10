@@ -42801,6 +42801,15 @@
               1
             ],
             "zaman": "2026-10-10T13:26:09+00:00"
+          },
+          "1550140": {
+            "durum": "paylasildi",
+            "tweet_id": "2108935113224696188",
+            "skor": [
+              2,
+              1
+            ],
+            "zaman": "2026-10-10T14:58:06+00:00"
           }
         }
       },
@@ -42850,7 +42859,22 @@
         "durum": "paylasildi",
         "tweet_id": "2108846713108582711",
         "zaman": "2026-10-10T09:06:47+00:00",
-        "metin": "🆚 Genoa v Fiorentina\n\n🏆 Genoa 31% · Draw 26% · Fiorentina 43%\n⚽ Over 2.5 goals 47% · Under 53%\n🥅 Both teams score 52% · Not both 48%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Team stats: Over 2.5 goals 60%\n💹 Odds: 47%\n\n💬 Not picks. Your read? 👇\n#SerieA\n18+ | Play responsibly"
+        "metin": "🆚 Genoa v Fiorentina\n\n🏆 Genoa 31% · Draw 26% · Fiorentina 43%\n⚽ Over 2.5 goals 47% · Under 53%\n🥅 Both teams score 52% · Not both 48%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Team stats: Over 2.5 goals 60%\n💹 Odds: 47%\n\n💬 Not picks. Your read? 👇\n#SerieA\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2108935138394644684",
+          "skor": "2-1",
+          "isabet": [
+            false,
+            false,
+            true
+          ],
+          "zaman": "2026-10-10T14:58:06+00:00",
+          "brier": {
+            "piyasa": 1.2467,
+            "istatistik": 0.9351
+          }
+        }
       },
       "analiz_7": {
         "durum": "paylasildi",

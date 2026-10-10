@@ -42742,6 +42742,13 @@
         "istatistik_kaynak": "lig"
       }
     ],
-    "etkilesim": {}
+    "etkilesim": {
+      "maclar": {
+        "durum": "paylasildi",
+        "tweet_id": "2108807379177324790",
+        "zaman": "2026-10-10T06:30:20+00:00",
+        "metin": "🆚 Arsenal v Leeds · 13:30\n🏆 Arsenal 68% · Draw 20% · Leeds 12%\n\n🆚 Villa v Brentford · 16:00\n🏆 Villa 34% · Draw 27% · Brentford 38%\n\n📈 Team stats %: none in today's data\n\n💬 Brentford 38% away at Villa: higher or lower?\n#PremierLeague"
+      }
+    }
   }
 ]

@@ -51284,7 +51284,22 @@
         "durum": "paylasildi",
         "tweet_id": "2109274604975878248",
         "zaman": "2026-10-11T13:27:04+00:00",
-        "metin": "🆚 Excelsior v Groningen\n\n🏆 Excelsior 38% · Draw 23% · Groningen 38%\n⚽ Over 2.5 goals 62% · Under 38%\n🥅 Both teams score 64% · Not both 36%\n🎯 Most likely score: 1-1 (10%)\n\n📈 Team stats: Over 2.5 goals 71%\n💹 Odds: 62%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Excelsior v Groningen\n\n🏆 Excelsior 38% · Draw 23% · Groningen 38%\n⚽ Over 2.5 goals 62% · Under 38%\n🥅 Both teams score 64% · Not both 36%\n🎯 Most likely score: 1-1 (10%)\n\n📈 Team stats: Over 2.5 goals 71%\n💹 Odds: 62%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2109323525093757117",
+          "skor": "1-5",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "zaman": "2026-10-11T16:41:24+00:00",
+          "brier": {
+            "piyasa": 0.8583,
+            "istatistik": 0.7261
+          }
+        }
       },
       "analiz_20": {
         "durum": "paylasildi",

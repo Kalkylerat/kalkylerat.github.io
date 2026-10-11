@@ -51401,7 +51401,22 @@
         "durum": "paylasildi",
         "tweet_id": "2109296843565801594",
         "zaman": "2026-10-11T14:55:27+00:00",
-        "metin": "🆚 Mallorca v Las Palmas\n\n🏆 Mallorca 61% · Draw 22% · Las Palmas 17%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 50% · Not both 50%\n🎯 Most likely score: 1-0 (12%)\n\n📈 Team stats: Both teams score 55%\n💹 Odds: 50%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Mallorca v Las Palmas\n\n🏆 Mallorca 61% · Draw 22% · Las Palmas 17%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 50% · Not both 50%\n🎯 Most likely score: 1-0 (12%)\n\n📈 Team stats: Both teams score 55%\n💹 Odds: 50%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2109350390600704362",
+          "skor": "3-1",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "zaman": "2026-10-11T18:28:06+00:00",
+          "brier": {
+            "piyasa": 0.6965,
+            "istatistik": 0.6639
+          }
+        }
       },
       "analiz_24": {
         "durum": "paylasildi",
@@ -51453,6 +51468,12 @@
         "tweet_id": "2109338110333202433",
         "zaman": "2026-10-11T17:39:25+00:00",
         "metin": "🆚 Cadiz v Sporting Gijon\n\n🏆 Cadiz 40% · Draw 27% · Sporting Gijon 33%\n⚽ Over 2.5 goals 44% · Under 56%\n🥅 Both teams score 50% · Not both 50%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Team stats: Over 2.5 goals 36%\n💹 Odds: 44%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+      },
+      "bilgi": {
+        "durum": "paylasildi",
+        "tweet_id": "2109350361307742676",
+        "zaman": "2026-10-11T18:28:06+00:00",
+        "metin": "💡 Odds are chances in a different outfit\n\nDivide 1 by the odds:\n\n📈 2.00 = 50%\n📈 1.50 = 66.7%\n📈 1.25 = 80%\n\nEvery price is a chance written another way.\n\n💬 When you see 1.50, do you picture 66.7% or just \"favourite\"?\n\n18+ | Play responsibly"
       }
     },
     "yanit_kiti": {

@@ -50946,7 +50946,22 @@
         "durum": "paylasildi",
         "tweet_id": "2109219932580012377",
         "zaman": "2026-10-11T09:49:50+00:00",
-        "metin": "🆚 Standard Liege v Charleroi\n\n🏆 Standard Liege 35% · Draw 25% · Charleroi 40%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 57% · Not both 43%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Stats: Over 2.5 goals 38% · odds 53%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Standard Liege v Charleroi\n\n🏆 Standard Liege 35% · Draw 25% · Charleroi 40%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 57% · Not both 43%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Stats: Over 2.5 goals 38% · odds 53%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2109274617646837816",
+          "skor": "0-1",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "zaman": "2026-10-11T13:27:04+00:00",
+          "brier": {
+            "piyasa": 1.155,
+            "istatistik": 0.8669
+          }
+        }
       },
       "analiz_0": {
         "durum": "paylasildi",
@@ -51025,6 +51040,12 @@
         "tweet_id": "2109270293235613763",
         "zaman": "2026-10-11T13:09:56+00:00",
         "metin": "🆚 Almeria v Leganes\n\n🏆 Almeria 58% · Draw 22% · Leganes 20%\n⚽ Over 2.5 goals 55% · Under 45%\n🥅 Both teams score 54% · Not both 46%\n🎯 Most likely score: 1-0 (10%)\n\n📈 Team stats: Both teams score 39%\n💹 Odds: 54%\n\n💬 Not picks. What's your score? 👇\n18+ | Play responsibly"
+      },
+      "analiz_19": {
+        "durum": "paylasildi",
+        "tweet_id": "2109274604975878248",
+        "zaman": "2026-10-11T13:27:04+00:00",
+        "metin": "🆚 Excelsior v Groningen\n\n🏆 Excelsior 38% · Draw 23% · Groningen 38%\n⚽ Over 2.5 goals 62% · Under 38%\n🥅 Both teams score 64% · Not both 36%\n🎯 Most likely score: 1-1 (10%)\n\n📈 Team stats: Over 2.5 goals 71%\n💹 Odds: 62%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
       }
     },
     "yanit_kiti": {

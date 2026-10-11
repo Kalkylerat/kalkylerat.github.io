@@ -50942,6 +50942,15 @@
               2
             ],
             "zaman": "2026-10-11T14:58:45+00:00"
+          },
+          "1557421": {
+            "durum": "paylasildi",
+            "tweet_id": "2109299384709960188",
+            "skor": [
+              3,
+              1
+            ],
+            "zaman": "2026-10-11T15:05:35+00:00"
           }
         }
       },
@@ -51096,7 +51105,22 @@
         "durum": "paylasildi",
         "tweet_id": "2109240856494383297",
         "zaman": "2026-10-11T11:12:58+00:00",
-        "metin": "🆚 Crystal Palace v Nottingham Forest\n\n🏆 Crystal Palace 35% · Draw 26% · Nottingham Forest 39%\n⚽ Over 2.5 goals 51% · Under 49%\n🥅 Both teams score 55% · Not both 45%\n\n📈 Team stats: Crystal Palace win 28%\n💹 Odds: 35%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Crystal Palace v Nottingham Forest\n\n🏆 Crystal Palace 35% · Draw 26% · Nottingham Forest 39%\n⚽ Over 2.5 goals 51% · Under 49%\n🥅 Both teams score 55% · Not both 45%\n\n📈 Team stats: Crystal Palace win 28%\n💹 Odds: 35%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2109299398882570312",
+          "skor": "3-1",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "zaman": "2026-10-11T15:05:35+00:00",
+          "brier": {
+            "piyasa": 1.0952,
+            "istatistik": 1.3038
+          }
+        }
       },
       "analiz_2": {
         "durum": "paylasildi",

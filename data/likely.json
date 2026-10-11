@@ -9569,8 +9569,8 @@
        "oran": 1.36,
        "olasilik": 0.719,
        "deger": -0.022,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "3-1"
       },
       {
        "aday_id": "1570406-CS12",
@@ -9598,7 +9598,7 @@
      "tweet_id": "2109226313194017170",
      "metin": "🎩 The long shot. Small stakes only.\n\n⚽ CA Estudiantes v Deportivo Moron\n⚽ Aberdeen v ST Johnstone\n⚽ Crystal Palace v Nottingham Forest\n⚽ Elche v Celta Vigo\n\n📊 Combined 3.40. I make it about 28% to land.\n\n💬 What would you swap in?\n\n18+ | Play responsibly",
      "yayin": "2026-10-11T10:15:10+00:00",
-     "son_oran": 1
+     "son_oran": 1.36
     }
    ],
    "islenen": [],

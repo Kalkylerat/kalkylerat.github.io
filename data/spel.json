@@ -50815,6 +50815,17 @@
         "istatistik_kaynak": "lig"
       }
     ],
-    "etkilesim": {}
+    "etkilesim": {
+      "maclar": {
+        "durum": "paylasildi",
+        "tweet_id": "2109177658315620374",
+        "zaman": "2026-10-11T07:01:45+00:00",
+        "metin": "🆚 Liverpool v Man City · 17:30 CEST #PremierLeague\n\n🏆 Liverpool 32% · Draw 25% · Man City 43%\n\n🎯 Most likely score: 1-1\n\n📈 Team stats: none in today's data for this one\n\n💬 Man City at 43% away from home. Would you put them higher or lower?"
+      }
+    },
+    "yanit_kiti": {
+      "issue": 48,
+      "zaman": "2026-10-11T07:01:45+00:00"
+    }
   }
 ]

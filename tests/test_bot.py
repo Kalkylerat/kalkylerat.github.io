@@ -2234,6 +2234,12 @@ def test_yogun_gun_yayilim_kartlari_kacirtmaz():
            "analizler": [a(i, "14:00") for i in range(9)] + buyuk}
     durumlar = gunu_oynat(gun, datetime(2026, 10, 3, 11, 30, tzinfo=timezone.utc))
     assert len(durumlar) == 11 and set(durumlar.values()) == {"paylasildi"}
+    # 11 Ekim: aynı saatte başlayan çok kart 08:00 UTC'den önce açılmadı, 08:00–12:25 arasına sığmadı ve biri kaçtı.
+    # Sığmayacaksa kart penceresi sabah analizinden itibaren (en çok maçtan 8 saat önce, B4) öne çekilir.
+    gun = {"tarih": "2026-10-03", "konsept": "analiz", "secimler": [], "etkilesim": {},
+           "olusturma": "2026-10-03T05:35:00+00:00", "analizler": [a(i, "13:00") for i in range(20)]}
+    durumlar = gunu_oynat(gun, datetime(2026, 10, 3, 5, 36, tzinfo=timezone.utc))
+    assert len(durumlar) == 20 and set(durumlar.values()) == {"paylasildi"}
 
 
 def test_yogun_gun_kisa_aralik_ve_aksam_kartlari():

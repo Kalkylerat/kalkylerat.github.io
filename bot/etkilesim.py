@@ -274,6 +274,7 @@ def _son_paylasim(gun: dict, diger: tuple[str, ...] = ()) -> datetime | None:
 
 SAKIN_KART = 6  # SÖZLEŞME B7: büyük maç olmayan günde de en fazla bu kadar ek lig kartı
 KART_PENCERESI = timedelta(hours=8)  # SÖZLEŞME B4: kart maçtan bu kadar önce paylaşılabilir (boşluk doldurur)
+KART_ADIM = timedelta(minutes=20)  # yoğun günde en kötü post adımı: 13 dk aralık + 7 dk nabız
 YAKIN_KART = timedelta(hours=4)  # bundan erken kart, sırada başka post yoksa çıkar
 
 
@@ -313,12 +314,17 @@ def _plan(gun: dict) -> list[tuple[str, datetime, datetime]]:
         if len(gun.get("kiyas") or gun.get("ayrisma") or []) >= 2:  # oran vs istatistik (ikinci tablo): kim haklı?
             ilk = min(datetime.fromisoformat(a["baslama"]) for a in gun.get("kiyas") or gun["ayrisma"])
             plan.append(("ayrisma", _acilis(10, ilk), ilk - timedelta(minutes=30)))
-        for i, a in enumerate(gun.get("analizler") or []):
-            b = datetime.fromisoformat(a["baslama"])
-            plan.append((f"analiz_{i}", max(b - KART_PENCERESI, gun_bas + timedelta(hours=8)), b - timedelta(minutes=35)))
         if vit:
             a = datetime.fromisoformat(anket_maci(vit)["baslama"])
             plan.append(("anket", a - timedelta(hours=3), a - timedelta(minutes=30)))
+        kartlar = [(f"analiz_{i}", datetime.fromisoformat(a["baslama"])) for i, a in enumerate(gun.get("analizler") or [])]
+        # 11 Ekim: aynı saatte başlayan çok kart 08:00'den sonraya sığmadı, biri kaçtı. Son saat sırasındaki k. post
+        # en kötü k adımda çıkar; sığmıyorsa kart penceresi sabah analizinden itibaren öne çekilir (en çok 8 saat, B4).
+        son_saatler = sorted([gec for _, _, gec in plan] + [b - timedelta(minutes=35) for _, b in kartlar])
+        gerekli = min((gec - k * KART_ADIM for k, gec in enumerate(son_saatler, 1)), default=gun_bas)
+        taban = max(min(gun_bas + timedelta(hours=8), gerekli), olus)
+        for tur, b in kartlar:
+            plan.append((tur, max(b - KART_PENCERESI, taban), b - timedelta(minutes=35)))
         return plan
     if vit:
         ilk = min(datetime.fromisoformat(v["baslama"]) for v in vit)

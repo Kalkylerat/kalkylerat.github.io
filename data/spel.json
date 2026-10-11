@@ -50906,6 +50906,24 @@
               0
             ],
             "zaman": "2026-10-11T13:56:46+00:00"
+          },
+          "1550142": {
+            "durum": "paylasildi",
+            "tweet_id": "2109296855582449945",
+            "skor": [
+              3,
+              1
+            ],
+            "zaman": "2026-10-11T14:55:27+00:00"
+          },
+          "1552779": {
+            "durum": "paylasildi",
+            "tweet_id": "2109296856849129918",
+            "skor": [
+              2,
+              1
+            ],
+            "zaman": "2026-10-11T14:55:27+00:00"
           }
         }
       },
@@ -51072,7 +51090,22 @@
         "durum": "paylasildi",
         "tweet_id": "2109249294729347571",
         "zaman": "2026-10-11T11:46:30+00:00",
-        "metin": "🆚 Lazio v Monza\n\n🏆 Lazio 58% · Draw 22% · Monza 19%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 52% · Not both 48%\n🎯 Most likely score: 1-0 (11%)\n\n📈 Team stats: Over 2.5 goals 60%\n💹 Odds: 53%\n\n💬 Not picks. Can Monza beat 19%? 👇\n#SerieA\n18+ | Play responsibly"
+        "metin": "🆚 Lazio v Monza\n\n🏆 Lazio 58% · Draw 22% · Monza 19%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 52% · Not both 48%\n🎯 Most likely score: 1-0 (11%)\n\n📈 Team stats: Over 2.5 goals 60%\n💹 Odds: 53%\n\n💬 Not picks. Can Monza beat 19%? 👇\n#SerieA\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2109296870279319799",
+          "skor": "3-1",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "zaman": "2026-10-11T14:55:27+00:00",
+          "brier": {
+            "piyasa": 0.7122,
+            "istatistik": 0.6019
+          }
+        }
       },
       "analiz_14": {
         "durum": "paylasildi",
@@ -51084,7 +51117,22 @@
         "durum": "paylasildi",
         "tweet_id": "2109257740577014123",
         "zaman": "2026-10-11T12:20:03+00:00",
-        "metin": "🆚 Nice v Strasbourg\n\n🏆 Nice 42% · Draw 24% · Strasbourg 34%\n⚽ Over 2.5 goals 58% · Under 42%\n🥅 Both teams score 60% · Not both 40%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: Over 2.5 goals 65%\n💹 Odds: 58%\n\n💬 Not picks. Your read? 👇\n#Ligue1\n18+ | Play responsibly"
+        "metin": "🆚 Nice v Strasbourg\n\n🏆 Nice 42% · Draw 24% · Strasbourg 34%\n⚽ Over 2.5 goals 58% · Under 42%\n🥅 Both teams score 60% · Not both 40%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: Over 2.5 goals 65%\n💹 Odds: 58%\n\n💬 Not picks. Your read? 👇\n#Ligue1\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2109296883705254360",
+          "skor": "2-1",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "zaman": "2026-10-11T14:55:27+00:00",
+          "brier": {
+            "piyasa": 0.8418,
+            "istatistik": 0.683
+          }
+        }
       },
       "analiz_16": {
         "durum": "atlandi"
@@ -51139,6 +51187,12 @@
         "tweet_id": "2109293089055469711",
         "zaman": "2026-10-11T14:40:24+00:00",
         "metin": "🆚 Real Betis v Osasuna\n\n🏆 Real Betis 63% · Draw 21% · Osasuna 16%\n⚽ Over 2.5 goals 55% · Under 45%\n🥅 Both teams score 51% · Not both 49%\n🎯 Most likely score: 2-0 (11%)\n\n📈 Betis win: odds 63%, team stats 72%\n\n💬 Is Betis closer to 63% or 72%?\n\n18+ | Play responsibly"
+      },
+      "analiz_23": {
+        "durum": "paylasildi",
+        "tweet_id": "2109296843565801594",
+        "zaman": "2026-10-11T14:55:27+00:00",
+        "metin": "🆚 Mallorca v Las Palmas\n\n🏆 Mallorca 61% · Draw 22% · Las Palmas 17%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 50% · Not both 50%\n🎯 Most likely score: 1-0 (12%)\n\n📈 Team stats: Both teams score 55%\n💹 Odds: 50%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
       }
     },
     "yanit_kiti": {

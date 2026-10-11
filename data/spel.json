@@ -51018,7 +51018,22 @@
         "durum": "paylasildi",
         "tweet_id": "2109232682877997228",
         "zaman": "2026-10-11T10:40:30+00:00",
-        "metin": "🆚 Telstar v ADO Den Haag\n\n🏆 Telstar 48% · Draw 23% · ADO Den Haag 29%\n⚽ Over 2.5 goals 61% · Under 39%\n🥅 Both teams score 62% · Not both 38%\n🎯 Most likely score: 1-1 (10%)\n\n📈 Team stats: ADO Den Haag win 44%\n💹 Odds: 29%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Telstar v ADO Den Haag\n\n🏆 Telstar 48% · Draw 23% · ADO Den Haag 29%\n⚽ Over 2.5 goals 61% · Under 39%\n🥅 Both teams score 62% · Not both 38%\n🎯 Most likely score: 1-1 (10%)\n\n📈 Team stats: ADO Den Haag win 44%\n💹 Odds: 29%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2109289223488774502",
+          "skor": "2-2",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "zaman": "2026-10-11T14:25:10+00:00",
+          "brier": {
+            "piyasa": 1.2058,
+            "istatistik": 1.1147
+          }
+        }
       },
       "analiz_12": {
         "durum": "paylasildi",

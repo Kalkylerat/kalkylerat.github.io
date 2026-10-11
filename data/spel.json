@@ -51467,7 +51467,22 @@
         "durum": "paylasildi",
         "tweet_id": "2109308186758881525",
         "zaman": "2026-10-11T15:40:26+00:00",
-        "metin": "🆚 KV Mechelen v St. Truiden\n\n🏆 KV Mechelen 30% · Draw 24% · St. Truiden 46%\n⚽ Over 2.5 goals 57% · Under 43%\n🥅 Both teams score 59% · Not both 41%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: Over 2.5 goals 76% (odds 57%)\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 KV Mechelen v St. Truiden\n\n🏆 KV Mechelen 30% · Draw 24% · St. Truiden 46%\n⚽ Over 2.5 goals 57% · Under 43%\n🥅 Both teams score 59% · Not both 41%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: Over 2.5 goals 76% (odds 57%)\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2109362339770224839",
+          "skor": "4-3",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "zaman": "2026-10-11T19:15:41+00:00",
+          "brier": {
+            "piyasa": 1.1122,
+            "istatistik": 1.1348
+          }
+        }
       },
       "tablo_aksam": {
         "durum": "paylasildi",
@@ -51482,7 +51497,35 @@
           1498868,
           1569962
         ],
-        "sonuclar": {}
+        "sonuclar": {
+          "1558647": {
+            "durum": "paylasildi",
+            "tweet_id": "2109362325073342764",
+            "skor": [
+              4,
+              3
+            ],
+            "zaman": "2026-10-11T19:15:41+00:00"
+          },
+          "1494777": {
+            "durum": "paylasildi",
+            "tweet_id": "2109362326205870258",
+            "skor": [
+              2,
+              2
+            ],
+            "zaman": "2026-10-11T19:15:41+00:00"
+          },
+          "1555517": {
+            "durum": "paylasildi",
+            "tweet_id": "2109362327472447500",
+            "skor": [
+              0,
+              4
+            ],
+            "zaman": "2026-10-11T19:15:41+00:00"
+          }
+        }
       },
       "analiz_26": {
         "durum": "paylasildi",
@@ -51513,6 +51556,12 @@
         "tweet_id": "2109350361307742676",
         "zaman": "2026-10-11T18:28:06+00:00",
         "metin": "💡 Odds are chances in a different outfit\n\nDivide 1 by the odds:\n\n📈 2.00 = 50%\n📈 1.50 = 66.7%\n📈 1.25 = 80%\n\nEvery price is a chance written another way.\n\n💬 When you see 1.50, do you picture 66.7% or just \"favourite\"?\n\n18+ | Play responsibly"
+      },
+      "bilgi_aksam": {
+        "durum": "paylasildi",
+        "tweet_id": "2109362319637553333",
+        "zaman": "2026-10-11T19:15:41+00:00",
+        "metin": "💡 Over 2.5 goals, by the numbers\n\nA game expecting 2.5 goals in total still ends with 3 or more only 45.6% of the time. Expecting 2.5 doesn't make 3+ the likely side.\n\nSurprised it's under half? 👇\n\n18+ | Play responsibly"
       }
     },
     "yanit_kiti": {

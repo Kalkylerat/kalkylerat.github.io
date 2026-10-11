@@ -9554,8 +9554,8 @@
        "oran": 1.35,
        "olasilik": 0.732,
        "deger": -0.012,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "0-1"
       },
       {
        "aday_id": "1557421-CS12",

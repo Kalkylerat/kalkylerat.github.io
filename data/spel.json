@@ -50960,6 +50960,15 @@
               2
             ],
             "zaman": "2026-10-11T16:12:55+00:00"
+          },
+          "1552781": {
+            "durum": "paylasildi",
+            "tweet_id": "2109331981704048793",
+            "skor": [
+              4,
+              1
+            ],
+            "zaman": "2026-10-11T17:15:05+00:00"
           }
         }
       },
@@ -51305,7 +51314,22 @@
         "durum": "paylasildi",
         "tweet_id": "2109278413521363148",
         "zaman": "2026-10-11T13:42:12+00:00",
-        "metin": "🆚 Rennes v Auxerre\n\n🏆 Rennes 67% · Draw 18% · Auxerre 14%\n⚽ Over 2.5 goals 65% · Under 35%\n🥅 Both teams score 57% · Not both 43%\n🎯 Most likely score: 2-0 (10%)\n\n📈 Team stats: Rennes win 47%\n💹 Odds: 67%\n\n💬 Chances, not picks. Your read? 👇\n#Ligue1\n18+ | Play responsibly"
+        "metin": "🆚 Rennes v Auxerre\n\n🏆 Rennes 67% · Draw 18% · Auxerre 14%\n⚽ Over 2.5 goals 65% · Under 35%\n🥅 Both teams score 57% · Not both 43%\n🎯 Most likely score: 2-0 (10%)\n\n📈 Team stats: Rennes win 47%\n💹 Odds: 67%\n\n💬 Chances, not picks. Your read? 👇\n#Ligue1\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2109332004420419930",
+          "skor": "4-1",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "zaman": "2026-10-11T17:15:05+00:00",
+          "brier": {
+            "piyasa": 0.4657,
+            "istatistik": 0.6092
+          }
+        }
       },
       "analiz_4": {
         "durum": "paylasildi",

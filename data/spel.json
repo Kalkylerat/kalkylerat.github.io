@@ -50978,6 +50978,15 @@
               3
             ],
             "zaman": "2026-10-11T17:25:14+00:00"
+          },
+          "1550145": {
+            "durum": "paylasildi",
+            "tweet_id": "2109344683143176397",
+            "skor": [
+              1,
+              1
+            ],
+            "zaman": "2026-10-11T18:05:35+00:00"
           }
         }
       },
@@ -51365,7 +51374,22 @@
         "durum": "paylasildi",
         "tweet_id": "2109287359430721731",
         "zaman": "2026-10-11T14:17:45+00:00",
-        "metin": "🆚 Sassuolo v AC Milan\n\n🏆 Sassuolo 24% · Draw 24% · AC Milan 53%\n⚽ Over 2.5 goals 54% · Under 46%\n🥅 Both teams score 55% · Not both 45%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: Over 2.5 goals 62%\n💹 Odds: 54%\n\n💬 Not picks. Your read? 👇\n#SerieA\n18+ | Play responsibly"
+        "metin": "🆚 Sassuolo v AC Milan\n\n🏆 Sassuolo 24% · Draw 24% · AC Milan 53%\n⚽ Over 2.5 goals 54% · Under 46%\n🥅 Both teams score 55% · Not both 45%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: Over 2.5 goals 62%\n💹 Odds: 54%\n\n💬 Not picks. Your read? 👇\n#SerieA\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2109344697907101856",
+          "skor": "1-1",
+          "isabet": [
+            false,
+            false,
+            true
+          ],
+          "zaman": "2026-10-11T18:05:35+00:00",
+          "brier": {
+            "piyasa": 1.4124,
+            "istatistik": 1.4656
+          }
+        }
       },
       "analiz_22": {
         "durum": "paylasildi",

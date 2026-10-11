@@ -51014,7 +51014,20 @@
               2
             ],
             "zaman": "2026-10-11T20:40:45+00:00"
+          },
+          "1570409": {
+            "durum": "paylasildi",
+            "tweet_id": "2109387559570931977",
+            "skor": [
+              2,
+              2
+            ],
+            "zaman": "2026-10-11T20:55:58+00:00"
           }
+        },
+        "takip": {
+          "durum": "tamam",
+          "zaman": "2026-10-11T20:55:58+00:00"
         }
       },
       "analiz_7": {
@@ -51560,7 +51573,20 @@
               0
             ],
             "zaman": "2026-10-11T20:05:20+00:00"
+          },
+          "1569962": {
+            "durum": "paylasildi",
+            "tweet_id": "2109387561605136524",
+            "skor": [
+              0,
+              1
+            ],
+            "zaman": "2026-10-11T20:55:58+00:00"
           }
+        },
+        "takip": {
+          "durum": "tamam",
+          "zaman": "2026-10-11T20:55:58+00:00"
         }
       },
       "analiz_26": {
@@ -51609,13 +51635,43 @@
         "durum": "paylasildi",
         "tweet_id": "2109334542855377191",
         "zaman": "2026-10-11T17:25:14+00:00",
-        "metin": "🆚 Racing Santander v Valencia\n\n🏆 Racing Santander 43% · Draw 24% · Valencia 32%\n⚽ Over 2.5 goals 57% · Under 43%\n🥅 Both teams score 59% · Not both 41%\n\n📈 Team stats: Racing Santander win 51%\n💹 Odds: 43%\n\n💬 Chances, not picks. Your read? 👇\n#LaLiga\n18+ | Play responsibly"
+        "metin": "🆚 Racing Santander v Valencia\n\n🏆 Racing Santander 43% · Draw 24% · Valencia 32%\n⚽ Over 2.5 goals 57% · Under 43%\n🥅 Both teams score 59% · Not both 41%\n\n📈 Team stats: Racing Santander win 51%\n💹 Odds: 43%\n\n💬 Chances, not picks. Your read? 👇\n#LaLiga\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2109387575836508571",
+          "skor": "2-2",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "zaman": "2026-10-11T20:55:58+00:00",
+          "brier": {
+            "piyasa": 1.2214,
+            "istatistik": 1.2729
+          }
+        }
       },
       "analiz_29": {
         "durum": "paylasildi",
         "tweet_id": "2109338110333202433",
         "zaman": "2026-10-11T17:39:25+00:00",
-        "metin": "🆚 Cadiz v Sporting Gijon\n\n🏆 Cadiz 40% · Draw 27% · Sporting Gijon 33%\n⚽ Over 2.5 goals 44% · Under 56%\n🥅 Both teams score 50% · Not both 50%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Team stats: Over 2.5 goals 36%\n💹 Odds: 44%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Cadiz v Sporting Gijon\n\n🏆 Cadiz 40% · Draw 27% · Sporting Gijon 33%\n⚽ Over 2.5 goals 44% · Under 56%\n🥅 Both teams score 50% · Not both 50%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Team stats: Over 2.5 goals 36%\n💹 Odds: 44%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2109387586343240143",
+          "skor": "0-1",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "zaman": "2026-10-11T20:55:58+00:00",
+          "brier": {
+            "piyasa": 1.1288,
+            "istatistik": 0.9767
+          }
+        }
       },
       "bilgi": {
         "durum": "paylasildi",

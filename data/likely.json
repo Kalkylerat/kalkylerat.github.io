@@ -7748,7 +7748,7 @@
   {
    "tarih": "2026-10-11",
    "olusturma": "2026-10-11T05:35:10+00:00",
-   "durum": "secildi",
+   "durum": "bitti",
    "havuz": [
     {
      "aday_id": "1494293-CS1X",
@@ -9542,8 +9542,8 @@
        "oran": 1.36,
        "olasilik": 0.737,
        "deger": 0.002,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "2-0"
       },
       {
        "aday_id": "1556670-CS1X",
@@ -9601,7 +9601,9 @@
      "tweet_id": "2109226313194017170",
      "metin": "🎩 The long shot. Small stakes only.\n\n⚽ CA Estudiantes v Deportivo Moron\n⚽ Aberdeen v ST Johnstone\n⚽ Crystal Palace v Nottingham Forest\n⚽ Elche v Celta Vigo\n\n📊 Combined 3.40. I make it about 28% to land.\n\n💬 What would you swap in?\n\n18+ | Play responsibly",
      "yayin": "2026-10-11T10:15:10+00:00",
-     "son_oran": 1.36
+     "son_oran": 1.85,
+     "sonuc_metni": "❌ Coupon down.\n\n✅ CA Estudiantes 2-0 Deportivo Moron: Double chance 1X\n❌ Aberdeen 0-1 ST Johnstone: Double chance 1X\n✅ Crystal Palace 3-1 Nottingham Forest: Double chance 12\n❌ Elche 0-0 Celta Vigo: Double chance 12\n\nRecord: 3 of 9 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2109381668939137160"
     }
    ],
    "islenen": [],

@@ -9494,8 +9494,8 @@
        "oran": 1.19,
        "olasilik": 0.813,
        "deger": -0.033,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "2-1"
       },
       {
        "aday_id": "1558232-ALT35",
@@ -9516,13 +9516,16 @@
      "oran": 2.04,
      "olasilik": 0.473,
      "deger": -0.035,
-     "durum": "bekliyor",
+     "durum": "tuttu",
      "secim": "2026-10-11T05:35:10+00:00",
      "oto": true,
      "paylas": "2026-10-11T11:30:00+02:00",
      "tweet_id": "2109215816059121700",
      "metin": "🎩 Three today. One more leg than I'd like, but here we are.\n\n⚽ Lazio v Monza\n⚽ Beşiktaş v Kocaelispor\n⚽ ŁKS Łódź v Ruch Chorzów\n\n📊 Combined 2.04. I make it about 47% to land.\n\n💬 Which of these do you trust least?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-11T09:33:24+00:00"
+     "yayin": "2026-10-11T09:33:24+00:00",
+     "son_oran": 2.04,
+     "sonuc_metni": "✅ All in at 2.04. Home. Pleased, but I'll keep my voice down.\n\n✅ Lazio 3-1 Monza: Double chance 1X\n✅ Beşiktaş 2-1 Kocaelispor: Over 1.5 goals\n✅ ŁKS Łódź 0-2 Ruch Chorzów: Under 3.5 goals\n\nRecord: 3 of 9 landed. On to the next one.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2109342713552240966"
     },
     {
      "ad": "long-shot",

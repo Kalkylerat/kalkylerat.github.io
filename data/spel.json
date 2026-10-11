@@ -50987,6 +50987,15 @@
               1
             ],
             "zaman": "2026-10-11T18:05:35+00:00"
+          },
+          "1570405": {
+            "durum": "paylasildi",
+            "tweet_id": "2109352127118131496",
+            "skor": [
+              5,
+              2
+            ],
+            "zaman": "2026-10-11T18:35:10+00:00"
           }
         }
       },
@@ -51395,7 +51404,22 @@
         "durum": "paylasildi",
         "tweet_id": "2109293089055469711",
         "zaman": "2026-10-11T14:40:24+00:00",
-        "metin": "🆚 Real Betis v Osasuna\n\n🏆 Real Betis 63% · Draw 21% · Osasuna 16%\n⚽ Over 2.5 goals 55% · Under 45%\n🥅 Both teams score 51% · Not both 49%\n🎯 Most likely score: 2-0 (11%)\n\n📈 Betis win: odds 63%, team stats 72%\n\n💬 Is Betis closer to 63% or 72%?\n\n18+ | Play responsibly"
+        "metin": "🆚 Real Betis v Osasuna\n\n🏆 Real Betis 63% · Draw 21% · Osasuna 16%\n⚽ Over 2.5 goals 55% · Under 45%\n🥅 Both teams score 51% · Not both 49%\n🎯 Most likely score: 2-0 (11%)\n\n📈 Betis win: odds 63%, team stats 72%\n\n💬 Is Betis closer to 63% or 72%?\n\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2109352141835878710",
+          "skor": "5-2",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "zaman": "2026-10-11T18:35:10+00:00",
+          "brier": {
+            "piyasa": 0.6429,
+            "istatistik": 0.675
+          }
+        }
       },
       "analiz_23": {
         "durum": "paylasildi",
@@ -51422,7 +51446,22 @@
         "durum": "paylasildi",
         "tweet_id": "2109301203058262371",
         "zaman": "2026-10-11T15:12:46+00:00",
-        "metin": "🆚 KVC Westerlo v Antwerp\n\n🏆 KVC Westerlo 47% · Draw 23% · Antwerp 30%\n⚽ Over 2.5 goals 62% · Under 38%\n🥅 Both teams score 63% · Not both 37%\n🎯 Most likely score: 1-1 (10%)\n\n📈 Team stats: Antwerp win 46%\n💹 Odds: 30%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 KVC Westerlo v Antwerp\n\n🏆 KVC Westerlo 47% · Draw 23% · Antwerp 30%\n⚽ Over 2.5 goals 62% · Under 38%\n🥅 Both teams score 63% · Not both 37%\n🎯 Most likely score: 1-1 (10%)\n\n📈 Team stats: Antwerp win 46%\n💹 Odds: 30%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2109352154540458280",
+          "skor": "5-1",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "zaman": "2026-10-11T18:35:10+00:00",
+          "brier": {
+            "piyasa": 0.7054,
+            "istatistik": 0.8372
+          }
+        }
       },
       "analiz_25": {
         "durum": "paylasildi",

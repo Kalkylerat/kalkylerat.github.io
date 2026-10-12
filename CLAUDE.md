@@ -6,5 +6,7 @@
 - Sahibiyle Türkçe konuş; postlar İngilizce.
 - X kuralları (SOZLESME.md D bölümü) her öneride önce kontrol edilir: otomatik takip/beğeni/başkalarına yanıt yok.
 - Büyüme ve içerik soruları için `.claude/skills/sosyal-medya/SKILL.md`.
+- Saatlik sağlık kontrolü, alarmlar, workflow'lar ve paylaşım zamanlaması için `.claude/skills/nobet/SKILL.md`
+  (hızlı durum: `python -m bot.durum`).
 - **Mr. Likely** (ikinci hesap, otomatik mod): `bot/likely.py`, görsel `bot/likely_gorsel.py`, kurallar SOZLESME.md
   E bölümü, karakter ve kurulum `marka/MR_LIKELY.md`. Kuponu sabit kurallar seçer (E6); kuralları gevşetmeden önce sahibine sor.

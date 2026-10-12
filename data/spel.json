@@ -57857,6 +57857,15 @@
               2
             ],
             "zaman": "2026-10-12T20:39:03+00:00"
+          },
+          "1550146": {
+            "durum": "paylasildi",
+            "tweet_id": "2109747732701139062",
+            "skor": [
+              2,
+              1
+            ],
+            "zaman": "2026-10-12T20:47:10+00:00"
           }
         }
       },
@@ -57960,7 +57969,22 @@
         "durum": "paylasildi",
         "tweet_id": "2109602714460033228",
         "zaman": "2026-10-12T11:10:52+00:00",
-        "metin": "🆚 Torino v Udinese\n\n🏆 Torino 42% · Draw 27% · Udinese 30%\n⚽ Over 2.5 goals 44% · Under 56%\n🥅 Both teams score 49% · Not both 51%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Team stats: Over 2.5 goals 62%\n💹 Odds: 44%\n\n💬 Not picks. Your read? 👇\n#SerieA\n18+ | Play responsibly"
+        "metin": "🆚 Torino v Udinese\n\n🏆 Torino 42% · Draw 27% · Udinese 30%\n⚽ Over 2.5 goals 44% · Under 56%\n🥅 Both teams score 49% · Not both 51%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Team stats: Over 2.5 goals 62%\n💹 Odds: 44%\n\n💬 Not picks. Your read? 👇\n#SerieA\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2109747777286574232",
+          "skor": "2-1",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "zaman": "2026-10-12T20:47:10+00:00",
+          "brier": {
+            "piyasa": 1.0634,
+            "istatistik": 0.8583
+          }
+        }
       },
       "analiz_3": {
         "durum": "paylasildi",

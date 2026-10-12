@@ -11581,8 +11581,8 @@
        "oran": 1.26,
        "olasilik": 0.774,
        "deger": -0.025,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "0-4"
       },
       {
        "aday_id": "1570407-CS12",

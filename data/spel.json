@@ -57812,6 +57812,33 @@
               0
             ],
             "zaman": "2026-10-12T18:51:54+00:00"
+          },
+          "1584423": {
+            "durum": "paylasildi",
+            "tweet_id": "2109720625262805337",
+            "skor": [
+              0,
+              4
+            ],
+            "zaman": "2026-10-12T18:59:26+00:00"
+          },
+          "1494295": {
+            "durum": "paylasildi",
+            "tweet_id": "2109720626344984824",
+            "skor": [
+              1,
+              0
+            ],
+            "zaman": "2026-10-12T18:59:26+00:00"
+          },
+          "1494776": {
+            "durum": "paylasildi",
+            "tweet_id": "2109720627469070727",
+            "skor": [
+              2,
+              1
+            ],
+            "zaman": "2026-10-12T18:59:26+00:00"
           }
         }
       },
@@ -57867,7 +57894,22 @@
         "durum": "paylasildi",
         "tweet_id": "2109582816841204046",
         "zaman": "2026-10-12T09:51:38+00:00",
-        "metin": "🆚 Eyüpspor v Göztepe\n\n🏆 Eyüpspor 25% · Draw 24% · Göztepe 51%\n⚽ Over 2.5 goals 55% · Under 45%\n🥅 Both teams score 56% · Not both 44%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Over 2.5 goals: stats 68%, odds 55%\n\n💬 Which number do you trust for goals?\n18+ | Play responsibly"
+        "metin": "🆚 Eyüpspor v Göztepe\n\n🏆 Eyüpspor 25% · Draw 24% · Göztepe 51%\n⚽ Over 2.5 goals 55% · Under 45%\n🥅 Both teams score 56% · Not both 44%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Over 2.5 goals: stats 68%, odds 55%\n\n💬 Which number do you trust for goals?\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2109720641918390471",
+          "skor": "0-4",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "zaman": "2026-10-12T18:59:26+00:00",
+          "brier": {
+            "piyasa": 0.8725,
+            "istatistik": 1.1026
+          }
+        }
       },
       "ayrisma": {
         "durum": "paylasildi",
@@ -57960,19 +58002,64 @@
         "durum": "paylasildi",
         "tweet_id": "2109635869430907293",
         "zaman": "2026-10-12T13:22:27+00:00",
-        "metin": "🆚 Malmo FF v Kalmar FF\n\n🏆 Malmo FF 54% · Draw 24% · Kalmar FF 23%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 54% · Not both 46%\n🎯 Score 1-1 (11%)\n\n📈 Over 2.5 goals: stats 61%\n\n💬 Odds 53%, stats 61%. Which is closer?\n18+ | Play responsibly"
+        "metin": "🆚 Malmo FF v Kalmar FF\n\n🏆 Malmo FF 54% · Draw 24% · Kalmar FF 23%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 54% · Not both 46%\n🎯 Score 1-1 (11%)\n\n📈 Over 2.5 goals: stats 61%\n\n💬 Odds 53%, stats 61%. Which is closer?\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2109720653410804110",
+          "skor": "1-0",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "zaman": "2026-10-12T18:59:26+00:00",
+          "brier": {
+            "piyasa": 0.891,
+            "istatistik": 1.037
+          }
+        }
       },
       "analiz_10": {
         "durum": "paylasildi",
         "tweet_id": "2109642330986696721",
         "zaman": "2026-10-12T13:48:10+00:00",
-        "metin": "🆚 KFUM Oslo v Valerenga\n\n🏆 KFUM Oslo 34% · Draw 24% · Valerenga 42%\n⚽ Over 2.5 goals 60% · Under 40%\n🥅 Both teams score 62% · Not both 38%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: KFUM Oslo win 49%\n💹 Odds: 34%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 KFUM Oslo v Valerenga\n\n🏆 KFUM Oslo 34% · Draw 24% · Valerenga 42%\n⚽ Over 2.5 goals 60% · Under 40%\n🥅 Both teams score 62% · Not both 38%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: KFUM Oslo win 49%\n💹 Odds: 34%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2109720697681703116",
+          "skor": "2-1",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "zaman": "2026-10-12T18:59:26+00:00",
+          "brier": {
+            "piyasa": 0.9818,
+            "istatistik": 0.7034
+          }
+        }
       },
       "analiz_11": {
         "durum": "paylasildi",
         "tweet_id": "2109649657660166633",
         "zaman": "2026-10-12T14:17:24+00:00",
-        "metin": "🆚 Aarhus v Sonderjyske\n\n🏆 Aarhus 61% · Draw 20% · Sonderjyske 18%\n⚽ Over 2.5 goals 63% · Under 37%\n🥅 Both teams score 59% · Not both 41%\n🎯 Most likely score: 2-1 (10%)\n\n📈 Team stats: Aarhus win 44%\n💹 Odds: 61%\n\n💬 Not picks. Aarhus 61%: too high? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Aarhus v Sonderjyske\n\n🏆 Aarhus 61% · Draw 20% · Sonderjyske 18%\n⚽ Over 2.5 goals 63% · Under 37%\n🥅 Both teams score 59% · Not both 41%\n🎯 Most likely score: 2-1 (10%)\n\n📈 Team stats: Aarhus win 44%\n💹 Odds: 61%\n\n💬 Not picks. Aarhus 61%: too high? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2109720730648838456",
+          "skor": "3-0",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "zaman": "2026-10-12T18:59:26+00:00",
+          "brier": {
+            "piyasa": 0.7082,
+            "istatistik": 1.0232
+          }
+        }
       },
       "analiz_12": {
         "durum": "paylasildi",

@@ -38,6 +38,8 @@ Kurallar: `SOZLESME.md` (değişmez), çalışma kuralları: `CLAUDE.md`. Sahibi
   9 Ekim'de CEST saatleri UTC sanıldı, yanlış rapor verildi.
 - Büyük maç dışı kaçan kart alarm üretmez (bilinçli, `saglik._buyuk_kart`), ama sahibine bildirilmeli;
   `bot.durum` bunu "atlanan postlar" olarak yazar.
+- **Yeni (bulut) oturumda `python -m bot.durum` `ModuleNotFoundError` verir:** bağımlılıklar kurulu değildir,
+  `pip install -q -r requirements.txt` çalıştır. Bu bir arıza değil, oturumun temiz olmasıdır.
 - Yerelde test için gerekirse: `pip install --ignore-installed cryptography`. Testler: `python -m pytest -q` (hepsi yeşil olmalı).
 - `git checkout <dosya>` yerel değişikliği siler; eski davranışı denemek için `git stash push <dosya>`.
 - Tek seferlik ağ hatası (RemoteDisconnected vb.) sonraki nabızlar başarılıysa müdahale gerektirmez.

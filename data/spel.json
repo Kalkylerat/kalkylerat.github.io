@@ -57866,6 +57866,15 @@
               1
             ],
             "zaman": "2026-10-12T20:47:10+00:00"
+          },
+          "1557420": {
+            "durum": "paylasildi",
+            "tweet_id": "2109749558066729180",
+            "skor": [
+              4,
+              1
+            ],
+            "zaman": "2026-10-12T20:54:24+00:00"
           }
         }
       },
@@ -57990,7 +57999,22 @@
         "durum": "paylasildi",
         "tweet_id": "2109609367167254815",
         "zaman": "2026-10-12T11:37:07+00:00",
-        "metin": "🆚 Coventry v Newcastle\n\n🏆 Coventry 31% · Draw 24% · Newcastle 44%\n⚽ Over 2.5 goals 55% · Under 45%\n🥅 Both teams score 58% · Not both 42%\n🎯 1-1 at 11%\n\n📈 Stats: Newcastle win 58%\n💹 Odds: 44%\n\n💬 Stats or odds on Newcastle: which do you trust?\n18+ | Play responsibly"
+        "metin": "🆚 Coventry v Newcastle\n\n🏆 Coventry 31% · Draw 24% · Newcastle 44%\n⚽ Over 2.5 goals 55% · Under 45%\n🥅 Both teams score 58% · Not both 42%\n🎯 1-1 at 11%\n\n📈 Stats: Newcastle win 58%\n💹 Odds: 44%\n\n💬 Stats or odds on Newcastle: which do you trust?\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2109749572939739319",
+          "skor": "4-1",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "zaman": "2026-10-12T20:54:24+00:00",
+          "brier": {
+            "piyasa": 1.1064,
+            "istatistik": 1.4503
+          }
+        }
       },
       "analiz_4": {
         "durum": "paylasildi",

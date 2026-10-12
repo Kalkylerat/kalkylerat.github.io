@@ -58134,6 +58134,15 @@
               0
             ],
             "zaman": "2026-10-12T19:51:19+00:00"
+          },
+          "1565270": {
+            "durum": "paylasildi",
+            "tweet_id": "2109735775097311422",
+            "skor": [
+              3,
+              4
+            ],
+            "zaman": "2026-10-12T19:59:31+00:00"
           }
         }
       },
@@ -58172,6 +58181,12 @@
         "tweet_id": "2109725493952213106",
         "zaman": "2026-10-12T19:18:48+00:00",
         "metin": "💡 How a goal model thinks\n\nMany models treat goals like a Poisson process. If a team is expected to score 1.5, the chance it scores none is 22.3%, and the chance it scores 3+ is 19.1%.\n\nDoes a team expected to score 1.5 drawing a blank surprise you? 👇\n\n18+ | Play responsibly"
+      },
+      "analiz_19": {
+        "durum": "paylasildi",
+        "tweet_id": "2109735767094485461",
+        "zaman": "2026-10-12T19:59:31+00:00",
+        "metin": "🆚 Gimnasia M. v Newells Old Boys\n\n🏆 Gimnasia M. 42% · Draw 29% · Newells Old Boys 29%\n⚽ Over 2.5 goals 36% · Under 64%\n🥅 Both teams score 43% · Not both 57%\n\n📈 Team stats: Gimnasia M. win 51%\n💹 Odds: 42%\n\n💬 Chances, not picks. What's your score? 👇\n18+ | Play responsibly"
       }
     },
     "yanit_kiti": {

@@ -9834,7 +9834,7 @@
   {
    "tarih": "2026-10-12",
    "olusturma": "2026-10-12T05:38:29+00:00",
-   "durum": "secildi",
+   "durum": "bitti",
    "havuz": [
     {
      "aday_id": "1494290-CS1X",
@@ -11596,20 +11596,23 @@
        "oran": 1.36,
        "olasilik": 0.706,
        "deger": -0.04,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "3-3"
       }
      ],
      "oran": 2.02,
      "olasilik": 0.463,
      "deger": -0.065,
-     "durum": "bekliyor",
+     "durum": "yatti",
      "secim": "2026-10-12T05:38:29+00:00",
      "oto": true,
      "paylas": "2026-10-12T15:30:00+02:00",
      "tweet_id": "2109639354322739324",
      "metin": "🎩 A treble today. One leg more than I like.\n\n⚽ Atalanta v Venezia\n⚽ Eyüpspor v Göztepe\n⚽ Levante v Sevilla\n\n📊 Combined 2.02. I make it about 46% to land, so it probably loses more often than it wins.\n\n💬 Too cautious or about right?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-12T13:36:25+00:00"
+     "yayin": "2026-10-12T13:36:25+00:00",
+     "son_oran": 1.49,
+     "sonuc_metni": "❌ One leg short. The classic. Coupon down. I had it at 46%, which was never 100, and I knew it.\n\n✅ Atalanta 3-1 Venezia: Double chance 1X\n✅ Eyüpspor 0-4 Göztepe: Over 1.5 goals\n❌ Levante 3-3 Sevilla: Double chance 12\n\nRecord: 3 of 11 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2109753491627344122"
     },
     {
      "ad": "long-shot",

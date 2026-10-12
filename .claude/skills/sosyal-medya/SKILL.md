@@ -5,20 +5,20 @@ description: X (Twitter) büyüme ve içerik uzmanı — Kalkylerat hesabının 
 
 # Kalkylerat – X büyüme rehberi
 
-Hesap: @kalkylerat. İngilizce, geniş futbol kitlesi. **Konsept (Ekim 2026'dan beri): analiz** — kupon, stake,
-kasa yok. Her gün bütün maçlar analiz edilir (`bot/analiz.py`, data/analiz/<tarih>.json); X'te günde 3 analiz kartı
-(`gorsel.analiz_karti`), maç bitince kartın alıntısıyla "ne dedik, ne oldu" (`etkilesim.analiz_takibi`), anket,
-günün maçları, bilgi postu. Plan: Türkçe hesap (@kalkyleratTR, altın palet) ve bütün analizler için ücretli kanal.
-Eski kupon düzeni `ayarlar.toml` konsept.mod = "kupon" ile geri açılabilir; aşağıdaki kupon maddeleri o düzen içindir.
-Bot: `bot/tweets.py` (metinler), `bot/gorsel.py` (kupon kartı), `bot/onay.py` (paylaşım öncesi onay),
+Hesap: @kalkylerat. İngilizce, geniş futbol kitlesi. **Konsept: analiz** (Ekim 2026'dan beri; kupon, stake,
+kasa yok). Her gün bütün maçlar analiz edilir (`bot/analiz.py`, data/analiz/<tarih>.json); X'te sabah tablosu, analiz
+kartları (`gorsel.analiz_karti`; yoğun günde 30'a kadar), maç bitince kartın alıntısıyla maç sonu postu
+(`etkilesim.analiz_takibi`), tablo altına sonuç yanıtları, anket, günün maçları, iki bilgi postu. Kurallar SOZLESME.md.
+Plan: Türkçe hesap (@kalkyleratTR, altın palet) ve bütün analizler için ücretli kanal. Kupon yalnızca Mr. Likely'de.
+Bot: `bot/etkilesim.py` (paylaşım akışı), `bot/tweets.py` (metinler), `bot/gorsel.py` (görseller),
 zamanlama `.github/workflows/kalkylerat.yml`.
 
 ## Değişmez kurallar (her öneride önce bunları kontrol et)
-- Sahibinin adı hiçbir yerde görünmez. Bahis sitesi adı / linki / reklamı yok. Her kupon ve özette "18+ | Play responsibly".
+- Sahibinin adı hiçbir yerde görünmez. Bahis sitesi adı / linki / reklamı yok. Her postta "18+" satırı.
 - Kesinlik dili yok ("lock", "sure", "guaranteed"). İhtimallerle konuş.
 - Otomatik olarak başkalarına yanıt, etiketleme (@), DM, beğeni, takip YOK (X otomasyon kuralı; hesap kapanır).
   Başkalarının tweetlerine yanıtları sahibi elle yapar; bot en fazla öneri metni hazırlar.
-- Maç başladıktan sonra paylaşım silinmez; kaybedilen kuponlar da aynı görünürlükle paylaşılır.
+- Maç başladıktan sonra paylaşım silinmez; tutmayan analiz de maç sonu postunda aynı görünürlükle yazılır.
 - Botun tweetlerine link koyma (X linkli tweetin erişimini düşürür, API ücreti ~13x). Link gerekiyorsa yanıtta.
 
 ## Algoritma gerçekleri (2026)
@@ -45,8 +45,8 @@ zamanlama `.github/workflows/kalkylerat.yml`.
   başkalarına yanıtlar yanıt kitiyle sahibi tarafından elle, metni değiştirilerek atılır.
 - Trend konularda otomatik post yok; otomatik postta en fazla 1 ilgili hashtag (liste postunda 2), genel/trend
   etiketi (#Football, #FootballPredictions) yok (tweets.LISTE_ETIKET_SINIRI, etiket_satiri).
-- Aynı metin aynı gün iki kez paylaşılmaz (etkilesim._TekrarKorumasi); günde en fazla 24 etkileşim postu, yoğun
-  günde postlar arası ≥28 dk ([yogun]); tablo yanıtları nabız başına en fazla 3.
+- Aynı metin aynı gün iki kez paylaşılmaz (etkilesim._TekrarKorumasi); günde en fazla 40 post (maç sonu ve tablo
+  yanıtları hariç), postlar arası en az 13 dk (yoğun gün) / 45 dk (normal gün); tablo yanıtları nabız başına en fazla 3.
 - Topluluğa günde yalnızca tablo ve oran/istatistik postu; kartlar gitmez.
 - Yalnızca resmi API; kazıyıcı, tarayıcı otomasyonu, Cloudflare atlatma yok.
 - Bahis dili yok, kesinlik dili yok, link yok (denetçi + direktör kuralları).
@@ -60,26 +60,19 @@ zamanlama `.github/workflows/kalkylerat.yml`.
   hesabı kapatır. Kullanılmaz.
 
 ## Kalkylerat için işe yarayanlar
-1. **Şeffaf rekor** en büyük koz: kazanç ve kayıp aynı görünürlükte, haftalık özet, zamanla kasa grafiği.
-2. **Her gün aynı saatlerde** (hafta içi öğle, hafta sonu sabah) kupon + gece sonuç: alışkanlık yaratır.
-3. **Yoruma davet eden gerçek soru** (tweets.KUPON_SORULARI) — fikir sor, tuzak kurma. Soruları haftalık döndür.
+1. **Şeffaflık** en büyük koz: her kartın maç sonu postu, tutsa da tutmasa da maç öncesi yüzdeyle aynı görünürlükte.
+2. **Her gün aynı ritim**: sabah tablo, gün boyu kartlar, akşam tablo ve sonuçlar; alışkanlık yaratır.
+3. **Yoruma davet eden gerçek soru** (etkilesim.kart_sorusu): maça özel, dönüşümlü; tuzak kurma.
 4. **İlk saat**: sahibi paylaşımdan sonraki 30–60 dk'da gelen yorumlara @kalkylerat'tan kısa, bilgi veren cevaplar yazar.
 5. **Günlük elle yanıt**: büyük futbol hesaplarının maç tweetlerine 10–20 anlamlı yanıt (istatistik, kısa gerekçe).
-6. **Kilometre taşları** (ilk 10 kupon, %X kasa, 1. ay) ayrı tweet ve sabit tweet güncellemesi.
-7. **Doğru tahmin, kötü fiyat** ("GOOD CALL, POOR PRICE", `etkilesim.deger_tweeti`): kazanmasını beklediğimiz ama
-   oranı adil oranımızın altında olduğu için kupona koymadığımız maçlar (ör. Almanya %80, oran 1.20, adil 1.25).
-   Disiplini gösterir ("olası sonuç ≠ değerli bahis"), maç bitince "haklı mıydık" konuşması doğurur. Tavsiye değildir:
-   "kuponda değil" çerçevesi, ihtimal + oran + adil oran ve 18+ satırı hep durur; "oynayın" denmez.
-   Maçlar bitince bu post **alıntılanır** ("HOW THEY ENDED", `etkilesim.deger_takibi`): skorlar, tahminin tutup
-   tutmadığı ve fiyatın neden yine de önemli olduğu tek satırda (ör. "€100 on each made just +€50"). Haklı da çıksak
-   yanılsak da paylaşılır: şeffaflık hesabın kozu.
-8. **Soru kuponla tutarlı olmalı**: tek maçlık kuponda çoğul ya da karşılaştırma sorusu sorulmaz ("hangi sonuç
-   şaşırttı?" — başka maç yok). Tek maçta soru o maçın adıyla sorulur ("How did you read Wales v Norway?").
-9. **Günlük bilgi postu** (`bot/bilgi.py`, 20 konu sırayla): oran = olasılık, marj, değer, kombine, kayıp serileri,
+6. **Kilometre taşları** (1. ay, 1.000 analiz) ayrı tweet ve sabit tweet güncellemesi.
+7. **Soru posta uygun olmalı**: tek maçlık postta çoğul ya da karşılaştırma sorusu sorulmaz; soru o maçın adıyla
+   sorulur ("How did you read Wales v Norway?").
+8. **Günlük bilgi postu** (`bot/bilgi.py`, 20 konu sırayla): oran = olasılık, marj, değer, kombine, kayıp serileri,
    %1 kasa, Kelly, Asya handikapı, Poisson, xG, örneklem, kapanış oranı… Sayıların hepsi tanım gereği doğru ya da
    kodda hesaplanmış; istatistik iddiası yok. Direktör doğal dille yazar ama olgularda olmayan sayı kullanamaz (kod
    denetler). Sonunda gerçek bir soru. Robot gibi değil: her gün farklı açılış, kalıp cümle yok.
-10. **Hashtag:** taraftarların zaten kullandığı etiketler (`tweets.MILLI_ETIKETLER`: #BizimÇocuklar, #ThreeLions,
+9. **Hashtag:** taraftarların zaten kullandığı etiketler (`tweets.MILLI_ETIKETLER`: #BizimÇocuklar, #ThreeLions,
     #LesBleus...; kulüpler: #Arsenal, #COYS...). Uydurma kod etiketi (#FRAITA) yok. Liste postu (günün analiz tablosu)
     istisna (sahibinin kararı): tablodaki maçların takım etiketleri + turnuva + #Football #FootballPredictions, en
     fazla 8. Bahis etiketleri (#BettingTips) hiçbir postta yok. Diğer postlarda en fazla 1–2 ve yalnızca büyük turnuva/lig için (#UCL, #PremierLeague); her tweette değil.

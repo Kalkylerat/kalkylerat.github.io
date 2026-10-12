@@ -13,6 +13,7 @@ ONIZLEME_KLASORU = config.ROOT / "docs" / "onizleme"
 ISTEK_DOSYASI = config.ROOT / "onay_istegi.md"  # iş akışı bu dosya varsa issue açar
 AYRAC = "<<<SONRAKI_ISTEK>>>\n"  # dosyada birden fazla istek varsa aralarında
 ETIKET = "onay"
+ESKIYI_KAPAT = ("alarm", "yanit-kiti", "rapor", "mr-likely")  # yenisi açılınca eskisi kapanan günlük/haftalık issue'lar
 OK = {"ok", "okay", "onay", "onayla", "onaylıyorum", "evet", "tamam", "paylas", "paylaş", "yes"}
 # "iptal" = "bir hata var, dur": kupon bekletilir (paylaşılmaz), sahibi hatayı Claude'a söyler, düzeltilince
 # yeni önizleme gelir. Düzeltme gelmezse o gün paylaşım olmaz.
@@ -141,7 +142,23 @@ class GitHub:
     def issue_ac(self, baslik: str, govde: str, etiket: str) -> int:
         r = self.s.post(self._url("issues"), json={"title": baslik, "body": govde, "labels": [etiket]}, timeout=30)
         r.raise_for_status()
-        return r.json()["number"]
+        no = r.json()["number"]
+        if etiket in ESKIYI_KAPAT:
+            self._eskileri_kapat(etiket, no)
+        return no
+
+    def _eskileri_kapat(self, etiket: str, yeni: int) -> None:
+        """Aynı etiketli eski issue'ları kapatır: sahibinin listesinde yalnızca güncel olan açık kalsın (12 Ekim).
+        Başarısız olursa yeni issue yine açılmıştır; kapatma bir sonraki sefere kalır."""
+        try:
+            r = self.s.get(self._url("issues"), params={"labels": etiket, "state": "open", "per_page": 50}, timeout=30)
+            r.raise_for_status()
+            for i in r.json():
+                if i["number"] != yeni and "pull_request" not in i:
+                    self.s.patch(self._url(f"issues/{i['number']}"), json={"state": "closed", "state_reason": "completed"},
+                                 timeout=30).raise_for_status()
+        except requests.RequestException as e:
+            print(f"Eski {etiket} issue'ları kapatılamadı: {e}")
 
     def kapat(self, no: int, mesaj: str) -> None:
         self.yorum(no, mesaj)

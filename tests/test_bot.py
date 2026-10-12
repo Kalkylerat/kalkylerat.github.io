@@ -2470,3 +2470,35 @@ def test_toplu_oranlarda_ayni_macin_kayitlari_birlestirilir():
             return {"response": [kayit("Pinnacle", "1.90"), kayit("Bet365", "1.85")], "paging": {"current": 1, "total": 1}}
     oranlar = football.toplu_oranlar(Api(), "2026-10-06", "Europe/Stockholm", 5)
     assert set(oranlar[7]) == {"Pinnacle", "Bet365"} and oranlar[7]["Pinnacle"]["MS1"] == 1.90
+
+
+def test_yeni_issue_eski_ayni_etiketlileri_kapatir():
+    """12 Ekim: günlük alarm, yanıt kiti, rapor ve Mr. Likely issue'ları birikmesin; yenisi açılınca eskiler kapanır."""
+    from bot import onay
+
+    class Cevap:
+        def __init__(self, veri):
+            self.veri = veri
+        def raise_for_status(self):
+            pass
+        def json(self):
+            return self.veri
+
+    class Oturum:
+        def __init__(self):
+            self.kapanan = []
+        def post(self, url, json, timeout):
+            return Cevap({"number": 60})
+        def get(self, url, params, timeout):
+            return Cevap([{"number": 60}, {"number": 52}, {"number": 48, "pull_request": {}}])
+        def patch(self, url, json, timeout):
+            self.kapanan.append(int(url.rsplit("/", 1)[1]))
+            return Cevap({})
+
+    gh = onay.GitHub(token="x", repo="a/b")
+    gh.s = Oturum()
+    assert gh.issue_ac("💬 Yanıt kiti", "govde", "yanit-kiti") == 60
+    assert gh.s.kapanan == [52]  # yalnızca eski issue; yenisi ve PR'lar kapanmaz
+    gh.s.kapanan.clear()
+    gh.issue_ac("Onay", "govde", "onay")
+    assert gh.s.kapanan == []  # listede olmayan etiketlere dokunulmaz

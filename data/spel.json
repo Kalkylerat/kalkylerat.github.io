@@ -57900,6 +57900,662 @@
     "yanit_kiti": {
       "issue": 52,
       "zaman": "2026-10-12T07:01:07+00:00"
-    }
+    },
+    "tablo_aksam": [
+      {
+        "fixture_id": 1555515,
+        "lig": "Ligat Ha'al",
+        "ulke": "Israel",
+        "lig_id": 383,
+        "ev": "Hapoel Katamon",
+        "dep": "Maccabi Haifa",
+        "baslama": "2026-10-12T19:30:00+02:00",
+        "p": {
+          "MS1": 0.193,
+          "MSX": 0.213,
+          "MS2": 0.594,
+          "CS1X": 0.406,
+          "CSX2": 0.807,
+          "CS12": 0.787,
+          "KGVAR": 0.562,
+          "KGYOK": 0.438,
+          "UST15": 0.808,
+          "ALT15": 0.192,
+          "UST25": 0.588,
+          "ALT25": 0.412,
+          "UST35": 0.364,
+          "ALT35": 0.636,
+          "IY1": 0.185,
+          "IYX": 0.373,
+          "IY2": 0.442,
+          "IYU05": 0.747,
+          "IYA05": 0.253,
+          "IYU15": 0.399,
+          "IYA15": 0.601,
+          "EVU05": 0.65,
+          "EVA05": 0.35,
+          "EVU15": 0.283,
+          "EVA15": 0.717,
+          "EVU25": 0.09,
+          "EVA25": 0.91,
+          "DPU05": 0.865,
+          "DPA05": 0.135,
+          "DPU15": 0.594,
+          "DPA15": 0.406,
+          "DPU25": 0.323,
+          "DPA25": 0.677,
+          "YYU05": 0.813,
+          "YYA05": 0.187,
+          "YYU15": 0.5,
+          "YYA15": 0.5
+        },
+        "skorlar": [
+          [
+            "1-2",
+            0.0995
+          ],
+          [
+            "1-1",
+            0.0995
+          ],
+          [
+            "0-2",
+            0.0947
+          ],
+          [
+            "0-1",
+            0.0947
+          ],
+          [
+            "1-3",
+            0.0663
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.588,
+            "istatistik": 0.803
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.562,
+            "istatistik": 0.773
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Hapoel Katamon win",
+            "piyasa": 0.193,
+            "istatistik": 0.31
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Maccabi Haifa win",
+            "piyasa": 0.594,
+            "istatistik": 0.495
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.213,
+            "istatistik": 0.194
+          }
+        ],
+        "beklenen_gol": [
+          1.05,
+          2.0
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1499674,
+        "lig": "Primera B Metropolitana",
+        "ulke": "Argentina",
+        "lig_id": 131,
+        "ev": "Brown DE Adrogue",
+        "dep": "Dock Sud",
+        "baslama": "2026-10-12T20:00:00+02:00",
+        "p": {
+          "MS1": 0.411,
+          "MSX": 0.31,
+          "MS2": 0.279,
+          "CS1X": 0.721,
+          "CSX2": 0.589,
+          "CS12": 0.69,
+          "KGVAR": 0.382,
+          "KGYOK": 0.618,
+          "UST15": 0.58,
+          "ALT15": 0.42,
+          "UST25": 0.31,
+          "ALT25": 0.69,
+          "UST35": 0.134,
+          "ALT35": 0.866,
+          "IY1": 0.29,
+          "IYX": 0.498,
+          "IY2": 0.211,
+          "IYU05": 0.584,
+          "IYA05": 0.416,
+          "IYU15": 0.219,
+          "IYA15": 0.781,
+          "EVU05": 0.667,
+          "EVA05": 0.333,
+          "EVU15": 0.301,
+          "EVA15": 0.699,
+          "EVU25": 0.1,
+          "EVA25": 0.9,
+          "DPU05": 0.573,
+          "DPA05": 0.427,
+          "DPU15": 0.209,
+          "DPA15": 0.791,
+          "DPU25": 0.055,
+          "DPA25": 0.945,
+          "YYU05": 0.658,
+          "YYA05": 0.342,
+          "YYU15": 0.291,
+          "YYA15": 0.709
+        },
+        "skorlar": [
+          [
+            "1-0",
+            0.1565
+          ],
+          [
+            "0-0",
+            0.1423
+          ],
+          [
+            "1-1",
+            0.133
+          ],
+          [
+            "0-1",
+            0.1209
+          ],
+          [
+            "2-0",
+            0.0861
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS2",
+            "ad": "Dock Sud win",
+            "piyasa": 0.279,
+            "istatistik": 0.354
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.31,
+            "istatistik": 0.377
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Brown DE Adrogue win",
+            "piyasa": 0.411,
+            "istatistik": 0.354
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.382,
+            "istatistik": 0.445
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.31,
+            "istatistik": 0.291
+          }
+        ],
+        "beklenen_gol": [
+          1.1,
+          0.85
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1499681,
+        "lig": "Primera B Metropolitana",
+        "ulke": "Argentina",
+        "lig_id": 131,
+        "ev": "UAI Urquiza",
+        "dep": "Real Pilar",
+        "baslama": "2026-10-12T20:00:00+02:00",
+        "p": {
+          "MS1": 0.264,
+          "MSX": 0.313,
+          "MS2": 0.423,
+          "CS1X": 0.577,
+          "CSX2": 0.736,
+          "CS12": 0.687,
+          "KGVAR": 0.367,
+          "KGYOK": 0.633,
+          "UST15": 0.566,
+          "ALT15": 0.434,
+          "UST25": 0.296,
+          "ALT25": 0.704,
+          "UST35": 0.125,
+          "ALT35": 0.875,
+          "IY1": 0.2,
+          "IYX": 0.505,
+          "IY2": 0.295,
+          "IYU05": 0.575,
+          "IYA05": 0.425,
+          "IYU15": 0.211,
+          "IYA15": 0.789,
+          "EVU05": 0.551,
+          "EVA05": 0.449,
+          "EVU15": 0.191,
+          "EVA15": 0.809,
+          "EVU25": 0.047,
+          "EVA25": 0.953,
+          "DPU05": 0.667,
+          "DPA05": 0.333,
+          "DPU15": 0.301,
+          "DPA15": 0.699,
+          "DPU25": 0.1,
+          "DPA25": 0.9,
+          "YYU05": 0.648,
+          "YYA05": 0.352,
+          "YYU15": 0.281,
+          "YYA15": 0.719
+        },
+        "skorlar": [
+          [
+            "0-1",
+            0.1645
+          ],
+          [
+            "0-0",
+            0.1496
+          ],
+          [
+            "1-1",
+            0.1316
+          ],
+          [
+            "1-0",
+            0.1197
+          ],
+          [
+            "0-2",
+            0.0905
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS2",
+            "ad": "Real Pilar win",
+            "piyasa": 0.423,
+            "istatistik": 0.363
+          },
+          {
+            "pazar": "MS1",
+            "ad": "UAI Urquiza win",
+            "piyasa": 0.264,
+            "istatistik": 0.309
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.296,
+            "istatistik": 0.269
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.313,
+            "istatistik": 0.328
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.367,
+            "istatistik": 0.351
+          }
+        ],
+        "beklenen_gol": [
+          0.8,
+          1.1
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1553880,
+        "lig": "Super Liga",
+        "ulke": "Serbia",
+        "lig_id": 286,
+        "ev": "Mladost Lucani",
+        "dep": "OFK Beograd",
+        "baslama": "2026-10-12T20:00:00+02:00",
+        "p": {
+          "MS1": 0.338,
+          "MSX": 0.276,
+          "MS2": 0.386,
+          "CS1X": 0.614,
+          "CSX2": 0.662,
+          "CS12": 0.724,
+          "KGVAR": 0.488,
+          "KGYOK": 0.512,
+          "UST15": 0.692,
+          "ALT15": 0.308,
+          "UST25": 0.43,
+          "ALT25": 0.57,
+          "UST35": 0.221,
+          "ALT35": 0.779,
+          "IY1": 0.262,
+          "IYX": 0.446,
+          "IY2": 0.292,
+          "IYU05": 0.66,
+          "IYA05": 0.34,
+          "IYU15": 0.294,
+          "IYA15": 0.706,
+          "EVU05": 0.683,
+          "EVA05": 0.317,
+          "EVU15": 0.319,
+          "EVA15": 0.681,
+          "EVU25": 0.11,
+          "EVA25": 0.89,
+          "DPU05": 0.713,
+          "DPA05": 0.287,
+          "DPU15": 0.355,
+          "DPA15": 0.645,
+          "DPU25": 0.132,
+          "DPA25": 0.868,
+          "YYU05": 0.733,
+          "YYA05": 0.267,
+          "YYU15": 0.38,
+          "YYA15": 0.62
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1304
+          ],
+          [
+            "0-1",
+            0.1134
+          ],
+          [
+            "1-0",
+            0.1043
+          ],
+          [
+            "0-0",
+            0.0907
+          ],
+          [
+            "1-2",
+            0.0815
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Mladost Lucani win",
+            "piyasa": 0.338,
+            "istatistik": 0.616
+          },
+          {
+            "pazar": "MS2",
+            "ad": "OFK Beograd win",
+            "piyasa": 0.386,
+            "istatistik": 0.177
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.43,
+            "istatistik": 0.588
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.276,
+            "istatistik": 0.207
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.488,
+            "istatistik": 0.551
+          }
+        ],
+        "beklenen_gol": [
+          1.15,
+          1.25
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1565270,
+        "lig": "Liga I",
+        "ulke": "Romania",
+        "lig_id": 283,
+        "ev": "Universitatea Cluj",
+        "dep": "Rapid",
+        "baslama": "2026-10-12T20:00:00+02:00",
+        "p": {
+          "MS1": 0.368,
+          "MSX": 0.264,
+          "MS2": 0.368,
+          "CS1X": 0.632,
+          "CSX2": 0.632,
+          "CS12": 0.736,
+          "KGVAR": 0.529,
+          "KGYOK": 0.471,
+          "UST15": 0.733,
+          "ALT15": 0.267,
+          "UST25": 0.482,
+          "ALT25": 0.518,
+          "UST35": 0.264,
+          "ALT35": 0.736,
+          "IY1": 0.287,
+          "IYX": 0.426,
+          "IY2": 0.287,
+          "IYU05": 0.69,
+          "IYA05": 0.31,
+          "IYU15": 0.327,
+          "IYA15": 0.673,
+          "EVU05": 0.727,
+          "EVA05": 0.273,
+          "EVU15": 0.373,
+          "EVA15": 0.627,
+          "EVU25": 0.143,
+          "EVA25": 0.857,
+          "DPU05": 0.727,
+          "DPA05": 0.273,
+          "DPU15": 0.373,
+          "DPA15": 0.627,
+          "DPU25": 0.143,
+          "DPA25": 0.857,
+          "YYU05": 0.761,
+          "YYA05": 0.239,
+          "YYU15": 0.418,
+          "YYA15": 0.582
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1255
+          ],
+          [
+            "0-1",
+            0.0966
+          ],
+          [
+            "1-0",
+            0.0966
+          ],
+          [
+            "2-1",
+            0.0816
+          ],
+          [
+            "1-2",
+            0.0816
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.482,
+            "istatistik": 0.417
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Rapid win",
+            "piyasa": 0.368,
+            "istatistik": 0.324
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.529,
+            "istatistik": 0.476
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Universitatea Cluj win",
+            "piyasa": 0.368,
+            "istatistik": 0.397
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.264,
+            "istatistik": 0.279
+          }
+        ],
+        "beklenen_gol": [
+          1.3,
+          1.3
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1629930,
+        "lig": "AFC Champions League Elite",
+        "ulke": "World",
+        "lig_id": 17,
+        "ev": "Al-Gharafa",
+        "dep": "Esteghlal FC",
+        "baslama": "2026-10-12T20:15:00+02:00",
+        "p": {
+          "MS1": 0.357,
+          "MSX": 0.243,
+          "MS2": 0.401,
+          "CS1X": 0.599,
+          "CSX2": 0.643,
+          "CS12": 0.757,
+          "KGVAR": 0.603,
+          "KGYOK": 0.397,
+          "UST15": 0.801,
+          "ALT15": 0.199,
+          "UST25": 0.577,
+          "ALT25": 0.423,
+          "UST35": 0.353,
+          "ALT35": 0.647,
+          "IY1": 0.291,
+          "IYX": 0.391,
+          "IY2": 0.318,
+          "IYU05": 0.741,
+          "IYA05": 0.259,
+          "IYU15": 0.391,
+          "IYA15": 0.609,
+          "EVU05": 0.765,
+          "EVA05": 0.235,
+          "EVU15": 0.425,
+          "EVA15": 0.575,
+          "EVU25": 0.179,
+          "EVA25": 0.821,
+          "DPU05": 0.788,
+          "DPA05": 0.212,
+          "DPU15": 0.459,
+          "DPA15": 0.541,
+          "DPU25": 0.204,
+          "DPA25": 0.796,
+          "YYU05": 0.808,
+          "YYA05": 0.192,
+          "YYU15": 0.491,
+          "YYA15": 0.509
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1119
+          ],
+          [
+            "1-2",
+            0.0867
+          ],
+          [
+            "2-1",
+            0.0811
+          ],
+          [
+            "0-1",
+            0.0772
+          ],
+          [
+            "1-0",
+            0.0722
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS2",
+            "ad": "Esteghlal FC win",
+            "piyasa": 0.401,
+            "istatistik": 0.811
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Al-Gharafa win",
+            "piyasa": 0.357,
+            "istatistik": 0.055
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.603,
+            "istatistik": 0.361
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.243,
+            "istatistik": 0.134
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.577,
+            "istatistik": 0.577
+          }
+        ],
+        "beklenen_gol": [
+          1.45,
+          1.55
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "son5"
+      }
+    ]
   }
 ]

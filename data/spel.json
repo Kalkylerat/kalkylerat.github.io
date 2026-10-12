@@ -57785,6 +57785,24 @@
               1
             ],
             "zaman": "2026-10-12T16:12:28+00:00"
+          },
+          "1550137": {
+            "durum": "paylasildi",
+            "tweet_id": "2109713163427983801",
+            "skor": [
+              3,
+              1
+            ],
+            "zaman": "2026-10-12T18:29:43+00:00"
+          },
+          "1569967": {
+            "durum": "paylasildi",
+            "tweet_id": "2109713164673655280",
+            "skor": [
+              3,
+              1
+            ],
+            "zaman": "2026-10-12T18:29:43+00:00"
           }
         }
       },
@@ -57813,7 +57831,22 @@
         "durum": "paylasildi",
         "tweet_id": "2109567903724925141",
         "zaman": "2026-10-12T08:52:24+00:00",
-        "metin": "🆚 Atalanta v Venezia\n\n🏆 Atalanta 64% · Draw 20% · Venezia 17%\n⚽ Over 2.5 goals 63% · Under 37%\n🥅 Both teams score 58% · Not both 42%\n🎯 Likely score 2-1 (10%)\n\n📈 Atalanta win, stats: 54%\n💹 Market: 64%\n\n💬 Which one would you trust at home?\n18+ | Play responsibly"
+        "metin": "🆚 Atalanta v Venezia\n\n🏆 Atalanta 64% · Draw 20% · Venezia 17%\n⚽ Over 2.5 goals 63% · Under 37%\n🥅 Both teams score 58% · Not both 42%\n🎯 Likely score 2-1 (10%)\n\n📈 Atalanta win, stats: 54%\n💹 Market: 64%\n\n💬 Which one would you trust at home?\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2109713195984159228",
+          "skor": "3-1",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "zaman": "2026-10-12T18:29:43+00:00",
+          "brier": {
+            "piyasa": 0.5151,
+            "istatistik": 0.7153
+          }
+        }
       },
       "bilgi": {
         "durum": "paylasildi",
@@ -57876,7 +57909,22 @@
         "durum": "paylasildi",
         "tweet_id": "2109622232561459228",
         "zaman": "2026-10-12T12:28:11+00:00",
-        "metin": "🆚 Oviedo v Eibar\n\n🏆 Oviedo 43% · Draw 28% · Eibar 29%\n⚽ Over 2.5 goals 40% · Under 60%\n🥅 Both teams score 46% · Not 54%\n🎯 Likeliest: 1-1 (13%)\n\n📈 Stats: Oviedo win 13%\n💹 Odds: Oviedo win 43%\n\nOviedo: odds 43%, stats 13%. Which is right?\n18+ | Play responsibly"
+        "metin": "🆚 Oviedo v Eibar\n\n🏆 Oviedo 43% · Draw 28% · Eibar 29%\n⚽ Over 2.5 goals 40% · Under 60%\n🥅 Both teams score 46% · Not 54%\n🎯 Likeliest: 1-1 (13%)\n\n📈 Stats: Oviedo win 13%\n💹 Odds: Oviedo win 43%\n\nOviedo: odds 43%, stats 13%. Which is right?\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2109713205568135514",
+          "skor": "3-1",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "zaman": "2026-10-12T18:29:43+00:00",
+          "brier": {
+            "piyasa": 1.1274,
+            "istatistik": 2.1726
+          }
+        }
       },
       "analiz_8": {
         "durum": "paylasildi",
@@ -57958,6 +58006,12 @@
         "tweet_id": "2109702216454221863",
         "zaman": "2026-10-12T17:46:00+00:00",
         "metin": "🆚 Famalicao v Alverca\n\n🏆 Famalicao 53% · Draw 25% · Alverca 22%\n⚽ Over 2.5 goals 47% · Under 53%\n🥅 Both teams score 49% · Not both 51%\n🎯 Most likely score: 1-0 (12%)\n\n📈 Team stats: Famalicao win 41%\n💹 Odds: 53%\n\n💬 Not picks. Can Alverca beat 22%? 👇\n18+ | Play responsibly"
+      },
+      "analiz_18": {
+        "durum": "paylasildi",
+        "tweet_id": "2109713158201811303",
+        "zaman": "2026-10-12T18:29:43+00:00",
+        "metin": "🆚 HFX Wanderers FC v Cavalry FC\n\n🏆 HFX Wanderers FC 25% · Draw 22% · Cavalry FC 53%\n⚽ Over 2.5 goals 61% · Under 39%\n🥅 Both teams score 61% · Not both 39%\n\n📈 Team stats: Cavalry FC win 46%\n💹 Odds: 53%\n\n💬 Not picks. More or fewer than 2.5 goals? 👇\n18+ | Play responsibly"
       }
     },
     "yanit_kiti": {

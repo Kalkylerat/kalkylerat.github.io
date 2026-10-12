@@ -57776,6 +57776,15 @@
               0
             ],
             "zaman": "2026-10-12T13:55:58+00:00"
+          },
+          "1569961": {
+            "durum": "paylasildi",
+            "tweet_id": "2109678603734818945",
+            "skor": [
+              0,
+              1
+            ],
+            "zaman": "2026-10-12T16:12:28+00:00"
           }
         }
       },
@@ -57828,7 +57837,22 @@
         "durum": "paylasildi",
         "tweet_id": "2109595443017794008",
         "zaman": "2026-10-12T10:41:46+00:00",
-        "metin": "🆚 Burgos v Granada CF\n\n🏆 Burgos 39% · Draw 28% · Granada CF 34%\n⚽ Over 2.5 goals 43% · Under 57%\n🥅 Both teams score 49% · Not both 51%\n🎯 1-1 13%\n\n📈 Stats: Over 2.5 goals 68%, Both score 67%\n💬 Odds 43%, stats 68% on goals. Which is nearer?\n18+ | Play responsibly"
+        "metin": "🆚 Burgos v Granada CF\n\n🏆 Burgos 39% · Draw 28% · Granada CF 34%\n⚽ Over 2.5 goals 43% · Under 57%\n🥅 Both teams score 49% · Not both 51%\n🎯 1-1 13%\n\n📈 Stats: Over 2.5 goals 68%, Both score 67%\n💬 Odds 43%, stats 68% on goals. Which is nearer?\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2109678615885660605",
+          "skor": "0-1",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "zaman": "2026-10-12T16:12:28+00:00",
+          "brier": {
+            "piyasa": 1.0865,
+            "istatistik": 1.7465
+          }
+        }
       },
       "analiz_2": {
         "durum": "paylasildi",

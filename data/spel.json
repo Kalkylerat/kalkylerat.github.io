@@ -57893,7 +57893,20 @@
               3
             ],
             "zaman": "2026-10-12T21:09:44+00:00"
+          },
+          "1575514": {
+            "durum": "paylasildi",
+            "tweet_id": "2109755259447021937",
+            "skor": [
+              1,
+              4
+            ],
+            "zaman": "2026-10-12T21:17:04+00:00"
           }
+        },
+        "takip": {
+          "durum": "tamam",
+          "zaman": "2026-10-12T21:17:04+00:00"
         }
       },
       "analiz_5": {
@@ -58349,7 +58362,22 @@
         "durum": "paylasildi",
         "tweet_id": "2109702216454221863",
         "zaman": "2026-10-12T17:46:00+00:00",
-        "metin": "🆚 Famalicao v Alverca\n\n🏆 Famalicao 53% · Draw 25% · Alverca 22%\n⚽ Over 2.5 goals 47% · Under 53%\n🥅 Both teams score 49% · Not both 51%\n🎯 Most likely score: 1-0 (12%)\n\n📈 Team stats: Famalicao win 41%\n💹 Odds: 53%\n\n💬 Not picks. Can Alverca beat 22%? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Famalicao v Alverca\n\n🏆 Famalicao 53% · Draw 25% · Alverca 22%\n⚽ Over 2.5 goals 47% · Under 53%\n🥅 Both teams score 49% · Not both 51%\n🎯 Most likely score: 1-0 (12%)\n\n📈 Team stats: Famalicao win 41%\n💹 Odds: 53%\n\n💬 Not picks. Can Alverca beat 22%? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2109755305152430221",
+          "skor": "1-4",
+          "isabet": [
+            false,
+            false,
+            false
+          ],
+          "zaman": "2026-10-12T21:17:04+00:00",
+          "brier": {
+            "piyasa": 1.4844,
+            "istatistik": 1.2475
+          }
+        }
       },
       "analiz_18": {
         "durum": "paylasildi",

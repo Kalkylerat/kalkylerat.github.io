@@ -58410,7 +58410,22 @@
         "durum": "paylasildi",
         "tweet_id": "2109735767094485461",
         "zaman": "2026-10-12T19:59:31+00:00",
-        "metin": "🆚 Gimnasia M. v Newells Old Boys\n\n🏆 Gimnasia M. 42% · Draw 29% · Newells Old Boys 29%\n⚽ Over 2.5 goals 36% · Under 64%\n🥅 Both teams score 43% · Not both 57%\n\n📈 Team stats: Gimnasia M. win 51%\n💹 Odds: 42%\n\n💬 Chances, not picks. What's your score? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Gimnasia M. v Newells Old Boys\n\n🏆 Gimnasia M. 42% · Draw 29% · Newells Old Boys 29%\n⚽ Over 2.5 goals 36% · Under 64%\n🥅 Both teams score 43% · Not both 57%\n\n📈 Team stats: Gimnasia M. win 51%\n💹 Odds: 42%\n\n💬 Chances, not picks. What's your score? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2109787793631146063",
+          "skor": "1-0",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "zaman": "2026-10-12T23:26:12+00:00",
+          "brier": {
+            "piyasa": 0.8264,
+            "istatistik": 0.7134
+          }
+        }
       }
     },
     "yanit_kiti": {

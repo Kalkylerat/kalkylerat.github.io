@@ -7,6 +7,7 @@ description: Kalkylerat saatlik sağlık kontrolü (nöbet) ve işletme rehberi 
 
 Bu dosya, sistemi kuran uzun sohbetin işletme bilgisidir; yeni oturumda hiçbir şey kaybolmasın diye burada.
 Kurallar: `SOZLESME.md` (değişmez), çalışma kuralları: `CLAUDE.md`. Sahibiyle Türkçe konuş.
+Aylık maliyet, hangi servisi kim kullanıyor ve neyin silinmemesi gerektiği: `MALIYET.md`.
 
 ## Sistem
 - Repo: `Kalkylerat/kalkylerat.github.io` (eski adı aticimustafa/videosil; "repository moved" uyarısı normal).

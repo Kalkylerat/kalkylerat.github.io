@@ -57738,6 +57738,17 @@
         "istatistik_kaynak": "lig"
       }
     ],
-    "etkilesim": {}
+    "etkilesim": {
+      "maclar": {
+        "durum": "paylasildi",
+        "tweet_id": "2109539903352733962",
+        "zaman": "2026-10-12T07:01:07+00:00",
+        "metin": "12 Oct, two to watch\n\n🆚 Coventry v Newcastle, 21:00\n💹 Coventry 30% · Draw 27% · Newcastle 44%\n\n🆚 Atalanta v Venezia, 18:30\n💹 Atalanta 63% · Draw 22% · Venezia 15%\n\n📈 Team stats %: not available today\n\n💬 Newcastle 44% away at Coventry: too low or too high?"
+      }
+    },
+    "yanit_kiti": {
+      "issue": 52,
+      "zaman": "2026-10-12T07:01:07+00:00"
+    }
   }
 ]

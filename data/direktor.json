@@ -1,28 +1,31 @@
 {
-  "hafta": "2026-W41",
-  "guncelleme": "2026-10-05T09:04:55+02:00",
+  "hafta": "2026-W42",
+  "guncelleme": "2026-10-12T09:01:07+02:00",
   "strateji": {
-    "ton": "Calm, curious, numbers-first. Week 1 of analysis mode: ~100 posts, best post 15 views, 0 likes, 0 bookmarks, 0 replies from strangers. So write less and better: 3 cards on the day's most famous matches, one full-time quote per card, one board, one poll, one knowledge post. Short lines, every number on its own line, market % and team-stats % side by side. Every post ends with a question about one specific number in that post, and the question is the closing line, nothing after it.",
+    "ton": "Calm, curious, numbers-first; a fan with a spreadsheet, not a bot. Short lines, one number per line, market % and team-stats % side by side. Cards (50–600 views) and full-time quotes are the formats people see; knowledge posts (3–7 views) are not, so hang them on a number from that day's card. Every post closes with a question about one number in that post, and no two posts in the same day use the same question shape. No stock closers, no 👇, nothing after the question.",
     "soru_ornekleri": [
-      "Netherlands sit at 83% in the market but their recent stats say 57%. Which number would you trust tonight?",
-      "Odds give Over 2.5 goals 51%, team form says 13%. Who's closer here, the market or the last few games?",
-      "1-1 is our most likely score at only 12%. Is there a scoreline you'd put above it?",
-      "A 0-0 carried 4% on our card. Did it feel like a 4% game to you?",
-      "Germany 54% away in Athens. Would you have them higher or lower?",
-      "Draw at 30% is the highest we have all weekend. Does this one really end level?"
+      "Rennes win sat at 67% but 4-1 at only 4%. Does that gap between result and score surprise you?",
+      "Cambuur win: odds 30%, recent team stats 69%. Which number would you have trusted at Zwolle?",
+      "Real Sociedad 61% in the market, 25% on recent games. Is a 36-point gap one you'd lean towards the market on?",
+      "Draw 24%, 1-1 at 11% for Sassuolo v Milan. Would you put 0-0 above 1-1 here?",
+      "Mechelen 30% at home, St. Truiden 46% away. Would you have the visitors that clear?",
+      "Over 2.5 goals: odds 48%, Hull and Everton's recent games 30%. Which one ends nearer the truth?",
+      "Celtic 60% at Motherwell. Higher or lower than you had them?",
+      "PSG win 88% in the market, 41% on team stats. Is that the widest gap you've seen on a card this week?"
     ],
     "kacinilacaklar": [
-      "Two or three full-time posts for the same match (Portugal v Norway got four on 4 Oct, Ireland v Israel three). One quote per card and nothing else.",
-      "The same closing line in every post: 'Chances, not picks. One match proves little.' ran in 20+ posts this week. The question is the closer; rotate it per match.",
-      "Batch dumps: six posts in the same second (18:41:29 on 3 Oct) and ~60 posts on 4 Oct. Space posts at least 28 minutes apart, aim for 12–15 a day.",
-      "Abbreviations in running text: 'BTTS fan or...' in the 4 Oct knowledge post. Write 'Both teams score'.",
-      "Generic closers and soft bait: 'Did you see this one coming?', 'Agree or not? Tell us why in the replies.' Ask one concrete question with a number.",
-      "Cards for matches almost nobody on X follows (Supra du Quebec v Pacific FC, Internacional de Bogota v Once Caldas: 0–2 views). Pick the three best-known matches of the day; club leagues on weekdays, big Nations League games when they play.",
-      "Posting the identical board text twice in a day (📋 post at 09:10 and 16:04 on 4 Oct, same text).",
-      "Dropping or trimming the 📈 team-stats line; if there are too few games, say so in that line, as the cards already do."
+      "Two full-time posts for the same match: 17 matches got doubles on 11 Oct, often 3 seconds apart (Cadiz v Gijon 20:55:59 and 20:56:05, Racing v Valencia, Juventus, Marseille, Betis...). One quote per card, with odds % and stats % side by side and a specific question.",
+      "The closer 'Chances, not picks. One match proves little.' still ran in about 20 posts. Drop it; the question closes the post.",
+      "The swapped-number template 'A 2-2 sat at just 6% on our card. Did it feel like a 6% game?' in 15+ posts. Change the angle each time: result vs score gap, market vs stats, home/away share, which of the three markets was the surprise.",
+      "85 posts on 11 Oct and 2–3 posts in the same second (14:55, 14:58, 19:15:43, 20:55:59). Max 15 posts a day, at least 28 minutes apart.",
+      "About 25 cards in one day, including Atlanta v San Martin Tucuman (26 views) and Hapoel Ramat Gan v Beitar Jerusalem (9 views). Three cards a day.",
+      "Two cards for the same match with different numbers (Liverpool v Man City: 32% · 25% · 43% at 07:01, then 33% · 24% · 44% at 13:56). One card per match.",
+      "Knowledge post closers like 'Surprised it's under half? 👇' and an '18+' line after the question. Ask one real question about a number and stop there.",
+      "The 🔁 full-time version that drops the 📈 team-stats line. Keep stats next to the market number, or say why there are none.",
+      "Hashtags on cards: the #PremierLeague card got 17 views, the same match without it 99. Only a hashtag from the allowed list, at most one, and only when it adds something."
     ],
-    "odak": "Cut volume by half and make each post count. 1) Three cards on the most famous matches of the day, posted 2–3 hours before kick-off, market % and stats % together. 2) Exactly one full-time quote per card, within an hour of the whistle, closing with a question about the score's or the result's %. 3) Board once a day, knowledge post once, poll once; no duplicates. 4) Every closing question names a number from the post and changes from post to post. Target for next week: first reply or bookmark from someone who is not us, and no day over 15 posts.",
+    "odak": "1) One full-time quote per match: merge the two formats into one post with odds % and stats % together and a match-specific question. 2) Three cards a day: one headline match plus two from leagues where cards actually got seen this week (Dutch, Swedish, Norwegian, Spanish second tier: PEC Zwolle v Cambuur 601 views, Racing v Valencia 200, Hammarby v Djurgarden 179) and compare after seven days. 3) No day over 15 posts, 28 minutes between posts, no same-second batches. 4) Knowledge post built on a number from that day's card, posted in the afternoon window when cards get views. 5) Goal for the week: first bookmark and first reply from someone who is not us, average above 60 views per post, 0 duplicates.",
     "gunluk_max_kupon": 1
   },
-  "rapor_issue": 12
+  "rapor_issue": 53
 }

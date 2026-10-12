@@ -57875,6 +57875,15 @@
               1
             ],
             "zaman": "2026-10-12T20:54:24+00:00"
+          },
+          "1569968": {
+            "durum": "paylasildi",
+            "tweet_id": "2109751371897487623",
+            "skor": [
+              1,
+              1
+            ],
+            "zaman": "2026-10-12T21:01:37+00:00"
           }
         }
       },
@@ -58173,7 +58182,22 @@
         "durum": "paylasildi",
         "tweet_id": "2109673667177361476",
         "zaman": "2026-10-12T15:52:48+00:00",
-        "metin": "🆚 Tenerife v Girona\n\n🏆 Tenerife 34% · Draw 28% · Girona 39%\n⚽ Over 2.5 goals 43% · Under 57%\n🥅 Both teams score 49% · Not both 51%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Team stats: Over 2.5 goals 35%\n💹 Odds: 43%\n\n💬 Not picks. Girona 39%: too high? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Tenerife v Girona\n\n🏆 Tenerife 34% · Draw 28% · Girona 39%\n⚽ Over 2.5 goals 43% · Under 57%\n🥅 Both teams score 49% · Not both 51%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Team stats: Over 2.5 goals 35%\n💹 Odds: 43%\n\n💬 Not picks. Girona 39%: too high? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2109751409063104677",
+          "skor": "1-1",
+          "isabet": [
+            false,
+            true,
+            false
+          ],
+          "zaman": "2026-10-12T21:01:37+00:00",
+          "brier": {
+            "piyasa": 1.2345,
+            "istatistik": 1.195
+          }
+        }
       },
       "tablo_aksam": {
         "durum": "paylasildi",
@@ -58259,7 +58283,22 @@
         "durum": "paylasildi",
         "tweet_id": "2109692988683424125",
         "zaman": "2026-10-12T17:09:25+00:00",
-        "metin": "🆚 Lanus v Velez Sarsfield\n\n🏆 Lanus 44% · Draw 29% · Velez 27%\n⚽ Over 2.5 goals 36% · Under 64%\n🥅 Both teams score 42% · Not both 58%\n🎯 Likely score 1-0 (15%)\n\n📈 Lanus win: odds 44%, stats 34%\n\n💬 Velez win: odds 27%, stats 36%. Which do you trust?\n\n18+ | Play responsibly"
+        "metin": "🆚 Lanus v Velez Sarsfield\n\n🏆 Lanus 44% · Draw 29% · Velez 27%\n⚽ Over 2.5 goals 36% · Under 64%\n🥅 Both teams score 42% · Not both 58%\n🎯 Likely score 1-0 (15%)\n\n📈 Lanus win: odds 44%, stats 34%\n\n💬 Velez win: odds 27%, stats 36%. Which do you trust?\n\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2109751448762200179",
+          "skor": "2-0",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "zaman": "2026-10-12T21:01:37+00:00",
+          "brier": {
+            "piyasa": 0.7754,
+            "istatistik": 0.9475
+          }
+        }
       },
       "analiz_16": {
         "durum": "paylasildi",

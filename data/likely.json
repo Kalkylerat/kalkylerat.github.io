@@ -11641,8 +11641,8 @@
        "oran": 1.44,
        "olasilik": 0.67,
        "deger": -0.035,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-1"
       },
       {
        "aday_id": "1609078-IYU05",
@@ -11670,7 +11670,9 @@
      "tweet_id": "2109649672231112917",
      "metin": "🎩 A long shot today. Loses more often than it lands, and I'd rather say so up front.\n\n⚽ Radomiak Radom v Motor Lublin\n⚽ Tenerife v Girona\n⚽ AZ Picerno v Cosenza\n\n📊 Combined 3.11. I make it about 30% to land.\n\n💬 Which of these do you trust least?\n\n18+ | Play responsibly",
      "yayin": "2026-10-12T14:17:24+00:00",
-     "son_oran": 1.47
+     "son_oran": 2.12,
+     "sonuc_metni": "❌ One leg short. The classic. Coupon down. I had it at 30%, which was never 100.\n\n❌ Radomiak Radom 2-3 Motor Lublin: Double chance 1X\n✅ Tenerife 1-1 Girona: Double chance X2\n✅ AZ Picerno 1-2 Cosenza: 1st half Over 0.5 goals\n\nRecord: 3 of 10 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2109751469515682080"
     }
    ],
    "islenen": [],

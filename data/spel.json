@@ -57803,6 +57803,15 @@
               1
             ],
             "zaman": "2026-10-12T18:29:43+00:00"
+          },
+          "1494290": {
+            "durum": "paylasildi",
+            "tweet_id": "2109718748605079565",
+            "skor": [
+              4,
+              0
+            ],
+            "zaman": "2026-10-12T18:51:54+00:00"
           }
         }
       },
@@ -57930,7 +57939,22 @@
         "durum": "paylasildi",
         "tweet_id": "2109628576127443176",
         "zaman": "2026-10-12T12:53:37+00:00",
-        "metin": "🆚 IF Elfsborg v Halmstad\n\n🏆 IF Elfsborg 72% · Draw 17% · Halmstad 11%\n⚽ Over 2.5 goals 61% · Under 39%\n🥅 Both teams score 50% · Not both 50%\n🎯 Most likely score: 2-0 (12%)\n\n📈 Team stats: Over 2.5 goals 44%\n💹 Odds: 61%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 IF Elfsborg v Halmstad\n\n🏆 IF Elfsborg 72% · Draw 17% · Halmstad 11%\n⚽ Over 2.5 goals 61% · Under 39%\n🥅 Both teams score 50% · Not both 50%\n🎯 Most likely score: 2-0 (12%)\n\n📈 Team stats: Over 2.5 goals 44%\n💹 Odds: 61%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2109718793849082354",
+          "skor": "4-0",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "zaman": "2026-10-12T18:51:54+00:00",
+          "brier": {
+            "piyasa": 0.5203,
+            "istatistik": 0.6966
+          }
+        }
       },
       "analiz_9": {
         "durum": "paylasildi",

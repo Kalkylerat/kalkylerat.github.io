@@ -57767,13 +57767,38 @@
           1569968,
           1575514
         ],
-        "sonuclar": {}
+        "sonuclar": {
+          "1569969": {
+            "durum": "paylasildi",
+            "tweet_id": "2109644254167416916",
+            "skor": [
+              5,
+              0
+            ],
+            "zaman": "2026-10-12T13:55:58+00:00"
+          }
+        }
       },
       "analiz_5": {
         "durum": "paylasildi",
         "tweet_id": "2109560724854853827",
         "zaman": "2026-10-12T08:23:59+00:00",
-        "metin": "🆚 Valladolid v Albacete\n\n🏆 Valladolid 50% · Draw 25% · Albacete 25%\n⚽ Over 2.5 goals 49% · Under 51%\n🥅 Both teams score 52% · Not both 48%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: Over 2.5 goals 44%\n💹 Odds: 49%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Valladolid v Albacete\n\n🏆 Valladolid 50% · Draw 25% · Albacete 25%\n⚽ Over 2.5 goals 49% · Under 51%\n🥅 Both teams score 52% · Not both 48%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: Over 2.5 goals 44%\n💹 Odds: 49%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2109644297272164689",
+          "skor": "5-0",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "zaman": "2026-10-12T13:55:58+00:00",
+          "brier": {
+            "piyasa": 0.8989,
+            "istatistik": 0.8665
+          }
+        }
       },
       "analiz_0": {
         "durum": "paylasildi",

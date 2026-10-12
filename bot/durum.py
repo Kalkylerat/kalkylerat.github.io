@@ -67,7 +67,29 @@ def main(simdi: datetime | None = None) -> None:
             sorunlar.append(f"simülasyona göre kaçacak: {', '.join(kacacak)}")
     else:
         print("Bugünün sabah analizi henüz yok (05:17 UTC'de yapılır).")
+    sorunlar += likely_durumu(simdi)
     print("SORUN: " + " | ".join(sorunlar) if sorunlar else "SORUN YOK")
+
+
+def likely_durumu(simdi: datetime) -> list[str]:
+    """Mr. Likely (SOZLESME E): bugünün ve dünün kuponları planlanan saatte paylaşıldı mı, sonuç postu çıktı mı."""
+    try:
+        gunler = json.loads((config.DATA_FILE.parent / "likely.json").read_text(encoding="utf-8"))["gunler"]
+    except (FileNotFoundError, ValueError, KeyError):
+        return ["Mr. Likely kaydı (data/likely.json) okunamadı"]
+    sorunlar = []
+    for g in gunler[-2:]:
+        bilgi = [_utc(b.get("zaman")) for b in g.get("bilgi") or [] if b.get("zaman")]
+        print(f'Mr. Likely {g["tarih"]}: {g.get("durum")} · bilgi postları {", ".join(bilgi) or "-"}')
+        for k in g.get("secilen") or []:
+            print(f'  {k["ad"]}: {k.get("durum")} plan {_utc(k.get("paylas"))} paylaşıldı {_utc(k.get("yayin"))} '
+                  f'sonuç postu {"var" if k.get("sonuc_tweet_id") else "-"}')
+            if not k.get("tweet_id") and k.get("paylas") and \
+                    simdi > datetime.fromisoformat(k["paylas"]) + timedelta(minutes=30):
+                sorunlar.append(f'Mr. Likely {g["tarih"]} {k["ad"]}: planlanan saatten 30 dk geçti, kupon paylaşılmadı')
+            if k.get("tweet_id") and k.get("durum") in ("tuttu", "yatti") and not k.get("sonuc_tweet_id"):
+                sorunlar.append(f'Mr. Likely {g["tarih"]} {k["ad"]}: kupon sonuçlandı ama sonuç postu yok')
+    return sorunlar
 
 
 if __name__ == "__main__":

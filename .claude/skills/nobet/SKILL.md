@@ -19,7 +19,8 @@ Kurallar: `SOZLESME.md` (değişmez), çalışma kuralları: `CLAUDE.md`. Sahibi
 
 ## Saatlik kontrol (rutinin yaptığı)
 1. `git pull -q --rebase`
-2. `python -m bot.durum` → bugünün postları (UTC), sözleşme sapmaları, günün kalanının simülasyonu.
+2. `python -m bot.durum` → bugünün postları (UTC), sözleşme sapmaları, günün kalanının simülasyonu ve Mr. Likely
+   (ikinci hesap, aynı nabızla çalışır, SOZLESME E): kupon planlanan saatte çıktı mı, sonuç postu geldi mi.
    Son satır `SORUN YOK` ya da `SORUN: ...`.
 3. Workflow'lar:
    - `gh api "repos/Kalkylerat/kalkylerat.github.io/actions/workflows/kalkylerat.yml/runs?per_page=4" --jq '.workflow_runs[]|"\(.created_at) \(.status) \(.conclusion)"'`
@@ -52,7 +53,8 @@ Kurallar: `SOZLESME.md` (değişmez), çalışma kuralları: `CLAUDE.md`. Sahibi
   (e9cee15); 12 Ekim simülasyonu temiz.
 
 ## Rutin
-- Saatlik rutin: "Kalkylerat saatlik sağlık kontrolü", cron `3 * * * *` (UTC).
-- Her çalışmada yeni oturum açan rutin için istem: "Kalkylerat saatlik nöbet: .claude/skills/nobet/SKILL.md'deki
-  saatlik kontrolü uygula. Sorun varsa kök nedeni bul, güvenle düzeltilebiliyorsa testlerle düzelt ve push et,
-  sahibine Türkçe kısa özet yaz."
+- Saatlik rutin "Kalkylerat saatlik nöbet", cron `3 * * * *` (UTC), Sonnet 5.5. Her çalışmada yeni, kısa bir oturum
+  açar ve bu dosyayı izler; sonuç sahibine bildirim olarak gider. (12 Ekim'e kadar rutin, sistemi kuran uzun
+  "Kalkylerat (Do Not Delete)" oturumuna bağlıydı; o oturum geçmiş olarak duruyor.)
+- Rutin oturumu sorun yoksa tek satır yazar. Kod değişikliği gerekiyorsa küçük ve testli olanı yapar; büyük
+  değişiklikleri (kural, mimari) yapmaz, sahibine önerir.

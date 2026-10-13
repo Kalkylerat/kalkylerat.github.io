@@ -14109,8 +14109,9 @@
        "oran": 1.39,
        "olasilik": 0.708,
        "deger": -0.016,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "0-0",
+       "goller": []
       },
       {
        "aday_id": "1611412-ALT25",

@@ -62971,6 +62971,33 @@
               0
             ],
             "zaman": "2026-10-13T18:40:47+00:00"
+          },
+          "1563192": {
+            "durum": "paylasildi",
+            "tweet_id": "2110107704861597989",
+            "skor": [
+              0,
+              1
+            ],
+            "zaman": "2026-10-13T20:37:31+00:00"
+          },
+          "1563197": {
+            "durum": "paylasildi",
+            "tweet_id": "2110107706132410658",
+            "skor": [
+              1,
+              3
+            ],
+            "zaman": "2026-10-13T20:37:31+00:00"
+          },
+          "1563198": {
+            "durum": "paylasildi",
+            "tweet_id": "2110107707428479164",
+            "skor": [
+              1,
+              2
+            ],
+            "zaman": "2026-10-13T20:37:31+00:00"
           }
         }
       },
@@ -63163,7 +63190,26 @@
         "durum": "paylasildi",
         "tweet_id": "2110033535155220601",
         "zaman": "2026-10-13T15:42:48+00:00",
-        "metin": "🆚 Bristol City v Blackburn\n\n🏆 Bristol City 48% · Draw 26% · Blackburn 26%\n⚽ Over 2.5 goals 47% · Under 53%\n🥅 Both teams score 50% · Not both 50%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: Bristol City win 36% (odds 48%)\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Bristol City v Blackburn\n\n🏆 Bristol City 48% · Draw 26% · Blackburn 26%\n⚽ Over 2.5 goals 47% · Under 53%\n🥅 Both teams score 50% · Not both 50%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: Bristol City win 36% (odds 48%)\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2110107728144203827",
+          "skor": "0-1",
+          "isabet": [
+            false,
+            true,
+            false
+          ],
+          "xg": [
+            1.81,
+            0.21
+          ],
+          "zaman": "2026-10-13T20:37:31+00:00",
+          "brier": {
+            "piyasa": 1.3089,
+            "istatistik": 1.0023
+          }
+        }
       },
       "tablo_aksam": {
         "durum": "paylasildi",
@@ -63233,13 +63279,51 @@
         "durum": "paylasildi",
         "tweet_id": "2110053302096531918",
         "zaman": "2026-10-13T17:01:10+00:00",
-        "metin": "🆚 Wolves v Bolton\n\n🏆 Wolves 68% · Draw 19% · Bolton 13%\n⚽ Over 2.5 goals 59% · Under 41%\n🥅 Both teams score 51% · Not both 49%\n🎯 Most likely score: 2-0 (11%)\n\n📈 Stats: Both teams score 65%\n💹 Odds: 51%\n\n💬 Which would you trust, 51% or 65%?\n18+ | Play responsibly"
+        "metin": "🆚 Wolves v Bolton\n\n🏆 Wolves 68% · Draw 19% · Bolton 13%\n⚽ Over 2.5 goals 59% · Under 41%\n🥅 Both teams score 51% · Not both 49%\n🎯 Most likely score: 2-0 (11%)\n\n📈 Stats: Both teams score 65%\n💹 Odds: 51%\n\n💬 Which would you trust, 51% or 65%?\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2110107768975683995",
+          "skor": "1-3",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "xg": [
+            2.27,
+            1.64
+          ],
+          "zaman": "2026-10-13T20:37:31+00:00",
+          "brier": {
+            "piyasa": 1.663,
+            "istatistik": 1.3012
+          }
+        }
       },
       "analiz_14": {
         "durum": "paylasildi",
         "tweet_id": "2110056826519621681",
         "zaman": "2026-10-13T17:15:20+00:00",
-        "metin": "🆚 Wrexham v West Brom\n\n🏆 Wrexham 43% · Draw 26% · West Brom 31%\n⚽ Over 2.5 goals 47% · Under 53%\n🥅 Both teams score 52% · Not both 48%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Team stats: Wrexham win 40%\n💹 Odds: 43%\n\n💬 Not picks. Can West Brom beat 31%? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Wrexham v West Brom\n\n🏆 Wrexham 43% · Draw 26% · West Brom 31%\n⚽ Over 2.5 goals 47% · Under 53%\n🥅 Both teams score 52% · Not both 48%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Team stats: Wrexham win 40%\n💹 Odds: 43%\n\n💬 Not picks. Can West Brom beat 31%? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2110107782019965219",
+          "skor": "1-2",
+          "isabet": [
+            false,
+            false,
+            true
+          ],
+          "xg": [
+            0.4,
+            1.01
+          ],
+          "zaman": "2026-10-13T20:37:31+00:00",
+          "brier": {
+            "piyasa": 1.2467,
+            "istatistik": 1.2488
+          }
+        }
       },
       "analiz_19": {
         "durum": "paylasildi",

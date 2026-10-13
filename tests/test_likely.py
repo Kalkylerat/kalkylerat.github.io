@@ -708,7 +708,7 @@ class AnketliX(SahteX):
         return f"t{len(self.postlar)}"
 
 
-def test_buyuk_mac_bilgi_postu_anketli_ve_anket_mac_baslayinca_kapanir():
+def test_E1_buyuk_mac_bilgi_postu_anketli_ve_anket_mac_baslayinca_kapanir():
     analizler = [buyuk_analiz(1, "France", "Malta", 8, 0.86, 0.10, 0.55), buyuk_analiz(2, "Germany", "Spain", 9, 0.38, 0.28, 0.63),
                  buyuk_analiz(3, "Wales", "Norway", 9, 0.36, 0.30, 0.44)]
     bilgi = likely.bilgi_hazirla(analizler, "2026-10-10", SIMDI, OTO)
@@ -732,7 +732,7 @@ def test_buyuk_mac_bilgi_postu_anketli_ve_anket_mac_baslayinca_kapanir():
     assert x.postlar[0]["anket"] == {"options": ["Over 2.5 goals", "Under 2.5 goals"], "duration_minutes": 9 * 60}
 
 
-def test_haftalik_karne_yalniz_karneden_ve_onaysiz_kapali():
+def test_E1_haftalik_karne_yalniz_karneden():
     def kupon(durum, p, tweet=True):
         return {"oto": True, "durum": durum, "olasilik": p, **({"tweet_id": "t"} if tweet else {})}
     veri = {"gunler": [{"tarih": "2026-10-04", "secilen": [kupon("yatti", 0.5)]},  # önceki hafta: sayılmaz
@@ -740,7 +740,7 @@ def test_haftalik_karne_yalniz_karneden_ve_onaysiz_kapali():
                        {"tarih": "2026-10-08", "secilen": [kupon("yatti", 0.5), kupon("tuttu", 0.4, tweet=False)]},
                        {"tarih": "2026-10-11", "secilen": [kupon("tuttu", 0.45), kupon("bekliyor", 0.3)]}]}
     acik = replace(OTO, oto_haftalik_karne=True)
-    assert likely.haftalik_karne(veri, "2026-10-12", OTO) is None  # SOZLESME E1 onayı gelene kadar kapalı
+    assert likely.haftalik_karne(veri, "2026-10-12", OTO) is None  # ayar kapalıysa yok
     assert likely.haftalik_karne(veri, "2026-10-13", acik) is None  # Pazartesi değil
     h = likely.haftalik_karne(veri, "2026-10-12", acik)
     assert h["kupon"] == 4 and h["tutan"] == 2 and round(h["beklenen"], 2) == 1.75  # paylaşılmamış ve bekleyen sayılmaz
@@ -756,7 +756,7 @@ def _olcum_gunu(oto_tarih="2026-10-10"):
     return {"tarih": oto_tarih, "havuz": havuz_, "secilen": [], "gunler": []}, havuz_
 
 
-def test_olcum_havuzun_butun_ayaklarini_toplu_sonuclandirir_paylasmaz(monkeypatch, tmp_path):
+def test_E1_olcum_havuzun_butun_ayaklarini_toplu_sonuclandirir_paylasmaz(monkeypatch, tmp_path):
     monkeypatch.setattr(likely, "DOSYA", tmp_path / "likely.json")
     gun, havuz_ = _olcum_gunu()
     odds_mac, bitmeyen = havuz_[0]["fixture_id"], next(a["fixture_id"] for a in havuz_ if a["fixture_id"] != havuz_[0]["fixture_id"])
@@ -837,6 +837,61 @@ def test_toplu_sonuclar_20_mac_bir_istek_reddedilirse_tek_tek():
     api = Api()
     sonuc = football.toplu_sonuclar(api, list(range(1, 46)))
     assert len(api.istekler) == 3 and len(sonuc) == 45  # 45 maç: 20 + 20 + 5
-    assert sonuc[1] == {"durum": "bitti", "skor": (1, 0), "iy": (0, 0), "korner": None} and sonuc[7]["durum"] == "bekliyor"
+    assert sonuc[1] == {"durum": "bitti", "skor": (1, 0), "goller": None, "iy": (0, 0), "korner": None} and sonuc[7]["durum"] == "bekliyor"
     api = Api(toplu=False)
     assert len(football.toplu_sonuclar(api, [1, 2, 3])) == 3 and len(api.istekler) == 4  # 1 reddedilen + 3 tek
+
+
+
+# ---------- Sonuç postunda gerçek an (SOZLESME E2) ----------
+
+def ayak(pazar, etiket, skor, goller, durum):
+    return {"ev": "Arsenal", "dep": "Burnley", "pazar": pazar, "etiket": etiket, "skor": skor, "goller": goller,
+            "durum": durum, "oran": 1.40, "olasilik": 0.7}
+
+
+def test_E2_gec_gol_ani_gercek_dakika_ve_skorla_anlatilir():
+    # Alt 2.5: 88'de 2-0, 90+3'te 3-0 (sahibinin örneği)
+    alt = ayak("ALT25", "Under 2.5 goals", "3-0", [[30, 0, "ev"], [88, 0, "ev"], [90, 3, "ev"]], "kaybetti")
+    x = likely.an(alt)
+    assert x == {"tur": "yikim", "dk": "90+3", "once": "2-0", "sonra": "3-0", "odk": "88", "uzatma": True,
+                 "M": "Arsenal v Burnley", "E": "Under 2.5 goals"}
+    kupon = {"ayaklar": [alt, dict(ayak("CS1X", "Lens win or draw", "1-1", [[10, 0, "dep"], [50, 0, "ev"]], "kazandi"),
+                                   ev="Lens", dep="Nice")],
+             "durum": "yatti", "olasilik": 0.49, "son_oran": 1.4}
+    for tohum in ("a", "b", "c", "d"):
+        m = likely.sonuc_metni(kupon, {"kupon": 5, "tutan": 2}, tohum)
+        assert m.startswith("❌ ") and "90+3" in m and "3-0" in m and "Arsenal v Burnley" in m
+        assert uzunluk(m) <= LIMIT and m.endswith(ANSVAR) and likely.ses_uygun(m, m, []) == []
+    # Geç kurtarış: Çifte şans 1X, 0-1'den 89'da 1-1
+    kurtar = ayak("CS1X", "Arsenal win or draw", "1-1", [[20, 0, "dep"], [89, 0, "ev"]], "kazandi")
+    assert likely.an(kurtar)["tur"] == "kurtaris" and likely.an(kurtar)["dk"] == "89"
+    m = likely.sonuc_metni({"ayaklar": [kurtar], "durum": "tuttu", "olasilik": 0.7, "son_oran": 1.4}, {"kupon": 1, "tutan": 1}, "x")
+    assert m.startswith("✅ ") and "89" in m and "1.40" in m
+    # Anlatı yok: erken karar, el değiştirmeyen ayak, gol listesi yok, skorla tutmayan liste, ilk yarı pazarı
+    assert likely.an(ayak("ALT25", "U", "3-0", [[10, 0, "ev"], [20, 0, "ev"], [30, 0, "ev"]], "kaybetti")) is None
+    assert likely.an(ayak("ALT25", "U", "0-0", [], "kazandi")) is None
+    assert likely.an(ayak("ALT25", "U", "3-0", None, "kaybetti")) is None
+    assert likely.an(ayak("ALT25", "U", "4-0", [[30, 0, "ev"], [88, 0, "ev"], [90, 3, "ev"]], "kaybetti")) is None
+    assert likely.an(ayak("IYU05", "U", "0-1", [[85, 0, "dep"]], "kaybetti")) is None
+    # Gol listesi yoksa eski düz metin (uydurma an yok)
+    duz = likely.sonuc_metni({"ayaklar": [dict(alt, goller=None)], "durum": "yatti", "olasilik": 0.7, "son_oran": 1.0},
+                             {"kupon": 1, "tutan": 0}, "a")
+    assert "90" not in duz and "Coupon down" in duz
+
+
+def test_gol_dakikalari_mac_olaylarindan_ve_skorla_tutmali():
+    from bot import football
+
+    def olay(dk, takim, detay="Normal Goal", ek=None, tur="Goal"):
+        return {"time": {"elapsed": dk, "extra": ek}, "team": {"id": takim}, "type": tur, "detail": detay}
+
+    f = {"teams": {"home": {"id": 1}, "away": {"id": 2}},
+         "events": [olay(88, 1), olay(30, 1), olay(90, 1, ek=3), olay(60, 2, "Missed Penalty"), olay(40, 1, tur="Card"),
+                    olay(105, 2)]}  # uzatma devresi golü 90 dakikaya girmez
+    assert football.goller(f, (3, 0)) == [[30, 0, "ev"], [88, 0, "ev"], [90, 3, "ev"]]
+    # Kendi kalesine gol oyuncunun takımına yazılmışsa ters çevrilir
+    kk = {"teams": {"home": {"id": 1}, "away": {"id": 2}}, "events": [olay(10, 1), olay(85, 1, "Own Goal")]}
+    assert football.goller(kk, (1, 1)) == [[10, 0, "ev"], [85, 0, "dep"]]
+    assert football.goller(kk, (2, 0)) == [[10, 0, "ev"], [85, 0, "ev"]]
+    assert football.goller(kk, (3, 0)) is None and football.goller({"teams": f["teams"]}, (0, 0)) is None

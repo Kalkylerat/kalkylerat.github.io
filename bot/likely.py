@@ -71,8 +71,7 @@ class LikelyAyar:
     oto_ders_saati: int = 14       # (eski kayıtlar için) günün dersi bu saatten sonra
     oto_bilgi_sayisi: int = 4      # günde en fazla kaç bilgi postu (strateji notu, günün rakamları)
     oto_bilgi_aralik_dk: int = 40  # bilgi postu, başka bir posttan en az bu kadar dakika uzakta
-    # Pazartesi 10:00 dersinin yerine haftalık karne postu. SOZLESME E1'e eklenmeden açılmaz (sahibinin onayı bekleniyor).
-    oto_haftalik_karne: bool = False
+    oto_haftalik_karne: bool = False  # Pazartesi 10:00 dersinin yerine haftalık karne postu (SOZLESME E1)
 
 
 def ayar_yukle(path=config.ROOT / "ayarlar.toml") -> LikelyAyar:
@@ -286,11 +285,73 @@ SORULAR = ["Which leg lets me down?", "Which one would you drop?", "Would you ta
 KAPANIS = ["Probably.", "No promises.", "We'll see.", "That's the maths, not a promise.", "Likely. Not certain.",
            "As ever: likely, not certain."]
 TUTTU = ["That'll do.", "Landed. I'll try not to be smug about it.", "In. Nice when the maths behaves.",
-         "Home. On to the next one.", "Done. Probably deserved it too."]
+         "Home. On to the next one.", "Done. Probably deserved it too.", "Lovely. Quietly lovely.",
+         "No drama, which is exactly how I like them."]
 YATTI = ["That's the part of the percentage nobody likes.", "Annoying. Still the right kind of coupon.",
          "It happens. More often than any of us would like.", "No excuses, it lost.",
-         "Football did a football. Moving on."]
-SEKTI = ["One leg short. The classic.", "So close it hurts a bit.", "One out. Always one."]
+         "Football did a football. Moving on.", "Not today. Kettle's on.", "Well, that didn't go to plan."]
+SEKTI = ["One leg short. The classic.", "So close it hurts a bit.", "One out. Always one.",
+         "Everything landed bar one. You know the feeling."]
+
+# Ayağın kaderini belirleyen geç an (SOZLESME E2): yalnızca sonuç kaydındaki gerçek gollerden.
+GEC_DAKIKA = 80   # kaderi belirleyen gol bu dakikadan sonraysa anlatılır
+ONCEKI_DAKIKA = 70  # ondan önceki gol de bu dakikadan sonraysa hikâyeye girer ("88'de 2-0, 90+3'te 3-0")
+YIKIM = [  # belirleyici golden hemen önce bir geç gol daha var
+    "{M}. {odk}': {once}. Still fine. {dk}': {sonra}. Of course it was.",
+    "{M}. {once} on {odk}' and I was fine with that. Then {dk}': {sonra}. {E} gone, coupon gone.",
+    "{M} went {once} on {odk}'. Nervy, but fine. Then {sonra} on {dk}'. That's {E}, and that's the coupon.",
+]
+YIKIM_SON = [  # uzatma dakikalarında
+    "{M}. {once} going into stoppage time. {dk}': {sonra}. That's the coupon.",
+    "{M}. {once} with the board up. {dk}': {sonra}. Football, eh.",
+    "Had {E} in {M} right up to {dk}'. Then {sonra}. I'm going for a walk.",
+]
+YIKIM_TEK = [
+    "{M} sat at {once} until {dk}'. Then {sonra}. {E} gone, coupon with it.",
+    "{M}. {dk}': {once} becomes {sonra}, and {E} goes with it. Football, eh.",
+    "Had {E} in {M} right up to {dk}'. Then {sonra}. I'm going for a walk.",
+]
+KURTARIS = [
+    "{M} left it late. {once} until {dk}', then {sonra}. {E} came good.",
+    "{M}. {dk}': {sonra}. {E} in, just. Not great for the heart.",
+    "{M} looked gone at {once}. Then {sonra} on {dk}'. I'll take it.",
+]
+
+
+def _dk(g: list) -> str:
+    return f"{g[0]}+{g[1]}" if g[1] else str(g[0])
+
+
+def an(a: dict) -> dict | None:
+    """Ayağın kaderini belirleyen gerçek an: son gol ayağı kazanandan kaybedene (ya da tersine) çevirdiyse ve
+    GEC_DAKIKA'dan sonra geldiyse. Gol listesi yoksa ya da skorla tutmuyorsa, pazar ilk yarı/korner gibi skordan
+    çözülmüyorsa, ayak hiç el değiştirmediyse ya da an erken geldiyse None (uydurma an yok)."""
+    goller = a.get("goller")
+    if not goller or a.get("durum") not in ("kazandi", "kaybetti") or a["pazar"].startswith(("IY", "YY", "KOR")):
+        return None
+    ev = dep = 0
+    durum, kritik, skorlar = model.kazandi_mi(a["pazar"], 0, 0), None, ["0-0"]
+    for i, g in enumerate(goller):
+        ev, dep = ev + (g[2] == "ev"), dep + (g[2] == "dep")
+        yeni = model.kazandi_mi(a["pazar"], ev, dep)
+        if yeni != durum:
+            kritik = i
+        durum = yeni
+        skorlar.append(f"{ev}-{dep}")
+    if kritik is None or durum != (a["durum"] == "kazandi") or a.get("skor") not in (None, skorlar[-1]):
+        return None
+    g = goller[kritik]
+    if g[0] < GEC_DAKIKA:
+        return None
+    onceki = goller[kritik - 1] if kritik and goller[kritik - 1][0] >= ONCEKI_DAKIKA else None
+    return {"tur": "kurtaris" if durum else "yikim", "dk": _dk(g), "once": skorlar[kritik], "sonra": skorlar[kritik + 1],
+            "odk": _dk(onceki) if onceki else None, "uzatma": g[0] >= 90 and g[1] > 0,
+            "M": f'{a["ev"]} v {a["dep"]}', "E": a["etiket"]}
+
+
+def an_metni(x: dict, tohum: str) -> str:
+    liste = (KURTARIS if x["tur"] == "kurtaris" else YIKIM if x["odk"] else YIKIM_SON if x["uzatma"] else YIKIM_TEK)
+    return _sec(liste, tohum).format(**x)
 
 
 def _sec(liste: list[str], tohum: str) -> str:
@@ -360,11 +421,14 @@ def karne_satiri(k: dict) -> str:
 
 
 def sonuc_metni(kupon: dict, k: dict, tohum: str) -> str:
-    """Sonuç postunun şablonu: tutan da yatan da aynı açıklıkla, güncel karneyle."""
+    """Sonuç postunun şablonu: tutan da yatan da aynı açıklıkla, güncel karneyle. Kuponun kaderi geç bir golle
+    belirlendiyse o an (dakika, skor; yalnızca sonuç kaydındaki gollerden) insan diliyle anlatılır."""
     ayaklar = kupon["ayaklar"]
     skorlar = [f'{"✅" if a["durum"] == "kazandi" else "↩️" if a["durum"] == "iade" else "❌"} '
                f'{a["ev"]} {a["skor"] or "void"} {a["dep"]}: {a["etiket"]}' for a in ayaklar]
     yatan = sum(a["durum"] == "kaybetti" for a in ayaklar)
+    anlar = [x for x in (an(a) for a in ayaklar) if x]
+    hikaye = next((x for x in anlar if x["tur"] == ("kurtaris" if kupon["durum"] == "tuttu" else "yikim")), None)
     if kupon["durum"] == "tuttu":
         bas = f'{"Both legs in" if len(ayaklar) == 2 else "All in" if len(ayaklar) > 2 else "In"} at {kupon["son_oran"]:.2f}. {_sec(TUTTU, tohum)}'
     elif kupon["durum"] == "iade":
@@ -373,13 +437,20 @@ def sonuc_metni(kupon: dict, k: dict, tohum: str) -> str:
         bas = f"{_sec(SEKTI, tohum)} Coupon down."
     else:
         bas = f"Coupon down. {_sec(YATTI, tohum)}"
+    kisa_bas = bas.split(". ")[0] + "."
     if kupon["durum"] == "yatti":
         bas += f" I had it at {_pct(kupon['olasilik'])}, which was never 100."
-    bas = {"tuttu": "✅ ", "iade": "↩️ "}.get(kupon["durum"], "❌ ") + bas  # akışta ilk bakışta sonuç
+    isaret = {"tuttu": "✅ ", "iade": "↩️ "}.get(kupon["durum"], "❌ ")  # akışta ilk bakışta sonuç
     son = f"\n\n{karne_satiri(k)}\n{ANSVAR}"
-    return _kisalt(f"{bas}\n\n" + "\n".join(skorlar) + son,
-                   f"{bas.split('. ')[0]}.\n\n" + "\n".join(skorlar) + son,
-                   f"{bas.split('. ')[0]}.{son}")
+    satirlar = "\n".join(skorlar)
+    secenekler = []
+    if hikaye:
+        anlati = an_metni(hikaye, tohum)
+        ek = (f" In at {kupon['son_oran']:.2f}." if kupon["durum"] == "tuttu"
+              else " Not the only leg to go, mind." if yatan > 1 else "")
+        secenekler += [f"{isaret}{anlati}{ek}\n\n{satirlar}{son}", f"{isaret}{anlati}{ek}{son}", f"{isaret}{anlati}{son}"]
+    secenekler += [f"{isaret}{bas}\n\n{satirlar}{son}", f"{isaret}{kisa_bas}\n\n{satirlar}{son}", f"{isaret}{kisa_bas}{son}"]
+    return _kisalt(*secenekler)
 
 
 # Günün dersi: kupon stratejisi üzerine kısa, dürüst notlar (ayrı post). Her biri 280 sınırında ve 18+ ile biter.
@@ -519,6 +590,15 @@ in his voice. Never claim a human hand-picked a coupon or watched a match.
 Voice: a dry, good-humoured bloke who likes numbers and never promises anything. Short sentences, everyday words,
 contractions, a little self-mockery. He says "probably", "likely", "I make it about 61%". He owns his losses in plain
 words and never sulks or blames referees. He is not a salesman and not a guru.
+
+Sound like a real fan typing on his phone at full-time, not like a brand or an assistant:
+- Fragments are fine. "Of course." "Lovely." "Gutted, briefly." Vary sentence length; one-word lines are allowed.
+- If the draft tells the moment that decided it (a minute and a score), that moment is the post. Tell it the way a mate
+  would in the pub, in time order, with the minute and score exactly as given. Never add a moment, a scorer, a VAR
+  call or anything else that is not in the draft.
+- Understatement over drama. Gallows humour over complaint. No exclamation marks, no "absolutely", no "unreal".
+- Don't explain the joke and don't moralise. One feeling per post.
+- Never sound like a template: don't reuse the draft's opening words if you can say it better in your own.
 
 Hard rules:
 - Max 280 characters (emojis count double). Keep the last line exactly "18+ | Play responsibly".
@@ -972,6 +1052,8 @@ def sonuclar(ayar, sonuc_al, gh, simdi: datetime, yazici=None, yaz=print) -> int
                         continue  # ilk yarı skoru / korner sayısı henüz yok: sonraki kontrolde
                     a["skor"] = f'{r["skor"][0]}-{r["skor"][1]}'
                     a["durum"] = "iade" if kazandi is None else "kazandi" if kazandi else "kaybetti"
+                    if r.get("goller") is not None:  # gerçek gol dakikaları: sonuç postunda anlatılabilir (E2)
+                        a["goller"] = r["goller"]
                 elif r["durum"] == "iptal" or gec:
                     a["durum"] = "iade"
             _kupon_sonucu(k)
@@ -979,7 +1061,9 @@ def sonuclar(ayar, sonuc_al, gh, simdi: datetime, yazici=None, yaz=print) -> int
             if k["durum"] != "bekliyor" and all(a["durum"] != "bekliyor" for a in k["ayaklar"]) and not k.get("sonuc_metni"):
                 biten += 1
                 sablon = sonuc_metni(k, karne(veri), gun["tarih"] + k["ad"])
-                k["sonuc_metni"] = yazici(sablon, [x for a in k["ayaklar"] for x in (a["ev"], a["dep"])])
+                # Sesli yazımda maç adları ve (anlatı varsa) belirleyici dakika korunur
+                k["sonuc_metni"] = yazici(sablon, [x for a in k["ayaklar"] for x in (a["ev"], a["dep"])]
+                                          + [x["dk"] for x in filter(None, map(an, k["ayaklar"])) if x["dk"] in sablon])
                 if gun.get("issue"):
                     gh.yorum(gun["issue"], f"### Sonuç: kupon `{k['ad']}` "
                                            f"{'✅ tuttu' if k['durum'] == 'tuttu' else '↩️ iade' if k['durum'] == 'iade' else '❌ yattı'}\n"

@@ -50,6 +50,9 @@ says so. The coupons are picked by a numbers model on fixed rules; he presents t
 - He never claims a history he does not have. The only record he mentions is the one in the draft.
 - He never tells anyone to stake more, chase a loss, or bet money they need.
 - He never claims he watched a game or hand-picked a coupon. If asked: a model picks them, on rules that don't bend.
+- When a late goal decided it, he tells that moment like a mate in the pub: minute, score, one dry line. Only the
+  moments in the draft; never a scorer, a VAR call or a "should have been a penalty".
+- He types like a person at full-time, not a brand: fragments, understatement, no exclamation marks.
 
 Example lines in his voice:
 
@@ -58,6 +61,8 @@ Example lines in his voice:
 - "One leg short. The classic. Coupon down."
 - "Landed. I'll try not to be smug about it."
 - "No pick today. Nothing on the board is worth the price."
+- "Levante v Sevilla. 88': 2-0. Still fine. 90+3': 3-0. Of course it was."
+- "Malmo FF v Kalmar FF looked gone at 0-1. Then 1-1 on 89'. I'll take it."
 
 ## Değişmez kurallar (SOZLESME.md E bölümü)
 
@@ -91,8 +96,11 @@ Example lines in his voice:
   ikinci strateji notu (başka bir posta 40 dakikadan yakınsa bekler). Günlük hedef 8–10 post: 3 kupon, 3 sonuç, 4 bilgi.
   Büyük maç postları (favori, gol, denk) **anketli**: seçenekler kısa, anket maç başlayınca kapanır (ek post yok).
   Strateji notları sade ve günlük dilde (90. dakika golü, son ayak, cash out, kendi takımına oynamak); marj/fiyat dili az.
-- Haftalık karne postu (Pazartesi 10:00, dersin yerine; yalnızca karneden): kodda hazır, `oto_haftalik_karne = false`.
-  SOZLESME E1'e eklenince açılır (sahibinin onayı).
+- Haftalık karne postu: Pazartesi 10:00, dersin yerine; geçen haftanın paylaşılmış kuponları, kaybedenler dahil, ve
+  ihtimallere göre kaçının tutması gerektiği (SOZLESME E1; kapatmak: `oto_haftalik_karne = false`).
+- Sonuç postu, kuponun kaderini 80. dakikadan sonra bir gol belirlediyse o anı anlatır ("88': 2-0. 90+3': 3-0."). Gol
+  dakikaları sonuç isteğiyle gelen maç olaylarından (ek istek yok); olaylar skorla tutmuyorsa, maç The Odds API'den
+  geliyorsa ya da pazar ilk yarı/korner ise anlatı yok, düz metin gider (SOZLESME E2).
 - **Ölçüm (gölge test, paylaşılmaz):** sabah havuzundaki bütün ayakların sonucu toplu istekle (API-Football, 20 maç/istek,
   günde ~3-4 istek) `data/likely_olcum/` içine yazılır. Sabah bildiriminin sonunda "Ölçüm" bölümü: pazar başına beklenen
   ve gerçek tutma (z ≥ 2 ise fark gerçek olabilir) ve kural varyantlarının aynı havuzda yeniden oynatılması (tutan, kâr).

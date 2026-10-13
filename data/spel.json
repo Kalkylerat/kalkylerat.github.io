@@ -62914,7 +62914,22 @@
         "durum": "paylasildi",
         "tweet_id": "2109917208013058423",
         "zaman": "2026-10-13T08:00:22+00:00",
-        "metin": "🆚 Bandırmaspor v Sivasspor\n\n🏆 Bandırmaspor 44% · Draw 26% · Sivasspor 30%\n⚽ Over 2.5 goals 51% · Under 49%\n🥅 Both teams score 54% · Not both 46%\n🎯 Likeliest score 1-1 (12%)\n\n📈 Bandırmaspor win: odds 44%, stats 60%\n\n💬 Is 1-1 too low at 12%?\n18+ | Play responsibly"
+        "metin": "🆚 Bandırmaspor v Sivasspor\n\n🏆 Bandırmaspor 44% · Draw 26% · Sivasspor 30%\n⚽ Over 2.5 goals 51% · Under 49%\n🥅 Both teams score 54% · Not both 46%\n🎯 Likeliest score 1-1 (12%)\n\n📈 Bandırmaspor win: odds 44%, stats 60%\n\n💬 Is 1-1 too low at 12%?\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2109999355356643444",
+          "skor": "1-1",
+          "isabet": [
+            false,
+            false,
+            true
+          ],
+          "zaman": "2026-10-13T13:26:54+00:00",
+          "brier": {
+            "piyasa": 1.3068,
+            "istatistik": 1.495
+          }
+        }
       },
       "tablo": {
         "durum": "paylasildi",

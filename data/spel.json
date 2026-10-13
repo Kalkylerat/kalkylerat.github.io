@@ -64680,6 +64680,11 @@
         "durum": "hata",
         "hata": "X API hatası 402: {\"detail\":\"credits depleted\",\"status\":402,\"title\":\"Payment Required\",\"type\":\"https://api.x.com/2/problems/credits-depleted\"}",
         "zaman": "2026-10-13T10:10:39+00:00"
+      },
+      "analiz_7": {
+        "durum": "hata",
+        "hata": "X API hatası 402: {\"detail\":\"credits depleted\",\"status\":402,\"title\":\"Payment Required\",\"type\":\"https://api.x.com/2/problems/credits-depleted\"}",
+        "zaman": "2026-10-13T10:17:46+00:00"
       }
     },
     "yanit_kiti": {

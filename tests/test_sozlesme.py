@@ -69,6 +69,20 @@ def test_A4_oran_ve_istatistik_yan_yana():
     assert "odds" in yanit and "stats" in yanit
 
 
+def test_A4_istatistik_kendi_kategorisinden():
+    def takim(ic, dis, a, y, s5a=None, s5y=None):
+        return {"oynanan_ic": ic, "oynanan_dis": dis, "atilan_ic_ort": a, "yenilen_ic_ort": y, "atilan_dis_ort": a + 0.5,
+                "yenilen_dis_ort": y + 0.5, "son5_atilan_ort": s5a or a, "son5_yenilen_ort": s5y or y}
+    # Ev sahibi iç saha, deplasman takımı dış saha ortalamasıyla ölçülür
+    goller, kaynak = analiz.istatistik_modeli({"ev": takim(4, 4, 2.0, 1.0), "dep": takim(4, 4, 1.0, 1.0)})
+    assert kaynak == "lig" and goller == ((2.0 + 1.5) / 2, (1.5 + 1.0) / 2)
+    # 13 Ekim: Şampiyonlar Ligi'nde 1–2 maç; "son 5 maç" ortalaması (aynı turnuvadan) yerine geçmez
+    assert analiz.istatistik_modeli({"ev": takim(1, 1, 0.5, 3.0, 0.0, 3.0), "dep": takim(1, 1, 3.0, 0.5, 3.0, 1.0)}) is None
+    # Toplam maç yetse de kategori (ev sahibinin iç saha / deplasmanın dış saha maçı) yetmezse istatistik yok
+    assert analiz.istatistik_modeli({"ev": takim(2, 5, 1.5, 1.0), "dep": takim(4, 4, 1.2, 1.1)}) is None
+    assert analiz.istatistik_modeli({"ev": takim(4, 4, 1.5, 1.0), "dep": takim(5, 2, 1.2, 1.1)}) is None
+
+
 @pytest.mark.parametrize("a", [FRA, BEL, KAZ])
 def test_A5_yuzde_isareti_kisaltma_yok(a):
     for metin in (etkilesim.analiz_tweeti(a, AYAR), etkilesim.analiz_takip_tweeti(a, "2-2"),

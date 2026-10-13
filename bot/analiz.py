@@ -16,27 +16,29 @@ FARK_ESIGI = 0.10
 # Takım istatistiği modeli ancak bu kadar maçlık örneklemle güvenilir (Uluslar Ligi gibi turnuvalarda 1–3 maçlık
 # ortalama gürültüdür); toplam beklenen gol de makul aralıkta olmalı (0,25 + 0,25 gibi uç değerler veri hatasıdır).
 MIN_MAC = 5
+# Her takım kendi kategorisinde ölçülür (SÖZLEŞME A4, 13 Ekim 2026): ev sahibi bu turnuvadaki iç saha, deplasman
+# takımı dış saha maçlarıyla. API'nin "son 5 maç" verisi de aynı turnuvadan geldiği için yedek olarak kullanılmaz
+# (13 Ekim: Şampiyonlar Ligi'nde 1–2 maçlık ortalama Man United'a %87 verdi, piyasa %26).
+MIN_KATEGORI = 3
 TOPLAM_GOL_ARALIGI = (1.0, 5.0)
 
 
 def istatistik_modeli(ist: dict | None) -> tuple[tuple[float, float], str] | None:
-    """Güvenilir takım istatistiği modeli: (beklenen goller, kaynak). Kaynak "lig": iki takımın da bu ligde en az
-    MIN_MAC maçı var, iç saha/deplasman ortalamaları. Yoksa "son5": son 5 maçın (milli takımlarda turnuva
-    örneklemi küçük) attığı/yediği gol ortalaması. Toplam gol makul aralıkta değilse None (veri hatası)."""
+    """Güvenilir takım istatistiği modeli: (beklenen goller, "lig"). İki takımın da bu turnuvada bu sezon en az
+    MIN_MAC maçı, ev sahibinin en az MIN_KATEGORI iç saha, deplasman takımının en az MIN_KATEGORI dış saha maçı
+    olmalı; ortalamalar bu kategorilerden. Yetmezse ya da toplam gol makul aralıkta değilse (veri hatası) None:
+    kartta yüzde verilmez, nedeni yazılır."""
     if not ist or not model.veri_yeterli(ist):
         return None
     ev, dep = ist["ev"], ist["dep"]
-    if min(ev["oynanan_ic"] + ev["oynanan_dis"], dep["oynanan_ic"] + dep["oynanan_dis"]) >= MIN_MAC:
-        goller, kaynak = model.beklenen_goller(ist), "lig"
-    elif all(t["son5_atilan_ort"] + t["son5_yenilen_ort"] > 0 for t in (ev, dep)):
-        goller = ((ev["son5_atilan_ort"] + dep["son5_yenilen_ort"]) / 2, (dep["son5_atilan_ort"] + ev["son5_yenilen_ort"]) / 2)
-        kaynak = "son5"
-    else:
+    if min(ev["oynanan_ic"] + ev["oynanan_dis"], dep["oynanan_ic"] + dep["oynanan_dis"]) < MIN_MAC \
+            or ev["oynanan_ic"] < MIN_KATEGORI or dep["oynanan_dis"] < MIN_KATEGORI:
         return None
+    goller = ((ev["atilan_ic_ort"] + dep["yenilen_dis_ort"]) / 2, (dep["atilan_dis_ort"] + ev["yenilen_ic_ort"]) / 2)
     goller = tuple(round(g, 2) for g in goller)
     if not TOPLAM_GOL_ARALIGI[0] <= sum(goller) <= TOPLAM_GOL_ARALIGI[1] or min(goller) <= 0.2 or max(goller) >= 4.0:
         return None
-    return goller, kaynak
+    return goller, "lig"
 
 
 def istatistik_golleri(ist: dict | None) -> tuple[float, float] | None:

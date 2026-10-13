@@ -16,7 +16,7 @@ Bir kuralı değiştirmek isterseniz önce burayı, sonra testi, en son kodu de�
 | A1 | Postta adı geçen **her maçın kendi yüzdeleri** yazılır (en az iki); yüzdesiz maç adı yok. | `test_A1` | denetçi (paylaşmadan önce) |
 | A2 | Rakamlar kayıttakiyle aynı; direktör (yapay zekâ) bir yüzdeyi atamaz, uyduramaz. | `test_A2` | denetçi |
 | A3 | **Olasılık, seçim değil**: her pazar bütün taraflarıyla (Ev % · Beraberlik % · Dep %), her kartta "not picks"; ✅/❌, "wrong", "our pick" yok. | `test_A3` | `saglik` (seçim dili) |
-| A4 | **Oran ve takım istatistiği yan yana**; istatistik yoksa nedeni yazılır. | `test_A4` | — |
+| A4 | **Oran ve takım istatistiği yan yana**; istatistik yoksa nedeni yazılır. İstatistik **kendi kategorisinden**: aynı turnuvanın bu sezonu, ev sahibinin iç saha ve deplasman takımının dış saha maçları (iki takım da en az 5 maç, kategoride en az 3). Yetmezse istatistik yüzdesi verilmez ve nedeni yazılır; başka turnuvanın ya da az maçlı "son 5 maç" ortalaması yerine geçmez (sahibinin isteği, 13 Ekim 2026). | `test_A4` | — |
 | A5 | Her sayıda % işareti; kısaltma yok ("O2.5", "BTTS" değil "Over 2.5 goals", "Both teams score"). | `test_A5` | `saglik` (kısaltma) |
 | A6 | Görsellerde yüzdesiz rakam yok (en olası skorun da yüzdesi var). | `test_A6` | — |
 | A7 | Maç sonu postu: olan ve maç öncesi yüzdesi ("Our pre-match chance of what happened"). | `test_A7` | `saglik` |

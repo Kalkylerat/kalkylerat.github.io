@@ -110,6 +110,16 @@ def test_A6_gorselde_yuzdesiz_rakam_yok(monkeypatch):
     assert not [t for t in yazilan if re.fullmatch(r"\d{1,3}", t.strip())]  # çıplak sayı yok
 
 
+def test_A6_uzun_takim_adi_yuzdeyi_yutmaz(monkeypatch):
+    yazilan = []
+    asil = gorsel.ImageDraw.ImageDraw.text
+    monkeypatch.setattr(gorsel.ImageDraw.ImageDraw, "text", lambda self, xy, t, *a, **k: (yazilan.append(t), asil(self, xy, t, *a, **k)))
+    uzun = {**FRA, "ev": "Borussia Mönchengladbach", "dep": "Wolverhampton Wanderers"}
+    gorsel.analiz_karti(uzun, "21:00 CEST")
+    for k in ("MS1", "MSX", "MS2"):  # 13 Ekim: "Manchester United …" kartta yüzdeyi kesiyordu
+        assert any(t.endswith(f'{round(100 * uzun["p"][k])}%') for t in yazilan), k
+
+
 def test_A7_mac_sonu_olan_ve_mac_oncesi_yuzdesi():
     takip = etkilesim.analiz_takip_tweeti(FRA, "1-2")
     assert "pre-match chance of what happened" in takip and "Italy win" in takip and "Score 1-2" in takip

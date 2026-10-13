@@ -25,14 +25,17 @@ def _font(boyut: int, kalin: bool = False) -> ImageFont.FreeTypeFont:
     return ImageFont.truetype(str(_FONT / ("DejaVuSans-Bold.ttf" if kalin else "DejaVuSans.ttf")), boyut)
 
 
-def _sigdir(d: ImageDraw.ImageDraw, metin: str, genislik: int, boyut: int, kalin: bool = False, en_kucuk: int = 22):
-    """Metni genişliğe sığana kadar küçültür; yine sığmazsa sonunu kısaltır."""
-    while boyut > en_kucuk and d.textlength(metin, font=_font(boyut, kalin)) > genislik:
+def _sigdir(d: ImageDraw.ImageDraw, metin: str, genislik: int, boyut: int, kalin: bool = False, en_kucuk: int = 22,
+            son: str = ""):
+    """Metni genişliğe sığana kadar küçültür; yine sığmazsa sonunu kısaltır. son (ör. yüzde) hiç kısaltılmaz: takım
+    adı kısalır, rakam kalır (13 Ekim: "Manchester United …" yüzdeyi yutuyordu, SÖZLEŞME A6)."""
+    tam = lambda m: f"{m} {son}" if son else m
+    while boyut > en_kucuk and d.textlength(tam(metin), font=_font(boyut, kalin)) > genislik:
         boyut -= 2
     f = _font(boyut, kalin)
-    while d.textlength(metin, font=f) > genislik and len(metin) > 4:
+    while d.textlength(tam(metin), font=f) > genislik and len(metin) > 4:
         metin = metin[:-2] + "…"
-    return metin, f
+    return tam(metin), f
 
 
 def _para(x: float, birim: str) -> str:
@@ -314,9 +317,9 @@ def analiz_karti(a: dict, saat: str, dil: str = "en") -> bytes:
         x += w
     y += 66
     x = K
-    for t, renk in ((f'{a["ev"]} {yuzde(p["MS1"])}', r["vurgu"]), (f'{e["beraberlik"]} {yuzde(p["MSX"])}', r["soluk"]),
-                    (f'{a["dep"]} {yuzde(p["MS2"])}', r["soluk"])):
-        t, f = _sigdir(d, t, (W - 2 * K) // 3 - 40, 24, True)
+    for ad, v, renk in ((a["ev"], p["MS1"], r["vurgu"]), (e["beraberlik"], p["MSX"], r["soluk"]),
+                        (a["dep"], p["MS2"], r["soluk"])):
+        t, f = _sigdir(d, ad, (W - 2 * K) // 3 - 40, 24, True, son=yuzde(v))
         d.ellipse((x, y + 6, x + 16, y + 22), fill=renk)
         d.text((x + 26, y), t, font=f, fill=r["yazi"])
         x += (W - 2 * K) // 3

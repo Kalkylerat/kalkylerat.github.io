@@ -63025,6 +63025,24 @@
               1
             ],
             "zaman": "2026-10-13T20:44:58+00:00"
+          },
+          "1635612": {
+            "durum": "paylasildi",
+            "tweet_id": "2110111339473731698",
+            "skor": [
+              3,
+              0
+            ],
+            "zaman": "2026-10-13T20:51:57+00:00"
+          },
+          "1635748": {
+            "durum": "paylasildi",
+            "tweet_id": "2110111340518076758",
+            "skor": [
+              3,
+              1
+            ],
+            "zaman": "2026-10-13T20:51:57+00:00"
           }
         }
       },
@@ -63142,7 +63160,22 @@
         "durum": "paylasildi",
         "tweet_id": "2109988223992955012",
         "zaman": "2026-10-13T12:42:32+00:00",
-        "metin": "🆚 Arsenal v Lille\n\n🏆 Arsenal 78% · Draw 14% · Lille 7%\n⚽ Over 2.5 goals 62% · Under 38%\n🥅 Both teams score 44% · Not both 56%\n🎯 Likeliest score: 2-0 (13%)\n\n📈 Stats: Arsenal win 61%\n💹 Market: 78%\n\n💬 Market 78%, stats 61%. Which do you trust?\n18+ | Play responsibly"
+        "metin": "🆚 Arsenal v Lille\n\n🏆 Arsenal 78% · Draw 14% · Lille 7%\n⚽ Over 2.5 goals 62% · Under 38%\n🥅 Both teams score 44% · Not both 56%\n🎯 Likeliest score: 2-0 (13%)\n\n📈 Stats: Arsenal win 61%\n💹 Market: 78%\n\n💬 Market 78%, stats 61%. Which do you trust?\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2110111357920313390",
+          "skor": "3-0",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            1.86,
+            0.4
+          ],
+          "zaman": "2026-10-13T20:51:57+00:00"
+        }
       },
       "analiz_3": {
         "durum": "paylasildi",
@@ -63230,7 +63263,22 @@
         "durum": "paylasildi",
         "tweet_id": "2110028373757923746",
         "zaman": "2026-10-13T15:22:17+00:00",
-        "metin": "🆚 Villarreal v Napoli\n\n🏆 Villarreal 46% · Draw 24% · Napoli 31%\n⚽ Over 2.5 goals 59% · Under 41%\n🥅 Both teams score 60% · Not both 40%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Villarreal 46%: too high? 👇\n#UCL\n18+ | Play responsibly"
+        "metin": "🆚 Villarreal v Napoli\n\n🏆 Villarreal 46% · Draw 24% · Napoli 31%\n⚽ Over 2.5 goals 59% · Under 41%\n🥅 Both teams score 60% · Not both 40%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Villarreal 46%: too high? 👇\n#UCL\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2110111379818746298",
+          "skor": "3-1",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            1.38,
+            1.94
+          ],
+          "zaman": "2026-10-13T20:51:57+00:00"
+        }
       },
       "analiz_9": {
         "durum": "paylasildi",

@@ -29,7 +29,8 @@ Kurallar: `SOZLESME.md` (değişmez), çalışma kuralları: `CLAUDE.md`. Sahibi
      → "Kalkylerat Nöbetçi" yoksa: `gh api -X POST repos/Kalkylerat/kalkylerat.github.io/actions/workflows/nobet.yml/dispatches -f ref=claude/twitter-football-predictions-ywwfxw`
 4. Alarmlar: `gh api "repos/Kalkylerat/kalkylerat.github.io/issues?labels=alarm&state=open" --jq '.[]|"#\(.number) \(.updated_at)"'`
    Yeni (daha önce görülmemiş) issue/yorum varsa gövdesini oku.
-   Eskiler, açıklandı: #8 #11 #16 #38 #41 (3–8 Ekim), #49 #50 (11 Ekim 14:47, Mr. Likely'de tek seferlik bağlantı kopması).
+   Eskiler, açıklandı: #8 #11 #16 #38 #41 (3–8 Ekim), #49 #50 (11 Ekim 14:47, Mr. Likely'de tek seferlik bağlantı kopması),
+   #56–#59 (13 Ekim 10:10–11:48, X API kredisi bitti: 402 "credits depleted"; kaçan 14 post aynı gün geri sıraya kondu).
 5. Sorun yoksa sahibine tek satır "sorun yok" yeter. Sorun varsa kök nedeni bul, Türkçe kısa özet yaz.
    B7: 08–21 UTC arasında 3 saatten uzun post/yanıt yoksa bu HER ZAMAN sorundur ("sakin gün" deme).
 
@@ -41,6 +42,10 @@ Kurallar: `SOZLESME.md` (değişmez), çalışma kuralları: `CLAUDE.md`. Sahibi
 - Yerelde test için gerekirse: `pip install --ignore-installed cryptography`. Testler: `python -m pytest -q` (hepsi yeşil olmalı).
 - `git checkout <dosya>` yerel değişikliği siler; eski davranışı denemek için `git stash push <dosya>`.
 - Tek seferlik ağ hatası (RemoteDisconnected vb.) sonraki nabızlar başarılıysa müdahale gerektirmez.
+- **X kredisi biterse (402 "credits depleted"):** bot her nabızda sıradaki postu dener, düşen post o gün için
+  `hata` olur ve bir daha denenmez (13 Ekim: 1,5 saatte 14 post düştü). Kredi yüklenince o günün 402 kayıtları
+  `data/spel.json` → `etkilesim`'den silinirse bot onları normal düzende (aralık ≥13 dk) yeniden sıraya alır;
+  önce `python -m bot.durum` simülasyonuyla son saatlere yetiştiğini doğrula. Mr. Likely kendi kendine yeniden dener.
 
 ## Paylaşım zamanlaması (bot/etkilesim.py) — neden böyle
 - `_plan`: her post için (tür, en erken, en geç). Kart: maçtan 8 saat önce açılır, 35 dk önce kapanır, taban 08:00 UTC;

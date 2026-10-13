@@ -62977,7 +62977,26 @@
         "durum": "paylasildi",
         "tweet_id": "2109944672995176499",
         "zaman": "2026-10-13T09:49:27+00:00",
-        "metin": "🆚 Sarıyer v Bodrum FK\n\n🏆 Sarıyer 48% · Draw 26% · Bodrum FK 26%\n⚽ Over 2.5 goals 44% · Under 56%\n🥅 Both teams score 48% · Not both 52%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Team stats: Over 2.5 goals 35%\n💹 Odds: 44%\n\n💬 Not picks. What's your score? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Sarıyer v Bodrum FK\n\n🏆 Sarıyer 48% · Draw 26% · Bodrum FK 26%\n⚽ Over 2.5 goals 44% · Under 56%\n🥅 Both teams score 48% · Not both 52%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Team stats: Over 2.5 goals 35%\n💹 Odds: 44%\n\n💬 Not picks. What's your score? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2110038962890842623",
+          "skor": "1-4",
+          "isabet": [
+            false,
+            false,
+            false
+          ],
+          "xg": [
+            1.93,
+            1.28
+          ],
+          "zaman": "2026-10-13T16:04:09+00:00",
+          "brier": {
+            "piyasa": 1.42,
+            "istatistik": 1.6899
+          }
+        }
       },
       "analiz_12": {
         "durum": "paylasildi",
@@ -63062,11 +63081,651 @@
         "tweet_id": "2110033535155220601",
         "zaman": "2026-10-13T15:42:48+00:00",
         "metin": "🆚 Bristol City v Blackburn\n\n🏆 Bristol City 48% · Draw 26% · Blackburn 26%\n⚽ Over 2.5 goals 47% · Under 53%\n🥅 Both teams score 50% · Not both 50%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: Bristol City win 36% (odds 48%)\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+      },
+      "tablo_aksam": {
+        "durum": "paylasildi",
+        "tweet_id": "2110038950756643253",
+        "zaman": "2026-10-13T16:04:09+00:00",
+        "metin": "🆚 Durban City v Amazulu\n🏆 Durban City 42% · Draw 29% · Amazulu 29%\n⚽ Over 2.5 goals 36% · Under 64%\n🎯 Likeliest score 1-0 (14%)\n📈 Team stats: none for this one\n\n💬 Durban City 42% at home. Higher or lower than you had it?\n\n18+ | Play responsibly",
+        "maclar": [
+          1600353,
+          1600356,
+          1600358,
+          1563662,
+          1563191,
+          1563196
+        ],
+        "sonuclar": {}
       }
     },
     "yanit_kiti": {
       "issue": 55,
       "zaman": "2026-10-13T07:00:41+00:00"
-    }
+    },
+    "tablo_aksam": [
+      {
+        "fixture_id": 1600353,
+        "lig": "Premier Soccer League",
+        "ulke": "South-Africa",
+        "lig_id": 288,
+        "ev": "Durban City",
+        "dep": "Amazulu",
+        "baslama": "2026-10-13T19:30:00+02:00",
+        "p": {
+          "MS1": 0.417,
+          "MSX": 0.292,
+          "MS2": 0.291,
+          "CS1X": 0.709,
+          "CSX2": 0.583,
+          "CS12": 0.708,
+          "KGVAR": 0.429,
+          "KGYOK": 0.571,
+          "UST15": 0.633,
+          "ALT15": 0.367,
+          "UST25": 0.364,
+          "ALT25": 0.636,
+          "UST35": 0.171,
+          "ALT35": 0.829,
+          "IY1": 0.302,
+          "IYX": 0.473,
+          "IY2": 0.225,
+          "IYU05": 0.62,
+          "IYA05": 0.38,
+          "IYU15": 0.252,
+          "IYA15": 0.748,
+          "EVU05": 0.699,
+          "EVA05": 0.301,
+          "EVU15": 0.337,
+          "EVA15": 0.663,
+          "EVU25": 0.121,
+          "EVA25": 0.879,
+          "DPU05": 0.613,
+          "DPA05": 0.387,
+          "DPU15": 0.246,
+          "DPA15": 0.754,
+          "DPU25": 0.071,
+          "DPA25": 0.929,
+          "YYU05": 0.693,
+          "YYA05": 0.307,
+          "YYU15": 0.331,
+          "YYA15": 0.669
+        },
+        "skorlar": [
+          [
+            "1-0",
+            0.1398
+          ],
+          [
+            "1-1",
+            0.1328
+          ],
+          [
+            "0-0",
+            0.1165
+          ],
+          [
+            "0-1",
+            0.1107
+          ],
+          [
+            "2-0",
+            0.0839
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.364,
+            "istatistik": 0.269
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Durban City win",
+            "piyasa": 0.417,
+            "istatistik": 0.336
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.429,
+            "istatistik": 0.352
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Amazulu win",
+            "piyasa": 0.291,
+            "istatistik": 0.336
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.292,
+            "istatistik": 0.329
+          }
+        ],
+        "beklenen_gol": [
+          1.2,
+          0.95
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1600356,
+        "lig": "Premier Soccer League",
+        "ulke": "South-Africa",
+        "lig_id": 288,
+        "ev": "Kaizer Chiefs",
+        "dep": "Stellenbosch",
+        "baslama": "2026-10-13T19:30:00+02:00",
+        "p": {
+          "MS1": 0.538,
+          "MSX": 0.268,
+          "MS2": 0.194,
+          "CS1X": 0.806,
+          "CSX2": 0.462,
+          "CS12": 0.732,
+          "KGVAR": 0.404,
+          "KGYOK": 0.596,
+          "UST15": 0.645,
+          "ALT15": 0.355,
+          "UST25": 0.377,
+          "ALT25": 0.623,
+          "UST35": 0.181,
+          "ALT35": 0.819,
+          "IY1": 0.377,
+          "IYX": 0.458,
+          "IY2": 0.165,
+          "IYU05": 0.628,
+          "IYA05": 0.372,
+          "IYU15": 0.261,
+          "IYA15": 0.739,
+          "EVU05": 0.765,
+          "EVA05": 0.235,
+          "EVU15": 0.425,
+          "EVA15": 0.575,
+          "EVU25": 0.179,
+          "EVA25": 0.821,
+          "DPU05": 0.528,
+          "DPA05": 0.472,
+          "DPU15": 0.173,
+          "DPA15": 0.827,
+          "DPU25": 0.041,
+          "DPA25": 0.959,
+          "YYU05": 0.702,
+          "YYA05": 0.298,
+          "YYU15": 0.341,
+          "YYA15": 0.659
+        },
+        "skorlar": [
+          [
+            "1-0",
+            0.1607
+          ],
+          [
+            "1-1",
+            0.1205
+          ],
+          [
+            "2-0",
+            0.1165
+          ],
+          [
+            "0-0",
+            0.1108
+          ],
+          [
+            "2-1",
+            0.0874
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.404,
+            "istatistik": 0.491
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.377,
+            "istatistik": 0.456
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Stellenbosch win",
+            "piyasa": 0.194,
+            "istatistik": 0.252
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Kaizer Chiefs win",
+            "piyasa": 0.538,
+            "istatistik": 0.488
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.268,
+            "istatistik": 0.26
+          }
+        ],
+        "beklenen_gol": [
+          1.45,
+          0.75
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1600358,
+        "lig": "Premier Soccer League",
+        "ulke": "South-Africa",
+        "lig_id": 288,
+        "ev": "Richards Bay",
+        "dep": "Mamelodi Sundowns",
+        "baslama": "2026-10-13T19:30:00+02:00",
+        "p": {
+          "MS1": 0.097,
+          "MSX": 0.188,
+          "MS2": 0.715,
+          "CS1X": 0.285,
+          "CSX2": 0.903,
+          "CS12": 0.812,
+          "KGVAR": 0.393,
+          "KGYOK": 0.607,
+          "UST15": 0.742,
+          "ALT15": 0.258,
+          "UST25": 0.494,
+          "ALT25": 0.506,
+          "UST35": 0.275,
+          "ALT35": 0.725,
+          "IY1": 0.106,
+          "IYX": 0.384,
+          "IY2": 0.51,
+          "IYU05": 0.697,
+          "IYA05": 0.303,
+          "IYU15": 0.335,
+          "IYA15": 0.665,
+          "EVU05": 0.451,
+          "EVA05": 0.549,
+          "EVU15": 0.122,
+          "EVA15": 0.878,
+          "EVU25": 0.023,
+          "EVA25": 0.977,
+          "DPU05": 0.871,
+          "DPA05": 0.129,
+          "DPU15": 0.607,
+          "DPA15": 0.393,
+          "DPU25": 0.337,
+          "DPA25": 0.663,
+          "YYU05": 0.767,
+          "YYA05": 0.233,
+          "YYU15": 0.428,
+          "YYA15": 0.572
+        },
+        "skorlar": [
+          [
+            "0-2",
+            0.1485
+          ],
+          [
+            "0-1",
+            0.1448
+          ],
+          [
+            "0-3",
+            0.1014
+          ],
+          [
+            "1-2",
+            0.0891
+          ],
+          [
+            "1-1",
+            0.0869
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.393,
+            "istatistik": 0.656
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Mamelodi Sundowns win",
+            "piyasa": 0.715,
+            "istatistik": 0.526
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.494,
+            "istatistik": 0.67
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Richards Bay win",
+            "piyasa": 0.097,
+            "istatistik": 0.261
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.188,
+            "istatistik": 0.213
+          }
+        ],
+        "beklenen_gol": [
+          0.6,
+          2.05
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1563662,
+        "lig": "Cup",
+        "ulke": "Russia",
+        "lig_id": 237,
+        "ev": "FC Krasnodar",
+        "dep": "Fakel",
+        "baslama": "2026-10-13T19:45:00+02:00",
+        "p": {
+          "MS1": 0.689,
+          "MSX": 0.194,
+          "MS2": 0.116,
+          "CS1X": 0.884,
+          "CSX2": 0.311,
+          "CS12": 0.806,
+          "KGVAR": 0.439,
+          "KGYOK": 0.561,
+          "UST15": 0.76,
+          "ALT15": 0.24,
+          "UST25": 0.519,
+          "ALT25": 0.481,
+          "UST35": 0.297,
+          "ALT35": 0.703,
+          "IY1": 0.496,
+          "IYX": 0.381,
+          "IY2": 0.123,
+          "IYU05": 0.71,
+          "IYA05": 0.29,
+          "IYU15": 0.351,
+          "IYA15": 0.649,
+          "EVU05": 0.871,
+          "EVA05": 0.129,
+          "EVU15": 0.607,
+          "EVA15": 0.393,
+          "EVU25": 0.337,
+          "EVA25": 0.663,
+          "DPU05": 0.503,
+          "DPA05": 0.497,
+          "DPU15": 0.156,
+          "DPA15": 0.844,
+          "DPU25": 0.034,
+          "DPA25": 0.966,
+          "YYU05": 0.78,
+          "YYA05": 0.22,
+          "YYU15": 0.446,
+          "YYA15": 0.554
+        },
+        "skorlar": [
+          [
+            "2-0",
+            0.1343
+          ],
+          [
+            "1-0",
+            0.1311
+          ],
+          [
+            "2-1",
+            0.094
+          ],
+          [
+            "3-0",
+            0.0918
+          ],
+          [
+            "1-1",
+            0.0917
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [],
+        "beklenen_gol": [
+          2.05,
+          0.7
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": null
+      },
+      {
+        "fixture_id": 1563191,
+        "lig": "Championship",
+        "ulke": "England",
+        "lig_id": 40,
+        "ev": "Birmingham",
+        "dep": "Preston",
+        "baslama": "2026-10-13T21:00:00+02:00",
+        "p": {
+          "MS1": 0.607,
+          "MSX": 0.215,
+          "MS2": 0.178,
+          "CS1X": 0.822,
+          "CSX2": 0.393,
+          "CS12": 0.785,
+          "KGVAR": 0.526,
+          "KGYOK": 0.474,
+          "UST15": 0.785,
+          "ALT15": 0.215,
+          "UST25": 0.554,
+          "ALT25": 0.446,
+          "UST35": 0.33,
+          "ALT35": 0.67,
+          "IY1": 0.446,
+          "IYX": 0.383,
+          "IY2": 0.171,
+          "IYU05": 0.729,
+          "IYA05": 0.271,
+          "IYU15": 0.375,
+          "IYA15": 0.625,
+          "EVU05": 0.858,
+          "EVA05": 0.142,
+          "EVU15": 0.58,
+          "EVA15": 0.42,
+          "EVU25": 0.31,
+          "EVA25": 0.69,
+          "DPU05": 0.613,
+          "DPA05": 0.387,
+          "DPU15": 0.246,
+          "DPA15": 0.754,
+          "DPU25": 0.071,
+          "DPA25": 0.929,
+          "YYU05": 0.797,
+          "YYA05": 0.203,
+          "YYU15": 0.473,
+          "YYA15": 0.527
+        },
+        "skorlar": [
+          [
+            "1-0",
+            0.1073
+          ],
+          [
+            "2-0",
+            0.1046
+          ],
+          [
+            "1-1",
+            0.1019
+          ],
+          [
+            "2-1",
+            0.0994
+          ],
+          [
+            "3-0",
+            0.068
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Birmingham win",
+            "piyasa": 0.607,
+            "istatistik": 0.47
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Preston win",
+            "piyasa": 0.178,
+            "istatistik": 0.3
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.526,
+            "istatistik": 0.629
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.554,
+            "istatistik": 0.62
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.215,
+            "istatistik": 0.229
+          }
+        ],
+        "beklenen_gol": [
+          1.95,
+          0.95
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1563196,
+        "lig": "Championship",
+        "ulke": "England",
+        "lig_id": 40,
+        "ev": "Stoke City",
+        "dep": "Middlesbrough",
+        "baslama": "2026-10-13T21:00:00+02:00",
+        "p": {
+          "MS1": 0.282,
+          "MSX": 0.239,
+          "MS2": 0.48,
+          "CS1X": 0.52,
+          "CSX2": 0.718,
+          "CS12": 0.761,
+          "KGVAR": 0.583,
+          "KGYOK": 0.417,
+          "UST15": 0.793,
+          "ALT15": 0.207,
+          "UST25": 0.566,
+          "ALT25": 0.434,
+          "UST35": 0.342,
+          "ALT35": 0.658,
+          "IY1": 0.242,
+          "IYX": 0.392,
+          "IY2": 0.366,
+          "IYU05": 0.735,
+          "IYA05": 0.265,
+          "IYU15": 0.383,
+          "IYA15": 0.617,
+          "EVU05": 0.713,
+          "EVA05": 0.287,
+          "EVU15": 0.355,
+          "EVA15": 0.645,
+          "EVU25": 0.132,
+          "EVA25": 0.868,
+          "DPU05": 0.817,
+          "DPA05": 0.183,
+          "DPU15": 0.507,
+          "DPA15": 0.493,
+          "DPU25": 0.243,
+          "DPA25": 0.757,
+          "YYU05": 0.803,
+          "YYA05": 0.197,
+          "YYU15": 0.482,
+          "YYA15": 0.518
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1112
+          ],
+          [
+            "1-2",
+            0.0945
+          ],
+          [
+            "0-1",
+            0.089
+          ],
+          [
+            "0-2",
+            0.0756
+          ],
+          [
+            "2-1",
+            0.0695
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS2",
+            "ad": "Middlesbrough win",
+            "piyasa": 0.48,
+            "istatistik": 0.241
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Stoke City win",
+            "piyasa": 0.282,
+            "istatistik": 0.514
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.566,
+            "istatistik": 0.506
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.583,
+            "istatistik": 0.525
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.239,
+            "istatistik": 0.245
+          }
+        ],
+        "beklenen_gol": [
+          1.25,
+          1.7
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      }
+    ]
   }
 ]

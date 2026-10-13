@@ -64621,7 +64621,14 @@
         "istatistik_kaynak": "lig"
       }
     ],
-    "etkilesim": {},
+    "etkilesim": {
+      "analiz_5": {
+        "durum": "paylasildi",
+        "tweet_id": "2109917208013058423",
+        "zaman": "2026-10-13T08:00:22+00:00",
+        "metin": "🆚 Bandırmaspor v Sivasspor\n\n🏆 Bandırmaspor 44% · Draw 26% · Sivasspor 30%\n⚽ Over 2.5 goals 51% · Under 49%\n🥅 Both teams score 54% · Not both 46%\n🎯 Likeliest score 1-1 (12%)\n\n📈 Bandırmaspor win: odds 44%, stats 60%\n\n💬 Is 1-1 too low at 12%?\n18+ | Play responsibly"
+      }
+    },
     "yanit_kiti": {
       "issue": 55,
       "zaman": "2026-10-13T07:00:41+00:00"

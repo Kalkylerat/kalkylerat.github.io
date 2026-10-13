@@ -14074,8 +14074,15 @@
        "oran": 1.36,
        "olasilik": 0.706,
        "deger": -0.04,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "0-1",
+       "goller": [
+        [
+         76,
+         0,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1635666-EVU05",

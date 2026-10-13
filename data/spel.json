@@ -64745,6 +64745,12 @@
         "durum": "hata",
         "hata": "X API hatası 402: {\"detail\":\"credits depleted\",\"status\":402,\"title\":\"Payment Required\",\"type\":\"https://api.x.com/2/problems/credits-depleted\"}",
         "zaman": "2026-10-13T11:48:39+00:00"
+      },
+      "analiz_12": {
+        "durum": "paylasildi",
+        "tweet_id": "2109976442876408201",
+        "zaman": "2026-10-13T11:55:45+00:00",
+        "metin": "🆚 Millwall v Swansea\n\n🏆 Millwall 39% · Draw 26% · Swansea 35%\n⚽ Over 2.5 goals 51% · Under 49%\n🥅 Both teams score 55% · Not both 45%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Stats: Over 2.5 goals 67%\n💬 Odds 51%, stats 67%. Which is nearer?\n18+ | Play responsibly"
       }
     },
     "yanit_kiti": {

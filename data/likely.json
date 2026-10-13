@@ -13731,7 +13731,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 71
+     "no": 71,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1644212-CS12",
@@ -14314,7 +14315,7 @@
    ],
    "oto": true,
    "issue": 54,
-   "olcum_sorgu": "2026-10-13T19:31:05+00:00"
+   "olcum_sorgu": "2026-10-13T20:28:27+00:00"
   }
  ]
 }

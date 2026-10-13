@@ -361,6 +361,48 @@ def test_D3_baskalarina_otomatik_etkilesim_yok():
         assert yasak not in kaynak, yasak  # beğeni, takip, RT, DM uç noktaları hiç çağrılmaz
 
 
+def test_D3_yorum_kiti_yalnizca_taslak(tmp_path, monkeypatch):
+    from bot import yorum
+    monkeypatch.setattr(yorum, "DOSYA", tmp_path / "yorumlar.json")
+
+    class X:
+        def __init__(self): self.sorular = []
+        def ben(self): return "1", "kalkylerat"
+        def bahsedenler(self, me, since_id=None, baslangic=None):
+            self.sorular.append(since_id)
+            return [t for t in ({"id": "11", "metin": "Why only 26% for United?", "yazar": "9", "kullanici": "fan",
+                                 "bizim": "Atletico Madrid 52% · Draw 22% · Manchester United 26%"},
+                                {"id": "10", "metin": "kendi yanıtımız", "yazar": "1", "kullanici": "kalkylerat", "bizim": None})
+                    if since_id is None or int(t["id"]) > int(since_id)]
+        def gonder(self, *a, **k): pytest.fail("yorum kiti hiçbir şey paylaşmaz")
+        def sil(self, *a, **k): pytest.fail("yorum kiti hiçbir şey silmez")
+
+    class GH:
+        def __init__(self): self.issue, self.yorumlar = [], []
+        def issue_ac(self, baslik, govde, etiket): self.issue.append((baslik, etiket)); return 7
+        def yorum(self, no, mesaj): self.yorumlar.append((no, mesaj))
+
+    x, gh, simdi = X(), GH(), datetime(2026, 10, 13, 14, 0, tzinfo=UTC)
+    assert yorum.kontrol(x, gh, AYAR, simdi) == 1  # kendi postumuz bildirilmez
+    assert gh.issue == [("💬 Yorumlar @kalkylerat 2026-10-13", "yorum-kiti")]
+    no, mesaj = gh.yorumlar[0]
+    assert no == 7 and "Why only 26% for United?" in mesaj and "https://x.com/i/web/status/11" in mesaj
+    assert all(t in mesaj for t in yorum.YEDEK)  # Claude yoksa hazır kalıplar
+    assert yorum.kontrol(x, gh, AYAR, simdi + timedelta(minutes=5)) == 0 and x.sorular == [None]  # 15 dk dolmadan sorulmaz
+    assert yorum.kontrol(x, gh, AYAR, simdi + timedelta(minutes=20)) == 0 and x.sorular[-1] == "11"  # aynı yorum bir kez
+    # Taslak denetimi: link, etiket, seçim/kesinlik dili ve kaynakta olmayan sayı elenir
+    kaynak = "Atletico Madrid 52% · Draw 22% · Manchester United 26%\nWhy only 26%?"
+    assert yorum.uygun("Fair question. The market has United at 26%. How would you price it?", kaynak)
+    for kotu in ("Our pick is United, trust me", "Lock it in: United 26%", "See kalkylerat.com", "United 61% for sure",
+                 "#UCL United 26%", "We were right about it"):
+        assert not yorum.uygun(kotu, kaynak), kotu
+    # Claude taslakları da aynı denetimden geçer; kurala uymayan düşer
+    monkeypatch.setattr(direktor, "_cagir", lambda *a, **k: {"taslaklar": ["Our pick: United", "x" * 300,
+                        "The market has United at 26%. How would you price it?"], "not": "Oranı soruyor.", "spam": False})
+    t, not_, spam = yorum.taslaklar({"metin": "Why only 26%?", "bizim": kaynak}, "kalkylerat", client=object(), ayar=AYAR)
+    assert t == ["The market has United at 26%. How would you price it?"] and not_ == "Oranı soruyor." and not spam
+
+
 def test_D4_topluluga_yalnizca_tablo_ve_kiyas():
     kaynak = (ROOT / "bot/etkilesim.py").read_text()
     assert kaynak.count("_gonder(x, ayar, metin, yaz") == 2  # tablo ve ayrışma (kıyas) postları

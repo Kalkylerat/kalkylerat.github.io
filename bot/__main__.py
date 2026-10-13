@@ -10,7 +10,7 @@ import time
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-from . import analiz, config, denetci, direktor, editor, etkilesim, football, gorsel, kayit, kit, likely, likely_gorsel, likely_yetki, model, oddsapi, onay, panel, saglik, temizlik, tweets
+from . import analiz, config, denetci, direktor, editor, etkilesim, football, gorsel, kayit, kit, likely, likely_gorsel, likely_yetki, model, oddsapi, onay, panel, saglik, temizlik, tweets, yorum
 from .model import adaylari_uret, bet_builder, etiketler
 
 # Çalışma sırasında yakalanan hatalar: iş sonunda "başarısız" işaretlenir, GitHub sahibine e-posta atar.
@@ -1426,6 +1426,16 @@ def main(argv=None) -> int:
                            yaz=_ozet_yaz)
             except Exception as e:
                 _hata("Yanıt kiti", e)
+        if args.komut == "nabiz" and os.environ.get("GH_TOKEN") and getattr(ayar, "yorum_kiti", True):
+            # Yorum kiti (SÖZLEŞME D3): gelen yorumlara sahibine cevap taslakları; bot cevap atmaz
+            claude = __import__("anthropic").Anthropic() if os.environ.get("ANTHROPIC_API_KEY") else None
+            for hesap, istemci in (("kalkylerat", _x_client), ("likely", _x_likely)):
+                try:
+                    x_ = istemci()
+                    if x_ is not None:
+                        yorum.kontrol(x_, onay.GitHub(), ayar, simdi, hesap=hesap, client=claude, yaz=_ozet_yaz)
+                except Exception as e:  # okuma hatası paylaşımı etkilemez; sonraki kontrolde yeniden denenir
+                    _ozet_yaz(f"⚠️ Yorum kiti ({hesap}) bu turda çalışmadı: {e}")
         if args.komut == "nabiz":
             for g in gunler[-2:]:  # günün tablosu: maçlar bitince skorlar ve olanların maç öncesi yüzdeleri (yanıt)
                 try:

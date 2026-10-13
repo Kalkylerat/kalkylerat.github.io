@@ -505,6 +505,38 @@ class XClient:
             raise RuntimeError(f"X API okuma hatası {r.status_code}: {r.text[:300]}")
         return r.json().get("data", [])
 
+    def ben(self) -> tuple[str, str]:
+        """Hesabın kimliği ve kullanıcı adı (yorum kiti bir kez sorar, kaydeder)."""
+        r = self.session.get("https://api.x.com/2/users/me", timeout=30)
+        if r.status_code >= 400:
+            raise RuntimeError(f"X API okuma hatası {r.status_code}: {r.text[:300]}")
+        d = r.json()["data"]
+        return d["id"], d["username"]
+
+    def bahsedenler(self, me: str, since_id: str | None = None, baslangic: str | None = None) -> list[dict]:
+        """Hesaba gelen yanıtlar ve etiketlemeler (yalnızca okuma; yorum kiti, SÖZLEŞME D3). Her biri: id, metin,
+        yazar, kullanici, bizim (yanıtlanan kendi postumuzun metni, varsa)."""
+        params = {"max_results": 20, "tweet.fields": "author_id,created_at,referenced_tweets",
+                  "expansions": "author_id,referenced_tweets.id", "user.fields": "username"}
+        if since_id:
+            params["since_id"] = since_id
+        elif baslangic:
+            params["start_time"] = baslangic.replace("+00:00", "Z")
+        r = self.session.get(f"https://api.x.com/2/users/{me}/mentions", params=params, timeout=30)
+        if r.status_code >= 400:
+            raise RuntimeError(f"X API okuma hatası {r.status_code}: {r.text[:300]}")
+        j = r.json()
+        kullanicilar = {u["id"]: u["username"] for u in (j.get("includes") or {}).get("users", [])}
+        postlar = {t["id"]: t for t in (j.get("includes") or {}).get("tweets", [])}
+        sonuc = []
+        for t in j.get("data", []):
+            hedef = next((ref["id"] for ref in t.get("referenced_tweets") or [] if ref.get("type") == "replied_to"), None)
+            bizim = postlar.get(hedef) if hedef else None
+            sonuc.append({"id": t["id"], "metin": t.get("text", ""), "yazar": t.get("author_id"),
+                          "kullanici": kullanicilar.get(t.get("author_id")),
+                          "bizim": bizim["text"] if bizim and bizim.get("author_id", me) == me else None})
+        return sonuc
+
     def sil(self, tweet_id: str) -> None:
         r = self.session.delete(f"{self.URL}/{tweet_id}", timeout=30)
         if r.status_code >= 400 and r.status_code != 404:

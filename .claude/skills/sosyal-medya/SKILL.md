@@ -66,6 +66,8 @@ zamanlama `.github/workflows/kalkylerat.yml`.
 2. **Her gün aynı ritim**: sabah tablo, gün boyu kartlar, akşam tablo ve sonuçlar; alışkanlık yaratır.
 3. **Yoruma davet eden gerçek soru** (etkilesim.kart_sorusu): maça özel, dönüşümlü; tuzak kurma.
 4. **İlk saat**: sahibi paylaşımdan sonraki 30–60 dk'da gelen yorumlara @kalkylerat'tan kısa, bilgi veren cevaplar yazar.
+   Yorum kiti (`bot/yorum.py`, SOZLESME D3): yeni yorumlar 15 dk'da bir okunur, "💬 Yorumlar" issue'suna 3 cevap
+   taslağıyla düşer (telefona bildirim). Bot cevap atmaz; sahibi taslağı düzeltip elle atar.
 5. **Günlük elle yanıt**: büyük futbol hesaplarının maç tweetlerine 10–20 anlamlı yanıt (istatistik, kısa gerekçe).
 6. **Kilometre taşları** (1. ay, 1.000 analiz) ayrı tweet ve sabit tweet güncellemesi.
 7. **Soru posta uygun olmalı**: tek maçlık postta çoğul ya da karşılaştırma sorusu sorulmaz; soru o maçın adıyla

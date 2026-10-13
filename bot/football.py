@@ -290,6 +290,27 @@ def sakatlari_al(api, fixture_id: int) -> list[str]:
     ]
 
 
+def mac_xg(api, fixture_id: int, ev: str | None = None) -> tuple[float, float] | None:
+    """Bitmiş maçın gerçek xG'si (şut kalitesinden beklenen gol; API-Football fixtures/statistics "expected_goals"),
+    (ev, dep). Bazı liglerde yok ya da boş: o zaman None ve postta satır çıkmaz (uydurma rakam yok, SÖZLEŞME A7)."""
+    kayitlar = api.get("fixtures/statistics", fixture=fixture_id)
+    if len(kayitlar) != 2:
+        return None
+    if ev and ((kayitlar[1].get("team") or {}).get("name") or "").lower() == ev.lower():
+        kayitlar = kayitlar[::-1]
+    degerler = []
+    for takim in kayitlar:
+        v = next((st.get("value") for st in takim.get("statistics", []) if st.get("type") == "expected_goals"), None)
+        try:
+            v = float(v)
+        except (TypeError, ValueError):
+            return None
+        if not 0 <= v < 10:
+            return None
+        degerler.append(round(v, 2))
+    return degerler[0], degerler[1]
+
+
 def korner_sayisi(api, fixture_id: int) -> int | None:
     toplam, bulundu = 0, False
     for takim in api.get("fixtures/statistics", fixture=fixture_id):

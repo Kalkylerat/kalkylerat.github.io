@@ -19,7 +19,7 @@ Bir kuralı değiştirmek isterseniz önce burayı, sonra testi, en son kodu de�
 | A4 | **Oran ve takım istatistiği yan yana**; istatistik yoksa nedeni yazılır. İstatistik **kendi kategorisinden**: aynı turnuvanın bu sezonu, ev sahibinin iç saha ve deplasman takımının dış saha maçları (iki takım da en az 5 maç, kategoride en az 3). Yetmezse istatistik yüzdesi verilmez ve nedeni yazılır; başka turnuvanın ya da az maçlı "son 5 maç" ortalaması yerine geçmez (sahibinin isteği, 13 Ekim 2026). | `test_A4` | — |
 | A5 | Her sayıda % işareti; kısaltma yok ("O2.5", "BTTS" değil "Over 2.5 goals", "Both teams score"). | `test_A5` | `saglik` (kısaltma) |
 | A6 | Görsellerde yüzdesiz rakam yok (en olası skorun da yüzdesi var). | `test_A6` | — |
-| A7 | Maç sonu postu: olan ve maç öncesi yüzdesi ("Our pre-match chance of what happened"). | `test_A7` | `saglik` |
+| A7 | Maç sonu postu: olan ve maç öncesi yüzdesi ("Our pre-match chance of what happened"). Veri kaynağında varsa maçın **gerçek xG'si** ("Expected goals from shots", kısaltmasız); yoksa o satır çıkmaz, rakam uydurulmaz (sahibinin isteği, 13 Ekim 2026). | `test_A7` | `saglik` |
 | A8 | Link yok, bahis/kesinlik dili yok, her post "18+" satırıyla biter, 280 sınırı. | `test_A8` | denetçi |
 | A9 | **Pazartesi haftalık karne**: geçen 7 günün paylaşılmış maç sonu postlarından, kartların ana yüzdelerinin ortalaması ve kaçının olduğu (olmayanlar dahil, sayılarıyla); oran ile takım istatistiğinin ikisi de olan maçlarda hangisinin olana daha yakın olduğu. Rakamlar yalnızca kayıttan (direktör yazmaz), 30 çağrıdan azsa post yok (sahibinin onayı, 13 Ekim 2026). | `test_A9` | `saglik` (seçim dili) |
 

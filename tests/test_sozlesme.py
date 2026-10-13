@@ -125,6 +125,41 @@ def test_A7_mac_sonu_olan_ve_mac_oncesi_yuzdesi():
     assert "pre-match chance of what happened" in takip and "Italy win" in takip and "Score 1-2" in takip
 
 
+def test_A7_mac_sonunda_gercek_xg_varsa_yazilir_yoksa_satir_yok():
+    from bot import football
+    xg = etkilesim.analiz_takip_tweeti(FRA, "1-2", None, (1.42, 0.87))
+    assert "📐 Expected goals from shots: 1.4 – 0.9" in xg and "pre-match chance of what happened" in xg
+    assert not denetci.KISALTMA.search(xg) and tweets.uzunluk(xg) <= tweets.LIMIT and xg.endswith(tweets.ANSVAR)
+    assert "Expected goals from shots" not in etkilesim.analiz_takip_tweeti(FRA, "1-2")
+
+    class Api:  # API-Football fixtures/statistics: deplasman önce gelse de ev/dep doğru eşleşir; boş değer = yok
+        def __init__(self, kayit): self.kayit = kayit
+        def get(self, yol, **k): return self.kayit
+    st = lambda ad, v: {"team": {"name": ad}, "statistics": [{"type": "Corner Kicks", "value": 4}, {"type": "expected_goals", "value": v}]}
+    assert football.mac_xg(Api([st("Italy", "0.87"), st("France", "1.42")]), 1, "France") == (1.42, 0.87)
+    assert football.mac_xg(Api([st("France", None), st("Italy", "0.87")]), 1, "France") is None
+    assert football.mac_xg(Api([st("France", "1.4")]), 1, "France") is None
+    assert football.mac_xg(Api([st("France", "abc"), st("Italy", "0.87")]), 1, "France") is None
+
+    class X:
+        def __init__(self): self.giden = []
+        def gonder(self, metin, **k): self.giden.append(metin); return "9"
+    sonuc = lambda m: {m[0]["fixture_id"]: {"durum": "bitti", "skor": (1, 2)}}
+    simdi = datetime(2026, 10, 3, 21, 0, tzinfo=UTC)
+    for xg_getir, beklenen in ((lambda a: (1.42, 0.87), [1.42, 0.87]), (lambda a: None, None),
+                               (lambda a: (_ for _ in ()).throw(RuntimeError("API")), None)):
+        gun = {"analizler": [FRA], "etkilesim": {"analiz_0": {"durum": "paylasildi", "tweet_id": "5"}}}
+        x = X()
+        assert etkilesim.analiz_takibi(gun, AYAR, x, simdi, sonuc, yaz=lambda *_: None, xg_getir=xg_getir) == 1
+        assert gun["etkilesim"]["analiz_0"]["takip"].get("xg") == beklenen  # xG alınamasa da maç sonu postu çıkar
+        assert ("Expected goals from shots" in x.giden[0]) == bool(beklenen)
+    # Direktör "xG" kısaltmasını yazarsa şablon gider (A5)
+    gun, x = {"analizler": [FRA], "etkilesim": {"analiz_0": {"durum": "paylasildi", "tweet_id": "5"}}}, X()
+    etkilesim.analiz_takibi(gun, AYAR, x, simdi, sonuc, yaz=lambda *_: None, xg_getir=lambda a: (1.42, 0.87),
+                            yazar=lambda tur, olg, sablon: "France 1–2 Italy, xG 1.4 – 0.9\n18+ | Play responsibly")
+    assert "xG" not in x.giden[0] and "Expected goals from shots: 1.4 – 0.9" in x.giden[0]
+
+
 def test_A8_link_bahis_kesinlik_yok_18_arti_ile_biter():
     for metin in (etkilesim.analiz_tweeti(FRA, AYAR), etkilesim.tablo_tweeti({"tarih": "x"}, [FRA, BEL], AYAR),
                   etkilesim.analiz_takip_tweeti(FRA, "0-0"), etkilesim.tablo_mac_sonu_tweeti(FRA, 0, 0)):

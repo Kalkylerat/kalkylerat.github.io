@@ -772,13 +772,23 @@ def olan_sanslar(a: dict, ev: int, dep: int) -> list[dict]:
             {"emoji": "🎯", "ad": f"Score {ev}-{dep}", "p": skorlar.get(f"{ev}-{dep}", 0.0)}]
 
 
-def analiz_takip_tweeti(a: dict, skor: str, isabet: list | None = None) -> str:
-    """Maç sonu alıntısı: skor, olanların maç öncesi yüzdeleri. Doğru/yanlış, ✅/❌, "seçimimiz" yok: kart seçim
-    değil, olasılıktı."""
+def xg_metni(xg) -> str:
+    """Maçın gerçek xG'si okunur halde ("1.4 – 0.9"); kısaltma yok (SÖZLEŞME A5)."""
+    return f"{xg[0]:.1f} – {xg[1]:.1f}"
+
+
+def analiz_takip_tweeti(a: dict, skor: str, isabet: list | None = None, xg=None) -> str:
+    """Maç sonu alıntısı: skor, (varsa) maçın gerçek xG'si, olanların maç öncesi yüzdeleri. Doğru/yanlış, ✅/❌,
+    "seçimimiz" yok: kart seçim değil, olasılıktı."""
     ev, dep = (int(x) for x in skor.split("-"))
     satirlar = "\n".join(f'{o["emoji"]} {o["ad"]}: {_pct(o["p"]) if o["p"] >= 0.005 else "under 1%"}'
                          for o in olan_sanslar(a, ev, dep))
-    bas = f'🔁 FULL TIME\n⚽ {a["ev"]} {ev}–{dep} {a["dep"]}\n\n📊 Our pre-match chance of what happened:\n' + satirlar
+    xg_satiri = f"\n📐 Expected goals from shots: {xg_metni(xg)}" if xg else ""
+    bas = (f'🔁 FULL TIME\n⚽ {a["ev"]} {ev}–{dep} {a["dep"]}{xg_satiri}\n\n📊 Our pre-match chance of what happened:\n'
+           + satirlar)
+    if xg:  # gerçek xG varsa soru onunla: skor, yaratılan pozisyonları yansıttı mı
+        return ilk_sigan(bas + "\n\n💡 Chances, not picks.\n💬 Fair result on the chances created? 👇\n" + ANSVAR,
+                         bas + "\n\n💬 Fair result? 👇\n" + ANSVAR, bas + "\n\n" + ANSVAR)
     return ilk_sigan(bas + "\n\n💡 Chances, not picks. One match proves little.\n💬 Saw it coming? 👇\n" + ANSVAR,
                      bas + "\n\n💡 Chances, not picks.\n💬 Saw it coming? 👇\n" + ANSVAR, bas + "\n\n" + ANSVAR)
 
@@ -858,7 +868,7 @@ def tablo_takibi(gun: dict, ayar, x, simdi: datetime, sonuc_getir, tum: list[dic
     return paylasilan
 
 
-def analiz_takibi(gun: dict, ayar, x, simdi: datetime, sonuc_getir, yaz=print, yazar=None) -> int:
+def analiz_takibi(gun: dict, ayar, x, simdi: datetime, sonuc_getir, yaz=print, yazar=None, xg_getir=None) -> int:
     """Analiz kartı paylaşılan maç bitince kart postu alıntılanır: skor ve olanların maç öncesi yüzdeleri (doğru/yanlış
     dili yok; kart olasılıktı). İsabet ve Brier kaydı yalnızca iç kalibrasyon için saklanır."""
     paylasilan = 0
@@ -881,15 +891,29 @@ def analiz_takibi(gun: dict, ayar, x, simdi: datetime, sonuc_getir, yaz=print, y
         ev, dep = r["skor"]
         skor = f"{ev}-{dep}"
         isabet = [bool(model.kazandi_mi(c["pazar"], ev, dep)) for c in analiz.manset(a)]
-        metin = analiz_takip_tweeti(a, skor, isabet)
+        xg = None
+        if xg_getir:
+            try:  # gerçek xG yoksa ya da alınamazsa post yine çıkar, yalnızca o satır olmaz
+                xg = xg_getir(a)
+            except Exception as hata:
+                yaz(f"⚠️ Maç xG'si alınamadı ({a['ev']} v {a['dep']}): {hata}")
+        sablon = analiz_takip_tweeti(a, skor, isabet, xg)
+        metin = sablon
         if yazar:
             olg = {"score": skor, "home": a["ev"], "away": a["dep"],
                    "what_happened_and_its_pre_match_chance": [{"outcome": o["ad"], "chance": _pct(o["p"])}
                                                               for o in olan_sanslar(a, ev, dep)],
                    "note": "quote of our pre-match card. The card gave probabilities, not picks or predictions: never "
                            "say right, wrong, called it, our pick or ✅/❌. Say what happened and the chance it had."}
+            if xg:
+                olg["chances_created_expected_goals_home_away"] = xg_metni(xg)
+                olg["note"] += (" Keep the chances-created line (expected goals from the shots, written in full, never "
+                                "'xG'); you may compare it with the score in a few words.")
             metin = yazar("analiz_sonuc", olg, metin) or metin
-        metin = _denetle("analiz_sonuc", metin, analiz_takip_tweeti(a, skor, isabet), [a], ayar, None, yaz)
+            from .denetci import KISALTMA
+            if KISALTMA.search(metin):  # SÖZLEŞME A5: "xG", "BTTS" gibi kısaltma yerine şablon
+                metin = sablon
+        metin = _denetle("analiz_sonuc", metin, sablon, [a], ayar, None, yaz)
         if not metin:
             e["takip"] = {"durum": "atlandi", "neden": "denetçi"}
             continue
@@ -904,7 +928,7 @@ def analiz_takibi(gun: dict, ayar, x, simdi: datetime, sonuc_getir, yaz=print, y
             oldu = 1.0 if model.kazandi_mi(c["pazar"], ev, dep) else 0.0
             brier["piyasa"] += (c["piyasa"] - oldu) ** 2
             brier["istatistik"] += (c["istatistik"] - oldu) ** 2
-        e["takip"] = {"durum": "paylasildi", "tweet_id": tid, "skor": skor, "isabet": isabet,
+        e["takip"] = {"durum": "paylasildi", "tweet_id": tid, "skor": skor, "isabet": isabet, **({"xg": list(xg)} if xg else {}),
                       "zaman": simdi.isoformat(timespec="seconds"),
                       **({"brier": {k: round(v, 4) for k, v in brier.items()}} if a.get("karsilastirma") else {})}
         yaz(f"Analiz takibi (alıntı):\n```\n{metin}\n```")

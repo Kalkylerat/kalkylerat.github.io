@@ -1449,7 +1449,8 @@ def main(argv=None) -> int:
             for g in gunler[-6:]:  # analiz kartı paylaşılan maçlar bitince: "ne dedik, ne oldu" (alıntı)
                 try:
                     etkilesim.analiz_takibi(g, ayar, _x_client(), simdi, lambda m: _mac_sonuclari(ayar, m),
-                                            yaz=_ozet_yaz, yazar=_direktor_yazar(ayar))
+                                            yaz=_ozet_yaz, yazar=_direktor_yazar(ayar),
+                                            xg_getir=lambda a: football.mac_xg(_api(ayar), a["fixture_id"], a["ev"]))
                 except Exception as e:
                     _hata("Analiz takibi", e)
         if args.komut == "nabiz":

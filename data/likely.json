@@ -14021,20 +14021,35 @@
        "oran": 2.25,
        "olasilik": 0.518,
        "deger": 0.164,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-1",
+       "goller": [
+        [
+         21,
+         0,
+         "dep"
+        ],
+        [
+         45,
+         4,
+         "ev"
+        ]
+       ]
       }
      ],
      "oran": 2.25,
      "olasilik": 0.518,
      "deger": 0.165,
-     "durum": "bekliyor",
+     "durum": "tuttu",
      "secim": "2026-10-13T05:39:37+00:00",
      "oto": true,
      "paylas": "2026-10-13T13:45:00+02:00",
      "tweet_id": "2109976462157599076",
      "metin": "🎩 One leg today. Keeping it dull.\n\n⚽ Qatar SC v Al Zawra'a\n\n📊 2.25. I make it about 52% to land, so nearly a coin flip.\n\n💬 Which leg would you say lets me down?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-13T11:55:45+00:00"
+     "yayin": "2026-10-13T11:55:45+00:00",
+     "son_oran": 2.25,
+     "sonuc_metni": "✅ Landed at 2.25. Lovely. I'll try not to be smug.\n\n✅ Qatar SC 1-1 Al Zawra'a: Double chance X2\n\nRecord: 4 of 12 landed. So, not very smug.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2110051217640701990"
     },
     {
      "ad": "long-shot",

@@ -12290,7 +12290,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 1
+     "no": 1,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1635742-MS2",
@@ -12310,7 +12311,8 @@
      "istatistik": 0.832,
      "uyum": true,
      "buyuk": true,
-     "no": 2
+     "no": 2,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1629934-CS1X",
@@ -12372,7 +12374,8 @@
      "istatistik": 0.814,
      "uyum": true,
      "buyuk": false,
-     "no": 5
+     "no": 5,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1611418-CS1X",
@@ -12392,7 +12395,8 @@
      "istatistik": 0.886,
      "uyum": true,
      "buyuk": false,
-     "no": 6
+     "no": 6,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1635612-CS12",
@@ -12412,7 +12416,8 @@
      "istatistik": 0.788,
      "uyum": true,
      "buyuk": true,
-     "no": 7
+     "no": 7,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1588297-CS1X",
@@ -12432,7 +12437,8 @@
      "istatistik": 0.817,
      "uyum": true,
      "buyuk": false,
-     "no": 8
+     "no": 8,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1593632-CSX2",
@@ -12452,7 +12458,8 @@
      "istatistik": 0.809,
      "uyum": true,
      "buyuk": false,
-     "no": 9
+     "no": 9,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1629933-UST15",
@@ -12535,7 +12542,8 @@
      "istatistik": 0.793,
      "uyum": true,
      "buyuk": true,
-     "no": 13
+     "no": 13,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1629939-UST15",
@@ -12576,7 +12584,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 15
+     "no": 15,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1600360-CS12",
@@ -12638,7 +12647,8 @@
      "istatistik": 0.681,
      "uyum": false,
      "buyuk": false,
-     "no": 18
+     "no": 18,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1643962-CS1X",
@@ -12700,7 +12710,8 @@
      "istatistik": 0.734,
      "uyum": false,
      "buyuk": false,
-     "no": 21
+     "no": 21,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1563191-CS1X",
@@ -12720,7 +12731,8 @@
      "istatistik": 0.7,
      "uyum": false,
      "buyuk": false,
-     "no": 22
+     "no": 22,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1596489-CS12",
@@ -12740,7 +12752,8 @@
      "istatistik": 0.782,
      "uyum": true,
      "buyuk": false,
-     "no": 23
+     "no": 23,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1600356-CS1X",
@@ -12928,7 +12941,8 @@
      "istatistik": 0.879,
      "uyum": true,
      "buyuk": false,
-     "no": 32
+     "no": 32,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1629936-UST15",
@@ -12990,7 +13004,8 @@
      "istatistik": 0.801,
      "uyum": true,
      "buyuk": false,
-     "no": 35
+     "no": 35,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1635711-CS12",
@@ -13010,7 +13025,8 @@
      "istatistik": 0.832,
      "uyum": true,
      "buyuk": true,
-     "no": 36
+     "no": 36,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1612256-ALT35",
@@ -13177,7 +13193,8 @@
      "istatistik": 0.89,
      "uyum": true,
      "buyuk": false,
-     "no": 44
+     "no": 44,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1563196-UST15",
@@ -13197,7 +13214,8 @@
      "istatistik": 0.751,
      "uyum": true,
      "buyuk": false,
-     "no": 45
+     "no": 45,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1596488-CS12",
@@ -13217,7 +13235,8 @@
      "istatistik": 0.772,
      "uyum": true,
      "buyuk": false,
-     "no": 46
+     "no": 46,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1611411-CSX2",
@@ -13279,7 +13298,8 @@
      "istatistik": 0.744,
      "uyum": true,
      "buyuk": false,
-     "no": 49
+     "no": 49,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1629935-DPA25",
@@ -13341,7 +13361,8 @@
      "istatistik": 0.918,
      "uyum": true,
      "buyuk": true,
-     "no": 52
+     "no": 52,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1602692-CS12",
@@ -13382,7 +13403,8 @@
      "istatistik": 0.756,
      "uyum": true,
      "buyuk": false,
-     "no": 54
+     "no": 54,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1612255-CS1X",
@@ -13423,7 +13445,8 @@
      "istatistik": 0.829,
      "uyum": true,
      "buyuk": false,
-     "no": 56
+     "no": 56,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1585787-EVU05",
@@ -13464,7 +13487,8 @@
      "istatistik": 0.713,
      "uyum": true,
      "buyuk": false,
-     "no": 58
+     "no": 58,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1635671-EVU15",
@@ -13484,7 +13508,8 @@
      "istatistik": 0.594,
      "uyum": false,
      "buyuk": true,
-     "no": 59
+     "no": 59,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1635748-EVA25",
@@ -13504,7 +13529,8 @@
      "istatistik": 0.809,
      "uyum": true,
      "buyuk": true,
-     "no": 60
+     "no": 60,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1635721-CS12",
@@ -13566,7 +13592,8 @@
      "istatistik": 0.132,
      "uyum": false,
      "buyuk": true,
-     "no": 63
+     "no": 63,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1612258-CSX2",
@@ -13628,7 +13655,8 @@
      "istatistik": 0.683,
      "uyum": true,
      "buyuk": false,
-     "no": 66
+     "no": 66,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1611412-ALT25",
@@ -13690,7 +13718,8 @@
      "istatistik": 0.724,
      "uyum": true,
      "buyuk": false,
-     "no": 69
+     "no": 69,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1629935-CSX2",
@@ -13772,7 +13801,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 73
+     "no": 73,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1596935-CSX2",
@@ -13792,7 +13822,8 @@
      "istatistik": 0.741,
      "uyum": true,
      "buyuk": false,
-     "no": 74
+     "no": 74,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1600360-IYU05",
@@ -14358,7 +14389,7 @@
    ],
    "oto": true,
    "issue": 54,
-   "olcum_sorgu": "2026-10-13T20:28:27+00:00"
+   "olcum_sorgu": "2026-10-13T21:24:32+00:00"
   }
  ]
 }

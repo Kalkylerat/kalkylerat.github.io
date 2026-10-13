@@ -63043,6 +63043,33 @@
               1
             ],
             "zaman": "2026-10-13T20:51:57+00:00"
+          },
+          "1635623": {
+            "durum": "paylasildi",
+            "tweet_id": "2110113163169423559",
+            "skor": [
+              2,
+              0
+            ],
+            "zaman": "2026-10-13T20:59:13+00:00"
+          },
+          "1635666": {
+            "durum": "paylasildi",
+            "tweet_id": "2110113164641673342",
+            "skor": [
+              1,
+              4
+            ],
+            "zaman": "2026-10-13T20:59:13+00:00"
+          },
+          "1635671": {
+            "durum": "paylasildi",
+            "tweet_id": "2110113165979607363",
+            "skor": [
+              3,
+              4
+            ],
+            "zaman": "2026-10-13T20:59:13+00:00"
           }
         }
       },
@@ -63181,7 +63208,22 @@
         "durum": "paylasildi",
         "tweet_id": "2109991777440809125",
         "zaman": "2026-10-13T12:56:52+00:00",
-        "metin": "🆚 Atletico Madrid v Manchester United\n\n🏆 Atletico Madrid 52% · Draw 22% · Manchester United 26%\n⚽ Over 2.5 goals 62% · Under 38%\n🥅 Both teams score 62% · Not both 38%\n\n📈 Team stats: too few recent games\n\n💬 Not picks. What's your score? 👇\n#UCL\n18+ | Play responsibly"
+        "metin": "🆚 Atletico Madrid v Manchester United\n\n🏆 Atletico Madrid 52% · Draw 22% · Manchester United 26%\n⚽ Over 2.5 goals 62% · Under 38%\n🥅 Both teams score 62% · Not both 38%\n\n📈 Team stats: too few recent games\n\n💬 Not picks. What's your score? 👇\n#UCL\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2110113184963031375",
+          "skor": "2-0",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "xg": [
+            1.5,
+            1.02
+          ],
+          "zaman": "2026-10-13T20:59:13+00:00"
+        }
       },
       "analiz_7": {
         "durum": "paylasildi",
@@ -63239,25 +63281,85 @@
         "durum": "paylasildi",
         "tweet_id": "2110008673695100981",
         "zaman": "2026-10-13T14:04:00+00:00",
-        "metin": "🆚 Galatasaray v Barcelona\n\n🏆 Galatasaray 11% · Draw 14% · Barcelona 75%\n⚽ Over 2.5 goals 79% · Under 21%\n🥅 Both teams score 65% · Not both 35%\n🎯 Most likely score: 1-3 (8%)\n\n📈 Team stats: too few recent games\n\n💬 Chances, not picks. Your read? 👇\n#UCL\n18+ | Play responsibly"
+        "metin": "🆚 Galatasaray v Barcelona\n\n🏆 Galatasaray 11% · Draw 14% · Barcelona 75%\n⚽ Over 2.5 goals 79% · Under 21%\n🥅 Both teams score 65% · Not both 35%\n🎯 Most likely score: 1-3 (8%)\n\n📈 Team stats: too few recent games\n\n💬 Chances, not picks. Your read? 👇\n#UCL\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2110113202067366064",
+          "skor": "1-4",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            0.47,
+            2.78
+          ],
+          "zaman": "2026-10-13T20:59:13+00:00"
+        }
       },
       "analiz_15": {
         "durum": "paylasildi",
         "tweet_id": "2110013484192686485",
         "zaman": "2026-10-13T14:23:07+00:00",
-        "metin": "🆚 Inter v Club Brugge KV\n\n🏆 Inter 76% · Draw 15% · Club Brugge KV 10%\n⚽ Over 2.5 goals 68% · Under 32%\n🥅 Both teams score 53% · Not both 47%\n🎯 Most likely score: 2-0 (11%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. What's your score? 👇\n#UCL\n18+ | Play responsibly"
+        "metin": "🆚 Inter v Club Brugge KV\n\n🏆 Inter 76% · Draw 15% · Club Brugge KV 10%\n⚽ Over 2.5 goals 68% · Under 32%\n🥅 Both teams score 53% · Not both 47%\n🎯 Most likely score: 2-0 (11%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. What's your score? 👇\n#UCL\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2110113215925350568",
+          "skor": "3-4",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "xg": [
+            4.01,
+            4.43
+          ],
+          "zaman": "2026-10-13T20:59:13+00:00"
+        }
       },
       "analiz_16": {
         "durum": "paylasildi",
         "tweet_id": "2110018835567022389",
         "zaman": "2026-10-13T14:44:23+00:00",
-        "metin": "🆚 RB Leipzig v PSV Eindhoven\n\n🏆 RB Leipzig 56% · Draw 20% · PSV Eindhoven 25%\n⚽ Over 2.5 goals 73% · Under 27%\n🥅 Both teams score 70% · Not both 30%\n🎯 Most likely score: 2-1 (9%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n#UCL\n18+ | Play responsibly"
+        "metin": "🆚 RB Leipzig v PSV Eindhoven\n\n🏆 RB Leipzig 56% · Draw 20% · PSV Eindhoven 25%\n⚽ Over 2.5 goals 73% · Under 27%\n🥅 Both teams score 70% · Not both 30%\n🎯 Most likely score: 2-1 (9%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n#UCL\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2110113228273385483",
+          "skor": "1-0",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "xg": [
+            2.19,
+            1.46
+          ],
+          "zaman": "2026-10-13T20:59:13+00:00"
+        }
       },
       "analiz_17": {
         "durum": "paylasildi",
         "tweet_id": "2110023478590247187",
         "zaman": "2026-10-13T15:02:48+00:00",
-        "metin": "🆚 Viking v Bayern München\n\n🏆 Viking 5% · Draw 9% · Bayern München 86%\n⚽ Over 2.5 goals 81% · Under 19%\n🥅 Both teams score 56% · Not both 44%\n🎯 Most likely score: 0-3 (9%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Can Viking beat 5%? 👇\n#UCL\n18+ | Play responsibly"
+        "metin": "🆚 Viking v Bayern München\n\n🏆 Viking 5% · Draw 9% · Bayern München 86%\n⚽ Over 2.5 goals 81% · Under 19%\n🥅 Both teams score 56% · Not both 44%\n🎯 Most likely score: 0-3 (9%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Can Viking beat 5%? 👇\n#UCL\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2110113242429133035",
+          "skor": "3-3",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "xg": [
+            0.64,
+            3.57
+          ],
+          "zaman": "2026-10-13T20:59:13+00:00"
+        }
       },
       "analiz_18": {
         "durum": "paylasildi",
@@ -63461,13 +63563,51 @@
         "durum": "paylasildi",
         "tweet_id": "2110061696823722255",
         "zaman": "2026-10-13T17:34:42+00:00",
-        "metin": "🆚 Birmingham v Preston\n\n🏆 Birmingham 61% · Draw 22% · Preston 18%\n⚽ Over 2.5 goals 55% · Under 45%\n🥅 Both teams score 53% · Not both 47%\n🎯 Most likely score: 1-0 (11%)\n\n📈 Team stats: Birmingham win 47%\n💹 Odds: 61%\n\n💬 Not picks. What's your score? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Birmingham v Preston\n\n🏆 Birmingham 61% · Draw 22% · Preston 18%\n⚽ Over 2.5 goals 55% · Under 45%\n🥅 Both teams score 53% · Not both 47%\n🎯 Most likely score: 1-0 (11%)\n\n📈 Team stats: Birmingham win 47%\n💹 Odds: 61%\n\n💬 Not picks. What's your score? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2110113255473475923",
+          "skor": "4-0",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "xg": [
+            2.29,
+            0.52
+          ],
+          "zaman": "2026-10-13T20:59:13+00:00",
+          "brier": {
+            "piyasa": 0.7079,
+            "istatistik": 0.9634
+          }
+        }
       },
       "analiz_20": {
         "durum": "paylasildi",
         "tweet_id": "2110066322415493394",
         "zaman": "2026-10-13T17:52:50+00:00",
-        "metin": "🆚 Stoke City v Middlesbrough\n\n🏆 Stoke City 28% · Draw 24% · Middlesbrough 48%\n⚽ Over 2.5 goals 57% · Under 43%\n🥅 Both teams score 58% · Not both 42%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Stats: Middlesbrough win 24% · odds 48%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Stoke City v Middlesbrough\n\n🏆 Stoke City 28% · Draw 24% · Middlesbrough 48%\n⚽ Over 2.5 goals 57% · Under 43%\n🥅 Both teams score 58% · Not both 42%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Stats: Middlesbrough win 24% · odds 48%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2110113269805375627",
+          "skor": "2-3",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            0.74,
+            2.63
+          ],
+          "zaman": "2026-10-13T20:59:13+00:00",
+          "brier": {
+            "piyasa": 0.7693,
+            "istatistik": 1.37
+          }
+        }
       },
       "bilgi_aksam": {
         "durum": "paylasildi",

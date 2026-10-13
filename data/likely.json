@@ -12270,7 +12270,7 @@
   {
    "tarih": "2026-10-13",
    "olusturma": "2026-10-13T05:39:37+00:00",
-   "durum": "secildi",
+   "durum": "bitti",
    "havuz": [
     {
      "aday_id": "1635666-CSX2",
@@ -14159,20 +14159,50 @@
        "oran": 1.4,
        "olasilik": 0.699,
        "deger": -0.021,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-4",
+       "goller": [
+        [
+         28,
+         0,
+         "ev"
+        ],
+        [
+         43,
+         0,
+         "dep"
+        ],
+        [
+         50,
+         0,
+         "dep"
+        ],
+        [
+         53,
+         0,
+         "dep"
+        ],
+        [
+         65,
+         0,
+         "dep"
+        ]
+       ]
       }
      ],
      "oran": 3.44,
      "olasilik": 0.268,
      "deger": -0.078,
-     "durum": "bekliyor",
+     "durum": "tuttu",
      "secim": "2026-10-13T05:39:37+00:00",
      "oto": true,
      "paylas": "2026-10-13T14:25:00+02:00",
      "tweet_id": "2109983845822898477",
      "metin": "🎩 Long shot of the day. Pocket money stuff.\n\n⚽ Evesham United v Bath City\n⚽ Annan Athletic v Alloa Athletic\n⚽ US Biskra v MC Oran\n⚽ Galatasaray v Barcelona\n\n📊 Combined 3.44. I make it about 27% to land.\n\n💬 Too cautious or about right?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-13T12:25:16+00:00"
+     "yayin": "2026-10-13T12:25:16+00:00",
+     "son_oran": 3.44,
+     "sonuc_metni": "✅ All in at 3.44.\n\n✅ Evesham United 0-2 Bath City: Double chance X2\n✅ Annan Athletic 0-0 Alloa Athletic: Double chance X2\n✅ US Biskra 0-1 MC Oran: Under 2.5 goals\n✅ Galatasaray 1-4 Barcelona: Galatasaray Over 0.5 goals\n\nRecord: 5 of 13 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2110113298985238694"
     }
    ],
    "islenen": [],

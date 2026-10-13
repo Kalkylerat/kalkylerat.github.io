@@ -71,6 +71,8 @@ class LikelyAyar:
     oto_ders_saati: int = 14       # (eski kayıtlar için) günün dersi bu saatten sonra
     oto_bilgi_sayisi: int = 4      # günde en fazla kaç bilgi postu (strateji notu, günün rakamları)
     oto_bilgi_aralik_dk: int = 40  # bilgi postu, başka bir posttan en az bu kadar dakika uzakta
+    # Pazartesi 10:00 dersinin yerine haftalık karne postu. SOZLESME E1'e eklenmeden açılmaz (sahibinin onayı bekleniyor).
+    oto_haftalik_karne: bool = False
 
 
 def ayar_yukle(path=config.ROOT / "ayarlar.toml") -> LikelyAyar:
@@ -229,9 +231,7 @@ def otomatik_sec(adaylar: list[dict], cfg: LikelyAyar) -> list[dict]:
     3) Büyük maçlar (öncekilerle maç paylaşmaz): yalnızca büyük maçlardan, günün kuponuyla aynı sınırlarla.
     Her birinde koşulu sağlayanlar içinde tutma ihtimali en yüksek olana oto_buyuk_tolerans kadar yakın kuponlardan
     BÜYÜK MAÇI EN ÇOK olan seçilir (eşitlikte tutma ihtimali, sonra fiyat, sonra kısa kupon)."""
-    ayaklar = [a for a in adaylar if a["uyum"] and a["deger"] >= cfg.oto_min_deger
-               and not a["kaynak"].lower().startswith("average")
-               and (a["tur"] == "deger" or a["olasilik"] >= cfg.oto_min_ayak)]
+    ayaklar = [a for a in adaylar if kupona_uygun(a, cfg)]
     ayaklar.sort(key=lambda a: -a["olasilik"])
     buyuk = {a["aday_id"]: bool(a.get("buyuk")) for a in ayaklar}
     # (ad, oran aralığı, en düşük tutma, en düşük fiyat, en düşük ayak oranı, yalnız büyük maç mı)
@@ -385,40 +385,42 @@ def sonuc_metni(kupon: dict, k: dict, tohum: str) -> str:
 # Günün dersi: kupon stratejisi üzerine kısa, dürüst notlar (ayrı post). Her biri 280 sınırında ve 18+ ile biter.
 DERSLER = [
     "Three legs at 80% each is a 51% coupon. Four is 41%. The legs don't know about each other, they just multiply.\n\nIt's why mine stop at four, and why every leg is the dull sort.",
+    "The 90th-minute equaliser isn't aimed at you personally. Late goals happen every weekend. Your coupon just happened to be watching.",
     "A pick that wins 80% of the time still loses one week in five. If one loss wrecks your month, the stake was the problem, not the pick.",
-    "\"High odds\" and \"good odds\" are different things. Good means the price is bigger than the real chance deserves. A 1.30 can be good. A 12.00 can be terrible.",
-    "Every extra leg \"to boost the price\" is one more way to lose. If a leg isn't likely on its own, it has no business holding up three others.",
+    "Three legs in, one to go, and the last one lets you down. Feels personal. It isn't. The last leg loses as often as the first, you just notice it more.",
     "Same stake every coupon. Not double after a loss, not triple when you \"feel it\". Feelings are not a staking plan.",
-    "If you can't say roughly how often your coupon should win, you're not placing a coupon, you're buying a raffle ticket.",
+    "Nobody posts the six-leg coupon that died in the 12th minute. That's why it looks like everyone else is winning.",
     "Chasing losses is just paying twice for the same bad evening. Close the app. The fixtures will still be there tomorrow.",
-    "Two picks from the same match usually lean on the same story. If the story is wrong, both go. Spread your legs across different games.",
-    "Favourites lose. A team priced at 75% to win fails one time in four, and nobody posts those screenshots.",
+    "Your mate who \"always wins\" has a very selective memory. Ask for the full list, losers included. Mine's all on this page.",
+    "Favourites lose. A team at 75% to win fails one time in four, and nobody posts those screenshots.",
     "A winning week proves almost nothing. A losing week proves almost nothing. Ask me again after 200 coupons.",
     "Only stake money you'd be fine never seeing again. If that sentence stings, the stake is too big.",
-    "Before you place it, check the price somewhere else. The same pick at 1.40 and at 1.50 is not the same coupon over a season.",
+    "The worst coupon of the weekend is usually the one placed at 11pm to win back the afternoon.",
     "The big 10-leg winners you see online are survivors. For every one of those there's a drawer full of losers nobody shows you.",
     "Keeping a record is boring and it's the only way to know if you're any good. Every coupon, wins and losses. Mine's all here.",
     "\"It was so close\" pays the same as \"it was miles off\". Don't raise stakes because a coupon nearly landed.",
     "No good pick today is a perfectly fine day. Passing is a decision, and some days it's the smartest one on the board.",
-    "Late team news moves prices for a reason. If your pick needed a striker who's now on the bench, the pick has changed.",
+    "Friday-night confidence and Sunday-morning regret are the same person, two days apart. Set the amount on Thursday.",
     "My coupons sit around 2.00 and lose about half the time. That's the deal at that price. Anyone promising you a 2.00 that lands eight times in ten is selling something.",
-    "Don't back your own club. You already think they'll win every week, and the price doesn't care about your scarf.",
+    "Don't back your own club. You already think they'll win every week, and the odds don't care about your scarf.",
     "Set the amount before the weekend starts and stop when it's gone. Deciding in the 80th minute never ends well.",
-    "Over 1.5 goals feels safe until the 0-0. Around one top-flight game in four finishes with fewer than two goals.",
+    "A red card in the 5th minute isn't the referee hating you. Football is random enough that a sensible coupon still loses. Often.",
     "Why odds between 2 and 4? Below that there's little to talk about, above it you're buying a lottery ticket. In between you still lose about as often as you win, so the stake stays small.",
     "Four boring legs beat two exciting ones. I'd rather build a 2.00 out of things that usually happen than out of one thing that rarely does.",
-    "A 2.00 coupon that lands half the time breaks even before the bookmaker takes his cut. After it, you're slightly behind. Worth knowing before you call it an income.",
+    "\"They're due a win\" isn't a thing. The team doesn't know it's due. Neither does the coupon.",
     "Odds are just chances wearing a costume. 2.00 says about 50%, 1.50 about 67%, 4.00 about 25%. Divide 1 by the odds and you can see what you're actually being offered.",
-    "Add up the chances a bookmaker gives every outcome of a match and the total comes to more than a hundred. The extra few percent is his wage. You pay it on every single leg.",
-    "Double chance looks cowardly and wins a lot. You're buying two of the three results. The price is small because the risk is small, not because it's a bad pick.",
-    "\"Both teams to score\" and \"over 2.5\" are cousins, not twins. A 1-1 lands one and sinks the other. Know which story you're actually backing.",
-    "Form over five games is mostly noise. Five games is a mood, not a trend. Prices are built on a lot more than last month.",
-    "The draw is the result nobody fancies and it turns up about one game in four. If your coupon dies to draws a lot, that's the reason.",
-    "Home advantage is real and smaller than people think. It's already in the price. Backing a side just because they're at home is paying for something you already paid for.",
-    "A price that drops all morning usually means someone knows something: a line-up, an injury, a keeper out. If it moves against you, ask why before you ask how much.",
+    "Bored on a Tuesday is not a reason. If the only reason for a coupon is that there's a match on, there's always a match on.",
+    "Double chance looks cowardly and wins a lot. You're buying two of the three results. The odds are small because the risk is small, not because it's a bad pick.",
+    "Derbies, cup ties, last day of the season. The games you care most about are the ones you think least clearly about. Enjoy those without a coupon.",
+    "Form over five games is mostly noise. Five games is a mood, not a trend.",
+    "A big win early on is the most dangerous thing that can happen to a beginner. It teaches exactly the wrong lesson.",
+    "The draw is the result nobody fancies, and it keeps turning up anyway. If your coupons keep dying 1-1, that's not a curse, it's football.",
+    "One leg at a time: would you back each one on its own? If not, why is it holding up the other three?",
     "Cup games and dead rubbers are where rotation lives. Check who's actually starting before trusting a favourite in a match that doesn't matter to them.",
-    "Accumulator \"boosts\" are a discount on something overpriced. A 10% boost on a coupon that costs you 15% in margin is still a bad deal with a ribbon on it.",
-    "Cashing out early feels clever and is usually expensive. The offer has a second cut taken out of it. Decide your coupon before kick-off, not during.",
+    "You'll remember the coupon that nearly landed for weeks and forget the ten that missed by miles. That's memory, not form.",
+    "Refreshing the live score every two minutes doesn't help the striker. Put the phone down. Full-time comes either way.",
+    "Cashing out early feels clever and usually costs you. Decide your coupon before kick-off, not during.",
+    "Watching a game with money on it and watching it for fun are different hobbies. Pick the one you actually enjoy.",
     "If you'd be embarrassed to explain a pick to someone sober, don't make it. \"I had a feeling\" is not a reason, it's a confession.",
 ]
 
@@ -432,13 +434,52 @@ def _kac_kezde_bir(p: float) -> int:
     return max(2, round(1 / max(1 - p, 0.01)))
 
 
-def bilgi_hazirla(analizler: list[dict], tarih: str, simdi: datetime, cfg: LikelyAyar) -> list[dict]:
-    """Günün bilgi postları (kupon dışı): kupon stratejisi notları ve günün büyük maçlarından rakamlar. Rakamlar analiz
-    kaydından (piyasanın marjsız ihtimalleri); bahis tavsiyesi ya da kesinlik dili yok. Her biri {"tur", "metin", "saat"}."""
+def haftalik_karne(veri: dict, tarih: str, cfg: LikelyAyar) -> dict | None:
+    """Pazartesi: geçen 7 günün paylaşılmış ve sonuçlanmış kuponları (karnenin kendisi, kaybedenler dahil). Beklenen:
+    kuponların tutma ihtimallerinin toplamı. 3 kupondan azsa, Pazartesi değilse ya da ayar kapalıysa None."""
+    gun = datetime.fromisoformat(tarih)
+    if not cfg.oto_haftalik_karne or gun.weekday() != 0:
+        return None
+    bas = (gun - timedelta(days=7)).date().isoformat()
+    kuponlar = [k for g in veri["gunler"] if bas <= g["tarih"] < tarih for k in g.get("secilen", [])
+                if k["durum"] in ("tuttu", "yatti") and (not k.get("oto") or k.get("tweet_id"))]
+    if len(kuponlar) < 3:
+        return None
+    return {"kupon": len(kuponlar), "tutan": sum(k["durum"] == "tuttu" for k in kuponlar),
+            "beklenen": sum(k["olasilik"] for k in kuponlar)}
+
+
+def hafta_metni(h: dict) -> str:
+    """Haftalık karne postu: kaç kupon, kaç tuttu, ihtimallere göre kaç tutmalıydı. Sayıların hepsi karneden."""
+    n, m, e = h["kupon"], h["tutan"], round(h["beklenen"])
+    yorum = ("A bit ahead of the maths. That evens out too." if m - h["beklenen"] >= 1 else
+             "Behind the maths. A week is a tiny sample, so nothing changes over it." if h["beklenen"] - m >= 1 else
+             "Right about where the maths said.")
+    soru = "Which one hurt most?" if m < n else "Enjoy it while it lasts?"
+    return (f"📒 Last week: {n} coupons, {m} landed.\n\nGoing by the chances I gave them, about {e} should have. {yorum}\n\n"
+            f"Every coupon counts here, the losers too.\n\n💬 {soru}\n\n{ANSVAR}")
+
+
+ANKET_SECENEK = 25  # X: anket seçeneği en fazla 25 karakter
+
+
+def _anket(secenekler: list[str], baslama: str) -> dict | None:
+    """Bilgi postuna anket: maç başlayınca kapanır (paylaşımda süre hesaplanır). Seçenek sığmazsa anket yok."""
+    if any(len(s) > ANKET_SECENEK for s in secenekler):
+        return None
+    return {"options": secenekler, "bitis": baslama}
+
+
+def bilgi_hazirla(analizler: list[dict], tarih: str, simdi: datetime, cfg: LikelyAyar,
+                  hafta: dict | None = None) -> list[dict]:
+    """Günün bilgi postları (kupon dışı): kupon stratejisi notları, günün büyük maçlarından rakamlar (anketli) ve
+    Pazartesi haftalık karne. Rakamlar analiz kaydından ve karneden; bahis tavsiyesi ya da kesinlik dili yok.
+    Her biri {"tur", "metin", "saat"} (+ "anket"). Sayı sabit: ek post, ek maliyet yok."""
     buyuk = [a for a in analizler if analiz.onemli(a) and a.get("kaynak") == "piyasa" and a.get("guven") == "yuksek"
              and datetime.fromisoformat(a["baslama"]) >= simdi + timedelta(hours=2)]
     son = f"\n\n{ANSVAR}"
-    postlar = [{"tur": "ders", "metin": ders_metni(tarih), "saat": 10.0}]
+    postlar = [{"tur": "hafta", "metin": hafta_metni(hafta), "saat": 10.0} if hafta
+               else {"tur": "ders", "metin": ders_metni(tarih), "saat": 10.0}]
     if buyuk:
         f = max(buyuk, key=lambda a: max(a["p"]["MS1"], a["p"]["MS2"]))
         ev_favori = f["p"]["MS1"] >= f["p"]["MS2"]
@@ -447,8 +488,9 @@ def bilgi_hazirla(analizler: list[dict], tarih: str, simdi: datetime, cfg: Likel
         if p >= 0.60:
             postlar.append({"tur": "favori", "saat": 13.0, "baslama": f["baslama"], "metin":
                             f"📈 Biggest favourite on today's card: {takim}, about {_pct(p)} to beat {rakip}.\n\n"
-                            f"Sounds safe. It still fails roughly one time in {_kac_kezde_bir(p)}, and the price already knows it.\n\n"
-                            f"💬 Would you ever back it on its own?{son}"})
+                            f"Sounds safe. It still fails roughly one time in {_kac_kezde_bir(p)}.\n\n"
+                            f"💬 Does it hold today? Vote below.{son}",
+                            "anket": _anket(["It holds", "Upset incoming"], f["baslama"])})
         kalan = [a for a in buyuk if a is not f] or buyuk
         g = max(kalan, key=lambda a: a["p"]["UST25"])
         d = min(kalan, key=lambda a: max(a["p"]["MS1"], a["p"]["MS2"]) - min(a["p"]["MS1"], a["p"]["MS2"]))
@@ -456,16 +498,18 @@ def bilgi_hazirla(analizler: list[dict], tarih: str, simdi: datetime, cfg: Likel
             pg = g["p"]["UST25"]
             postlar.append({"tur": "gol", "saat": 16.0, "baslama": g["baslama"], "metin":
                             f"⚽ Likeliest goals game today: {g['ev']} v {g['dep']}, about {_pct(pg)} for over 2.5 goals.\n\n"
-                            f"Which also means roughly {10 - round(10 * pg)} times in 10 it stays under. Goals markets feel safer than they are.\n\n"
-                            f"💬 Over or under for you?{son}"})
+                            f"Which also means roughly {10 - round(10 * pg)} times in 10 it stays under.\n\n"
+                            f"💬 Over or under? Vote below.{son}",
+                            "anket": _anket(["Over 2.5 goals", "Under 2.5 goals"], g["baslama"])})
         else:
             postlar.append({"tur": "denk", "saat": 16.0, "baslama": d["baslama"], "metin":
                             f"⚖️ Closest call today: {d['ev']} v {d['dep']}.\n\n"
                             f"{d['ev']} {_pct(d['p']['MS1'])} · Draw {_pct(d['p']['MSX'])} · {d['dep']} {_pct(d['p']['MS2'])}\n\n"
-                            f"Nobody knows, and the prices admit it.\n\n💬 Who edges it?{son}"})
+                            f"Nobody knows, and the prices admit it.\n\n💬 Who edges it? Vote below.{son}",
+                            "anket": _anket([d["ev"], "Draw", d["dep"]], d["baslama"])})
     postlar.append({"tur": "ders", "metin": ders_metni(tarih, atla=len(DERSLER) // 2), "saat": 21.0})
-    postlar = [b for b in postlar if uzunluk(b["metin"]) <= LIMIT][:cfg.oto_bilgi_sayisi]
-    return sorted(postlar, key=lambda b: b["saat"])
+    postlar = [{k: v for k, v in b.items() if v is not None} for b in postlar if uzunluk(b["metin"]) <= LIMIT]
+    return sorted(postlar[:cfg.oto_bilgi_sayisi], key=lambda b: b["saat"])
 
 
 SES_SISTEM = """You write posts for "Mr. Likely", a football coupon account on X. The coupons are picked by a numbers
@@ -628,9 +672,12 @@ def paket_metni(gun: dict, veri: dict, ayar, cfg: LikelyAyar) -> str:
     if gun.get("oto") and gun.get("bilgi"):
         s += ["", f"## Bilgi postları ({len(gun['bilgi'])})"]
         for b in gun["bilgi"]:
-            s += [f"**{int(b['saat']):02d}:{round(60 * (b['saat'] % 1)):02d}'den sonra** ({b['tur']})", "```", b["metin"], "```"]
+            s += [f"**{int(b['saat']):02d}:{round(60 * (b['saat'] % 1)):02d}'den sonra** ({b['tur']}"
+                  + (f", anket: {' / '.join(b['anket']['options'])}" if b.get("anket") else "") + ")", "```", b["metin"], "```"]
     else:
         s += ["", "## Günün dersi", "```", gun["ders"], "```"]
+    if gun.get("oto"):
+        s += ["", "<details><summary>Ölçüm (gölge test, paylaşılmaz)</summary>", "", olcum_raporu(cfg), "", "</details>"]
     return "\n".join(s)
 
 
@@ -670,7 +717,7 @@ def sabah(ayar, analizler: list[dict], oranlar: dict, simdi: datetime, gh, yaz=p
     gun["tani"] = {"mac": len(analizler), "oranli": sum(1 for a in analizler if oranlar.get(a["fixture_id"])),
                    "buyuk": len(buyukler), "buyuk_oranli": sum(1 for a in buyukler if oranlar.get(a["fixture_id"])),
                    "buyuk_aday": len({a["fixture_id"] for a in adaylar if a["buyuk"]})}
-    gun["bilgi"] = bilgi_hazirla(analizler, tarih, simdi, cfg)
+    gun["bilgi"] = bilgi_hazirla(analizler, tarih, simdi, cfg, hafta=haftalik_karne(veri, tarih, cfg))
     gun["tani"]["buyukler"] = [_buyuk_tani(a, oranlar.get(a["fixture_id"]) or {}, ayar, cfg) for a in buyukler][:15]
     oto = cfg.mod == "otomatik"
     if oto:
@@ -714,7 +761,7 @@ def ek_kupon(ayar, analizler: list[dict], oranlar: dict, simdi: datetime, gh=Non
     if gun is None:
         return 0
     if "bilgi" not in gun:  # eski kayıt: günün bilgi postları da hazırlanır
-        gun["bilgi"] = bilgi_hazirla(analizler, tarih, simdi, cfg)
+        gun["bilgi"] = bilgi_hazirla(analizler, tarih, simdi, cfg, hafta=haftalik_karne(veri, tarih, cfg))
     var = {k["ad"] for k in gun["secilen"]}
     dolu = {a["fixture_id"] for k in gun["secilen"] for a in k["ayaklar"]}
     adaylar = [a for a in havuz(analizler, oranlar, ayar, cfg, simdi) if a["fixture_id"] not in dolu]
@@ -1054,7 +1101,11 @@ def oto_bilgi(ayar, x, simdi: datetime, yaz=print) -> bool:
         siradaki["tweet_id"] = "tekrar"
         kaydet(veri)
         return False
-    siradaki["tweet_id"] = x.gonder(siradaki["metin"])
+    anket = None
+    if siradaki.get("anket"):  # anket maç başlayınca kapanır (X: en az 5 dakika)
+        kalan = (datetime.fromisoformat(siradaki["anket"]["bitis"]) - simdi).total_seconds() // 60
+        anket = {"options": siradaki["anket"]["options"], "duration_minutes": int(max(5, min(kalan, 24 * 60)))}
+    siradaki["tweet_id"] = x.gonder(siradaki["metin"], anket=anket) if anket else x.gonder(siradaki["metin"])
     siradaki["zaman"] = simdi.isoformat(timespec="seconds")
     kaydet(veri)
     yaz(f"Mr. Likely: bilgi postu paylaşıldı ({siradaki['tur']}).")
@@ -1082,3 +1133,171 @@ def yeniden_paylas(ayar, x, simdi: datetime, yaz=print) -> int:
             kaydet(veri)
     yaz(f"Mr. Likely: {adet} kupon postu silindi, yeniden paylaşılacak.")
     return adet
+
+
+# ---------- 8. Ölçüm (gölge test): hiçbir şey paylaşılmaz ----------
+# Sabah havuzundaki BÜTÜN ayakların sonucu kaydedilir (yalnızca seçilen kuponlarınki değil): kuralları gerçek sonuçla
+# sınamak için haftada yüzlerce ayak. Maliyet: API-Football toplu istek (20 maç/istek), günde ~3-4 istek; X'e post,
+# Claude çağrısı, The Odds API kredisi yok. Rapor kayıtlı havuzda kural varyantlarını yeniden oynatır.
+
+OLCUM = config.ROOT / "data" / "likely_olcum"  # gün başına bir dosya
+OLCUM_ARALIK = timedelta(minutes=55)            # bir günün sonuçları en fazla saatte bir sorulur
+OLCUM_ALANLARI = ("aday_id", "fixture_id", "pazar", "tur", "oran", "olasilik", "deger", "kaynak", "uyum", "buyuk", "baslama")
+
+
+def olcum_guncelle(sonuc_al, simdi: datetime, yaz=print) -> int:
+    """Havuzdaki ayakların sonuçları. sonuc_al(fixture_ids) -> {fixture_id: {"durum", "skor", "iy"}} (toplu istek).
+    The Odds API'den gelen (kredi harcar) ve korner (ayrı istek) ayakları ölçülmez. Sonuçlanan ayak sayısını döndürür."""
+    veri = yukle()
+    sorulacak: dict[str, list[dict]] = {}
+    for gun in veri["gunler"]:
+        if not gun.get("havuz") or gun.get("olcum_bitti"):
+            continue
+        if gun.get("olcum_sorgu") and simdi - datetime.fromisoformat(gun["olcum_sorgu"]) < OLCUM_ARALIK:
+            continue
+        for a in gun["havuz"]:
+            if "sonuc" in a:
+                continue
+            if a.get("odds_id") or a["pazar"].startswith("KOR"):
+                a["sonuc"] = "yok"
+            elif datetime.fromisoformat(a["baslama"]) + MAC_SURESI <= simdi:
+                sorulacak.setdefault(gun["tarih"], []).append(a)
+    idler = sorted({a["fixture_id"] for ayaklar in sorulacak.values() for a in ayaklar})
+    cevap = sonuc_al(idler) if idler else {}
+    adet = 0
+    for gun in veri["gunler"]:
+        if gun["tarih"] in sorulacak:
+            gun["olcum_sorgu"] = simdi.isoformat(timespec="seconds")
+            for a in sorulacak[gun["tarih"]]:
+                r = cevap.get(a["fixture_id"]) or {"durum": "bekliyor"}
+                sonuc = None
+                if r["durum"] == "bitti":
+                    k = model.kazandi_mi(a["pazar"], *r["skor"], iy=r.get("iy"))
+                    sonuc = "iade" if k is None else "kazandi" if k else "kaybetti"
+                elif r["durum"] == "iptal":
+                    sonuc = "iade"
+                elif datetime.fromisoformat(a["baslama"]) + VAZGEC <= simdi:
+                    sonuc = "yok"  # sonuç gelmedi: ölçüme girmez
+                if sonuc:
+                    a["sonuc"] = sonuc
+                    adet += sonuc != "yok"
+        biten = bool(gun.get("havuz")) and not gun.get("olcum_bitti") and all("sonuc" in a for a in gun["havuz"])
+        if biten:
+            gun["olcum_bitti"] = True
+        if gun["tarih"] in sorulacak or biten:
+            _olcum_yaz(gun)
+    kaydet(veri)
+    if adet:
+        yaz(f"Mr. Likely ölçümü: {adet} havuz ayağı sonuçlandı ({len(idler)} maç).")
+    return adet
+
+
+def _olcum_yaz(gun: dict) -> None:
+    satirlar = [{**{k: a[k] for k in OLCUM_ALANLARI if k in a}, "sonuc": a["sonuc"]}
+                for a in gun["havuz"] if a.get("sonuc") in ("kazandi", "kaybetti", "iade")]
+    OLCUM.mkdir(parents=True, exist_ok=True)
+    (OLCUM / f'{gun["tarih"]}.json').write_text(json.dumps({"tarih": gun["tarih"], "tam": bool(gun.get("olcum_bitti")),
+                                                            "ayaklar": satirlar}, ensure_ascii=False) + "\n", encoding="utf-8")
+
+
+def olcum_oku() -> list[dict]:
+    try:
+        return [json.loads(f.read_text(encoding="utf-8")) for f in sorted(OLCUM.glob("*.json"))]
+    except (OSError, ValueError):
+        return []
+
+
+GRUPLAR = (("Ev ya da deplasman (12)", ("CS12",)), ("Çifte şans 1X / X2", ("CS1X", "CSX2")),
+           ("Maç sonucu", ("MS",)), ("Toplam gol", ("UST", "ALT")), ("İlk yarı", ("IY",)),
+           ("Takım golü", ("EVU", "EVA", "DPU", "DPA")), ("Diğer", ("",)))
+
+
+def _grup(pazar: str) -> str:
+    return next(ad for ad, onekler in GRUPLAR if pazar.startswith(onekler))
+
+
+def kupona_uygun(a: dict, cfg: LikelyAyar) -> bool:
+    """otomatik_sec'in ayak süzgeci (E6): istatistikle uyumlu, keskin piyasa, oran adil fiyata yakın, sağlam ya da değerli."""
+    return (a["uyum"] and a["deger"] >= cfg.oto_min_deger and not a["kaynak"].lower().startswith("average")
+            and (a["tur"] == "deger" or a["olasilik"] >= cfg.oto_min_ayak))
+
+
+def kalibrasyon(gunler: list[dict], cfg: LikelyAyar) -> list[dict]:
+    """Kupona girebilen ayaklar, pazar grubuna göre: kaç ayak, ihtimale göre kaçı tutmalıydı, kaçı tuttu, sapma (z).
+    |z| ≥ 2: fark tesadüfle açıklanması zor (yaklaşık %5). Daha küçük fark örneklem gürültüsüdür."""
+    toplam: dict[str, list] = {}
+    for g in gunler:
+        for a in g["ayaklar"]:
+            if a["sonuc"] == "iade" or not kupona_uygun(a, cfg):
+                continue
+            for ad in (_grup(a["pazar"]), "Toplam"):
+                t = toplam.setdefault(ad, [0, 0.0, 0, 0.0])
+                t[0] += 1
+                t[1] += a["olasilik"]
+                t[2] += a["sonuc"] == "kazandi"
+                t[3] += a["olasilik"] * (1 - a["olasilik"])
+    return [{"grup": ad, "ayak": n, "beklenen": round(e, 1), "tutan": m, "z": round((m - e) / math.sqrt(v), 1) if v else 0.0}
+            for ad, (n, e, m, v) in sorted(toplam.items(), key=lambda x: (x[0] == "Toplam", -x[1][0]))]
+
+
+# Yeniden oynatılan kural varyantları: (ad, ayak süzgeci, ayar değişikliği). İlki bugünkü kurallar (E6).
+VARYANTLAR = (
+    ("Bugünkü kurallar", lambda a: True, {}),
+    ("12 (ev ya da deplasman) ayağı olmadan", lambda a: a["pazar"] != "CS12", {}),
+    ("Büyük maç önceliği olmadan", lambda a: True, {"oto_buyuk_tolerans": 0.0}),
+    ("Long shot ayak oranı sınırı olmadan", lambda a: True, {"oto_uzun_min_ayak_oran": 0.0}),
+    # Büyük maç kuponu fiyattan takılıyor (4 ayakta bahisçi payı ~%11 birikiyor): sınır gevşerse ne olur?
+    ("Kupon fiyat sınırı −%12 (günün + büyük maçlar)", lambda a: True, {"oto_min_kupon_deger": -0.12}),
+)
+
+
+def golge_kuponlar(gunler: list[dict], cfg: LikelyAyar) -> list[dict]:
+    """Her varyant, sonuçları tam olan her günün sabah havuzunda otomatik_sec ile yeniden oynatılır (paylaşılmaz).
+    Kupon türü başına: kaç kupon, kaçı tuttu, ihtimallere göre kaçı tutmalıydı, ortalama oran."""
+    sonuc = []
+    for ad, suzgec, degisiklik in VARYANTLAR:
+        c = replace(cfg, **degisiklik)
+        tur: dict[str, list] = {}
+        for g in gunler:
+            if not g.get("tam"):
+                continue
+            ayaklar = [a for a in g["ayaklar"] if suzgec(a)]
+            harita = {a["aday_id"]: a for a in ayaklar}
+            for k in otomatik_sec(ayaklar, c):
+                durumlar = [harita[i]["sonuc"] for i in k["ayaklar"]]
+                if all(d == "iade" for d in durumlar):
+                    continue
+                tuttu = "kaybetti" not in durumlar
+                t = tur.setdefault(k["ad"], [0, 0, 0.0, 0.0, 0.0])
+                t[0] += 1
+                t[1] += tuttu
+                t[2] += k["olasilik"]
+                t[3] += k["oran"]
+                # Her kupon 1 birim; iade ayak 1.00 sayılır (karne ile aynı)
+                t[4] += math.prod(harita[i]["oran"] for i in k["ayaklar"] if harita[i]["sonuc"] == "kazandi") - 1 if tuttu else -1
+        sonuc.append({"varyant": ad, "turler": {k: {"kupon": n, "tutan": m, "beklenen": round(e, 1), "oran": round(o / n, 2),
+                                                    "kar": round(kr, 2)} for k, (n, m, e, o, kr) in tur.items()}})
+    return sonuc
+
+
+def olcum_raporu(cfg: LikelyAyar, gunler: list[dict] | None = None) -> str:
+    """Sahibine Türkçe ölçüm raporu (sabah bildiriminde ve `python -m bot.likely`)."""
+    gunler = olcum_oku() if gunler is None else gunler
+    if not gunler:
+        return "Henüz ölçüm yok: havuz ayaklarının sonuçları maçlar bittikçe gelir."
+    tam = sum(1 for g in gunler if g.get("tam"))
+    s = [f"{len(gunler)} gün ({tam} tanesi tam), {sum(len(g['ayaklar']) for g in gunler)} ayak. Kaynak: sabah havuzu, paylaşılmaz.", "",
+         "**Ayaklar (kupona girebilenler):** ihtimale göre beklenen ve gerçek. |z| ≥ 2 ise fark gerçek olabilir; altı gürültü.", "",
+         "| Pazar | Ayak | Beklenen | Tutan | z |", "|---|---|---|---|---|"]
+    s += [f"| {r['grup']} | {r['ayak']} | {r['beklenen']} | {r['tutan']} | {r['z']:+.1f} |" for r in kalibrasyon(gunler, cfg)]
+    s += ["", "**Kural varyantları (aynı havuzda yeniden oynatma):**", "",
+          "| Varyant | Kupon | Tutan | Beklenen | Ort. oran | Kâr (birim) |", "|---|---|---|---|---|---|"]
+    for v in golge_kuponlar(gunler, cfg):
+        for tur, r in sorted(v["turler"].items()):
+            s.append(f"| {v['varyant']} · {KUPON_ADI.get(tur, tur)} | {r['kupon']} | {r['tutan']} | {r['beklenen']} | "
+                     f"{r['oran']:.2f} | {_birim(r['kar'])} |")
+    return "\n".join(s)
+
+
+if __name__ == "__main__":
+    print(olcum_raporu(ayar_yukle()))

@@ -300,25 +300,41 @@ def korner_sayisi(api, fixture_id: int) -> int | None:
     return toplam if bulundu else None
 
 
+def _sonuc(f: dict) -> dict:
+    kisa = f["fixture"]["status"]["short"]
+    skorlar = f.get("score") or {}
+    ft = skorlar.get("fulltime") or {}
+    ht = skorlar.get("halftime") or {}
+    if kisa in BITMIS and ft.get("home") is not None:
+        return {"durum": "bitti", "skor": (int(ft["home"]), int(ft["away"])),
+                "iy": (int(ht["home"]), int(ht["away"])) if ht.get("home") is not None else None, "korner": None}
+    return {"durum": "iptal", "skor": None} if kisa in IPTAL else {"durum": "bekliyor", "skor": None}
+
+
 def sonuclari_al(api, fixture_ids: list[int], korner_idleri: set[int] = frozenset()) -> dict[int, dict]:
     """fixture_id -> {"durum": "bitti"|"iptal"|"bekliyor", "skor": (ev, dep), "iy": (ev, dep), "korner": int}
     Ücretsiz plan toplu "ids" parametresine izin vermediği için maç başına bir istek atılır."""
     sonuc: dict[int, dict] = {}
     for f in (kayit for fid in fixture_ids for kayit in api.get("fixtures", id=fid)):
         fid = f["fixture"]["id"]
-        kisa = f["fixture"]["status"]["short"]
-        skorlar = f.get("score") or {}
-        ft = skorlar.get("fulltime") or {}
-        ht = skorlar.get("halftime") or {}
-        if kisa in BITMIS and ft.get("home") is not None:
-            sonuc[fid] = {
-                "durum": "bitti",
-                "skor": (int(ft["home"]), int(ft["away"])),
-                "iy": (int(ht["home"]), int(ht["away"])) if ht.get("home") is not None else None,
-                "korner": korner_sayisi(api, fid) if fid in korner_idleri else None,
-            }
-        elif kisa in IPTAL:
-            sonuc[fid] = {"durum": "iptal", "skor": None}
-        else:
-            sonuc[fid] = {"durum": "bekliyor", "skor": None}
+        sonuc[fid] = _sonuc(f)
+        if sonuc[fid]["durum"] == "bitti" and fid in korner_idleri:
+            sonuc[fid]["korner"] = korner_sayisi(api, fid)
+    return sonuc
+
+
+TOPLU_SINIR = 20  # "ids" parametresi istek başına en fazla 20 maç alır
+
+
+def toplu_sonuclar(api, fixture_ids: list[int]) -> dict[int, dict]:
+    """Çok maçın sonucu, 20 maç tek istekte (ücretli planın "ids" parametresi; korner yok). Toplu istek reddedilirse
+    maç başına isteğe döner. Mr. Likely havuz ölçümü için: günde ~60 maç ≈ 3-4 istek."""
+    sonuc: dict[int, dict] = {}
+    for i in range(0, len(fixture_ids), TOPLU_SINIR):
+        parca = fixture_ids[i:i + TOPLU_SINIR]
+        try:
+            kayitlar = api.get("fixtures", ids="-".join(map(str, parca)))
+        except ApiHatasi:
+            return {**sonuc, **sonuclari_al(api, fixture_ids[i:])}
+        sonuc.update({f["fixture"]["id"]: _sonuc(f) for f in kayitlar})
     return sonuc

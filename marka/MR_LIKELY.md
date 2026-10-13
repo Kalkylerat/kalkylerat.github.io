@@ -89,6 +89,14 @@ Example lines in his voice:
 - Kupon, ilk maçtan yaklaşık 3 saat önce paylaşılır; sonuç postu maçlar bitince: kupon postunu alıntılar, sonuç kartı (skorlar, ✓/✗, LANDED/DOWN damgası) eklenir.
 - Bilgi postları: 10:00 strateji notu, 13:00 günün en büyük favorisi, 16:00 en gollü ya da en dengeli maç, 21:00
   ikinci strateji notu (başka bir posta 40 dakikadan yakınsa bekler). Günlük hedef 8–10 post: 3 kupon, 3 sonuç, 4 bilgi.
+  Büyük maç postları (favori, gol, denk) **anketli**: seçenekler kısa, anket maç başlayınca kapanır (ek post yok).
+  Strateji notları sade ve günlük dilde (90. dakika golü, son ayak, cash out, kendi takımına oynamak); marj/fiyat dili az.
+- Haftalık karne postu (Pazartesi 10:00, dersin yerine; yalnızca karneden): kodda hazır, `oto_haftalik_karne = false`.
+  SOZLESME E1'e eklenince açılır (sahibinin onayı).
+- **Ölçüm (gölge test, paylaşılmaz):** sabah havuzundaki bütün ayakların sonucu toplu istekle (API-Football, 20 maç/istek,
+  günde ~3-4 istek) `data/likely_olcum/` içine yazılır. Sabah bildiriminin sonunda "Ölçüm" bölümü: pazar başına beklenen
+  ve gerçek tutma (z ≥ 2 ise fark gerçek olabilir) ve kural varyantlarının aynı havuzda yeniden oynatılması (tutan, kâr).
+  Elle: `python -m bot.likely`. Kural değişikliği bu rapora bakılarak, sahibinin onayıyla yapılır.
 - Paylaşılmış kuponu yeni düzenle yeniden atmak: Actions → `likely_yenile` (yalnızca maç başlamadan; aynı kupon).
   Gün içinde eksik kupon türünü tamamlamak: `likely_ek`.
 - Durdurmak için o bildirime `iptal` yaz (paylaşılmamış kuponlar gitmez). Tamamen kapatmak: `[likely] aktif = false`.

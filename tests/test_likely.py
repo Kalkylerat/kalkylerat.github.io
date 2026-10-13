@@ -7,11 +7,18 @@ from pathlib import Path
 
 import pytest
 
+from dataclasses import replace
+
 from bot import config, denetci, likely, model
 from bot.tweets import ANSVAR, LIMIT, uzunluk
 
 AYAR = config.yukle()
 CFG = likely.LikelyAyar(aktif=True)
+
+
+@pytest.fixture(autouse=True)
+def _olcum_dizini(monkeypatch, tmp_path):
+    monkeypatch.setattr(likely, "OLCUM", tmp_path / "olcum")
 UTC = timezone.utc
 SIMDI = datetime(2026, 10, 10, 9, 0, tzinfo=UTC)
 
@@ -691,3 +698,145 @@ def test_ek_kupon_eksik_turu_tamamlar_mevcuda_dokunmaz(oto):
     assert [k["ad"] for k in gun["secilen"]][:len(once)] == once and len(gun["secilen"]) == len(once) + eklenen <= OTO.oto_max_kupon
     for k in gun["secilen"][len(once):]:
         assert k["oto"] and k["ad"] not in once and not {a["fixture_id"] for a in k["ayaklar"]} & dolu
+
+
+# ---------- Anket, haftalık karne, ölçüm (gölge test) ----------
+
+class AnketliX(SahteX):
+    def gonder(self, metin, yanit=None, medya=None, alinti=None, anket=None, **_):
+        self.postlar.append({"metin": metin, "yanit": yanit, "medya": medya, "alinti": alinti, "anket": anket})
+        return f"t{len(self.postlar)}"
+
+
+def test_buyuk_mac_bilgi_postu_anketli_ve_anket_mac_baslayinca_kapanir():
+    analizler = [buyuk_analiz(1, "France", "Malta", 8, 0.86, 0.10, 0.55), buyuk_analiz(2, "Germany", "Spain", 9, 0.38, 0.28, 0.63),
+                 buyuk_analiz(3, "Wales", "Norway", 9, 0.36, 0.30, 0.44)]
+    bilgi = likely.bilgi_hazirla(analizler, "2026-10-10", SIMDI, OTO)
+    anketli = [b for b in bilgi if b.get("anket")]
+    assert [b["tur"] for b in anketli] == ["favori", "gol"] and all("Vote below" in b["metin"] for b in anketli)
+    assert all(len(o) <= 25 for b in anketli for o in b["anket"]["options"]) and anketli[1]["anket"]["bitis"] == analizler[1]["baslama"]
+    assert not any(b.get("anket") for b in bilgi if b["tur"] == "ders")
+    denk = likely.bilgi_hazirla([dict(a, p=dict(a["p"], UST25=0.45)) for a in analizler], "2026-10-10", SIMDI, OTO)
+    assert denk[2]["anket"]["options"] == ["Wales", "Draw", "Norway"]
+    uzun = likely.bilgi_hazirla([dict(a, p=dict(a["p"], UST25=0.45), dep="Borussia Mönchengladbach Reserves") for a in analizler],
+                                "2026-10-10", SIMDI, OTO)
+    assert "anket" not in uzun[2] and uzun[2]["tur"] == "denk"  # seçenek 25 karakteri aşarsa anket yok, post yine gider
+    # Paylaşımda anket süresi maç başlangıcına kadar
+    x = AnketliX()
+    gun = {"tarih": "2026-10-10", "oto": True, "secilen": [], "bilgi": [dict(anketli[1], saat=0.0)]}
+    with pytest.MonkeyPatch.context() as mp:
+        mp.setattr(likely, "yukle", lambda: {"gunler": [gun]})
+        mp.setattr(likely, "kaydet", lambda veri: None)
+        mp.setattr(likely, "ayar_yukle", lambda *a, **k: OTO)
+        assert likely.oto_bilgi(AYAR, x, SIMDI) is True
+    assert x.postlar[0]["anket"] == {"options": ["Over 2.5 goals", "Under 2.5 goals"], "duration_minutes": 9 * 60}
+
+
+def test_haftalik_karne_yalniz_karneden_ve_onaysiz_kapali():
+    def kupon(durum, p, tweet=True):
+        return {"oto": True, "durum": durum, "olasilik": p, **({"tweet_id": "t"} if tweet else {})}
+    veri = {"gunler": [{"tarih": "2026-10-04", "secilen": [kupon("yatti", 0.5)]},  # önceki hafta: sayılmaz
+                       {"tarih": "2026-10-06", "secilen": [kupon("tuttu", 0.5), kupon("yatti", 0.3)]},
+                       {"tarih": "2026-10-08", "secilen": [kupon("yatti", 0.5), kupon("tuttu", 0.4, tweet=False)]},
+                       {"tarih": "2026-10-11", "secilen": [kupon("tuttu", 0.45), kupon("bekliyor", 0.3)]}]}
+    acik = replace(OTO, oto_haftalik_karne=True)
+    assert likely.haftalik_karne(veri, "2026-10-12", OTO) is None  # SOZLESME E1 onayı gelene kadar kapalı
+    assert likely.haftalik_karne(veri, "2026-10-13", acik) is None  # Pazartesi değil
+    h = likely.haftalik_karne(veri, "2026-10-12", acik)
+    assert h["kupon"] == 4 and h["tutan"] == 2 and round(h["beklenen"], 2) == 1.75  # paylaşılmamış ve bekleyen sayılmaz
+    m = likely.hafta_metni(h)
+    assert "4 coupons, 2 landed" in m and "about 2 should" in m and m.endswith(ANSVAR) and uzunluk(m) <= LIMIT
+    assert likely.ses_uygun(m, m, []) == []
+    bilgi = likely.bilgi_hazirla([], "2026-10-12", SIMDI, acik, hafta=h)
+    assert [b["tur"] for b in bilgi] == ["hafta", "ders"]
+
+
+def _olcum_gunu(oto_tarih="2026-10-10"):
+    havuz_ = likely.havuz(MACLAR, ORANLAR, AYAR, OTO, SIMDI)
+    return {"tarih": oto_tarih, "havuz": havuz_, "secilen": [], "gunler": []}, havuz_
+
+
+def test_olcum_havuzun_butun_ayaklarini_toplu_sonuclandirir_paylasmaz(monkeypatch, tmp_path):
+    monkeypatch.setattr(likely, "DOSYA", tmp_path / "likely.json")
+    gun, havuz_ = _olcum_gunu()
+    odds_mac, bitmeyen = havuz_[0]["fixture_id"], next(a["fixture_id"] for a in havuz_ if a["fixture_id"] != havuz_[0]["fixture_id"])
+    for a in havuz_:
+        if a["fixture_id"] == odds_mac:
+            a["odds_id"] = "abc"  # The Odds API maçı: kredi harcamamak için ölçülmez
+    likely.kaydet({"gunler": [gun]})
+    istenen = []
+
+    def sonuc_al(idler):
+        istenen.append(list(idler))
+        return {fid: {"durum": "bitti", "skor": (2, 1), "iy": (1, 0)} for fid in idler if fid != bitmeyen}
+
+    sonra = SIMDI + timedelta(hours=14)
+    adet = likely.olcum_guncelle(sonuc_al, sonra)
+    assert len(istenen) == 1 and odds_mac not in istenen[0] and bitmeyen in istenen[0]  # tek toplu istek
+    kayit = likely.yukle()["gunler"][0]
+    assert adet == sum(1 for a in kayit["havuz"] if a.get("sonuc") in ("kazandi", "kaybetti", "iade")) > 0
+    assert all(a["sonuc"] == "yok" for a in kayit["havuz"] if a.get("odds_id"))
+    assert all("sonuc" not in a for a in kayit["havuz"] if a["fixture_id"] == bitmeyen) and not kayit.get("olcum_bitti")
+    for a in kayit["havuz"]:  # 2-1: ev kazandı
+        if a.get("sonuc") in ("kazandi", "kaybetti"):
+            assert (a["sonuc"] == "kazandi") == model.kazandi_mi(a["pazar"], 2, 1, iy=(1, 0))
+    # Saatte bir: hemen ardından yeni istek yok; bir saat sonra yalnızca kalan maç sorulur
+    assert likely.olcum_guncelle(sonuc_al, sonra + timedelta(minutes=10)) == 0 and len(istenen) == 1
+    likely.olcum_guncelle(lambda idler: istenen.append(list(idler)) or {f: {"durum": "iptal", "skor": None} for f in idler},
+                          sonra + timedelta(hours=1))
+    assert istenen[-1] == [bitmeyen]
+    kayit = likely.yukle()["gunler"][0]
+    assert kayit["olcum_bitti"] and all("sonuc" in a for a in kayit["havuz"])
+    dosya = likely.olcum_oku()
+    assert len(dosya) == 1 and dosya[0]["tam"] and all(a["sonuc"] in ("kazandi", "kaybetti", "iade") for a in dosya[0]["ayaklar"])
+    assert likely.olcum_guncelle(sonuc_al, sonra + timedelta(hours=5)) == 0 and len(istenen) == 2  # bitmiş gün bir daha sorulmaz
+
+
+def test_olcum_raporu_kalibrasyon_ve_kural_varyantlari():
+    _, havuz_ = _olcum_gunu()
+    gunler = [{"tarih": f"2026-10-{10 + i}", "tam": True,
+               "ayaklar": [{**{k: a[k] for k in likely.OLCUM_ALANLARI if k in a}, "sonuc": "kazandi" if (a["fixture_id"] + i) % 3 else "kaybetti"}
+                           for a in havuz_]} for i in range(3)]
+    kal = likely.kalibrasyon(gunler, OTO)
+    toplam = kal[-1]
+    assert toplam["grup"] == "Toplam" and toplam["ayak"] == sum(r["ayak"] for r in kal[:-1])
+    uygun = [a for g in gunler for a in g["ayaklar"] if likely.kupona_uygun(a, OTO)]
+    assert toplam["tutan"] == sum(a["sonuc"] == "kazandi" for a in uygun)
+    assert abs(toplam["beklenen"] - sum(a["olasilik"] for a in uygun)) < 0.1
+    golge = likely.golge_kuponlar(gunler, OTO)
+    assert [v["varyant"] for v in golge] == [v[0] for v in likely.VARYANTLAR]
+    bugun = golge[0]["turler"]["gunun-kuponu"]
+    assert bugun["kupon"] == 3 and 0 <= bugun["tutan"] <= 3 and 2.0 <= bugun["oran"] <= 4.0
+    assert -3 <= bugun["kar"] <= 3 * (4.0 - 1) and (bugun["tutan"] > 0 or bugun["kar"] == -3)
+    rapor = likely.olcum_raporu(OTO, gunler)
+    assert "Toplam" in rapor and "Bugünkü kurallar" in rapor and "12 (ev ya da deplasman)" in rapor
+    assert likely.olcum_raporu(OTO, []).startswith("Henüz ölçüm yok")
+    eksik = [dict(g, tam=False) for g in gunler]  # sonucu eksik gün yeniden oynatılmaz
+    assert all(not v["turler"] for v in likely.golge_kuponlar(eksik, OTO))
+
+
+def test_toplu_sonuclar_20_mac_bir_istek_reddedilirse_tek_tek():
+    from bot import football
+
+    def kayit(fid, durum="FT"):
+        return {"fixture": {"id": fid, "status": {"short": durum}}, "score": {"fulltime": {"home": 1, "away": 0},
+                                                                            "halftime": {"home": 0, "away": 0}}}
+
+    class Api:
+        def __init__(self, toplu=True):
+            self.istekler, self.toplu = [], toplu
+
+        def get(self, path, **p):
+            self.istekler.append(p)
+            if "ids" in p:
+                if not self.toplu:
+                    raise football.ApiHatasi("ids desteklenmiyor")
+                return [kayit(int(i), "NS" if i == "7" else "FT") for i in p["ids"].split("-")]
+            return [kayit(p["id"])]
+
+    api = Api()
+    sonuc = football.toplu_sonuclar(api, list(range(1, 46)))
+    assert len(api.istekler) == 3 and len(sonuc) == 45  # 45 maç: 20 + 20 + 5
+    assert sonuc[1] == {"durum": "bitti", "skor": (1, 0), "iy": (0, 0), "korner": None} and sonuc[7]["durum"] == "bekliyor"
+    api = Api(toplu=False)
+    assert len(football.toplu_sonuclar(api, [1, 2, 3])) == 3 and len(api.istekler) == 4  # 1 reddedilen + 3 tek

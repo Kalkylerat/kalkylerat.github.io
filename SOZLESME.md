@@ -21,6 +21,7 @@ Bir kuralı değiştirmek isterseniz önce burayı, sonra testi, en son kodu de�
 | A6 | Görsellerde yüzdesiz rakam yok (en olası skorun da yüzdesi var). | `test_A6` | — |
 | A7 | Maç sonu postu: olan ve maç öncesi yüzdesi ("Our pre-match chance of what happened"). | `test_A7` | `saglik` |
 | A8 | Link yok, bahis/kesinlik dili yok, her post "18+" satırıyla biter, 280 sınırı. | `test_A8` | denetçi |
+| A9 | **Pazartesi haftalık karne**: geçen 7 günün paylaşılmış maç sonu postlarından, kartların ana yüzdelerinin ortalaması ve kaçının olduğu (olmayanlar dahil, sayılarıyla); oran ile takım istatistiğinin ikisi de olan maçlarda hangisinin olana daha yakın olduğu. Rakamlar yalnızca kayıttan (direktör yazmaz), 30 çağrıdan azsa post yok (sahibinin onayı, 13 Ekim 2026). | `test_A9` | `saglik` (seçim dili) |
 
 ## B. Zamanlama
 

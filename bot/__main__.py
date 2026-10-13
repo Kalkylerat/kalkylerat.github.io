@@ -1395,6 +1395,10 @@ def main(argv=None) -> int:
         if args.komut == "nabiz" and kayit.bul(gunler, bugun):
             try:
                 analiz_secimlerini_tamamla(ayar, kayit.bul(gunler, bugun))
+                gun_ = kayit.bul(gunler, bugun)
+                if "hafta_ozeti" not in gun_ and gun_.get("konsept") == "analiz" \
+                        and datetime.fromisoformat(gun_["tarih"]).weekday() == 0:  # SÖZLEŞME A9: Pazartesi karnesi
+                    gun_["hafta_ozeti"] = etkilesim.hafta_ozeti(gunler, gun_["tarih"])
                 dosya = config.DATA_FILE.parent / "analiz" / f"{bugun}.json"
                 if dosya.exists():  # akşam maçlarına da kart ve akşam tablosu (yoğun günde geniş; sakin günde B7)
                     eklenen = etkilesim.yogun_kartlari_ekle(kayit.bul(gunler, bugun),

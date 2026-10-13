@@ -133,6 +133,47 @@ def test_A8_link_bahis_kesinlik_yok_18_arti_ile_biter():
         assert denetci.analiz_kontrolu("analiz", kotu + "\n" + tweets.ANSVAR, [], AYAR)
 
 
+def test_A9_haftalik_karne_kayittan_kaybedenler_dahil():
+    a = mac(1, "France", "Italy")
+    gunler = []
+    for n in range(12):  # 12 kart, her biri 3 ana çağrı: 36; yarısı oldu
+        gun = f"2026-10-{5 + n % 7:02d}"
+        g = next((x for x in gunler if x["tarih"] == gun), None) or {"tarih": gun, "konsept": "analiz", "analizler": [], "etkilesim": {}}
+        if g not in gunler:
+            gunler.append(g)
+        g["analizler"].append(a)
+        g["etkilesim"][f"analiz_{len(g['analizler']) - 1}"] = {"durum": "paylasildi", "takip": {
+            "durum": "paylasildi", "isabet": [n % 2 == 0] * 3,
+            "brier": {"piyasa": 0.4, "istatistik": 0.5 if n < 9 else 0.3}}}
+    gunler.append({"tarih": "2026-10-12", "konsept": "analiz", "analizler": [a], "etkilesim": {
+        "analiz_0": {"durum": "paylasildi", "takip": {"durum": "paylasildi", "isabet": [True] * 3}}}})  # bu hafta değil
+    oz = etkilesim.hafta_ozeti(gunler, "2026-10-12")
+    assert (oz["ilk"], oz["son"], oz["adet"], oz["olan"]) == ("2026-10-05", "2026-10-11", 36, 18)
+    assert (oz["kiyas"], oz["oran_yakin"]) == (12, 9)
+    assert oz["ort_p"] == round(sum(c["p"] for c in analiz.manset(a)) / 3, 3)
+    metin = etkilesim.hafta_tweeti(oz)
+    assert "50% (18 of 36)" in metin and "75% of games (9 of 12)" in metin
+    assert tweets.uzunluk(metin) <= tweets.LIMIT and metin.endswith(tweets.ANSVAR)
+    assert not denetci._SECIM_DILI.search(metin) and not denetci._LINK.search(metin) and not denetci.KISALTMA.search(metin)
+    for satir in metin.splitlines():
+        if satir[:1] in "🎯📈⚖" and re.search(r"\d", satir):
+            assert "%" in satir
+    # Az veriyle karne yok; plan yalnızca karne varsa (direktör yazmaz: rakam kayıttan)
+    assert etkilesim.hafta_ozeti(gunler[:2], "2026-10-12") is None
+    pazartesi = {"tarih": "2026-10-12", "konsept": "analiz", "olusturma": "2026-10-12T05:20:00+00:00", "hafta_ozeti": oz}
+    assert "hafta" in [t for t, _, _ in etkilesim._plan(pazartesi)]
+    assert "hafta" not in [t for t, _, _ in etkilesim._plan({**pazartesi, "hafta_ozeti": None})]
+
+    class X:
+        def __init__(self): self.giden = []
+        def gonder(self, metin, **k): self.giden.append(metin); return "1"
+    x, simdi = X(), datetime(2026, 10, 12, 10, 5, tzinfo=UTC)
+    gun = {**pazartesi, "etkilesim": {t: {"durum": "atlandi"} for t, _, _ in etkilesim._plan(pazartesi) if t != "hafta"}}
+    yazar = lambda *a: pytest.fail("karneyi direktör yazmaz")
+    assert etkilesim.paylas(gun, AYAR, x, simdi, yaz=lambda *_: None, yazar=yazar) == "hafta"
+    assert x.giden == [metin]
+
+
 # ---------- B. Zamanlama ----------
 
 def test_B1_mac_sonu_dudukten_5_15_dk_sonra():

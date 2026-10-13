@@ -61,6 +61,8 @@ zamanlama `.github/workflows/kalkylerat.yml`.
 
 ## Kalkylerat için işe yarayanlar
 1. **Şeffaflık** en büyük koz: her kartın maç sonu postu, tutsa da tutmasa da maç öncesi yüzdeyle aynı görünürlükte.
+   Pazartesi haftalık karne (`etkilesim.hafta_ozeti`, SOZLESME A9): kartların ana yüzdeleri ortalaması, kaçının olduğu,
+   oran mı istatistik mi olana yakındı; günlük "Who's right: the odds or the stats?" sorusunun haftalık cevabı.
 2. **Her gün aynı ritim**: sabah tablo, gün boyu kartlar, akşam tablo ve sonuçlar; alışkanlık yaratır.
 3. **Yoruma davet eden gerçek soru** (etkilesim.kart_sorusu): maça özel, dönüşümlü; tuzak kurma.
 4. **İlk saat**: sahibi paylaşımdan sonraki 30–60 dk'da gelen yorumlara @kalkylerat'tan kısa, bilgi veren cevaplar yazar.

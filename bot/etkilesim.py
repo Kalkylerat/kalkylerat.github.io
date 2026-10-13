@@ -289,6 +289,8 @@ def _plan(gun: dict) -> list[tuple[str, datetime, datetime]]:
     plan.append(("bilgi", gun_bas + timedelta(hours=9), gun_bas + timedelta(hours=19, minutes=30)))  # günlük bilgi
     # SÖZLEŞME B7: akşam (maçlar oynanırken, sonuçlardan önce) ikinci bilgi postu; akşam saatleri sessiz kalmasın
     plan.append(("bilgi_aksam", gun_bas + timedelta(hours=18), gun_bas + timedelta(hours=20, minutes=30)))
+    if gun.get("hafta_ozeti"):  # SÖZLEŞME A9: Pazartesi, geçen haftanın karnesi (kayıttaki maç sonu postlarından)
+        plan.append(("hafta", gun_bas + timedelta(hours=10), gun_bas + timedelta(hours=17)))
     if gun.get("konsept") == "analiz":
         # Kupon yok: günün maçları, öne çıkan maçların analiz kartları (maçtan 8 saat – 35 dk önce, en erken 08:00 UTC;
         # 15 dakikalık akışta öğleden önce boşluk kalmasın), anket.
@@ -560,6 +562,7 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_pay
                 tid = x.gonder(metin, anket={"options": secenekler, "duration_minutes": dakika})
             else:
                 metin = {"pas": lambda: pas_tweeti(gun), "bilgi": lambda: bilgi_tweeti(gun), "bilgi_aksam": lambda: bilgi_tweeti(gun, kayma=1),
+                         "hafta": lambda: hafta_tweeti(gun["hafta_ozeti"]),
                          "maclar": lambda: maclar_tweeti(gun, ayar),
                          "skor": lambda: skor_tweeti(gun, ayar),
                          "istatistik": lambda: istatistik_tweeti(gun, ayar),
@@ -569,7 +572,7 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None, diger_pay
                     durum[tur] = {"durum": "atlandi"}
                     continue
                 sablon = metin
-                if yazar and tur != "bilgi_aksam":  # akşam bilgisi onaylı şablonla gider
+                if yazar and tur not in ("bilgi_aksam", "hafta"):  # akşam bilgisi onaylı şablonla, karne kayıttaki rakamla
                     metin = yazar(tur, olgular(tur, {**gun, "_haric": haric_takimlar}, ayar), metin)
                 from .denetci import KISALTMA
                 if metin and KISALTMA.search(metin):  # SÖZLEŞME A5: kısaltmalı metin yerine şablon (o da değilse atla)
@@ -907,6 +910,51 @@ def analiz_takibi(gun: dict, ayar, x, simdi: datetime, sonuc_getir, yaz=print, y
         yaz(f"Analiz takibi (alıntı):\n```\n{metin}\n```")
         paylasilan += 1
     return paylasilan
+
+
+HAFTA_MIN = 30  # karne en az bu kadar maç sonu çağrısıyla (daha azı gürültü)
+
+
+def hafta_ozeti(gunler: list[dict], tarih: str) -> dict | None:
+    """SÖZLEŞME A9: tarihten önceki 7 günün karnesi, yalnızca paylaşılmış maç sonu postlarından (kayıtta ne varsa;
+    olmayanlar da sayılır). Kartın üç ana çağrısı (analiz.manset): ortalama yüzdemiz ve kaçının olduğu. Oran ile
+    takım istatistiğinin ikisi de olan maçlarda hangisi olana daha yakındı (maç sonunda kaydedilen Brier puanı)."""
+    son = datetime.fromisoformat(tarih).date() - timedelta(days=1)
+    ilk = son - timedelta(days=6)
+    p_top = olan = adet = oran = ist = 0
+    for g in gunler:
+        if g.get("konsept") != "analiz" or not ilk.isoformat() <= g["tarih"] <= son.isoformat():
+            continue
+        for tur, e in (g.get("etkilesim") or {}).items():
+            t = e.get("takip") or {}
+            if not tur.startswith("analiz_") or t.get("durum") != "paylasildi" or not t.get("isabet"):
+                continue
+            for c, oldu in zip(analiz.manset(g["analizler"][int(tur.split("_")[1])]), t["isabet"]):
+                p_top, olan, adet = p_top + c["p"], olan + bool(oldu), adet + 1
+            b = t.get("brier") or {}
+            if b and b["piyasa"] != b["istatistik"]:
+                oran, ist = oran + (b["piyasa"] < b["istatistik"]), ist + (b["istatistik"] < b["piyasa"])
+    if adet < HAFTA_MIN:
+        return None
+    return {"ilk": ilk.isoformat(), "son": son.isoformat(), "adet": adet, "olan": olan,
+            "ort_p": round(p_top / adet, 3), "kiyas": oran + ist, "oran_yakin": oran}
+
+
+def hafta_tweeti(oz: dict) -> str:
+    """Pazartesi karnesi: bütün rakamlar kayıttan (hafta_ozeti); seçim/isabet dili yok, olanla yüzdemiz yan yana."""
+    ilk, son = (datetime.fromisoformat(oz[k]) for k in ("ilk", "son"))
+    aralik = f"{ilk:%-d}–{son:%-d %b}" if ilk.month == son.month else f"{ilk:%-d %b} – {son:%-d %b}"
+    govde = [f"🎯 Our cards' main chances averaged {_pct(oz['ort_p'])}.",
+             f"📈 Actually happened: {_pct(oz['olan'] / oz['adet'])} ({oz['olan']} of {oz['adet']})."]
+    if oz["kiyas"] >= 10:
+        govde.append(f"⚖️ Odds beat team stats in {_pct(oz['oran_yakin'] / oz['kiyas'])} of games "
+                     f"({oz['oran_yakin']} of {oz['kiyas']}).")
+    for seffaf in ("\n\nEvery result is under its card, misses too.", ""):
+        metin = (f"📊 OUR WEEK IN NUMBERS | {aralik}\n\n" + "\n".join(govde) + seffaf
+                 + "\n\n💬 Higher or lower than you expected? 👇\n" + ANSVAR)
+        if uzunluk(metin) <= LIMIT:
+            break
+    return metin
 
 
 def _vitrin_sirasi(a: dict) -> tuple:

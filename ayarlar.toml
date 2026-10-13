@@ -165,6 +165,8 @@ oto_son_dk = 20
 # en az kaç dakika uzakta. Saatleri: 10:00 not, 13:00 günün favorisi, 16:00 gol/denk maç, 21:00 not (İsveç saati).
 oto_bilgi_sayisi = 4
 oto_bilgi_aralik_dk = 40
+# Pazartesi 10:00 dersinin yerine haftalık karne postu: geçen haftanın paylaşılmış kuponları, kaybedenler dahil (SOZLESME E1).
+oto_haftalik_karne = true
 # Havuza girmek için en düşük kazanma ihtimali (keskin piyasanın marjsız fiyatı) ve "80+" etiketinin sınırı.
 min_olasilik = 0.65
 yuksek_olasilik = 0.80

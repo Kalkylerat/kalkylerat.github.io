@@ -1025,6 +1025,11 @@ def likely_nabiz(ayar, simdi: datetime, sonuclar: bool = True) -> None:
         likely.eskileri_kapat(gh, simdi)
     except Exception as e:
         _hata("Mr. Likely sonuçları", e)
+    if os.environ.get("API_FOOTBALL_KEY"):
+        try:  # ölçüm (gölge test): havuzun bütün ayaklarının sonucu, toplu istekle; paylaşım yok
+            likely.olcum_guncelle(lambda idler: football.toplu_sonuclar(_api(ayar), idler), simdi, yaz=_ozet_yaz)
+        except Exception as e:  # ölçüm paylaşımı etkilemez: bir sonraki turda yeniden denenir
+            _ozet_yaz(f"Mr. Likely ölçümü bu turda yapılamadı ({e}).")
     if likely.ayar_yukle().mod != "otomatik":
         return
     # Otomatik mod: Mr. Likely hesabında kupon postu, sonuç yanıtı ve günün dersi (SOZLESME E1). Anahtarlar yoksa beklenir.

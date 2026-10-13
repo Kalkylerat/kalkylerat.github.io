@@ -300,25 +300,67 @@ def korner_sayisi(api, fixture_id: int) -> int | None:
     return toplam if bulundu else None
 
 
+def goller(f: dict, skor: tuple[int, int]) -> list[list] | None:
+    """90 dakikanın golleri, sırayla: [[dakika, uzatma, "ev"|"dep"], ...] (uzatma: 90+3 için 3, yoksa 0).
+    Maç sayfasındaki olaylardan (fixtures?id= yanıtında gelir, ek istek yok). Kendi kalesine gol bazı kayıtlarda
+    golü atan oyuncunun takımına yazılır: iki yorum da denenir, toplam skorla tutan alınır. Tutmuyorsa None
+    (yanlış an anlatılmasın, SOZLESME E2)."""
+    olaylar = f.get("events")
+    ev_id = ((f.get("teams") or {}).get("home") or {}).get("id")
+    if olaylar is None or ev_id is None:
+        return None
+    ham = []
+    for o in olaylar:
+        zaman = o.get("time") or {}
+        dk = zaman.get("elapsed")
+        if o.get("type") != "Goal" or "Missed" in (o.get("detail") or "") or dk is None or dk > 90:
+            continue  # kaçan penaltı, uzatma devreleri ve seri penaltılar 90 dakikaya girmez
+        taraf = "ev" if (o.get("team") or {}).get("id") == ev_id else "dep"
+        ham.append((int(dk), int(zaman.get("extra") or 0), taraf, o.get("detail") == "Own Goal"))
+    ham.sort(key=lambda g: (g[0], g[1]))
+    for ters in (False, True):
+        liste = [[dk, ek, {"ev": "dep", "dep": "ev"}[t] if ters and kk else t] for dk, ek, t, kk in ham]
+        if (sum(g[2] == "ev" for g in liste), sum(g[2] == "dep" for g in liste)) == tuple(skor):
+            return liste
+    return None
+
+
+def _sonuc(f: dict) -> dict:
+    kisa = f["fixture"]["status"]["short"]
+    skorlar = f.get("score") or {}
+    ft = skorlar.get("fulltime") or {}
+    ht = skorlar.get("halftime") or {}
+    if kisa in BITMIS and ft.get("home") is not None:
+        skor = (int(ft["home"]), int(ft["away"]))
+        return {"durum": "bitti", "skor": skor, "goller": goller(f, skor),
+                "iy": (int(ht["home"]), int(ht["away"])) if ht.get("home") is not None else None, "korner": None}
+    return {"durum": "iptal", "skor": None} if kisa in IPTAL else {"durum": "bekliyor", "skor": None}
+
+
 def sonuclari_al(api, fixture_ids: list[int], korner_idleri: set[int] = frozenset()) -> dict[int, dict]:
     """fixture_id -> {"durum": "bitti"|"iptal"|"bekliyor", "skor": (ev, dep), "iy": (ev, dep), "korner": int}
     Ücretsiz plan toplu "ids" parametresine izin vermediği için maç başına bir istek atılır."""
     sonuc: dict[int, dict] = {}
     for f in (kayit for fid in fixture_ids for kayit in api.get("fixtures", id=fid)):
         fid = f["fixture"]["id"]
-        kisa = f["fixture"]["status"]["short"]
-        skorlar = f.get("score") or {}
-        ft = skorlar.get("fulltime") or {}
-        ht = skorlar.get("halftime") or {}
-        if kisa in BITMIS and ft.get("home") is not None:
-            sonuc[fid] = {
-                "durum": "bitti",
-                "skor": (int(ft["home"]), int(ft["away"])),
-                "iy": (int(ht["home"]), int(ht["away"])) if ht.get("home") is not None else None,
-                "korner": korner_sayisi(api, fid) if fid in korner_idleri else None,
-            }
-        elif kisa in IPTAL:
-            sonuc[fid] = {"durum": "iptal", "skor": None}
-        else:
-            sonuc[fid] = {"durum": "bekliyor", "skor": None}
+        sonuc[fid] = _sonuc(f)
+        if sonuc[fid]["durum"] == "bitti" and fid in korner_idleri:
+            sonuc[fid]["korner"] = korner_sayisi(api, fid)
+    return sonuc
+
+
+TOPLU_SINIR = 20  # "ids" parametresi istek başına en fazla 20 maç alır
+
+
+def toplu_sonuclar(api, fixture_ids: list[int]) -> dict[int, dict]:
+    """Çok maçın sonucu, 20 maç tek istekte (ücretli planın "ids" parametresi; korner yok). Toplu istek reddedilirse
+    maç başına isteğe döner. Mr. Likely havuz ölçümü için: günde ~60 maç ≈ 3-4 istek."""
+    sonuc: dict[int, dict] = {}
+    for i in range(0, len(fixture_ids), TOPLU_SINIR):
+        parca = fixture_ids[i:i + TOPLU_SINIR]
+        try:
+            kayitlar = api.get("fixtures", ids="-".join(map(str, parca)))
+        except ApiHatasi:
+            return {**sonuc, **sonuclari_al(api, fixture_ids[i:])}
+        sonuc.update({f["fixture"]["id"]: _sonuc(f) for f in kayitlar})
     return sonuc

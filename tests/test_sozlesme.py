@@ -556,6 +556,29 @@ def test_D3_mr_likely_yorum_firsatlari(tmp_path, monkeypatch):
     assert veri["kalkylerat"]["issue"]["no"] == 63 and veri["likely"]["gonderilen"] == 2 and {"1", "2", "3"} <= set(veri["gorulen"])
 
 
+def test_D3_ayni_saatin_aramasi_iki_hesaba_bir_kez(tmp_path, monkeypatch):
+    from bot import firsat
+    monkeypatch.setattr(firsat, "DOSYA", tmp_path / "firsatlar.json")
+    monkeypatch.setattr(firsat, "ayar_yukle", lambda: firsat.BuyumeAyar(gunluk_yorum=4, likely_gunluk_yorum=4, saatler=[10], likely_saatler=[10]))
+    simdi = datetime(2026, 10, 3, 10, 5, tzinfo=UTC)
+    z = (simdi - timedelta(minutes=20)).isoformat().replace("+00:00", "Z")
+    postlar = [{"id": str(i), "metin": f"post {i}", "kullanici": "goal", "zaman": z, "metrik": {"like_count": 100 - i}} for i in range(6)]
+
+    class X:
+        aramalar = 0
+        def ara(self, *a, **k): X.aramalar += 1; return postlar
+
+    class GH:
+        def issue_ac(self, *a): return 1
+        def yorum(self, no, mesaj): self.mesaj = mesaj
+    monkeypatch.setattr(direktor, "_cagir", lambda *a, **k: {"uygun": True, "taslaklar": ["fair play to them"]})
+    gh1, gh2 = GH(), GH()
+    assert firsat.kontrol(X(), gh1, AYAR, None, simdi, client=object()) == 4
+    assert firsat.kontrol(X(), gh2, AYAR, None, simdi, client=object(), hesap="likely") == 2  # kalan 2 post
+    assert X.aramalar == 1  # ücret bir kez
+    assert not set(re.findall(r"status/(\d)\)", gh1.mesaj)) & set(re.findall(r"status/(\d)\)", gh2.mesaj))
+
+
 def test_D4_topluluga_yalnizca_tablo_ve_kiyas():
     kaynak = (ROOT / "bot/etkilesim.py").read_text()
     assert kaynak.count("_gonder(x, ayar, metin, yaz") == 2  # tablo ve ayrışma (kıyas) postları

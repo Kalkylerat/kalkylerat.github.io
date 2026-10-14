@@ -119,10 +119,10 @@ kime = "Kalkylerat-desk"
 aktif = true
 gunluk_yorum = 10
 saatler = [10, 13, 16, 18]
-# Mr. Likely hesabı için de (kendi sesiyle; cevapları Mr. Likely hesabından atarsın). Saatler farklı ve iki hesaba
-# aynı post hiç önerilmez (aynı posta iki hesabımızdan cevap koordineli davranış gibi görünür).
+# Mr. Likely hesabı için de (kendi sesiyle; cevapları Mr. Likely hesabından atarsın). Aynı saatlerde: o saatin tek
+# araması iki hesaba bölünür (ücret bir kez), aynı post iki hesaba hiç önerilmez (koordineli davranış gibi görünür).
 likely_gunluk_yorum = 5
-likely_saatler = [11, 14, 17, 19]
+likely_saatler = [10, 13, 16, 18]
 
 [topluluk]
 # X Topluluğu (Communities): küçük hesaplar için en etkili erişim yolu. Hesapla bir futbol/istatistik topluluğuna

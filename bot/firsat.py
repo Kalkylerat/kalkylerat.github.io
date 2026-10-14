@@ -18,7 +18,7 @@ from .yorum import INSAN_SESI
 
 ETIKET = "yorum-firsatlari"
 DOSYA = config.ROOT / "data" / "firsatlar.json"
-ARAMA_ADET = 25  # bir aramada en fazla bu kadar post okunur (maliyet ~$0.13)
+ARAMA_ADET = 25  # bir aramada en fazla bu kadar post okunur (~$0.13); aynı saatteki arama iki hesaba yeter
 TAZE_SAAT = 3  # yalnızca son bu kadar saatte atılmış postlar (eski posta yanıt görünmez)
 
 
@@ -28,7 +28,7 @@ class BuyumeAyar:
     gunluk_yorum: int = 10
     saatler: list = field(default_factory=lambda: [10, 13, 16, 18])  # UTC, aramaların yapıldığı saatler
     likely_gunluk_yorum: int = 5  # Mr. Likely hesabı için (0 = kapalı)
-    likely_saatler: list = field(default_factory=lambda: [11, 14, 17, 19])  # @kalkylerat'tan farklı saatler
+    likely_saatler: list = field(default_factory=lambda: [10, 13, 16, 18])  # aynı saatler: tek arama iki hesaba
     hesaplar: list = field(default_factory=lambda: [
         "OptaJoe", "OptaAnalyst", "Squawka", "ESPNFC", "brfootball", "FabrizioRomano", "FootballTweet", "433",
         "goal", "SkySportsPL", "SkySportsNews", "BBCSport", "TheAthleticFC", "ChampionsLeague", "premierleague",
@@ -252,7 +252,13 @@ def kontrol(x, gh, ayar, gun: dict | None, simdi: datetime, client, yaz=print, h
     h["aramalar"].append(saat)
     kaydet(veri)  # arama sayıldı: hata olsa da bu saatte tekrar okunmaz (maliyet)
     baslangic = (simdi - timedelta(hours=TAZE_SAAT)).isoformat(timespec="seconds")
-    postlar = [p for p in x.ara(sorgu(cfg.hesaplar), baslangic, ARAMA_ADET) if p["id"] not in veri["gorulen"]]
+    onbellek = veri.get("onbellek") or {}
+    if onbellek.get("tarih") == tarih and onbellek.get("saat") == saat:
+        ham = onbellek["postlar"]  # bu saatin araması diğer hesap için yapıldı: tekrar ücret ödenmez
+    else:
+        ham = x.ara(sorgu(cfg.hesaplar), baslangic, ARAMA_ADET)
+        veri["onbellek"] = {"tarih": tarih, "saat": saat, "postlar": ham}
+    postlar = [p for p in ham if p["id"] not in veri["gorulen"]]
     maclar = [a for a in (gun or {}).get("analizler") or [] if datetime.fromisoformat(a["baslama"]) > simdi]
     adaylar = sorted(postlar, key=lambda p: (eslesen_mac(p["metin"], maclar) is not None, puan(p, simdi)), reverse=True)
     gonderilen = []

@@ -3,7 +3,7 @@ cevap taslakları. Günlük bir GitHub issue'su açılır, her yeni yorum oraya 
 (telefona bildirim). Sahibi bağlantıdan yorumu açar, taslaklardan birini kendi cümlesiyle düzeltip elle atar.
 
 Bot hiçbir zaman kendisi cevap atmaz, beğenmez, takip etmez: X otomasyon kuralları başkalarına otomatik yanıtı
-yasaklar (D3). Okuma ücretlidir (dönen post başına): 15 dakikada bir, yalnızca son görülen yorumdan yenileri sorulur."""
+yasaklar (D3). Okuma ücretlidir (dönen post başına): gündüz 30 dakikada bir (gece yok), yalnızca son görülen yorumdan yenileri sorulur."""
 
 import json
 import re
@@ -14,7 +14,8 @@ from . import config
 
 ETIKETLER = {"kalkylerat": "yorum-kiti", "likely": "yorum-kiti-likely"}  # hesap başına: günlük issue, eskisi kapanır
 DOSYA = config.ROOT / "data" / "yorumlar.json"
-KONTROL_DK = 15
+KONTROL_DK = 30  # cevap için ilk 30–60 dk yeter; boş sorgu ücretliyse bile günde ~32 sorgu (14 Ekim)
+GUNDUZ = (6, 23)  # UTC: bu saatler dışında sorulmaz; gece gelen yorum sabah ilk kontrolde gelir
 ILK_GUN = 7  # ilk çalışmada bu kadar gün önceki yorumlar da gelir (cevapsız kalanlar)
 EN_FAZLA = 10  # bir kontrolde en fazla bu kadar yorum bildirilir (gerisi sonraki kontrole)
 
@@ -164,6 +165,8 @@ def kontrol(x, gh, ayar, simdi: datetime, hesap: str = "kalkylerat", client=None
     """Yeni yorumları sorar ve sahibine taslaklarla bildirir; bildirilen yorum sayısı. Hiçbir şey paylaşmaz (D3)."""
     veri = yukle()
     h = veri.setdefault(hesap, {})
+    if not GUNDUZ[0] <= simdi.hour < GUNDUZ[1]:
+        return 0
     if h.get("son_kontrol") and simdi < datetime.fromisoformat(h["son_kontrol"]) + timedelta(minutes=KONTROL_DK):
         return 0
     if not h.get("me"):

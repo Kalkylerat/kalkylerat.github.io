@@ -424,8 +424,9 @@ def test_D3_yorum_kiti_yalnizca_taslak(tmp_path, monkeypatch):
     no, mesaj = gh.yorumlar[0]
     assert no == 7 and "Why only 26% for United?" in mesaj and "https://x.com/i/web/status/11" in mesaj
     assert all(t in mesaj for t in yorum.YEDEK)  # Claude yoksa hazır kalıplar
-    assert yorum.kontrol(x, gh, AYAR, simdi + timedelta(minutes=5)) == 0 and x.sorular == [None]  # 15 dk dolmadan sorulmaz
-    assert yorum.kontrol(x, gh, AYAR, simdi + timedelta(minutes=20)) == 0 and x.sorular[-1] == "11"  # aynı yorum bir kez
+    assert yorum.kontrol(x, gh, AYAR, simdi + timedelta(minutes=20)) == 0 and x.sorular == [None]  # 30 dk dolmadan sorulmaz
+    assert yorum.kontrol(x, gh, AYAR, simdi + timedelta(minutes=35)) == 0 and x.sorular[-1] == "11"  # aynı yorum bir kez
+    assert yorum.kontrol(x, gh, AYAR, simdi.replace(hour=23, minute=30)) == 0 and len(x.sorular) == 2  # gece sorulmaz
     # Taslak denetimi: link, etiket, seçim/kesinlik dili ve kaynakta olmayan sayı elenir
     kaynak = "Atletico Madrid 52% · Draw 22% · Manchester United 26%\nWhy only 26%?"
     assert yorum.uygun("Fair question. The market has United at 26%. How would you price it?", kaynak)

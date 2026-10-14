@@ -14924,7 +14924,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 26
+     "no": 26,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1585781-CS1X",
@@ -16372,7 +16373,7 @@
      "neden": "Double chance 12 ayağı vardı; yeni kuralla (E6) yeniden seçilecek, paylaşılmadan çıkarıldı"
     }
    ],
-   "olcum_sorgu": "2026-10-14T16:47:51+00:00",
+   "olcum_sorgu": "2026-10-14T17:43:08+00:00",
    "iptal_edilen": [
     {
      "ad": "gunun-kuponu",

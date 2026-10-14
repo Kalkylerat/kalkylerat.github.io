@@ -68686,6 +68686,24 @@
           "1585788": {
             "durum": "atlandi",
             "neden": "sonuç gelmedi"
+          },
+          "1563200": {
+            "durum": "paylasildi",
+            "tweet_id": "2110471426784325972",
+            "skor": [
+              0,
+              1
+            ],
+            "zaman": "2026-10-14T20:42:51+00:00"
+          },
+          "1563201": {
+            "durum": "paylasildi",
+            "tweet_id": "2110471428000661781",
+            "skor": [
+              3,
+              2
+            ],
+            "zaman": "2026-10-14T20:42:51+00:00"
           }
         }
       },
@@ -68927,6 +68945,15 @@
               1
             ],
             "zaman": "2026-10-14T20:21:12+00:00"
+          },
+          "1641824": {
+            "durum": "paylasildi",
+            "tweet_id": "2110471431419031705",
+            "skor": [
+              2,
+              2
+            ],
+            "zaman": "2026-10-14T20:42:51+00:00"
           }
         }
       },
@@ -68934,13 +68961,51 @@
         "durum": "paylasildi",
         "tweet_id": "2110407889412030671",
         "zaman": "2026-10-14T16:30:21+00:00",
-        "metin": "🆚 Norwich v Southampton\n\n🏆 Norwich 40% · Draw 23% · Southampton 36%\n⚽ Over 2.5 goals 62% · Under 38%\n🥅 Both teams score 64% · Not both 36%\n🎯 Most likely score: 1-1 (10%)\n\n📈 Team stats: Norwich win 49%\n💹 Odds: 40%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Norwich v Southampton\n\n🏆 Norwich 40% · Draw 23% · Southampton 36%\n⚽ Over 2.5 goals 62% · Under 38%\n🥅 Both teams score 64% · Not both 36%\n🎯 Most likely score: 1-1 (10%)\n\n📈 Team stats: Norwich win 49%\n💹 Odds: 40%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2110471448833802636",
+          "skor": "0-1",
+          "isabet": [
+            false,
+            false,
+            false
+          ],
+          "xg": [
+            1.15,
+            2.4
+          ],
+          "zaman": "2026-10-14T20:42:51+00:00",
+          "brier": {
+            "piyasa": 1.4139,
+            "istatistik": 1.7074
+          }
+        }
       },
       "analiz_10": {
         "durum": "paylasildi",
         "tweet_id": "2110414142288891906",
         "zaman": "2026-10-14T16:55:10+00:00",
-        "metin": "🆚 Portsmouth v Sheffield Utd\n\n🏆 Portsmouth 43% · Draw 26% · Sheffield Utd 31%\n⚽ Over 2.5 goals 47% · Under 53%\n🥅 Both teams score 52% · Not both 48%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Stats: Sheffield Utd win 43% · odds 31%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Portsmouth v Sheffield Utd\n\n🏆 Portsmouth 43% · Draw 26% · Sheffield Utd 31%\n⚽ Over 2.5 goals 47% · Under 53%\n🥅 Both teams score 52% · Not both 48%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Stats: Sheffield Utd win 43% · odds 31%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2110471477476671574",
+          "skor": "3-2",
+          "isabet": [
+            true,
+            false,
+            true
+          ],
+          "xg": [
+            2.25,
+            2.03
+          ],
+          "zaman": "2026-10-14T20:42:51+00:00",
+          "brier": {
+            "piyasa": 1.0107,
+            "istatistik": 1.1026
+          }
+        }
       },
       "analiz_11": {
         "durum": "paylasildi",

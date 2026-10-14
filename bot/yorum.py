@@ -35,7 +35,24 @@ def _likely_sesi() -> str:
     return "You are Mr. Likely (second account, English). Voice notes:\n" + bolum.strip()[:2500]
 
 
-SISTEM = """You draft replies that the account owner will read, edit and post BY HAND on X. You never post anything.
+# İnsan sesi (14 Ekim 2026, sahibinin isteği): taslaklar robot gibi değil, maçı izleyen bir taraftar gibi.
+INSAN_SESI = """How to sound human (this matters as much as the rules):
+- Write like a real fan typing on their phone: short, relaxed, one thought. Usually 60–140 characters.
+- Contractions and casual words are good ("that's", "mad", "fair play", "no chance", "proper", "yeah").
+  A fragment is fine. Starting lowercase is fine sometimes.
+- React first, like a person would: surprise, agreement, a small joke (kind, never at anyone's expense).
+- Don't summarise or repeat their post back to them. Don't explain. Don't sound like a report.
+- A number only if it fits naturally, and say it the way people talk: "we had them around 45%", not
+  "Our numbers have City at 45%, PSG 33%, and 22% for the draw". Never more than one number in a reply.
+- The drafts must differ in shape: not every draft has a number, not every draft ends with a question.
+- Never start with: "Great", "Interesting", "Fascinating", "Love this", "Absolutely", "Indeed", "This is",
+  "What a great", "Wow,". No "says a lot", "speaks volumes", "a testament to", "it's worth noting".
+Bad: "Only 2 of the reigning champions making the XI says a lot about this season's ratings. Our numbers have City
+at 45%."  Good: "2 from PSG and they're the holders... ratings can be harsh 😅"  Good: "we had City around 45% for
+tonight, so that XI isn't miles off"  Good: "who's the first name you'd drop from that XI though?"
+"""
+
+SISTEM = f"""You draft replies that the account owner will read, edit and post BY HAND on X. You never post anything.
 Write 3 different short reply drafts to the comment below, in the account's voice, in plain English.
 
 Hard rules:
@@ -47,8 +64,10 @@ Hard rules:
 - Kind and respectful to everyone: no sarcasm, no digs or negative judgments about any club, player, fan or person.
   Never claim something you can't see in the facts.
 - Sound like a person: no "Great question!", no "Here's", no "Honestly,", no corporate words.
-- Draft 1: answers the comment directly. Draft 2: adds one number or detail from our post. Draft 3: asks the person a
-  specific question back (replies keep the conversation going).
+- Draft 1: answers the comment directly. Draft 2: adds one detail from our post. Draft 3: a question back.
+  Replying to someone talking to us: warm, like a friend replying, never like customer support.
+
+{INSAN_SESI}
 
 Also set "not" to ONE short sentence in Turkish for the owner: what the comment says, and "cevap vermesen de olur" if
 it is spam, a bot, abuse or a scam link. Set "spam" true in that case."""
@@ -73,12 +92,17 @@ def kaydet(veri: dict) -> None:
     DOSYA.write_text(json.dumps(veri, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
+_ROBOT = re.compile(r"^(great|interesting|fascinating|love this|absolutely|indeed|certainly|this is a|what a great|"
+                    r"wow,)\b|\b(says a lot|speaks volumes|a testament to|it'?s worth noting|our numbers have)\b",
+                    re.IGNORECASE)
+
+
 def uygun(taslak: str, kaynak: str) -> bool:
     """Taslak kurala uyuyor mu: kısa, linksiz, etiketsiz, seçim/kesinlik dili yok, kaynakta olmayan sayı yok."""
     from .denetci import _KESINLIK, _LINK, _SECIM_DILI
     from .direktor import sayilar_dogru, yz_izi
     return bool(taslak) and len(taslak) <= 240 and not _LINK.search(taslak) and "#" not in taslak \
-        and not _SECIM_DILI.search(taslak) and not _KESINLIK.search(taslak) and not yz_izi(taslak) \
+        and not _SECIM_DILI.search(taslak) and not _KESINLIK.search(taslak) and not yz_izi(taslak) and not _ROBOT.search(taslak) \
         and not re.search(r"\b(picks?|tips?|bet now|for sure|were right|right about)\b", taslak, re.IGNORECASE) and sayilar_dogru(taslak, kaynak)
 
 

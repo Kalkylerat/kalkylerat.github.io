@@ -14,6 +14,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 
 from . import config
+from .yorum import INSAN_SESI
 
 ETIKET = "yorum-firsatlari"
 DOSYA = config.ROOT / "data" / "firsatlar.json"
@@ -110,7 +111,7 @@ def mac_olgulari(a: dict) -> dict:
     return olg
 
 
-SISTEM = """You draft replies that the owner of @kalkylerat (a football numbers account: chances for every market,
+SISTEM = f"""You draft replies that the owner of @kalkylerat (a football numbers account: chances for every market,
 never picks) will paste BY HAND under a big football account's post on X. You never post anything.
 Write 2 different reply drafts to the post below.
 
@@ -126,10 +127,11 @@ Hard rules:
   contracts, referees, fan trouble, politics) take no side; if the post is mainly a controversy, set "uygun" false.
 - Say only what is in their post or our facts; if unsure, leave it out. Open and friendly, like talking to a mate.
 - Chances, not picks: never pick, tip, lock, guaranteed, sure, bet. No bookmaker names. Never argue or mock.
-- Sound like a fan who loves numbers: no "Great post!", no "Here's", no "Honestly,", no corporate words.
-- Draft 2 ends with a short, specific question (replies that start a conversation get seen).
+- One draft can end with a short, specific question (conversations get seen); the other doesn't have to.
 Set "uygun" false (and drafts empty) if the post is not about football matches or players, is sad news (injury,
-death, tragedy), politics, an ad or a giveaway: a numbers reply there would look tone-deaf."""
+death, tragedy), politics, an ad or a giveaway: a numbers reply there would look tone-deaf.
+
+{INSAN_SESI}"""
 
 SEMA = {"type": "object", "additionalProperties": False, "required": ["uygun", "taslaklar"],
         "properties": {"uygun": {"type": "boolean"}, "taslaklar": {"type": "array", "items": {"type": "string"}}}}

@@ -430,7 +430,9 @@ def test_D3_yorum_kiti_yalnizca_taslak(tmp_path, monkeypatch):
     kaynak = "Atletico Madrid 52% · Draw 22% · Manchester United 26%\nWhy only 26%?"
     assert yorum.uygun("Fair question. The market has United at 26%. How would you price it?", kaynak)
     for kotu in ("Our pick is United, trust me", "Lock it in: United 26%", "See kalkylerat.com", "United 61% for sure",
-                 "#UCL United 26%", "We were right about it"):
+                 "#UCL United 26%", "We were right about it",
+                 "Great point! The market has United at 26%.", "Interesting take on United",
+                 "Our numbers have United at 26%.", "That says a lot about United"):  # robot gibi kalıplar da elenir
         assert not yorum.uygun(kotu, kaynak), kotu
     # Claude taslakları da aynı denetimden geçer; kurala uymayan düşer
     monkeypatch.setattr(direktor, "_cagir", lambda *a, **k: {"taslaklar": ["Our pick: United", "x" * 300,

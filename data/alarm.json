@@ -1,6 +1,6 @@
 {
- "issue": 56,
- "tarih": "2026-10-13",
+ "issue": 66,
+ "tarih": "2026-10-14",
  "bildirilen": [
   "2026-10-02:analiz_0:takip_gecikti",
   "2026-10-02:analiz_1:takip_gecikti",
@@ -52,6 +52,7 @@
   "2026-10-13:durgun:2026-10-13T09:49:27+00:00",
   "2026-10-13:hata:Mr. Likely bilgi postu: X API hatası 402: {\"detail\":\"credits depleted\",\"status\":",
   "2026-10-13:hata:Mr. Likely kupon paylaşımı: X API hatası 402: {\"detail\":\"credits depleted\",\"stat",
-  "2026-10-13:maclar:hata"
+  "2026-10-13:maclar:hata",
+  "2026-10-14:analiz_6:takip_gec"
  ]
 }

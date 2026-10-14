@@ -16136,36 +16136,6 @@
    ],
    "secilen": [
     {
-     "ad": "gunun-kuponu",
-     "ayaklar": [
-      {
-       "aday_id": "1560853-CSX2",
-       "fixture_id": 1560853,
-       "pazar": "CSX2",
-       "ev": "Trujillanos FC",
-       "dep": "Rayo Zuliano",
-       "lig": "Copa Venezuela",
-       "baslama": "2026-10-14T22:00:00+02:00",
-       "etiket": "Double chance X2",
-       "oran": 2.05,
-       "olasilik": 0.658,
-       "deger": 0.349,
-       "durum": "bekliyor",
-       "skor": null
-      }
-     ],
-     "oran": 2.05,
-     "olasilik": 0.658,
-     "deger": 0.349,
-     "durum": "bekliyor",
-     "secim": "2026-10-14T05:37:17+00:00",
-     "oto": true,
-     "paylas": "2026-10-14T14:59:54+00:00",
-     "tweet_id": "2110386368819925310",
-     "metin": "🎩 One leg today. Nothing fancy.\n\n⚽ Trujillanos FC v Rayo Zuliano\n\n📊 2.05. I make it about 66% to land, so roughly a third of the time it won't.\n\n💬 Would you have added a second leg?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-14T15:04:49+00:00"
-    },
-    {
      "ad": "buyuk-maclar",
      "ayaklar": [
       {
@@ -16402,7 +16372,43 @@
      "neden": "Double chance 12 ayağı vardı; yeni kuralla (E6) yeniden seçilecek, paylaşılmadan çıkarıldı"
     }
    ],
-   "olcum_sorgu": "2026-10-14T16:47:51+00:00"
+   "olcum_sorgu": "2026-10-14T16:47:51+00:00",
+   "iptal_edilen": [
+    {
+     "ad": "gunun-kuponu",
+     "ayaklar": [
+      {
+       "aday_id": "1560853-CSX2",
+       "fixture_id": 1560853,
+       "pazar": "CSX2",
+       "ev": "Trujillanos FC",
+       "dep": "Rayo Zuliano",
+       "lig": "Copa Venezuela",
+       "baslama": "2026-10-14T22:00:00+02:00",
+       "etiket": "Double chance X2",
+       "oran": 2.05,
+       "olasilik": 0.658,
+       "deger": 0.349,
+       "durum": "bekliyor",
+       "skor": null
+      }
+     ],
+     "oran": 2.05,
+     "olasilik": 0.658,
+     "deger": 0.349,
+     "durum": "bekliyor",
+     "secim": "2026-10-14T05:37:17+00:00",
+     "oto": true,
+     "paylas": "2026-10-14T14:59:54+00:00",
+     "tweet_id": "2110386368819925310",
+     "metin": "🎩 One leg today. Nothing fancy.\n\n⚽ Trujillanos FC v Rayo Zuliano\n\n📊 2.05. I make it about 66% to land, so roughly a third of the time it won't.\n\n💬 Would you have added a second leg?\n\n18+ | Play responsibly",
+     "yayin": "2026-10-14T15:04:49+00:00",
+     "iptal": {
+      "neden": "aykırı fiyat (2.05, Bet365 1.50)",
+      "zaman": "2026-10-14T17:29:04+00:00"
+     }
+    }
+   ]
   }
  ]
 }

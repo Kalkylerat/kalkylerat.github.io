@@ -58,7 +58,7 @@ or copy a coupon. If someone asks about a coupon, answer plainly: a numbers mode
 are posted too."""
 
 SISTEM = f"""You draft replies that the account owner will read, edit and post BY HAND on X. You never post anything.
-Write 3 different short reply drafts to the comment below, in the account's voice, in plain English.
+Write 2 different short reply drafts to the comment below, in the account's voice, in plain English.
 
 Hard rules:
 - Max 200 characters each. No links, no "@" mentions, no hashtags, no emojis except at most one.
@@ -69,7 +69,8 @@ Hard rules:
 - Kind and respectful to everyone: no sarcasm, no digs or negative judgments about any club, player, fan or person.
   Never claim something you can't see in the facts.
 - Sound like a person: no "Great question!", no "Here's", no "Honestly,", no corporate words.
-- Draft 1: answers the comment directly. Draft 2: adds one detail from our post. Draft 3: a question back.
+- Draft 1: answers the comment directly (one detail from our post if it helps). Draft 2: shorter, warm, and keeps
+  the chat going (often a question back). Both must be ready to post as they are.
   Replying to someone talking to us: warm, like a friend replying, never like customer support.
 
 {INSAN_SESI}
@@ -81,9 +82,8 @@ SEMA = {"type": "object", "additionalProperties": False, "required": ["taslaklar
         "properties": {"taslaklar": {"type": "array", "items": {"type": "string"}},
                        "not": {"type": "string"}, "spam": {"type": "boolean"}}}
 
-YEDEK = ["Thanks for reading! Which number on the card surprised you most?",
-         "Appreciate it. All the chances are on the card, and we quote the result under it after full time.",
-         "Good point. How would you read this one?"]
+YEDEK = ["cheers for reading. which number on the card surprised you most?",
+         "fair point. how would you read this one?"]
 
 
 def yukle() -> dict:
@@ -126,7 +126,7 @@ def taslaklar(yorum: dict, hesap: str, client=None, ayar=None, yaz=print) -> tup
     except Exception as e:
         yaz(f"Yorum kiti: taslak yazılamadı ({e}); hazır kalıplar kullanıldı.")
         return YEDEK, "", False
-    iyi = [t.strip() for t in cevap.get("taslaklar") or [] if uygun(t.strip(), kaynak)][:3]
+    iyi = [t.strip() for t in cevap.get("taslaklar") or [] if uygun(t.strip(), kaynak)][:2]
     return (iyi or YEDEK), (cevap.get("not") or "").strip(), bool(cevap.get("spam"))
 
 
@@ -177,7 +177,7 @@ def kontrol(x, gh, ayar, simdi: datetime, hesap: str = "kalkylerat", client=None
     tarih = simdi.date().isoformat()
     if (h.get("issue") or {}).get("tarih") != tarih:
         govde = ((f"@{ayar.alarm_kime} " if getattr(ayar, "alarm_kime", "") else "")
-                 + f"Bugün @{h['kullanici']} postlarına gelen yorumlar ve etiketlemeler. Her biri için 3 cevap taslağı: "
+                 + f"Bugün @{h['kullanici']} postlarına gelen yorumlar ve etiketlemeler. Her biri için 2 hazır cevap: "
                  "**✍️ Bu cevapla aç**'a dokun, X'te cevap hazır açılır, Gönder'e sen basarsın. Bot hiçbir zaman "
                  "kendisi cevap atmaz (X kuralı). Aynı metni iki kişiye gönderme.")
         h["issue"] = {"tarih": tarih, "no": gh.issue_ac(f"💬 Yorumlar @{h['kullanici']} {tarih}", govde,

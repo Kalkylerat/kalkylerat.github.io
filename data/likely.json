@@ -14796,7 +14796,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 20
+     "no": 20,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1635620-CS1X",
@@ -16366,7 +16367,8 @@
      "ad": "long-shot",
      "zaman": "2026-10-14T10:45:15+00:00"
     }
-   ]
+   ],
+   "olcum_sorgu": "2026-10-14T11:49:27+00:00"
   }
  ]
 }

@@ -68655,13 +68655,42 @@
           1635733,
           1563199
         ],
-        "sonuclar": {}
+        "sonuclar": {
+          "1585781": {
+            "durum": "paylasildi",
+            "tweet_id": "2110363941691945292",
+            "skor": [
+              4,
+              2
+            ],
+            "zaman": "2026-10-14T13:35:46+00:00"
+          }
+        }
       },
       "analiz_5": {
         "durum": "paylasildi",
         "tweet_id": "2110287139636498904",
         "zaman": "2026-10-14T08:30:32+00:00",
-        "metin": "🆚 Batman Petrolspor v İstanbulspor\n\n🏆 Batman Petrolspor 57% · Draw 23% · İstanbulspor 20%\n⚽ Over 2.5 goals 54% · Under 46%\n🥅 Both teams score 53% · Not both 47%\n\n📈 Team stats: Over 2.5 goals 70%\n💹 Odds: 54%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Batman Petrolspor v İstanbulspor\n\n🏆 Batman Petrolspor 57% · Draw 23% · İstanbulspor 20%\n⚽ Over 2.5 goals 54% · Under 46%\n🥅 Both teams score 53% · Not both 47%\n\n📈 Team stats: Over 2.5 goals 70%\n💹 Odds: 54%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2110363955252080742",
+          "skor": "4-2",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            1.98,
+            2.27
+          ],
+          "zaman": "2026-10-14T13:35:46+00:00",
+          "brier": {
+            "piyasa": 0.7017,
+            "istatistik": 0.3899
+          }
+        }
       },
       "analiz_0": {
         "durum": "paylasildi",

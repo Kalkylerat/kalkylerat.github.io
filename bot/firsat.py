@@ -69,7 +69,13 @@ def sorgu(hesaplar: list[str]) -> str:
 TAKMA_ADLAR = {"paris saint germain": ["psg"], "manchester united": ["man united", "man utd"],
                "manchester city": ["man city"], "tottenham": ["spurs"], "bayern münchen": ["bayern", "bayern munich"],
                "borussia dortmund": ["dortmund", "bvb"], "atletico madrid": ["atletico", "atleti"],
-               "inter": ["inter milan"], "ac milan": ["milan"], "wolves": ["wolverhampton"]}
+               "inter": ["inter milan"], "ac milan": ["milan"], "wolves": ["wolverhampton"],
+               "lask linz": ["lask"], "bodo/glimt": ["bodø/glimt", "bodo glimt", "bodø glimt"]}
+
+
+# Tek takım adı geçen postun bugünkü maçtan söz ettiğini gösteren sözcükler
+MAC_DILI = re.compile(r"\b(tonight|today|v|vs|versus|against|clash|fixture|kick-?off|line-?ups?|starting xi|xi|"
+                      r"preview|team news|matchday|travel to|host|face)\b", re.IGNORECASE)
 
 
 def _konum(takim: str, metin: str) -> int | None:
@@ -83,10 +89,14 @@ def eslesen_mac(metin: str, maclar: list[dict]) -> dict | None:
     """Postun konusu olan bugünkü maç: önce iki takımı da geçen, yoksa postta EN ÖNCE adı geçen takımın maçı
     (14 Ekim: Man City–PSG postunda sonradan anılan "Real Madrid" yüzünden Roma–Real kartı eşleşmişti)."""
     adaylar = []
+    mac_dili = MAC_DILI.search(metin) is not None
     for a in maclar:
         ev, dep = _konum(a["ev"], metin), _konum(a["dep"], metin)
-        if ev is not None or dep is not None:
-            adaylar.append(((ev is None) + (dep is None), min(k for k in (ev, dep) if k is not None), a))
+        if ev is None and dep is None:
+            continue
+        if (ev is None or dep is None) and not mac_dili:
+            continue  # tek takım adı ama maçtan söz yok (ör. Ballon d'Or, transfer postunda "Real Madrid", 14 Ekim)
+        adaylar.append(((ev is None) + (dep is None), min(k for k in (ev, dep) if k is not None), a))
     return min(adaylar, key=lambda x: x[:2])[2] if adaylar else None
 
 

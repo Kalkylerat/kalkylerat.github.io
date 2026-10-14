@@ -517,7 +517,7 @@ def test_D3_yorum_firsatlari_yalnizca_taslak(tmp_path, monkeypatch):
     simdi = datetime(2026, 10, 3, 10, 5, tzinfo=UTC)
     zaman = lambda dk: (simdi - timedelta(minutes=dk)).isoformat().replace("+00:00", "Z")
     postlar = [
-        {"id": "1", "metin": "France have won 9 of their last 10 at home.", "kullanici": "OptaJoe", "zaman": zaman(30),
+        {"id": "1", "metin": "France have won 9 of their last 10 at home ahead of tonight.", "kullanici": "OptaJoe", "zaman": zaman(30),
          "metrik": {"like_count": 900, "reply_count": 80, "retweet_count": 100}},
         {"id": "2", "metin": "Transfer news: big deal close", "kullanici": "FabrizioRomano", "zaman": zaman(20),
          "metrik": {"like_count": 5000, "reply_count": 400, "retweet_count": 800}},
@@ -573,6 +573,11 @@ def test_D3_yorum_firsatlari_yalnizca_taslak(tmp_path, monkeypatch):
     metin = "Manchester City are struggling to sell out their clash against PSG, despite revenues above Real Madrid."
     assert firsat.eslesen_mac(metin, kartlar)["ev"] == "Manchester City"
     assert firsat.eslesen_mac("Real Madrid travel to Rome tonight", kartlar)["ev"] == "AS Roma"
+    # 14 Ekim 16:00: maçtan söz etmeyen postlar (Ballon d'Or, transfer) yan anılan takımla eşleşmez
+    assert firsat.eslesen_mac("Natalie Portman held up four fingers after Barcelona's 4-0 win over Real Madrid", kartlar) is None
+    assert firsat.eslesen_mac("Mastantuono scoring for River Plate. Real Madrid bought him for €45M after this.", kartlar) is None
+    liverpool = [mac(5, "Lask Linz", "Liverpool")]
+    assert firsat.eslesen_mac("Liverpool's starting XI against LASK has an average age of 24", liverpool)["ev"] == "Lask Linz"
     assert firsat.kontrol(x, gh, AYAR, gun, simdi, client=None) == 0  # Claude yoksa taslaksız fırsat gönderilmez
     # Kart postumuz paylaşıldıysa "🖼️ Kartımızla" seçeneği o postun adresini cevaba ekler
     gun["etkilesim"] = {"analiz_0": {"durum": "paylasildi", "tweet_id": "777"}}
@@ -594,7 +599,7 @@ def test_D3_mr_likely_yorum_firsatlari(tmp_path, monkeypatch):
     simdi = datetime(2026, 10, 3, 11, 5, tzinfo=UTC)
     z = (simdi - timedelta(minutes=20)).isoformat().replace("+00:00", "Z")
     postlar = [{"id": "1", "metin": "France v Italy team news", "kullanici": "OptaJoe", "zaman": z, "metrik": {"like_count": 900}},
-               {"id": "2", "metin": "France look sharp in training", "kullanici": "goal", "zaman": z, "metrik": {"like_count": 50}},
+               {"id": "2", "metin": "France look sharp in training before tonight", "kullanici": "goal", "zaman": z, "metrik": {"like_count": 50}},
                {"id": "3", "metin": "Belgium fans arrive", "kullanici": "433", "zaman": z, "metrik": {"like_count": 40}}]
 
     class X:

@@ -48,6 +48,18 @@ def test_A2_rakamlar_kayitla_ayni_direktor_dusuremez_uyduramaz():
     assert any("kayıtta olmayan" in h for h in denetci.analiz_kontrolu("analiz", yanlis, [FRA], AYAR))
 
 
+def test_A2_aykiri_tek_site_fiyati_kullanilmaz():
+    """14 Ekim: Mr. Likely günün kuponu X2'yi bir sitedeki 2.05'ten paylaştı; Bet365 dahil diğerleri ~1.50'ydi."""
+    b = {"Bet365": {"CSX2": 1.50}, "Unibet": {"CSX2": 1.48}, "Betano": {"CSX2": 1.52}, "Bwin": {"CSX2": 2.05}}
+    oran, _, detay = model.piyasa_oranlari(b, list(b), "en_iyi")["CSX2"]
+    assert oran == 1.52 and "Bwin" not in detay
+    ikili = {"Bet365": {"CSX2": 1.50}, "Bwin": {"CSX2": 2.05}}
+    assert model.piyasa_oranlari(ikili, list(ikili), "en_iyi")["CSX2"][0] == 1.50
+    # Gerçek, küçük fiyat farkı korunur (en iyi fiyat ortancadan %8'e kadar yüksek olabilir)
+    normal = {"Bet365": {"MS1": 2.10}, "Unibet": {"MS1": 2.05}, "Betano": {"MS1": 2.20}}
+    assert model.piyasa_oranlari(normal, list(normal), "en_iyi")["MS1"][0] == 2.20
+
+
 def test_A3_olasilik_secim_degil():
     kart = etkilesim.analiz_tweeti(FRA, AYAR)
     p = FRA["p"]

@@ -184,6 +184,9 @@ def adil_olasiliklar(bahisciler: dict[str, dict[str, float]], keskin: str) -> tu
     return adil, kaynak
 
 
+AYKIRI_FIYAT = 0.08  # en iyi fiyat, sitelerin ortancasından en fazla bu kadar yüksek olabilir (SÖZLEŞME A2, E6)
+
+
 def piyasa_oranlari(bahisciler: dict[str, dict[str, float]], izinli: list[str],
                     yontem: str = "medyan") -> dict[str, tuple[float, str, dict[str, float]]]:
     """Listedeki büyük bahisçilerin oranı: "en_iyi" = içlerindeki en yüksek fiyat (takipçi o sitede gerçekten
@@ -195,7 +198,14 @@ def piyasa_oranlari(bahisciler: dict[str, dict[str, float]], izinli: list[str],
             for pazar, oran in o.items():
                 oranlar.setdefault(pazar, {})[ad] = oran
     if yontem == "en_iyi":
-        return {pazar: (round(max(d.values()), 2), f"best of {len(d)}", d) for pazar, d in oranlar.items()}
+        # Aykırı fiyat elenir: sitelerin ortancasından AYKIRI_FIYAT'tan fazla yüksek fiyat hatalı ya da bayattır
+        # (14 Ekim: Trujillanos–Rayo Zuliano X2, bir sitede 2.05, Bet365 dahil diğerleri ~1.50; kupon 2.05'ten çıktı).
+        sonuc = {}
+        for pazar, d in oranlar.items():
+            sinir = statistics.median(d.values()) * (1 + AYKIRI_FIYAT)
+            temiz = {ad: o for ad, o in d.items() if o <= sinir}
+            sonuc[pazar] = (round(max(temiz.values()), 2), f"best of {len(temiz)}", temiz)
+        return sonuc
     return {pazar: (round(statistics.median(d.values()), 2), f"median of {len(d)}", d) for pazar, d in oranlar.items()}
 
 

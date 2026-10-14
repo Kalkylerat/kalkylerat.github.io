@@ -924,3 +924,11 @@ def test_E6_double_chance_12_otomatik_kupona_girmez():
     harita = {a["aday_id"]: a for a in adaylar + cs12}
     for k in likely.otomatik_sec(adaylar + cs12, OTO):
         assert all(harita[i]["pazar"] != "CS12" for i in k["ayaklar"])
+
+
+def test_E6_gercek_disi_degerli_ayak_kupona_girmez():
+    """14 Ekim: +%35 "değerli" görünen ayak hatalı fiyattı (Bet365'te 1.50, kayıtta 2.05)."""
+    adaylar = likely.havuz(MACLAR, ORANLAR, AYAR, OTO, SIMDI)
+    a = adaylar[0]
+    assert not likely.kupona_uygun(dict(a, deger=0.35, tur="deger"), OTO)
+    assert likely.kupona_uygun(dict(a, deger=min(a["deger"], OTO.oto_max_ayak_deger)), OTO) == likely.kupona_uygun(a, OTO)

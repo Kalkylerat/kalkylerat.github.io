@@ -68804,7 +68804,26 @@
         "durum": "paylasildi",
         "tweet_id": "",
         "zaman": "2026-10-14T13:21:15+00:00",
-        "metin": "🆚 Antalyaspor v Kayserispor\n\n🏆 Antalyaspor 33% · Draw 26% · Kayserispor 42%\n⚽ Over 2.5 goals 51% · Under 49%\n🥅 Both teams score 55% · Not both 45%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Stats: Kayserispor win 51% · odds 42%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Antalyaspor v Kayserispor\n\n🏆 Antalyaspor 33% · Draw 26% · Kayserispor 42%\n⚽ Over 2.5 goals 51% · Under 49%\n🥅 Both teams score 55% · Not both 45%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Stats: Kayserispor win 51% · odds 42%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2110446273811960290",
+          "skor": "0-4",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "xg": [
+            1.15,
+            3.07
+          ],
+          "zaman": "2026-10-14T19:02:52+00:00",
+          "brier": {
+            "piyasa": 1.0532,
+            "istatistik": 0.8729
+          }
+        }
       },
       "anket": {
         "durum": "paylasildi",

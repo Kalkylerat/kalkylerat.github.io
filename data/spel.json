@@ -68887,7 +68887,17 @@
           1616413,
           1596011
         ],
-        "sonuclar": {}
+        "sonuclar": {
+          "1563660": {
+            "durum": "paylasildi",
+            "tweet_id": "2110457555168149653",
+            "skor": [
+              4,
+              0
+            ],
+            "zaman": "2026-10-14T19:47:44+00:00"
+          }
+        }
       },
       "analiz_9": {
         "durum": "paylasildi",

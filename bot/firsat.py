@@ -18,7 +18,8 @@ from .yorum import INSAN_SESI
 
 ETIKET = "yorum-firsatlari"
 DOSYA = config.ROOT / "data" / "firsatlar.json"
-ARAMA_ADET = 25  # bir aramada en fazla bu kadar post okunur (~$0.13); aynı saatteki arama iki hesaba yeter
+ARAMA_ADET = 40  # bir aramada en fazla bu kadar post okunur (~$0.20); aynı saatteki arama iki hesaba yeter.
+# Yalnızca kartımız olan maçların postları seçildiği için 25 yetmiyordu (14 Ekim).
 TAZE_SAAT = 3  # yalnızca son bu kadar saatte atılmış postlar (eski posta yanıt görünmez)
 
 
@@ -30,7 +31,7 @@ class BuyumeAyar:
     likely_gunluk_yorum: int = 5  # Mr. Likely hesabı için (0 = kapalı)
     likely_saatler: list = field(default_factory=lambda: [10, 13, 16, 18])  # aynı saatler: tek arama iki hesaba
     hesaplar: list = field(default_factory=lambda: [
-        "OptaJoe", "OptaAnalyst", "Squawka", "ESPNFC", "brfootball", "FabrizioRomano", "FootballTweet", "433",
+        "OptaJoe", "OptaAnalyst", "Squawka", "ESPNFC", "brfootball", "FootballTweet", "433",
         "goal", "SkySportsPL", "SkySportsNews", "BBCSport", "TheAthleticFC", "ChampionsLeague", "premierleague",
         "LaLigaEN", "SerieA_EN", "Bundesliga_EN", "Ligue1_ENG", "EuropaLeague", "WhoScored", "StatsZone"])
 
@@ -144,7 +145,9 @@ death, tragedy), politics, an ad or a giveaway: a numbers reply there would look
 SISTEMLER = {
     "kalkylerat": f"""You draft replies that the owner of @kalkylerat (a football numbers account: chances for every
 market, never picks) will paste BY HAND under a big football account's post on X. You never post anything.
-Write 2 different reply drafts to the post below. "We" is the account.
+Write 2 different reply drafts to the post below. "We" is the account. Our match card (an image with all our chances
+for this match) is attached under every reply automatically, so the text reacts to their post like a fan and may
+use at most one number; never mention the card, a link or our account.
 
 {KURALLAR}
 
@@ -260,6 +263,9 @@ def kontrol(x, gh, ayar, gun: dict | None, simdi: datetime, client, yaz=print, h
     saat = max((s for s in saatler if s <= simdi.hour), default=None)
     if saat is None or saat in h["aramalar"] or h["gonderilen"] >= gunluk:
         return 0
+    maclar = [a for a in (gun or {}).get("analizler") or [] if datetime.fromisoformat(a["baslama"]) > simdi]
+    if hesap == "kalkylerat" and not any(kart_postu(gun, m) for m in maclar):
+        return 0  # SÖZLEŞME D6: kartı paylaşılmış yaklaşan maç yok → arama da yok (ücret yok; saat sayılmaz)
     kalan_arama = len([s for s in saatler if s >= saat])
     hedef = min(math.ceil((gunluk - h["gonderilen"]) / kalan_arama), gunluk - h["gonderilen"])
     h["aramalar"].append(saat)
@@ -272,7 +278,8 @@ def kontrol(x, gh, ayar, gun: dict | None, simdi: datetime, client, yaz=print, h
         ham = x.ara(sorgu(cfg.hesaplar), baslangic, ARAMA_ADET)
         veri["onbellek"] = {"tarih": tarih, "saat": saat, "postlar": ham}
     postlar = [p for p in ham if p["id"] not in veri["gorulen"]]
-    maclar = [a for a in (gun or {}).get("analizler") or [] if datetime.fromisoformat(a["baslama"]) > simdi]
+    if hesap == "kalkylerat":  # SÖZLEŞME D6: yalnızca kartı paylaşılmış maçların postları; cevap kartla gider
+        postlar = [p for p in postlar if kart_postu(gun, eslesen_mac(p["metin"], maclar))]
     adaylar = sorted(postlar, key=lambda p: (eslesen_mac(p["metin"], maclar) is not None, puan(p, simdi)), reverse=True)
     gonderilen = []
     for p in adaylar:
@@ -297,24 +304,31 @@ def kontrol(x, gh, ayar, gun: dict | None, simdi: datetime, client, yaz=print, h
                      + f"Bugünün {ADLAR[hesap]} yorum fırsatları (günde {gunluk}, ayar: `ayarlar.toml` → `[buyume]`). "
                      f"**Bu cevapları {ADLAR[hesap]} hesabından at.** Büyük hesapların son saatlerdeki postları ve her "
                      "birine 2 taslak. **📋 Kopyala ve postu aç** sayfasında taslağın düğmesine dokun: metin panoya kopyalanır, "
-                     "post X'te açılır; Yanıtla'ya dokun, yapıştır, gönder. Ek seçenek (kart/kupon postu) günde birkaç kez, her cevapta değil (reklam gibi "
-                     "görünmesin). Fırsat gelir gelmez cevaplamak en iyisi (ilk 30–60 dakika); yanıtları aralıklı at.")
+                     "post X'te açılır; Yanıtla'ya dokun, yapıştır, gönder. "
+                     + ("Yalnızca kartını paylaştığımız maçların postları gelir; her cevap o maçın kart postumuzla "
+                        "kopyalanır. " if hesap == "kalkylerat" else
+                        "Kupon seçeneği günde birkaç kez, her cevapta değil (reklam gibi görünmesin). ")
+                     + "Fırsat gelir gelmez cevaplamak en iyisi (ilk 30–60 dakika); yanıtları aralıklı at.")
             h["issue"] = {"tarih": tarih, "no": gh.issue_ac(f"🚀 Yorum fırsatları {ADLAR[hesap]} {tarih}", govde,
                                                             ETIKETLER[hesap])}
         from .yorum import HESAP_UYARISI, sayfa_ogesi
         bas = h["gonderilen"]
         uyari = HESAP_UYARISI.format(ad="Mr. Likely") if hesap == "likely" else ""
-        ogeler = [sayfa_ogesi(f"{bas + i}. @{p.get('kullanici') or '?'}" + (f" · {mac['ev']} v {mac['dep']}" if mac else ""),
-                              p["metin"], f"https://x.com/{p.get('kullanici') or 'i'}/status/{p['id']}", t,
-                              [(etiket_adi, f"{t[0]}\n\n{ek}")] if ek else [])
-                  for i, (p, mac, t, ek) in enumerate(gonderilen, 1)]
+        def ogesi(sira, p, mac, t, ek):
+            kim = f"{sira}. @{p.get('kullanici') or '?'}" + (f" · {mac['ev']} v {mac['dep']}" if mac else "")
+            url = f"https://x.com/{p.get('kullanici') or 'i'}/status/{p['id']}"
+            if hesap == "kalkylerat" and ek:  # her hazır cevap kart postumuzla (X cevapta kartı gösterir)
+                return sayfa_ogesi(kim, p["metin"], url, [f"{x}\n\n{ek}" for x in t])
+            return sayfa_ogesi(kim, p["metin"], url, t, [(etiket_adi, f"{t[0]}\n\n{ek}")] if ek else [])
+        ogeler = [ogesi(bas + i, p, mac, t, ek) for i, (p, mac, t, ek) in enumerate(gonderilen, 1)]
         sayfa = kopya.sayfa_yaz(f"firsat-{hesap}-{saat}.html", f"Yorum fırsatları {ADLAR[hesap]} · {saat}:00 UTC",
                                 ogeler, simdi, uyari)
         gh.yorum(h["issue"]["no"], (f"@{ayar.alarm_kime} " if getattr(ayar, "alarm_kime", "") else "")
                  + f"**{saat}:00 UTC fırsatları ({ADLAR[hesap]})**\n\n"
                  + (f"{uyari}\n\n" if uyari else "")
                  + f"📋 **[Kopyala ve postu aç]({sayfa})** (her taslağın düğmesi orada; sayfa 1–2 dakikada hazır olur)\n\n"
-                 + "\n\n".join(bildirim(p, mac, t, bas + i, ek, etiket_adi)
+                 + "\n\n".join(bildirim(p, mac, t, bas + i, None if hesap == "kalkylerat" else ek, etiket_adi)
+                                 + ("\n\n<sub>Her iki cevap da bu maçın kart postumuzla kopyalanır.</sub>" if hesap == "kalkylerat" and ek else "")
                                  for i, (p, mac, t, ek) in enumerate(gonderilen, 1)))
         h["gonderilen"] += len(gonderilen)
     kaydet(veri)

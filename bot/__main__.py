@@ -1321,7 +1321,7 @@ def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="bot")
     p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt", "sabit", "hafta", "yenile", "oran_testi",
                                           "onay_kontrol", "onay_testi", "onay_yenile", "nabiz",
-                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir", "kasa_duzelt", "direktor", "skor_duzelt", "sonuc_duzelt", "kasa_defteri", "temizle", "liste", "kiyas", "takip_yenile", "metrik", "hesap_kontrol", "likely", "likely_paket", "likely_yetki", "likely_ek", "likely_yenile"])
+                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir", "kasa_duzelt", "direktor", "skor_duzelt", "sonuc_duzelt", "kasa_defteri", "temizle", "liste", "kiyas", "takip_yenile", "metrik", "hesap_kontrol", "likely", "likely_paket", "likely_yetki", "likely_ek", "likely_yenile", "likely_iptal"])
     args = p.parse_args(argv)
     ayar = config.yukle()
     from dataclasses import replace as _degistir
@@ -1579,6 +1579,16 @@ def main(argv=None) -> int:
                 likely.ek_kupon(ayar, json.loads(dosya.read_text(encoding="utf-8")), oranlar, simdi, onay.GitHub(), yaz=_ozet_yaz)
             except Exception as e:
                 _hata("Mr. Likely ek kupon", e)
+        if args.komut == "likely_iptal":
+            # Elle (SÖZLEŞME E5 istisnası): veri hatası olan bugünkü kupon maç başlamadan silinir, karneye girmez.
+            # ek: kupon adı (gunun-kuponu / long-shot / buyuk-maclar), isteğe bağlı ":" sonrası neden.
+            try:
+                ad, _, neden = os.environ.get("BOT_EK", "").partition(":")
+                x_ = _x_likely()
+                if x_ is not None and ad.strip():
+                    likely.veri_hatasi_iptal(ayar, x_, simdi, ad.strip(), neden.strip() or "veri hatası", yaz=_ozet_yaz)
+            except Exception as e:
+                _hata("Mr. Likely kupon iptali", e)
         if args.komut == "likely_yenile":
             # Elle: bugün paylaşılmış, maçı başlamamış kupon postlarını siler; güncel düzenle hemen yeniden paylaşılır.
             try:

@@ -524,7 +524,9 @@ def test_D3_yorum_firsatlari_yalnizca_taslak(tmp_path, monkeypatch):
         {"id": "3", "metin": "Sad news about a former player", "kullanici": "BBCSport", "zaman": zaman(10),
          "metrik": {"like_count": 100, "reply_count": 5, "retweet_count": 1}},
         {"id": "4", "metin": "Internationale fans in the stands", "kullanici": "goal", "zaman": zaman(10),
-         "metrik": {"like_count": 50, "reply_count": 2, "retweet_count": 1}}]
+         "metrik": {"like_count": 50, "reply_count": 2, "retweet_count": 1}},
+        {"id": "5", "metin": "Italy arrive in Paris for tonight's game against France", "kullanici": "goal", "zaman": zaman(10),
+         "metrik": {"like_count": 60, "reply_count": 3, "retweet_count": 1}}]
 
     class X:
         def __init__(self): self.aramalar = 0
@@ -548,25 +550,31 @@ def test_D3_yorum_firsatlari_yalnizca_taslak(tmp_path, monkeypatch):
     gun = {"analizler": [mac(1, "France", "Italy", saat="19:00")]}
     gun["analizler"][0]["p"] = {**gun["analizler"][0]["p"], "MS1": 0.47}
     x, gh = X(), GH()
+    # 14 Ekim (sahibi): Kalkylerat yalnızca kartını paylaştığımız maçların postlarına cevap verir. Kart yoksa arama
+    # da yapılmaz (ücret yok) ve saat sayılmaz.
+    assert firsat.kontrol(x, gh, AYAR, gun, simdi, client=object()) == 0 and x.aramalar == 0 and not gh.yorumlar
+    gun["etkilesim"] = {"analiz_0": {"durum": "paylasildi", "tweet_id": "777"}}
+    kart = "https://x.com/kalkylerat/status/777"
     assert firsat.kontrol(x, gh, AYAR, gun, simdi, client=object()) == 2  # 3/2 arama → bu saatte 2
     assert gh.issue == ["yorum-firsatlari"] and len(gh.yorumlar) == 1
     m = gh.yorumlar[0]
-    assert m.index("x.com/OptaJoe/status/1") < m.index("x.com/FabrizioRomano/status/2")  # bizim maçı geçen önce
-    assert "France 47% to win" in m and "99%" not in m and "follow us" not in m and "status/3" not in m
-    # Kopyalama sayfası: taslak panoya, post X'te açılır; X intent yok (14 Ekim: Android cevabı ayrı post attı)
+    assert m.index("x.com/OptaJoe/status/1") < m.index("x.com/goal/status/5")
+    assert "France 47% to win" in m and "99%" not in m and "follow us" not in m
+    assert "status/2" not in m and "status/3" not in m and "status/4" not in m  # kartımızın maçı değil → yok
+    # Kopyalama sayfası: her hazır cevap kart postumuzla; X intent yok (14 Ekim: Android cevabı ayrı post attı)
     from bot import kopya
     assert "intent/tweet" not in m and "https://kalkylerat.github.io/kit/2026-10-03/firsat-kalkylerat-10.html" in m
     sayfa = (kopya.KLASOR / "2026-10-03" / "firsat-kalkylerat-10.html").read_text(encoding="utf-8")
     veri = json.loads(re.search(r"const V = (\[.*?\]);", sayfa, re.S).group(1))
-    assert veri[0] == {"metin": "Fits our numbers too: France 47% to win this one. Strong home record.",
+    assert veri[0] == {"metin": f"Fits our numbers too: France 47% to win this one. Strong home record.\n\n{kart}",
                        "url": "https://x.com/OptaJoe/status/1"}
+    assert len(veri) == 4 and all(v["metin"].endswith(f"\n\n{kart}") for v in veri)  # 2 post × 2 taslak, hepsi kartlı
     assert "navigator.clipboard" in sayfa and "<script>alert" not in sayfa
-    assert "kalkylerat/status" not in m  # kart postu paylaşılmadıysa kartlı seçenek yok
     assert firsat.kontrol(x, gh, AYAR, gun, simdi + timedelta(minutes=30), client=object()) == 0 and x.aramalar == 1
-    # 16:00: görülenler (1, 2) tekrar gelmez; 3 uygunsuz (üzücü haber); 4 gelir; günlük sınır (3) doldu
-    assert firsat.kontrol(x, gh, AYAR, gun, simdi.replace(hour=16), client=object()) == 1
-    assert "status/4" in gh.yorumlar[1] and "status/1" not in gh.yorumlar[1] and "status/3" not in gh.yorumlar[1]
-    assert firsat.kontrol(x, gh, AYAR, gun, simdi.replace(hour=18), client=object()) == 0 and x.aramalar == 2
+    # 16:00: görülenler (1, 5) tekrar gelmez; kalanlar (transfer, üzücü haber, Internationale) kartımızın maçı değil
+    assert firsat.kontrol(x, gh, AYAR, gun, simdi.replace(hour=16), client=object()) == 0
+    assert x.aramalar == 2 and len(gh.yorumlar) == 1
+    del gun["etkilesim"]
     assert firsat.eslesen_mac("Internationale fans", [mac(2, "Inter", "Milan")]) is None
     # 14 Ekim: postun konusu Man City–PSG; sonradan anılan "Real Madrid" Roma–Real kartını eşleştirmemeli
     kartlar = [mac(3, "AS Roma", "Real Madrid"), mac(4, "Manchester City", "Paris Saint Germain")]
@@ -644,7 +652,10 @@ def test_D3_ayni_saatin_aramasi_iki_hesaba_bir_kez(tmp_path, monkeypatch):
     monkeypatch.setattr(firsat, "ayar_yukle", lambda: firsat.BuyumeAyar(gunluk_yorum=4, likely_gunluk_yorum=4, saatler=[10], likely_saatler=[10]))
     simdi = datetime(2026, 10, 3, 10, 5, tzinfo=UTC)
     z = (simdi - timedelta(minutes=20)).isoformat().replace("+00:00", "Z")
-    postlar = [{"id": str(i), "metin": f"post {i}", "kullanici": "goal", "zaman": z, "metrik": {"like_count": 100 - i}} for i in range(6)]
+    postlar = [{"id": str(i), "metin": f"France v Italy tonight, note {i}", "kullanici": "goal", "zaman": z,
+                "metrik": {"like_count": 100 - i}} for i in range(6)]
+    gun = {"analizler": [mac(1, "France", "Italy", saat="19:00")],
+           "etkilesim": {"analiz_0": {"durum": "paylasildi", "tweet_id": "777"}}}
 
     class X:
         aramalar = 0
@@ -655,8 +666,8 @@ def test_D3_ayni_saatin_aramasi_iki_hesaba_bir_kez(tmp_path, monkeypatch):
         def yorum(self, no, mesaj): self.mesaj = mesaj
     monkeypatch.setattr(direktor, "_cagir", lambda *a, **k: {"uygun": True, "taslaklar": ["fair play to them"]})
     gh1, gh2 = GH(), GH()
-    assert firsat.kontrol(X(), gh1, AYAR, None, simdi, client=object()) == 4
-    assert firsat.kontrol(X(), gh2, AYAR, None, simdi, client=object(), hesap="likely") == 2  # kalan 2 post
+    assert firsat.kontrol(X(), gh1, AYAR, gun, simdi, client=object()) == 4
+    assert firsat.kontrol(X(), gh2, AYAR, gun, simdi, client=object(), hesap="likely") == 2  # kalan 2 post
     assert X.aramalar == 1  # ücret bir kez
     assert "**1.** Fair play to them" in gh1.mesaj  # taslak büyük harfle başlar
     assert "Önce X'te Mr. Likely hesabına geç" in gh2.mesaj and "hesabına geç" not in gh1.mesaj

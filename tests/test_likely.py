@@ -932,3 +932,21 @@ def test_E6_gercek_disi_degerli_ayak_kupona_girmez():
     a = adaylar[0]
     assert not likely.kupona_uygun(dict(a, deger=0.35, tur="deger"), OTO)
     assert likely.kupona_uygun(dict(a, deger=min(a["deger"], OTO.oto_max_ayak_deger)), OTO) == likely.kupona_uygun(a, OTO)
+
+
+def test_E5_veri_hatasi_iptal_mac_baslamadan_siler_karneye_girmez(oto):
+    x = SahteX()
+    gun = likely.yukle()["gunler"][0]
+    k = gun["secilen"][0]
+    zaman = datetime.fromisoformat(k["paylas"])
+    assert likely.oto_paylas(AYAR, x, zaman) == 1
+    tid = likely.yukle()["gunler"][0]["secilen"][0]["tweet_id"]
+    ilk = min(datetime.fromisoformat(a["baslama"]) for a in k["ayaklar"])
+    assert likely.veri_hatasi_iptal(AYAR, x, ilk + timedelta(minutes=1), k["ad"], "fiyat") is False  # maç başladı: olmaz
+    assert likely.veri_hatasi_iptal(AYAR, x, zaman + timedelta(minutes=1), k["ad"], "aykırı fiyat") is True
+    gun = likely.yukle()["gunler"][0]
+    assert tid in x.silinen and all(s["ad"] != k["ad"] for s in gun["secilen"])
+    assert gun["iptal_edilen"][0]["iptal"]["neden"] == "aykırı fiyat"
+    idler = {a["fixture_id"] for s in gun["iptal_edilen"] for a in s["ayaklar"]}
+    likely.sonuclar(AYAR, bitir({f: (2, 0) for f in idler}), oto, ilk + timedelta(hours=14))
+    assert likely.karne(likely.yukle())["kupon"] == 0  # iptal edilen kupon sayılmaz

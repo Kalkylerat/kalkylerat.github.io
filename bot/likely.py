@@ -1214,6 +1214,29 @@ def oto_bilgi(ayar, x, simdi: datetime, yaz=print) -> bool:
     return True
 
 
+def veri_hatasi_iptal(ayar, x, simdi: datetime, ad: str, neden: str, yaz=print) -> bool:
+    """SÖZLEŞME E5 istisnası: veri hatası (ör. aykırı fiyat) olan bugünkü kupon, ilk maçı başlamadan sahibinin komutuyla
+    (likely_iptal) silinir ve karneye girmez; kayıtta "iptal_edilen" altında nedeniyle kalır, sahibine raporlanır."""
+    veri = yukle()
+    tarih = simdi.astimezone(ZoneInfo(ayar.saat_dilimi)).date().isoformat()
+    gun = next((g for g in veri["gunler"] if g["tarih"] == tarih), None)
+    k = next((k for k in (gun or {}).get("secilen", []) if k["ad"] == ad), None)
+    if k is None or k["durum"] != "bekliyor":
+        yaz(f"Mr. Likely: bugün iptal edilecek '{ad}' kuponu yok (ya da sonuçlandı).")
+        return False
+    ilk = min(datetime.fromisoformat(a["baslama"]) for a in k["ayaklar"])
+    if simdi >= ilk - timedelta(minutes=5):
+        yaz(f"Mr. Likely: '{ad}' kuponunun ilk maçı başladı (ya da başlamak üzere); geri alınamaz (E5).")
+        return False
+    if k.get("tweet_id"):
+        x.sil(k["tweet_id"])
+    gun["secilen"].remove(k)
+    gun.setdefault("iptal_edilen", []).append({**k, "iptal": {"neden": neden, "zaman": simdi.isoformat(timespec="seconds")}})
+    kaydet(veri)
+    yaz(f"Mr. Likely: '{ad}' kuponu iptal edildi ({neden}); post silindi, karneye girmez.")
+    return True
+
+
 def yeniden_paylas(ayar, x, simdi: datetime, yaz=print) -> int:
     """Bugün paylaşılmış, maçı başlamamış kupon postlarını siler ve hemen yeniden paylaşılacak şekilde sıraya koyar
     (aynı kupon, güncel post düzeniyle). Maçı başlamış ya da sonuçlanmış kupona dokunulmaz."""

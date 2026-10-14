@@ -68632,7 +68632,32 @@
         "istatistik_kaynak": "lig"
       }
     ],
-    "etkilesim": {},
+    "etkilesim": {
+      "tablo": {
+        "durum": "paylasildi",
+        "tweet_id": "2110280011013906585",
+        "zaman": "2026-10-14T08:02:04+00:00",
+        "metin": "📋 Today's chances, not picks · every % in the image\n\n🆚 Aston Villa v Fenerbahçe · 21:00 CEST\n🏆 Aston Villa 59% · Draw 21% · Fenerbahçe 20%\n⚽ Over 2.5 goals 61% · Under 39%\n🎯 Likeliest score 2-1 (10%)\n\n💬 Which % surprises you? 👇\n\n#UCL #AVFC\n18+ | Play responsibly",
+        "maclar": [
+          1585781,
+          1585788,
+          1635665,
+          1635674,
+          1563200,
+          1563201,
+          1563202,
+          1635614,
+          1635620,
+          1635635,
+          1635639,
+          1635690,
+          1635725,
+          1635733,
+          1563199
+        ],
+        "sonuclar": {}
+      }
+    },
     "yanit_kiti": {
       "issue": 62,
       "zaman": "2026-10-14T07:01:37+00:00"

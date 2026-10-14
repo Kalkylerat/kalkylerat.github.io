@@ -478,6 +478,26 @@ def test_D3_yorum_kiti_konusmanin_tamamini_ve_zamani_bilir(tmp_path, monkeypatch
     assert "Asıl post (@Footballtweet)" in gh.yorumlar[0] and "harsh from me" in gh.yorumlar[0]
 
 
+def test_D3_yorum_kiti_mr_likely_sesi_ve_kendi_postlarimiz(tmp_path, monkeypatch):
+    from bot import yorum
+    monkeypatch.setattr(yorum, "DOSYA", tmp_path / "yorumlar.json")
+    # Mr. Likely'nin talimatı filtrenin elediği kelimeyi istemez; yedek cevaplar onun sesiyle ve kurala uygun
+    assert not re.search(r"\bpicks?\b", yorum.LIKELY_NOTU.split("(Don't")[0])
+    assert all(yorum.uygun(t, "") for t in yorum.YEDEK + yorum.YEDEK_LIKELY)
+    assert yorum.taslaklar({"metin": "nice"}, "likely")[0] == yorum.YEDEK_LIKELY
+
+    class X:
+        def __init__(self): self.sorular = []
+        def ben(self): return "1", "Mrlikelyx"
+        def bahsedenler(self, me, since_id=None, baslangic=None):
+            self.sorular.append(since_id)
+            return [] if since_id == "40" else [{"id": "40", "metin": "kendi postumuz", "yazar": "1", "kullanici": "Mrlikelyx"}]
+    x, simdi = X(), datetime(2026, 10, 3, 14, 0, tzinfo=UTC)
+    assert yorum.kontrol(x, None, AYAR, simdi, hesap="likely") == 0
+    assert yorum.kontrol(x, None, AYAR, simdi + timedelta(minutes=35), hesap="likely") == 0
+    assert x.sorular == [None, "40"]  # kendi postumuz bir kez okunur, işaret ilerler
+
+
 def test_D3_yorum_firsatlari_yalnizca_taslak(tmp_path, monkeypatch):
     from bot import firsat
     monkeypatch.setattr(firsat, "DOSYA", tmp_path / "firsatlar.json")

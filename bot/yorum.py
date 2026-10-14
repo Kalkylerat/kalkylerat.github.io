@@ -1,6 +1,6 @@
 """Yorum kiti (SÖZLEŞME D3): hesabın postlarına gelen yeni yorumlar ve etiketlemeler için sahibine kopyalanmaya hazır
 cevap taslakları. Günlük bir GitHub issue'su açılır, her yeni yorum oraya sahibini etiketleyen bir yorum olarak düşer
-(telefona bildirim). Sahibi bağlantıdan yorumu açar, taslaklardan birini kendi cümlesiyle düzeltip elle atar.
+(telefona bildirim). Sahibi kopyalama sayfasından taslağı kopyalar, yorumu açar, yapıştırıp kendisi gönderir.
 
 Bot hiçbir zaman kendisi cevap atmaz, beğenmez, takip etmez: X otomasyon kuralları başkalarına otomatik yanıtı
 yasaklar (D3). Okuma ücretlidir (dönen post başına): gündüz 30 dakikada bir (gece yok), yalnızca son görülen yorumdan yenileri sorulur."""
@@ -54,8 +54,8 @@ tonight, so that XI isn't miles off"  Good: "Who's the first name you'd drop fro
 
 LIKELY_NOTU = """Replying as Mr. Likely: speak as "I" ("I make it about 60%"), light dry humour mostly at his own
 expense (dull legs, coupons one leg short), never smug, no exclamation marks. Never tell anyone to bet, stake, tail
-or copy a coupon. If someone asks about a coupon, answer plainly: a numbers model picks it on fixed rules, losers
-are posted too."""
+or copy a coupon. If someone asks about a coupon, answer plainly: a numbers model chooses it on fixed rules, losers
+are posted too. (Don't use the words "pick", "picks" or "tip": we give chances, not picks.)"""
 
 SISTEM = f"""You draft replies that the account owner will read, edit and post BY HAND on X. You never post anything.
 Write 2 different short reply drafts to the comment below, in the account's voice, in plain English.
@@ -93,6 +93,8 @@ SEMA = {"type": "object", "additionalProperties": False, "required": ["taslaklar
 
 YEDEK = ["Cheers for reading. Which number on the card surprised you most?",
          "Fair point. How would you read this one?"]
+YEDEK_LIKELY = ["Fair point. I only go where the numbers send me, and they don't always treat me kindly.",
+                "Noted. How would you have built it?"]
 
 
 def yukle() -> dict:
@@ -157,8 +159,9 @@ def taslaklar(yorum: dict, hesap: str, client=None, ayar=None, yaz=print, gun: d
     adimlar = konusma(yorum, hesap_adi)
     mac = mac_bilgisi(" ".join(a["text"] for a in adimlar), gun, simdi) if simdi else None
     kaynak = "\n".join(a["text"] for a in adimlar) + "\n" + json.dumps(mac or {}, ensure_ascii=False)
+    yedek = YEDEK_LIKELY if hesap == "likely" else YEDEK
     if client is None or ayar is None:
-        return YEDEK, "", False
+        return yedek, "", False
     from .direktor import _cagir
     ses = (_likely_sesi() + "\n" + LIKELY_NOTU) if hesap == "likely" else SESLER["kalkylerat"]
     icerik = json.dumps({"conversation_in_order": adimlar,
@@ -170,9 +173,9 @@ def taslaklar(yorum: dict, hesap: str, client=None, ayar=None, yaz=print, gun: d
                        icerik, SEMA, 2000)
     except Exception as e:
         yaz(f"Yorum kiti: taslak yazılamadı ({e}); hazır kalıplar kullanıldı.")
-        return YEDEK, "", False
+        return yedek, "", False
     iyi = [buyuk_harfle(t) for t in cevap.get("taslaklar") or [] if uygun(t.strip(), kaynak)][:2]
-    return (iyi or YEDEK), (cevap.get("not") or "").strip(), bool(cevap.get("spam"))
+    return (iyi or yedek), (cevap.get("not") or "").strip(), bool(cevap.get("spam"))
 
 
 HESAP_UYARISI = "⚠️ Önce X'te {ad} hesabına geç: post X'te açık olan hesapla açılır."
@@ -219,9 +222,12 @@ def kontrol(x, gh, ayar, simdi: datetime, hesap: str = "kalkylerat", client=None
     if not h.get("me"):
         h["me"], h["kullanici"] = x.ben()
     ilk = (simdi - timedelta(days=ILK_GUN)).isoformat(timespec="seconds") if not h.get("since_id") else None
-    yeni = [t for t in x.bahsedenler(h["me"], since_id=h.get("since_id"), baslangic=ilk) if t.get("yazar") != h["me"]]
+    ham = x.bahsedenler(h["me"], since_id=h.get("since_id"), baslangic=ilk)
+    yeni = [t for t in ham if t.get("yazar") != h["me"]]
     h["son_kontrol"] = simdi.isoformat(timespec="seconds")
     if not yeni:
+        if ham:  # yalnızca kendi postlarımız geldi: işaret ilerler, aynı postlar her kontrolde yeniden okunmaz (ücret)
+            h["since_id"] = max(ham, key=lambda t: int(t["id"]))["id"]
         kaydet(veri)
         return 0
     yeni = sorted(yeni, key=lambda t: int(t["id"]))[:EN_FAZLA]  # eskiden yeniye; fazlası sonraki kontrole

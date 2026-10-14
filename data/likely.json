@@ -14541,7 +14541,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 7
+     "no": 7,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1639253-CS1X",
@@ -14708,7 +14709,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 15
+     "no": 15,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1495981-UST15",
@@ -14770,7 +14772,8 @@
      "istatistik": 0.864,
      "uyum": true,
      "buyuk": false,
-     "no": 18
+     "no": 18,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1637492-CS1X",
@@ -14832,7 +14835,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 21
+     "no": 21,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1560845-CS1X",
@@ -14852,7 +14856,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 22
+     "no": 22,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1560846-CS12",
@@ -14872,7 +14877,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 23
+     "no": 23,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1563202-CS1X",
@@ -14892,7 +14898,8 @@
      "istatistik": 0.704,
      "uyum": false,
      "buyuk": false,
-     "no": 24
+     "no": 24,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1584032-CS1X",
@@ -14996,7 +15003,8 @@
      "istatistik": 0.715,
      "uyum": false,
      "buyuk": false,
-     "no": 29
+     "no": 29,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1644213-CSX2",
@@ -15099,7 +15107,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 34
+     "no": 34,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1495982-CS12",
@@ -15224,7 +15233,8 @@
      "istatistik": 0.808,
      "uyum": true,
      "buyuk": false,
-     "no": 40
+     "no": 40,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1643961-CS1X",
@@ -15328,7 +15338,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 45
+     "no": 45,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1495978-DPA25",
@@ -15411,7 +15422,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 49
+     "no": 49,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1585782-UST15",
@@ -15452,7 +15464,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 51
+     "no": 51,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1495977-CS12",
@@ -15493,7 +15506,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 53
+     "no": 53,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1596011-CS12",
@@ -15513,7 +15527,8 @@
      "istatistik": 0.802,
      "uyum": true,
      "buyuk": false,
-     "no": 54
+     "no": 54,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1584031-CS12",
@@ -15554,7 +15569,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 56
+     "no": 56,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1495982-DPA25",
@@ -15616,7 +15632,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 59
+     "no": 59,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1563202-UST15",
@@ -15636,7 +15653,8 @@
      "istatistik": 0.657,
      "uyum": false,
      "buyuk": false,
-     "no": 60
+     "no": 60,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1642172-CS12",
@@ -15698,7 +15716,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 63
+     "no": 63,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1635639-EVA25",
@@ -15718,7 +15737,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 64
+     "no": 64,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1639252-CS12",
@@ -15884,7 +15904,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 72
+     "no": 72,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1635284-CS12",
@@ -16030,7 +16051,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 79
+     "no": 79,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1560853-CSX2",
@@ -16490,7 +16512,7 @@
      "neden": "Double chance 12 ayağı vardı; yeni kuralla (E6) yeniden seçilecek, paylaşılmadan çıkarıldı"
     }
    ],
-   "olcum_sorgu": "2026-10-14T20:35:50+00:00",
+   "olcum_sorgu": "2026-10-14T21:34:48+00:00",
    "iptal_edilen": [
     {
      "ad": "gunun-kuponu",

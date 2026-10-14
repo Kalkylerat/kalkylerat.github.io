@@ -14721,7 +14721,8 @@
      "istatistik": 0.864,
      "uyum": true,
      "buyuk": false,
-     "no": 16
+     "no": 16,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1584025-UST15",
@@ -15025,7 +15026,8 @@
      "istatistik": 0.78,
      "uyum": true,
      "buyuk": false,
-     "no": 31
+     "no": 31,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1495976-UST25",
@@ -15808,7 +15810,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 70
+     "no": 70,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1585788-IYU05",
@@ -15868,7 +15871,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 73
+     "no": 73,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1643268-IYU05",
@@ -16396,7 +16400,7 @@
      "neden": "Double chance 12 ayağı vardı; yeni kuralla (E6) yeniden seçilecek, paylaşılmadan çıkarıldı"
     }
    ],
-   "olcum_sorgu": "2026-10-14T14:49:12+00:00"
+   "olcum_sorgu": "2026-10-14T15:46:24+00:00"
   }
  ]
 }

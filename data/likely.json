@@ -15024,7 +15024,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 30
+     "no": 30,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1495981-CS12",
@@ -16072,7 +16073,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 80
+     "no": 80,
+     "sonuc": "kazandi"
     }
    ],
    "kuponlar": [
@@ -16512,7 +16514,7 @@
      "neden": "Double chance 12 ayağı vardı; yeni kuralla (E6) yeniden seçilecek, paylaşılmadan çıkarıldı"
     }
    ],
-   "olcum_sorgu": "2026-10-14T21:34:48+00:00",
+   "olcum_sorgu": "2026-10-14T22:33:13+00:00",
    "iptal_edilen": [
     {
      "ad": "gunun-kuponu",

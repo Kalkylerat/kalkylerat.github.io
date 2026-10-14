@@ -646,6 +646,15 @@ def test_D3_ayni_saatin_aramasi_iki_hesaba_bir_kez(tmp_path, monkeypatch):
     assert not set(re.findall(r"status/(\d)\)", gh1.mesaj)) & set(re.findall(r"status/(\d)\)", gh2.mesaj))
 
 
+def test_D6_yorum_firsati_sayilari_ve_saatleri_sozlesmedeki_gibi():
+    """Sahibiyle anlaşılan sayılar (14 Ekim): değiştirmek için önce SOZLESME.md D6."""
+    from bot import firsat
+    cfg = firsat.ayar_yukle()
+    assert cfg.aktif and cfg.gunluk_yorum == 10 and cfg.likely_gunluk_yorum == 5
+    assert cfg.saatler == [10, 13, 16, 18] and cfg.likely_saatler == cfg.saatler  # tek arama iki hesaba
+    assert firsat.TAZE_SAAT == 3
+
+
 def test_D4_topluluga_yalnizca_tablo_ve_kiyas():
     kaynak = (ROOT / "bot/etkilesim.py").read_text()
     assert kaynak.count("_gonder(x, ayar, metin, yaz") == 2  # tablo ve ayrışma (kıyas) postları

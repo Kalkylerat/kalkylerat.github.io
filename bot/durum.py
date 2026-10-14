@@ -68,7 +68,33 @@ def main(simdi: datetime | None = None) -> None:
     else:
         print("Bugünün sabah analizi henüz yok (05:17 UTC'de yapılır).")
     sorunlar += likely_durumu(simdi)
+    sorunlar += firsat_durumu(simdi)
     print("SORUN: " + " | ".join(sorunlar) if sorunlar else "SORUN YOK")
+
+
+def firsat_durumu(simdi: datetime) -> list[str]:
+    """Yorum fırsatları (SOZLESME D6): bugünün arama saatleri geçtiyse arama yapıldı mı (ajan sessizce durmasın)."""
+    from . import firsat
+    cfg = firsat.ayar_yukle()
+    try:
+        veri = json.loads(firsat.DOSYA.read_text(encoding="utf-8"))
+    except (FileNotFoundError, ValueError):
+        veri = {}
+    sorunlar = []
+    tarih = simdi.date().isoformat()
+    for hesap, gunluk, saatler in (("kalkylerat", cfg.gunluk_yorum, cfg.saatler),
+                                   ("likely", cfg.likely_gunluk_yorum, cfg.likely_saatler)):
+        if not cfg.aktif or gunluk <= 0:
+            continue
+        h = veri.get(hesap) or {}
+        yapilan = h.get("aramalar", []) if h.get("tarih") == tarih else []
+        gonderilen = h.get("gonderilen", 0) if h.get("tarih") == tarih else 0
+        print(f"Yorum fırsatları {hesap}: bugün {gonderilen}/{gunluk}, aramalar {yapilan or '-'} (saatler {saatler})")
+        kacan = [s for s in saatler if simdi >= simdi.replace(hour=s, minute=40, second=0, microsecond=0)
+                 and s not in yapilan and gonderilen < gunluk]
+        if kacan:
+            sorunlar.append(f"yorum fırsatları ({hesap}): {kacan} UTC araması yapılmadı")
+    return sorunlar
 
 
 def likely_durumu(simdi: datetime) -> list[str]:

@@ -22,6 +22,8 @@ Kurallar: `SOZLESME.md` (değişmez), çalışma kuralları: `CLAUDE.md`. Sahibi
 2. `python -m bot.durum` → bugünün postları (UTC), sözleşme sapmaları, günün kalanının simülasyonu ve Mr. Likely
    (ikinci hesap, aynı nabızla çalışır, SOZLESME E): kupon planlanan saatte çıktı mı, sonuç postu geldi mi.
    Son satır `SORUN YOK` ya da `SORUN: ...`.
+   Ayrıca yorum fırsatları (SOZLESME D6: arama saatleri geçti mi, bugün kaç fırsat) ve Mr. Likely kupon planı
+   (E7: plan ilk maçtan sonraya düştüyse "kaçacak").
 3. Workflow'lar:
    - `gh api "repos/Kalkylerat/kalkylerat.github.io/actions/workflows/kalkylerat.yml/runs?per_page=4" --jq '.workflow_runs[]|"\(.created_at) \(.status) \(.conclusion)"'`
      → son çalışma 15 dakikadan eski ya da üst üste `failure` ise sorun.
@@ -56,6 +58,13 @@ Kurallar: `SOZLESME.md` (değişmez), çalışma kuralları: `CLAUDE.md`. Sahibi
 - `aralik_dk`: yoğun günde en az 13 dk (ayarlar.toml), kalanlara yayılır ama her post kendi son saatine yetişecek sıklıkta.
 - Geçmiş: 9 Ekim 7 kart kaçtı → yayılım düzeltmesi; 10 Ekim 30/30 kart; 11 Ekim 29/30 → kart penceresi düzeltmesi
   (e9cee15); 12 Ekim simülasyonu temiz.
+
+## 14 Ekim dersleri (tekrar etmesin)
+- Mr. Likely kupon aralığı seçim sırasıyla verilince kuponlar kendi maçlarının sonrasına itildi (E7, düzeltildi).
+- "Double chance 12" kararı yalnızca gölge testte ölçülüyordu, koda geçmemişti (E6 artık yasaklar; C5).
+- X'in cevap bağlantısı (web intent) Android'de cevabı ayrı post attı: taslaklar kopyalama sayfasıyla (D3, D6).
+- Yorum fırsatları ve yorum kiti issue yorumu olarak gelir (#yorum-firsatlari, #yorum-kiti); sahibi göremiyorsa
+  issue bağlantısını ver.
 
 ## Rutin
 - Saatlik rutin "Kalkylerat saatlik nöbet", cron `3 * * * *` (UTC), Sonnet 5.5. Her çalışmada yeni, kısa bir oturum

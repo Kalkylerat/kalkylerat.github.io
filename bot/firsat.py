@@ -121,6 +121,10 @@ Hard rules:
   and never bring that other match up.
   Never invent stats, news or line-ups; use only numbers from our facts or the post itself.
 - Not promotional: never "check our page", "follow us", "see our card", never mention our account.
+- Kind and respectful to everyone: no sarcasm, no digs, no negative judgments about any club, player, fan, manager
+  or the account (never "strange look", "embarrassing", "struggling"). On controversies (discipline, fines,
+  contracts, referees, fan trouble, politics) take no side; if the post is mainly a controversy, set "uygun" false.
+- Say only what is in their post or our facts; if unsure, leave it out. Open and friendly, like talking to a mate.
 - Chances, not picks: never pick, tip, lock, guaranteed, sure, bet. No bookmaker names. Never argue or mock.
 - Sound like a fan who loves numbers: no "Great post!", no "Here's", no "Honestly,", no corporate words.
 - Draft 2 ends with a short, specific question (replies that start a conversation get seen).
@@ -146,15 +150,27 @@ def taslaklar(post: dict, mac: dict | None, client, ayar) -> list[str]:
     return [t.strip() for t in cevap.get("taslaklar") or [] if uygun(t.strip(), kaynak) and "@" not in t][:2]
 
 
-def bildirim(post: dict, mac: dict | None, taslak: list[str], sira: int) -> str:
+def kart_postu(gun: dict | None, mac: dict | None) -> str | None:
+    """Bu maçın bizim paylaşılmış kart postunun adresi (cevaba eklenirse X onu kart olarak gösterir); yoksa None."""
+    if not gun or not mac:
+        return None
+    for i, a in enumerate(gun.get("analizler") or []):
+        e = (gun.get("etkilesim") or {}).get(f"analiz_{i}") or {}
+        if a is mac or a.get("fixture_id") == mac.get("fixture_id"):
+            return f"https://x.com/kalkylerat/status/{e['tweet_id']}" if e.get("durum") == "paylasildi" and e.get("tweet_id") else None
+    return None
+
+
+def bildirim(post: dict, mac: dict | None, taslak: list[str], sira: int, kart: str | None = None) -> str:
+    from .yorum import taslak_satirlari
     m = post.get("metrik") or {}
     satirlar = [f"### {sira}. @{post.get('kullanici') or '?'} · 💬 {m.get('reply_count', 0)} · ❤️ {m.get('like_count', 0)}",
                 f"> {post['metin'].strip()[:280]}".replace("\n", "\n> "), "",
-                f"👉 [Postu aç ve cevapla](https://x.com/{post.get('kullanici') or 'i'}/status/{post['id']})"]
-    if mac:
-        satirlar.append(f"<sub>Bizim kart: {mac['ev']} v {mac['dep']}</sub>")
-    satirlar += ["", *[f"```\n{t}\n```" for t in taslak]]
-    return "\n".join(satirlar)
+                f"👀 [Postu gör](https://x.com/{post.get('kullanici') or 'i'}/status/{post['id']})"
+                + (f" · bizim kart: {mac['ev']} v {mac['dep']}" if mac else ""), ""]
+    ekler = [("🖼️ Kartımızla (1. taslak + bu maçın kart postumuz):", f"{taslak[0]}\n\n{kart}")] if kart and taslak else []
+    satirlar += taslak_satirlari(post["id"], taslak, ekler)
+    return "\n".join(satirlar).rstrip()
 
 
 def kontrol(x, gh, ayar, gun: dict | None, simdi: datetime, client, yaz=print) -> int:
@@ -195,14 +211,16 @@ def kontrol(x, gh, ayar, gun: dict | None, simdi: datetime, client, yaz=print) -
         if (veri.get("issue") or {}).get("tarih") != tarih:
             govde = ((f"@{ayar.alarm_kime} " if getattr(ayar, "alarm_kime", "") else "")
                      + f"Bugünün yorum fırsatları (günde {cfg.gunluk_yorum}, ayar: `ayarlar.toml` → `[buyume] gunluk_yorum`). "
-                     "Büyük hesapların son saatlerdeki postları ve her birine 2 taslak. Bağlantıyı aç, taslağı yapıştır, "
-                     "**elle** gönder. Fırsat gelir gelmez cevaplamak en iyisi (ilk 30–60 dakika). Aynı taslağı iki "
-                     "posta yapıştırma; yanıtları arka arkaya değil, aralıklı at.")
+                     "Büyük hesapların son saatlerdeki postları ve her birine 2 taslak. **✍️ Bu cevapla aç**'a dokun: "
+                     "X'te cevap hazır açılır, istersen düzelt, Gönder'e sen basarsın. **🖼️ Kartımızla** seçeneği "
+                     "cevaba o maçın kart postumuzu ekler; günde birkaç kez kullan, her cevapta değil (reklam gibi "
+                     "görünmesin). Fırsat gelir gelmez cevaplamak en iyisi (ilk 30–60 dakika); yanıtları aralıklı at.")
             veri["issue"] = {"tarih": tarih, "no": gh.issue_ac(f"🚀 Yorum fırsatları {tarih}", govde, ETIKET)}
         bas = veri["gonderilen"]
         gh.yorum(veri["issue"]["no"], (f"@{ayar.alarm_kime} " if getattr(ayar, "alarm_kime", "") else "")
                  + f"**{saat}:00 UTC fırsatları**\n\n"
-                 + "\n\n".join(bildirim(p, mac, t, bas + i) for i, (p, mac, t) in enumerate(gonderilen, 1)))
+                 + "\n\n".join(bildirim(p, mac, t, bas + i, kart_postu(gun, mac))
+                                 for i, (p, mac, t) in enumerate(gonderilen, 1)))
         veri["gonderilen"] += len(gonderilen)
     kaydet(veri)
     yaz(f"Yorum fırsatları: {len(postlar)} post okundu, {len(gonderilen)} fırsat gönderildi.")

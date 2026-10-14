@@ -7,6 +7,7 @@ yasaklar (D3). Okuma ücretlidir (dönen post başına): 15 dakikada bir, yalnı
 
 import json
 import re
+from urllib.parse import quote
 from datetime import datetime, timedelta
 
 from . import config
@@ -43,6 +44,8 @@ Hard rules:
   and it is not in our post, don't use a number.
 - We give chances, not picks: never say pick, tip, lock, guaranteed, sure, bet now, or that we were right or wrong.
 - No betting advice, no bookmaker names. Never argue, never mock. If the comment is hostile, stay calm and short.
+- Kind and respectful to everyone: no sarcasm, no digs or negative judgments about any club, player, fan or person.
+  Never claim something you can't see in the facts.
 - Sound like a person: no "Great question!", no "Here's", no "Honestly,", no corporate words.
 - Draft 1: answers the comment directly. Draft 2: adds one number or detail from our post. Draft 3: asks the person a
   specific question back (replies keep the conversation going).
@@ -98,6 +101,22 @@ def taslaklar(yorum: dict, hesap: str, client=None, ayar=None, yaz=print) -> tup
     return (iyi or YEDEK), (cevap.get("not") or "").strip(), bool(cevap.get("spam"))
 
 
+def cevap_linki(tweet_id: str, metin: str) -> str:
+    """X'in cevap penceresini taslak yazılmış halde açan bağlantı (web intent): telefonda tek dokunuş, kopyalama yok.
+    Gönder düğmesine sahibi basar; bot hiçbir şey paylaşmaz (D3)."""
+    return f"https://x.com/intent/tweet?in_reply_to={tweet_id}&text={quote(metin, safe='')}"
+
+
+def taslak_satirlari(tweet_id: str, taslaklar: list[str], ekler: list[tuple[str, str]] = ()) -> list[str]:
+    """Her taslak: metni görünür, altında "bu cevapla aç" bağlantısı. ekler: (etiket, metin) ek seçenekler."""
+    satirlar = []
+    for n, t in enumerate(taslaklar, 1):
+        satirlar += [f"**{n}.** {t}", f"[✍️ Bu cevapla aç]({cevap_linki(tweet_id, t)})", ""]
+    for etiket, t in ekler:  # ek seçenekte bağlantı (ör. kart postumuz) metinde gösterilmez, cevaba eklenir
+        satirlar += [f"**{etiket}** {t.split(chr(10) + chr(10))[0]}", f"[✍️ Bu cevapla aç]({cevap_linki(tweet_id, t)})", ""]
+    return satirlar
+
+
 def bildirim(yorum: dict, taslak: list[str], not_: str, spam: bool, hesap_adi: str) -> str:
     satirlar = [f"### 💬 @{yorum.get('kullanici') or '?'} → @{hesap_adi}",
                 f"> {(yorum.get('metin') or '').strip()}".replace("\n", "\n> "), ""]
@@ -105,10 +124,10 @@ def bildirim(yorum: dict, taslak: list[str], not_: str, spam: bool, hesap_adi: s
         satirlar += [f"<sub>Bizim post: {yorum['bizim'][:160].replace(chr(10), ' ')}…</sub>", ""]
     if not_:
         satirlar += [f"📝 {not_}" + (" (spam gibi)" if spam and "cevap vermesen" not in not_ else ""), ""]
-    satirlar += [f"👉 [Yorumu X'te aç ve elle cevapla](https://x.com/i/web/status/{yorum['id']})", "",
-                 "Taslaklar (kopyala, kendi cümlenle değiştir):"]
-    satirlar += [f"```\n{t}\n```" for t in taslak]
-    return "\n".join(satirlar)
+    satirlar += [f"👀 [Yorumu X'te gör](https://x.com/i/web/status/{yorum['id']})", "",
+                 "Taslaklar: **✍️ Bu cevapla aç**'a dokun, X'te cevap hazır açılır; istersen düzelt, Gönder'e bas.", ""]
+    satirlar += taslak_satirlari(yorum["id"], taslak)
+    return "\n".join(satirlar).rstrip()
 
 
 def kontrol(x, gh, ayar, simdi: datetime, hesap: str = "kalkylerat", client=None, yaz=print) -> int:
@@ -130,8 +149,8 @@ def kontrol(x, gh, ayar, simdi: datetime, hesap: str = "kalkylerat", client=None
     if (h.get("issue") or {}).get("tarih") != tarih:
         govde = ((f"@{ayar.alarm_kime} " if getattr(ayar, "alarm_kime", "") else "")
                  + f"Bugün @{h['kullanici']} postlarına gelen yorumlar ve etiketlemeler. Her biri için 3 cevap taslağı: "
-                 "bağlantıdan yorumu aç, birini kendi cümlenle düzeltip **elle** cevapla. Bot hiçbir zaman kendisi "
-                 "cevap atmaz (X kuralı). Aynı metni iki kez yapıştırma.")
+                 "**✍️ Bu cevapla aç**'a dokun, X'te cevap hazır açılır, Gönder'e sen basarsın. Bot hiçbir zaman "
+                 "kendisi cevap atmaz (X kuralı). Aynı metni iki kişiye gönderme.")
         h["issue"] = {"tarih": tarih, "no": gh.issue_ac(f"💬 Yorumlar @{h['kullanici']} {tarih}", govde,
                                                          ETIKETLER.get(hesap, "yorum-kiti"))}
     for t in yeni:

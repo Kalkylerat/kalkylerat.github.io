@@ -482,6 +482,12 @@ def test_D3_yorum_firsatlari_yalnizca_taslak(tmp_path, monkeypatch):
     m = gh.yorumlar[0]
     assert m.index("x.com/OptaJoe/status/1") < m.index("x.com/FabrizioRomano/status/2")  # bizim maçı geçen önce
     assert "France 47% to win" in m and "99%" not in m and "follow us" not in m and "status/3" not in m
+    # Tek dokunuşla cevap: X cevap penceresi taslak yazılı açılır (kopyalama yok); gönderen sahibi
+    from urllib.parse import parse_qs, urlparse
+    linkler = re.findall(r"\((https://x\.com/intent/tweet\?[^)]+)\)", m)
+    q = parse_qs(urlparse(linkler[0]).query)
+    assert q["in_reply_to"] == ["1"] and q["text"][0].startswith("Fits our numbers too: France 47%")
+    assert "kalkylerat/status" not in m  # kart postu paylaşılmadıysa kartlı seçenek yok
     assert firsat.kontrol(x, gh, AYAR, gun, simdi + timedelta(minutes=30), client=object()) == 0 and x.aramalar == 1
     # 16:00: görülenler (1, 2) tekrar gelmez; 3 uygunsuz (üzücü haber); 4 gelir; günlük sınır (3) doldu
     assert firsat.kontrol(x, gh, AYAR, gun, simdi.replace(hour=16), client=object()) == 1
@@ -494,6 +500,11 @@ def test_D3_yorum_firsatlari_yalnizca_taslak(tmp_path, monkeypatch):
     assert firsat.eslesen_mac(metin, kartlar)["ev"] == "Manchester City"
     assert firsat.eslesen_mac("Real Madrid travel to Rome tonight", kartlar)["ev"] == "AS Roma"
     assert firsat.kontrol(x, gh, AYAR, gun, simdi, client=None) == 0  # Claude yoksa taslaksız fırsat gönderilmez
+    # Kart postumuz paylaşıldıysa "🖼️ Kartımızla" seçeneği o postun adresini cevaba ekler
+    gun["etkilesim"] = {"analiz_0": {"durum": "paylasildi", "tweet_id": "777"}}
+    assert firsat.kart_postu(gun, gun["analizler"][0]) == "https://x.com/kalkylerat/status/777"
+    kartli = firsat.bildirim(postlar[0], gun["analizler"][0], ["Nice stat."], 1, firsat.kart_postu(gun, gun["analizler"][0]))
+    assert "🖼️ Kartımızla" in kartli and parse_qs(urlparse(re.findall(r"\((https://x\.com/intent/tweet\?[^)]+)\)", kartli)[-1]).query)["text"] == ["Nice stat.\n\nhttps://x.com/kalkylerat/status/777"]
     assert len(firsat.sorgu(firsat.BuyumeAyar().hesaplar * 3)) <= 512
 
 

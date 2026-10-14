@@ -152,8 +152,8 @@ under a big football account's post on X. You never post anything. Write 2 diffe
   with a little self-doubt ("it's one of my legs today, so naturally I'm nervous"). Never push the coupon.
 
 {INSAN_SESI}
-Mr. Likely examples. Good: "it's one of my legs today, so naturally I'm a bit nervous now"  Good: "I make City about
-45% tonight. That XI doesn't make me feel better or worse"  Good: "dull answer from me: probably goals. 66% both
+Mr. Likely examples. Good: "It's one of my legs today, so naturally I'm a bit nervous now"  Good: "I make City about
+45% tonight. That XI doesn't make me feel better or worse"  Good: "Dull answer from me: probably goals. 66% both
 score"  Bad: "Great stat! Check my coupon for tonight's best value 🔥"
 """,
 }
@@ -180,7 +180,8 @@ def taslaklar(post: dict, mac: dict | None, client, ayar, hesap: str = "kalkyler
     if not cevap.get("uygun"):
         return []
     kaynak = post["metin"] + "\n" + json.dumps(olg or {}, ensure_ascii=False)
-    return [t.strip() for t in cevap.get("taslaklar") or [] if uygun(t.strip(), kaynak) and "@" not in t
+    from .yorum import buyuk_harfle
+    return [buyuk_harfle(t) for t in cevap.get("taslaklar") or [] if uygun(t.strip(), kaynak) and "@" not in t
             and not re.search(r"\b(tail|stake|copy my|my coupon is|value bet)\b", t, re.IGNORECASE)][:2]
 
 
@@ -293,6 +294,7 @@ def kontrol(x, gh, ayar, gun: dict | None, simdi: datetime, client, yaz=print, h
         bas = h["gonderilen"]
         gh.yorum(h["issue"]["no"], (f"@{ayar.alarm_kime} " if getattr(ayar, "alarm_kime", "") else "")
                  + f"**{saat}:00 UTC fırsatları ({ADLAR[hesap]})**\n\n"
+                 + ("⚠️ **Önce X'te Mr. Likely hesabına geç** (bağlantılar açık olan hesapla açılır)\n\n" if hesap == "likely" else "")
                  + "\n\n".join(bildirim(p, mac, t, bas + i, ek, etiket_adi)
                                  for i, (p, mac, t, ek) in enumerate(gonderilen, 1)))
         h["gonderilen"] += len(gonderilen)

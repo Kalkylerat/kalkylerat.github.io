@@ -40,7 +40,7 @@ def _likely_sesi() -> str:
 INSAN_SESI = """How to sound human (this matters as much as the rules):
 - Write like a real fan typing on their phone: short, relaxed, one thought. Usually 60–140 characters.
 - Contractions and casual words are good ("that's", "mad", "fair play", "no chance", "proper", "yeah").
-  A fragment is fine. Starting lowercase is fine sometimes.
+  A fragment is fine. Normal capitalisation: start each sentence with a capital letter.
 - React first, like a person would: surprise, agreement, a small joke (kind, never at anyone's expense).
 - Don't summarise or repeat their post back to them. Don't explain. Don't sound like a report.
 - A number only if it fits naturally, and say it the way people talk: "we had them around 45%", not
@@ -49,8 +49,8 @@ INSAN_SESI = """How to sound human (this matters as much as the rules):
 - Never start with: "Great", "Interesting", "Fascinating", "Love this", "Absolutely", "Indeed", "This is",
   "What a great", "Wow,". No "says a lot", "speaks volumes", "a testament to", "it's worth noting".
 Bad: "Only 2 of the reigning champions making the XI says a lot about this season's ratings. Our numbers have City
-at 45%."  Good: "2 from PSG and they're the holders... ratings can be harsh 😅"  Good: "we had City around 45% for
-tonight, so that XI isn't miles off"  Good: "who's the first name you'd drop from that XI though?"
+at 45%."  Good: "2 from PSG and they're the holders... ratings can be harsh 😅"  Good: "We had City around 45% for
+tonight, so that XI isn't miles off"  Good: "Who's the first name you'd drop from that XI though?"
 """
 
 LIKELY_NOTU = """Replying as Mr. Likely: speak as "I" ("I make it about 60%"), light dry humour mostly at his own
@@ -84,8 +84,8 @@ SEMA = {"type": "object", "additionalProperties": False, "required": ["taslaklar
         "properties": {"taslaklar": {"type": "array", "items": {"type": "string"}},
                        "not": {"type": "string"}, "spam": {"type": "boolean"}}}
 
-YEDEK = ["cheers for reading. which number on the card surprised you most?",
-         "fair point. how would you read this one?"]
+YEDEK = ["Cheers for reading. Which number on the card surprised you most?",
+         "Fair point. How would you read this one?"]
 
 
 def yukle() -> dict:
@@ -102,6 +102,12 @@ def kaydet(veri: dict) -> None:
 _ROBOT = re.compile(r"^(great|interesting|fascinating|love this|absolutely|indeed|certainly|this is a|what a great|"
                     r"wow,)\b|\b(says a lot|speaks volumes|a testament to|it'?s worth noting|our numbers have)\b",
                     re.IGNORECASE)
+
+
+def buyuk_harfle(t: str) -> str:
+    """Taslak büyük harfle başlar (14 Ekim: sahibi küçük harfle başlayanları hata sandı)."""
+    t = t.strip()
+    return t[:1].upper() + t[1:] if t[:1].islower() else t
 
 
 def uygun(taslak: str, kaynak: str) -> bool:
@@ -128,7 +134,7 @@ def taslaklar(yorum: dict, hesap: str, client=None, ayar=None, yaz=print) -> tup
     except Exception as e:
         yaz(f"Yorum kiti: taslak yazılamadı ({e}); hazır kalıplar kullanıldı.")
         return YEDEK, "", False
-    iyi = [t.strip() for t in cevap.get("taslaklar") or [] if uygun(t.strip(), kaynak)][:2]
+    iyi = [buyuk_harfle(t) for t in cevap.get("taslaklar") or [] if uygun(t.strip(), kaynak)][:2]
     return (iyi or YEDEK), (cevap.get("not") or "").strip(), bool(cevap.get("spam"))
 
 
@@ -149,7 +155,9 @@ def taslak_satirlari(tweet_id: str, taslaklar: list[str], ekler: list[tuple[str,
 
 
 def bildirim(yorum: dict, taslak: list[str], not_: str, spam: bool, hesap_adi: str) -> str:
-    satirlar = [f"### 💬 @{yorum.get('kullanici') or '?'} → @{hesap_adi}",
+    satirlar = ([f"⚠️ **Önce X'te @{hesap_adi} hesabına geç** (bağlantı açık olan hesapla açılır)", ""]
+                if hesap_adi.lower() != "kalkylerat" else []) + [
+                f"### 💬 @{yorum.get('kullanici') or '?'} → @{hesap_adi}",
                 f"> {(yorum.get('metin') or '').strip()}".replace("\n", "\n> "), ""]
     if yorum.get("bizim"):
         satirlar += [f"<sub>Bizim post: {yorum['bizim'][:160].replace(chr(10), ' ')}…</sub>", ""]

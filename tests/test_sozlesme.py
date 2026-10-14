@@ -577,6 +577,8 @@ def test_D3_ayni_saatin_aramasi_iki_hesaba_bir_kez(tmp_path, monkeypatch):
     assert firsat.kontrol(X(), gh1, AYAR, None, simdi, client=object()) == 4
     assert firsat.kontrol(X(), gh2, AYAR, None, simdi, client=object(), hesap="likely") == 2  # kalan 2 post
     assert X.aramalar == 1  # ücret bir kez
+    assert "**1.** Fair play to them" in gh1.mesaj  # taslak büyük harfle başlar
+    assert "Önce X'te Mr. Likely hesabına geç" in gh2.mesaj and "hesabına geç" not in gh1.mesaj
     assert not set(re.findall(r"status/(\d)\)", gh1.mesaj)) & set(re.findall(r"status/(\d)\)", gh2.mesaj))
 
 

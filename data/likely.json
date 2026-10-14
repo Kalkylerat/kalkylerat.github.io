@@ -14416,7 +14416,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 1
+     "no": 1,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1643266-CSX2",
@@ -14436,7 +14437,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 2
+     "no": 2,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1495976-CS12",
@@ -14616,7 +14618,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 11
+     "no": 11,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1635674-CS12",
@@ -15257,7 +15260,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 43
+     "no": 43,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1635665-EVU05",
@@ -15877,7 +15881,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 74
+     "no": 74,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1643269-IYU05",
@@ -15897,7 +15902,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 75
+     "no": 75,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1495978-CS1X",
@@ -15957,7 +15963,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 78
+     "no": 78,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1641824-IYA15",
@@ -16368,7 +16375,7 @@
      "zaman": "2026-10-14T10:45:15+00:00"
     }
    ],
-   "olcum_sorgu": "2026-10-14T11:49:27+00:00"
+   "olcum_sorgu": "2026-10-14T12:50:58+00:00"
   }
  ]
 }

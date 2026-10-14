@@ -4,6 +4,9 @@
   değişiklik bir maddeyi bozacaksa önce sahibine sor; onay gelirse sırayla SOZLESME.md, `tests/test_sozlesme.py`, kod.
 - Her değişiklikten sonra `python -m pytest -q` (sözleşme testleri dahil) yeşil olmalı; kırmızıysa gönderme.
 - Sahibiyle Türkçe konuş; postlar İngilizce.
+- **Maliyet kuralı (sahibinin isteği):** performansı ve doğruluğu düşürmeden en ucuz yöntem. Ücretli her çağrıyı (X okuma/
+  yazma, Claude, API-Football) eklemeden önce günlük maliyetini hesapla; aynı veriyi iki kez okuma (önbellek, ortak
+  arama), boş dönen sorguları tercih et, Claude sistem metnini önbellekte tut. Ucuzlatmak için kaliteden ödün verme.
 - X kuralları (SOZLESME.md D bölümü) her öneride önce kontrol edilir: otomatik takip/beğeni/başkalarına yanıt yok.
 - Büyüme ve içerik soruları için `.claude/skills/sosyal-medya/SKILL.md`.
 - Saatlik sağlık kontrolü, alarmlar, workflow'lar ve paylaşım zamanlaması için `.claude/skills/nobet/SKILL.md`

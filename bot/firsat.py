@@ -13,7 +13,7 @@ import tomllib
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 
-from . import config
+from . import config, kopya
 from .yorum import INSAN_SESI
 
 ETIKET = "yorum-firsatlari"
@@ -218,7 +218,7 @@ def bildirim(post: dict, mac: dict | None, taslak: list[str], sira: int, kart: s
                 f"👀 [Postu gör](https://x.com/{post.get('kullanici') or 'i'}/status/{post['id']})"
                 + (f" · maç: {mac['ev']} v {mac['dep']}" if mac else ""), ""]
     ekler = [(ek_adi, f"{taslak[0]}\n\n{kart}")] if kart and taslak else []
-    satirlar += taslak_satirlari(post["id"], taslak, ekler)
+    satirlar += taslak_satirlari(taslak, ekler)
     return "\n".join(satirlar).rstrip()
 
 
@@ -286,15 +286,24 @@ def kontrol(x, gh, ayar, gun: dict | None, simdi: datetime, client, yaz=print, h
             govde = ((f"@{ayar.alarm_kime} " if getattr(ayar, "alarm_kime", "") else "")
                      + f"Bugünün {ADLAR[hesap]} yorum fırsatları (günde {gunluk}, ayar: `ayarlar.toml` → `[buyume]`). "
                      f"**Bu cevapları {ADLAR[hesap]} hesabından at.** Büyük hesapların son saatlerdeki postları ve her "
-                     "birine 2 taslak. **✍️ Bu cevapla aç**'a dokun: X'te cevap hazır açılır, istersen düzelt, Gönder'e "
-                     "sen basarsın. Ek seçenek (kart/kupon postu) günde birkaç kez, her cevapta değil (reklam gibi "
+                     "birine 2 taslak. **📋 Kopyala ve postu aç** sayfasında taslağın düğmesine dokun: metin panoya kopyalanır, "
+                     "post X'te açılır; Yanıtla'ya dokun, yapıştır, gönder. Ek seçenek (kart/kupon postu) günde birkaç kez, her cevapta değil (reklam gibi "
                      "görünmesin). Fırsat gelir gelmez cevaplamak en iyisi (ilk 30–60 dakika); yanıtları aralıklı at.")
             h["issue"] = {"tarih": tarih, "no": gh.issue_ac(f"🚀 Yorum fırsatları {ADLAR[hesap]} {tarih}", govde,
                                                             ETIKETLER[hesap])}
+        from .yorum import HESAP_UYARISI, sayfa_ogesi
         bas = h["gonderilen"]
+        uyari = HESAP_UYARISI.format(ad="Mr. Likely") if hesap == "likely" else ""
+        ogeler = [sayfa_ogesi(f"{bas + i}. @{p.get('kullanici') or '?'}" + (f" · {mac['ev']} v {mac['dep']}" if mac else ""),
+                              p["metin"], f"https://x.com/{p.get('kullanici') or 'i'}/status/{p['id']}", t,
+                              [(etiket_adi, f"{t[0]}\n\n{ek}")] if ek else [])
+                  for i, (p, mac, t, ek) in enumerate(gonderilen, 1)]
+        sayfa = kopya.sayfa_yaz(f"firsat-{hesap}-{saat}.html", f"Yorum fırsatları {ADLAR[hesap]} · {saat}:00 UTC",
+                                ogeler, simdi, uyari)
         gh.yorum(h["issue"]["no"], (f"@{ayar.alarm_kime} " if getattr(ayar, "alarm_kime", "") else "")
                  + f"**{saat}:00 UTC fırsatları ({ADLAR[hesap]})**\n\n"
-                 + ("⚠️ **Önce X'te Mr. Likely hesabına geç** (bağlantılar açık olan hesapla açılır)\n\n" if hesap == "likely" else "")
+                 + (f"{uyari}\n\n" if uyari else "")
+                 + f"📋 **[Kopyala ve postu aç]({sayfa})** (her taslağın düğmesi orada; sayfa 1–2 dakikada hazır olur)\n\n"
                  + "\n\n".join(bildirim(p, mac, t, bas + i, ek, etiket_adi)
                                  for i, (p, mac, t, ek) in enumerate(gonderilen, 1)))
         h["gonderilen"] += len(gonderilen)

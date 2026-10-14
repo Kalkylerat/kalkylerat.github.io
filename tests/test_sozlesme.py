@@ -485,11 +485,14 @@ def test_D3_yorum_firsatlari_yalnizca_taslak(tmp_path, monkeypatch):
     m = gh.yorumlar[0]
     assert m.index("x.com/OptaJoe/status/1") < m.index("x.com/FabrizioRomano/status/2")  # bizim maçı geçen önce
     assert "France 47% to win" in m and "99%" not in m and "follow us" not in m and "status/3" not in m
-    # Tek dokunuşla cevap: X cevap penceresi taslak yazılı açılır (kopyalama yok); gönderen sahibi
-    from urllib.parse import parse_qs, urlparse
-    linkler = re.findall(r"\((https://x\.com/intent/tweet\?[^)]+)\)", m)
-    q = parse_qs(urlparse(linkler[0]).query)
-    assert q["in_reply_to"] == ["1"] and q["text"][0].startswith("Fits our numbers too: France 47%")
+    # Kopyalama sayfası: taslak panoya, post X'te açılır; X intent yok (14 Ekim: Android cevabı ayrı post attı)
+    from bot import kopya
+    assert "intent/tweet" not in m and "https://kalkylerat.github.io/kit/2026-10-03/firsat-kalkylerat-10.html" in m
+    sayfa = (kopya.KLASOR / "2026-10-03" / "firsat-kalkylerat-10.html").read_text(encoding="utf-8")
+    veri = json.loads(re.search(r"const V = (\[.*?\]);", sayfa, re.S).group(1))
+    assert veri[0] == {"metin": "Fits our numbers too: France 47% to win this one. Strong home record.",
+                       "url": "https://x.com/OptaJoe/status/1"}
+    assert "navigator.clipboard" in sayfa and "<script>alert" not in sayfa
     assert "kalkylerat/status" not in m  # kart postu paylaşılmadıysa kartlı seçenek yok
     assert firsat.kontrol(x, gh, AYAR, gun, simdi + timedelta(minutes=30), client=object()) == 0 and x.aramalar == 1
     # 16:00: görülenler (1, 2) tekrar gelmez; 3 uygunsuz (üzücü haber); 4 gelir; günlük sınır (3) doldu
@@ -507,7 +510,10 @@ def test_D3_yorum_firsatlari_yalnizca_taslak(tmp_path, monkeypatch):
     gun["etkilesim"] = {"analiz_0": {"durum": "paylasildi", "tweet_id": "777"}}
     assert firsat.kart_postu(gun, gun["analizler"][0]) == "https://x.com/kalkylerat/status/777"
     kartli = firsat.bildirim(postlar[0], gun["analizler"][0], ["Nice stat."], 1, firsat.kart_postu(gun, gun["analizler"][0]))
-    assert "🖼️ Kartımızla" in kartli and parse_qs(urlparse(re.findall(r"\((https://x\.com/intent/tweet\?[^)]+)\)", kartli)[-1]).query)["text"] == ["Nice stat.\n\nhttps://x.com/kalkylerat/status/777"]
+    assert "🖼️ Kartımızla" in kartli and "(+ post bağlantısı)" in kartli
+    from bot.yorum import sayfa_ogesi
+    yorum_ = sayfa_ogesi("k", "p", "u", ["Nice stat."], [("🖼️", "Nice stat.\n\nhttps://x.com/kalkylerat/status/777")])
+    assert yorum_["taslaklar"][-1][1] == "Nice stat.\n\nhttps://x.com/kalkylerat/status/777"  # kopyalanan metinde bağlantı var
     assert len(firsat.sorgu(firsat.BuyumeAyar().hesaplar * 3)) <= 512
 
 
@@ -550,7 +556,9 @@ def test_D3_mr_likely_yorum_firsatlari(tmp_path, monkeypatch):
     m = gh.yorumlar[0]
     assert "status/1" not in m  # @kalkylerat'a önerilmiş post Mr. Likely'ye önerilmez
     assert "nervous" in m and "Tail my coupon" not in m and "🎩 Kuponla" in m
-    assert "https%3A%2F%2Fx.com%2FMrlikelyx%2Fstatus%2F555" in m  # kupon postu cevaba eklenir
+    from bot import kopya
+    sayfa = __import__("html").unescape((kopya.KLASOR / "2026-10-03" / "firsat-likely-11.html").read_text(encoding="utf-8"))
+    assert "https://x.com/Mrlikelyx/status/555" in sayfa and "Önce X'te Mr. Likely hesabına geç" in sayfa  # kupon postu kopyalanan metinde
     assert m.count("🎩 Kuponla") == 1  # kupon ayağı olmayan maçta (Belçika) kuponla seçeneği yok
     assert all('Mr. Likely speaks as "I"' in s_ for s_ in sistemler)
     veri = firsat.yukle()

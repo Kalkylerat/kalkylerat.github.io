@@ -7,10 +7,9 @@ yasaklar (D3). Okuma ücretlidir (dönen post başına): gündüz 30 dakikada bi
 
 import json
 import re
-from urllib.parse import quote
 from datetime import datetime, timedelta
 
-from . import config
+from . import config, kopya
 
 ETIKETLER = {"kalkylerat": "yorum-kiti", "likely": "yorum-kiti-likely"}  # hesap başına: günlük issue, eskisi kapanır
 DOSYA = config.ROOT / "data" / "yorumlar.json"
@@ -138,34 +137,34 @@ def taslaklar(yorum: dict, hesap: str, client=None, ayar=None, yaz=print) -> tup
     return (iyi or YEDEK), (cevap.get("not") or "").strip(), bool(cevap.get("spam"))
 
 
-def cevap_linki(tweet_id: str, metin: str) -> str:
-    """X'in cevap penceresini taslak yazılmış halde açan bağlantı (web intent): telefonda tek dokunuş, kopyalama yok.
-    Gönder düğmesine sahibi basar; bot hiçbir şey paylaşmaz (D3)."""
-    return f"https://x.com/intent/tweet?in_reply_to={tweet_id}&text={quote(metin, safe='')}"
+HESAP_UYARISI = "⚠️ Önce X'te {ad} hesabına geç: post X'te açık olan hesapla açılır."
 
 
-def taslak_satirlari(tweet_id: str, taslaklar: list[str], ekler: list[tuple[str, str]] = ()) -> list[str]:
-    """Her taslak: metni görünür, altında "bu cevapla aç" bağlantısı. ekler: (etiket, metin) ek seçenekler."""
-    satirlar = []
-    for n, t in enumerate(taslaklar, 1):
-        satirlar += [f"**{n}.** {t}", f"[✍️ Bu cevapla aç]({cevap_linki(tweet_id, t)})", ""]
-    for etiket, t in ekler:  # ek seçenekte bağlantı (ör. kart postumuz) metinde gösterilmez, cevaba eklenir
-        satirlar += [f"**{etiket}** {t.split(chr(10) + chr(10))[0]}", f"[✍️ Bu cevapla aç]({cevap_linki(tweet_id, t)})", ""]
-    return satirlar
+def taslak_satirlari(taslaklar: list[str], ekler: list[tuple[str, str]] = ()) -> list[str]:
+    """Bildirimde taslakların görünür hali (kopyalama sayfaya: 📋 bağlantısı). ekler: (etiket, metin) ek seçenekler;
+    ekteki bağlantı (ör. kart postumuz) metinde gösterilmez, kopyalanan metinde vardır."""
+    satirlar = [f"**{n}.** {t}" for n, t in enumerate(taslaklar, 1)]
+    satirlar += [f"**{etiket}** {t.split(chr(10) + chr(10))[0]} *(+ post bağlantısı)*" for etiket, t in ekler]
+    return [x for s in satirlar for x in (s, "")]
 
 
-def bildirim(yorum: dict, taslak: list[str], not_: str, spam: bool, hesap_adi: str) -> str:
-    satirlar = ([f"⚠️ **Önce X'te @{hesap_adi} hesabına geç** (bağlantı açık olan hesapla açılır)", ""]
-                if hesap_adi.lower() != "kalkylerat" else []) + [
+def sayfa_ogesi(kim: str, post: str, url: str, taslaklar: list[str], ekler=(), not_: str = "") -> dict:
+    return {"kim": kim, "post": post, "url": url, "not": not_,
+            "taslaklar": [(f"{n}. taslak", t) for n, t in enumerate(taslaklar, 1)] + list(ekler)}
+
+
+def bildirim(yorum: dict, taslak: list[str], not_: str, spam: bool, hesap_adi: str, sayfa: str | None = None) -> str:
+    satirlar = ([HESAP_UYARISI.format(ad="@" + hesap_adi), ""] if hesap_adi.lower() != "kalkylerat" else []) + [
                 f"### 💬 @{yorum.get('kullanici') or '?'} → @{hesap_adi}",
                 f"> {(yorum.get('metin') or '').strip()}".replace("\n", "\n> "), ""]
     if yorum.get("bizim"):
         satirlar += [f"<sub>Bizim post: {yorum['bizim'][:160].replace(chr(10), ' ')}…</sub>", ""]
     if not_:
         satirlar += [f"📝 {not_}" + (" (spam gibi)" if spam and "cevap vermesen" not in not_ else ""), ""]
-    satirlar += [f"👀 [Yorumu X'te gör](https://x.com/i/web/status/{yorum['id']})", "",
-                 "Taslaklar: **✍️ Bu cevapla aç**'a dokun, X'te cevap hazır açılır; istersen düzelt, Gönder'e bas.", ""]
-    satirlar += taslak_satirlari(yorum["id"], taslak)
+    if sayfa:
+        satirlar += [f"📋 **[Kopyala ve yorumu aç]({sayfa})** (sayfa 1–2 dakikada hazır olur)", ""]
+    satirlar += [f"👀 [Yorumu X'te gör](https://x.com/i/web/status/{yorum['id']})", ""]
+    satirlar += taslak_satirlari(taslak)
     return "\n".join(satirlar).rstrip()
 
 
@@ -190,14 +189,19 @@ def kontrol(x, gh, ayar, simdi: datetime, hesap: str = "kalkylerat", client=None
     if (h.get("issue") or {}).get("tarih") != tarih:
         govde = ((f"@{ayar.alarm_kime} " if getattr(ayar, "alarm_kime", "") else "")
                  + f"Bugün @{h['kullanici']} postlarına gelen yorumlar ve etiketlemeler. Her biri için 2 hazır cevap: "
-                 "**✍️ Bu cevapla aç**'a dokun, X'te cevap hazır açılır, Gönder'e sen basarsın. Bot hiçbir zaman "
+                 "**📋 Kopyala ve yorumu aç**'a dokun: cevap panoya kopyalanır, yorum X'te açılır; Yanıtla, yapıştır, gönder. Bot hiçbir zaman "
                  "kendisi cevap atmaz (X kuralı). Aynı metni iki kişiye gönderme.")
         h["issue"] = {"tarih": tarih, "no": gh.issue_ac(f"💬 Yorumlar @{h['kullanici']} {tarih}", govde,
                                                          ETIKETLER.get(hesap, "yorum-kiti"))}
     for t in yeni:
         taslak, not_, spam = taslaklar(t, hesap, client, ayar, yaz)
+        url = f"https://x.com/i/web/status/{t['id']}"
+        sayfa = kopya.sayfa_yaz(f"yorum-{hesap}-{t['id']}.html", f"Yorum: @{t.get('kullanici') or '?'}",
+                                [sayfa_ogesi(f"@{t.get('kullanici') or '?'} → @{h['kullanici']}", t.get("metin") or "",
+                                             url, taslak, not_=not_)], simdi,
+                                HESAP_UYARISI.format(ad="@" + h["kullanici"]) if hesap != "kalkylerat" else "")
         gh.yorum(h["issue"]["no"], (f"@{ayar.alarm_kime} " if getattr(ayar, "alarm_kime", "") else "")
-                 + bildirim(t, taslak, not_, spam, h["kullanici"]))
+                 + bildirim(t, taslak, not_, spam, h["kullanici"], sayfa))
         h["since_id"] = t["id"]
         kaydet(veri)  # bildirildi: tekrar gelmesin
     yaz(f"Yorum kiti (@{h['kullanici']}): {len(yeni)} yeni yorum bildirildi.")

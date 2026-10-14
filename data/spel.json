@@ -68787,11 +68787,527 @@
         "tweet_id": "2110395110542447066",
         "zaman": "2026-10-14T15:39:34+00:00",
         "metin": "🆚 Slovan Bratislava v VfB Stuttgart\n\n🏆 Slovan Bratislava 11% · Draw 15% · VfB Stuttgart 74%\n⚽ Over 2.5 goals 71% · Under 29%\n🥅 Both teams score 57% · Not both 43%\n\n📈 Team stats: too few recent games\n\n💬 Not picks. More or fewer than 2.5 goals? 👇\n#UCL\n18+ | Play responsibly"
+      },
+      "tablo_aksam": {
+        "durum": "paylasildi",
+        "tweet_id": "2110400802795684199",
+        "zaman": "2026-10-14T16:02:03+00:00",
+        "metin": "📋 Today's chances, not picks · every % in the image\n\n🆚 CSKA Moscow v FC Rostov · 19:45 CEST\n🏆 CSKA Moscow 59% · Draw 23% · FC Rostov 18%\n⚽ Over 2.5 goals 51% · Under 49%\n🎯 Likeliest score 1-0 (12%)\n\n💬 Which % surprises you? 👇\n\n18+ | Play responsibly",
+        "maclar": [
+          1563660,
+          1613966,
+          1641824,
+          1630367,
+          1616413,
+          1596011
+        ],
+        "sonuclar": {}
       }
     },
     "yanit_kiti": {
       "issue": 62,
       "zaman": "2026-10-14T07:01:37+00:00"
-    }
+    },
+    "tablo_aksam": [
+      {
+        "fixture_id": 1563660,
+        "lig": "Cup",
+        "ulke": "Russia",
+        "lig_id": 237,
+        "ev": "CSKA Moscow",
+        "dep": "FC Rostov",
+        "baslama": "2026-10-14T19:45:00+02:00",
+        "p": {
+          "MS1": 0.586,
+          "MSX": 0.229,
+          "MS2": 0.185,
+          "CS1X": 0.815,
+          "CSX2": 0.414,
+          "CS12": 0.771,
+          "KGVAR": 0.495,
+          "KGYOK": 0.505,
+          "UST15": 0.751,
+          "ALT15": 0.249,
+          "UST25": 0.506,
+          "ALT25": 0.494,
+          "UST35": 0.286,
+          "ALT35": 0.714,
+          "IY1": 0.426,
+          "IYX": 0.402,
+          "IY2": 0.172,
+          "IYU05": 0.703,
+          "IYA05": 0.297,
+          "IYU15": 0.343,
+          "IYA15": 0.657,
+          "EVU05": 0.835,
+          "EVA05": 0.165,
+          "EVU15": 0.537,
+          "EVA15": 0.463,
+          "EVU25": 0.269,
+          "EVA25": 0.731,
+          "DPU05": 0.593,
+          "DPA05": 0.407,
+          "DPU15": 0.228,
+          "DPA15": 0.772,
+          "DPU25": 0.063,
+          "DPA25": 0.937,
+          "YYU05": 0.773,
+          "YYA05": 0.227,
+          "YYU15": 0.437,
+          "YYA15": 0.563
+        },
+        "skorlar": [
+          [
+            "1-0",
+            0.121
+          ],
+          [
+            "1-1",
+            0.1089
+          ],
+          [
+            "2-0",
+            0.1089
+          ],
+          [
+            "2-1",
+            0.098
+          ],
+          [
+            "0-0",
+            0.0672
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [],
+        "beklenen_gol": [
+          1.8,
+          0.9
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": null
+      },
+      {
+        "fixture_id": 1613966,
+        "lig": "Tercera División RFEF - Group 5",
+        "ulke": "Spain",
+        "lig_id": 443,
+        "ev": "Cornellà",
+        "dep": "Peralada",
+        "baslama": "2026-10-14T20:00:00+02:00",
+        "p": {
+          "MS1": 0.551,
+          "MSX": 0.245,
+          "MS2": 0.205,
+          "CS1X": 0.795,
+          "CSX2": 0.449,
+          "CS12": 0.755,
+          "KGVAR": 0.479,
+          "KGYOK": 0.521,
+          "UST15": 0.723,
+          "ALT15": 0.277,
+          "UST25": 0.469,
+          "ALT25": 0.531,
+          "UST35": 0.253,
+          "ALT35": 0.747,
+          "IY1": 0.398,
+          "IYX": 0.42,
+          "IY2": 0.182,
+          "IYU05": 0.683,
+          "IYA05": 0.317,
+          "IYU15": 0.318,
+          "IYA15": 0.682,
+          "EVU05": 0.808,
+          "EVA05": 0.192,
+          "EVU15": 0.491,
+          "EVA15": 0.509,
+          "EVU25": 0.23,
+          "EVA25": 0.77,
+          "DPU05": 0.593,
+          "DPA05": 0.407,
+          "DPU15": 0.228,
+          "DPA15": 0.772,
+          "DPU25": 0.063,
+          "DPA25": 0.937,
+          "YYU05": 0.754,
+          "YYA05": 0.246,
+          "YYU15": 0.409,
+          "YYA15": 0.591
+        },
+        "skorlar": [
+          [
+            "1-0",
+            0.1288
+          ],
+          [
+            "1-1",
+            0.116
+          ],
+          [
+            "2-0",
+            0.1063
+          ],
+          [
+            "2-1",
+            0.0957
+          ],
+          [
+            "0-0",
+            0.0781
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [],
+        "beklenen_gol": [
+          1.65,
+          0.9
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": null
+      },
+      {
+        "fixture_id": 1641824,
+        "lig": "Taça de Portugal",
+        "ulke": "Portugal",
+        "lig_id": 96,
+        "ev": "União Santarém",
+        "dep": "GIL Vicente",
+        "baslama": "2026-10-14T20:00:00+02:00",
+        "p": {
+          "MS1": 0.146,
+          "MSX": 0.219,
+          "MS2": 0.635,
+          "CS1X": 0.365,
+          "CSX2": 0.854,
+          "CS12": 0.781,
+          "KGVAR": 0.445,
+          "KGYOK": 0.555,
+          "UST15": 0.733,
+          "ALT15": 0.267,
+          "UST25": 0.482,
+          "ALT25": 0.518,
+          "UST35": 0.264,
+          "ALT35": 0.736,
+          "IY1": 0.142,
+          "IYX": 0.404,
+          "IY2": 0.454,
+          "IYU05": 0.69,
+          "IYA05": 0.31,
+          "IYU15": 0.326,
+          "IYA15": 0.673,
+          "EVU05": 0.528,
+          "EVA05": 0.472,
+          "EVU15": 0.173,
+          "EVA15": 0.827,
+          "EVU25": 0.041,
+          "EVA25": 0.959,
+          "DPU05": 0.843,
+          "DPA05": 0.157,
+          "DPU15": 0.552,
+          "DPA15": 0.448,
+          "DPU25": 0.283,
+          "DPA25": 0.717,
+          "YYU05": 0.761,
+          "YYA05": 0.239,
+          "YYU15": 0.418,
+          "YYA15": 0.582
+        },
+        "skorlar": [
+          [
+            "0-1",
+            0.1374
+          ],
+          [
+            "0-2",
+            0.1271
+          ],
+          [
+            "1-1",
+            0.1031
+          ],
+          [
+            "1-2",
+            0.0953
+          ],
+          [
+            "0-3",
+            0.0784
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [],
+        "beklenen_gol": [
+          0.75,
+          1.85
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": null
+      },
+      {
+        "fixture_id": 1630367,
+        "lig": "AFC Champions League Two",
+        "ulke": "World",
+        "lig_id": 18,
+        "ev": "Al Faisaly",
+        "dep": "Al-Nahda",
+        "baslama": "2026-10-14T20:15:00+02:00",
+        "p": {
+          "MS1": 0.441,
+          "MSX": 0.255,
+          "MS2": 0.304,
+          "CS1X": 0.696,
+          "CSX2": 0.559,
+          "CS12": 0.745,
+          "KGVAR": 0.543,
+          "KGYOK": 0.457,
+          "UST15": 0.751,
+          "ALT15": 0.249,
+          "UST25": 0.506,
+          "ALT25": 0.494,
+          "UST35": 0.286,
+          "ALT35": 0.714,
+          "IY1": 0.335,
+          "IYX": 0.415,
+          "IY2": 0.25,
+          "IYU05": 0.703,
+          "IYA05": 0.297,
+          "IYU15": 0.343,
+          "IYA15": 0.657,
+          "EVU05": 0.777,
+          "EVA05": 0.223,
+          "EVU15": 0.442,
+          "EVA15": 0.558,
+          "EVU25": 0.191,
+          "EVA25": 0.809,
+          "DPU05": 0.699,
+          "DPA05": 0.301,
+          "DPU15": 0.337,
+          "DPA15": 0.663,
+          "DPU25": 0.121,
+          "DPA25": 0.879,
+          "YYU05": 0.773,
+          "YYA05": 0.227,
+          "YYU15": 0.437,
+          "YYA15": 0.563
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.121
+          ],
+          [
+            "1-0",
+            0.1008
+          ],
+          [
+            "2-1",
+            0.0907
+          ],
+          [
+            "0-1",
+            0.0806
+          ],
+          [
+            "2-0",
+            0.0756
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [],
+        "beklenen_gol": [
+          1.5,
+          1.2
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": null
+      },
+      {
+        "fixture_id": 1616413,
+        "lig": "Tercera División RFEF - Group 13",
+        "ulke": "Spain",
+        "lig_id": 451,
+        "ev": "Balsicas Atlético",
+        "dep": "Bullas Deportivo",
+        "baslama": "2026-10-14T20:30:00+02:00",
+        "p": {
+          "MS1": 0.324,
+          "MSX": 0.279,
+          "MS2": 0.397,
+          "CS1X": 0.603,
+          "CSX2": 0.676,
+          "CS12": 0.721,
+          "KGVAR": 0.476,
+          "KGYOK": 0.524,
+          "UST15": 0.681,
+          "ALT15": 0.319,
+          "UST25": 0.417,
+          "ALT25": 0.583,
+          "UST35": 0.211,
+          "ALT35": 0.789,
+          "IY1": 0.252,
+          "IYX": 0.451,
+          "IY2": 0.297,
+          "IYU05": 0.653,
+          "IYA05": 0.347,
+          "IYU15": 0.285,
+          "IYA15": 0.715,
+          "EVU05": 0.667,
+          "EVA05": 0.333,
+          "EVU15": 0.301,
+          "EVA15": 0.699,
+          "EVU25": 0.1,
+          "EVA25": 0.9,
+          "DPU05": 0.713,
+          "DPA05": 0.287,
+          "DPU15": 0.355,
+          "DPA15": 0.645,
+          "DPU25": 0.132,
+          "DPA25": 0.868,
+          "YYU05": 0.725,
+          "YYA05": 0.275,
+          "YYU15": 0.371,
+          "YYA15": 0.629
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1311
+          ],
+          [
+            "0-1",
+            0.1192
+          ],
+          [
+            "1-0",
+            0.1049
+          ],
+          [
+            "0-0",
+            0.0954
+          ],
+          [
+            "1-2",
+            0.082
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [],
+        "beklenen_gol": [
+          1.1,
+          1.25
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": null
+      },
+      {
+        "fixture_id": 1596011,
+        "lig": "Non League Premier - Isthmian",
+        "ulke": "England",
+        "lig_id": 58,
+        "ev": "Whyteleafe",
+        "dep": "Whitehawk",
+        "baslama": "2026-10-14T20:45:00+02:00",
+        "p": {
+          "MS1": 0.469,
+          "MSX": 0.234,
+          "MS2": 0.297,
+          "CS1X": 0.703,
+          "CSX2": 0.531,
+          "CS12": 0.766,
+          "KGVAR": 0.612,
+          "KGYOK": 0.388,
+          "UST15": 0.815,
+          "ALT15": 0.185,
+          "UST25": 0.599,
+          "ALT25": 0.401,
+          "UST35": 0.375,
+          "ALT35": 0.625,
+          "IY1": 0.363,
+          "IYX": 0.381,
+          "IY2": 0.255,
+          "IYU05": 0.752,
+          "IYA05": 0.248,
+          "IYU15": 0.406,
+          "IYA15": 0.594,
+          "EVU05": 0.826,
+          "EVA05": 0.174,
+          "EVU15": 0.522,
+          "EVA15": 0.478,
+          "EVU25": 0.256,
+          "EVA25": 0.744,
+          "DPU05": 0.741,
+          "DPA05": 0.259,
+          "DPU15": 0.391,
+          "DPA15": 0.609,
+          "DPU25": 0.155,
+          "DPA25": 0.845,
+          "YYU05": 0.818,
+          "YYA05": 0.182,
+          "YYU15": 0.508,
+          "YYA15": 0.492
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1064
+          ],
+          [
+            "2-1",
+            0.0931
+          ],
+          [
+            "1-0",
+            0.0788
+          ],
+          [
+            "1-2",
+            0.0718
+          ],
+          [
+            "2-0",
+            0.069
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Whyteleafe win",
+            "piyasa": 0.469,
+            "istatistik": 0.588
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Whitehawk win",
+            "piyasa": 0.297,
+            "istatistik": 0.213
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.599,
+            "istatistik": 0.688
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.612,
+            "istatistik": 0.651
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.234,
+            "istatistik": 0.198
+          }
+        ],
+        "beklenen_gol": [
+          1.75,
+          1.35
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      }
+    ]
   }
 ]

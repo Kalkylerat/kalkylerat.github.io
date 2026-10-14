@@ -60,6 +60,14 @@ are posted too."""
 SISTEM = f"""You draft replies that the account owner will read, edit and post BY HAND on X. You never post anything.
 Write 2 different short reply drafts to the comment below, in the account's voice, in plain English.
 
+First read the whole conversation in order: what the original post said, what WE said, and what THEY are
+answering. Your reply must make sense as the next message in that exact thread:
+- Answer what they actually said. If they push back on something we said, take it gracefully (agree where fair,
+  soften if we were too harsh: "fair, that was a bit harsh from me"). Never double down, never argue.
+- Respect time: check "now_utc" and the match status. Never ask whether they watched a match that hasn't been
+  played, never talk about a result that doesn't exist yet.
+- If they talk about another account (e.g. the original poster), don't judge that account either way.
+
 Hard rules:
 - Max 200 characters each. No links, no "@" mentions, no hashtags, no emojis except at most one.
 - Use only facts from our post and the comment. Never invent stats, news, line-ups or results. Never name a
@@ -118,15 +126,45 @@ def uygun(taslak: str, kaynak: str) -> bool:
         and not re.search(r"\b(picks?|tips?|bet now|for sure|were right|right about)\b", taslak, re.IGNORECASE) and sayilar_dogru(taslak, kaynak)
 
 
-def taslaklar(yorum: dict, hesap: str, client=None, ayar=None, yaz=print) -> tuple[list[str], str, bool]:
+def konusma(yorum: dict, hesap_adi: str) -> list[dict]:
+    """Konuşma sırayla: (varsa) bizim cevap verdiğimiz post, bizim post, gelen yorum. Taslak bütün konuşmaya uymalı
+    (14 Ekim: yalnızca bizim post + yorum görülünce oynanmamış maç için "izledin mi?" diye soruldu)."""
+    adimlar = []
+    if yorum.get("ust"):
+        adimlar.append({"who": f"@{yorum.get('ust_kullanici') or '?'} (the post we replied to)", "text": yorum["ust"]})
+    adimlar.append({"who": f"@{hesap_adi} (us)", "text": yorum.get("bizim") or "(not available: they may have mentioned us)"})
+    adimlar.append({"who": f"@{yorum.get('kullanici') or '?'} (the comment to answer now)", "text": yorum.get("metin") or ""})
+    return adimlar
+
+
+def mac_bilgisi(metin: str, gun: dict | None, simdi: datetime) -> dict | None:
+    """Konuşmada adı geçen bugünkü maç: başlama saati, oynandı mı, bizim yüzdeler (taslak "maçı izledin mi?" gibi
+    zamana aykırı bir şey sormasın; rakam gerekiyorsa buradan)."""
+    from .firsat import eslesen_mac, mac_olgulari
+    maclar = (gun or {}).get("analizler") or []
+    a = eslesen_mac(metin, maclar)
+    if not a:
+        return None
+    bas = datetime.fromisoformat(a["baslama"])
+    durum = ("not started yet" if simdi < bas else "probably finished" if simdi > bas + timedelta(hours=2)
+             else "in play right now")
+    return {**mac_olgulari(a), "kickoff_utc": bas.astimezone(simdi.tzinfo).strftime("%H:%M"), "status": durum}
+
+
+def taslaklar(yorum: dict, hesap: str, client=None, ayar=None, yaz=print, gun: dict | None = None,
+              simdi: datetime | None = None, hesap_adi: str = "kalkylerat") -> tuple[list[str], str, bool]:
     """(taslaklar, sahibine not, spam mı). Claude yoksa ya da taslaklar kurala uymazsa hazır kalıplar."""
-    kaynak = (yorum.get("bizim") or "") + "\n" + (yorum.get("metin") or "")
+    adimlar = konusma(yorum, hesap_adi)
+    mac = mac_bilgisi(" ".join(a["text"] for a in adimlar), gun, simdi) if simdi else None
+    kaynak = "\n".join(a["text"] for a in adimlar) + "\n" + json.dumps(mac or {}, ensure_ascii=False)
     if client is None or ayar is None:
         return YEDEK, "", False
     from .direktor import _cagir
     ses = (_likely_sesi() + "\n" + LIKELY_NOTU) if hesap == "likely" else SESLER["kalkylerat"]
-    icerik = json.dumps({"our_post": yorum.get("bizim") or "(not available: the comment may be a mention)",
-                         "comment": yorum.get("metin"), "commenter": yorum.get("kullanici")}, ensure_ascii=False, indent=1)
+    icerik = json.dumps({"conversation_in_order": adimlar,
+                         "now_utc": simdi.strftime("%Y-%m-%d %H:%M") if simdi else None,
+                         "match_in_this_conversation": mac or "(no match of ours found in this conversation)"},
+                        ensure_ascii=False, indent=1)
     try:
         cevap = _cagir(client, [(ayar.direktor_model, "low"), (ayar.claude_model, "low")], ses + "\n\n" + SISTEM,
                        icerik, SEMA, 2000)
@@ -157,8 +195,10 @@ def bildirim(yorum: dict, taslak: list[str], not_: str, spam: bool, hesap_adi: s
     satirlar = ([HESAP_UYARISI.format(ad="@" + hesap_adi), ""] if hesap_adi.lower() != "kalkylerat" else []) + [
                 f"### 💬 @{yorum.get('kullanici') or '?'} → @{hesap_adi}",
                 f"> {(yorum.get('metin') or '').strip()}".replace("\n", "\n> "), ""]
+    if yorum.get("ust"):
+        satirlar += [f"<sub>Asıl post (@{yorum.get('ust_kullanici') or '?'}): {yorum['ust'][:140].replace(chr(10), ' ')}…</sub>", ""]
     if yorum.get("bizim"):
-        satirlar += [f"<sub>Bizim post: {yorum['bizim'][:160].replace(chr(10), ' ')}…</sub>", ""]
+        satirlar += [f"<sub>Bizim cevabımız: {yorum['bizim'][:160].replace(chr(10), ' ')}…</sub>", ""]
     if not_:
         satirlar += [f"📝 {not_}" + (" (spam gibi)" if spam and "cevap vermesen" not in not_ else ""), ""]
     if sayfa:
@@ -168,7 +208,7 @@ def bildirim(yorum: dict, taslak: list[str], not_: str, spam: bool, hesap_adi: s
     return "\n".join(satirlar).rstrip()
 
 
-def kontrol(x, gh, ayar, simdi: datetime, hesap: str = "kalkylerat", client=None, yaz=print) -> int:
+def kontrol(x, gh, ayar, simdi: datetime, hesap: str = "kalkylerat", client=None, yaz=print, gun: dict | None = None) -> int:
     """Yeni yorumları sorar ve sahibine taslaklarla bildirir; bildirilen yorum sayısı. Hiçbir şey paylaşmaz (D3)."""
     veri = yukle()
     h = veri.setdefault(hesap, {})
@@ -193,8 +233,15 @@ def kontrol(x, gh, ayar, simdi: datetime, hesap: str = "kalkylerat", client=None
                  "kendisi cevap atmaz (X kuralı). Aynı metni iki kişiye gönderme.")
         h["issue"] = {"tarih": tarih, "no": gh.issue_ac(f"💬 Yorumlar @{h['kullanici']} {tarih}", govde,
                                                          ETIKETLER.get(hesap, "yorum-kiti"))}
+    try:  # bizim postun cevap verdiği üst postlar, tek istekte (konuşmanın başı; dönen post başına ~$0.005)
+        ustler = x.postlar([t["ust_id"] for t in yeni if t.get("ust_id")]) if any(t.get("ust_id") for t in yeni) else {}
+    except Exception as e:
+        yaz(f"Yorum kiti: üst postlar okunamadı ({e}); konuşmanın başı olmadan yazılıyor.")
+        ustler = {}
     for t in yeni:
-        taslak, not_, spam = taslaklar(t, hesap, client, ayar, yaz)
+        if t.get("ust_id") in ustler:
+            t["ust"], t["ust_kullanici"] = ustler[t["ust_id"]]["metin"], ustler[t["ust_id"]]["kullanici"]
+        taslak, not_, spam = taslaklar(t, hesap, client, ayar, yaz, gun=gun, simdi=simdi, hesap_adi=h["kullanici"])
         url = f"https://x.com/i/web/status/{t['id']}"
         sayfa = kopya.sayfa_yaz(f"yorum-{hesap}-{t['id']}.html", f"Yorum: @{t.get('kullanici') or '?'}",
                                 [sayfa_ogesi(f"@{t.get('kullanici') or '?'} → @{h['kullanici']}", t.get("metin") or "",

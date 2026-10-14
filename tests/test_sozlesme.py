@@ -442,6 +442,42 @@ def test_D3_yorum_kiti_yalnizca_taslak(tmp_path, monkeypatch):
     assert t == ["The market has United at 26%. How would you price it?"] and not_ == "Oranı soruyor." and not spam
 
 
+def test_D3_yorum_kiti_konusmanin_tamamini_ve_zamani_bilir(tmp_path, monkeypatch):
+    """14 Ekim: taslak yalnızca bizim post + yorumu görünce oynanmamış maç için "izledin mi?" diye sordu."""
+    from bot import yorum
+    monkeypatch.setattr(yorum, "DOSYA", tmp_path / "yorumlar.json")
+
+    class X:
+        def __init__(self): self.post_okuma = []
+        def ben(self): return "1", "kalkylerat"
+        def bahsedenler(self, me, since_id=None, baslangic=None):
+            return [{"id": "30", "metin": "They are just lying, all their tweets are City bashing", "yazar": "9",
+                     "kullanici": "fan", "bizim": "Empty seats against the holders for France tonight", "ust_id": "20"}]
+        def postlar(self, idler): self.post_okuma.append(idler); return {"20": {"metin": "France struggling to sell out v Italy", "kullanici": "Footballtweet"}}
+        def gonder(self, *a, **k): pytest.fail("yorum kiti hiçbir şey paylaşmaz")
+
+    class GH:
+        def __init__(self): self.yorumlar = []
+        def issue_ac(self, *a): return 1
+        def yorum(self, no, mesaj): self.yorumlar.append(mesaj)
+
+    giden = []
+    def cagir(client, modeller, sistem, icerik, sema, max_tokens):
+        giden.append((sistem, json.loads(icerik)))
+        return {"taslaklar": ["Fair, that was a bit harsh from me. Hope it's a full house tonight"], "not": "itiraz", "spam": False}
+    monkeypatch.setattr(direktor, "_cagir", cagir)
+    simdi = datetime(2026, 10, 3, 14, 0, tzinfo=UTC)
+    gun = {"analizler": [mac(1, "France", "Italy", saat="19:00")]}
+    x, gh = X(), GH()
+    assert yorum.kontrol(x, gh, AYAR, simdi, client=object(), gun=gun) == 1 and x.post_okuma == [["20"]]
+    sistem, icerik = giden[0]
+    kim = [a["who"] for a in icerik["conversation_in_order"]]
+    assert kim == ["@Footballtweet (the post we replied to)", "@kalkylerat (us)", "@fan (the comment to answer now)"]
+    assert icerik["now_utc"] == "2026-10-03 14:00" and icerik["match_in_this_conversation"]["status"] == "not started yet"
+    assert "Never ask whether they watched a match that hasn't been" in sistem and "Never double down" in sistem
+    assert "Asıl post (@Footballtweet)" in gh.yorumlar[0] and "harsh from me" in gh.yorumlar[0]
+
+
 def test_D3_yorum_firsatlari_yalnizca_taslak(tmp_path, monkeypatch):
     from bot import firsat
     monkeypatch.setattr(firsat, "DOSYA", tmp_path / "firsatlar.json")

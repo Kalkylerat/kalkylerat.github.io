@@ -531,7 +531,7 @@ class XClient:
         """Hesaba gelen yanıtlar ve etiketlemeler (yalnızca okuma; yorum kiti, SÖZLEŞME D3). Her biri: id, metin,
         yazar, kullanici, bizim (yanıtlanan kendi postumuzun metni, varsa)."""
         params = {"max_results": 20, "tweet.fields": "author_id,created_at,referenced_tweets",
-                  "expansions": "author_id,referenced_tweets.id", "user.fields": "username"}
+                  "expansions": "author_id,referenced_tweets.id", "user.fields": "username"}  # bizim postun da üstü
         if since_id:
             params["since_id"] = since_id
         elif baslangic:
@@ -546,10 +546,27 @@ class XClient:
         for t in j.get("data", []):
             hedef = next((ref["id"] for ref in t.get("referenced_tweets") or [] if ref.get("type") == "replied_to"), None)
             bizim = postlar.get(hedef) if hedef else None
+            bizimki = bool(bizim) and bizim.get("author_id", me) == me
+            ust = next((ref["id"] for ref in (bizim or {}).get("referenced_tweets") or []
+                        if ref.get("type") == "replied_to"), None) if bizimki else None
             sonuc.append({"id": t["id"], "metin": t.get("text", ""), "yazar": t.get("author_id"),
                           "kullanici": kullanicilar.get(t.get("author_id")),
-                          "bizim": bizim["text"] if bizim and bizim.get("author_id", me) == me else None})
+                          "bizim": bizim["text"] if bizimki else None, "ust_id": ust})
         return sonuc
+
+    def postlar(self, idler: list[str]) -> dict[str, dict]:
+        """Postların metni ve yazarı, tek istekte (en fazla 100; okuma dönen post başına ücretli). {id: {metin, kullanici}}."""
+        if not idler:
+            return {}
+        r = self.session.get("https://api.x.com/2/tweets", timeout=30, params={
+            "ids": ",".join(list(dict.fromkeys(idler))[:100]), "tweet.fields": "author_id,created_at",
+            "expansions": "author_id", "user.fields": "username"})
+        if r.status_code >= 400:
+            raise RuntimeError(f"X API okuma hatası {r.status_code}: {r.text[:300]}")
+        j = r.json()
+        kullanicilar = {u["id"]: u["username"] for u in (j.get("includes") or {}).get("users", [])}
+        return {t["id"]: {"metin": t.get("text", ""), "kullanici": kullanicilar.get(t.get("author_id"))}
+                for t in j.get("data", [])}
 
     def sil(self, tweet_id: str) -> None:
         r = self.session.delete(f"{self.URL}/{tweet_id}", timeout=30)

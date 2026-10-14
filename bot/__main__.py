@@ -1450,7 +1450,8 @@ def main(argv=None) -> int:
                 try:
                     x_ = istemci()
                     if x_ is not None:
-                        yorum.kontrol(x_, onay.GitHub(), ayar, simdi, hesap=hesap, client=claude, yaz=_ozet_yaz)
+                        yorum.kontrol(x_, onay.GitHub(), ayar, simdi, hesap=hesap, client=claude, yaz=_ozet_yaz,
+                                     gun=kayit.bul(gunler, bugun))
                 except Exception as e:  # okuma hatası paylaşımı etkilemez; sonraki kontrolde yeniden denenir
                     _ozet_yaz(f"⚠️ Yorum kiti ({hesap}) bu turda çalışmadı: {e}")
         if args.komut == "nabiz":

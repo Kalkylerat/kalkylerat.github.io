@@ -62,7 +62,8 @@ Write 2 different short reply drafts to the comment below, in the account's voic
 
 Hard rules:
 - Max 200 characters each. No links, no "@" mentions, no hashtags, no emojis except at most one.
-- Use only facts from our post and the comment. Never invent stats, news, line-ups or results. If a number is needed
+- Use only facts from our post and the comment. Never invent stats, news, line-ups or results. Never name a
+  player or manager who isn't in our post or the comment (squads change; your knowledge may be out of date). If a number is needed
   and it is not in our post, don't use a number.
 - We give chances, not picks: never say pick, tip, lock, guaranteed, sure, bet now, or that we were right or wrong.
 - No betting advice, no bookmaker names. Never argue, never mock. If the comment is hostile, stay calm and short.

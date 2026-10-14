@@ -124,6 +124,8 @@ KURALLAR = """Hard rules:
   or the account (never "strange look", "embarrassing", "struggling"). On controversies (discipline, fines,
   contracts, referees, fan trouble, politics) take no side; if the post is mainly a controversy, set "uygun" false.
 - Say only what is in their post or the facts; if unsure, leave it out. Open and friendly, like talking to a mate.
+- Never name a player, manager or club that isn't in their post or the facts: squads change and your knowledge may
+  be out of date (a wrong name makes the reply look fake).
 - Chances, not picks: never pick, tip, lock, guaranteed, sure, banker. No bookmaker names. Never argue or mock.
 - One draft can end with a short, specific question (conversations get seen); the other doesn't have to.
 Set "uygun" false (and drafts empty) if the post is not about football matches or players, is sad news (injury,

@@ -15228,7 +15228,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 41
+     "no": 41,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1635665-CS12",
@@ -15629,7 +15630,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 61
+     "no": 61,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1611414-CS1X",
@@ -16400,7 +16402,7 @@
      "neden": "Double chance 12 ayağı vardı; yeni kuralla (E6) yeniden seçilecek, paylaşılmadan çıkarıldı"
     }
    ],
-   "olcum_sorgu": "2026-10-14T15:46:24+00:00"
+   "olcum_sorgu": "2026-10-14T16:47:51+00:00"
   }
  ]
 }

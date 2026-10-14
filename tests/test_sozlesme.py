@@ -488,6 +488,11 @@ def test_D3_yorum_firsatlari_yalnizca_taslak(tmp_path, monkeypatch):
     assert "status/4" in gh.yorumlar[1] and "status/1" not in gh.yorumlar[1] and "status/3" not in gh.yorumlar[1]
     assert firsat.kontrol(x, gh, AYAR, gun, simdi.replace(hour=18), client=object()) == 0 and x.aramalar == 2
     assert firsat.eslesen_mac("Internationale fans", [mac(2, "Inter", "Milan")]) is None
+    # 14 Ekim: postun konusu Man City–PSG; sonradan anılan "Real Madrid" Roma–Real kartını eşleştirmemeli
+    kartlar = [mac(3, "AS Roma", "Real Madrid"), mac(4, "Manchester City", "Paris Saint Germain")]
+    metin = "Manchester City are struggling to sell out their clash against PSG, despite revenues above Real Madrid."
+    assert firsat.eslesen_mac(metin, kartlar)["ev"] == "Manchester City"
+    assert firsat.eslesen_mac("Real Madrid travel to Rome tonight", kartlar)["ev"] == "AS Roma"
     assert firsat.kontrol(x, gh, AYAR, gun, simdi, client=None) == 0  # Claude yoksa taslaksız fırsat gönderilmez
     assert len(firsat.sorgu(firsat.BuyumeAyar().hesaplar * 3)) <= 512
 

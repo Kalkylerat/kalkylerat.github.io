@@ -62,13 +62,29 @@ def sorgu(hesaplar: list[str]) -> str:
     return "(" + " OR ".join(f"from:{x}" for x in secili) + ")" + kuyruk
 
 
+# Postlarda sık geçen kısa adlar (kayıttaki resmi ad → postta yazılış)
+TAKMA_ADLAR = {"paris saint germain": ["psg"], "manchester united": ["man united", "man utd"],
+               "manchester city": ["man city"], "tottenham": ["spurs"], "bayern münchen": ["bayern", "bayern munich"],
+               "borussia dortmund": ["dortmund", "bvb"], "atletico madrid": ["atletico", "atleti"],
+               "inter": ["inter milan"], "ac milan": ["milan"], "wolves": ["wolverhampton"]}
+
+
+def _konum(takim: str, metin: str) -> int | None:
+    """Takımın postta ilk geçtiği yer (resmi ad ya da bilinen kısa adı, tam kelime); geçmiyorsa None."""
+    yerler = [m.start() for ad in [takim.lower(), *TAKMA_ADLAR.get(takim.lower(), [])]
+              for m in [re.search(rf"(?<!\w){re.escape(ad)}(?!\w)", metin.lower())] if m]
+    return min(yerler) if yerler else None
+
+
 def eslesen_mac(metin: str, maclar: list[dict]) -> dict | None:
-    """Postta adı geçen bugünkü maç (iki takımdan biri yeterli; önce iki takımı da geçen)."""
-    gecer = lambda t: re.search(rf"(?<!\w){re.escape(t.lower())}(?!\w)", metin.lower()) is not None
-    iki = [a for a in maclar if gecer(a["ev"]) and gecer(a["dep"])]
-    if iki:
-        return iki[0]
-    return next((a for a in maclar if gecer(a["ev"]) or gecer(a["dep"])), None)
+    """Postun konusu olan bugünkü maç: önce iki takımı da geçen, yoksa postta EN ÖNCE adı geçen takımın maçı
+    (14 Ekim: Man City–PSG postunda sonradan anılan "Real Madrid" yüzünden Roma–Real kartı eşleşmişti)."""
+    adaylar = []
+    for a in maclar:
+        ev, dep = _konum(a["ev"], metin), _konum(a["dep"], metin)
+        if ev is not None or dep is not None:
+            adaylar.append(((ev is None) + (dep is None), min(k for k in (ev, dep) if k is not None), a))
+    return min(adaylar, key=lambda x: x[:2])[2] if adaylar else None
 
 
 def puan(post: dict, simdi: datetime) -> float:
@@ -100,7 +116,9 @@ Write 2 different reply drafts to the post below.
 
 Hard rules:
 - Max 200 characters. No links, no "@", no hashtags, at most one emoji. Plain, natural English.
-- Add something to THEIR post: react to what it says, then (if match facts are given) one number from our facts.
+- Add something to THEIR post: react to what it says, then (if match facts are given AND they are about the same
+  match their post is about) one number from our facts. If our facts are about a different match, use no numbers
+  and never bring that other match up.
   Never invent stats, news or line-ups; use only numbers from our facts or the post itself.
 - Not promotional: never "check our page", "follow us", "see our card", never mention our account.
 - Chances, not picks: never pick, tip, lock, guaranteed, sure, bet. No bookmaker names. Never argue or mock.

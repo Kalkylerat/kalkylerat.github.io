@@ -16141,78 +16141,6 @@
      "paylas": "2026-10-14T19:00:00+02:00"
     },
     {
-     "ad": "long-shot",
-     "ayaklar": [
-      {
-       "aday_id": "1585779-CS12",
-       "fixture_id": 1585779,
-       "pazar": "CS12",
-       "ev": "Antalyaspor",
-       "dep": "Kayserispor",
-       "lig": "1. Lig",
-       "baslama": "2026-10-14T19:00:00+02:00",
-       "etiket": "Double chance 12",
-       "oran": 1.36,
-       "olasilik": 0.71,
-       "deger": -0.034,
-       "durum": "bekliyor",
-       "skor": null
-      },
-      {
-       "aday_id": "1616413-CS12",
-       "fixture_id": 1616413,
-       "pazar": "CS12",
-       "ev": "Balsicas Atlético",
-       "dep": "Bullas Deportivo",
-       "lig": "Tercera División RFEF - Group 13",
-       "baslama": "2026-10-14T20:30:00+02:00",
-       "etiket": "Double chance 12",
-       "oran": 1.36,
-       "olasilik": 0.71,
-       "deger": -0.034,
-       "durum": "bekliyor",
-       "skor": null
-      },
-      {
-       "aday_id": "1585788-IYU05",
-       "fixture_id": 1585788,
-       "pazar": "IYU05",
-       "ev": "Ümraniyespor",
-       "dep": "Boluspor",
-       "lig": "1. Lig",
-       "baslama": "2026-10-14T16:00:00+02:00",
-       "etiket": "1st half Over 0.5 goals",
-       "oran": 1.37,
-       "olasilik": 0.706,
-       "deger": -0.033,
-       "durum": "bekliyor",
-       "skor": null
-      },
-      {
-       "aday_id": "1602695-CS1X",
-       "fixture_id": 1602695,
-       "pazar": "CS1X",
-       "ev": "Esan Pattaya",
-       "dep": "Songkhla",
-       "lig": "Thai League 2",
-       "baslama": "2026-10-14T13:00:00+02:00",
-       "etiket": "Double chance 1X",
-       "oran": 1.5,
-       "olasilik": 0.667,
-       "deger": 0.001,
-       "durum": "bekliyor",
-       "skor": null
-      }
-     ],
-     "oran": 3.8,
-     "olasilik": 0.237,
-     "deger": -0.099,
-     "durum": "bekliyor",
-     "secim": "2026-10-14T05:37:17+00:00",
-     "oto": true,
-     "paylas": "2026-10-14T19:40:00+02:00"
-    },
-    {
      "ad": "buyuk-maclar",
      "ayaklar": [
       {
@@ -16430,7 +16358,13 @@
     }
    ],
    "oto": true,
-   "issue": 61
+   "issue": 61,
+   "kacan": [
+    {
+     "ad": "long-shot",
+     "zaman": "2026-10-14T10:45:15+00:00"
+    }
+   ]
   }
  ]
 }

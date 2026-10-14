@@ -57,6 +57,9 @@ class LikelyAyar:
     oto_oran_max: float = 4.0
     oto_min_ayak: float = 0.65     # sağlam ayağın en düşük kazanma ihtimali
     oto_min_deger: float = -0.04   # ayağın oranı adil fiyatın en fazla bu kadar altında
+    # Otomatik kupona hiç girmeyen pazarlar (E6). "Double chance 12" (ev ya da deplasman kazanır): gölge testte
+    # 12'siz günün kuponu 8'de 6, 12'li 9'da 4 tuttu; sahibinin kararıyla çıkarıldı (14 Ekim 2026).
+    oto_yasak_pazarlar: tuple = ("CS12",)
     oto_min_tutma: float = 0.30    # kuponun en düşük tutma ihtimali; altı paylaşılmaz
     oto_min_kupon_deger: float = -0.08  # kuponun toplam fiyatı adil fiyatın en fazla bu kadar altında
     oto_buyuk_tolerans: float = 0.03    # en olası kupona bu kadar yakın kuponlar içinde büyük maçı çok olan seçilir
@@ -1314,7 +1317,8 @@ def _grup(pazar: str) -> str:
 
 def kupona_uygun(a: dict, cfg: LikelyAyar) -> bool:
     """otomatik_sec'in ayak süzgeci (E6): istatistikle uyumlu, keskin piyasa, oran adil fiyata yakın, sağlam ya da değerli."""
-    return (a["uyum"] and a["deger"] >= cfg.oto_min_deger and not a["kaynak"].lower().startswith("average")
+    return (a["pazar"] not in cfg.oto_yasak_pazarlar
+            and a["uyum"] and a["deger"] >= cfg.oto_min_deger and not a["kaynak"].lower().startswith("average")
             and (a["tur"] == "deger" or a["olasilik"] >= cfg.oto_min_ayak))
 
 
@@ -1339,7 +1343,7 @@ def kalibrasyon(gunler: list[dict], cfg: LikelyAyar) -> list[dict]:
 # Yeniden oynatılan kural varyantları: (ad, ayak süzgeci, ayar değişikliği). İlki bugünkü kurallar (E6).
 VARYANTLAR = (
     ("Bugünkü kurallar", lambda a: True, {}),
-    ("12 (ev ya da deplasman) ayağı olmadan", lambda a: a["pazar"] != "CS12", {}),
+    ("12 (ev ya da deplasman) dahil (14 Ekim'e kadarki kural)", lambda a: True, {"oto_yasak_pazarlar": ()}),
     ("Büyük maç önceliği olmadan", lambda a: True, {"oto_buyuk_tolerans": 0.0}),
     ("Long shot ayak oranı sınırı olmadan", lambda a: True, {"oto_uzun_min_ayak_oran": 0.0}),
     # Büyük maç kuponu fiyattan takılıyor (4 ayakta bahisçi payı ~%11 birikiyor): sınır gevşerse ne olur?

@@ -16211,78 +16211,6 @@
      "tweet_id": "2110375537906421857",
      "metin": "🎩 Tonight's main events.\n\n⚽ Feyenoord v Como\n⚽ AS Roma v Real Madrid\n⚽ Slovan Bratislava v VfB Stuttgart\n\n📊 Combined 2.03. I make it about 46% to land.\n\n💬 Would you take it at this price?\n\n18+ | Play responsibly",
      "yayin": "2026-10-14T14:21:33+00:00"
-    },
-    {
-     "ad": "long-shot",
-     "ayaklar": [
-      {
-       "aday_id": "1635725-UST15",
-       "fixture_id": 1635725,
-       "pazar": "UST15",
-       "ev": "Shakhtar Donetsk",
-       "dep": "AEK Athens FC",
-       "lig": "UEFA Champions League",
-       "baslama": "2026-10-14T21:00:00+02:00",
-       "etiket": "Over 1.5 goals",
-       "oran": 1.31,
-       "olasilik": 0.756,
-       "deger": -0.009,
-       "durum": "bekliyor",
-       "skor": null
-      },
-      {
-       "aday_id": "1563201-CS12",
-       "fixture_id": 1563201,
-       "pazar": "CS12",
-       "ev": "Portsmouth",
-       "dep": "Sheffield Utd",
-       "lig": "Championship",
-       "baslama": "2026-10-14T20:45:00+02:00",
-       "etiket": "Double chance 12",
-       "oran": 1.36,
-       "olasilik": 0.718,
-       "deger": -0.024,
-       "durum": "bekliyor",
-       "skor": null
-      },
-      {
-       "aday_id": "1616413-CS12",
-       "fixture_id": 1616413,
-       "pazar": "CS12",
-       "ev": "Balsicas Atlético",
-       "dep": "Bullas Deportivo",
-       "lig": "Tercera División RFEF - Group 13",
-       "baslama": "2026-10-14T20:30:00+02:00",
-       "etiket": "Double chance 12",
-       "oran": 1.36,
-       "olasilik": 0.71,
-       "deger": -0.034,
-       "durum": "bekliyor",
-       "skor": null
-      },
-      {
-       "aday_id": "1635639-CSX2",
-       "fixture_id": 1635639,
-       "pazar": "CSX2",
-       "ev": "Bodo/Glimt",
-       "dep": "Borussia Dortmund",
-       "lig": "UEFA Champions League",
-       "baslama": "2026-10-14T21:00:00+02:00",
-       "etiket": "Double chance X2",
-       "oran": 1.42,
-       "olasilik": 0.684,
-       "deger": -0.028,
-       "durum": "bekliyor",
-       "skor": null
-      }
-     ],
-     "oran": 3.44,
-     "olasilik": 0.264,
-     "deger": -0.092,
-     "durum": "bekliyor",
-     "secim": "2026-10-14T14:21:33+00:00",
-     "oto": true,
-     "paylas": "2026-10-14T17:40:00+02:00"
     }
    ],
    "islenen": [],
@@ -16454,6 +16382,11 @@
     {
      "ad": "long-shot",
      "zaman": "2026-10-14T10:45:15+00:00"
+    },
+    {
+     "ad": "long-shot",
+     "zaman": "2026-10-14T14:36:00+00:00",
+     "neden": "Double chance 12 ayağı vardı; yeni kuralla (E6) yeniden seçilecek, paylaşılmadan çıkarıldı"
     }
    ],
    "olcum_sorgu": "2026-10-14T13:51:10+00:00"

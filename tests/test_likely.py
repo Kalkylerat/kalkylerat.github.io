@@ -359,11 +359,12 @@ def test_E6_otomatik_kupon_kurallari():
         assert len(ayaklar) <= OTO.oto_max_ayak and len({a["fixture_id"] for a in ayaklar}) == len(ayaklar)
         assert all(a["uyum"] and a["deger"] >= OTO.oto_min_deger and not a["kaynak"].startswith("average") for a in ayaklar)
         assert all(a["olasilik"] >= OTO.oto_min_ayak for a in ayaklar if a["tur"] == "guvenli")
+        assert not [a for a in ayaklar if a["pazar"] == "CS12"]  # "Double chance 12" otomatik kupona girmez (14 Ekim)
     maclar = [harita[i]["fixture_id"] for k in secilen for i in k["ayaklar"]]
     assert len(maclar) == len(set(maclar))  # iki kupon aynı maçı paylaşmaz
     # Aralıktaki kuponlar içinde tutma ihtimali en yüksek olan: aynı ayaklardan daha olası bir kupon kurulamaz
     import itertools
-    uygun = [a for a in adaylar if a["uyum"] and a["deger"] >= OTO.oto_min_deger]
+    uygun = [a for a in adaylar if a["uyum"] and a["deger"] >= OTO.oto_min_deger and a["pazar"] not in OTO.oto_yasak_pazarlar]
     en_yuksek = max((likely.kupon_kur(list(c)) for n in range(1, OTO.oto_max_ayak + 1) for c in itertools.combinations(uygun, n)
                      if likely._farkli_mac(c)), key=lambda k: k["olasilik"] if OTO.oto_oran_min <= k["oran"] <= OTO.oto_oran_max
                     and k["deger"] >= OTO.oto_min_kupon_deger else -1)
@@ -912,3 +913,14 @@ def test_otomatik_zamanlama_kuponu_kendi_maci_sonrasina_itmez():
     # Aynı saatte başlayan iki kupon: aralık son saati aşmıyorsa verilir, aşacaksa kupon kaçırılmaz
     ikiz = likely.paylasim_zamanlari([kupon("12:00"), kupon("12:00")], datetime(2026, 10, 14, 10, 50, tzinfo=UTC), OTO)
     assert all(z <= datetime(2026, 10, 14, 11, 15, tzinfo=UTC) for z in ikiz)
+
+
+def test_E6_double_chance_12_otomatik_kupona_girmez():
+    """14 Ekim, sahibinin kararı: "ya ev ya deplasman kazanır" (CS12) ayağı otomatik kupona hiç girmez."""
+    assert "CS12" in OTO.oto_yasak_pazarlar
+    adaylar = likely.havuz(MACLAR, ORANLAR, AYAR, OTO, SIMDI)
+    cs12 = [dict(a, pazar="CS12", aday_id=a["aday_id"] + "-12") for a in adaylar]
+    assert not any(likely.kupona_uygun(a, OTO) for a in cs12)
+    harita = {a["aday_id"]: a for a in adaylar + cs12}
+    for k in likely.otomatik_sec(adaylar + cs12, OTO):
+        assert all(harita[i]["pazar"] != "CS12" for i in k["ayaklar"])

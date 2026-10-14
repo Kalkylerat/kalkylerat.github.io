@@ -68664,6 +68664,24 @@
               2
             ],
             "zaman": "2026-10-14T13:35:46+00:00"
+          },
+          "1635665": {
+            "durum": "paylasildi",
+            "tweet_id": "2110440806230413755",
+            "skor": [
+              3,
+              2
+            ],
+            "zaman": "2026-10-14T18:41:10+00:00"
+          },
+          "1635674": {
+            "durum": "paylasildi",
+            "tweet_id": "2110440807346119031",
+            "skor": [
+              3,
+              6
+            ],
+            "zaman": "2026-10-14T18:41:10+00:00"
           }
         }
       },
@@ -68696,7 +68714,22 @@
         "durum": "paylasildi",
         "tweet_id": "2110294485347307596",
         "zaman": "2026-10-14T08:59:43+00:00",
-        "metin": "🆚 Feyenoord v Como\n\n🏆 Feyenoord 28% · Draw 21% · Como 50%\n⚽ Over 2.5 goals 69% · Under 31%\n🥅 Both teams score 68% · Not both 32%\n🎯 Most likely score: 1-2 (9%)\n\n📈 Team stats: not enough recent games to compare with the odds\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Feyenoord v Como\n\n🏆 Feyenoord 28% · Draw 21% · Como 50%\n⚽ Over 2.5 goals 69% · Under 31%\n🥅 Both teams score 68% · Not both 32%\n🎯 Most likely score: 1-2 (9%)\n\n📈 Team stats: not enough recent games to compare with the odds\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2110440822735032780",
+          "skor": "3-2",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "xg": [
+            0.61,
+            1.25
+          ],
+          "zaman": "2026-10-14T18:41:10+00:00"
+        }
       },
       "bilgi": {
         "durum": "paylasildi",
@@ -68720,7 +68753,22 @@
         "durum": "paylasildi",
         "tweet_id": "2110319316759712027",
         "zaman": "2026-10-14T10:38:15+00:00",
-        "metin": "🆚 Lask Linz v Liverpool\n\n🏆 Lask Linz 10% · Draw 15% · Liverpool 75%\n⚽ Over 2.5 goals 71% · Under 28%\n🥅 Both teams score 57% · Not both 43%\n🎯 Most likely score: 0-2 (9%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Can Lask Linz beat 10%? 👇\n#UCL\n18+ | Play responsibly"
+        "metin": "🆚 Lask Linz v Liverpool\n\n🏆 Lask Linz 10% · Draw 15% · Liverpool 75%\n⚽ Over 2.5 goals 71% · Under 28%\n🥅 Both teams score 57% · Not both 43%\n🎯 Most likely score: 0-2 (9%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Can Lask Linz beat 10%? 👇\n#UCL\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2110440882399007133",
+          "skor": "3-6",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            2.06,
+            3.36
+          ],
+          "zaman": "2026-10-14T18:41:10+00:00"
+        }
       },
       "analiz_2": {
         "durum": "paylasildi",

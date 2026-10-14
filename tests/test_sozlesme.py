@@ -510,6 +510,52 @@ def test_D3_yorum_firsatlari_yalnizca_taslak(tmp_path, monkeypatch):
     assert len(firsat.sorgu(firsat.BuyumeAyar().hesaplar * 3)) <= 512
 
 
+def test_D3_mr_likely_yorum_firsatlari(tmp_path, monkeypatch):
+    from bot import firsat
+    monkeypatch.setattr(firsat, "DOSYA", tmp_path / "firsatlar.json")
+    # 14 Ekim sabahının eski kayıt biçimi taşınır; görülen postlar iki hesapta ortak
+    firsat.kaydet({"tarih": "2026-10-03", "gonderilen": 2, "aramalar": [10], "gorulen": ["1"], "issue": {"tarih": "2026-10-03", "no": 63}})
+    monkeypatch.setattr(firsat, "ayar_yukle", lambda: firsat.BuyumeAyar(likely_gunluk_yorum=2, likely_saatler=[11]))
+    simdi = datetime(2026, 10, 3, 11, 5, tzinfo=UTC)
+    z = (simdi - timedelta(minutes=20)).isoformat().replace("+00:00", "Z")
+    postlar = [{"id": "1", "metin": "France v Italy team news", "kullanici": "OptaJoe", "zaman": z, "metrik": {"like_count": 900}},
+               {"id": "2", "metin": "France look sharp in training", "kullanici": "goal", "zaman": z, "metrik": {"like_count": 50}},
+               {"id": "3", "metin": "Belgium fans arrive", "kullanici": "433", "zaman": z, "metrik": {"like_count": 40}}]
+
+    class X:
+        def ara(self, *a, **k): return postlar
+        def gonder(self, *a, **k): pytest.fail("Mr. Likely fırsat ajanı hiçbir şey paylaşmaz")
+
+    class GH:
+        def __init__(self): self.issue, self.yorumlar = [], []
+        def issue_ac(self, baslik, govde, etiket): self.issue.append((baslik, etiket, govde)); return 8
+        def yorum(self, no, mesaj): self.yorumlar.append(mesaj)
+
+    sistemler = []
+    def cagir(client, modeller, sistem, icerik, sema, max_tokens):
+        sistemler.append(sistem)
+        if "in_my_coupon_today" in icerik:
+            return {"uygun": True, "taslaklar": ["it's one of my legs today, so naturally I'm a bit nervous",
+                                                 "Tail my coupon, France 47%", "Who starts up front for France?"]}
+        return {"uygun": True, "taslaklar": ["Belgium fans never miss one, fair play"]}
+    monkeypatch.setattr(direktor, "_cagir", cagir)
+    fra = mac(1, "France", "Italy", saat="19:00")
+    kupon = {"ad": "gunun-kuponu", "tweet_id": "555", "durum": "bekliyor",
+             "ayaklar": [{"fixture_id": 1, "ev": "France", "dep": "Italy", "etiket": "Double chance 1X"}]}
+    gh = GH()
+    n = firsat.kontrol(X(), gh, AYAR, {"analizler": [fra, mac(2, "Belgium", "Türkiye", saat="19:00")]}, simdi,
+                       client=object(), hesap="likely", kuponlar=[kupon], kullanici="Mrlikelyx")
+    assert n == 2 and gh.issue[0][1] == "yorum-firsatlari-likely" and "Mr. Likely hesabından" in gh.issue[0][2]
+    m = gh.yorumlar[0]
+    assert "status/1" not in m  # @kalkylerat'a önerilmiş post Mr. Likely'ye önerilmez
+    assert "nervous" in m and "Tail my coupon" not in m and "🎩 Kuponla" in m
+    assert "https%3A%2F%2Fx.com%2FMrlikelyx%2Fstatus%2F555" in m  # kupon postu cevaba eklenir
+    assert m.count("🎩 Kuponla") == 1  # kupon ayağı olmayan maçta (Belçika) kuponla seçeneği yok
+    assert all('Mr. Likely speaks as "I"' in s_ for s_ in sistemler)
+    veri = firsat.yukle()
+    assert veri["kalkylerat"]["issue"]["no"] == 63 and veri["likely"]["gonderilen"] == 2 and {"1", "2", "3"} <= set(veri["gorulen"])
+
+
 def test_D4_topluluga_yalnizca_tablo_ve_kiyas():
     kaynak = (ROOT / "bot/etkilesim.py").read_text()
     assert kaynak.count("_gonder(x, ayar, metin, yaz") == 2  # tablo ve ayrışma (kıyas) postları

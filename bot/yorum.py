@@ -52,6 +52,11 @@ at 45%."  Good: "2 from PSG and they're the holders... ratings can be harsh 😅
 tonight, so that XI isn't miles off"  Good: "who's the first name you'd drop from that XI though?"
 """
 
+LIKELY_NOTU = """Replying as Mr. Likely: speak as "I" ("I make it about 60%"), light dry humour mostly at his own
+expense (dull legs, coupons one leg short), never smug, no exclamation marks. Never tell anyone to bet, stake, tail
+or copy a coupon. If someone asks about a coupon, answer plainly: a numbers model picks it on fixed rules, losers
+are posted too."""
+
 SISTEM = f"""You draft replies that the account owner will read, edit and post BY HAND on X. You never post anything.
 Write 3 different short reply drafts to the comment below, in the account's voice, in plain English.
 
@@ -112,7 +117,7 @@ def taslaklar(yorum: dict, hesap: str, client=None, ayar=None, yaz=print) -> tup
     if client is None or ayar is None:
         return YEDEK, "", False
     from .direktor import _cagir
-    ses = _likely_sesi() if hesap == "likely" else SESLER["kalkylerat"]
+    ses = (_likely_sesi() + "\n" + LIKELY_NOTU) if hesap == "likely" else SESLER["kalkylerat"]
     icerik = json.dumps({"our_post": yorum.get("bizim") or "(not available: the comment may be a mention)",
                          "comment": yorum.get("metin"), "commenter": yorum.get("kullanici")}, ensure_ascii=False, indent=1)
     try:

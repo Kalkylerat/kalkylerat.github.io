@@ -13,7 +13,7 @@ ONIZLEME_KLASORU = config.ROOT / "docs" / "onizleme"
 ISTEK_DOSYASI = config.ROOT / "onay_istegi.md"  # iş akışı bu dosya varsa issue açar
 AYRAC = "<<<SONRAKI_ISTEK>>>\n"  # dosyada birden fazla istek varsa aralarında
 ETIKET = "onay"
-ESKIYI_KAPAT = ("alarm", "yanit-kiti", "rapor", "mr-likely", "yorum-kiti", "yorum-kiti-likely", "yorum-firsatlari")  # yenisi açılınca eskisi kapanan günlük/haftalık issue'lar
+ESKIYI_KAPAT = ("alarm", "yanit-kiti", "rapor", "mr-likely", "yorum-kiti", "yorum-kiti-likely", "yorum-firsatlari", "yorum-firsatlari-likely")  # yenisi açılınca eskisi kapanan günlük/haftalık issue'lar
 OK = {"ok", "okay", "onay", "onayla", "onaylıyorum", "evet", "tamam", "paylas", "paylaş", "yes"}
 # "iptal" = "bir hata var, dur": kupon bekletilir (paylaşılmaz), sahibi hatayı Claude'a söyler, düzeltilince
 # yeni önizleme gelir. Düzeltme gelmezse o gün paylaşım olmaz.

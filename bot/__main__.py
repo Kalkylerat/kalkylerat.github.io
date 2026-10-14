@@ -1435,6 +1435,17 @@ def main(argv=None) -> int:
                     firsat.kontrol(_x_client(), onay.GitHub(), ayar, kayit.bul(gunler, bugun), simdi, claude, yaz=_ozet_yaz)
             except Exception as e:
                 _ozet_yaz(f"⚠️ Yorum fırsatları bu turda çalışmadı: {e}")
+            try:  # Mr. Likely için de, kendi sesiyle; kupon ayağı olan maçta "kuponla" seçeneği
+                x_l = _x_likely() if claude is not None and likely.ayar_yukle().aktif else None
+                if x_l is not None:
+                    lgun = next((g for g in likely.yukle()["gunler"] if g["tarih"] == bugun), None) or {}
+                    kuponlar = [k for k in lgun.get("secilen", []) if k.get("tweet_id") and k.get("durum") == "bekliyor"
+                                and min(datetime.fromisoformat(a["baslama"]) for a in k["ayaklar"]) > simdi]
+                    firsat.kontrol(x_l, onay.GitHub(), ayar, kayit.bul(gunler, bugun), simdi, claude, yaz=_ozet_yaz,
+                                   hesap="likely", kuponlar=kuponlar,
+                                   kullanici=(yorum.yukle().get("likely") or {}).get("kullanici"))
+            except Exception as e:
+                _ozet_yaz(f"⚠️ Mr. Likely yorum fırsatları bu turda çalışmadı: {e}")
             for hesap, istemci in (("kalkylerat", _x_client), ("likely", _x_likely)):
                 try:
                     x_ = istemci()

@@ -14396,7 +14396,7 @@
   {
    "tarih": "2026-10-14",
    "olusturma": "2026-10-14T05:37:17+00:00",
-   "durum": "secildi",
+   "durum": "bitti",
    "havuz": [
     {
      "aday_id": "1629941-CS12",
@@ -16224,8 +16224,45 @@
        "oran": 1.26,
        "olasilik": 0.773,
        "deger": -0.026,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "3-4",
+       "goller": [
+        [
+         20,
+         0,
+         "ev"
+        ],
+        [
+         25,
+         0,
+         "dep"
+        ],
+        [
+         51,
+         0,
+         "ev"
+        ],
+        [
+         57,
+         0,
+         "ev"
+        ],
+        [
+         83,
+         0,
+         "dep"
+        ],
+        [
+         85,
+         0,
+         "dep"
+        ],
+        [
+         90,
+         0,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1635733-DPU15",
@@ -16239,20 +16276,40 @@
        "oran": 1.29,
        "olasilik": 0.769,
        "deger": -0.008,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "0-3",
+       "goller": [
+        [
+         29,
+         0,
+         "dep"
+        ],
+        [
+         64,
+         0,
+         "dep"
+        ],
+        [
+         90,
+         0,
+         "dep"
+        ]
+       ]
       }
      ],
      "oran": 2.03,
      "olasilik": 0.459,
      "deger": -0.068,
-     "durum": "bekliyor",
+     "durum": "tuttu",
      "secim": "2026-10-14T05:37:17+00:00",
      "oto": true,
      "paylas": "2026-10-14T14:19:54+00:00",
      "tweet_id": "2110375537906421857",
      "metin": "🎩 Tonight's main events.\n\n⚽ Feyenoord v Como\n⚽ AS Roma v Real Madrid\n⚽ Slovan Bratislava v VfB Stuttgart\n\n📊 Combined 2.03. I make it about 46% to land.\n\n💬 Would you take it at this price?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-14T14:21:33+00:00"
+     "yayin": "2026-10-14T14:21:33+00:00",
+     "son_oran": 2.03,
+     "sonuc_metni": "✅ All in at 2.03. Done. Probably deserved it too.\n\n✅ Feyenoord 3-2 Como: Feyenoord Over 0.5 goals\n✅ AS Roma 3-4 Real Madrid: AS Roma Over 0.5 goals\n✅ Slovan Bratislava 0-3 VfB Stuttgart: VfB Stuttgart Over 1.5 goals\n\nRecord: 6 of 14 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2110475095877583090"
     }
    ],
    "islenen": [],

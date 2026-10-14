@@ -68704,6 +68704,33 @@
               2
             ],
             "zaman": "2026-10-14T20:42:51+00:00"
+          },
+          "1563202": {
+            "durum": "paylasildi",
+            "tweet_id": "2110474714778894811",
+            "skor": [
+              4,
+              1
+            ],
+            "zaman": "2026-10-14T20:55:51+00:00"
+          },
+          "1635614": {
+            "durum": "paylasildi",
+            "tweet_id": "2110474716343341547",
+            "skor": [
+              3,
+              4
+            ],
+            "zaman": "2026-10-14T20:55:51+00:00"
+          },
+          "1635620": {
+            "durum": "paylasildi",
+            "tweet_id": "2110474718012637274",
+            "skor": [
+              6,
+              0
+            ],
+            "zaman": "2026-10-14T20:55:51+00:00"
           }
         }
       },
@@ -68796,13 +68823,43 @@
         "durum": "paylasildi",
         "tweet_id": "2110325937363624346",
         "zaman": "2026-10-14T11:04:38+00:00",
-        "metin": "🆚 AS Roma v Real Madrid\n\n🏆 AS Roma 28% · Draw 22% · Real Madrid 50%\n⚽ Over 2.5 goals 67% · Under 33%\n🥅 Both teams score 66% · Not both 34%\n🎯 Most likely score: 1-1 (9%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Can AS Roma beat 28%? 👇\n#UCL\n18+ | Play responsibly"
+        "metin": "🆚 AS Roma v Real Madrid\n\n🏆 AS Roma 28% · Draw 22% · Real Madrid 50%\n⚽ Over 2.5 goals 67% · Under 33%\n🥅 Both teams score 66% · Not both 34%\n🎯 Most likely score: 1-1 (9%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Can AS Roma beat 28%? 👇\n#UCL\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2110474735146426443",
+          "skor": "3-4",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            1.5,
+            1.86
+          ],
+          "zaman": "2026-10-14T20:55:51+00:00"
+        }
       },
       "analiz_3": {
         "durum": "paylasildi",
         "tweet_id": "2110332313808551981",
         "zaman": "2026-10-14T11:30:02+00:00",
-        "metin": "🆚 Aston Villa v Fenerbahçe\n\n🏆 Aston Villa 59% · Draw 21% · Fenerbahçe 20%\n⚽ Over 2.5 goals 61% · Under 39%\n🥅 Both teams score 58% · Not both 42%\n🎯 Most likely score: 2-1 (10%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n#UCL\n18+ | Play responsibly"
+        "metin": "🆚 Aston Villa v Fenerbahçe\n\n🏆 Aston Villa 59% · Draw 21% · Fenerbahçe 20%\n⚽ Over 2.5 goals 61% · Under 39%\n🥅 Both teams score 58% · Not both 42%\n🎯 Most likely score: 2-1 (10%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n#UCL\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2110474792356778305",
+          "skor": "6-0",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "xg": [
+            3.11,
+            1.92
+          ],
+          "zaman": "2026-10-14T20:55:51+00:00"
+        }
       },
       "maclar": {
         "durum": "paylasildi",
@@ -68820,7 +68877,22 @@
         "durum": "paylasildi",
         "tweet_id": "2110352684922351842",
         "zaman": "2026-10-14T12:50:58+00:00",
-        "metin": "🆚 Bodo/Glimt v Borussia Dortmund\n\n🏆 Bodo/Glimt 32% · Draw 22% · Borussia Dortmund 46%\n⚽ Over 2.5 goals 71% · Under 29%\n🥅 Both teams score 70% · Not both 30%\n🎯 Most likely score: 1-2 (9%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Bodo/Glimt v Borussia Dortmund\n\n🏆 Bodo/Glimt 32% · Draw 22% · Borussia Dortmund 46%\n⚽ Over 2.5 goals 71% · Under 29%\n🥅 Both teams score 70% · Not both 30%\n🎯 Most likely score: 1-2 (9%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2110474851534119004",
+          "skor": "1-0",
+          "isabet": [
+            false,
+            false,
+            false
+          ],
+          "xg": [
+            1.2,
+            0.84
+          ],
+          "zaman": "2026-10-14T20:55:51+00:00"
+        }
       },
       "analiz_7": {
         "durum": "paylasildi",
@@ -68882,19 +68954,64 @@
         "durum": "paylasildi",
         "tweet_id": "2110380695206142255",
         "zaman": "2026-10-14T14:42:05+00:00",
-        "metin": "🆚 Manchester City v Paris Saint Germain\n\n🏆 City 45% · Draw 22% · PSG 33%\n⚽ Over 2.5 goals 66% · Under 34%\n🥅 Both teams score 66% · Not both 34%\n\n📈 Team stats: too few recent games\n\n💬 Draw 22%, 1-1 at 10%. Is 1-1 your likeliest score?\n\n18+ | Play responsibly"
+        "metin": "🆚 Manchester City v Paris Saint Germain\n\n🏆 City 45% · Draw 22% · PSG 33%\n⚽ Over 2.5 goals 66% · Under 34%\n🥅 Both teams score 66% · Not both 34%\n\n📈 Team stats: too few recent games\n\n💬 Draw 22%, 1-1 at 10%. Is 1-1 your likeliest score?\n\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2110474912229957754",
+          "skor": "2-4",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "xg": [
+            2.53,
+            1.89
+          ],
+          "zaman": "2026-10-14T20:55:51+00:00"
+        }
       },
       "analiz_14": {
         "durum": "paylasildi",
         "tweet_id": "2110388143807508917",
         "zaman": "2026-10-14T15:11:51+00:00",
-        "metin": "🆚 Shakhtar Donetsk v AEK Athens FC\n\n🏆 Shakhtar Donetsk 37% · Draw 25% · AEK Athens FC 37%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 57% · Not both 43%\n\n📈 Team stats: too few recent games\n\n💬 Not picks. More or fewer than 2.5 goals? 👇\n#UCL\n18+ | Play responsibly"
+        "metin": "🆚 Shakhtar Donetsk v AEK Athens FC\n\n🏆 Shakhtar Donetsk 37% · Draw 25% · AEK Athens FC 37%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 57% · Not both 43%\n\n📈 Team stats: too few recent games\n\n💬 Not picks. More or fewer than 2.5 goals? 👇\n#UCL\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2110474962091823455",
+          "skor": "3-1",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            1.39,
+            1.12
+          ],
+          "zaman": "2026-10-14T20:55:51+00:00"
+        }
       },
       "analiz_15": {
         "durum": "paylasildi",
         "tweet_id": "2110395110542447066",
         "zaman": "2026-10-14T15:39:34+00:00",
-        "metin": "🆚 Slovan Bratislava v VfB Stuttgart\n\n🏆 Slovan Bratislava 11% · Draw 15% · VfB Stuttgart 74%\n⚽ Over 2.5 goals 71% · Under 29%\n🥅 Both teams score 57% · Not both 43%\n\n📈 Team stats: too few recent games\n\n💬 Not picks. More or fewer than 2.5 goals? 👇\n#UCL\n18+ | Play responsibly"
+        "metin": "🆚 Slovan Bratislava v VfB Stuttgart\n\n🏆 Slovan Bratislava 11% · Draw 15% · VfB Stuttgart 74%\n⚽ Over 2.5 goals 71% · Under 29%\n🥅 Both teams score 57% · Not both 43%\n\n📈 Team stats: too few recent games\n\n💬 Not picks. More or fewer than 2.5 goals? 👇\n#UCL\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2110474975761121411",
+          "skor": "0-3",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "xg": [
+            0.76,
+            1.9
+          ],
+          "zaman": "2026-10-14T20:55:51+00:00"
+        }
       },
       "tablo_aksam": {
         "durum": "paylasildi",
@@ -69024,13 +69141,51 @@
         "durum": "paylasildi",
         "tweet_id": "2110418993282511263",
         "zaman": "2026-10-14T17:14:28+00:00",
-        "metin": "🆚 QPR v Derby · 20:45 CEST\n\n🏆 QPR 57% · Draw 23% · Derby 20%\n⚽ Over 2.5 goals 54% · Under 46%\n🥅 Both teams score 53% · Not both 47%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: QPR win 42%\n💹 Odds: 57%\n\n💬 Chances, not picks. Can Derby beat 20%? 👇\n18+ | Play responsibly"
+        "metin": "🆚 QPR v Derby · 20:45 CEST\n\n🏆 QPR 57% · Draw 23% · Derby 20%\n⚽ Over 2.5 goals 54% · Under 46%\n🥅 Both teams score 53% · Not both 47%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: QPR win 42%\n💹 Odds: 57%\n\n💬 Chances, not picks. Can Derby beat 20%? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2110475018794594590",
+          "skor": "4-1",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            1.6,
+            0.92
+          ],
+          "zaman": "2026-10-14T20:55:51+00:00",
+          "brier": {
+            "piyasa": 0.7017,
+            "istatistik": 1.1775
+          }
+        }
       },
       "analiz_16": {
         "durum": "paylasildi",
         "tweet_id": "2110424112917061646",
         "zaman": "2026-10-14T17:34:47+00:00",
-        "metin": "🆚 Lincoln v West Ham\n\n🏆 Lincoln 21% · Draw 22% · West Ham 57%\n⚽ Over 2.5 goals 56% · Under 43%\n🥅 Both teams score 55% · Not both 45%\n🎯 Most likely score: 1-1 (10%)\n\n📈 Team stats: West Ham win 48%\n💹 Odds: 57%\n\n💬 Not picks. What's your score? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Lincoln v West Ham\n\n🏆 Lincoln 21% · Draw 22% · West Ham 57%\n⚽ Over 2.5 goals 56% · Under 43%\n🥅 Both teams score 55% · Not both 45%\n🎯 Most likely score: 1-1 (10%)\n\n📈 Team stats: West Ham win 48%\n💹 Odds: 57%\n\n💬 Not picks. What's your score? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2110475066718728377",
+          "skor": "0-6",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "xg": [
+            0.39,
+            3.22
+          ],
+          "zaman": "2026-10-14T20:55:51+00:00",
+          "brier": {
+            "piyasa": 0.7699,
+            "istatistik": 0.9373
+          }
+        }
       },
       "bilgi_aksam": {
         "durum": "paylasildi",

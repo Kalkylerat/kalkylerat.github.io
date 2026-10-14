@@ -49,7 +49,7 @@ Bir kuralı değiştirmek isterseniz önce burayı, sonra testi, en son kodu de�
 |---|---|---|
 | D1 | Otomatik postta en fazla 1 ilgili hashtag (liste postunda 2); genel/trend etiket yok. | `test_D1` |
 | D2 | Aynı metin aynı gün iki kez paylaşılmaz. | `test_D2` |
-| D3 | Başkalarına otomatik yanıt, etiketleme, DM, takip, beğeni yok. Yanıt kiti yalnızca taslaktır. **Yorum kiti** de yalnızca taslaktır: postlarımıza gelen yorumlar 15 dakikada bir okunur, sahibine günlük issue'ya cevap taslaklarıyla bildirilir; cevabı sahibi elle atar (sahibinin isteği, 13 Ekim 2026). | `test_D3` |
+| D3 | Başkalarına otomatik yanıt, etiketleme, DM, takip, beğeni yok. Yanıt kiti yalnızca taslaktır. **Yorum kiti** de yalnızca taslaktır: postlarımıza gelen yorumlar 15 dakikada bir okunur, sahibine günlük issue'ya cevap taslaklarıyla bildirilir; cevabı sahibi elle atar (sahibinin isteği, 13 Ekim 2026). **Yorum fırsatları** da yalnızca taslaktır: büyük futbol hesaplarının yeni postları günde `[buyume] gunluk_yorum` kadar, bağlantı ve 2 cevap taslağıyla sahibine gelir; taslakta link, etiket, tanıtım, seçim dili ve kaynakta olmayan sayı yok, üzücü haber/siyaset/reklam postu atlanır (14 Ekim 2026). | `test_D3` |
 | D4 | Topluluğa günde yalnızca tablo ve oran/istatistik postu gider. | `test_D4` |
 | D5 | Hesap "Automated" etiketli, @kalkyleratkonto'ya bağlı (X ayarı, sahibi yaptı). | — |
 

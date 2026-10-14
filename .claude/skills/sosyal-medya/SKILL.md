@@ -69,6 +69,9 @@ zamanlama `.github/workflows/kalkylerat.yml`.
    Yorum kiti (`bot/yorum.py`, SOZLESME D3): yeni yorumlar 15 dk'da bir okunur, "💬 Yorumlar" issue'suna 3 cevap
    taslağıyla düşer (telefona bildirim). Bot cevap atmaz; sahibi taslağı düzeltip elle atar.
 5. **Günlük elle yanıt**: büyük futbol hesaplarının maç tweetlerine 10–20 anlamlı yanıt (istatistik, kısa gerekçe).
+   Yorum fırsatları (`bot/firsat.py`, SOZLESME D3): bot bu postları kendisi bulur (X arama, `[buyume]` ayarı),
+   "🚀 Yorum fırsatları" issue'suna bağlantı + 2 taslakla gönderir; sahibi yapıştırıp elle atar. Eski yanıt kiti
+   (arama bağlantıları) fırsatlar açıkken gönderilmez.
 6. **Kilometre taşları** (1. ay, 1.000 analiz) ayrı tweet ve sabit tweet güncellemesi.
 7. **Soru posta uygun olmalı**: tek maçlık postta çoğul ya da karşılaştırma sorusu sorulmaz; soru o maçın adıyla
    sorulur ("How did you read Wales v Norway?").

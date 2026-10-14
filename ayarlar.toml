@@ -111,6 +111,15 @@ ek_ligler = [128, 71, 239, 253, 262, 479]  # Arjantin, Brezilya Serie A, Kolombi
 # (e-posta ve GitHub mobil bildirimi gelir). Boş bırakılırsa alarm kapalı.
 kime = "Kalkylerat-desk"
 
+[buyume]
+# Yorum fırsatları (büyüme ajanı): büyük futbol hesaplarının yeni postları + her birine 2 cevap taslağı, günlük
+# "🚀 Yorum fırsatları" issue'suna (telefona bildirim). Bağlantıyı açıp taslağı yapıştırır, ELLE gönderirsin;
+# bot hiçbir zaman kendisi cevap atmaz (X kuralı). gunluk_yorum: günde kaç fırsat gelsin (0 = kapalı).
+# saatler (UTC): aramaların yapıldığı saatler; fırsatlar bunlara bölünür. Maliyet: arama başına ~$0.13 (X okuma).
+aktif = true
+gunluk_yorum = 10
+saatler = [10, 13, 16, 18]
+
 [topluluk]
 # X Topluluğu (Communities): küçük hesaplar için en etkili erişim yolu. Hesapla bir futbol/istatistik topluluğuna
 # katılın, adresindeki numarayı (x.com/i/communities/NUMARA) buraya yazın. Tablo, oran/istatistik ve kart postları

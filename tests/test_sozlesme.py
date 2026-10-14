@@ -1,6 +1,7 @@
 """SOZLESME.md'deki her madde için bir test. Bu dosyadaki bir test kırılırsa üzerinde anlaşılmış bir kural
 bozulmuştur: kodu kurala uydurun (ya da önce SOZLESME.md'de kuralı birlikte değiştirin)."""
 
+import json
 import re
 from dataclasses import replace
 from datetime import datetime, timedelta, timezone
@@ -436,6 +437,59 @@ def test_D3_yorum_kiti_yalnizca_taslak(tmp_path, monkeypatch):
                         "The market has United at 26%. How would you price it?"], "not": "Oranı soruyor.", "spam": False})
     t, not_, spam = yorum.taslaklar({"metin": "Why only 26%?", "bizim": kaynak}, "kalkylerat", client=object(), ayar=AYAR)
     assert t == ["The market has United at 26%. How would you price it?"] and not_ == "Oranı soruyor." and not spam
+
+
+def test_D3_yorum_firsatlari_yalnizca_taslak(tmp_path, monkeypatch):
+    from bot import firsat
+    monkeypatch.setattr(firsat, "DOSYA", tmp_path / "firsatlar.json")
+    monkeypatch.setattr(firsat, "ayar_yukle", lambda: firsat.BuyumeAyar(gunluk_yorum=3, saatler=[10, 16]))
+    simdi = datetime(2026, 10, 3, 10, 5, tzinfo=UTC)
+    zaman = lambda dk: (simdi - timedelta(minutes=dk)).isoformat().replace("+00:00", "Z")
+    postlar = [
+        {"id": "1", "metin": "France have won 9 of their last 10 at home.", "kullanici": "OptaJoe", "zaman": zaman(30),
+         "metrik": {"like_count": 900, "reply_count": 80, "retweet_count": 100}},
+        {"id": "2", "metin": "Transfer news: big deal close", "kullanici": "FabrizioRomano", "zaman": zaman(20),
+         "metrik": {"like_count": 5000, "reply_count": 400, "retweet_count": 800}},
+        {"id": "3", "metin": "Sad news about a former player", "kullanici": "BBCSport", "zaman": zaman(10),
+         "metrik": {"like_count": 100, "reply_count": 5, "retweet_count": 1}},
+        {"id": "4", "metin": "Internationale fans in the stands", "kullanici": "goal", "zaman": zaman(10),
+         "metrik": {"like_count": 50, "reply_count": 2, "retweet_count": 1}}]
+
+    class X:
+        def __init__(self): self.aramalar = 0
+        def ara(self, sorgu, baslangic, adet): self.aramalar += 1; return postlar
+        def gonder(self, *a, **k): pytest.fail("fırsat ajanı hiçbir şey paylaşmaz")
+
+    class GH:
+        def __init__(self): self.issue, self.yorumlar = [], []
+        def issue_ac(self, baslik, govde, etiket): self.issue.append(etiket); return 3
+        def yorum(self, no, mesaj): self.yorumlar.append(mesaj)
+
+    def cagir(client, modeller, sistem, icerik, sema, max_tokens):
+        post = json.loads(icerik)["their_post"]
+        if post.startswith("Sad"):
+            return {"uygun": False, "taslaklar": []}
+        if "France" in post:  # bizim kartın rakamı geçer; uydurma rakam ve tanıtım elenir
+            return {"uygun": True, "taslaklar": ["Fits our numbers too: France 47% to win this one. Strong home record.",
+                                                 "France 99% for sure, follow us", "Is 47% too low for France?"]}
+        return {"uygun": True, "taslaklar": ["Big one if it happens.", "Who wins more from this deal?"]}
+    monkeypatch.setattr(direktor, "_cagir", cagir)
+    gun = {"analizler": [mac(1, "France", "Italy", saat="19:00")]}
+    gun["analizler"][0]["p"] = {**gun["analizler"][0]["p"], "MS1": 0.47}
+    x, gh = X(), GH()
+    assert firsat.kontrol(x, gh, AYAR, gun, simdi, client=object()) == 2  # 3/2 arama → bu saatte 2
+    assert gh.issue == ["yorum-firsatlari"] and len(gh.yorumlar) == 1
+    m = gh.yorumlar[0]
+    assert m.index("x.com/OptaJoe/status/1") < m.index("x.com/FabrizioRomano/status/2")  # bizim maçı geçen önce
+    assert "France 47% to win" in m and "99%" not in m and "follow us" not in m and "status/3" not in m
+    assert firsat.kontrol(x, gh, AYAR, gun, simdi + timedelta(minutes=30), client=object()) == 0 and x.aramalar == 1
+    # 16:00: görülenler (1, 2) tekrar gelmez; 3 uygunsuz (üzücü haber); 4 gelir; günlük sınır (3) doldu
+    assert firsat.kontrol(x, gh, AYAR, gun, simdi.replace(hour=16), client=object()) == 1
+    assert "status/4" in gh.yorumlar[1] and "status/1" not in gh.yorumlar[1] and "status/3" not in gh.yorumlar[1]
+    assert firsat.kontrol(x, gh, AYAR, gun, simdi.replace(hour=18), client=object()) == 0 and x.aramalar == 2
+    assert firsat.eslesen_mac("Internationale fans", [mac(2, "Inter", "Milan")]) is None
+    assert firsat.kontrol(x, gh, AYAR, gun, simdi, client=None) == 0  # Claude yoksa taslaksız fırsat gönderilmez
+    assert len(firsat.sorgu(firsat.BuyumeAyar().hesaplar * 3)) <= 512
 
 
 def test_D4_topluluga_yalnizca_tablo_ve_kiyas():

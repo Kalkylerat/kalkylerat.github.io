@@ -10,7 +10,7 @@ import time
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-from . import analiz, config, denetci, direktor, editor, etkilesim, football, gorsel, kayit, kit, likely, likely_gorsel, likely_yetki, model, oddsapi, onay, panel, saglik, temizlik, tweets, yorum
+from . import analiz, config, denetci, direktor, editor, etkilesim, football, gorsel, kayit, kit, likely, likely_gorsel, likely_yetki, model, oddsapi, onay, panel, saglik, temizlik, tweets, yorum, firsat
 from .model import adaylari_uret, bet_builder, etiketler
 
 # Çalışma sırasında yakalanan hatalar: iş sonunda "başarısız" işaretlenir, GitHub sahibine e-posta atar.
@@ -1419,7 +1419,8 @@ def main(argv=None) -> int:
             except Exception as e:
                 _hata("Etkileşim paylaşımı", e)
         if args.komut in ("nabiz", "otomatik") and os.environ.get("GH_TOKEN") and kayit.bul(gunler, bugun) \
-                and simdi.hour >= 7:
+                and simdi.hour >= 7 and not (firsat.ayar_yukle().aktif and firsat.ayar_yukle().gunluk_yorum > 0):
+            # Yorum fırsatları açıkken eski yanıt kiti (arama bağlantıları) gönderilmez: fırsatlar postun kendisini getirir
             try:  # günlük yanıt kiti: sahibinin elle yanıtlaması için taslaklar (telefona bildirim)
                 ham = f'https://raw.githubusercontent.com/{os.environ.get("GITHUB_REPOSITORY")}/{os.environ.get("GITHUB_REF_NAME")}'
                 kit.gonder(kayit.bul(gunler, bugun), ayar, onay.GitHub(), lambda a: etkilesim._saat(a, ayar), simdi, ham,
@@ -1429,6 +1430,11 @@ def main(argv=None) -> int:
         if args.komut == "nabiz" and os.environ.get("GH_TOKEN") and getattr(ayar, "yorum_kiti", True):
             # Yorum kiti (SÖZLEŞME D3): gelen yorumlara sahibine cevap taslakları; bot cevap atmaz
             claude = __import__("anthropic").Anthropic() if os.environ.get("ANTHROPIC_API_KEY") else None
+            try:  # yorum fırsatları (büyüme ajanı): büyük hesapların postları + taslaklar; bot cevap atmaz
+                if claude is not None:
+                    firsat.kontrol(_x_client(), onay.GitHub(), ayar, kayit.bul(gunler, bugun), simdi, claude, yaz=_ozet_yaz)
+            except Exception as e:
+                _ozet_yaz(f"⚠️ Yorum fırsatları bu turda çalışmadı: {e}")
             for hesap, istemci in (("kalkylerat", _x_client), ("likely", _x_likely)):
                 try:
                     x_ = istemci()

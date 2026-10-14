@@ -780,6 +780,25 @@ def _buyuk_tani(a: dict, b: dict, ayar, cfg: LikelyAyar) -> dict:
     return kayit
 
 
+def paylasim_zamanlari(kuponlar: list[dict], simdi: datetime, cfg, onceki: list[datetime] = ()) -> list[datetime]:
+    """Her kuponun paylaşım anı: ilk maçından oto_once_dk önce, en geç 45 dk önce; kuponlar arasında en az 40 dk.
+    Aralık, son saati (ilk maçı) en yakın kupondan başlayarak verilir ve hiçbir kuponu kendi son saatinin ötesine
+    itemez (14 Ekim: aralık seçim sırasıyla verilince akşam kuponu önce geldi, öğle maçlı long-shot ve büyük maçlar
+    kuponu kendi maçlarının sonrasına itildi; biri kaçtı). Aralık ancak son saat izin verirse uygulanır."""
+    def son(d):
+        return min(datetime.fromisoformat(a["baslama"]) for a in d["ayaklar"]) - timedelta(minutes=45)
+    zamanlar: dict[int, datetime] = {}
+    dolu = sorted(onceki)
+    for i in sorted(range(len(kuponlar)), key=lambda i: son(kuponlar[i])):
+        ilk = son(kuponlar[i]) + timedelta(minutes=45)
+        t = min(max(simdi + timedelta(minutes=5), ilk - timedelta(minutes=cfg.oto_once_dk)), son(kuponlar[i]))
+        while any(abs((t - z).total_seconds()) < 40 * 60 for z in dolu) and t + timedelta(minutes=5) <= son(kuponlar[i]):
+            t += timedelta(minutes=5)  # bir öncekiyle çakışıyorsa son saati aşmadan biraz ileri
+        zamanlar[i] = t
+        dolu.append(t)
+    return [zamanlar[i] for i in range(len(kuponlar))]
+
+
 def sabah(ayar, analizler: list[dict], oranlar: dict, simdi: datetime, gh, yaz=print) -> dict | None:
     """Günün paketini hazırlar ve issue olarak gönderir. Bugün zaten gönderildiyse ya da kapalıysa None."""
     cfg = ayar_yukle()
@@ -802,15 +821,8 @@ def sabah(ayar, analizler: list[dict], oranlar: dict, simdi: datetime, gh, yaz=p
     oto = cfg.mod == "otomatik"
     if oto:
         harita = {a["aday_id"]: a for a in adaylar}
-        onceki = None
-        for k in otomatik_sec(adaylar, cfg):
-            d = _dondur([harita[i] for i in k["ayaklar"]], k["ad"], simdi)
-            ilk = min(datetime.fromisoformat(a["baslama"]) for a in d["ayaklar"])
-            # İlk maçtan oto_once_dk önce (en geç 45 dk önce); iki kupon arasında en az 40 dk.
-            zaman = min(max(simdi + timedelta(minutes=5), ilk - timedelta(minutes=cfg.oto_once_dk)), ilk - timedelta(minutes=45))
-            if onceki:
-                zaman = max(zaman, onceki + timedelta(minutes=40))
-            onceki = zaman
+        secilen = [_dondur([harita[i] for i in k["ayaklar"]], k["ad"], simdi) for k in otomatik_sec(adaylar, cfg)]
+        for d, zaman in zip(secilen, paylasim_zamanlari(secilen, simdi, cfg)):
             d.update(oto=True, paylas=zaman.isoformat(timespec="seconds"))
             gun["secilen"].append(d)
         gun["durum"] = "secildi" if gun["secilen"] else "bekliyor"
@@ -851,8 +863,8 @@ def ek_kupon(ayar, analizler: list[dict], oranlar: dict, simdi: datetime, gh=Non
         if k["ad"] in var or len(gun["secilen"]) >= cfg.oto_max_kupon:
             continue
         d = _dondur([harita[i] for i in k["ayaklar"]], k["ad"], simdi)
-        ilk = min(datetime.fromisoformat(a["baslama"]) for a in d["ayaklar"])
-        zaman = min(max(simdi + timedelta(minutes=5), ilk - timedelta(minutes=cfg.oto_once_dk)), ilk - timedelta(minutes=45))
+        mevcut = [datetime.fromisoformat(m.get("yayin") or m["paylas"]) for m in gun["secilen"] if m.get("yayin") or m.get("paylas")]
+        zaman = paylasim_zamanlari([d], simdi, cfg, mevcut)[0]
         d.update(oto=True, paylas=zaman.isoformat(timespec="seconds"))
         gun["secilen"].append(d)
         gun["durum"] = "secildi"

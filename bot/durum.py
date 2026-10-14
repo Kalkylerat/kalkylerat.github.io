@@ -84,6 +84,10 @@ def likely_durumu(simdi: datetime) -> list[str]:
         for k in g.get("secilen") or []:
             print(f'  {k["ad"]}: {k.get("durum")} plan {_utc(k.get("paylas"))} paylaşıldı {_utc(k.get("yayin"))} '
                   f'sonuç postu {"var" if k.get("sonuc_tweet_id") else "-"}')
+            ilk = min((datetime.fromisoformat(a["baslama"]) for a in k.get("ayaklar") or []), default=None)
+            if not k.get("tweet_id") and k.get("paylas") and ilk and \
+                    datetime.fromisoformat(k["paylas"]) > ilk - timedelta(minutes=20):
+                sorunlar.append(f'Mr. Likely {g["tarih"]} {k["ad"]}: paylaşım planı ilk maça 20 dk kalandan sonra, kupon kaçacak')
             if not k.get("tweet_id") and k.get("paylas") and \
                     simdi > datetime.fromisoformat(k["paylas"]) + timedelta(minutes=30):
                 sorunlar.append(f'Mr. Likely {g["tarih"]} {k["ad"]}: planlanan saatten 30 dk geçti, kupon paylaşılmadı')

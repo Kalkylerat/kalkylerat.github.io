@@ -895,3 +895,20 @@ def test_gol_dakikalari_mac_olaylarindan_ve_skorla_tutmali():
     assert football.goller(kk, (1, 1)) == [[10, 0, "ev"], [85, 0, "dep"]]
     assert football.goller(kk, (2, 0)) == [[10, 0, "ev"], [85, 0, "ev"]]
     assert football.goller(kk, (3, 0)) is None and football.goller({"teams": f["teams"]}, (0, 0)) is None
+
+
+def test_otomatik_zamanlama_kuponu_kendi_maci_sonrasina_itmez():
+    """14 Ekim: 40 dk aralık seçim sırasıyla verildi; akşam kuponu önce gelince öğle ve akşamüstü kuponları kendi
+    ilk maçlarının sonrasına itildi, long-shot kaçtı."""
+    simdi = datetime(2026, 10, 14, 5, 39, tzinfo=UTC)
+    kupon = lambda saat: {"ayaklar": [{"baslama": f"2026-10-14T{saat}:00+00:00"}]}
+    kuponlar = [kupon("20:00"), kupon("11:05"), kupon("16:45")]  # seçim sırası: günün, long-shot, büyük maçlar
+    zamanlar = likely.paylasim_zamanlari(kuponlar, simdi, OTO)
+    for k, z in zip(kuponlar, zamanlar):
+        ilk = datetime.fromisoformat(k["ayaklar"][0]["baslama"])
+        assert simdi < z <= ilk - timedelta(minutes=45)
+    sirali = sorted(zamanlar)
+    assert all((b - a).total_seconds() >= 40 * 60 for a, b in zip(sirali, sirali[1:]))
+    # Aynı saatte başlayan iki kupon: aralık son saati aşmıyorsa verilir, aşacaksa kupon kaçırılmaz
+    ikiz = likely.paylasim_zamanlari([kupon("12:00"), kupon("12:00")], datetime(2026, 10, 14, 10, 50, tzinfo=UTC), OTO)
+    assert all(z <= datetime(2026, 10, 14, 11, 15, tzinfo=UTC) for z in ikiz)

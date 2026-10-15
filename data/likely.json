@@ -14479,7 +14479,8 @@
      "istatistik": 0.871,
      "uyum": true,
      "buyuk": false,
-     "no": 4
+     "no": 4,
+     "sonuc": "yok"
     },
     {
      "aday_id": "1495975-UST15",
@@ -15885,7 +15886,8 @@
      "istatistik": 0.668,
      "uyum": true,
      "buyuk": false,
-     "no": 71
+     "no": 71,
+     "sonuc": "yok"
     },
     {
      "aday_id": "1635620-DPA15",
@@ -16514,7 +16516,7 @@
      "neden": "Double chance 12 ayağı vardı; yeni kuralla (E6) yeniden seçilecek, paylaşılmadan çıkarıldı"
     }
    ],
-   "olcum_sorgu": "2026-10-15T19:52:33+00:00",
+   "olcum_sorgu": "2026-10-15T20:49:02+00:00",
    "iptal_edilen": [
     {
      "ad": "gunun-kuponu",
@@ -16550,7 +16552,8 @@
       "zaman": "2026-10-14T17:29:04+00:00"
      }
     }
-   ]
+   ],
+   "olcum_bitti": true
   },
   {
    "tarih": "2026-10-15",

@@ -232,6 +232,21 @@ def test_F5_zararsiz_kelimeler_yanlis_alarm_vermez():
     assert den.guvensiz_alan("We investigate how Claude handles a long prompt") == []
 
 
+@pytest.mark.parametrize("metin", ["My phone dies by noon since the update", "This app killed my battery overnight",
+                                   "Laptop died during the meeting, how to recover the file", "The death of my old charger"])
+def test_F5_cihaz_baglaminda_teknik_kelimeler_elenmez(metin):
+    assert den.guvensiz_alan(metin) == []
+
+
+@pytest.mark.parametrize("metin, kategori", [("Two people died in the crash near the station", "trajedi"),
+                                             ("Phone found at the scene of the shooting", "trajedi"),
+                                             ("Man killed after phone explodes", "trajedi"),
+                                             ("My phone dies when I check my blood pressure app symptoms", "sağlık"),
+                                             ("Election app crashed and voters' phones died", "siyaset")])
+def test_F5_istisna_yalnizca_teknik_anlamda(metin, kategori):
+    assert kategori in den.guvensiz_alan(metin)
+
+
 # ---------- F6: onay ----------
 
 class SahteGH:
@@ -1133,6 +1148,6 @@ def test_reddit_sorun_kaynagi_konu_sinyali_olarak_girer():
     assert a["tur_ipucu"] == "sorun" and "Battery at 20%" in a["kaynaklar"][0]["ozet"]
     assert flood_puan.sirala([a], SIMDI)  # yapay zekâ kelimesi geçmese de sorun olarak girer
     olur = dict(a, baslik="My phone dies by noon since the update")
-    assert flood_puan.sirala([olur], SIMDI) == []  # F5 bilerek geniş: "dies" elenir (sahibine soruldu, 15 Ekim)
+    assert flood_puan.sirala([olur], SIMDI)  # F5 istisnası: "phone dies" teknik anlamda, elenmez (sahibinin onayı, 15 Ekim)
     ayar = flood.ayar_yukle()
     assert any(len(e) == 3 and e[2] == "sorun" for e in ayar.rss)

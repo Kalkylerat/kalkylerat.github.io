@@ -53,6 +53,22 @@ GUVENSIZ = {
 }
 _GUVENSIZ = {k: re.compile(r"\b(" + v + r")", re.IGNORECASE) for k, v in GUVENSIZ.items()}
 
+# F5 tek istisnası (15 Ekim 2026, sahibinin onayı): cihaz/uygulama hakkındaki gündelik ifadeler trajedi sayılmaz. Yalnızca
+# kalıp eşleşirse ("phone died", "killed my battery", "death of my charger"); kelimenin yakında geçmesi yetmez
+# ("Man killed after phone explodes" elenir). Diğer kategoriler istisnasız.
+_CIHAZ = (r"(phones?|iphones?|androids?|batter(y|ies)|laptops?|computers?|pcs?|macs?|macbooks?|tablets?|ipads?|apps?|"
+          r"browsers?|tabs?|chargers?|routers?|wi-?fi|screens?|keyboards?|mouse|printers?|hard ?drives?|ssds?|disks?|"
+          r"consoles?|headphones?|earbuds|airpods|watch(es)?|smartwatch(es)?|chromebooks?|devices?)")
+_TEKNIK = [re.compile(r"\b" + _CIHAZ + r"(\s+\w+){0,2}\s+(dies|died|dying)\b", re.IGNORECASE),
+           re.compile(r"\bkilled\s+(my|the|your|our|its)\s+(\w+\s+)?" + _CIHAZ + r"\b", re.IGNORECASE),
+           re.compile(r"\bdeath\s+of\s+(my|the|your|our)\s+(\w+\s+)?" + _CIHAZ + r"\b", re.IGNORECASE)]
+
+
+def _teknik_ifadeleri_cikar(metin: str) -> str:
+    for kalip in _TEKNIK:
+        metin = kalip.sub(" ", metin)
+    return metin
+
 # "7 prompts", "5 steps": liste boyutu bir olgu iddiası değil, yapıdır. Süre, yüzde, fiyat gibi sayılar yapı değildir.
 _YAPI_SAYI = re.compile(r"\b\d{1,2}\s+(steps?|prompts?|ways|things|tools?|lines?|tips|rules|questions|mistakes|examples?|"
                         r"points|ideas|templates?|slides?|posts?|parts?|moves)\b|^\s*\d{1,2}[./)]\s", re.IGNORECASE | re.MULTILINE)
@@ -80,7 +96,9 @@ def bagimsiz_alan_sayisi(urller) -> int:
 
 def guvensiz_alan(metin: str) -> list[str]:
     """F5: metinde geçen güvensiz konu kategorileri (boşsa güvenli)."""
-    return [ad for ad, kalip in _GUVENSIZ.items() if kalip.search(metin or "")]
+    metin = metin or ""
+    temiz = _teknik_ifadeleri_cikar(metin)  # istisna yalnızca trajedi kategorisine uygulanır
+    return [ad for ad, kalip in _GUVENSIZ.items() if kalip.search(temiz if ad == "trajedi" else metin)]
 
 
 def kayit_metni(kayit: dict) -> str:

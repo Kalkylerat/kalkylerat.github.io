@@ -10,7 +10,7 @@ import time
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-from . import analiz, config, denetci, direktor, editor, etkilesim, football, gorsel, kayit, kit, likely, likely_gorsel, likely_yetki, model, oddsapi, onay, panel, saglik, temizlik, tweets, yorum, firsat
+from . import analiz, config, denetci, direktor, editor, etkilesim, flood, flood_ig, flood_yetki, football, gorsel, kayit, kit, likely, likely_gorsel, likely_yetki, model, oddsapi, onay, panel, saglik, temizlik, tweets, yorum, firsat
 from .model import adaylari_uret, bet_builder, etiketler
 
 # Çalışma sırasında yakalanan hatalar: iş sonunda "başarısız" işaretlenir, GitHub sahibine e-posta atar.
@@ -1009,6 +1009,55 @@ def likely_yetki_komutu(ayar) -> None:
         _hata("Mr. Likely paylaşım izni", e)
 
 
+def flood_yetki_komutu(ayar) -> None:
+    """Prompt Proof hesabının uygulamaya paylaşım izni: "ek" boşsa izin bağlantısı issue olarak gelir; "ek" alanına
+    dönülen adres yapıştırılırsa izin tamamlanır ve anahtar şifreli kaydedilir (loglara anahtar yazılmaz)."""
+    gh = onay.GitHub()
+    parca = flood_yetki.coz(os.environ.get("BOT_EK", ""))
+    kime = f"@{ayar.alarm_kime} " if ayar.alarm_kime else ""
+    try:
+        if parca:
+            hesap = flood_yetki.tamamla(config.env("X_API_KEY"), config.env("X_API_SECRET"), *parca)
+            mesaj = (f"✅ Prompt Proof X paylaşım izni tamam: @{hesap}. Anahtar depoda şifreli duruyor. Hesapta \"Automated\" "
+                     "etiketi açık olmalı. Paylaşım için ayarlar.toml → [flood] mod = \"onay\" yapın.")
+        else:
+            url = flood_yetki.baslat(config.env("X_API_KEY"), config.env("X_API_SECRET"))
+            mesaj = ("Prompt Proof X hesabının paylaşım izni için:\n\n1. Tarayıcıda X'e **Prompt Proof hesabıyla** giriş yapmış ol.\n"
+                     f"2. Şu bağlantıyı aç ve **Authorize app**'e bas: {url}\n"
+                     "3. Sayfa github.com'a döner; adres çubuğundaki adresin tamamını kopyalayıp Claude'a gönder.\n\n"
+                     "Bağlantı birkaç dakika geçerlidir.")
+        gh.issue_ac("🧪 Prompt Proof: X paylaşım izni", kime + mesaj, flood.ETIKET)
+        _ozet_yaz(mesaj)
+    except Exception as e:
+        _hata("Prompt Proof X izni", e)
+
+
+def flood_ig_komutu(ayar) -> None:
+    """Instagram anahtarını doğrular (hesap adı, hesap türü) ve şifreli kaydeder. Anahtar: IG_FLOOD_TOKEN, kimlik: IG_FLOOD_ID."""
+    gh = onay.GitHub()
+    kime = f"@{ayar.alarm_kime} " if ayar.alarm_kime else ""
+    try:
+        token, ig_id = config.env("IG_FLOOD_TOKEN"), config.env("IG_FLOOD_ID")
+        ben = flood_ig.InstagramClient(token, ig_id, surum=flood.ayar_yukle().ig_surum).ben()
+        if str(ben.get("account_type", "")).upper() not in ("BUSINESS", "MEDIA_CREATOR", "CREATOR"):
+            raise RuntimeError(f"Hesap türü {ben.get('account_type')}: Instagram'da Business ya da Creator hesabı gerekir.")
+        flood_yetki.kaydet_ig(config.env("X_API_SECRET"), token, ig_id, kayit.simdi_utc())
+        mesaj = (f"✅ Prompt Proof Instagram bağlantısı tamam: @{ben.get('username')} ({ben.get('account_type')}). Anahtar "
+                 "depoda şifreli duruyor, bot süresi dolmadan yeniler.")
+        gh.issue_ac("🧪 Prompt Proof: Instagram bağlantısı", kime + mesaj, flood.ETIKET)
+        _ozet_yaz(mesaj)
+    except Exception as e:
+        _hata("Prompt Proof Instagram bağlantısı", e)
+
+
+def flood_nabiz(ayar, simdi: datetime) -> None:
+    """Prompt Proof (SOZLESME F): kapalı modda hiçbir şey yapmaz. Bir hata diğer hesapları etkilemez."""
+    try:
+        flood.nabiz(ayar, simdi, yaz=_ozet_yaz)
+    except Exception as e:
+        _hata("Prompt Proof", e)
+
+
 def likely_nabiz(ayar, simdi: datetime, sonuclar: bool = True) -> None:
     """Mr. Likely: sahibinin issue yorumlarındaki seçimler ve (nabızda) biten kuponların sonuçları. X'e paylaşım yok."""
     if not os.environ.get("GH_TOKEN") or not likely.ayar_yukle().aktif:
@@ -1321,7 +1370,7 @@ def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="bot")
     p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt", "sabit", "hafta", "yenile", "oran_testi",
                                           "onay_kontrol", "onay_testi", "onay_yenile", "nabiz",
-                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir", "kasa_duzelt", "direktor", "skor_duzelt", "sonuc_duzelt", "kasa_defteri", "temizle", "liste", "kiyas", "takip_yenile", "metrik", "hesap_kontrol", "likely", "likely_paket", "likely_yetki", "likely_ek", "likely_yenile", "likely_iptal"])
+                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir", "kasa_duzelt", "direktor", "skor_duzelt", "sonuc_duzelt", "kasa_defteri", "temizle", "liste", "kiyas", "takip_yenile", "metrik", "hesap_kontrol", "likely", "likely_paket", "likely_yetki", "likely_ek", "likely_yenile", "likely_iptal", "flood", "flood_yetki", "flood_ig"])
     args = p.parse_args(argv)
     ayar = config.yukle()
     from dataclasses import replace as _degistir
@@ -1338,6 +1387,12 @@ def main(argv=None) -> int:
         return 0
     if args.komut == "likely_yetki":
         likely_yetki_komutu(ayar)
+        return 1 if HATALAR else 0
+    if args.komut == "flood_yetki":
+        flood_yetki_komutu(ayar)
+        return 1 if HATALAR else 0
+    if args.komut == "flood_ig":
+        flood_ig_komutu(ayar)
         return 1 if HATALAR else 0
     if args.komut == "odds_tani":
         odds_tani(ayar)
@@ -1599,6 +1654,8 @@ def main(argv=None) -> int:
                 _hata("Mr. Likely yeniden paylaşım", e)
         if args.komut in ("onay_kontrol", "nabiz", "likely", "likely_ek", "likely_yenile"):
             likely_nabiz(ayar, simdi, sonuclar=args.komut != "onay_kontrol")
+        if args.komut in ("onay_kontrol", "nabiz", "flood") and os.environ.get("GH_TOKEN"):
+            flood_nabiz(ayar, simdi)
         if args.komut == "sonuc_yeniden":
             # Son sonuç paylaşımını (eski biçim: kupon altında yanıt) silip yeni biçimle (alıntı) tekrar paylaşır.
             g = next((g for g in sorted(gunler, key=lambda g: g["tarih"], reverse=True) if g.get("sonuc_tweet_idleri")), None)

@@ -13,3 +13,6 @@
   (hızlı durum: `python -m bot.durum`).
 - **Mr. Likely** (ikinci hesap, otomatik mod): `bot/likely.py`, görsel `bot/likely_gorsel.py`, kurallar SOZLESME.md
   E bölümü, karakter ve kurulum `marka/MR_LIKELY.md`. Kuponu sabit kurallar seçer (E6); kuralları gevşetmeden önce sahibine sor.
+- **Prompt Proof** (üçüncü hesap, X + Instagram, yapay zekâ; varsayılan `kapali`): `bot/flood*.py`, kurallar SOZLESME.md
+  F bölümü, karakter ve kurulum `marka/PROMPT_PROOF.md`, işletme `.claude/skills/prompt-proof/SKILL.md`, Instagram
+  `.claude/skills/instagram/SKILL.md`. Trend içerik yalnızca sahibinin `ok` cevabıyla çıkar (F6); kuralları gevşetmeden önce sahibine sor.

@@ -74622,6 +74622,33 @@
               2
             ],
             "zaman": "2026-10-15T20:55:59+00:00"
+          },
+          "1636256": {
+            "durum": "paylasildi",
+            "tweet_id": "2110838683767075291",
+            "skor": [
+              1,
+              0
+            ],
+            "zaman": "2026-10-15T21:02:12+00:00"
+          },
+          "1636260": {
+            "durum": "paylasildi",
+            "tweet_id": "2110838684916367812",
+            "skor": [
+              2,
+              1
+            ],
+            "zaman": "2026-10-15T21:02:12+00:00"
+          },
+          "1636268": {
+            "durum": "paylasildi",
+            "tweet_id": "2110838686057189766",
+            "skor": [
+              2,
+              3
+            ],
+            "zaman": "2026-10-15T21:02:12+00:00"
           }
         }
       },
@@ -75098,7 +75125,22 @@
         "durum": "paylasildi",
         "tweet_id": "2110753075866574878",
         "zaman": "2026-10-15T15:21:59+00:00",
-        "metin": "🆚 Dinamo Zagreb v Anderlecht\n\n🏆 Dinamo Zagreb 48% · Draw 25% · Anderlecht 27%\n⚽ Over 2.5 goals 52% · Under 48%\n🥅 Both teams score 55% · Not both 46%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n#UEL\n18+ | Play responsibly"
+        "metin": "🆚 Dinamo Zagreb v Anderlecht\n\n🏆 Dinamo Zagreb 48% · Draw 25% · Anderlecht 27%\n⚽ Over 2.5 goals 52% · Under 48%\n🥅 Both teams score 55% · Not both 46%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n#UEL\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2110838768336802097",
+          "skor": "1-0",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "xg": [
+            1.82,
+            1.18
+          ],
+          "zaman": "2026-10-15T21:02:12+00:00"
+        }
       },
       "analiz_22": {
         "durum": "paylasildi",

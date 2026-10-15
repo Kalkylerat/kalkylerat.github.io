@@ -11,7 +11,7 @@ from datetime import datetime, timedelta
 
 from . import config, kopya
 
-ETIKETLER = {"kalkylerat": "yorum-kiti", "likely": "yorum-kiti-likely"}  # hesap başına: günlük issue, eskisi kapanır
+ETIKETLER = {"kalkylerat": "yorum-kiti", "likely": "yorum-kiti-likely", "flood": "yorum-kiti-flood"}  # hesap başına: günlük issue, eskisi kapanır
 DOSYA = config.ROOT / "data" / "yorumlar.json"
 KONTROL_DK = 30  # cevap için ilk 30–60 dk yeter; boş sorgu ücretliyse bile günde ~32 sorgu (14 Ekim)
 GUNDUZ = (6, 23)  # UTC: bu saatler dışında sorulmaz; gece gelen yorum sabah ilk kontrolde gelir
@@ -33,6 +33,16 @@ def _likely_sesi() -> str:
         return "You are Mr. Likely: a dry, self-aware football coupon account. Likely, never certain."
     bolum = metin.split("## Who he is", 1)[-1].split("\n## ", 1)[0]
     return "You are Mr. Likely (second account, English). Voice notes:\n" + bolum.strip()[:4000]
+
+
+def _flood_sesi() -> str:
+    """Tiny Fixes (üçüncü hesap) sesi: marka/TINY_FIXES.md."""
+    try:
+        metin = (config.ROOT / "marka" / "TINY_FIXES.md").read_text(encoding="utf-8")
+    except OSError:
+        return "You are Tiny Fixes: an AI account that only posts tested fixes. Calm, plain, specific."
+    bolum = metin.split("## Who is speaking", 1)[-1].split("\n## ", 1)[0]
+    return "You are Tiny Fixes (AI fixes and news, English). Voice notes:\n" + bolum.strip()[:2500]
 
 
 # İnsan sesi (14 Ekim 2026, sahibinin isteği): taslaklar robot gibi değil, maçı izleyen bir taraftar gibi.
@@ -113,12 +123,33 @@ SISTEM_LIKELY = SISTEM.replace("""- Kind and respectful to everyone: no sarcasm,
   Never claim something you can't see in the facts.""", """- Kind: a friendly tease is fine when they are playful, but no insults, no mocking, no negative judgments about
   any club, player, fan or person. Never claim something you can't see in the facts.""") + "\n" + LIKELY_INSAN
 
+# Tiny Fixes (SOZLESME F): futbol sesi ve maç kuralları değil; yalnızca denenmiş olanı söyleyen sakin bir ses (F1–F3, F7).
+FLOOD_SISTEM = """You draft replies that the account owner will read, edit and post BY HAND on X or Instagram. You never
+post anything. Write 2 different short reply drafts to the comment below, in the account's voice, in plain English.
+
+First read the whole conversation in order: what our post said and what THEY are answering. Answer what they said.
+If they push back or say the prompt didn't work for them, take it gracefully: thank them, ask what they saw, never
+argue and never insist it works for everyone.
+
+Hard rules:
+- Max 200 characters each. No links, no "@" mentions, no hashtags, at most one emoji.
+- Use only facts from our post and the comment. Never invent results, numbers, model versions, prices or news.
+- No fake experience: never "I've used this for months", "my clients", "we tested 50 tools". Only what our post says.
+- No medical, legal or financial advice. If asked, say kindly that it's outside what we test.
+- Sound like a person: no "Great question!", no "Here's", no "Honestly,", no hype words (game-changer, insane).
+- Draft 1 answers the comment directly. Draft 2 is shorter and keeps the chat going (often a question back).
+
+Also set "not" to ONE short sentence in Turkish for the owner: what the comment says, and "cevap vermesen de olur" if
+it is spam, a bot, abuse or a scam link. Set "spam" true in that case."""
+
 SEMA = {"type": "object", "additionalProperties": False, "required": ["taslaklar", "not", "spam"],
         "properties": {"taslaklar": {"type": "array", "items": {"type": "string"}},
                        "not": {"type": "string"}, "spam": {"type": "boolean"}}}
 
 YEDEK = ["Cheers for reading. Which number on the card surprised you most?",
          "Fair point. How would you read this one?"]
+YEDEK_FLOOD = ["Thanks for trying it. What did the output look like on your side?",
+               "Fair point. Which part broke for you? Happy to test that case next."]
 YEDEK_LIKELY = ["Fair point. I only go where the numbers send me, and they don't always treat me kindly.",
                 "Noted. How would you have built it?"]
 
@@ -193,20 +224,21 @@ def taslaklar(yorum: dict, hesap: str, client=None, ayar=None, yaz=print, gun: d
               simdi: datetime | None = None, hesap_adi: str = "kalkylerat") -> tuple[list[str], str, bool]:
     """(taslaklar, sahibine not, spam mı). Claude yoksa ya da taslaklar kurala uymazsa hazır kalıplar."""
     adimlar = konusma(yorum, hesap_adi)
-    mac = mac_bilgisi(" ".join(a["text"] for a in adimlar), gun, simdi) if simdi else None
+    mac = mac_bilgisi(" ".join(a["text"] for a in adimlar), gun, simdi) if simdi and hesap != "flood" else None
     kaynak = "\n".join(a["text"] for a in adimlar) + "\n" + json.dumps(mac or {}, ensure_ascii=False)
-    yedek = YEDEK_LIKELY if hesap == "likely" else YEDEK
+    yedek = {"likely": YEDEK_LIKELY, "flood": YEDEK_FLOOD}.get(hesap, YEDEK)
     if client is None or ayar is None:
         return yedek, "", False
     from .direktor import _cagir
-    ses = (_likely_sesi() + "\n" + LIKELY_NOTU) if hesap == "likely" else SESLER["kalkylerat"]
+    ses = {"likely": lambda: _likely_sesi() + "\n" + LIKELY_NOTU, "flood": _flood_sesi}.get(
+        hesap, lambda: SESLER["kalkylerat"])()
+    sistem = {"flood": FLOOD_SISTEM, "likely": SISTEM_LIKELY}.get(hesap, SISTEM)
     icerik = json.dumps({"conversation_in_order": adimlar,
                          "now_utc": simdi.strftime("%Y-%m-%d %H:%M") if simdi else None,
                          "match_in_this_conversation": mac or "(no match of ours found in this conversation)"},
                         ensure_ascii=False, indent=1)
     try:
-        cevap = _cagir(client, [(ayar.direktor_model, "low"), (ayar.claude_model, "low")],
-                       ses + "\n\n" + (SISTEM_LIKELY if hesap == "likely" else SISTEM),
+        cevap = _cagir(client, [(ayar.direktor_model, "low"), (ayar.claude_model, "low")], ses + "\n\n" + sistem,
                        icerik, SEMA, 2000)
     except Exception as e:
         yaz(f"Yorum kiti: taslak yazılamadı ({e}); hazır kalıplar kullanıldı.")
@@ -231,8 +263,12 @@ def sayfa_ogesi(kim: str, post: str, url: str, taslaklar: list[str], ekler=(), n
             "taslaklar": [(f"{n}. taslak", t) for n, t in enumerate(taslaklar, 1)] + list(ekler)}
 
 
-def bildirim(yorum: dict, taslak: list[str], not_: str, spam: bool, hesap_adi: str, sayfa: str | None = None) -> str:
-    satirlar = ([HESAP_UYARISI.format(ad="@" + hesap_adi), ""] if hesap_adi.lower() != "kalkylerat" else []) + [
+def bildirim(yorum: dict, taslak: list[str], not_: str, spam: bool, hesap_adi: str, sayfa: str | None = None,
+             instagram_url: str | None = None) -> str:
+    """instagram_url verilirse Instagram yorumu (Tiny Fixes): uyarı ve "gör" bağlantısı Instagram'a göre yazılır."""
+    uyari = (f"⚠️ Önce Instagram'da @{hesap_adi} hesabına geç: cevap açık olan hesapla gider." if instagram_url
+             else HESAP_UYARISI.format(ad="@" + hesap_adi))
+    satirlar = ([uyari, ""] if hesap_adi.lower() != "kalkylerat" else []) + [
                 f"### 💬 @{yorum.get('kullanici') or '?'} → @{hesap_adi}",
                 f"> {(yorum.get('metin') or '').strip()}".replace("\n", "\n> "), ""]
     if yorum.get("ust"):
@@ -243,7 +279,8 @@ def bildirim(yorum: dict, taslak: list[str], not_: str, spam: bool, hesap_adi: s
         satirlar += [f"📝 {not_}" + (" (spam gibi)" if spam and "cevap vermesen" not in not_ else ""), ""]
     if sayfa:
         satirlar += [f"📋 **[Kopyala ve yorumu aç]({sayfa})** (sayfa 1–2 dakikada hazır olur)", ""]
-    satirlar += [f"👀 [Yorumu X'te gör](https://x.com/i/web/status/{yorum['id']})", ""]
+    satirlar += [f"👀 [Postu Instagram'da gör]({instagram_url})" if instagram_url
+                 else f"👀 [Yorumu X'te gör](https://x.com/i/web/status/{yorum['id']})", ""]
     satirlar += taslak_satirlari(taslak)
     return "\n".join(satirlar).rstrip()
 

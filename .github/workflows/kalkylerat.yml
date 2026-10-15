@@ -16,7 +16,7 @@ on:
         description: "Ne yapılsın?"
         type: choice
         default: yayinla
-        options: [yayinla, profil, sonuc_yeniden, demo, nabiz, onay_yenile, onay_testi, onay_kontrol, onizleme, duzelt, yenile, sabit, hafta, oran_testi, otomatik, tahmin, sonuc, panel, tani, odds_tani, odds_pazar, vitrin, ek_kupon, af_pazar, ayir, kasa_duzelt, direktor, skor_duzelt, sonuc_duzelt, kasa_defteri, temizle, liste, kiyas, takip_yenile, metrik, hesap_kontrol, likely, likely_paket, likely_yetki, likely_ek, likely_yenile, likely_iptal]
+        options: [yayinla, profil, sonuc_yeniden, demo, nabiz, onay_yenile, onay_testi, onay_kontrol, onizleme, duzelt, yenile, sabit, hafta, oran_testi, otomatik, tahmin, sonuc, panel, tani, odds_tani, odds_pazar, vitrin, ek_kupon, af_pazar, ayir, kasa_duzelt, direktor, skor_duzelt, sonuc_duzelt, kasa_defteri, temizle, liste, kiyas, takip_yenile, metrik, hesap_kontrol, likely, likely_paket, likely_yetki, likely_ek, likely_yenile, likely_iptal, flood, flood_yetki, flood_ig, flood_tani, flood_paket, flood_site]
       ek:
         description: "Tek çalışmalık istisna (ör. guvenli_min_deger=-0.03 api_yedek=8) ya da likely_yetki için dönülen adres; boş bırakın"
         type: string
@@ -74,6 +74,13 @@ jobs:
           X_LIKELY_API_SECRET: ${{ secrets.X_LIKELY_API_SECRET }}
           X_LIKELY_ACCESS_TOKEN: ${{ secrets.X_LIKELY_ACCESS_TOKEN }}
           X_LIKELY_ACCESS_SECRET: ${{ secrets.X_LIKELY_ACCESS_SECRET }}
+          # Tiny Fixes (üçüncü hesap, SOZLESME F): X izni data/flood_x.enc içinde şifreli; Instagram anahtarı ve kimliği
+          # yalnızca ilk kurulumda gerekir (flood_ig komutu şifreli kaydeder). [flood] mod = "kapali" iken hiçbiri okunmaz.
+          IG_FLOOD_TOKEN: ${{ secrets.IG_FLOOD_TOKEN }}
+          IG_FLOOD_ID: ${{ secrets.IG_FLOOD_ID }}
+          # Tiny Fixes gelir rakamları (yalnızca okuma, F14); yoksa haftalık rapor "okunmadı" yazar.
+          KIT_API_KEY: ${{ secrets.KIT_API_KEY }}
+          LEMON_API_KEY: ${{ secrets.LEMON_API_KEY }}
         run: |
           case "$OLAY|$ZAMAN" in
             issue_comment\|*) KOMUT=onay_kontrol ;;
@@ -103,6 +110,13 @@ jobs:
           done
           echo "::error::Kayıt depoya gönderilemedi! Çalışmanın 'kayit' dosyasından geri yüklenmeli."
           exit 1
+      - name: Tiny Fixes paketlerini kısa ömürlü çıktı olarak sakla (depoya girmez, F13)
+        if: always() && hashFiles('urun/*.pdf') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: tiny-fixes-paketler
+          path: urun/*.pdf
+          retention-days: 1
       - name: Onay isteği aç
         if: always() && hashFiles('onay_istegi.md') != ''
         env:

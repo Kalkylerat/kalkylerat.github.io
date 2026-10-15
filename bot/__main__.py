@@ -10,7 +10,7 @@ import time
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-from . import analiz, config, denetci, direktor, editor, etkilesim, football, gorsel, kayit, kit, likely, likely_gorsel, likely_yetki, model, oddsapi, onay, panel, saglik, temizlik, tweets, yorum, firsat
+from . import analiz, config, denetci, direktor, editor, etkilesim, flood, flood_ig, flood_yetki, football, gorsel, kayit, kit, likely, likely_gorsel, likely_yetki, model, oddsapi, onay, panel, saglik, temizlik, tweets, yorum, firsat
 from .model import adaylari_uret, bet_builder, etiketler
 
 # Çalışma sırasında yakalanan hatalar: iş sonunda "başarısız" işaretlenir, GitHub sahibine e-posta atar.
@@ -1009,6 +1009,118 @@ def likely_yetki_komutu(ayar) -> None:
         _hata("Mr. Likely paylaşım izni", e)
 
 
+def flood_yetki_komutu(ayar) -> None:
+    """Tiny Fixes hesabının uygulamaya paylaşım izni: "ek" boşsa izin bağlantısı issue olarak gelir; "ek" alanına
+    dönülen adres yapıştırılırsa izin tamamlanır ve anahtar şifreli kaydedilir (loglara anahtar yazılmaz)."""
+    gh = onay.GitHub()
+    parca = flood_yetki.coz(os.environ.get("BOT_EK", ""))
+    kime = f"@{ayar.alarm_kime} " if ayar.alarm_kime else ""
+    try:
+        if parca:
+            hesap = flood_yetki.tamamla(config.env("X_API_KEY"), config.env("X_API_SECRET"), *parca)
+            mesaj = (f"✅ Tiny Fixes X paylaşım izni tamam: @{hesap}. Anahtar depoda şifreli duruyor. Hesapta \"Automated\" "
+                     "etiketi açık olmalı. Paylaşım için ayarlar.toml → [flood] mod = \"onay\" yapın.")
+        else:
+            url = flood_yetki.baslat(config.env("X_API_KEY"), config.env("X_API_SECRET"))
+            mesaj = ("Tiny Fixes X hesabının paylaşım izni için:\n\n1. Tarayıcıda X'e **Tiny Fixes hesabıyla** giriş yapmış ol.\n"
+                     f"2. Şu bağlantıyı aç ve **Authorize app**'e bas: {url}\n"
+                     "3. Sayfa github.com'a döner; adres çubuğundaki adresin tamamını kopyalayıp Claude'a gönder.\n\n"
+                     "Bağlantı birkaç dakika geçerlidir.")
+        gh.issue_ac("🧪 Tiny Fixes: X paylaşım izni", kime + mesaj, flood.ETIKET)
+        _ozet_yaz(mesaj)
+    except Exception as e:
+        _hata("Tiny Fixes X izni", e)
+
+
+def flood_ig_komutu(ayar) -> None:
+    """Instagram anahtarını doğrular (hesap adı, hesap türü) ve şifreli kaydeder. Anahtar: IG_FLOOD_TOKEN, kimlik: IG_FLOOD_ID."""
+    gh = onay.GitHub()
+    kime = f"@{ayar.alarm_kime} " if ayar.alarm_kime else ""
+    try:
+        token, ig_id = config.env("IG_FLOOD_TOKEN"), config.env("IG_FLOOD_ID")
+        ben = flood_ig.InstagramClient(token, ig_id, surum=flood.ayar_yukle().ig_surum).ben()
+        if str(ben.get("account_type", "")).upper() not in ("BUSINESS", "MEDIA_CREATOR", "CREATOR"):
+            raise RuntimeError(f"Hesap türü {ben.get('account_type')}: Instagram'da Business ya da Creator hesabı gerekir.")
+        flood_yetki.kaydet_ig(config.env("X_API_SECRET"), token, ig_id, kayit.simdi_utc())
+        mesaj = (f"✅ Tiny Fixes Instagram bağlantısı tamam: @{ben.get('username')} ({ben.get('account_type')}). Anahtar "
+                 "depoda şifreli duruyor, bot süresi dolmadan yeniler.")
+        gh.issue_ac("🧪 Tiny Fixes: Instagram bağlantısı", kime + mesaj, flood.ETIKET)
+        _ozet_yaz(mesaj)
+    except Exception as e:
+        _hata("Tiny Fixes Instagram bağlantısı", e)
+
+
+def flood_tani_komutu(ayar) -> None:
+    """Tiny Fixes salt okunur tanı: konu kaynakları ve puanlama canlı; Claude/X/Instagram'a dokunmaz. Sonuç issue olarak gelir."""
+    try:
+        metin = flood.tani(yaz=_ozet_yaz)
+        if os.environ.get("GH_TOKEN"):
+            kime = f"@{ayar.alarm_kime} " if ayar.alarm_kime else ""
+            onay.GitHub().issue_ac("🩹 Tiny Fixes tanı", kime + metin, flood.TANI_ETIKETI)
+    except Exception as e:
+        _hata("Tiny Fixes tanı", e)
+
+
+def flood_paket_komutu(ayar) -> None:
+    """Tiny Fixes paketleri (SOZLESME F13): eksik paket temalarını gerçekten dener (tema başına ~$0.04, bir kez),
+    ücretsiz başlangıç paketini ve ücretli kütüphaneyi PDF olarak `urun/` klasörüne yazar (depoya girmez; iş akışı
+    1 günlük çıktı olarak saklar), sitedeki ürün özetini günceller. "ek" alanı: en fazla kaç yeni tema (varsayılan hepsi)."""
+    from . import flood_gelir, flood_kutuphane, flood_pdf
+    gh = onay.GitHub() if os.environ.get("GH_TOKEN") else None
+    kime = f"@{ayar.alarm_kime} " if ayar.alarm_kime else ""
+    try:
+        secret = config.env("X_API_SECRET")
+        import anthropic
+        simdi = kayit.simdi_utc()
+        once = len(flood_kutuphane.paket_yukle(secret))
+        ek = os.environ.get("BOT_EK", "").strip()
+        girdiler = flood_kutuphane.paket_uret(anthropic.Anthropic(), flood.ayar_yukle(), secret, simdi,
+                                              int(ek) if ek.isdigit() else len(flood_kutuphane.PAKET_TEMALARI), _ozet_yaz)
+        denenen = len(girdiler) - once
+        paket = flood_kutuphane.paket_girdileri(girdiler)
+        g = flood_gelir.ayar_yukle()
+        if len(paket) < g.ucretsiz_paket_sayisi:
+            raise RuntimeError(f"Pakete girebilen denenmiş komut {len(paket)}, en az {g.ucretsiz_paket_sayisi} gerekli.")
+        klasor = config.ROOT / "urun"
+        klasor.mkdir(exist_ok=True)
+        ucretsiz = flood_kutuphane.ucretsiz_sec(paket, g.ucretsiz_paket_sayisi)
+        (klasor / "tiny_fixes_starter.pdf").write_bytes(flood_pdf.paket(ucretsiz, "Tiny Fixes Starter",
+                                                         f"{len(ucretsiz)} tested AI prompts for everyday problems"))
+        (klasor / "tiny_fixes_library.pdf").write_bytes(flood_pdf.paket(paket, g.urun_adi,
+                                                         f"{len(paket)} tested AI prompts for work, study and home"))
+        flood_kutuphane.ozet_yaz(flood_kutuphane.ozet(paket, simdi))
+        flood.site_guncelle(_ozet_yaz)
+        calisma = f"{os.environ.get('GITHUB_SERVER_URL', 'https://github.com')}/{os.environ.get('GITHUB_REPOSITORY', '')}/actions/runs/{os.environ.get('GITHUB_RUN_ID', '')}"
+        mesaj = (f"📦 Tiny Fixes paketleri hazır: ücretsiz {len(ucretsiz)} komut, ücretli {len(paket)} komut. Bu çalışmada "
+                 f"{denenen} tema denendi (tahmini ~${denenen * flood_kutuphane.TEMA_MALIYETI:.2f}).\n\n"
+                 f"1. Bu çalışmanın sayfasını aç: {calisma} → en altta **Artifacts → tiny-fixes-paketler** (24 saat durur).\n"
+                 "2. `tiny_fixes_starter.pdf` → Kit'te formun teşekkür (incentive) e-postasına dosya olarak ekle.\n"
+                 f"3. `tiny_fixes_library.pdf` → Lemon Squeezy'de ürünün dosyası ({g.urun_fiyat}).\n"
+                 "Dosyaları başka yerde herkese açık paylaşma: depo herkese açık olduğu için pakete depoda düz metin olarak yer yok (F13).")
+        if gh:
+            gh.issue_ac("📦 Tiny Fixes paketleri hazır", kime + mesaj, flood.ETIKET)
+        _ozet_yaz(mesaj)
+    except Exception as e:
+        _hata("Tiny Fixes paketi", e)
+
+
+def flood_site_komutu(ayar) -> None:
+    """Tiny Fixes sitesini yeniden yazar (ücretsiz, ağ yok)."""
+    try:
+        degisen = flood.site_guncelle(_ozet_yaz)
+        _ozet_yaz(f"Tiny Fixes sitesi: {len(degisen)} dosya güncellendi.")
+    except Exception as e:
+        _hata("Tiny Fixes sitesi", e)
+
+
+def flood_nabiz(ayar, simdi: datetime) -> None:
+    """Tiny Fixes (SOZLESME F): kapalı modda hiçbir şey yapmaz. Bir hata diğer hesapları etkilemez."""
+    try:
+        flood.nabiz(ayar, simdi, yaz=_ozet_yaz)
+    except Exception as e:
+        _hata("Tiny Fixes", e)
+
+
 def likely_nabiz(ayar, simdi: datetime, sonuclar: bool = True) -> None:
     """Mr. Likely: sahibinin issue yorumlarındaki seçimler ve (nabızda) biten kuponların sonuçları. X'e paylaşım yok."""
     if not os.environ.get("GH_TOKEN") or not likely.ayar_yukle().aktif:
@@ -1321,7 +1433,7 @@ def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="bot")
     p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt", "sabit", "hafta", "yenile", "oran_testi",
                                           "onay_kontrol", "onay_testi", "onay_yenile", "nabiz",
-                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir", "kasa_duzelt", "direktor", "skor_duzelt", "sonuc_duzelt", "kasa_defteri", "temizle", "liste", "kiyas", "takip_yenile", "metrik", "hesap_kontrol", "likely", "likely_paket", "likely_yetki", "likely_ek", "likely_yenile", "likely_iptal"])
+                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir", "kasa_duzelt", "direktor", "skor_duzelt", "sonuc_duzelt", "kasa_defteri", "temizle", "liste", "kiyas", "takip_yenile", "metrik", "hesap_kontrol", "likely", "likely_paket", "likely_yetki", "likely_ek", "likely_yenile", "likely_iptal", "flood", "flood_yetki", "flood_ig", "flood_tani", "flood_paket", "flood_site"])
     args = p.parse_args(argv)
     ayar = config.yukle()
     from dataclasses import replace as _degistir
@@ -1338,6 +1450,21 @@ def main(argv=None) -> int:
         return 0
     if args.komut == "likely_yetki":
         likely_yetki_komutu(ayar)
+        return 1 if HATALAR else 0
+    if args.komut == "flood_yetki":
+        flood_yetki_komutu(ayar)
+        return 1 if HATALAR else 0
+    if args.komut == "flood_ig":
+        flood_ig_komutu(ayar)
+        return 1 if HATALAR else 0
+    if args.komut == "flood_tani":
+        flood_tani_komutu(ayar)
+        return 1 if HATALAR else 0
+    if args.komut == "flood_paket":
+        flood_paket_komutu(ayar)
+        return 1 if HATALAR else 0
+    if args.komut == "flood_site":
+        flood_site_komutu(ayar)
         return 1 if HATALAR else 0
     if args.komut == "odds_tani":
         odds_tani(ayar)
@@ -1599,6 +1726,8 @@ def main(argv=None) -> int:
                 _hata("Mr. Likely yeniden paylaşım", e)
         if args.komut in ("onay_kontrol", "nabiz", "likely", "likely_ek", "likely_yenile"):
             likely_nabiz(ayar, simdi, sonuclar=args.komut != "onay_kontrol")
+        if args.komut in ("onay_kontrol", "nabiz", "flood") and os.environ.get("GH_TOKEN"):
+            flood_nabiz(ayar, simdi)
         if args.komut == "sonuc_yeniden":
             # Son sonuç paylaşımını (eski biçim: kupon altında yanıt) silip yeni biçimle (alıntı) tekrar paylaşır.
             g = next((g for g in sorted(gunler, key=lambda g: g["tarih"], reverse=True) if g.get("sonuc_tweet_idleri")), None)

@@ -193,3 +193,58 @@ kupon = 10
 min_dakika_once = 120
 # Kendi kurduğun kuponda en fazla maç sayısı.
 max_ayak = 4
+
+[flood]
+# Tiny Fixes (üçüncü hesap, X + Instagram, yapay zekâ; SOZLESME F). Kurulum: marka/TINY_FIXES_KURULUM.md.
+# "kapali": hiçbir şey yapılmaz ve hiçbir anahtar okunmaz (varsayılan). "onay": taslaklar GitHub issue olarak gelir,
+# `ok` / `ok 2` / `iptal` ile paylaşılır. "otomatik": evergreen kendiliğinden, trend içerik yine onayla (F6).
+mod = "kapali"
+model = "claude-sonnet-5-5"        # yazar ve web araştırması
+hafif_model = "claude-haiku-5-5"   # konu seçimi ve çıktı değerlendirmesi
+test_model = "claude-sonnet-5-5"   # Fix komutunu çalıştıran model: postta adı yazar (F2)
+effort = "medium"
+geo = "US"                         # Google Trends bölgesi
+hacker_news = true
+# Konu kaynakları (RSS/Atom). Adresler ilk çalışmada denenir; çökeni bot atlar ve nöbet özetine yazar.
+rss = [
+  ["The Verge AI", "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml"],
+  ["TechCrunch AI", "https://techcrunch.com/category/artificial-intelligence/feed/"],
+  ["Ars Technica", "https://arstechnica.com/ai/feed/"],
+  ["Hugging Face", "https://huggingface.co/blog/feed.xml"],
+  ["OpenAI", "https://openai.com/news/rss.xml"],
+  ["Google DeepMind", "https://deepmind.google/blog/rss.xml"],
+  ["MIT Technology Review", "https://www.technologyreview.com/topic/artificial-intelligence/feed"],
+  # İnsanların gerçek, gündelik sorunları (F16: herkesin sorunu). Başlık yalnızca konu sinyali; olgular ayrıca doğrulanır.
+  ["r/techsupport", "https://www.reddit.com/r/techsupport/top/.rss?t=day", "sorun"],
+  ["r/iphone", "https://www.reddit.com/r/iphone/top/.rss?t=day", "sorun"],
+  ["r/Android", "https://www.reddit.com/r/Android/top/.rss?t=day", "sorun"],
+  ["r/ChatGPT", "https://www.reddit.com/r/ChatGPT/top/.rss?t=day", "sorun"],
+  ["r/productivity", "https://www.reddit.com/r/productivity/top/.rss?t=day", "sorun"],
+  ["r/excel", "https://www.reddit.com/r/excel/top/.rss?t=day", "sorun"],
+]
+trend_saatleri = [6, 14]           # UTC: bu saatlerden sonra günde bir trend taslağı (en fazla 2)
+evergreen_saati = 10               # UTC: günlük evergreen taslağı
+evergreen_yayin_saati = 17         # UTC: otomatik modda evergreen'in çıkış saati
+onay_suresi_dk = 180               # F6: cevap gelmezse taslak düşer
+birim_araligi_dk = 90
+gunluk_birim = 4                   # F8
+x_aktif = true
+ig_aktif = true
+ig_surum = "v23.0"
+
+[flood_gelir]
+# Tiny Fixes gelir katmanı (sahibinin kararı, 15 Ekim 2026; SOZLESME F11–F14): kendi site + e-posta listesi + dijital ürün.
+# Site: docs/tinyfixes/ (GitHub Pages). X ve Instagram profil bağlantısı ana sayfaya gelir.
+site_url = "https://kalkylerat.github.io/tinyfixes"
+# Kit formunun "action" adresi (Kit → Grow → Landing Pages & Forms → form → Publish → HTML). Boşsa sitede form görünmez
+# ve postlarda "ücretsiz paket" çağrısı yapılmaz.
+bulten_form_action = ""
+bulten_email_alani = "email_address"
+ucretsiz_paket_adi = "Tiny Fixes Starter: 10 tested AI prompts"
+ucretsiz_paket_sayisi = 10
+# Ücretli paket (Lemon Squeezy ürün sayfası). Boşsa ya da paket henüz üretilmediyse (flood_paket) satın al kutusu görünmez.
+urun_adi = "Tiny Fixes Library"
+urun_url = ""
+urun_fiyat = "$9"
+# Affiliate: yalnızca gerçekten denediğimiz araçlar, sayfada "affiliate" ibaresiyle (F4). Örnek: [["Tool", "https://..."]]
+affiliate = []

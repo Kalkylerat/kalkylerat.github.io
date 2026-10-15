@@ -686,3 +686,34 @@ def test_D6_yorum_firsati_sayilari_ve_saatleri_sozlesmedeki_gibi():
 def test_D4_topluluga_yalnizca_tablo_ve_kiyas():
     kaynak = (ROOT / "bot/etkilesim.py").read_text()
     assert kaynak.count("_gonder(x, ayar, metin, yaz") == 2  # tablo ve ayrışma (kıyas) postları
+
+
+def test_D6_mr_likely_insan_sesi_yuzde_ve_takilma(monkeypatch):
+    """15 Ekim 2026 (sahibinin isteği): Mr. Likely taslakları robotik değil (humanizer), bizim yüzdemize bağlı (kupona
+    girmeyen maçta da), hakaretsiz sevimli takılma serbest; @kalkylerat takılmasız kalır."""
+    from bot import firsat, yorum
+    ln, kk = firsat.SISTEMLER["likely"], firsat.SISTEMLER["kalkylerat"]
+    for s_ in (ln, yorum.SISTEM_LIKELY):
+        assert "friendly tease" in s_ and "never an insult" in s_.lower()
+        assert "even when the match is not in today's coupon" in s_ and "no sarcasm" not in s_
+    for s_ in (kk, yorum.SISTEM):
+        assert "no sarcasm" in s_ and "tease" not in s_
+    # yapay zekâ noktalaması koddan düzelir, hakaret ve yapay zekâ kalıbı elenir
+    assert yorum.buyuk_harfle("bold XI — still 31% – “no pressure”") == 'Bold XI, still 31%, "no pressure"'
+    kaynak = "Italy 31%"
+    assert yorum.uygun("Bold XI. I've still got Italy at 31% tonight, so no pressure", kaynak)
+    for kotu in ("Italy fans, prepare to be embarrassed: 31%", "Clowns. Italy 31%", "Proper bottlers, 31%",
+                 "Not just team news but a statement, 31%", "Here's the thing: 31%"):
+        assert not yorum.uygun(kotu, kaynak), kotu
+
+    # kupona girmeyen maçın postu da bizim yüzdelerimizle yazılır (kupon seçeneği yok)
+    icerikler = []
+    def cagir(client, modeller, sistem, icerik, sema, max_tokens):
+        icerikler.append(icerik)
+        return {"uygun": True, "taslaklar": ["Brave call — I've still got Italy at 31%", "Italy fans are clowns"]}
+    monkeypatch.setattr(direktor, "_cagir", cagir)
+    ita = mac(1, "France", "Italy")
+    ita["p"]["MS2"] = 0.31
+    t = firsat.taslaklar({"metin": "Italy XI tonight", "kullanici": "433"}, ita, object(), AYAR, "likely", None)
+    assert "our_chances" in icerikler[0] and "in_my_coupon_today" not in icerikler[0]
+    assert t == ["Brave call, I've still got Italy at 31%"]

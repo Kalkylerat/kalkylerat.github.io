@@ -14,7 +14,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 
 from . import config, kopya
-from .yorum import INSAN_SESI
+from .yorum import INSAN_SESI, LIKELY_INSAN
 
 ETIKET = "yorum-firsatlari"
 DOSYA = config.ROOT / "data" / "firsatlar.json"
@@ -158,18 +158,22 @@ under a big football account's post on X. You never post anything. Write 2 diffe
 
 {KURALLAR}
 - Mr. Likely speaks as "I". Chances the way he says them: "I make it about 60%", "probably", "loses three times in ten".
-- Light, dry humour, mostly at his own expense (dull legs, coupons one leg short). Never smug, never hype, never at
-  anyone else's expense. Understatement, no exclamation marks.
+- Dry humour: at his own expense (dull legs, coupons one leg short) or a small friendly tease set against his
+  number. Never smug, never hype, never an insult. Understatement, no exclamation marks.
 - Never tell anyone to bet, stake, tail or copy a coupon; never mention odds as advice. He is a fan who likes numbers.
 - "in_my_coupon_today" in the facts means that match is a leg in today's coupon: he may say so once, plainly and
   with a little self-doubt ("it's one of my legs today, so naturally I'm nervous"). Never push the coupon.
 
 {INSAN_SESI}
-Mr. Likely examples. Good: "It's one of my legs today, so naturally I'm a bit nervous now"  Good: "I make City about
-45% tonight. That XI doesn't make me feel better or worse"  Good: "Dull answer from me: probably goals. 66% both
-score"  Bad: "Great stat! Check my coupon for tonight's best value 🔥"
+{LIKELY_INSAN}
+More Mr. Likely examples. Good: "I make City about 45% tonight. That XI doesn't make me feel better or worse"
+Good: "Dull answer from me: probably goals. 66% both score"  Bad: "Great stat! Check my coupon for tonight's best value 🔥"
 """,
 }
+# Mr. Likely (15 Ekim 2026, sahibinin isteği, SÖZLEŞME D6): hakaretsiz sevimli takılma serbest; @kalkylerat'ta yok.
+SISTEMLER["likely"] = SISTEMLER["likely"].replace(KURALLAR, KURALLAR.replace(
+    """- Kind and respectful to everyone: no sarcasm, no digs, no negative judgments""",
+    """- A small friendly tease is fine (see below), but no insults, no mocking, no negative judgments"""))
 SISTEM = SISTEMLER["kalkylerat"]
 
 SEMA = {"type": "object", "additionalProperties": False, "required": ["uygun", "taslaklar"],
@@ -194,7 +198,8 @@ def taslaklar(post: dict, mac: dict | None, client, ayar, hesap: str = "kalkyler
         return []
     kaynak = post["metin"] + "\n" + json.dumps(olg or {}, ensure_ascii=False)
     from .yorum import buyuk_harfle
-    return [buyuk_harfle(t) for t in cevap.get("taslaklar") or [] if uygun(t.strip(), kaynak) and "@" not in t
+    from .yorum import temizle
+    return [buyuk_harfle(t) for t in cevap.get("taslaklar") or [] if uygun(temizle(t.strip()), kaynak) and "@" not in t
             and not re.search(r"\b(tail|stake|copy my|my coupon is|value bet)\b", t, re.IGNORECASE)][:2]
 
 

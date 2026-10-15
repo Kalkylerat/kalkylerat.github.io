@@ -505,6 +505,16 @@ class XClient:
             raise RuntimeError(f"X API okuma hatası {r.status_code}: {r.text[:300]}")
         return r.json().get("data", [])
 
+    def metrikler_idle(self, idler: list[str]) -> list[dict]:
+        """Yalnızca verilen postların rakamları (okuma post başına ücretli: Prompt Proof ölçümü hesabın tüm geçmişini okumaz)."""
+        if not idler:
+            return []
+        r = self.session.get("https://api.x.com/2/tweets", timeout=30,
+                             params={"ids": ",".join(idler[:100]), "tweet.fields": "public_metrics,created_at"})
+        if r.status_code >= 400:
+            raise RuntimeError(f"X API okuma hatası {r.status_code}: {r.text[:300]}")
+        return r.json().get("data", [])
+
     def ben(self) -> tuple[str, str]:
         """Hesabın kimliği ve kullanıcı adı (yorum kiti bir kez sorar, kaydeder)."""
         r = self.session.get("https://api.x.com/2/users/me", timeout=30)

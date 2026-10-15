@@ -180,3 +180,34 @@ kupon = 10
 min_dakika_once = 120
 # Kendi kurduğun kuponda en fazla maç sayısı.
 max_ayak = 4
+
+[flood]
+# Prompt Proof (üçüncü hesap, X + Instagram, yapay zekâ; SOZLESME F). Kurulum: marka/PROMPT_PROOF_KURULUM.md.
+# "kapali": hiçbir şey yapılmaz ve hiçbir anahtar okunmaz (varsayılan). "onay": taslaklar GitHub issue olarak gelir,
+# `ok` / `ok 2` / `iptal` ile paylaşılır. "otomatik": evergreen kendiliğinden, trend içerik yine onayla (F6).
+mod = "kapali"
+model = "claude-sonnet-5-5"        # yazar ve web araştırması
+hafif_model = "claude-haiku-5-5"   # konu seçimi ve çıktı değerlendirmesi
+test_model = "claude-sonnet-5-5"   # Fix komutunu çalıştıran model: postta adı yazar (F2)
+effort = "medium"
+geo = "US"                         # Google Trends bölgesi
+hacker_news = true
+# Konu kaynakları (RSS/Atom). Adresler ilk çalışmada denenir; çökeni bot atlar ve nöbet özetine yazar.
+rss = [
+  ["The Verge AI", "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml"],
+  ["TechCrunch AI", "https://techcrunch.com/category/artificial-intelligence/feed/"],
+  ["Ars Technica", "https://arstechnica.com/ai/feed/"],
+  ["Hugging Face", "https://huggingface.co/blog/feed.xml"],
+  ["OpenAI", "https://openai.com/news/rss.xml"],
+  ["Google DeepMind", "https://deepmind.google/blog/rss.xml"],
+  ["MIT Technology Review", "https://www.technologyreview.com/topic/artificial-intelligence/feed"],
+]
+trend_saatleri = [6, 14]           # UTC: bu saatlerden sonra günde bir trend taslağı (en fazla 2)
+evergreen_saati = 10               # UTC: günlük evergreen taslağı
+evergreen_yayin_saati = 17         # UTC: otomatik modda evergreen'in çıkış saati
+onay_suresi_dk = 180               # F6: cevap gelmezse taslak düşer
+birim_araligi_dk = 90
+gunluk_birim = 4                   # F8
+x_aktif = true
+ig_aktif = true
+ig_surum = "v23.0"

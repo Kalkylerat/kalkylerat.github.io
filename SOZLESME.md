@@ -66,3 +66,21 @@ Testler `tests/test_likely.py` içinde. Karakter ve hesap rehberi: `marka/MR_LIK
 | E4 | İlk maç başladıktan sonra kupon seçilemez; otomatik modda ilk maça 20 dakikadan az kaldıysa kupon paylaşılmaz. | `test_E4` |
 | E5 | **Karne paylaşılan her kuponu sayar**; kaybeden de yazılır. Maç başladıktan sonra kupon geri alınamaz; paylaşılmış kupon postu yalnızca maç başlamadan, sahibinin komutuyla (`likely_yenile`) silinir ve **aynı kupon** yeniden paylaşılır. | `test_E5` |
 | E6 | **Otomatik kupon kuralları sabittir** (oran aralıkları sahibinin kararı, 6 Ekim 2026). Ortak: günde en fazla 3 kupon; kuponda en fazla 4 maç, hepsi farklı maçtan; ayaklar en az %65 ihtimalli sağlam adaylar ya da artı değerli adaylar, oranı adil fiyatın en fazla %4 altında, ihtimali keskin piyasadan (ortalamadan değil), istatistiğin piyasadan ayrıştığı aday girmez; kuponlar aynı maçı paylaşmaz. **Günün kuponu:** toplam oran 2.00–4.00, tutma en az %30, fiyat adil fiyatın en fazla %8 altında. **Long shot:** toplam oran 3.00–4.00, tutma en az %22, fiyat adil fiyatın en fazla %10 altında, ayak oranı en az 1.30. **Büyük maçlar:** yalnızca büyük maçlardan, günün kuponuyla aynı sınırlar (sahibinin isteği, 6 Ekim 2026). Her birinde koşulu sağlayanlardan tutma ihtimali en yüksek olana 3 puan yakın olanlar içinde **büyük maçı en çok olan** seçilir. Kural sağlanmazsa o kupon o gün çıkmaz. | `test_E6` |
+
+## F. Prompt Proof (üçüncü hesap: X ve Instagram, yapay zekâ)
+
+Testler `tests/test_flood.py` içinde. Karakter ve kurulum rehberi: `marka/PROMPT_PROOF.md`. Mod: `ayarlar.toml` → `[flood] mod`.
+15 Ekim 2026: sahibinin isteğiyle eklendi. Konsept: trend sorunların yapay zekâ çözümleri ("Fix") ve yapay zekâ haberleri
+("News") flood/carousel olarak; evergreen içerik ("Library") otomatik. Spor/bahis hesaplarıyla bağı yoktur.
+
+| # | Kural | Test |
+|---|---|---|
+| F1 | **Kaynaklı olgu**: postta geçen her haber, rakam ve iddia olgu kaydında bulunur ve en az 2 **bağımsız** alan adından kaynağı vardır. Yazar (yapay zekâ) kayıtta olmayan rakam, isim ya da tarih kullanamaz. Doğrulanamayan konu paylaşılmaz. | `test_F1` |
+| F2 | **Denendi**: bir "Fix" postunda gösterilen komut paylaşılmadan önce gerçekten çalıştırılır; çıktı kayıtlıdır ve postta hangi modelle denendiği yazar. Hatalı ya da zayıf çıktı gizlenmez, sınırı yazılır. | `test_F2` |
+| F3 | **Sahte kişisel deneyim yok**: "ben aylardır kullanıyorum", "müşterilerim", "denediğimiz 50 araç" gibi kayıtta olmayan deneyim, sayı ya da otorite iddiası yazılmaz. Yalnızca gerçekten yapılan şey söylenir. | `test_F3` |
+| F4 | **Affiliate**: link yalnızca X'te flood'un son yanıtında, Instagram'da profil bağlantısında olur; yanında "affiliate" ibaresi zorunludur; yalnızca F2'de gerçekten denenmiş araç için verilir. Ana postta link yok. | `test_F4` |
+| F5 | **Güvenli alan**: sağlık ve ilaç, hukuk, yatırım ve finans tavsiyesi, ölüm ve saldırı gibi trajediler, seçim ve siyaset, adı geçen kişi hakkında iddia içeren konularda bot taslak bile yazmaz. | `test_F5` |
+| F6 | **Onay**: trend içerik (Fix, News) sahibinin `ok` cevabı olmadan paylaşılmaz; 3 saat içinde cevap yoksa taslak düşer, paylaşılmaz. Yalnızca evergreen (Library) otomatiktir. `iptal` her zaman önceliklidir. | `test_F6` |
+| F7 | Başkalarına otomatik yanıt, etiketleme (@), DM, takip, beğeni yok (X ve Instagram). Yorum kiti yalnızca taslaktır; cevabı sahibi elle atar (D3'ün aynısı). | `test_F7` |
+| F8 | **Biçim, X**: flood 5–9 post, her post ≤280, ana postlarda link, `@` ve trend etiketi yok, en fazla 1 etiket, abartı dili ("game-changer", "insane", "mind-blowing"…) ve yapay zekâ izi (`direktor.yz_izi`) yok, günde en fazla 4 birim (flood bir birimdir). **Biçim, Instagram**: yalnızca JPEG, carousel 2–10 slayt, caption ≤2200 karakter, en fazla 5 etiket, günde en fazla 3 post. Aynı metin aynı gün iki kez paylaşılmaz; X ve Instagram metinleri aynı olgulardan ama ayrı yazılır. | `test_F8` |
+| F9 | **Mod**: varsayılan `kapali`; kapalıyken hiçbir şey paylaşılmaz ve hiçbir anahtar okunmaz. `onay`: tümü sahibin onayıyla. `otomatik`: yalnızca evergreen kendiliğinden, trend yine onayla (F6). Anahtarlar yoksa bot yalnızca taslak hazırlar. | `test_F9` |

@@ -11,7 +11,7 @@ from datetime import datetime, timedelta
 
 from . import config
 
-ETIKETLER = {"kalkylerat": "yorum-kiti", "likely": "yorum-kiti-likely"}  # hesap başına: günlük issue, eskisi kapanır
+ETIKETLER = {"kalkylerat": "yorum-kiti", "likely": "yorum-kiti-likely", "flood": "yorum-kiti-flood"}  # hesap başına: günlük issue, eskisi kapanır
 DOSYA = config.ROOT / "data" / "yorumlar.json"
 KONTROL_DK = 15
 ILK_GUN = 7  # ilk çalışmada bu kadar gün önceki yorumlar da gelir (cevapsız kalanlar)
@@ -32,6 +32,16 @@ def _likely_sesi() -> str:
         return "You are Mr. Likely: a dry, self-aware football coupon account. Likely, never certain."
     bolum = metin.split("## Who he is", 1)[-1].split("\n## ", 1)[0]
     return "You are Mr. Likely (second account, English). Voice notes:\n" + bolum.strip()[:2500]
+
+
+def _flood_sesi() -> str:
+    """Prompt Proof (üçüncü hesap) sesi: marka/PROMPT_PROOF.md."""
+    try:
+        metin = (config.ROOT / "marka" / "PROMPT_PROOF.md").read_text(encoding="utf-8")
+    except OSError:
+        return "You are Prompt Proof: an AI account that only posts tested fixes. Calm, plain, specific."
+    bolum = metin.split("## Who is speaking", 1)[-1].split("\n## ", 1)[0]
+    return "You are Prompt Proof (AI fixes and news, English). Voice notes:\n" + bolum.strip()[:2500]
 
 
 SISTEM = """You draft replies that the account owner will read, edit and post BY HAND on X. You never post anything.
@@ -85,7 +95,7 @@ def taslaklar(yorum: dict, hesap: str, client=None, ayar=None, yaz=print) -> tup
     if client is None or ayar is None:
         return YEDEK, "", False
     from .direktor import _cagir
-    ses = _likely_sesi() if hesap == "likely" else SESLER["kalkylerat"]
+    ses = {"likely": _likely_sesi, "flood": _flood_sesi}.get(hesap, lambda: SESLER["kalkylerat"])()
     icerik = json.dumps({"our_post": yorum.get("bizim") or "(not available: the comment may be a mention)",
                          "comment": yorum.get("metin"), "commenter": yorum.get("kullanici")}, ensure_ascii=False, indent=1)
     try:

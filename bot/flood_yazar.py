@@ -1,4 +1,4 @@
-"""Prompt Proof yazarı (SOZLESME F): konu seçimi (triage) ve aynı doğrulanmış kayıttan iki ayrı parça yazma.
+"""Tiny Fixes yazarı (SOZLESME F): konu seçimi (triage) ve aynı doğrulanmış kayıttan iki ayrı parça yazma.
 
 X uzmanı: 5-9 postluk flood, ilk post tek başına durur. Instagram uzmanı: 5-8 slaytlık carousel ve caption
 (kaydetme ve gönderme hedefi). İkisi de YALNIZCA olgu kaydındaki rakam ve isimleri kullanabilir; kural dışı
@@ -10,7 +10,7 @@ import re
 from . import config, flood_denetci
 from .direktor import _cagir
 
-SES_REHBERI = config.ROOT / "marka" / "PROMPT_PROOF.md"
+SES_REHBERI = config.ROOT / "marka" / "TINY_FIXES.md"
 DENEME = 3
 
 # Evergreen (Library) temaları: sırayla, son 30 günde işlenmeyenden seçilir. Hepsi güvenli alanda, gerçek bir iş sorunu.
@@ -42,7 +42,7 @@ TRIAGE_SEMASI = {"type": "object", "additionalProperties": False, "required": ["
                      "type": "object", "additionalProperties": False, "required": ["indeks", "tur", "problem", "fikir"],
                      "properties": {"indeks": {"type": "integer"}, "tur": {"type": "string", "enum": ["fix", "news", "atla"]},
                                     "problem": {"type": "string"}, "fikir": {"type": "string"}}}}}}
-TRIAGE_SISTEMI = """You pick topics for an AI-focused social media account ("Prompt Proof"). You get numbered trending items.
+TRIAGE_SISTEMI = """You pick topics for an AI-focused social media account ("Tiny Fixes"). You get numbered trending items.
 For each item decide:
 - "news": it is real AI or AI-adjacent news (models, products, research, policy for AI tools) worth explaining.
 - "fix": the item points to an everyday problem a person could solve with an AI assistant (a prompt they paste). Write
@@ -63,7 +63,7 @@ YAZAR_SEMASI = {"type": "object", "additionalProperties": False,
                                        "tur": {"type": "string", "enum": ["icerik", "komut"]}, "komut": {"type": "string"}}}},
                     "ig_caption": {"type": "string"}, "ig_etiketler": {"type": "array", "items": {"type": "string"}}}}
 
-YAZAR_SISTEMI = """You write for the X and Instagram accounts "Prompt Proof" from ONE verified record. You write TWO different pieces:
+YAZAR_SISTEMI = """You write for the X and Instagram accounts "Tiny Fixes" from ONE verified record. You write TWO different pieces:
 X: a flood. "hook_a" is the first post (problem first), "hook_b" is an alternative first post (result first). "devam" are the
 following 4-8 posts. Every post stands alone, max 270 characters, plain text.
 Instagram: a carousel of 5-8 slides ("ig_slaytlar": a short title max 60 chars and a text max 220 chars each; slide 1 is the

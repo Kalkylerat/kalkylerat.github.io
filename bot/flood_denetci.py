@@ -1,4 +1,4 @@
-"""Prompt Proof (SOZLESME F) kural bekçisi: bir flood ya da carousel paylaşılmadan önce kodla denetlenir.
+"""Tiny Fixes (SOZLESME F) kural bekçisi: bir flood ya da carousel paylaşılmadan önce kodla denetlenir.
 
 Yazar (yapay zekâ) kuralı çiğneyebilir; bu modül çiğnenen her kuralı yakalar ve boş olmayan bir sorun listesi döner.
 Sorun varsa post çıkmaz. Hiçbir kural yapay zekâya bırakılmaz."""

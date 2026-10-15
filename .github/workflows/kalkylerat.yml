@@ -74,7 +74,7 @@ jobs:
           X_LIKELY_API_SECRET: ${{ secrets.X_LIKELY_API_SECRET }}
           X_LIKELY_ACCESS_TOKEN: ${{ secrets.X_LIKELY_ACCESS_TOKEN }}
           X_LIKELY_ACCESS_SECRET: ${{ secrets.X_LIKELY_ACCESS_SECRET }}
-          # Prompt Proof (üçüncü hesap, SOZLESME F): X izni data/flood_x.enc içinde şifreli; Instagram anahtarı ve kimliği
+          # Tiny Fixes (üçüncü hesap, SOZLESME F): X izni data/flood_x.enc içinde şifreli; Instagram anahtarı ve kimliği
           # yalnızca ilk kurulumda gerekir (flood_ig komutu şifreli kaydeder). [flood] mod = "kapali" iken hiçbiri okunmaz.
           IG_FLOOD_TOKEN: ${{ secrets.IG_FLOOD_TOKEN }}
           IG_FLOOD_ID: ${{ secrets.IG_FLOOD_ID }}

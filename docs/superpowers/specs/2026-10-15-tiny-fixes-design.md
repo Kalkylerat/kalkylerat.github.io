@@ -1,4 +1,4 @@
-# Prompt Proof: tasarım ve maliyet raporu (15 Ekim 2026)
+# Tiny Fixes: tasarım ve maliyet raporu (15 Ekim 2026)
 
 Sahibinin isteği: trend sorunların yapay zekâ çözümleri ve yapay zekâ haberleri; X ve Instagram birlikte, her platformun
 uzmanı kendi biçiminde; öncelik gelir; en düşük maliyet; günde 20–30 dakika sahip zamanı.
@@ -14,7 +14,7 @@ Fark: "Tested with <model>" ve açık sınır cümlesi (F2), iki bağımsız kay
 
 ## Mimari
 `flood_kaynak` → `flood_puan` → `flood_yazar.triage` → `flood_dogrula` → `flood_yazar.yaz` → `flood_denetci` → onay issue'su →
-`flood` (yayın: X zinciri + Instagram carousel) → ölçüm. Ayrıntı: `.claude/skills/prompt-proof/SKILL.md`. Mevcut parçalar yeniden
+`flood` (yayın: X zinciri + Instagram carousel) → ölçüm. Ayrıntı: `.claude/skills/tiny-fixes/SKILL.md`. Mevcut parçalar yeniden
 kullanıldı: `direktor._cagir` ve `yz_izi`, `onay.GitHub`, `yorum` (yorum kiti), `saglik.bildir`, `likely_yetki` akışı, `tweets.XClient`.
 
 ## Maliyet (USD/ay, tahmin)

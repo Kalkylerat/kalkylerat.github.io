@@ -73,9 +73,9 @@ Testler `tests/test_likely.py` içinde. Karakter ve hesap rehberi: `marka/MR_LIK
 | E6 | **Otomatik kupon kuralları sabittir** (oran aralıkları sahibinin kararı, 6 Ekim 2026). Ortak: günde en fazla 3 kupon; kuponda en fazla 4 maç, hepsi farklı maçtan; ayaklar en az %65 ihtimalli sağlam adaylar ya da artı değerli adaylar, oranı adil fiyatın en fazla %4 altında, ihtimali keskin piyasadan (ortalamadan değil), istatistiğin piyasadan ayrıştığı aday girmez; **"Double chance 12" (ev ya da deplasman kazanır) ayağı otomatik kupona girmez** ve keskin piyasaya göre değeri +%15'ten büyük ayak (gerçek dışı fiyat) girmez (sahibinin kararı, 14 Ekim 2026: gölge testte 12'siz kuponlar daha iyi); kuponlar aynı maçı paylaşmaz. **Günün kuponu:** toplam oran 2.00–4.00, tutma en az %30, fiyat adil fiyatın en fazla %8 altında. **Long shot:** toplam oran 3.00–4.00, tutma en az %22, fiyat adil fiyatın en fazla %10 altında, ayak oranı en az 1.30. **Büyük maçlar:** yalnızca büyük maçlardan, günün kuponuyla aynı sınırlar (sahibinin isteği, 6 Ekim 2026). Her birinde koşulu sağlayanlardan tutma ihtimali en yüksek olana 3 puan yakın olanlar içinde **büyük maçı en çok olan** seçilir. Kural sağlanmazsa o kupon o gün çıkmaz. | `test_E6` |
 | E7 | **Kupon zamanlaması:** her otomatik kupon ilk maçından en erken 3 saat, en geç 45 dakika önce paylaşılmak üzere planlanır; kuponlar arası 40 dakika, ilk maçı en yakın kupondan başlayarak ve hiçbir kuponu kendi son saatinin ötesine itmeden. Planı ilk maça 20 dakikadan az kalana düşen kupon nöbet kontrolünde "kaçacak" diye raporlanır (14 Ekim: aralık seçim sırasıyla verilince long shot kaçtı). | `test_otomatik_zamanlama_kuponu_kendi_maci_sonrasina_itmez` (test_likely), canlı: `bot.durum` |
 
-## F. Prompt Proof (üçüncü hesap: X ve Instagram, yapay zekâ)
+## F. Tiny Fixes (üçüncü hesap: X ve Instagram, yapay zekâ)
 
-Testler `tests/test_flood.py` içinde. Karakter ve kurulum rehberi: `marka/PROMPT_PROOF.md`. Mod: `ayarlar.toml` → `[flood] mod`.
+Testler `tests/test_flood.py` içinde. Karakter ve kurulum rehberi: `marka/TINY_FIXES.md`. Mod: `ayarlar.toml` → `[flood] mod`.
 15 Ekim 2026: sahibinin isteğiyle eklendi. Konsept: trend sorunların yapay zekâ çözümleri ("Fix") ve yapay zekâ haberleri
 ("News") flood/carousel olarak; evergreen içerik ("Library") otomatik. Spor/bahis hesaplarıyla bağı yoktur.
 

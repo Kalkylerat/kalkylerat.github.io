@@ -1,4 +1,4 @@
-"""Prompt Proof hesabının X izni ve Instagram anahtarı (şifreli, depoda).
+"""Tiny Fixes hesabının X izni ve Instagram anahtarı (şifreli, depoda).
 
 X: Mr. Likely'deki akışın aynısı (likely_yetki): ayrı geliştirici hesabı gerekmez, yeni hesap mevcut uygulamaya
 "Authorize app" ile izin verir. Anahtar `data/flood_x.enc` içinde şifreli durur.
@@ -45,7 +45,7 @@ def tamamla(api_key: str, api_secret: str, token: str, dogrulama: str, yasak: se
     cevap = oturum.fetch_access_token(likely_yetki.ERISIM)
     hesap = cevap.get("screen_name", "")
     if hesap.lower() in (yasak if yasak is not None else _yasak(api_secret)):
-        raise RuntimeError(f"İzin @{hesap} hesabıyla verildi; Prompt Proof hesabıyla giriş yapıp yeniden deneyin. Kaydedilmedi.")
+        raise RuntimeError(f"İzin @{hesap} hesabıyla verildi; Tiny Fixes hesabıyla giriş yapıp yeniden deneyin. Kaydedilmedi.")
     kaydet_x(api_secret, cevap["oauth_token"], cevap["oauth_token_secret"], hesap)
     return hesap
 

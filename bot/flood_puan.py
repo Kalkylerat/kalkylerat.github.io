@@ -1,4 +1,4 @@
-"""Prompt Proof viral puanı (SOZLESME F): hangi konu flood'a değer?
+"""Tiny Fixes viral puanı (SOZLESME F): hangi konu flood'a değer?
 
 Puan dört parçadan oluşur: kaç bağımsız kaynakta göründüğü, tazelik, yükselme hızı ve nişe (yapay zekâ) uygunluk.
 Daha önce işlenmiş konu elenir. Haber (news) adayı yapay zekâ ile ilgili değilse hiç girmez: alakasız trende girmek

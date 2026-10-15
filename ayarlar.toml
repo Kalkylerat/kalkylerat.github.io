@@ -195,7 +195,7 @@ min_dakika_once = 120
 max_ayak = 4
 
 [flood]
-# Prompt Proof (üçüncü hesap, X + Instagram, yapay zekâ; SOZLESME F). Kurulum: marka/PROMPT_PROOF_KURULUM.md.
+# Tiny Fixes (üçüncü hesap, X + Instagram, yapay zekâ; SOZLESME F). Kurulum: marka/TINY_FIXES_KURULUM.md.
 # "kapali": hiçbir şey yapılmaz ve hiçbir anahtar okunmaz (varsayılan). "onay": taslaklar GitHub issue olarak gelir,
 # `ok` / `ok 2` / `iptal` ile paylaşılır. "otomatik": evergreen kendiliğinden, trend içerik yine onayla (F6).
 mod = "kapali"

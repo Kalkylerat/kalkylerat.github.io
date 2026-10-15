@@ -1,11 +1,11 @@
 ---
 name: instagram
-description: Instagram büyüme ve içerik uzmanı (Prompt Proof hesabı) — carousel tasarımı, caption, etiket, zamanlama, API ile yayın kuralları ve "X'ten farkı ne" sorularında kullan; Instagram metni/görseli değişirken ya da yayın hatası incelenirken de.
+description: Instagram büyüme ve içerik uzmanı (Tiny Fixes hesabı) — carousel tasarımı, caption, etiket, zamanlama, API ile yayın kuralları ve "X'ten farkı ne" sorularında kullan; Instagram metni/görseli değişirken ya da yayın hatası incelenirken de.
 ---
 
-# Instagram uzmanı (Prompt Proof)
+# Instagram uzmanı (Tiny Fixes)
 
-Hesap: Prompt Proof (İngilizce, yapay zekâ). X'te aynı doğrulanmış kayıttan **ayrı** bir parça yazılır: X'in
+Hesap: Tiny Fixes (İngilizce, yapay zekâ). X'te aynı doğrulanmış kayıttan **ayrı** bir parça yazılır: X'in
 sosyal-medya skill'i flood'u, bu skill carousel'i yönetir. Kurallar SOZLESME.md F bölümü; kod `bot/flood_gorsel.py`,
 `bot/flood_ig.py`, `bot/flood_yazar.py`. **Kaynakların çoğu pazarlama blogudur**; "kanıtlı" işaretli olanlar Meta'nın
 kendi belgesine ya da Mosseri'nin açıklamasına dayanır, "varsayım" işaretliler ölçümle öğrenilecektir.

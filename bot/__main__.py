@@ -1010,7 +1010,7 @@ def likely_yetki_komutu(ayar) -> None:
 
 
 def flood_yetki_komutu(ayar) -> None:
-    """Prompt Proof hesabının uygulamaya paylaşım izni: "ek" boşsa izin bağlantısı issue olarak gelir; "ek" alanına
+    """Tiny Fixes hesabının uygulamaya paylaşım izni: "ek" boşsa izin bağlantısı issue olarak gelir; "ek" alanına
     dönülen adres yapıştırılırsa izin tamamlanır ve anahtar şifreli kaydedilir (loglara anahtar yazılmaz)."""
     gh = onay.GitHub()
     parca = flood_yetki.coz(os.environ.get("BOT_EK", ""))
@@ -1018,18 +1018,18 @@ def flood_yetki_komutu(ayar) -> None:
     try:
         if parca:
             hesap = flood_yetki.tamamla(config.env("X_API_KEY"), config.env("X_API_SECRET"), *parca)
-            mesaj = (f"✅ Prompt Proof X paylaşım izni tamam: @{hesap}. Anahtar depoda şifreli duruyor. Hesapta \"Automated\" "
+            mesaj = (f"✅ Tiny Fixes X paylaşım izni tamam: @{hesap}. Anahtar depoda şifreli duruyor. Hesapta \"Automated\" "
                      "etiketi açık olmalı. Paylaşım için ayarlar.toml → [flood] mod = \"onay\" yapın.")
         else:
             url = flood_yetki.baslat(config.env("X_API_KEY"), config.env("X_API_SECRET"))
-            mesaj = ("Prompt Proof X hesabının paylaşım izni için:\n\n1. Tarayıcıda X'e **Prompt Proof hesabıyla** giriş yapmış ol.\n"
+            mesaj = ("Tiny Fixes X hesabının paylaşım izni için:\n\n1. Tarayıcıda X'e **Tiny Fixes hesabıyla** giriş yapmış ol.\n"
                      f"2. Şu bağlantıyı aç ve **Authorize app**'e bas: {url}\n"
                      "3. Sayfa github.com'a döner; adres çubuğundaki adresin tamamını kopyalayıp Claude'a gönder.\n\n"
                      "Bağlantı birkaç dakika geçerlidir.")
-        gh.issue_ac("🧪 Prompt Proof: X paylaşım izni", kime + mesaj, flood.ETIKET)
+        gh.issue_ac("🧪 Tiny Fixes: X paylaşım izni", kime + mesaj, flood.ETIKET)
         _ozet_yaz(mesaj)
     except Exception as e:
-        _hata("Prompt Proof X izni", e)
+        _hata("Tiny Fixes X izni", e)
 
 
 def flood_ig_komutu(ayar) -> None:
@@ -1042,20 +1042,20 @@ def flood_ig_komutu(ayar) -> None:
         if str(ben.get("account_type", "")).upper() not in ("BUSINESS", "MEDIA_CREATOR", "CREATOR"):
             raise RuntimeError(f"Hesap türü {ben.get('account_type')}: Instagram'da Business ya da Creator hesabı gerekir.")
         flood_yetki.kaydet_ig(config.env("X_API_SECRET"), token, ig_id, kayit.simdi_utc())
-        mesaj = (f"✅ Prompt Proof Instagram bağlantısı tamam: @{ben.get('username')} ({ben.get('account_type')}). Anahtar "
+        mesaj = (f"✅ Tiny Fixes Instagram bağlantısı tamam: @{ben.get('username')} ({ben.get('account_type')}). Anahtar "
                  "depoda şifreli duruyor, bot süresi dolmadan yeniler.")
-        gh.issue_ac("🧪 Prompt Proof: Instagram bağlantısı", kime + mesaj, flood.ETIKET)
+        gh.issue_ac("🧪 Tiny Fixes: Instagram bağlantısı", kime + mesaj, flood.ETIKET)
         _ozet_yaz(mesaj)
     except Exception as e:
-        _hata("Prompt Proof Instagram bağlantısı", e)
+        _hata("Tiny Fixes Instagram bağlantısı", e)
 
 
 def flood_nabiz(ayar, simdi: datetime) -> None:
-    """Prompt Proof (SOZLESME F): kapalı modda hiçbir şey yapmaz. Bir hata diğer hesapları etkilemez."""
+    """Tiny Fixes (SOZLESME F): kapalı modda hiçbir şey yapmaz. Bir hata diğer hesapları etkilemez."""
     try:
         flood.nabiz(ayar, simdi, yaz=_ozet_yaz)
     except Exception as e:
-        _hata("Prompt Proof", e)
+        _hata("Tiny Fixes", e)
 
 
 def likely_nabiz(ayar, simdi: datetime, sonuclar: bool = True) -> None:

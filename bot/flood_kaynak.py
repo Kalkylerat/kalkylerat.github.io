@@ -1,4 +1,4 @@
-"""Prompt Proof konu toplayıcı (SOZLESME F): trend konuları ücretsiz dış kaynaklardan toplar.
+"""Tiny Fixes konu toplayıcı (SOZLESME F): trend konuları ücretsiz dış kaynaklardan toplar.
 
 X'ten OKUMA YAPMAZ: X API okuması post başına ücretlidir. Kaynaklar: Google Trends (günün aranan konuları),
 Hacker News (Algolia), yapay zekâ haber ve laboratuvar RSS akışları. Her kaynak bağımsızdır; biri çökerse
@@ -11,7 +11,7 @@ from email.utils import parsedate_to_datetime
 
 import requests
 
-UA = {"User-Agent": "PromptProofBot/1.0 (+https://github.com)"}
+UA = {"User-Agent": "TinyFixesBot/1.0 (+https://github.com)"}
 DURAK = {"the", "a", "an", "of", "to", "in", "on", "for", "and", "or", "is", "are", "with", "by", "at", "from", "as",
          "its", "it", "new", "how", "why", "what", "this", "that", "be", "vs"}
 

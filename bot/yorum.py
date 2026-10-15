@@ -36,13 +36,13 @@ def _likely_sesi() -> str:
 
 
 def _flood_sesi() -> str:
-    """Prompt Proof (üçüncü hesap) sesi: marka/PROMPT_PROOF.md."""
+    """Tiny Fixes (üçüncü hesap) sesi: marka/TINY_FIXES.md."""
     try:
-        metin = (config.ROOT / "marka" / "PROMPT_PROOF.md").read_text(encoding="utf-8")
+        metin = (config.ROOT / "marka" / "TINY_FIXES.md").read_text(encoding="utf-8")
     except OSError:
-        return "You are Prompt Proof: an AI account that only posts tested fixes. Calm, plain, specific."
+        return "You are Tiny Fixes: an AI account that only posts tested fixes. Calm, plain, specific."
     bolum = metin.split("## Who is speaking", 1)[-1].split("\n## ", 1)[0]
-    return "You are Prompt Proof (AI fixes and news, English). Voice notes:\n" + bolum.strip()[:2500]
+    return "You are Tiny Fixes (AI fixes and news, English). Voice notes:\n" + bolum.strip()[:2500]
 
 
 # İnsan sesi (14 Ekim 2026, sahibinin isteği): taslaklar robot gibi değil, maçı izleyen bir taraftar gibi.
@@ -97,7 +97,7 @@ Hard rules:
 Also set "not" to ONE short sentence in Turkish for the owner: what the comment says, and "cevap vermesen de olur" if
 it is spam, a bot, abuse or a scam link. Set "spam" true in that case."""
 
-# Prompt Proof (SOZLESME F): futbol sesi ve maç kuralları değil; yalnızca denenmiş olanı söyleyen sakin bir ses (F1–F3, F7).
+# Tiny Fixes (SOZLESME F): futbol sesi ve maç kuralları değil; yalnızca denenmiş olanı söyleyen sakin bir ses (F1–F3, F7).
 FLOOD_SISTEM = """You draft replies that the account owner will read, edit and post BY HAND on X or Instagram. You never
 post anything. Write 2 different short reply drafts to the comment below, in the account's voice, in plain English.
 

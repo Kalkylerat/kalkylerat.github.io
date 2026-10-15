@@ -1,12 +1,12 @@
 ---
-name: prompt-proof
-description: Prompt Proof (üçüncü hesap: X ve Instagram, yapay zekâ) işletme rehberi — taslak/onay akışı, mod, alarm, kurulum, kural değişikliği ve "neden paylaşılmadı / taslak düştü / Instagram hata verdi" sorularında kullan.
+name: tiny-fixes
+description: Tiny Fixes (üçüncü hesap: X ve Instagram, yapay zekâ) işletme rehberi — taslak/onay akışı, mod, alarm, kurulum, kural değişikliği ve "neden paylaşılmadı / taslak düştü / Instagram hata verdi" sorularında kullan.
 ---
 
-# Prompt Proof işletme rehberi
+# Tiny Fixes işletme rehberi
 
 Kurallar: `SOZLESME.md` F bölümü (değişmez), çalışma kuralları: `CLAUDE.md`. Sahibiyle Türkçe konuş, postlar İngilizce.
-Karakter ve hesap bilgileri: `marka/PROMPT_PROOF.md`; kurulum: `marka/PROMPT_PROOF_KURULUM.md`. X için `sosyal-medya`,
+Karakter ve hesap bilgileri: `marka/TINY_FIXES.md`; kurulum: `marka/TINY_FIXES_KURULUM.md`. X için `sosyal-medya`,
 Instagram için `instagram` skill'i. Mr. Likely ve Kalkylerat hesaplarına bu modül dokunmaz.
 
 ## Akış (`bot/flood.py`)

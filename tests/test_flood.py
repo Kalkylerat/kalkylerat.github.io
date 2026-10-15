@@ -1,4 +1,4 @@
-"""Prompt Proof (SOZLESME.md F bölümü) testleri. Her madde burada denetlenir; ağa ve gerçek Claude/X/Instagram'a çıkılmaz."""
+"""Tiny Fixes (SOZLESME.md F bölümü) testleri. Her madde burada denetlenir; ağa ve gerçek Claude/X/Instagram'a çıkılmaz."""
 
 import ast
 import json
@@ -384,7 +384,7 @@ def test_F7_postlarda_at_isareti_yok():
 def test_F7_yorum_kiti_yalnizca_taslak_ve_flood_sesi_var():
     from bot import yorum
     assert yorum.ETIKETLER["flood"] == "yorum-kiti-flood"
-    assert "Prompt Proof" in yorum._flood_sesi()
+    assert "Tiny Fixes" in yorum._flood_sesi()
 
 
 # ---------- F8: biçim ----------

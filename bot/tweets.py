@@ -506,7 +506,7 @@ class XClient:
         return r.json().get("data", [])
 
     def metrikler_idle(self, idler: list[str]) -> list[dict]:
-        """Yalnızca verilen postların rakamları (okuma post başına ücretli: Prompt Proof ölçümü hesabın tüm geçmişini okumaz)."""
+        """Yalnızca verilen postların rakamları (okuma post başına ücretli: Tiny Fixes ölçümü hesabın tüm geçmişini okumaz)."""
         if not idler:
             return []
         r = self.session.get("https://api.x.com/2/tweets", timeout=30,

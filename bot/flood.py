@@ -1,4 +1,4 @@
-"""Prompt Proof (üçüncü hesap, X + Instagram; SOZLESME F): konu bul, doğrula, yaz, onayla, paylaş, ölç.
+"""Tiny Fixes (üçüncü hesap, X + Instagram; SOZLESME F): konu bul, doğrula, yaz, onayla, paylaş, ölç.
 
 Mod (ayarlar.toml [flood] mod):
   "kapali"   : hiçbir şey yapılmaz, hiçbir anahtar okunmaz (varsayılan, F9).
@@ -148,7 +148,7 @@ def onay_isle(ayar: FloodAyar, state: dict, simdi: datetime, gh, yaz=print) -> N
         elif simdi >= _iso(b["son"]):
             b["durum"] = "dustu"
             gh.kapat(b["issue"], "⌛ Süre doldu, cevap gelmedi: taslak düştü, paylaşılmadı (F6).")
-            yaz(f"Prompt Proof taslağı düştü (onay yok): {b['konu']}")
+            yaz(f"Tiny Fixes taslağı düştü (onay yok): {b['konu']}")
 
 
 # ---------- Üretim ----------
@@ -175,10 +175,10 @@ def _birim(kayit: dict, flood: dict, simdi: datetime, ayar: FloodAyar, durum: st
 
 def _taslak_ekle(ayar, state, b, gh, simdi, yaz) -> None:
     if b["durum"] == "onay_bekliyor":
-        b["issue"] = gh.issue_ac(f"🧪 Prompt Proof taslağı: {b['konu'][:70]}", onay_govdesi(b, ayar), ETIKET)
+        b["issue"] = gh.issue_ac(f"🧪 Tiny Fixes taslağı: {b['konu'][:70]}", onay_govdesi(b, ayar), ETIKET)
     state["birimler"].append(b)
     state["konular"].append({"baslik": b["konu"], "tarih": simdi.date().isoformat()})
-    yaz(f"Prompt Proof taslağı hazır ({b['tur']}, {b['durum']}): {b['konu']}")
+    yaz(f"Tiny Fixes taslağı hazır ({b['tur']}, {b['durum']}): {b['konu']}")
 
 
 def uret(ayar: FloodAyar, state: dict, simdi: datetime, client, gh, get=flood_kaynak.http_al, yaz=print) -> None:
@@ -189,7 +189,7 @@ def uret(ayar: FloodAyar, state: dict, simdi: datetime, client, gh, get=flood_ka
     gun["slotlar"].append(slot)  # başarısız olsa da bu slot yeniden denenmez: her deneme para harcar
     kaydet(state)
     if client is None:
-        yaz("Prompt Proof: Claude anahtarı yok, taslak üretilmedi.")
+        yaz("Tiny Fixes: Claude anahtarı yok, taslak üretilmedi.")
         return
     if slot == "e":
         tema = flood_yazar.kutuphane_temasi(state["kutuphane"])
@@ -212,7 +212,7 @@ def uret(ayar: FloodAyar, state: dict, simdi: datetime, client, gh, get=flood_ka
             state["kutuphane"] = (state["kutuphane"] + [konu])[-60:]
         _taslak_ekle(ayar, state, _birim(kayit, flood, simdi, ayar, durum), gh, simdi, yaz)
         return
-    yaz(f"Prompt Proof: bu slotta uygun konu çıkmadı ({slot}).")
+    yaz(f"Tiny Fixes: bu slotta uygun konu çıkmadı ({slot}).")
 
 
 def _trend_adaylari(ayar, state, simdi, client, get, yaz):
@@ -248,7 +248,7 @@ def gorselleri_yayinla(birim_id: str, jpegler: list[bytes], run=subprocess.run, 
         klasor.mkdir()
         for i, j in enumerate(jpegler, 1):
             (klasor / f"slayt{i}.jpg").write_bytes(j)
-        kimlik = ["-c", "user.name=prompt-proof-botu", "-c", "user.email=prompt-proof-botu@users.noreply.github.com"]
+        kimlik = ["-c", "user.name=tiny-fixes-botu", "-c", "user.email=tiny-fixes-botu@users.noreply.github.com"]
         try:
             for komut in (["git", "init", "-q", "-b", MEDYA_DAL], ["git", *kimlik, "add", "-A"],
                           ["git", *kimlik, "commit", "-q", "-m", f"medya {birim_id}"],
@@ -287,7 +287,7 @@ def _yayinla(ayar: FloodAyar, state: dict, b: dict, x, ig, simdi: datetime, yaz)
     if sorun:  # son kapı: kayıttan sonra bir şey değişmiş olabilir
         b["durum"] = "hata"
         b["hata"] = sorun[:5]
-        yaz(f"Prompt Proof paylaşımı denetimden geçmedi, durduruldu: {sorun[0]}")
+        yaz(f"Tiny Fixes paylaşımı denetimden geçmedi, durduruldu: {sorun[0]}")
         return
     d = b["kayit"].get("denendi")
     ig_izinli = gun["ig"] < flood_denetci.GUNLUK_IG  # F8: günde en fazla 3 Instagram postu (aşılırsa yalnızca atlanır)
@@ -319,7 +319,7 @@ def _yayinla(ayar: FloodAyar, state: dict, b: dict, x, ig, simdi: datetime, yaz)
         b["durum"], b["yayin"] = "yayinlandi", simdi.isoformat(timespec="seconds")
         gun["birim"] += 1
         state["son_yayin"] = b["yayin"]
-        yaz(f"Prompt Proof paylaşıldı: {b['konu']}")
+        yaz(f"Tiny Fixes paylaşıldı: {b['konu']}")
 
 
 def yayinla_sirali(ayar: FloodAyar, state: dict, simdi: datetime, x, ig, yaz=print) -> None:
@@ -359,14 +359,14 @@ def olcum_guncelle(state: dict, x, ig, simdi: datetime, yaz=print) -> None:
         try:
             xm = {t["id"]: t.get("public_metrics") for t in x.metrikler_idle([b["x"]["idler"][0] for b in bekleyen if b["x"]["idler"]])}
         except Exception as e:
-            yaz(f"Prompt Proof X ölçümü alınamadı: {e}")
+            yaz(f"Tiny Fixes X ölçümü alınamadı: {e}")
     for b in bekleyen:
         o = {"x": xm.get(b["x"]["idler"][0]) if b["x"]["idler"] else None, "ig": None}
         if ig is not None and b["ig"].get("medya_id"):
             try:
                 o["ig"] = ig.olcum(b["ig"]["medya_id"])
             except Exception as e:
-                yaz(f"Prompt Proof Instagram ölçümü alınamadı: {e}")
+                yaz(f"Tiny Fixes Instagram ölçümü alınamadı: {e}")
         b["olcum"] = o
 
 
@@ -375,12 +375,12 @@ def sorunlar(ayar: FloodAyar, state: dict, simdi: datetime) -> list[tuple[str, s
     if ayar.mod == "kapali":
         return []
     gun = simdi.date().isoformat()
-    sonuc = [(f"flood-hata-{b['id']}", f"Prompt Proof paylaşımı durduruldu: {b['konu'][:60]}: {', '.join(b.get('hata', []))[:160]}")
+    sonuc = [(f"flood-hata-{b['id']}", f"Tiny Fixes paylaşımı durduruldu: {b['konu'][:60]}: {', '.join(b.get('hata', []))[:160]}")
              for b in state["birimler"] if b["durum"] == "hata"]
     bekleyen = [b for b in state["birimler"] if b["durum"] in ("onay_bekliyor", "onaylandi", "planli")]
     referans = state.get("son_yayin") or state.get("baslangic")
     if not bekleyen and referans and 7 <= simdi.hour < 21 and simdi - _iso(referans) > timedelta(hours=30):
-        sonuc.append((f"flood-sessiz-{gun}", "Prompt Proof 30 saattir hiçbir şey paylaşmadı ve bekleyen taslak yok."))
+        sonuc.append((f"flood-sessiz-{gun}", "Tiny Fixes 30 saattir hiçbir şey paylaşmadı ve bekleyen taslak yok."))
     return sonuc
 
 
@@ -432,15 +432,15 @@ def nabiz(ana_ayar, simdi: datetime, yaz=print, gh=None, get=flood_kaynak.http_a
         try:
             adim()
         except Exception as e:  # bir adımın hatası diğerlerini engellemez
-            hatalar.append(f"Prompt Proof {ad}: {e}")
-            yaz(f"⚠️ Prompt Proof {ad} adımı başarısız: {e}")
+            hatalar.append(f"Tiny Fixes {ad}: {e}")
+            yaz(f"⚠️ Tiny Fixes {ad} adımı başarısız: {e}")
     kaydet(state, simdi)
     if x is not None:
         try:
             from . import yorum
             yorum.kontrol(x, gh, ana_ayar, simdi, hesap="flood", client=claude, yaz=yaz)
         except Exception as e:
-            yaz(f"⚠️ Prompt Proof yorum kiti bu turda çalışmadı: {e}")
+            yaz(f"⚠️ Tiny Fixes yorum kiti bu turda çalışmadı: {e}")
     from . import saglik
     saglik.bildir(sorunlar(ayar, state, simdi) + [(f"flood-adim-{simdi.date()}-{i}", h) for i, h in enumerate(hatalar)],
                   gh, ayar.alarm_kime or getattr(ana_ayar, "alarm_kime", ""), simdi, yaz)

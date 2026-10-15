@@ -1,4 +1,4 @@
-# Prompt Proof kurulumu (sizin yapacaklarınız)
+# Tiny Fixes kurulumu (sizin yapacaklarınız)
 
 Bot hazır ve **kapalı** (`[flood] mod = "kapali"`): siz bu adımları bitirip modu açana dek hiçbir şey paylaşılmaz.
 Aşağıdaki arayüz adları zamanla değişebilir; takılırsanız ekran görüntüsünü gönderin.
@@ -8,19 +8,19 @@ Rakamlar üçüncü taraf kaynaklara ve token tahminine dayanır; ilk ayın sonu
 
 ## 1. X hesabı
 
-1. Yeni bir X hesabı açın (kullanıcı adı denemeleri için `PROMPT_PROOF.md`). Profil fotoğrafı: `marka/prompt_proof_logo.png`,
-   başlık: `marka/prompt_proof_kapak.png`, biyografi ve sabit post: `PROMPT_PROOF.md`.
+1. Yeni bir X hesabı açın (kullanıcı adı denemeleri için `TINY_FIXES.md`). Profil fotoğrafı: `marka/tiny_fixes_logo.png`,
+   başlık: `marka/tiny_fixes_x_kapak.png`, biyografi ve sabit post: `TINY_FIXES.md`.
 2. **Ayarlar → Hesabınız → Otomatik hesap (Automated)** ile hesabı kendi insan hesabınıza bağlayın (X kuralı).
 3. **Premium** aboneliği alın (erişim artışı ve ileride Original Content Rewards başvurusu için).
 4. GitHub → Actions → **Kalkylerat Botu → Run workflow → komut `flood_yetki`**. Bot bir issue açar: bağlantıyı
-   **Prompt Proof hesabıyla giriş yapmış** tarayıcıda açın, **Authorize app**'e basın, dönülen adresin tamamını
+   **Tiny Fixes hesabıyla giriş yapmış** tarayıcıda açın, **Authorize app**'e basın, dönülen adresin tamamını
    kopyalayın. Aynı komutu yeniden çalıştırırken adresi `ek` alanına yapıştırın. Anahtar depoda şifreli saklanır.
    (Yanlışlıkla Kalkylerat ya da Mr. Likely hesabıyla yetki verirseniz bot kaydetmez.)
 
 ## 2. Instagram hesabı
 
 1. Yeni bir Instagram hesabı açın, **Profesyonel hesaba** geçin (**Creator** ya da **Business**; kişisel hesaba API ile
-   paylaşılamaz). Fotoğraf ve biyografi: `PROMPT_PROOF.md`. Profil bağlantısını başlangıçta boş bırakın.
+   paylaşılamaz). Fotoğraf ve biyografi: `TINY_FIXES.md`. Profil bağlantısını başlangıçta boş bırakın.
 2. developers.facebook.com'da bir uygulama oluşturun, **Instagram** ürününü ekleyin, **"API setup with Instagram login"**
    yolunu seçin (Facebook Sayfası gerekmez). Instagram hesabını uygulamaya ekleyin ve **içerik yayınlama** iznini verin
    (izin adı Meta'nın iki sayfasında farklı yazılmış: `instagram_business_content_publish` / `..._publishing`; arayüzde

@@ -1,4 +1,4 @@
-"""Prompt Proof doğrulama (SOZLESME F1, F2): olgular web aramasıyla doğrulanır, komutlar gerçekten çalıştırılır.
+"""Tiny Fixes doğrulama (SOZLESME F1, F2): olgular web aramasıyla doğrulanır, komutlar gerçekten çalıştırılır.
 
 F1: Claude'un web arama aracı kaynak bulur; yalnızca aramanın GERÇEKTEN döndürdüğü adresler sayılır (uydurulmuş adres
 sayılmaz), her olgu en az 2 bağımsız alan adından gelmelidir. Doğrulanamayan olgu kayda girmez.

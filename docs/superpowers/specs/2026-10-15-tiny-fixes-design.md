@@ -34,4 +34,7 @@ Doğrulanmayanlar: web arama aracının birim fiyatı, X API fiyatlarının gün
   canlı doğrulama GitHub Actions'ta ilk çalışmada yapılır. RSS adresleri doğrulanmadı.
 - Instagram izin adı Meta belgelerinde iki farklı yazılmış; kurulumda canlı belgeden doğrulanır.
 - Original Content Rewards: otomatik hesaplara açık olup olmadığı belirsiz; başvurmadan X'in Creator Monetization Standards sayfasından teyit.
-- Yapılmadı: Instagram yorum kiti (yalnızca X yorum kiti bağlı), Reels, affiliate/bülten katmanı (≈500 takipçiden sonra).
+- 15 Ekim (ikinci oturum) eklendi: ad "Tiny Fixes" ve yeni marka, öğrenme döngüsü (F10), haftalık rapor, Instagram yorum
+  kiti, `flood_tani`, tembel trend doğrulaması. Depo herkese açık (doğrulandı). Instagram izin adı `instagram_business_content_publish`
+  (Meta'nın güncel belgesi).
+- Yapılmadı: Reels, affiliate/bülten katmanı (≈500 takipçiden sonra).

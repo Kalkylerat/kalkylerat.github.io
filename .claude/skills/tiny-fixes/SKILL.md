@@ -13,12 +13,20 @@ Instagram için `instagram` skill'i. Mr. Likely ve Kalkylerat hesaplarına bu mo
 `kaynak` (Google Trends, Hacker News, RSS; X'ten okuma yok) → `puan` (kaynak sayısı, tazelik, hız, nişe uygunluk; F5 güvensiz
 konular ve işlenmiş konular elenir) → `yazar.triage` (Fix/News/atla) → `dogrula` (web araması + her olgu 2 bağımsız alan adı;
 Fix komutu gerçekten çalıştırılır, zayıf çıktı elenir) → `yazar.yaz` (X flood + Instagram carousel, en fazla 3 deneme) →
-`denetci` (tüm kurallar kodla) → onay issue'su (`flood-onay`) → yayın (X zinciri, sonra Instagram) → 24 saat sonra ölçüm.
+`denetci` (tüm kurallar kodla) → onay issue'su (`flood-onay`) → yayın (X zinciri, sonra Instagram) → 24 saat sonra ölçüm →
+kalıcı geçmiş (`state.gecmis`) → `flood_ogren` (F10: yalnızca sıralama ve öneri) → Pazartesi `flood-rapor` issue'su.
+Trend adayları tembel doğrulanır: ilk uygun konu yazılınca kalanlar araştırılmaz (maliyet).
+Yorum kitleri: X (`yorum.kontrol`, hesap "flood", ayrı `FLOOD_SISTEM`) ve Instagram (`flood.ig_yorumlari`, 30 dk'da bir,
+yalnızca okuma + 2 taslak, `yorum-kiti-flood-ig` issue'su). Bot hiçbir zaman cevap atmaz (F7).
 Her nabızda çalışır (`nabiz`/`onay_kontrol`); slotlar: trend 06 ve 14 UTC, evergreen 10 UTC; nabız başına en fazla bir birim.
 
 ## Mod (`ayarlar.toml → [flood] mod`)
 `kapali` (varsayılan: hiçbir şey okunmaz/yapılmaz), `onay` (hepsi sahibin `ok` cevabıyla), `otomatik` (yalnızca evergreen
 kendiliğinden, trend yine onayla: F6). Anahtarlar yoksa yalnızca taslak (F9).
+
+## Komutlar
+`flood_tani` (salt okunur: kaynaklar, puanlama, depo erişimi; Claude/X/Instagram'a dokunmaz; mod kapalıyken de çalışır),
+`flood_yetki` (X izni), `flood_ig` (Instagram anahtarı), `flood` (nabzın yalnızca Tiny Fixes kısmı).
 
 ## Sorun giderme
 - **Taslak gelmedi:** `data/flood.json → gun[<tarih>].slotlar` o slotun denendiğini gösterir (başarısız olsa da yeniden

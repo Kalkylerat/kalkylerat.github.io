@@ -18118,7 +18118,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 78
+     "no": 78,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1643388-CS1X",
@@ -18627,7 +18628,7 @@
    ],
    "oto": true,
    "issue": 67,
-   "olcum_sorgu": "2026-10-15T12:16:39+00:00"
+   "olcum_sorgu": "2026-10-15T13:14:18+00:00"
   }
  ]
 }

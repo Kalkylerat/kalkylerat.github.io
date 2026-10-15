@@ -17018,7 +17018,8 @@
      "istatistik": 0.64,
      "uyum": false,
      "buyuk": false,
-     "no": 23
+     "no": 23,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1636326-UST15",
@@ -17600,7 +17601,8 @@
      "istatistik": 0.745,
      "uyum": true,
      "buyuk": false,
-     "no": 52
+     "no": 52,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1636396-IY1",
@@ -17821,7 +17823,8 @@
      "istatistik": 0.753,
      "uyum": true,
      "buyuk": false,
-     "no": 63
+     "no": 63,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1636440-EVA15",
@@ -18640,7 +18643,7 @@
    ],
    "oto": true,
    "issue": 67,
-   "olcum_sorgu": "2026-10-15T15:14:41+00:00"
+   "olcum_sorgu": "2026-10-15T16:14:55+00:00"
   }
  ]
 }

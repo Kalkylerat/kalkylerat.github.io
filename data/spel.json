@@ -74500,6 +74500,31 @@
         "istatistik_kaynak": "lig"
       }
     ],
-    "etkilesim": {}
+    "etkilesim": {
+      "tablo": {
+        "durum": "paylasildi",
+        "tweet_id": "2110642595449762046",
+        "zaman": "2026-10-15T08:02:50+00:00",
+        "metin": "📋 15 Europa League games, every % in the image\n\n🆚 Benfica v Celtic\n🏆 Benfica 77% · Draw 14% · Celtic 9%\n\n🆚 Red Bull Salzburg v AC Milan\n🏆 Red Bull Salzburg 27% · Draw 24% · AC Milan 49%\n\n💬 Milan at 49% away in Salzburg: too low or too high?\n\n18+ | Play responsibly",
+        "maclar": [
+          1636222,
+          1636239,
+          1636279,
+          1636293,
+          1636328,
+          1636332,
+          1636338,
+          1636350,
+          1636228,
+          1636236,
+          1636243,
+          1636256,
+          1636260,
+          1636268,
+          1636274
+        ],
+        "sonuclar": {}
+      }
+    }
   }
 ]

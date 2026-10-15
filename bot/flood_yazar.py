@@ -81,7 +81,8 @@ Hard rules:
 - No hype ("game-changer", "insane", "mind-blowing", "changes everything"), no engagement bait ("RT if", "reply YES"),
   no AI-sounding patterns ("Here's what", "It's not X, it's Y", "Let that sink in", "The result?"), at most one long dash.
 - Never claim personal experience, clients, or authority. Say "we ran it", never "I have used this for months".
-- End the X flood with ONE specific ask: save it, or follow for the next tested fix. Not both.
+- End the X flood with ONE ask taken from "final_ask_options" in the record (reword lightly if needed, never add a link).
+  The last Instagram slide uses one of them too. Never more than one ask.
 - Sound like a person: short sentences, plain words, one honest limit per piece.
 """
 
@@ -123,6 +124,8 @@ def _yukle(kayit: dict, sorunlar: list[str] | None) -> str:
         veri["tested"] = {"model_name": flood_denetci.model_adi(d["model"]), "prompt_to_show": d["komut"],
                           "sample_input": d["ornek_girdi"], "real_output": d["cikti"][:1400], "time": d["sure"],
                           "honest_limit": d["sinir"]}
+    from . import flood_gelir
+    veri["final_ask_options"] = flood_gelir.cagri_secenekleri(flood_gelir.ayar_yukle())
     if sorunlar:
         veri["your_previous_draft_was_rejected_for"] = sorunlar[:12]
     return json.dumps(veri, ensure_ascii=False, indent=1)

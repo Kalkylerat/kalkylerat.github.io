@@ -224,3 +224,20 @@ gunluk_birim = 4                   # F8
 x_aktif = true
 ig_aktif = true
 ig_surum = "v23.0"
+
+[flood_gelir]
+# Tiny Fixes gelir katmanı (sahibinin kararı, 15 Ekim 2026; SOZLESME F11–F14): kendi site + e-posta listesi + dijital ürün.
+# Site: docs/tinyfixes/ (GitHub Pages). X ve Instagram profil bağlantısı ana sayfaya gelir.
+site_url = "https://kalkylerat.github.io/tinyfixes"
+# Kit formunun "action" adresi (Kit → Grow → Landing Pages & Forms → form → Publish → HTML). Boşsa sitede form görünmez
+# ve postlarda "ücretsiz paket" çağrısı yapılmaz.
+bulten_form_action = ""
+bulten_email_alani = "email_address"
+ucretsiz_paket_adi = "Tiny Fixes Starter: 10 tested AI prompts"
+ucretsiz_paket_sayisi = 10
+# Ücretli paket (Lemon Squeezy ürün sayfası). Boşsa ya da paket henüz üretilmediyse (flood_paket) satın al kutusu görünmez.
+urun_adi = "Tiny Fixes Library"
+urun_url = ""
+urun_fiyat = "$9"
+# Affiliate: yalnızca gerçekten denediğimiz araçlar, sayfada "affiliate" ibaresiyle (F4). Örnek: [["Tool", "https://..."]]
+affiliate = []

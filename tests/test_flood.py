@@ -8,8 +8,8 @@ from types import SimpleNamespace
 
 import pytest
 
-from bot import (config, flood, flood_denetci as den, flood_dogrula, flood_gorsel, flood_ig, flood_kaynak, flood_ogren,
-                 flood_puan, flood_yazar, flood_yetki)
+from bot import (config, flood, flood_denetci as den, flood_dogrula, flood_gelir, flood_gorsel, flood_ig, flood_kaynak,
+                 flood_kutuphane, flood_ogren, flood_pdf, flood_puan, flood_site, flood_yazar, flood_yetki)
 
 UTC = timezone.utc
 SIMDI = datetime(2026, 10, 15, 14, 5, tzinfo=UTC)
@@ -23,6 +23,12 @@ def _izole(monkeypatch, tmp_path):
     monkeypatch.setattr(flood, "DOSYA", tmp_path / "flood.json")
     monkeypatch.setattr(flood_yetki, "X_DOSYA", tmp_path / "x.enc")
     monkeypatch.setattr(flood_yetki, "IG_DOSYA", tmp_path / "ig.enc")
+    monkeypatch.setattr(flood_kutuphane, "DOSYA", tmp_path / "kutuphane.json")
+    monkeypatch.setattr(flood_kutuphane, "PAKET_DOSYA", tmp_path / "paket.enc")
+    monkeypatch.setattr(flood_kutuphane, "OZET_DOSYA", tmp_path / "paket_ozet.json")
+    monkeypatch.setattr(flood_site, "KLASOR", tmp_path / "site")
+    from bot import kopya
+    monkeypatch.setattr(kopya, "KLASOR", tmp_path / "kit")
     from bot import saglik
     monkeypatch.setattr(saglik, "DOSYA", tmp_path / "saglik.json")
 
@@ -873,3 +879,158 @@ def test_evergreen_temalari_donusumlu_ve_basarisiz_tema_her_gun_tekrar_denenmez(
     assert flood_yazar.kutuphane_temasi(hepsi + [hepsi[0]]) == hepsi[1]
     assert flood_yazar.kutuphane_temasi([]) == hepsi[0]
     assert not any(den.guvensiz_alan(t) for t in hepsi)  # evergreen temaları güvenli alanda (F5)
+
+
+# ---------- F11–F14: gelir katmanı (site, liste, ürün, gelir rakamları) ----------
+
+GELIR = flood_gelir.GelirAyar(bulten_form_action="https://app.kit.com/forms/123/subscriptions",
+                              urun_url="https://tinyfixes.lemonsqueezy.com/buy/abc", affiliate=(("Notely", "https://notely.example/r/1"),))
+
+
+def _girdi(**kw):
+    g = flood_kutuphane.girdi(kayit_fix(), "post", "2026-10-15", birim_id="b1")
+    g.update(kw)
+    return g
+
+
+def test_F11_site_yalnizca_yayinlanmis_ve_guvenli_icerik(tmp_path):
+    b = bekleyen_birim("onaylandi")
+    assert flood_kutuphane.ekle_birim(b, SIMDI) is False and flood_kutuphane.yukle() == []  # yayınlanmamış: siteye girmez
+    b["durum"] = "yayinlandi"
+    assert flood_kutuphane.ekle_birim(b, SIMDI) and flood_kutuphane.yukle()[0]["slug"] == "phone-battery-draining-after-the-update"
+    assert flood_kutuphane.ekle_birim(b, SIMDI)  # aynı konu ikinci kez: ayrı adres
+    girdiler = flood_kutuphane.yukle() + [_girdi(slug="kotu", baslik="New diet supplement cures depression")]  # F5
+    degisen = flood_site.uret(GELIR, girdiler, {"sayi": 60, "kategoriler": ["Email", "Work"], "modeller": ["Claude Sonnet 5.5"]},
+                              klasor=tmp_path / "s")
+    assert "fix/kotu.html" not in degisen and "fix/phone-battery-draining-after-the-update.html" in degisen
+    sayfa = (tmp_path / "s" / "fix" / "phone-battery-draining-after-the-update.html").read_text()
+    assert "Tested with Claude Sonnet 5.5" in sayfa and "The limit" in sayfa and 'href="https://www.alpha.com/a"' in sayfa  # F1 kaynak
+    assert "60 tested prompts" in sayfa and "<script>alert" not in sayfa
+    assert not any(k in sayfa.lower() for k in ("only 3 left", "limited time", "hurry", "testimonial", "5 stars"))  # sahte aciliyet yok
+    assert flood_site.uret(GELIR, girdiler, {"sayi": 60}, klasor=tmp_path / "s") != []  # özet değişti
+    assert flood_site.uret(GELIR, girdiler, {"sayi": 60}, klasor=tmp_path / "s") == []  # değişiklik yoksa dosya yazılmaz
+
+
+def test_F11_affiliate_yalnizca_denenmis_arac_ve_etiketli():
+    assert flood_site._affiliate(GELIR, _girdi()) == ""  # araç yok
+    a = flood_site._affiliate(GELIR, _girdi(arac={"ad": "Notely"}))
+    assert "affiliate" in a and 'rel="sponsored' in a
+    assert flood_site._affiliate(GELIR, _girdi(arac={"ad": "Notely"}, cikti="")) == ""  # denenmemiş
+    assert flood_site._affiliate(GELIR, _girdi(arac={"ad": "Baska"})) == ""  # ayarlarda bağlantısı yok
+
+
+def test_F11_html_kacislanir(tmp_path):
+    x = _girdi(baslik='Fix <script>alert(1)</script> "quoted"', slug="xss")
+    flood_site.uret(GELIR, [x], None, klasor=tmp_path)
+    s = (tmp_path / "fix" / "xss.html").read_text()
+    assert "<script>alert(1)" not in s and "&lt;script&gt;" in s
+
+
+def test_F12_form_yalnizca_ayar_varsa_ve_bot_e_posta_gondermez(tmp_path):
+    bos = flood_gelir.GelirAyar()
+    flood_site.uret(bos, [_girdi()], {"sayi": 60}, klasor=tmp_path / "a")
+    ana = (tmp_path / "a" / "index.html").read_text()
+    assert "<form" not in ana and "free pack" not in ana.lower() and "lemonsqueezy" not in ana  # vaat yok
+    assert not any("Free pack" in c for c in flood_gelir.cagri_secenekleri(bos))
+    flood_site.uret(GELIR, [_girdi()], {"sayi": 60}, klasor=tmp_path / "b")
+    ana = (tmp_path / "b" / "index.html").read_text()
+    assert 'action="https://app.kit.com/forms/123/subscriptions"' in ana and "Unsubscribe any time" in ana
+    assert any("Free pack of 10" in c for c in flood_gelir.cagri_secenekleri(GELIR))
+    assert all("http" not in c for c in flood_gelir.cagri_secenekleri(GELIR))  # post çağrısında link yok (F4)
+    konu, metin = flood_gelir.bulten_taslagi([_girdi()], GELIR, SIMDI)
+    assert "Phone battery" in konu and "The limit:" in metin and "/fix/phone-battery-draining-after-the-update.html" in metin
+    assert flood_gelir.bulten_taslagi([_girdi(tarih="2026-09-01")], GELIR, SIMDI) is None
+    for mod in ("flood_gelir", "flood_site", "flood_kutuphane"):
+        kaynak = (ROOT / "bot" / f"{mod}.py").read_text(encoding="utf-8")
+        assert "smtplib" not in kaynak and "/broadcasts" not in kaynak.replace("app.kit.com/broadcasts", "")  # bot göndermez
+
+
+def test_F13_paket_yalnizca_denenmis_komut_sifreli_saklanir_ve_pdf_metin_tasir(monkeypatch):
+    k = kayit_fix()["denendi"]
+    temalar = flood_kutuphane.PAKET_TEMALARI[:4]
+    sonuc = iter([{**kayit_fix(), "tur": "library", "olgular": [], "konu": temalar[0][1]}, None,
+                  RuntimeError("ağ"), {**kayit_fix(), "tur": "library", "olgular": [], "konu": temalar[3][1]}])
+
+    def kayit(c, a, tema, yaz=print):
+        s = next(sonuc)
+        if isinstance(s, Exception):
+            raise s
+        return s
+    monkeypatch.setattr(flood_dogrula, "kutuphane_kaydi", kayit)
+    girdiler = flood_kutuphane.paket_uret(object(), AYAR, "gizli", SIMDI, en_fazla=4, yaz=lambda *_: None)
+    paket = flood_kutuphane.paket_girdileri(girdiler)
+    assert [g["baslik"] for g in paket] == [temalar[0][1], temalar[3][1]] and all(g["model"] and g["sinir"] for g in paket)
+    ham = flood_kutuphane.PAKET_DOSYA.read_bytes()
+    assert temalar[0][1].encode() not in ham and k["cikti"].encode() not in ham  # depoda düz metin yok
+    assert flood_kutuphane.paket_yukle("yanlis") == []
+    assert len(girdiler) == 3 and flood_kutuphane.paket_uret(object(), AYAR, "gizli", SIMDI, en_fazla=0) == girdiler  # hatalı tema kaydedilmedi, sonra yeniden denenir
+    pdf = flood_pdf.paket(paket, "Tiny Fixes Library", "2 tested AI prompts")
+    assert pdf[:4] == b"%PDF" and len(pdf) > 5000
+    o = flood_kutuphane.ozet(paket, SIMDI)
+    assert o["sayi"] == 2 and o["modeller"] == ["Claude Sonnet 5.5"] and "komut" not in json.dumps(o)
+    gitignore = (ROOT / ".gitignore").read_text()
+    assert "urun/" in gitignore  # PDF depoya girmez
+    assert not any(den.guvensiz_alan(t) for _, t in flood_kutuphane.PAKET_TEMALARI)  # F5
+    secilen = flood_kutuphane.ucretsiz_sec([{"kategori": k, "baslik": f"{k}{i}"} for k in "ABC" for i in range(4)], 5)
+    assert [s["kategori"] for s in secilen] == ["A", "B", "C", "A", "B"]  # her alandan tadımlık
+
+
+def test_F14_gelir_rakamlari_yalnizca_apiden_okunamazsa_okunamadi():
+    class Yanit:
+        def __init__(self, veri, kod=200):
+            self.veri, self.status_code = veri, kod
+
+        def raise_for_status(self):
+            if self.status_code >= 400:
+                import requests
+                raise requests.HTTPError("401")
+
+        def json(self):
+            return self.veri
+
+    def get(url, **kw):
+        if "kit.com" in url:
+            assert kw["headers"]["X-Kit-Api-Key"] == "k"
+            return Yanit({"subscribers": [], "pagination": {"total_count": 42}})
+        assert kw["headers"]["Authorization"] == "Bearer l"
+        return Yanit({"data": [{"attributes": {"status": "paid", "created_at": "2026-10-14T10:00:00Z", "total_usd": 900}},
+                               {"attributes": {"status": "refunded", "created_at": "2026-10-14T11:00:00Z", "total_usd": 900}},
+                               {"attributes": {"status": "paid", "created_at": "2026-09-01T10:00:00Z", "total_usd": 900}}],
+                      "meta": {"page": {"total": 3}}})
+    s = "\n".join(flood_gelir.gelir_satirlari(SIMDI, {"KIT_API_KEY": "k", "LEMON_API_KEY": "l"}, get))
+    assert "42 abone" in s and "1 adet, $9.0" in s
+    hata = "\n".join(flood_gelir.gelir_satirlari(SIMDI, {"KIT_API_KEY": "k", "LEMON_API_KEY": "l"}, lambda u, **kw: Yanit({}, 401)))
+    assert hata.count("okunamadı") == 2 and "$" not in hata  # tahmin yok
+    assert "okunmadı" in "\n".join(flood_gelir.gelir_satirlari(SIMDI, {}, get))
+    kaynak = (ROOT / "bot" / "flood_gelir.py").read_text(encoding="utf-8")
+    assert "requests.post" not in kaynak and ".post(" not in kaynak  # yalnızca okuma
+
+
+def test_haftalik_rapor_gelir_ve_bulten_taslagi_icerir(monkeypatch):
+    monkeypatch.setattr(flood_gelir, "ayar_yukle", lambda *a: GELIR)
+    st = bos_state()
+    gh = SahteGH()
+    pazartesi = datetime(2026, 10, 19, 9, 0, tzinfo=UTC)
+    monkeypatch.setenv("KIT_API_KEY", "")
+    monkeypatch.setenv("LEMON_API_KEY", "")
+    st["birimler"] = []
+    flood_kutuphane.kaydet([_girdi(tarih="2026-10-18")])
+    flood.haftalik_rapor(AYAR, st, pazartesi, gh)
+    govde = gh.acilan[0][1]
+    assert "### Gelir" in govde and "okunmadı" in govde and "bülten taslağı" in govde and "Kopyala ve Kit" in govde
+
+
+def test_yazar_son_cagriyi_secenekler_arasindan_alir(monkeypatch):
+    monkeypatch.setattr(flood_gelir, "ayar_yukle", lambda *a: GELIR)
+    veri = json.loads(flood_yazar._yukle(kayit_fix(), None))
+    assert any("Free pack" in c for c in veri["final_ask_options"]) and "final_ask_options" in flood_yazar.YAZAR_SISTEMI
+
+
+def test_nabiz_yayinlanan_birimi_siteye_ekler(hazirla):
+    gh, x, ig = SahteGH(), SahteX(), SahteIG()
+    st = bos_state()
+    b = bekleyen_birim("onaylandi")
+    st["birimler"].append(b)
+    calistir(st, gh, SIMDI, x, ig)
+    assert flood_kutuphane.yukle()[0]["birim"] == b["id"]
+    assert (flood_site.KLASOR / "fix" / "phone-battery-draining-after-the-update.html").exists()

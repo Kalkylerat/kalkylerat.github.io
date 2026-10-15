@@ -24,7 +24,15 @@ Her nabızda çalışır (`nabiz`/`onay_kontrol`); slotlar: trend 06 ve 14 UTC, 
 `kapali` (varsayılan: hiçbir şey okunmaz/yapılmaz), `onay` (hepsi sahibin `ok` cevabıyla), `otomatik` (yalnızca evergreen
 kendiliğinden, trend yine onayla: F6). Anahtarlar yoksa yalnızca taslak (F9).
 
+## Gelir katmanı (F11–F14; sahibinin kararı: "önce para")
+Trafik X/Instagram'dan, para kendi sitemizden: `flood_site` (docs/tinyfixes/, yalnızca yayınlanmış çözümler),
+`flood_kutuphane` (herkese açık `data/flood_kutuphane.json` + şifreli paket `data/flood_paket.enc`), `flood_pdf`
+(kopyalanabilir metinli PDF), `flood_gelir` (ayarlar `[flood_gelir]`, son çağrı seçenekleri, bülten taslağı, Kit ve Lemon
+Squeezy yalnızca okuma). Form/ürün bağlantısı yoksa site o kutuyu ve postlar "free pack" çağrısını göstermez.
+Paket PDF'leri depoya girmez (`urun/` gitignore; iş akışı 1 günlük artifact).
+
 ## Komutlar
+`flood_paket` (paket temalarını gerçekten dener, PDF'leri üretir; `ek` = en fazla kaç yeni tema), `flood_site` (siteyi yeniden yazar),
 `flood_tani` (salt okunur: kaynaklar, puanlama, depo erişimi; Claude/X/Instagram'a dokunmaz; mod kapalıyken de çalışır),
 `flood_yetki` (X izni), `flood_ig` (Instagram anahtarı), `flood` (nabzın yalnızca Tiny Fixes kısmı).
 

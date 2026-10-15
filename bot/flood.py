@@ -345,6 +345,11 @@ def _yayinla(ayar: FloodAyar, state: dict, b: dict, x, ig, simdi: datetime, yaz)
         gun["birim"] += 1
         state["son_yayin"] = b["yayin"]
         yaz(f"Tiny Fixes paylaşıldı: {b['konu']}")
+        try:  # F11: yayınlanan çözüm siteye girer (sayfa sonraki site adımında yazılır)
+            from . import flood_kutuphane
+            flood_kutuphane.ekle_birim(b, simdi)
+        except Exception as e:
+            yaz(f"Siteye eklenemedi ({b['konu']}): {e}")
 
 
 def yayinla_sirali(ayar: FloodAyar, state: dict, simdi: datetime, x, ig, yaz=print) -> None:
@@ -414,12 +419,44 @@ def sorunlar(ayar: FloodAyar, state: dict, simdi: datetime) -> list[tuple[str, s
 
 # ---------- Haftalık rapor (F10) ve Instagram yorum kiti (F7) ----------
 
+def site_guncelle(yaz=print) -> list[str]:
+    """Siteyi kütüphaneden yeniden yazar; yalnızca değişen dosyalar (ücretsiz, ağ yok)."""
+    from . import flood_gelir, flood_kutuphane, flood_site
+    degisen = flood_site.uret(flood_gelir.ayar_yukle(), flood_kutuphane.yukle(), flood_kutuphane.ozet_oku())
+    if degisen:
+        yaz(f"Tiny Fixes sitesi güncellendi: {len(degisen)} dosya.")
+    return degisen
+
+
+def gelir_bolumu(simdi: datetime, env=None, get=requests.get) -> str:
+    """Haftalık rapora gelir rakamları (F14) ve bülten taslağı (F12: sahibi gönderir)."""
+    from . import flood_gelir, flood_kutuphane, kopya
+    g = flood_gelir.ayar_yukle()
+    s = ["", "### Gelir (F14: yalnızca araçların API'sinden)"] + flood_gelir.gelir_satirlari(simdi, env if env is not None else os.environ, get)
+    taslak = flood_gelir.bulten_taslagi(flood_kutuphane.yukle(), g, simdi)
+    s += ["", "### Bu haftanın bülten taslağı (Kit → Broadcasts → yapıştır → gönder)"]
+    if not taslak:
+        s.append("Bu hafta siteye yeni çözüm eklenmedi; bülten yok.")
+        return "\n".join(s)
+    konu, metin = taslak
+    sayfa = kopya.sayfa_yaz(f"bulten-{simdi.date()}.html", "Tiny Fixes bülten taslağı",
+                            [{"kim": "Konu: " + konu, "post": "", "url": "https://app.kit.com/broadcasts", "not": "",
+                              "taslaklar": [("Konu", konu), ("Metin", metin)]}], simdi,
+                            "Kit'te yeni broadcast aç; konuyu ve metni yapıştır.")
+    s += [f"📋 [Kopyala ve Kit'i aç]({sayfa})", "", f"**Konu:** {konu}", "", "```", metin, "```"]
+    return "\n".join(s)
+
+
 def haftalik_rapor(ayar: FloodAyar, state: dict, simdi: datetime, gh, yaz=print) -> None:
-    """Pazartesi sabahı sahibine Türkçe rapor issue'su (eskisi kapanır). Ek API çağrısı yok."""
+    """Pazartesi sabahı sahibine Türkçe rapor issue'su (eskisi kapanır): içerik, öğrenilenler, gelir, bülten taslağı."""
     if not flood_ogren.rapor_zamani(state, simdi):
         return
     kime = f"@{ayar.alarm_kime} " if ayar.alarm_kime else ""
-    gh.issue_ac(f"🩹 Tiny Fixes haftalık rapor {simdi.date()}", kime + flood_ogren.rapor(state, simdi), RAPOR_ETIKETI)
+    try:
+        gelir = gelir_bolumu(simdi)
+    except Exception as e:  # gelir bölümü raporu engellemez
+        gelir = f"\n### Gelir\nOkunamadı: {e}"
+    gh.issue_ac(f"🩹 Tiny Fixes haftalık rapor {simdi.date()}", kime + flood_ogren.rapor(state, simdi) + "\n" + gelir, RAPOR_ETIKETI)
     state["son_rapor"] = simdi.strftime("%G-%V")
     yaz("Tiny Fixes haftalık raporu açıldı.")
 
@@ -555,6 +592,7 @@ def nabiz(ana_ayar, simdi: datetime, yaz=print, gh=None, get=flood_kaynak.http_a
                ("yayın", lambda: yayinla_sirali(ayar, state, simdi, x, ig, yaz)),
                ("üretim", lambda: uret(ayar, state, simdi, claude, gh, get, yaz)),
                ("ölçüm", lambda: olcum_guncelle(state, x, ig, simdi, yaz)),
+               ("site", lambda: site_guncelle(yaz)),
                ("rapor", lambda: haftalik_rapor(ayar, state, simdi, gh, yaz)),
                ("Instagram yorumları", lambda: ig is not None and ig_yorumlari(ayar, state, simdi, ig, gh, ana_ayar, claude, yaz)))
     hatalar = []

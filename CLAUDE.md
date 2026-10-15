@@ -15,4 +15,5 @@
   E bölümü, karakter ve kurulum `marka/MR_LIKELY.md`. Kuponu sabit kurallar seçer (E6); kuralları gevşetmeden önce sahibine sor.
 - **Tiny Fixes** (üçüncü hesap, X + Instagram, yapay zekâ; varsayılan `kapali`): `bot/flood*.py`, kurallar SOZLESME.md
   F bölümü, karakter ve kurulum `marka/TINY_FIXES.md`, işletme `.claude/skills/tiny-fixes/SKILL.md`, Instagram
-  `.claude/skills/instagram/SKILL.md`. Trend içerik yalnızca sahibinin `ok` cevabıyla çıkar (F6); kuralları gevşetmeden önce sahibine sor.
+  `.claude/skills/instagram/SKILL.md`. Trend içerik yalnızca sahibinin `ok` cevabıyla çıkar (F6); kuralları gevşetmeden önce sahibine sor. Gelir modeli
+  (sahibinin kararı): kendi site + Kit e-posta listesi + Lemon Squeezy paketi (F11–F14), ayarlar `[flood_gelir]`.

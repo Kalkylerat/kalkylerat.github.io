@@ -20,7 +20,7 @@ Pazartesi raporu sayaçlardan tahmini maliyeti yazar; ilk ayın sonunda gerçek 
 4. Kullanıcı adını deneyin (sırayla): `@tinyfixes`, `@tinyfixes_ai`, `@tinyfixesai`, `@gettinyfixes`, `@tinyfixesdaily`.
    Yeni hesap için ayrı e-posta gerekir; Gmail kullanıyorsanız adresinize `+tinyfixes` ekleyerek yeni adres gibi kullanabilirsiniz.
 5. Profil: isim `Tiny Fixes`, fotoğraf `marka/tiny_fixes_logo.png`, başlık `marka/tiny_fixes_x_kapak.png`, biyografi
-   `marka/TINY_FIXES.md` içinde. Web sitesi ve konum boş.
+   `marka/TINY_FIXES.md` içinde. Web sitesi: `kalkylerat.github.io/tinyfixes`, konum boş.
 6. **Otomatik hesap etiketi:** Ayarlar → Hesabınız → Hesap bilgileri → **Otomasyon** → yöneten hesap olarak kendi kişisel
    hesabınızı seçin (X kuralı; etiket yoksa hesap kısıtlanabilir).
 7. **Premium** (aylık ~$8): yanıtlarınız üstte görünür, uzun post ve ileride Original Content Rewards başvurusu için gerekli.
@@ -34,7 +34,8 @@ Pazartesi raporu sayaçlardan tahmini maliyeti yazar; ilk ayın sonunda gerçek 
 10. Yeni hesap açın (X ile aynı kullanıcı adı tercih edilir: `tinyfixes`, `tinyfixes.ai`, `tinyfixes_ai`).
 11. Ayarlar → Hesap türü → **Profesyonel hesaba geç → Creator** (kişisel hesaba API ile paylaşılamaz). Kategori:
     "Education" ya da "Science & Technology". Facebook Sayfası bağlamanız gerekmez.
-12. Profil: fotoğraf `tiny_fixes_logo.png`, isim `Tiny Fixes`, biyografi `TINY_FIXES.md` içinde. Bağlantı boş.
+12. Profil: fotoğraf `tiny_fixes_logo.png`, isim `Tiny Fixes`, biyografi `TINY_FIXES.md` içinde. Bağlantı:
+    `https://kalkylerat.github.io/tinyfixes`.
 13. **İlk post (elle):** `tiny_fixes_tanitim_1..4.jpg` dört görseli tek carousel olarak, `TINY_FIXES.md` içindeki caption ile.
 14. (İsteğe bağlı) Öne çıkanlar: bir hikâye paylaşın → "Öne çıkanlara ekle" → kapak olarak `tiny_fixes_one_cikan_*.png`.
 15. **Meta uygulaması:** developers.facebook.com → My Apps → **Create app** → kullanım durumu "Instagram API" (Instagram
@@ -50,7 +51,25 @@ Pazartesi raporu sayaçlardan tahmini maliyeti yazar; ilk ayın sonunda gerçek 
 18. Actions → komut **`flood_ig`**: bot hesabı doğrular ve anahtarı şifreli kaydeder ("✅ Instagram bağlantısı tamam" issue'su).
     Bundan sonra anahtarı bot 30 günde bir yeniler; gizli anahtarlara bir daha dokunmazsınız.
 
-## D. Açılış (10 dk + ilk hafta)
+## D. Gelir araçları (40–60 dk; para buradan gelir)
+
+Model: X/Instagram trafik getirir, para kendi sitemizden gelir (ayrıntı: `TINY_FIXES.md` → İş planı).
+
+D1. **Paketleri ürettir:** Actions → komut **`flood_paket`** (Claude ~60 komutu gerçekten dener, tek sefer ~$2.50).
+    "📦 paketler hazır" issue'sundaki bağlantıdan iki PDF'i indir (**24 saat içinde**; depoya girmez).
+D2. **Kit hesabı** (kit.com, ücretsiz plan). Grow → Landing Pages & Forms → yeni **Form** → Settings → **Incentive**
+    açık, e-posta metni "Here is your free pack", dosya olarak `tiny_fixes_starter.pdf`.
+D3. Formu yayınla → Publish → **HTML** seç → kodun içindeki `action="https://app.kit.com/forms/.../subscriptions"`
+    adresini Claude'a gönder (ya da `ayarlar.toml` → `[flood_gelir] bulten_form_action`). Site o an formu gösterir,
+    postların son satırı "Free pack: link in our profile" olabilir.
+D4. **Lemon Squeezy hesabı** (lemonsqueezy.com): mağaza → ödeme bilgileri (banka) → yeni ürün **Tiny Fixes Library**,
+    fiyat **$9**, tek seferlik, dosya `tiny_fixes_library.pdf`. Ürünün paylaşım bağlantısını Claude'a gönder
+    (`[flood_gelir] urun_url`). Not: Lemon Squeezy Stripe'a taşınıyor; kayıtta farklı bir ekran çıkarsa ekran görüntüsü gönder.
+D5. (İsteğe bağlı, rapor için) Kit → Settings → Developer → **API key (v4)** ve Lemon Squeezy → Settings → **API**:
+    GitHub Secrets'a `KIT_API_KEY` ve `LEMON_API_KEY`. Bot yalnızca okur (abone ve satış sayısı, F14).
+D6. Satış başlayınca: Claude'a söyle, paket v2 ve kendi alan adı kararını birlikte veririz.
+
+## E. Açılış (10 dk + ilk hafta)
 
 19. Actions → komut **`flood_tani`**: kaynaklar ve puanlama gerçek veriyle denenir (Claude/X/Instagram'a dokunmaz, ücretsiz).
     Gelen "🩹 Tiny Fixes tanı" issue'sunu Claude'a gösterin; ❌ olan kaynağı birlikte düzeltiriz. (Depo herkese açık:
@@ -61,18 +80,19 @@ Pazartesi raporu sayaçlardan tahmini maliyeti yazar; ilk ayın sonunda gerçek 
     Claude'a yazın, kuralı birlikte düzeltelim.
 22. Bir hafta sonra kalite iyiyse `mod = "otomatik"`: yalnızca evergreen kendiliğinden çıkar, trend yine sizin `ok`'unuzla (F6).
 
-## E. Günlük rutin (20–30 dk)
+## F. Günlük rutin (20–30 dk)
 
 - Taslak onayları (`flood-onay`), 1–2 dk.
 - **İlk saatte gelen yorumlar:** "💬 Yorumlar" (X) ve "💬 Instagram yorumları" issue'larında her yoruma 2 hazır cevap var;
   📋 ile kopyalayıp elle gönderin. Bot hiçbir zaman kendisi cevap atmaz.
 - Büyük yapay zekâ hesaplarının postlarına günde 10–15 **anlamlı, bilgi veren** yanıt (elle). İlk ayın en etkili büyüme işi.
-- Pazartesi: "🩹 Tiny Fixes haftalık rapor" issue'su (yayınlar, görüntülenme, kaydetme, tahmini maliyet, öğrenilenler).
+- Pazartesi: "🩹 Tiny Fixes haftalık rapor" issue'su (yayınlar, görüntülenme, kaydetme, tahmini maliyet, öğrenilenler,
+  abone ve satış). İçindeki **bülten taslağını** 📋 ile kopyala, Kit → Broadcasts → yapıştır → gönder (2 dk).
 
-## F. Takvim
+## G. Takvim
 
 - **1. ayın sonu:** Anthropic ve X faturalarını rapordaki tahminle karşılaştırın; Claude'a söyleyin, sabitleri güncelleriz.
-- **~500 takipçi:** ücretsiz bülten (profil bağlantısı) ve yalnızca denenmiş araçlar için "affiliate" ibareli bağlantı (F4).
+- **Affiliate:** yalnızca gerçekten denediğimiz bir araç olursa, "affiliate" ibaresiyle (F4, F11); `[flood_gelir] affiliate`.
 - **Original Content Rewards:** Premium + 500 doğrulanmış takipçi + 90 günde 500 bin doğrulanmış görüntülenme. Başvurmadan
   önce X'in Creator Monetization Standards sayfasından otomatik hesapların uygun olup olmadığını teyit edin.
 

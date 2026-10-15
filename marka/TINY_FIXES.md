@@ -51,22 +51,24 @@ Yazı tipi: Bricolage Grotesque (başlık ve metin), DejaVu Sans Mono (komut kar
 | Dil | English |
 | Kategori (Instagram) | Creator → "Education" ya da "Science & Technology" (hangisi varsa) |
 
-### X biyografisi (≤160)
+### X biyografisi (≤160) ve web sitesi alanı
 
 ```
-Small AI fixes for problems people are searching for. Every prompt tested before we post it. AI news only with two sources.
+Small AI fixes for real problems. Every prompt tested before we post it. Free pack of tested prompts below.
 ```
+
+Web sitesi alanı: `kalkylerat.github.io/tinyfixes`
 
 ### Instagram biyografisi (≤150)
 
 ```
 Small AI fixes for real problems 🩹
 Every prompt tested before we post.
-Save the ones you need.
+Free pack of 10 tested prompts ↓
 ```
 
-Instagram'da caption'daki link tıklanmaz: profil bağlantısı tek tıklanabilir adrestir (ileride bülten/affiliate, F4).
-Başlangıçta bağlantı eklemeyin.
+Profil bağlantısı: `https://kalkylerat.github.io/tinyfixes` (Instagram'da caption'daki link tıklanmaz; tek tıklanabilir
+adres budur).
 
 ### Sabitlenecek X postu (elle at, profilde sabitle; görsel: `tiny_fixes_tanitim_1.jpg`)
 
@@ -123,21 +125,42 @@ Example lines in this voice:
 - Ölçümden öğrenme yalnızca sıralama ve öneri yapar, hiçbir kuralı gevşetmez (F10).
 - X'te "Automated" etiketi açık olmalı (X ayarı, sahibi yapar).
 
-## İş planı ve gelir yolu
+## İş planı ve gelir modeli (sahibinin kararı, 15 Ekim 2026: "önce para")
 
-Öncelik para kazanmak, ama sırası önemli: önce güvenilen ve kaydedilen içerik, sonra kitle, sonra gelir. Rakamlar hedeftir,
-söz değildir; her aşamanın sonunda `flood_rapor` (haftalık issue) rakamlarıyla karar verilir.
+X ve Instagram **trafik getirir**; para **kendi sitemizden** gelir. Takipçi eşiği beklemeden ilk günden çalışır.
 
-| Aşama | Ne zaman | Hedef | Gelir |
+```
+X flood / Instagram carousel ──► profil bağlantısı ──► kalkylerat.github.io/tinyfixes
+   (son post: "Free pack: link in our profile")          │
+                                                          ├─ e-posta formu (Kit) ──► ücretsiz paket (10 komut) ──► haftalık bülten
+                                                          ├─ ücretli paket (Lemon Squeezy, $9, ~60 denenmiş komut)
+                                                          └─ her çözümün kendi sayfası (aramadan gelen trafik) + etiketli affiliate
+```
+
+| Parça | Araç | Maliyet | Kim yapar |
 |---|---|---|---|
-| 0. Kurulum | 1. hafta | hesaplar açık, `flood_tani` yeşil, `mod = "onay"` | yok |
-| 1. Ses bulma | 1–4. hafta | günde 1–2 onaylı birim, taslak kalitesi oturur, haftalık rapor okunur | yok |
-| 2. Büyüme | 2–3. ay | 500+ takipçi (X), 1.000+ (IG); en çok kaydedilen biçim çoğaltılır; `mod = "otomatik"` | yok |
-| 3. İlk gelir | ~500 takipçiden sonra | ücretsiz bülten (profil bağlantısı), denenmiş araçlar için affiliate (F4) | küçük, affiliate |
-| 4. Ürün | bülten ~1.000 abone | "Tiny Fixes Library" PDF/Notion paketi (en çok kaydedilen 50 komut), $5–9 | dijital ürün |
-| 5. Platform | şartlar sağlanınca | X Original Content Rewards (Premium + 500 doğrulanmış takipçi + 90 günde 500 bin doğrulanmış görüntülenme); otomatik hesaplara açık mı önce teyit | reklam payı |
+| Site | GitHub Pages (`docs/tinyfixes/`) | 0 | bot, her yayından sonra (`flood_site`) |
+| E-posta listesi | Kit (10.000 aboneye kadar ücretsiz) | 0 | form ve hoş geldin e-postası bir kez sahibi kurar |
+| Ücretsiz paket | PDF, 10 denenmiş komut | ~$0.40 tek sefer | bot (`flood_paket`), sahibi Kit'e yükler |
+| Ücretli paket | Lemon Squeezy (aylık ücret yok, satış başına %5 + 50¢, KDV'yi kendisi öder) | satıştan | bot üretir, sahibi yükler |
+| Bülten | Kit broadcast | 0 | bot taslağı Pazartesi raporunda, sahibi gönderir (2 dk) |
+| Gelir takibi | Kit ve Lemon Squeezy API (yalnızca okuma) | 0 | bot, Pazartesi raporu |
 
-Neden bu sıra: X'in eski gelir paylaşımı Eylül 2026'da kapandı, yerine özgün içeriğe ödeme yapan Original Content Rewards geldi.
-Bizim içeriğimiz özgün (kendi denediğimiz çıktı), bu bir avantaj; ama eşik yüksek. İlk gerçek gelir bülten + affiliate +
-küçük dijital üründen gelir; bunlar takipçi sayısından çok **güvene** bağlıdır, o yüzden F1–F3 gelir kuralıdır.
-Instagram'ın abonelik/hediye özellikleri 10 bin takipçi gibi eşikler ister; ilk yıl plana konmadı.
+Neden bu yapı:
+- **Liste bizim malımız.** X ya da Instagram erişimi düşse de abonelere ulaşırız. Gelirin çoğu listeden gelir.
+- **Ürün içerikten çıkar.** Zaten denediğimiz komutlar pakete girer; ek iş yok, tema başına ~$0.04.
+- **Güven = satış.** "Tested with <model>" ve açık sınır cümlesi (F2) paketin satış argümanıdır; sahte aciliyet, sahte
+  yorum yok (F11). Para kuralı ile içerik kuralı aynı.
+- **Maliyet sabit kalır.** Postlarda link yok (X'te linkli post ~$0.20); çağrı "link in our profile".
+
+Hedefler (söz değil, ölçüt; Pazartesi raporu karar verir):
+
+| Dönem | İçerik | Liste | Satış |
+|---|---|---|---|
+| 1. ay | günde 1–2 onaylı birim | ilk 100 abone | ilk satışlar |
+| 3. ay | `otomatik` mod, en çok kaydedilen biçim çoğaltılır | 500 abone | haftada birkaç satış |
+| 6. ay | paket v2 (en iyi postlar eklenir) | 1.500 abone | ikinci ürün kararı (ör. Notion şablonu) |
+
+Sonra: X Original Content Rewards (Premium + 500 doğrulanmış takipçi + 90 günde 500 bin doğrulanmış görüntülenme;
+otomatik hesaplara açık mı önce teyit), Instagram programları (yüksek eşikler), kendi alan adı (yılda ~$10–15; site
+adresinde "kalkylerat" adı görünmesin diye, satışlar başlayınca önerilir).

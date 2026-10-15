@@ -74577,6 +74577,24 @@
               4
             ],
             "zaman": "2026-10-15T18:47:58+00:00"
+          },
+          "1636338": {
+            "durum": "paylasildi",
+            "tweet_id": "2110806688810906104",
+            "skor": [
+              1,
+              1
+            ],
+            "zaman": "2026-10-15T18:55:03+00:00"
+          },
+          "1636350": {
+            "durum": "paylasildi",
+            "tweet_id": "2110806690073383261",
+            "skor": [
+              1,
+              2
+            ],
+            "zaman": "2026-10-15T18:55:03+00:00"
           }
         }
       },
@@ -74821,7 +74839,22 @@
         "durum": "paylasildi",
         "tweet_id": "2110700549158973844",
         "zaman": "2026-10-15T11:53:16+00:00",
-        "metin": "🆚 HNK Hajduk Split v Ajax\n\n🏆 HNK Hajduk Split 21% · Draw 21% · Ajax 58%\n⚽ Over 2.5 goals 62% · Under 38%\n🥅 Both teams score 60% · Not both 40%\n🎯 Most likely score: 1-2 (10%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n#UECL\n18+ | Play responsibly"
+        "metin": "🆚 HNK Hajduk Split v Ajax\n\n🏆 HNK Hajduk Split 21% · Draw 21% · Ajax 58%\n⚽ Over 2.5 goals 62% · Under 38%\n🥅 Both teams score 60% · Not both 40%\n🎯 Most likely score: 1-2 (10%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n#UECL\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2110806729910800776",
+          "skor": "2-1",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "xg": [
+            1.8,
+            0.95
+          ],
+          "zaman": "2026-10-15T18:55:03+00:00"
+        }
       },
       "analiz_12": {
         "durum": "paylasildi",

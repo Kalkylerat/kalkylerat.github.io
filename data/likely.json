@@ -18303,8 +18303,25 @@
        "oran": 1.1,
        "olasilik": 0.899,
        "deger": -0.011,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "2-1",
+       "goller": [
+        [
+         49,
+         0,
+         "ev"
+        ],
+        [
+         55,
+         0,
+         "dep"
+        ],
+        [
+         77,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1636293-UST15",
@@ -18318,8 +18335,35 @@
        "oran": 1.22,
        "olasilik": 0.807,
        "deger": -0.016,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "3-2",
+       "goller": [
+        [
+         8,
+         0,
+         "ev"
+        ],
+        [
+         45,
+         2,
+         "ev"
+        ],
+        [
+         50,
+         0,
+         "dep"
+        ],
+        [
+         76,
+         0,
+         "ev"
+        ],
+        [
+         81,
+         0,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1636274-UST15",
@@ -18348,8 +18392,20 @@
        "oran": 1.23,
        "olasilik": 0.795,
        "deger": -0.023,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-1",
+       "goller": [
+        [
+         46,
+         0,
+         "dep"
+        ],
+        [
+         88,
+         0,
+         "ev"
+        ]
+       ]
       }
      ],
      "oran": 2.0,
@@ -18378,8 +18434,20 @@
        "oran": 1.36,
        "olasilik": 0.708,
        "deger": -0.037,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-1",
+       "goller": [
+        [
+         59,
+         0,
+         "ev"
+        ],
+        [
+         81,
+         0,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1630373-CS1X",
@@ -18401,13 +18469,16 @@
      "oran": 3.13,
      "olasilik": 0.321,
      "deger": 0.005,
-     "durum": "bekliyor",
+     "durum": "tuttu",
      "secim": "2026-10-15T05:42:31+00:00",
      "oto": true,
      "paylas": "2026-10-15T11:15:00+02:00",
      "tweet_id": "2110662517202812983",
      "metin": "🎩 Long shot. I'd be surprised, pleasantly.\n\n⚽ Universitatea Craiova v Getafe\n⚽ Svay Rieng v Shanghai Shenhua\n\n📊 Combined 3.13. I make it about 32% to land.\n\n💬 Which one would you drop?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-15T09:22:08+00:00"
+     "yayin": "2026-10-15T09:22:08+00:00",
+     "son_oran": 3.13,
+     "sonuc_metni": "✅ Universitatea Craiova v Getafe. 81': 1-1. X2 was in, just, and it stayed there. Not great for the heart. In at 3.13.\n\n✅ Universitatea Craiova 1-1 Getafe: Double chance X2\n✅ Svay Rieng 0-0 Shanghai Shenhua: Double chance 1X\n\nRecord: 7 of 15 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2110803492801516011"
     }
    ],
    "islenen": [],

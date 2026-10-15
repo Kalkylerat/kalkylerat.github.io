@@ -16855,7 +16855,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 15
+     "no": 15,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1636392-UST15",
@@ -18624,7 +18625,7 @@
    ],
    "oto": true,
    "issue": 67,
-   "olcum_sorgu": "2026-10-15T10:19:24+00:00"
+   "olcum_sorgu": "2026-10-15T11:18:37+00:00"
   }
  ]
 }

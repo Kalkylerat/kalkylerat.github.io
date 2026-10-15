@@ -17317,7 +17317,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 38
+     "no": 38,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1636464-UST15",
@@ -17717,7 +17718,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 58
+     "no": 58,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1636401-UST15",
@@ -18159,7 +18161,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 80
+     "no": 80,
+     "sonuc": "kazandi"
     }
    ],
    "kuponlar": [
@@ -18380,8 +18383,9 @@
        "oran": 2.3,
        "olasilik": 0.453,
        "deger": 0.043,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "0-0",
+       "goller": []
       }
      ],
      "oran": 3.13,
@@ -18631,7 +18635,7 @@
    ],
    "oto": true,
    "issue": 67,
-   "olcum_sorgu": "2026-10-15T13:14:18+00:00"
+   "olcum_sorgu": "2026-10-15T14:13:05+00:00"
   }
  ]
 }

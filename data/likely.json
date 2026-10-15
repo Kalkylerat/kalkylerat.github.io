@@ -16514,7 +16514,7 @@
      "neden": "Double chance 12 ayağı vardı; yeni kuralla (E6) yeniden seçilecek, paylaşılmadan çıkarıldı"
     }
    ],
-   "olcum_sorgu": "2026-10-15T08:16:47+00:00",
+   "olcum_sorgu": "2026-10-15T12:09:33+00:00",
    "iptal_edilen": [
     {
      "ad": "gunun-kuponu",
@@ -16855,7 +16855,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 15
+     "no": 15,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1636392-UST15",
@@ -18383,7 +18384,10 @@
      "durum": "bekliyor",
      "secim": "2026-10-15T05:42:31+00:00",
      "oto": true,
-     "paylas": "2026-10-15T11:15:00+02:00"
+     "paylas": "2026-10-15T11:15:00+02:00",
+     "tweet_id": "2110662517202812983",
+     "metin": "🎩 Long shot. I'd be surprised, pleasantly.\n\n⚽ Universitatea Craiova v Getafe\n⚽ Svay Rieng v Shanghai Shenhua\n\n📊 Combined 3.13. I make it about 32% to land.\n\n💬 Which one would you drop?\n\n18+ | Play responsibly",
+     "yayin": "2026-10-15T09:22:08+00:00"
     }
    ],
    "islenen": [],
@@ -18596,7 +18600,9 @@
        "Upset incoming"
       ],
       "bitis": "2026-10-15T21:00:00+02:00"
-     }
+     },
+     "tweet_id": "2110688041564332075",
+     "zaman": "2026-10-15T11:03:32+00:00"
     },
     {
      "tur": "gol",
@@ -18618,7 +18624,8 @@
     }
    ],
    "oto": true,
-   "issue": 67
+   "issue": 67,
+   "olcum_sorgu": "2026-10-15T11:18:37+00:00"
   }
  ]
 }

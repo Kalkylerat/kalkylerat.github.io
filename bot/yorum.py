@@ -32,7 +32,7 @@ def _likely_sesi() -> str:
     except OSError:
         return "You are Mr. Likely: a dry, self-aware football coupon account. Likely, never certain."
     bolum = metin.split("## Who he is", 1)[-1].split("\n## ", 1)[0]
-    return "You are Mr. Likely (second account, English). Voice notes:\n" + bolum.strip()[:2500]
+    return "You are Mr. Likely (second account, English). Voice notes:\n" + bolum.strip()[:4000]
 
 
 def _flood_sesi() -> str:
@@ -62,8 +62,30 @@ at 45%."  Good: "2 from PSG and they're the holders... ratings can be harsh 😅
 tonight, so that XI isn't miles off"  Good: "Who's the first name you'd drop from that XI though?"
 """
 
-LIKELY_NOTU = """Replying as Mr. Likely: speak as "I" ("I make it about 60%"), light dry humour mostly at his own
-expense (dull legs, coupons one leg short), never smug, no exclamation marks. Never tell anyone to bet, stake, tail
+# Mr. Likely cevapları (15 Ekim 2026, sahibinin isteği: "çok robotik"): humanizer skill'inin (.claude/skills/humanizer)
+# kısa tweet'e uyan maddeleri + her taslak bizim tahminimize bağlanır + hakaretsiz sevimli takılma (SÖZLEŞME D3/D6/D7).
+LIKELY_INSAN = """Mr. Likely's replies (the owner said they sound robotic; fix that; where this differs from the
+general notes above, this wins):
+- He runs a coupon page, so every reply points back to HIS numbers. If match facts are given for the match in the
+  conversation, at least one draft uses our chance for it, said like a person: "I've got Italy at 31%", "my model
+  makes the draw 27%". That works even when the match is not in today's coupon. One number per draft, no more.
+- Cheeky is good: a small, friendly tease about the post, the hype or the fans' confidence, set against his number
+  ("Brave XI. I've still got them at 41%, no pressure"). Tease like a mate at the pub, then move on. Never an insult,
+  never mocking a person, club, player, fan or manager, never "embarrassing", "clown", "shambles", "flop", "bottle".
+  No teasing at all on sad news, injuries, controversy or a hostile comment: there he is just warm and short.
+- Write it like one quick thought typed on a phone. Vary the shape: a fragment, a short sentence, sometimes a
+  question. Contractions. Understatement over adjectives.
+- AI tells to avoid (they give the game away): "not X, it's Y" or "not just X but Y" contrasts; a closing line that
+  repeats the point ("That's the story."); openers like "Honestly,", "Look,", "Here's the thing", "Real talk";
+  lists of three; dashes (use a comma or a full stop); words like crucial, testament, showcase, delve, vibrant,
+  pivotal, landscape, underscore; summarising their post back to them; exclamation marks.
+Good: "Bold XI. I've still got Italy at 31% tonight, so no pressure"  Good: "You lot are confident. My model has the
+draw at 27%, just saying"  Good: "It's one of my legs today, so I'd quite like you to be right"  Bad: "Not just a team
+news update, it's a statement. My numbers show a crucial 47% chance for France!"  Bad: "Italy fans, prepare to be
+embarrassed: 31%"."""
+
+LIKELY_NOTU = """Replying as Mr. Likely: speak as "I" ("I make it about 60%"), dry humour (at his own expense, or a
+friendly tease, never an insult), never smug, no exclamation marks. Never tell anyone to bet, stake, tail
 or copy a coupon. If someone asks about a coupon, answer plainly: a numbers model chooses it on fixed rules, losers
 are posted too. (Don't use the words "pick", "picks" or "tip": we give chances, not picks.)"""
 
@@ -96,6 +118,10 @@ Hard rules:
 
 Also set "not" to ONE short sentence in Turkish for the owner: what the comment says, and "cevap vermesen de olur" if
 it is spam, a bot, abuse or a scam link. Set "spam" true in that case."""
+# Mr. Likely: hakaretsiz sevimli takılma serbest (SÖZLEŞME D7, 15 Ekim 2026); @kalkylerat'ta takılma yok.
+SISTEM_LIKELY = SISTEM.replace("""- Kind and respectful to everyone: no sarcasm, no digs or negative judgments about any club, player, fan or person.
+  Never claim something you can't see in the facts.""", """- Kind: a friendly tease is fine when they are playful, but no insults, no mocking, no negative judgments about
+  any club, player, fan or person. Never claim something you can't see in the facts.""") + "\n" + LIKELY_INSAN
 
 # Tiny Fixes (SOZLESME F): futbol sesi ve maç kuralları değil; yalnızca denenmiş olanı söyleyen sakin bir ses (F1–F3, F7).
 FLOOD_SISTEM = """You draft replies that the account owner will read, edit and post BY HAND on X or Instagram. You never
@@ -140,13 +166,23 @@ def kaydet(veri: dict) -> None:
 
 
 _ROBOT = re.compile(r"^(great|interesting|fascinating|love this|absolutely|indeed|certainly|this is a|what a great|"
-                    r"wow,)\b|\b(says a lot|speaks volumes|a testament to|it'?s worth noting|our numbers have)\b",
+                    r"wow,|look,|real talk)\b|\b(says a lot|speaks volumes|a testament to|it'?s worth noting|our numbers have|"
+                    r"not just\b[^.]{0,40}\bbut|let'?s dive|here'?s the thing|at its core|the real question)\b",
                     re.IGNORECASE)
+# Takılma serbest, hakaret değil (15 Ekim 2026): bu kelimelerle taslak elenir.
+_HAKARET = re.compile(r"\b(idiot\w*|stupid|clowns?|embarrass\w*|pathetic|shambles|disgrace\w*|flops?|bottl(e|ed|ers?|ing)|"
+                      r"trash|rubbish|useless|joke of|laughing ?stock|deluded|dumb|losers)\b", re.IGNORECASE)
+
+
+def temizle(t: str) -> str:
+    """Yapay zekâ izi bırakan noktalama koddan düzelir (humanizer §8, §21): uzun/kısa tire virgül olur, kıvrık tırnak düz."""
+    t = re.sub(r"\s*[—–]\s*|\s+--\s+", ", ", t)
+    return t.replace("“", '"').replace("”", '"').replace("‘", "'").replace("’", "'")
 
 
 def buyuk_harfle(t: str) -> str:
     """Taslak büyük harfle başlar (14 Ekim: sahibi küçük harfle başlayanları hata sandı)."""
-    t = t.strip()
+    t = temizle(t.strip())
     return t[:1].upper() + t[1:] if t[:1].islower() else t
 
 
@@ -156,7 +192,7 @@ def uygun(taslak: str, kaynak: str) -> bool:
     from .direktor import sayilar_dogru, yz_izi
     return bool(taslak) and len(taslak) <= 240 and not _LINK.search(taslak) and "#" not in taslak \
         and not _SECIM_DILI.search(taslak) and not _KESINLIK.search(taslak) and not yz_izi(taslak) and not _ROBOT.search(taslak) \
-        and not re.search(r"\b(picks?|tips?|bet now|for sure|were right|right about)\b", taslak, re.IGNORECASE) and sayilar_dogru(taslak, kaynak)
+        and not _HAKARET.search(taslak) and not re.search(r"\b(picks?|tips?|bet now|for sure|were right|right about)\b", taslak, re.IGNORECASE) and sayilar_dogru(taslak, kaynak)
 
 
 def konusma(yorum: dict, hesap_adi: str) -> list[dict]:
@@ -196,7 +232,7 @@ def taslaklar(yorum: dict, hesap: str, client=None, ayar=None, yaz=print, gun: d
     from .direktor import _cagir
     ses = {"likely": lambda: _likely_sesi() + "\n" + LIKELY_NOTU, "flood": _flood_sesi}.get(
         hesap, lambda: SESLER["kalkylerat"])()
-    sistem = FLOOD_SISTEM if hesap == "flood" else SISTEM
+    sistem = {"flood": FLOOD_SISTEM, "likely": SISTEM_LIKELY}.get(hesap, SISTEM)
     icerik = json.dumps({"conversation_in_order": adimlar,
                          "now_utc": simdi.strftime("%Y-%m-%d %H:%M") if simdi else None,
                          "match_in_this_conversation": mac or "(no match of ours found in this conversation)"},
@@ -207,7 +243,7 @@ def taslaklar(yorum: dict, hesap: str, client=None, ayar=None, yaz=print, gun: d
     except Exception as e:
         yaz(f"Yorum kiti: taslak yazılamadı ({e}); hazır kalıplar kullanıldı.")
         return yedek, "", False
-    iyi = [buyuk_harfle(t) for t in cevap.get("taslaklar") or [] if uygun(t.strip(), kaynak)][:2]
+    iyi = [buyuk_harfle(t) for t in cevap.get("taslaklar") or [] if uygun(temizle(t.strip()), kaynak)][:2]
     return (iyi or yedek), (cevap.get("not") or "").strip(), bool(cevap.get("spam"))
 
 

@@ -98,7 +98,8 @@ def dene(client, ayar, k: dict) -> dict:
     """Komutu `test_model` ile gerçekten çalıştırır (F2). Kayıt: model, komut, çıktı, süre ('9 seconds')."""
     metin = k["komut"].replace("{INPUT}", k["ornek_girdi"])
     t0 = time.monotonic()
-    msg = client.messages.create(model=ayar.test_model, max_tokens=2000, messages=[{"role": "user", "content": metin}],
+    # max_tokens düşünmeyi de kapsar (Sonnet 5.5'te düşünme açık): düşük tutulursa deneme "max_tokens" ile yarıda kalır.
+    msg = client.messages.create(model=ayar.test_model, max_tokens=8000, messages=[{"role": "user", "content": metin}],
                                  output_config={"effort": "low"})
     sure = max(1, round(time.monotonic() - t0))
     if msg.stop_reason in ("refusal", "max_tokens"):
@@ -113,7 +114,7 @@ def dene(client, ayar, k: dict) -> dict:
 def degerlendir(client, ayar, d: dict) -> dict:
     """{"kalite", "sinir"}: zayıf çıktı paylaşılmaz; sınır cümlesi kayda yazılır (F2)."""
     icerik = f"Prompt:\n{d['komut']}\n\nSample input:\n{d['ornek_girdi']}\n\nReal output:\n{d['cikti'][:3000]}"
-    return _cagir(client, [(ayar.hafif_model, "low")], DEGERLENDIRME_SISTEMI, icerik, DEGERLENDIRME_SEMASI, 600)
+    return _cagir(client, [(ayar.hafif_model, "low")], DEGERLENDIRME_SISTEMI, icerik, DEGERLENDIRME_SEMASI, 4000)
 
 
 def fix_kaydi(client, ayar, aday: dict, problem: str, fikir: str, yaz=print) -> dict | None:

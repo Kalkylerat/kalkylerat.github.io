@@ -18,11 +18,16 @@ from pathlib import Path
 
 import requests
 
-from . import (config, flood_denetci, flood_dogrula, flood_gorsel, flood_ig, flood_kaynak, flood_puan, flood_yazar,
-               flood_yetki, onay)
+from . import (config, flood_denetci, flood_dogrula, flood_gorsel, flood_ig, flood_kaynak, flood_ogren, flood_puan,
+               flood_yazar, flood_yetki, onay)
 
 DOSYA = config.ROOT / "data" / "flood.json"
 ETIKET = "flood-onay"
+RAPOR_ETIKETI = "flood-rapor"
+TANI_ETIKETI = "flood-tani"
+IG_YORUM_ETIKETI = "yorum-kiti-flood-ig"
+IG_YORUM_DK = 30       # Instagram yorumları en sık bu aralıkla okunur (okuma ücretsiz, yine de gereksiz istek yok)
+IG_YORUM_GUN = 7       # son bu kadar günün postlarının yorumları okunur
 YETKILI = {"OWNER", "MEMBER", "COLLABORATOR"}
 MEDYA_DAL = "flood-medya"
 SAKLA_GUN = 30
@@ -80,6 +85,8 @@ def kaydet(state: dict, simdi: datetime | None = None) -> None:
         state["birimler"] = [b for b in state["birimler"] if b["olusturma"] >= sinir]
         state["konular"] = [k for k in state["konular"] if k["tarih"] >= sinir[:10]][-300:]
         state["gun"] = {g: v for g, v in state["gun"].items() if g >= sinir[:10]}
+        state["sayac"] = {g: v for g, v in (state.get("sayac") or {}).items() if g >= sinir[:10]}
+        flood_ogren.gecmisi_temizle(state, simdi)
     DOSYA.write_text(json.dumps(state, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
 
 
@@ -123,6 +130,9 @@ def onay_govdesi(b: dict, ayar: FloodAyar) -> str:
         s.append(f"{i}. {p}")
     if f["x"].get("alternatif_hook"):
         s += ["", f"**Kanca B** (yerine 1. post): {f['x']['alternatif_hook']}"]
+        oneri = b.get("kanca_onerisi")
+        if oneri:
+            s += ["", f"📈 Öğrenilen (F10, yalnızca öneri): {oneri}"]
     d = k.get("denendi")
     if d:
         s += ["", f"### Denendi ({flood_denetci.model_adi(d['model'])}, {d['sure']})", f"Komut: `{d['komut']}`",
@@ -174,6 +184,11 @@ def _birim(kayit: dict, flood: dict, simdi: datetime, ayar: FloodAyar, durum: st
 
 
 def _taslak_ekle(ayar, state, b, gh, simdi, yaz) -> None:
+    oneri = flood_ogren.kanca_onerisi(state, b["tur"]) if b["flood"]["x"].get("alternatif_hook") else None
+    if oneri:
+        b["kanca_onerisi"] = oneri[1]
+        if b["durum"] == "planli":  # F10: otomatik evergreen'de iki kancadan ölçümle iyi olanı (ikisi de denetimden geçti)
+            b["secim"] = oneri[0]
     if b["durum"] == "onay_bekliyor":
         b["issue"] = gh.issue_ac(f"🧪 Tiny Fixes taslağı: {b['konu'][:70]}", onay_govdesi(b, ayar), ETIKET)
     state["birimler"].append(b)
@@ -193,7 +208,9 @@ def uret(ayar: FloodAyar, state: dict, simdi: datetime, client, gh, get=flood_ka
         return
     if slot == "e":
         tema = flood_yazar.kutuphane_temasi(state["kutuphane"])
+        state["kutuphane"] = (state["kutuphane"] + [tema])[-60:]  # denenen tema sıranın sonuna: başarısız tema her gün yeniden denenmez
         kayit = flood_dogrula.kutuphane_kaydi(client, ayar, tema, yaz)
+        flood_ogren.say(state, simdi, "deneme")
         durum = "planli" if ayar.mod == "otomatik" else "onay_bekliyor"  # F6: yalnızca evergreen otomatik
         adaylar = [(kayit, tema)] if kayit else []
     else:
@@ -205,23 +222,27 @@ def uret(ayar: FloodAyar, state: dict, simdi: datetime, client, gh, get=flood_ka
             yaz(f"Kayıt reddedildi ({konu}): {sorun[0]}")
             continue
         flood, sorunlar = flood_yazar.yaz(client, ayar, kayit, gun["metinler"], 0, yaz)
+        flood_ogren.say(state, simdi, "yazim")
         if not flood:
             yaz(f"Yazılamadı ({konu}): {sorunlar[0] if sorunlar else '?'}")
             continue
-        if slot == "e":
-            state["kutuphane"] = (state["kutuphane"] + [konu])[-60:]
         _taslak_ekle(ayar, state, _birim(kayit, flood, simdi, ayar, durum), gh, simdi, yaz)
         return
     yaz(f"Tiny Fixes: bu slotta uygun konu çıkmadı ({slot}).")
 
 
 def _trend_adaylari(ayar, state, simdi, client, get, yaz):
-    """[(kayıt, konu)]: puanlanmış konulardan seçilen ve doğrulanan adaylar (en fazla 3)."""
+    """(kayıt, konu) üreteci: puanlanmış konulardan seçilenler sırayla doğrulanır. Tembel: ilk uygun aday yazılırsa
+    kalan adaylar hiç araştırılmaz (her araştırma web araması + Sonnet çağrısıdır; maliyet kuralı)."""
     adaylar = flood_kaynak.topla(ayar, get, yaz)
     gecmis = [k["baslik"] for k in state["konular"]]
     sirali = flood_puan.sirala(adaylar, simdi, gecmis)
-    sonuc = []
-    for s in flood_yazar.triage(client, ayar, sirali):
+    secimler = flood_yazar.triage(client, ayar, sirali)
+    flood_ogren.say(state, simdi, "secim")
+    for s in flood_ogren.sirala_secimler(secimler, state):
+        flood_ogren.say(state, simdi, "arastirma")
+        if s["tur"] != "news":
+            flood_ogren.say(state, simdi, "deneme")
         try:
             if s["tur"] == "news":
                 kayit = flood_dogrula.haber_kaydi(client, ayar, s["aday"], yaz)
@@ -231,8 +252,7 @@ def _trend_adaylari(ayar, state, simdi, client, get, yaz):
             yaz(f"Konu işlenemedi ({s['aday']['baslik']}): {e}")
             continue
         if kayit:
-            sonuc.append((kayit, kayit["konu"]))
-    return sonuc
+            yield kayit, kayit["konu"]
 
 
 # ---------- Yayın ----------
@@ -298,6 +318,7 @@ def _yayinla(ayar: FloodAyar, state: dict, b: dict, x, ig, simdi: datetime, yaz)
             medya = [x.medya_yukle(flood_gorsel.x_karti(flood["ig"]["slaytlar"][0]["baslik"], "", None))]
         for i in range(len(ids), len(postlar)):
             ids.append(x.gonder(postlar[i], yanit=ids[-1] if ids else None, medya=medya if i == 0 else None))
+            flood_ogren.say(state, simdi, "x_post")
             kaydet(state)  # yarıda kesilirse sonraki nabız kaldığı yerden sürdürür
         gun["metinler"] += postlar
     if ig is not None and ayar.ig_aktif and ig_izinli and not b["ig"].get("medya_id") and b["ig"].get("deneme", 0) < 3:
@@ -309,6 +330,10 @@ def _yayinla(ayar: FloodAyar, state: dict, b: dict, x, ig, simdi: datetime, yaz)
             caption = (flood["ig"]["caption"] + "\n\n" + " ".join(flood["ig"]["etiketler"])).strip()
             b["ig"]["medya_id"] = ig.carousel(urller, caption)
             gun["ig"] += 1
+            try:
+                b["ig"]["adres"] = ig.kalici_adres(b["ig"]["medya_id"])
+            except Exception:
+                pass  # adres yalnızca yorum kitindeki bağlantı için; yayın tamam
         except Exception as e:
             b["ig"]["deneme"] = b["ig"].get("deneme", 0) + 1
             b["ig"]["hata"] = str(e)[:200]
@@ -357,7 +382,9 @@ def olcum_guncelle(state: dict, x, ig, simdi: datetime, yaz=print) -> None:
     xm = {}
     if x is not None:
         try:
-            xm = {t["id"]: t.get("public_metrics") for t in x.metrikler_idle([b["x"]["idler"][0] for b in bekleyen if b["x"]["idler"]])}
+            idler = [b["x"]["idler"][0] for b in bekleyen if b["x"]["idler"]]
+            xm = {t["id"]: t.get("public_metrics") for t in x.metrikler_idle(idler)}
+            flood_ogren.say(state, simdi, "x_okuma", len(idler))
         except Exception as e:
             yaz(f"Tiny Fixes X ölçümü alınamadı: {e}")
     for b in bekleyen:
@@ -368,6 +395,7 @@ def olcum_guncelle(state: dict, x, ig, simdi: datetime, yaz=print) -> None:
             except Exception as e:
                 yaz(f"Tiny Fixes Instagram ölçümü alınamadı: {e}")
         b["olcum"] = o
+        flood_ogren.gecmise_yaz(state, b)  # F10: kalıcı geçmiş (birim 30 günde silinir, ölçüm kalır)
 
 
 def sorunlar(ayar: FloodAyar, state: dict, simdi: datetime) -> list[tuple[str, str]]:
@@ -382,6 +410,106 @@ def sorunlar(ayar: FloodAyar, state: dict, simdi: datetime) -> list[tuple[str, s
     if not bekleyen and referans and 7 <= simdi.hour < 21 and simdi - _iso(referans) > timedelta(hours=30):
         sonuc.append((f"flood-sessiz-{gun}", "Tiny Fixes 30 saattir hiçbir şey paylaşmadı ve bekleyen taslak yok."))
     return sonuc
+
+
+# ---------- Haftalık rapor (F10) ve Instagram yorum kiti (F7) ----------
+
+def haftalik_rapor(ayar: FloodAyar, state: dict, simdi: datetime, gh, yaz=print) -> None:
+    """Pazartesi sabahı sahibine Türkçe rapor issue'su (eskisi kapanır). Ek API çağrısı yok."""
+    if not flood_ogren.rapor_zamani(state, simdi):
+        return
+    kime = f"@{ayar.alarm_kime} " if ayar.alarm_kime else ""
+    gh.issue_ac(f"🩹 Tiny Fixes haftalık rapor {simdi.date()}", kime + flood_ogren.rapor(state, simdi), RAPOR_ETIKETI)
+    state["son_rapor"] = simdi.strftime("%G-%V")
+    yaz("Tiny Fixes haftalık raporu açıldı.")
+
+
+def ig_yorumlari(ayar: FloodAyar, state: dict, simdi: datetime, ig, gh, ana_ayar, claude, yaz=print) -> int:
+    """Son 7 günün Instagram postlarına gelen yeni yorumlar: her biri için 2 cevap taslağı, günlük issue'ya.
+    Yalnızca okuma ve taslak; cevabı sahibi Instagram'da elle yazar (F7). Okuma ücretsizdir; taslak başına bir küçük Claude çağrısı."""
+    from . import kopya, yorum
+    if not yorum.GUNDUZ[0] <= simdi.hour < yorum.GUNDUZ[1]:
+        return 0
+    iy = state.setdefault("ig_yorum", {"gorulen": []})
+    if iy.get("son") and simdi < _iso(iy["son"]) + timedelta(minutes=IG_YORUM_DK):
+        return 0
+    iy["son"] = simdi.isoformat(timespec="seconds")
+    if not iy.get("kullanici"):
+        iy["kullanici"] = ig.ben().get("username", "")
+    sinir = (simdi - timedelta(days=IG_YORUM_GUN)).isoformat()
+    postlar = [b for b in state["birimler"] if b["ig"].get("medya_id") and (b.get("yayin") or "") >= sinir]
+    gorulen, yeni = set(iy["gorulen"]), []
+    for b in postlar:
+        for c in ig.yorumlar(b["ig"]["medya_id"]):
+            if c.get("id") and c["id"] not in gorulen and (c.get("username") or "").lower() != iy["kullanici"].lower():
+                yeni.append((b, c))
+    yeni = yeni[:yorum.EN_FAZLA]
+    if not yeni:
+        return 0
+    tarih = simdi.date().isoformat()
+    kime = f"@{ayar.alarm_kime} " if ayar.alarm_kime else ""
+    if (iy.get("issue") or {}).get("tarih") != tarih:
+        govde = (kime + f"Bugün Instagram'da @{iy['kullanici']} postlarına gelen yorumlar. Her biri için 2 hazır cevap: "
+                 "**📋 Kopyala ve postu aç**'a dokun, Instagram'da yorumun altındaki **Yanıtla**'ya bas, yapıştır, gönder. "
+                 "Bot hiçbir zaman kendisi cevap atmaz (F7).")
+        iy["issue"] = {"tarih": tarih, "no": gh.issue_ac(f"💬 Instagram yorumları @{iy['kullanici']} {tarih}", govde, IG_YORUM_ETIKETI)}
+    for b, c in yeni:
+        y = {"metin": c.get("text") or "", "kullanici": c.get("username") or "?", "bizim": b["flood"]["ig"]["caption"]}
+        taslak, not_, spam = yorum.taslaklar(y, "flood", claude, ana_ayar, yaz, simdi=simdi, hesap_adi=iy["kullanici"])
+        flood_ogren.say(state, simdi, "yorum_taslagi")
+        url = b["ig"].get("adres") or f"https://www.instagram.com/{iy['kullanici']}/"
+        sayfa = kopya.sayfa_yaz(f"yorum-ig-{c['id']}.html", f"Instagram yorumu: @{y['kullanici']}",
+                                [yorum.sayfa_ogesi(f"@{y['kullanici']} → @{iy['kullanici']} (Instagram)", y["metin"], url, taslak,
+                                                   not_=not_)], simdi, "⚠️ Instagram'da Tiny Fixes hesabıyla açık olduğundan emin ol.")
+        gh.yorum(iy["issue"]["no"], kime + yorum.bildirim(y, taslak, not_, spam, iy["kullanici"], sayfa, instagram_url=url))
+        iy["gorulen"] = (iy["gorulen"] + [c["id"]])[-500:]
+        kaydet(state)  # bildirildi: tekrar gelmesin
+    yaz(f"Instagram yorum kiti: {len(yeni)} yeni yorum bildirildi.")
+    return len(yeni)
+
+
+# ---------- Tanı (salt okunur) ----------
+
+def tani(ayar: FloodAyar | None = None, get=flood_kaynak.http_al, head=requests.head, yaz=print) -> str:
+    """Kaynakları ve puanlamayı canlı çalıştırır; Claude, X ve Instagram'a DOKUNMAZ, hiçbir şey paylaşmaz, durum dosyasına
+    yazmaz. Mod ne olursa olsun çalışır (sahibi elle başlatır). RSS adreslerini, Trends biçimini ve görsel adreslerinin
+    herkese açık olup olmadığını gerçek veriyle doğrular. Markdown özet döner."""
+    ayar = ayar or ayar_yukle()
+    s = ["## 🩹 Tiny Fixes tanı (salt okunur: Claude/X/Instagram'a dokunulmadı)", "", f"Mod: `{ayar.mod}`", "", "### Konu kaynakları"]
+    isler = [("Google Trends", f"https://trends.google.com/trending/rss?geo={ayar.geo}", flood_kaynak.trends_ayristir)]
+    if ayar.hacker_news:
+        isler.append(("Hacker News", "https://hn.algolia.com/api/v1/search?tags=front_page&hitsPerPage=40", flood_kaynak.hn_ayristir))
+    for ad, url in ayar.rss:
+        isler.append((ad, url, lambda xml, ad=ad: flood_kaynak.rss_ayristir(xml, ad)))
+    adaylar, calisan = [], 0
+    for ad, url, ayristir in isler:
+        try:
+            a = ayristir(get(url))
+            adaylar += a
+            calisan += 1
+            s.append(f"- ✅ {ad}: {len(a)} konu" + ("" if a else " (boş: biçim değişmiş olabilir)"))
+        except Exception as e:
+            s.append(f"- ❌ {ad}: {str(e)[:120]} (`{url}`)")
+    simdi = datetime.now().astimezone()
+    sirali = flood_puan.sirala(flood_kaynak.birlestir(adaylar), simdi, ())
+    s += ["", f"Çalışan kaynak: {calisan}/{len(isler)} · birleşik konu: {len(flood_kaynak.birlestir(adaylar))} · "
+              f"eşiği geçen: {len(sirali)}", "", "### En iyi 10 aday (puan: kaynak / tazelik / hız / niş)"]
+    for a in sirali[:10]:
+        p = a["puan"]
+        s.append(f"- **{p['toplam']}** {a['baslik'][:90]} ({a['tur_ipucu']}; {p['cok_kaynak']:.2f} / {p['tazelik']:.2f} / "
+                 f"{p['hiz']:.2f} / {p['nis']:.2f})")
+    repo = os.environ.get("GITHUB_REPOSITORY", "")
+    if repo:
+        s += ["", "### Instagram görsel adresi"]
+        url = f"https://raw.githubusercontent.com/{repo}/HEAD/README.md"
+        try:
+            kod = head(url, timeout=20).status_code
+            s.append(f"- {'✅ depo herkese açık' if kod == 200 else f'❌ {kod}: depo herkese açık değil, Instagram görseli çekemez'}")
+        except requests.RequestException as e:
+            s.append(f"- ❌ erişilemedi: {e}")
+    metin = "\n".join(s)
+    yaz(metin)
+    return metin
 
 
 # ---------- Giriş noktası ----------
@@ -426,7 +554,9 @@ def nabiz(ana_ayar, simdi: datetime, yaz=print, gh=None, get=flood_kaynak.http_a
     adimlar = (("onay", lambda: onay_isle(ayar, state, simdi, gh, yaz)),
                ("yayın", lambda: yayinla_sirali(ayar, state, simdi, x, ig, yaz)),
                ("üretim", lambda: uret(ayar, state, simdi, claude, gh, get, yaz)),
-               ("ölçüm", lambda: olcum_guncelle(state, x, ig, simdi, yaz)))
+               ("ölçüm", lambda: olcum_guncelle(state, x, ig, simdi, yaz)),
+               ("rapor", lambda: haftalik_rapor(ayar, state, simdi, gh, yaz)),
+               ("Instagram yorumları", lambda: ig is not None and ig_yorumlari(ayar, state, simdi, ig, gh, ana_ayar, claude, yaz)))
     hatalar = []
     for ad, adim in adimlar:
         try:

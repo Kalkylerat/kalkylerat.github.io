@@ -84,6 +84,10 @@ class InstagramClient:
         """Postun yorumları (yalnızca okuma): id, text, username, timestamp."""
         return self._istek("GET", f"{medya_id}/comments", fields="id,text,username,timestamp", limit=adet).get("data", [])
 
+    def kalici_adres(self, medya_id: str) -> str:
+        """Postun instagram.com adresi (yorum kitinde "postu aç" bağlantısı)."""
+        return self._istek("GET", medya_id, fields="permalink").get("permalink", "")
+
     def olcum(self, medya_id: str) -> dict:
         """Postun rakamları (erişim, kaydetme, gönderme, beğeni, yorum); alınamayan metrik atlanır."""
         sonuc = {}

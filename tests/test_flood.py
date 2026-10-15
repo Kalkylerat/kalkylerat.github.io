@@ -8,8 +8,8 @@ from types import SimpleNamespace
 
 import pytest
 
-from bot import (config, flood, flood_denetci as den, flood_dogrula, flood_gorsel, flood_ig, flood_kaynak, flood_puan,
-                 flood_yazar, flood_yetki)
+from bot import (config, flood, flood_denetci as den, flood_dogrula, flood_gorsel, flood_ig, flood_kaynak, flood_ogren,
+                 flood_puan, flood_yazar, flood_yetki)
 
 UTC = timezone.utc
 SIMDI = datetime(2026, 10, 15, 14, 5, tzinfo=UTC)
@@ -663,7 +663,10 @@ def test_alarm_hata_ve_sessizlik():
 def test_sozlesme_f_bolumu_her_madde_icin_test_var():
     sozlesme = (ROOT / "SOZLESME.md").read_text(encoding="utf-8")
     bu_dosya = Path(__file__).read_text(encoding="utf-8")
-    for no in range(1, 10):
+    import re
+    nolar = sorted({int(n) for n in re.findall(r"\| F(\d+) \|", sozlesme)})
+    assert nolar == list(range(1, len(nolar) + 1)) and len(nolar) >= 10
+    for no in nolar:
         assert f"| F{no} |" in sozlesme and f"def test_F{no}_" in bu_dosya, f"F{no}"
 
 
@@ -734,3 +737,139 @@ def test_uctan_uca_onay_modunda_evergreen_de_onay_ister(monkeypatch):
     st["gun"]["2026-10-15"] = {"slotlar": ["t6"], "birim": 0, "ig": 0, "metinler": []}
     flood.uret(AYAR, st, SIMDI.replace(hour=11), object(), gh, yaz=lambda *_: None)  # AYAR.mod == "onay"
     assert st["birimler"][0]["durum"] == "onay_bekliyor" and len(gh.acilan) == 1
+
+
+# ---------- F10: öğrenme yalnızca sıralar ve önerir ----------
+
+def _gecmis(tur, kanca, skor, n, gun=1):
+    return [{"id": f"{tur}{kanca}{i}", "tur": tur, "kanca": kanca, "yayin": (SIMDI - timedelta(days=gun)).isoformat(),
+             "saat": 14, "konu": f"{tur} {i}", "skor": skor, "x_gosterim": 1000, "x_kaydetme": 3} for i in range(n)]
+
+
+def test_F10_ogrenme_az_veride_kapali_ve_yalnizca_sirayi_degistirir():
+    secimler = [{"tur": "fix", "aday": {"baslik": "a"}}, {"tur": "news", "aday": {"baslik": "b"}},
+                {"tur": "fix", "aday": {"baslik": "c"}}]
+    az = {"gecmis": _gecmis("news", 1, 50, 3) + _gecmis("fix", 1, 5, 2)}
+    assert flood_ogren.sirala_secimler(secimler, az) == secimler  # 5 < 6 ölçüm: öğrenme kapalı
+    cok = {"gecmis": _gecmis("news", 1, 50, 4) + _gecmis("fix", 1, 5, 4)}
+    sonuc = flood_ogren.sirala_secimler(secimler, cok)
+    assert [s["aday"]["baslik"] for s in sonuc] == ["b", "a", "c"]  # news öne, fix'ler kendi sırasında
+    assert sorted(map(id, sonuc)) == sorted(map(id, secimler))  # aday eklenmez, çıkarılmaz
+
+
+def test_F10_kanca_onerisi_onayda_yalnizca_oneri_otomatik_evergreende_secer():
+    st = bos_state()
+    st["gecmis"] = _gecmis("fix", 1, 10, 4) + _gecmis("fix", 2, 20, 4)
+    gh = SahteGH()
+    b = flood._birim(kayit_fix(), flood_fix(), SIMDI, AYAR, "onay_bekliyor")
+    flood._taslak_ekle(AYAR, st, b, gh, SIMDI, lambda *_: None)
+    assert b["secim"] == 1 and "Öğrenilen" in gh.acilan[0][1] and "B (sonuç önce)" in gh.acilan[0][1]  # sahibi seçer (F6)
+    lib = {**kayit_fix(), "tur": "library"}
+    st["gecmis"] = _gecmis("library", 1, 10, 4) + _gecmis("library", 2, 20, 4)
+    p = flood._birim(lib, flood_fix(), SIMDI, flood.FloodAyar(mod="otomatik"), "planli")
+    flood._taslak_ekle(flood.FloodAyar(mod="otomatik"), st, p, gh, SIMDI, lambda *_: None)
+    assert p["secim"] == 2 and len(gh.acilan) == 1  # planlı evergreen: iyi kanca, issue yok
+    assert den.denetle({**p["flood"], "x": {**p["flood"]["x"], "postlar": flood._x_metinleri(p)}}, lib) == []
+    st["gecmis"] = _gecmis("library", 1, 19, 4) + _gecmis("library", 2, 20, 4)  # fark küçük: öneri yok
+    assert flood_ogren.kanca_onerisi(st, "library") is None
+
+
+def test_F10_olcum_kalici_gecmise_yazilir_ve_30_gun_sonra_da_kalir(hazirla):
+    x, ig = SahteX(), SahteIG()
+    x.metrikler_idle = lambda idler: [{"id": i, "public_metrics": {"impression_count": 1000, "like_count": 10,
+                                                                    "bookmark_count": 5}} for i in idler]
+    b = bekleyen_birim("yayinlandi")
+    b["yayin"], b["x"]["idler"], b["ig"]["medya_id"], b["secim"] = SIMDI.isoformat(), ["t1"], "ig1", 2
+    st = bos_state()
+    st["birimler"].append(b)
+    flood.olcum_guncelle(st, x, ig, SIMDI + timedelta(days=1, hours=1), yaz=lambda *_: None)
+    g = st["gecmis"][0]
+    assert g["kanca"] == 2 and g["x_skor"] == 25.0 and g["ig_skor"] == round(1000 * 15 / 80, 2) and g["saat"] == 14
+    flood.kaydet(st, SIMDI + timedelta(days=40))
+    st = flood.yukle()
+    assert st["birimler"] == [] and len(st["gecmis"]) == 1  # birim silindi, öğrenilen kaldı
+
+
+def test_F10_haftalik_rapor_pazartesi_bir_kez_ve_ek_cagri_yok():
+    st = bos_state()
+    st["gecmis"] = _gecmis("fix", 1, 10, 4) + _gecmis("news", 2, 30, 4)
+    pazartesi = datetime(2026, 10, 19, 9, 0, tzinfo=UTC)
+    gh = SahteGH()
+    flood.haftalik_rapor(AYAR, st, pazartesi - timedelta(days=1), gh)  # pazar: yok
+    flood.haftalik_rapor(AYAR, st, pazartesi, gh)
+    flood.haftalik_rapor(AYAR, st, pazartesi + timedelta(hours=3), gh)  # aynı hafta: tekrar yok
+    assert len(gh.acilan) == 1 and gh.acilan[0][2] == flood.RAPOR_ETIKETI
+    govde = gh.acilan[0][1]
+    assert "news" in govde and "Kanca" in govde and "Tahmini API maliyeti" in govde
+    from bot import onay
+    assert flood.RAPOR_ETIKETI in onay.ESKIYI_KAPAT and "rapor" != flood.RAPOR_ETIKETI  # Kalkylerat raporunu kapatmaz
+    kaynak = (ROOT / "bot" / "flood_ogren.py").read_text(encoding="utf-8")
+    assert not any(k in kaynak for k in ("requests", "client", "anthropic", ".gonder(", "GUNLUK_"))  # ağ yok, sınırlara dokunmaz
+
+
+def test_F7_instagram_yorum_kiti_yalnizca_taslak_ve_bir_kez(monkeypatch, tmp_path):
+    from bot import kopya
+    monkeypatch.setattr(kopya, "KLASOR", tmp_path / "kit")
+
+    class IG(SahteIG):
+        def ben(self):
+            return {"username": "tinyfixes"}
+
+        def yorumlar(self, medya_id, adet=25):
+            return [{"id": "c1", "text": "Does this work on Android?", "username": "ayse"},
+                    {"id": "c2", "text": "Thanks!", "username": "tinyfixes"}]  # kendi yorumumuz bildirilmez
+    b = bekleyen_birim("yayinlandi")
+    b["yayin"], b["ig"]["medya_id"], b["ig"]["adres"] = SIMDI.isoformat(), "ig1", "https://www.instagram.com/p/abc/"
+    st = bos_state()
+    st["birimler"].append(b)
+    gh = SahteGH()
+    n = flood.ig_yorumlari(AYAR, st, SIMDI, IG(), gh, ANA, None, yaz=lambda *_: None)
+    assert n == 1 and gh.acilan[0][2] == flood.IG_YORUM_ETIKETI and "instagram.com/p/abc" in gh.yorumlar_[0][1]
+    assert "Instagram" in gh.yorumlar_[0][1] and "x.com" not in gh.yorumlar_[0][1]
+    assert flood.ig_yorumlari(AYAR, st, SIMDI + timedelta(minutes=10), IG(), gh, ANA, None) == 0  # 30 dk dolmadı
+    assert flood.ig_yorumlari(AYAR, st, SIMDI + timedelta(minutes=40), IG(), gh, ANA, None, yaz=lambda *_: None) == 0  # görüldü
+    yontemler = {m for m in dir(flood_ig.InstagramClient) if not m.startswith("_")}
+    assert not yontemler & {"yanitla", "yorum_yaz", "reply", "begen", "takip", "dm"}  # F7: cevap yöntemi yok
+
+
+# ---------- Tanı, maliyet ve evergreen sırası ----------
+
+def test_tani_salt_okunur_ve_kaynaklari_tek_tek_raporlar():
+    ayar = flood.FloodAyar(rss=(("OpenAI", "https://x/rss"), ("Bozuk", "https://bozuk/rss")))
+
+    def get(url):
+        if "bozuk" in url:
+            raise RuntimeError("404")
+        return {"trends": TRENDS, "algolia": HN, "x/rss": RSS}[next(k for k in ("trends", "algolia", "x/rss") if k in url)]
+    import os
+    os.environ["GITHUB_REPOSITORY"] = "o/r"
+    try:
+        metin = flood.tani(ayar, get=get, head=lambda u, **kw: SimpleNamespace(status_code=200), yaz=lambda *_: None)
+    finally:
+        del os.environ["GITHUB_REPOSITORY"]
+    assert "✅ Google Trends" in metin and "❌ Bozuk" in metin and "depo herkese açık" in metin and "Çalışan kaynak: 3/4" in metin
+    assert not flood.DOSYA.exists()  # durum dosyasına yazmaz
+
+
+def test_trend_adaylari_tembel_ilk_uygun_konudan_sonra_arastirma_durur(monkeypatch):
+    aday = lambda b: {"baslik": b, "tur_ipucu": "trend", "trafik": 100000,
+                      "kaynaklar": [{"ad": "a", "url": f"https://{b}.com/x", "baslik": b + " AI", "ozet": "", "tarih": SIMDI.isoformat(), "skor": 0, "yorum": 0}]}
+    monkeypatch.setattr(flood_kaynak, "topla", lambda *a, **kw: [aday("one"), aday("two"), aday("three")])
+    monkeypatch.setattr(flood_puan, "sirala", lambda adaylar, *a, **kw: adaylar)
+    monkeypatch.setattr(flood_yazar, "triage", lambda c, a, s: [{"aday": x, "tur": "fix", "problem": x["baslik"], "fikir": ""} for x in s])
+    arastirilan = []
+    monkeypatch.setattr(flood_dogrula, "fix_kaydi", lambda c, a, aday, p, f, yaz=print: arastirilan.append(p) or {**kayit_fix(), "konu": p})
+    monkeypatch.setattr(flood_yazar, "yaz", lambda *a, **kw: (flood_fix(), []))
+    st = bos_state()
+    flood.uret(AYAR, st, SIMDI.replace(hour=7), object(), SahteGH(), yaz=lambda *_: None)
+    assert arastirilan == ["one"] and len(st["birimler"]) == 1  # kalan iki konu hiç araştırılmadı (maliyet)
+    sayac = st["sayac"]["2026-10-15"]
+    assert sayac["arastirma"] == 1 and sayac["yazim"] == 1 and sayac["secim"] == 1
+
+
+def test_evergreen_temalari_donusumlu_ve_basarisiz_tema_her_gun_tekrar_denenmez():
+    hepsi = list(flood_yazar.KUTUPHANE)
+    assert flood_yazar.kutuphane_temasi(hepsi) == hepsi[0]  # en uzun süredir işlenmeyen
+    assert flood_yazar.kutuphane_temasi(hepsi + [hepsi[0]]) == hepsi[1]
+    assert flood_yazar.kutuphane_temasi([]) == hepsi[0]
+    assert not any(den.guvensiz_alan(t) for t in hepsi)  # evergreen temaları güvenli alanda (F5)

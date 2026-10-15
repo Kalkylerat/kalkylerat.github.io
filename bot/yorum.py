@@ -227,8 +227,12 @@ def sayfa_ogesi(kim: str, post: str, url: str, taslaklar: list[str], ekler=(), n
             "taslaklar": [(f"{n}. taslak", t) for n, t in enumerate(taslaklar, 1)] + list(ekler)}
 
 
-def bildirim(yorum: dict, taslak: list[str], not_: str, spam: bool, hesap_adi: str, sayfa: str | None = None) -> str:
-    satirlar = ([HESAP_UYARISI.format(ad="@" + hesap_adi), ""] if hesap_adi.lower() != "kalkylerat" else []) + [
+def bildirim(yorum: dict, taslak: list[str], not_: str, spam: bool, hesap_adi: str, sayfa: str | None = None,
+             instagram_url: str | None = None) -> str:
+    """instagram_url verilirse Instagram yorumu (Tiny Fixes): uyarı ve "gör" bağlantısı Instagram'a göre yazılır."""
+    uyari = (f"⚠️ Önce Instagram'da @{hesap_adi} hesabına geç: cevap açık olan hesapla gider." if instagram_url
+             else HESAP_UYARISI.format(ad="@" + hesap_adi))
+    satirlar = ([uyari, ""] if hesap_adi.lower() != "kalkylerat" else []) + [
                 f"### 💬 @{yorum.get('kullanici') or '?'} → @{hesap_adi}",
                 f"> {(yorum.get('metin') or '').strip()}".replace("\n", "\n> "), ""]
     if yorum.get("ust"):
@@ -239,7 +243,8 @@ def bildirim(yorum: dict, taslak: list[str], not_: str, spam: bool, hesap_adi: s
         satirlar += [f"📝 {not_}" + (" (spam gibi)" if spam and "cevap vermesen" not in not_ else ""), ""]
     if sayfa:
         satirlar += [f"📋 **[Kopyala ve yorumu aç]({sayfa})** (sayfa 1–2 dakikada hazır olur)", ""]
-    satirlar += [f"👀 [Yorumu X'te gör](https://x.com/i/web/status/{yorum['id']})", ""]
+    satirlar += [f"👀 [Postu Instagram'da gör]({instagram_url})" if instagram_url
+                 else f"👀 [Yorumu X'te gör](https://x.com/i/web/status/{yorum['id']})", ""]
     satirlar += taslak_satirlari(taslak)
     return "\n".join(satirlar).rstrip()
 

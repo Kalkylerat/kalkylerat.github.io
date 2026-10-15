@@ -23,8 +23,8 @@ KUTUPHANE = [
     "Compare two product pages and list the real differences in plain words",
     "Draft a firm but friendly reply to a customer complaint using the facts provided",
     "Turn rough notes into a clear agenda for a 30 minute meeting",
-    "Explain a confusing contract clause in plain English and list the questions to ask the other side",
-    "Plan a week of meals around a budget and the ingredients already at home",
+    "Turn a long product manual into a one-page quick-start checklist",
+    "Split a list of household chores fairly between housemates for the week",
     "Turn a spreadsheet column of free-text feedback into the top five themes",
     "Rewrite a CV bullet list so each line shows a result instead of a duty",
     "Break a big project into a first-week checklist with the smallest next step highlighted",
@@ -100,7 +100,7 @@ def triage(client, ayar, adaylar: list[dict], en_fazla: int = 12) -> list[dict]:
     liste = adaylar[:en_fazla]
     metin = "\n".join(f"{i}. {a['baslik']} | {' / '.join(k.get('ad', '') for k in a['kaynaklar'][:3])} | "
                       f"{(a['kaynaklar'][0].get('ozet') or '')[:140]}" for i, a in enumerate(liste))
-    cevap = _cagir(client, [(ayar.hafif_model, "low")], TRIAGE_SISTEMI, metin, TRIAGE_SEMASI, 2000)
+    cevap = _cagir(client, [(ayar.hafif_model, "low")], TRIAGE_SISTEMI, metin, TRIAGE_SEMASI, 8000)
     sonuc = []
     for s in cevap.get("secimler", []):
         if s["tur"] != "atla" and 0 <= s["indeks"] < len(liste):
@@ -108,10 +108,12 @@ def triage(client, ayar, adaylar: list[dict], en_fazla: int = 12) -> list[dict]:
     return sonuc[:3]
 
 
-def kutuphane_temasi(islenmis) -> str | None:
-    """Evergreen tema: henüz işlenmemiş ilk tema; hepsi işlendiyse en eskisi yeniden."""
-    kalan = [t for t in KUTUPHANE if t not in set(islenmis)]
-    return kalan[0] if kalan else (list(islenmis)[0] if islenmis else KUTUPHANE[0])
+def kutuphane_temasi(islenmis) -> str:
+    """Evergreen tema: hiç işlenmemiş ilk tema; hepsi işlendiyse en uzun süredir işlenmeyen (son görülmesi en eski) tema."""
+    islenmis = list(islenmis)
+    son = {t: i for i, t in enumerate(islenmis)}
+    kalan = [t for t in KUTUPHANE if t not in son]
+    return kalan[0] if kalan else min(KUTUPHANE, key=lambda t: son[t])
 
 
 def _yukle(kayit: dict, sorunlar: list[str] | None) -> str:

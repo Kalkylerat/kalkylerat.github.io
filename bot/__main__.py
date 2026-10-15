@@ -1050,6 +1050,17 @@ def flood_ig_komutu(ayar) -> None:
         _hata("Tiny Fixes Instagram bağlantısı", e)
 
 
+def flood_tani_komutu(ayar) -> None:
+    """Tiny Fixes salt okunur tanı: konu kaynakları ve puanlama canlı; Claude/X/Instagram'a dokunmaz. Sonuç issue olarak gelir."""
+    try:
+        metin = flood.tani(yaz=_ozet_yaz)
+        if os.environ.get("GH_TOKEN"):
+            kime = f"@{ayar.alarm_kime} " if ayar.alarm_kime else ""
+            onay.GitHub().issue_ac("🩹 Tiny Fixes tanı", kime + metin, flood.TANI_ETIKETI)
+    except Exception as e:
+        _hata("Tiny Fixes tanı", e)
+
+
 def flood_nabiz(ayar, simdi: datetime) -> None:
     """Tiny Fixes (SOZLESME F): kapalı modda hiçbir şey yapmaz. Bir hata diğer hesapları etkilemez."""
     try:
@@ -1370,7 +1381,7 @@ def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="bot")
     p.add_argument("komut", choices=["otomatik", "tahmin", "yayinla", "sonuc", "panel", "demo", "tani", "onizleme", "duzelt", "sabit", "hafta", "yenile", "oran_testi",
                                           "onay_kontrol", "onay_testi", "onay_yenile", "nabiz",
-                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir", "kasa_duzelt", "direktor", "skor_duzelt", "sonuc_duzelt", "kasa_defteri", "temizle", "liste", "kiyas", "takip_yenile", "metrik", "hesap_kontrol", "likely", "likely_paket", "likely_yetki", "likely_ek", "likely_yenile", "likely_iptal", "flood", "flood_yetki", "flood_ig"])
+                                          "sonuc_yeniden", "profil", "odds_tani", "odds_pazar", "vitrin", "ek_kupon", "af_pazar", "ayir", "kasa_duzelt", "direktor", "skor_duzelt", "sonuc_duzelt", "kasa_defteri", "temizle", "liste", "kiyas", "takip_yenile", "metrik", "hesap_kontrol", "likely", "likely_paket", "likely_yetki", "likely_ek", "likely_yenile", "likely_iptal", "flood", "flood_yetki", "flood_ig", "flood_tani"])
     args = p.parse_args(argv)
     ayar = config.yukle()
     from dataclasses import replace as _degistir
@@ -1393,6 +1404,9 @@ def main(argv=None) -> int:
         return 1 if HATALAR else 0
     if args.komut == "flood_ig":
         flood_ig_komutu(ayar)
+        return 1 if HATALAR else 0
+    if args.komut == "flood_tani":
+        flood_tani_komutu(ayar)
         return 1 if HATALAR else 0
     if args.komut == "odds_tani":
         odds_tani(ayar)

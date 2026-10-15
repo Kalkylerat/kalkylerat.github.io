@@ -41,7 +41,11 @@ def kayit_fix() -> dict:
             "denendi": {"model": "claude-sonnet-5-5", "ornek_girdi": "Screen 41%, Maps 22%, Mail 9%", "sure": "9 seconds",
                         "komut": "Here are my battery stats: <paste your battery stats here>. Rank the 5 most likely causes and give one check for each.",
                         "cikti": "1. Maps running in the background at 22% is the first suspect.",
-                        "sinir": "It only reasons from the stats you paste and cannot read your phone."}}
+                        "sinir": "It only reasons from the stats you paste and cannot read your phone.",
+                        "duz_soru": "why is my battery draining so fast", "fark": "belirgin",
+                        "duz_cikti": "Try lowering brightness, turning off Bluetooth and closing apps you are not using.",
+                        "once": "Generic tips: lower brightness, turn off Bluetooth, nothing about your apps.",
+                        "sonra": "Ranked Maps first at 22% and gave one check for each cause."}}
 
 
 def flood_fix() -> dict:
@@ -581,9 +585,9 @@ def test_yazar_reddedilen_taslagi_sorunlarla_geri_gonderir():
 
 def test_yazar_triage_guvensiz_ve_atla_konulari_almaz():
     adaylar = [{"baslik": f"t{i}", "kaynaklar": [{"ad": "a", "ozet": ""}]} for i in range(3)]
-    c = SahteClaude(yanitlar=[{"secimler": [{"indeks": 0, "tur": "atla", "problem": "", "fikir": ""},
-                                            {"indeks": 1, "tur": "fix", "problem": "why is x", "fikir": "ask AI"},
-                                            {"indeks": 9, "tur": "news", "problem": "", "fikir": ""}]}])
+    c = SahteClaude(yanitlar=[{"secimler": [{"indeks": 0, "tur": "atla", "problem": "", "fikir": "", "herkes": 5},
+                                            {"indeks": 1, "tur": "fix", "problem": "why is x", "fikir": "ask AI", "herkes": 4},
+                                            {"indeks": 9, "tur": "news", "problem": "", "fikir": "", "herkes": 5}]}])
     s = flood_yazar.triage(c, flood.FloodAyar(), adaylar)
     assert [x["aday"]["baslik"] for x in s] == ["t1"] and s[0]["tur"] == "fix"
 
@@ -684,9 +688,11 @@ def _arama_yaniti(metin, urller, durum="end_turn"):
         SimpleNamespace(type="web_search_tool_result", content=[SimpleNamespace(url=u, title="t") for u in urller])])
 
 
-def _yazar_yaniti():
+def _yazar_yaniti(bicim="flood"):
     f = flood_fix()
-    return {"hook_a": f["x"]["postlar"][0], "hook_b": f["x"]["alternatif_hook"], "devam": f["x"]["postlar"][1:],
+    devam = f["x"]["postlar"][1:] if bicim == "flood" else [f["x"]["postlar"][2], f["x"]["postlar"][3]]
+    return {"bicim": bicim, "hook_a": f["x"]["postlar"][0], "hook_b": f["x"]["alternatif_hook"], "devam": devam,
+            "kart_baslik": "Battery draining after the 26.1 update?", "kart_haber": [],
             "ig_slaytlar": f["ig"]["slaytlar"], "ig_caption": f["ig"]["caption"], "ig_etiketler": f["ig"]["etiketler"]}
 
 
@@ -697,12 +703,13 @@ def test_uctan_uca_trend_fix_taslagi(monkeypatch):
             "kaynaklar": [{"ad": "Example", "url": "https://www.alpha.com/a", "baslik": "x", "ozet": "iOS update drains battery",
                            "tarih": SIMDI.isoformat(), "skor": 0, "yorum": 0}]}
     c = SahteClaude(yanitlar=[
-        {"secimler": [{"indeks": 0, "tur": "fix", "problem": "Phone battery draining after the update", "fikir": "rank causes"}]},  # triage
+        {"secimler": [{"indeks": 0, "tur": "fix", "problem": "Phone battery draining after the update", "fikir": "rank causes", "herkes": 5}]},  # triage
         _arama_yaniti("thinking...", ["x"], "pause_turn"),                                                                          # araştırma, devam
         _arama_yaniti(fakt, ["https://www.alpha.com/a", "https://beta.org/b"]),
-        {"komut": k["komut"].replace("<paste your battery stats here>", "{INPUT}"), "ornek_girdi": k["ornek_girdi"], "gosterim": k["komut"]},
-        {"kalite": "iyi", "sinir": k["sinir"]},                                                                                    # değerlendirme
-        _yazar_yaniti()], create=[k["cikti"]])
+        {"komut": k["komut"].replace("<paste your battery stats here>", "{INPUT}"), "ornek_girdi": k["ornek_girdi"], "gosterim": k["komut"],
+         "duz_soru": k["duz_soru"]},
+        {"kalite": "iyi", "sinir": k["sinir"], "fark": "belirgin", "once": k["once"], "sonra": k["sonra"]},             # değerlendirme
+        _yazar_yaniti()], create=[k["cikti"], k["duz_cikti"]])
     monkeypatch.setattr(flood_kaynak, "topla", lambda *a, **kw: [aday])
     gh, st = SahteGH(), bos_state()
     flood.uret(AYAR, st, SIMDI.replace(hour=7), c, gh, yaz=lambda *_: None)
@@ -1034,3 +1041,98 @@ def test_nabiz_yayinlanan_birimi_siteye_ekler(hazirla):
     calistir(st, gh, SIMDI, x, ig)
     assert flood_kutuphane.yukle()[0]["birim"] == b["id"]
     assert (flood_site.KLASOR / "fix" / "phone-battery-draining-after-the-update.html").exists()
+
+
+# ---------- F15–F16 ve kart biçimi (sahibinin isteği: futbol sayfalarındaki gibi kart) ----------
+
+def kart_flood(kayit=None) -> dict:
+    f = flood_fix()
+    c = {"bicim": "kart", "hook_a": "Your phone is dying by lunch since the 26.1 update? We asked AI two ways.",
+         "hook_b": f["x"]["alternatif_hook"], "kart_baslik": "Battery dead by lunch since the update?", "kart_haber": [],
+         "devam": ["The prompt, copy it: Here are my battery stats: <paste>. Rank the 5 most likely causes and give one check for each.",
+                   "Tested with Claude Sonnet 5.5 on made-up stats. Save this for the next update."],
+         "ig_slaytlar": f["ig"]["slaytlar"], "ig_caption": f["ig"]["caption"], "ig_etiketler": f["ig"]["etiketler"]}
+    return flood_yazar._birlestir(c, kayit or kayit_fix())
+
+
+def test_F15_duz_soru_da_calistirilir_fark_yoksa_paylasilmaz():
+    ayar = flood.FloodAyar(mod="onay")
+    k = {"komut": "Summarize this: {INPUT}", "ornek_girdi": "made-up sample text", "gosterim": "Summarize this: <paste text>",
+         "duz_soru": "summarize this"}
+    c = SahteClaude(create=["A short, correct summary.", "A longer plain answer."])
+    d = flood_dogrula.dene(c, ayar, k)
+    assert len(c.cagrilar) == 2 and c.cagrilar[1]["messages"][0]["content"].startswith("summarize this")
+    assert "made-up sample text" in c.cagrilar[1]["messages"][0]["content"]  # adil karşılaştırma: aynı örnek girdi
+    assert d["duz_cikti"] == "A longer plain answer."
+    yok = {"komut": "Do X with {INPUT}", "ornek_girdi": "s", "gosterim": "Do X with <paste>", "duz_soru": "do x"}
+    c2 = SahteClaude(yanitlar=[yok, {"kalite": "iyi", "sinir": "It cannot check facts.", "fark": "yok", "once": "a", "sonra": "b"}],
+                     create=["out", "same out"])
+    assert flood_dogrula.kutuphane_kaydi(c2, ayar, "tema", yaz=lambda *_: None) is None  # fark yok: post yok
+    c3 = SahteClaude(yanitlar=[yok, {"kalite": "iyi", "sinir": "It cannot check facts.", "fark": "belirgin",
+                                     "once": "Generic advice.", "sonra": "A ranked list."}], create=["out", "plain"])
+    kayit = flood_dogrula.kutuphane_kaydi(c3, ayar, "tema", yaz=lambda *_: None)
+    assert kayit["denendi"]["once"] == "Generic advice." and kayit["denendi"]["fark"] == "belirgin"
+    eksik = kayit_fix()
+    eksik["denendi"].pop("duz_cikti")
+    assert any("F15" in s for s in den.kayit_kontrol(eksik))
+    f = kart_flood()
+    assert den.denetle(f, kayit_fix()) == []
+    f["kart"]["satirlar"] = [s for s in f["kart"]["satirlar"] if s[0] != "ASKED PLAINLY"] + [["X", "Something else."]]
+    assert any("F15" in s for s in den.denetle(f, kayit_fix()))  # kart iki cevabı birlikte göstermeli
+
+
+def test_F16_herkesin_sorunu_ve_kanca_kurali():
+    adaylar = [{"baslik": f"t{i}", "kaynaklar": [{"ad": "a", "ozet": ""}]} for i in range(3)]
+    c = SahteClaude(yanitlar=[{"secimler": [{"indeks": 0, "tur": "fix", "problem": "docker build cache", "fikir": "", "herkes": 1},
+                                            {"indeks": 1, "tur": "fix", "problem": "phone battery", "fikir": "", "herkes": 5},
+                                            {"indeks": 2, "tur": "news", "problem": "", "fikir": "", "herkes": 3}]}])
+    s = flood_yazar.triage(c, flood.FloodAyar(), adaylar)
+    assert [x["problem"] for x in s] == ["phone battery"]  # geliştirici konusu ve az kişiyi ilgilendiren haber elenir
+    assert "ORDINARY" in flood_yazar.TRIAGE_SISTEMI and "THE HOOK IS EVERYTHING" in flood_yazar.YAZAR_SISTEMI
+    assert '"you"' in flood_yazar.YAZAR_SISTEMI and "promise only what the post really delivers" in flood_yazar.YAZAR_SISTEMI
+    f = kart_flood()
+    f["x"]["postlar"][0] = "You won't believe what drains your battery."
+    assert any("abartı" in s for s in den.denetle(f, kayit_fix()))  # F8 yasakları kancada da geçerli
+
+
+def test_F8_kart_postu_bicimi_ve_gorsel():
+    f = kart_flood()
+    assert f["bicim"] == "kart" and len(f["x"]["postlar"]) == 3 and den.denetle(f, kayit_fix()) == []
+    k = f["kart"]
+    assert [s[0] for s in k["satirlar"]] == ["ASKED PLAINLY", "WITH OUR PROMPT", "THE LIMIT"] and "Claude Sonnet 5.5" in k["alt"]
+    uzun = dict(f, x={**f["x"], "postlar": f["x"]["postlar"] + ["a"] * 3})
+    assert any("kart postu" in s for s in den.denetle(uzun, kayit_fix()))
+    assert any("kart görseli yok" in s for s in den.denetle({**f, "kart": None}, kayit_fix()))
+    png = flood_gorsel.x_karti("", kart=k)
+    assert png[:8] == b"\x89PNG\r\n\x1a\n"
+    slaytlar = flood_gorsel.carousel(f["ig"]["slaytlar"], None, kart=k)
+    assert len(slaytlar) == len(f["ig"]["slaytlar"]) + 1 and all(j[:2] == b"\xff\xd8" for j in slaytlar)
+    haber = flood_yazar.kart_kur({"tur": "news"}, "A new memory switch", ["It shipped.", "It remembers chats.", "Turn it off."])
+    assert [s[0] for s in haber["satirlar"]] == list(flood_yazar.HABER_ETIKETLERI) and haber["etiket"] == "AI NEWS"
+
+
+def test_kart_postu_yayinda_kart_gorseli_ve_onay_onizlemesi(hazirla):
+    gh, x, ig = SahteGH(), SahteX(), SahteIG()
+    b = flood._birim(kayit_fix(), kart_flood(), SIMDI, AYAR, "onay_bekliyor")
+    st = bos_state()
+    flood._taslak_ekle(AYAR, st, b, gh, SIMDI, lambda *_: None)
+    assert "![Kart](" in gh.acilan[0][1] and "ASKED PLAINLY" in gh.acilan[0][1]
+    b["durum"] = "onaylandi"
+    s = calistir(st, gh, SIMDI, x, ig)
+    assert s["birimler"][0]["durum"] == "yayinlandi" and len(x.gonderilen) == 3 and x.gonderilen[0][2] == ["m1"]
+    from PIL import Image
+    import io
+    assert Image.open(io.BytesIO(x.medya[0])).size == (1080, 1350)
+
+
+def test_reddit_sorun_kaynagi_konu_sinyali_olarak_girer():
+    atom = """<feed xmlns="http://www.w3.org/2005/Atom"><entry><title>My phone is at 20% by noon since the update, any fix?</title>
+<link href="https://www.reddit.com/r/iphone/comments/x"/><updated>2026-10-15T12:30:00Z</updated>
+<content type="html">&lt;p&gt;Battery at 20% by lunch&lt;/p&gt;</content></entry></feed>"""
+    a = flood_kaynak.rss_ayristir(atom, "r/iphone", "sorun")[0]
+    assert a["tur_ipucu"] == "sorun" and "Battery at 20%" in a["kaynaklar"][0]["ozet"]
+    assert flood_puan.sirala([a], SIMDI)  # yapay zekâ kelimesi geçmese de sorun olarak girer
+    olur = dict(a, baslik="My phone dies by noon since the update")
+    assert flood_puan.sirala([olur], SIMDI) == []  # F5 bilerek geniş: "dies" elenir (sahibine soruldu, 15 Ekim)
+    ayar = flood.ayar_yukle()
+    assert any(len(e) == 3 and e[2] == "sorun" for e in ayar.rss)

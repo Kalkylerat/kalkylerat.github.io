@@ -10,6 +10,8 @@ from .tweets import LIMIT, uzunluk
 
 KAYIT_TURLERI = ("fix", "news", "library")
 FLOOD_MIN, FLOOD_MAX = 5, 9
+KART_MIN, KART_MAX = 2, 4          # kart postu: ana post + 1-3 yanıt (F8)
+KART_BASLIK_MAX, KART_SATIR_MAX = 90, 170
 IG_SLAYT_MIN, IG_SLAYT_MAX = 2, 10
 IG_CAPTION_MAX = 2200
 IG_ETIKET_MAX = 5
@@ -85,7 +87,8 @@ def kayit_metni(kayit: dict) -> str:
     """Olgu kaydının düz metni: sayıların kaynağı. Denenen komutun çıktısı ve süresi de gerçek olgudur (F2)."""
     parcalar = [kayit.get("konu", "")] + [o.get("metin", "") for o in kayit.get("olgular") or []]
     d = kayit.get("denendi") or {}
-    parcalar += [d.get("komut", ""), d.get("cikti", ""), d.get("sure", ""), model_adi(d.get("model", "")), d.get("sinir", "")]
+    parcalar += [d.get("komut", ""), d.get("cikti", ""), d.get("sure", ""), model_adi(d.get("model", "")), d.get("sinir", ""),
+                 d.get("duz_soru", ""), d.get("duz_cikti", ""), d.get("once", ""), d.get("sonra", "")]
     arac = kayit.get("arac") or {}
     parcalar += [arac.get("ad", "")]
     return "\n".join(p for p in parcalar if p)
@@ -124,6 +127,8 @@ def _denendi_sorunlari(kayit: dict) -> list[str]:
         sorun.append("komut gerçekten çalıştırılmamış (F2)")
     if not (d.get("sinir") or "").strip():
         sorun.append("denenen komutun sınırı yazılmamış (F2)")
+    if not (d.get("duz_cikti") and d.get("once") and d.get("sonra")) or d.get("fark") != "belirgin":
+        sorun.append("düz soru çalıştırılmamış ya da fark belirgin değil (F15)")
     return sorun
 
 
@@ -165,6 +170,10 @@ def x_kontrol(flood: dict, kayit: dict, bugunku_metinler=()) -> list[str]:
     if flood.get("bicim", "flood") == "tek":
         if len(postlar) != 1:
             sorun.append(f"tekil post 1 post olmalı, {len(postlar)} var")
+    elif flood.get("bicim") == "kart":
+        if not KART_MIN <= len(postlar) <= KART_MAX:
+            sorun.append(f"kart postu {KART_MIN}-{KART_MAX} post olmalı, {len(postlar)} var (F8)")
+        sorun += kart_kontrol(flood.get("kart"), kayit)
     elif not FLOOD_MIN <= len(postlar) <= FLOOD_MAX:
         sorun.append(f"flood {FLOOD_MIN}-{FLOOD_MAX} post olmalı, {len(postlar)} var (F8)")
     etiketler = []
@@ -184,10 +193,35 @@ def x_kontrol(flood: dict, kayit: dict, bugunku_metinler=()) -> list[str]:
         sorun.append("aynı metin bugün zaten paylaşılmış (D2)")
     if kayit.get("tur") in ("fix", "library"):
         d = kayit.get("denendi") or {}
-        tum = " ".join(postlar).lower()
+        kart = flood.get("kart") or {}
+        tum = (" ".join(postlar) + " " + str(kart.get("alt", ""))).lower()
         if "tested" not in tum or model_adi(d.get("model", "")).lower() not in tum:
             sorun.append("Fix postu hangi modelle denendiğini yazmıyor (F2: 'Tested with <model>')")
     sorun += _link_yaniti_sorunlari(x.get("link_yaniti"), kayit)
+    return sorun
+
+
+def kart_kontrol(kart: dict | None, kayit: dict) -> list[str]:
+    """Kart görselinin metni (F8, F15): başlık + 2-4 satır + alt satır; aynı metin kuralları. Fix/Library kartı düz
+    cevabı ve bizim cevabımızı birlikte gösterir; satırlar kayıttan gelir (yazar uyduramaz)."""
+    if not kart:
+        return ["kart postunun kart görseli yok (F8)"]
+    sorun = []
+    kaynak = kayit_metni(kayit)
+    baslik, satirlar = (kart.get("baslik") or ""), kart.get("satirlar") or []
+    if len(baslik) > KART_BASLIK_MAX:
+        sorun.append(f"kart başlığı {len(baslik)} karakter, sınır {KART_BASLIK_MAX}")
+    if not 2 <= len(satirlar) <= 4:
+        sorun.append(f"kart 2-4 satır olmalı, {len(satirlar)} var")
+    for i, (etiket, metin) in enumerate(satirlar, 1):
+        if len(metin) > KART_SATIR_MAX:
+            sorun.append(f"kart {i}. satır {len(metin)} karakter, sınır {KART_SATIR_MAX}")
+    sorun += _metin_sorunlari("\n".join([baslik, kart.get("alt", "")] + [m for _, m in satirlar]), kaynak, "kart")
+    if kayit.get("tur") in ("fix", "library"):
+        d = kayit.get("denendi") or {}
+        metinler = {m for _, m in satirlar}
+        if not (d.get("once") in metinler and d.get("sonra") in metinler):
+            sorun.append("kart düz cevapla bizim cevabımızı birlikte göstermiyor (F15)")
     return sorun
 
 

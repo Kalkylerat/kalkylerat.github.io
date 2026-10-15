@@ -90,6 +90,30 @@ Every prompt here is run on a real AI model before we post it. We name the model
 Save the fixes you need, and send one to a friend who's stuck.
 ```
 
+## Post biçimi (15 Ekim 2026, sahibinin isteği)
+
+Kitle **genel**: telefonu, bilgisayarı, işi olan herkes. Konu "bu hafta herkesin başına gelebilecek" bir sorun olmalı
+(F16; konu seçiminde "herkes" puanı ≥4/5). Kaynaklar: Google Trends, yapay zekâ haberleri ve insanların sorun sorduğu
+topluluklar (Reddit: techsupport, iphone, Android, ChatGPT, productivity, excel).
+
+**Kart postu** (futbol sayfalarındaki gibi; F8): ana post kancadır ve tek bir kart görseli taşır. Kart tüm hikâyeyi tek
+bakışta anlatır:
+
+| Kart satırı | Fix / Library | News |
+|---|---|---|
+| Etiket | TINY FIX | AI NEWS |
+| Başlık | kanca, en az kelimeyle | kanca |
+| Kutu 1 | ASKED PLAINLY: düz sorunun cevabı | WHAT HAPPENED |
+| Kutu 2 | WITH OUR PROMPT: bizim komutun cevabı | WHAT IT MEANS FOR YOU |
+| Kutu 3 | THE LIMIT | WHAT TO DO |
+| Alt | "Tested with <model> on a made-up input" | "Every fact checked in two independent sources" |
+
+Yanıtlar: 1) kopyalanabilir komut, 2) tek çağrı. Instagram'da aynı kart kapaktan sonra 2. slayttır. Fark yoksa post yok
+(F15): "kendim de sorarım" diyen kişiye farkı gösteremiyorsak paylaşacak bir şeyimiz yoktur.
+
+**Kanca:** ilk satır "sen" ve herkesin yaşadığı somut bir an: "Your phone is at 20% by lunch since the update?",
+"Typed the same angry email three times today?". Yalnızca postun gerçekten verdiğini vaat eder.
+
 ## Who is speaking (voice notes; the writer model reads this section)
 
 Tiny Fixes is a kind, upbeat friend who tests things before recommending them. Warm, plain and specific. Never a guru, never

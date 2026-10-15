@@ -73,6 +73,6 @@ def sirala(adaylar: list[dict], simdi: datetime, gecmis=(), esik: float = PUAN_E
         p = puan(a, simdi)
         if a["tur_ipucu"] == "news" and p["nis"] == 0:
             continue
-        if p["toplam"] >= esik or (a["tur_ipucu"] == "trend" and p["toplam"] >= esik - 0.1):
+        if p["toplam"] >= esik or (a["tur_ipucu"] in ("trend", "sorun") and p["toplam"] >= esik - 0.1):
             sonuc.append({**a, "puan": p})
     return sorted(sonuc, key=lambda a: a["puan"]["toplam"], reverse=True)

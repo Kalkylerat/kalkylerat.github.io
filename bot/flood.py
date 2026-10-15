@@ -63,8 +63,8 @@ def ayar_yukle(path=config.ROOT / "ayarlar.toml") -> FloodAyar:
     for k, v in t.items():
         if k not in alanlar:
             continue
-        if k == "rss":
-            kw[k] = tuple((str(a), str(u)) for a, u in v)
+        if k == "rss":  # [ad, adres] ya da [ad, adres, "sorun"] (insanların sorun sorduğu topluluklar, ör. Reddit)
+            kw[k] = tuple(tuple(str(x) for x in e[:3]) for e in v)
         elif k == "trend_saatleri":
             kw[k] = tuple(int(h) for h in v)
         else:
@@ -125,7 +125,13 @@ def onay_govdesi(b: dict, ayar: FloodAyar) -> str:
     s = [f"@{ayar.alarm_kime} " if ayar.alarm_kime else "",
          f"**{k['tur'].upper()}**: {k['konu']}", "",
          "Cevap: `ok` (kanca A), `ok 2` (kanca B), `iptal`. "
-         f"{ayar.onay_suresi_dk // 60} saat içinde cevap gelmezse taslak düşer, paylaşılmaz (F6).", "", "### X flood"]
+         f"{ayar.onay_suresi_dk // 60} saat içinde cevap gelmezse taslak düşer, paylaşılmaz (F6)."]
+    if b.get("kart_url"):
+        s += ["", f"![Kart]({b['kart_url']})", "<sub>Kart görseli 1–2 dakikada yüklenir.</sub>"]
+    kart = f.get("kart")
+    if kart:
+        s += ["", f"### Kart: {kart['baslik']}"] + [f"- **{e}**: {m}" for e, m in kart["satirlar"]] + [f"<sub>{kart['alt']}</sub>"]
+    s += ["", "### X " + ("kart postu (ana post + yanıtlar)" if f.get("bicim") == "kart" else "flood")]
     for i, p in enumerate(f["x"]["postlar"], 1):
         s.append(f"{i}. {p}")
     if f["x"].get("alternatif_hook"):
@@ -189,6 +195,15 @@ def _taslak_ekle(ayar, state, b, gh, simdi, yaz) -> None:
         b["kanca_onerisi"] = oneri[1]
         if b["durum"] == "planli":  # F10: otomatik evergreen'de iki kancadan ölçümle iyi olanı (ikisi de denetimden geçti)
             b["secim"] = oneri[0]
+    if b["durum"] == "onay_bekliyor" and b["flood"].get("kart"):
+        try:  # sahibi onaylamadan önce kartı görsün (docs/kit: 7 günde silinir)
+            from . import kopya
+            klasor = kopya.KLASOR / simdi.date().isoformat()
+            klasor.mkdir(parents=True, exist_ok=True)
+            (klasor / f"tf-{b['id']}.png").write_bytes(flood_gorsel.x_karti("", kart=b["flood"]["kart"]))
+            b["kart_url"] = f"{kopya.SITE}/{simdi.date().isoformat()}/tf-{b['id']}.png"
+        except Exception as e:
+            yaz(f"Kart önizlemesi yazılamadı: {e}")
     if b["durum"] == "onay_bekliyor":
         b["issue"] = gh.issue_ac(f"🧪 Tiny Fixes taslağı: {b['konu'][:70]}", onay_govdesi(b, ayar), ETIKET)
     state["birimler"].append(b)
@@ -315,7 +330,7 @@ def _yayinla(ayar: FloodAyar, state: dict, b: dict, x, ig, simdi: datetime, yaz)
         ids = b["x"]["idler"]
         medya = None
         if not ids:
-            medya = [x.medya_yukle(flood_gorsel.x_karti(flood["ig"]["slaytlar"][0]["baslik"], "", None))]
+            medya = [x.medya_yukle(flood_gorsel.x_karti(flood["ig"]["slaytlar"][0]["baslik"], "", None, kart=flood.get("kart")))]
         for i in range(len(ids), len(postlar)):
             ids.append(x.gonder(postlar[i], yanit=ids[-1] if ids else None, medya=medya if i == 0 else None))
             flood_ogren.say(state, simdi, "x_post")
@@ -325,7 +340,7 @@ def _yayinla(ayar: FloodAyar, state: dict, b: dict, x, ig, simdi: datetime, yaz)
         try:
             if ig.kalan_hak()[0] >= 90:
                 raise flood_ig.IgHata("24 saatlik Instagram yayın hakkı dolmak üzere")
-            jpegler = flood_gorsel.carousel(flood["ig"]["slaytlar"], d["komut"] if d else None)
+            jpegler = flood_gorsel.carousel(flood["ig"]["slaytlar"], d["komut"] if d else None, kart=flood.get("kart"))
             urller = gorselleri_yayinla(b["id"], jpegler)
             caption = (flood["ig"]["caption"] + "\n\n" + " ".join(flood["ig"]["etiketler"])).strip()
             b["ig"]["medya_id"] = ig.carousel(urller, caption)
@@ -516,8 +531,8 @@ def tani(ayar: FloodAyar | None = None, get=flood_kaynak.http_al, head=requests.
     isler = [("Google Trends", f"https://trends.google.com/trending/rss?geo={ayar.geo}", flood_kaynak.trends_ayristir)]
     if ayar.hacker_news:
         isler.append(("Hacker News", "https://hn.algolia.com/api/v1/search?tags=front_page&hitsPerPage=40", flood_kaynak.hn_ayristir))
-    for ad, url in ayar.rss:
-        isler.append((ad, url, lambda xml, ad=ad: flood_kaynak.rss_ayristir(xml, ad)))
+    for ad, url, *tur in ayar.rss:
+        isler.append((ad, url, lambda xml, ad=ad, tur=tur: flood_kaynak.rss_ayristir(xml, ad, *tur)))
     adaylar, calisan = [], 0
     for ad, url, ayristir in isler:
         try:

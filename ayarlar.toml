@@ -214,6 +214,13 @@ rss = [
   ["OpenAI", "https://openai.com/news/rss.xml"],
   ["Google DeepMind", "https://deepmind.google/blog/rss.xml"],
   ["MIT Technology Review", "https://www.technologyreview.com/topic/artificial-intelligence/feed"],
+  # İnsanların gerçek, gündelik sorunları (F16: herkesin sorunu). Başlık yalnızca konu sinyali; olgular ayrıca doğrulanır.
+  ["r/techsupport", "https://www.reddit.com/r/techsupport/top/.rss?t=day", "sorun"],
+  ["r/iphone", "https://www.reddit.com/r/iphone/top/.rss?t=day", "sorun"],
+  ["r/Android", "https://www.reddit.com/r/Android/top/.rss?t=day", "sorun"],
+  ["r/ChatGPT", "https://www.reddit.com/r/ChatGPT/top/.rss?t=day", "sorun"],
+  ["r/productivity", "https://www.reddit.com/r/productivity/top/.rss?t=day", "sorun"],
+  ["r/excel", "https://www.reddit.com/r/excel/top/.rss?t=day", "sorun"],
 ]
 trend_saatleri = [6, 14]           # UTC: bu saatlerden sonra günde bir trend taslağı (en fazla 2)
 evergreen_saati = 10               # UTC: günlük evergreen taslağı

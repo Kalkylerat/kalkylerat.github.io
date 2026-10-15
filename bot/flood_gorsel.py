@@ -247,18 +247,67 @@ def slayt(baslik: str, metin: str, no: int, toplam: int, tur: str = "icerik", ko
     return im
 
 
-def carousel(slaytlar: list[dict], komut: str | None = None) -> list[bytes]:
-    """Kayıttaki slayt listesi -> JPEG listesi. İlk slayt kapak, son slayt çağrı; 'komut' varsa ilk içerik sonrası komut kartı."""
-    n = len(slaytlar)
+# Kart satırlarının renkleri: düz cevap soluk, bizim cevabımız nane, sınır mercan (renk anlamı her kartta aynı).
+_SATIR_RENK = {"ASKED PLAINLY": ("#EFE7DA", SOLUK), "WITH OUR PROMPT": (NANE_ACIK, NANE), "THE LIMIT": (MERCAN_ACIK, MERCAN)}
+
+
+def kart_gorseli(kart: dict, no: int = 1, toplam: int = 1, ipucu: str | None = None) -> Image.Image:
+    """Futbol kartı gibi tek bakışta okunan özet (1080x1350): etiket, büyük kanca, 2-4 kutu, alt satır.
+    Fix kartında düz soru ile bizim komutun sonucu yan yana durur (F15); metin kayıttan gelir."""
+    im = Image.new("RGB", (G, Y), KREM)
+    d = ImageDraw.Draw(im)
+    _cerceve(im, d, no, toplam)
+    etiket, fe = kart.get("etiket") or "TINY FIX", _font("kalin", 30)
+    w = d.textlength(etiket, font=fe)
+    d.rounded_rectangle((72, 150, 72 + w + 44, 202), radius=26, fill=MUREKKEP)
+    d.text((94, 157), etiket, font=fe, fill=KREM)
+    genis = G - 144
+    f, s = _sar(d, kart.get("baslik") or "", "kalin", 76, genis, 4, 48)
+    y = _yaz(d, (72, 236), s, f, MUREKKEP, 1.1) + 26
+    satirlar = kart.get("satirlar") or []
+    alan = Y - 150 - y - 16 * max(0, len(satirlar) - 1)  # alt satıra yer kalsın
+    kutu_y = max(150, alan // max(1, len(satirlar)))
+    for etiket2, metin in satirlar:
+        zemin, vurgu = _SATIR_RENK.get(etiket2, (BEYAZ, MUREKKEP))
+        f2, s2 = _sar(d, metin, "orta", 40, genis - 64, 4, 26)
+        yuk = min(kutu_y, 74 + len(s2) * int(f2.size * 1.25) + 24)
+        d.rounded_rectangle((72, y, G - 72, y + yuk), radius=28, fill=zemin)
+        d.rounded_rectangle((72, y, 84, y + yuk), radius=6, fill=vurgu)
+        d.text((108, y + 22), etiket2, font=_font("kalin", 26), fill=vurgu if vurgu != NANE else MUREKKEP)
+        _yaz(d, (108, y + 62), s2, f2, MUREKKEP, 1.25)
+        y += yuk + 16
+    if ipucu:  # okuyanı devam ettirir: X'te yanıttaki komuta, Instagram'da sonraki slayta
+        fi = _font("orta", 32)
+        wi = d.textlength(ipucu, font=fi)
+        d.rounded_rectangle((72, Y - 196, 72 + wi + 56, Y - 136), radius=30, fill=MERCAN)
+        d.text((100, Y - 187), ipucu, font=fi, fill=MUREKKEP)
+    alt = kart.get("alt") or ""
+    if alt:
+        fa = _font("orta", 30)
+        d.text((72, Y - 118), alt, font=fa, fill=SOLUK)
+    return im
+
+
+def carousel(slaytlar: list[dict], komut: str | None = None, kart: dict | None = None) -> list[bytes]:
+    """Kayıttaki slayt listesi -> JPEG listesi. İlk slayt kapak, son slayt çağrı; 'komut' varsa ilk içerik sonrası komut kartı.
+    'kart' varsa kapaktan hemen sonra özet kart girer (en fazla 10 slayt)."""
+    n = len(slaytlar) + (1 if kart else 0)
     cikti = []
+    sira = 0
     for i, s in enumerate(slaytlar, 1):
-        tur = "kapak" if i == 1 else ("son" if i == n and n > 2 else s.get("tur") or "icerik")
-        cikti.append(_jpeg(slayt(s.get("baslik", ""), s.get("metin", ""), i, n, tur, s.get("komut") or (komut if tur == "komut" else None))))
-    return cikti
+        sira += 1
+        tur = "kapak" if i == 1 else ("son" if i == len(slaytlar) and n > 2 else s.get("tur") or "icerik")
+        cikti.append(_jpeg(slayt(s.get("baslik", ""), s.get("metin", ""), sira, n, tur, s.get("komut") or (komut if tur == "komut" else None))))
+        if i == 1 and kart:
+            sira += 1
+            cikti.append(_jpeg(kart_gorseli(kart, sira, n, "Swipe for the prompt  →" if kart.get("etiket") == "TINY FIX" else None)))
+    return cikti[:10]
 
 
-def x_karti(baslik: str, metin: str = "", komut: str | None = None) -> bytes:
-    """X'te ilk posta eklenen kart (PNG, 4:5; X kırpmadan gösterir)."""
+def x_karti(baslik: str, metin: str = "", komut: str | None = None, kart: dict | None = None) -> bytes:
+    """X'te ana posta eklenen kart (PNG, 4:5; X kırpmadan gösterir). Kart postunda özet kart, yoksa kapak."""
+    if kart:
+        return _png(kart_gorseli(kart, ipucu="The prompt is in the reply below" if kart.get("etiket") == "TINY FIX" else None))
     return _png(slayt(baslik, metin, 1, 1, "komut" if komut else "kapak", komut))
 
 

@@ -71,8 +71,9 @@ def trends_ayristir(xml: str) -> list[dict]:
     return sonuc
 
 
-def rss_ayristir(xml: str, ad: str) -> list[dict]:
-    """Genel RSS 2.0 ya da Atom akışı -> aday listesi."""
+def rss_ayristir(xml: str, ad: str, tur: str = "news") -> list[dict]:
+    """Genel RSS 2.0 ya da Atom akışı -> aday listesi. tur "sorun": insanların sorun sorduğu topluluk (Reddit gibi);
+    başlık bir konu sinyalidir, olgu değildir (olgular F1 ile ayrıca doğrulanır)."""
     sonuc = []
     for it in ET.fromstring(xml).iter():
         yerel = _yerel(it.tag)
@@ -87,8 +88,9 @@ def rss_ayristir(xml: str, ad: str) -> list[dict]:
                     break
         tarih = _tarih(_alt(it, "pubDate") or _alt(it, "published") or _alt(it, "updated"))
         if baslik and link:
-            sonuc.append({"baslik": baslik, "tur_ipucu": "news", "trafik": 0,
-                          "kaynaklar": [{"ad": ad, "url": link, "baslik": baslik, "ozet": re.sub(r"<[^>]+>", "", _alt(it, "description"))[:300],
+            ozet = _alt(it, "description") or _alt(it, "summary") or _alt(it, "content")
+            sonuc.append({"baslik": baslik, "tur_ipucu": tur, "trafik": 0,
+                          "kaynaklar": [{"ad": ad, "url": link, "baslik": baslik, "ozet": re.sub(r"<[^>]+>", "", ozet)[:300],
                                          "tarih": tarih, "skor": 0, "yorum": 0}]})
     return sonuc
 
@@ -128,7 +130,7 @@ def birlestir(adaylar: list[dict], esik: float = 0.5) -> list[dict]:
         urller = {k["url"] for k in hedef["kaynaklar"]}
         hedef["kaynaklar"] += [k for k in a["kaynaklar"] if k["url"] not in urller]
         hedef["trafik"] = max(hedef["trafik"], a["trafik"])
-        if a["tur_ipucu"] == "news":
+        if a["tur_ipucu"] == "news" and hedef["tur_ipucu"] != "sorun":
             hedef["tur_ipucu"] = "news"
     return grup
 
@@ -139,8 +141,8 @@ def topla(ayar, get=http_al, yaz=print) -> list[dict]:
     isler = [("Google Trends", f"https://trends.google.com/trending/rss?geo={ayar.geo}", trends_ayristir)]
     if ayar.hacker_news:
         isler.append(("Hacker News", "https://hn.algolia.com/api/v1/search?tags=front_page&hitsPerPage=40", hn_ayristir))
-    for ad, url in ayar.rss:
-        isler.append((ad, url, lambda xml, ad=ad: rss_ayristir(xml, ad)))
+    for ad, url, *tur in ayar.rss:
+        isler.append((ad, url, lambda xml, ad=ad, tur=tur: rss_ayristir(xml, ad, *tur)))
     basarili = 0
     for ad, url, ayristir in isler:
         try:

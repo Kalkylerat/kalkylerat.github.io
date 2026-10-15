@@ -39,23 +39,30 @@ KUTUPHANE = [
 
 TRIAGE_SEMASI = {"type": "object", "additionalProperties": False, "required": ["secimler"],
                  "properties": {"secimler": {"type": "array", "items": {
-                     "type": "object", "additionalProperties": False, "required": ["indeks", "tur", "problem", "fikir"],
+                     "type": "object", "additionalProperties": False, "required": ["indeks", "tur", "problem", "fikir", "herkes"],
                      "properties": {"indeks": {"type": "integer"}, "tur": {"type": "string", "enum": ["fix", "news", "atla"]},
-                                    "problem": {"type": "string"}, "fikir": {"type": "string"}}}}}}
-TRIAGE_SISTEMI = """You pick topics for an AI-focused social media account ("Tiny Fixes"). You get numbered trending items.
+                                    "problem": {"type": "string"}, "fikir": {"type": "string"}, "herkes": {"type": "integer"}}}}}}
+HERKES_ESIK = 4  # F16: genel kitlenin bu hafta yaşayabileceği sorun (5 üzerinden)
+TRIAGE_SISTEMI = """You pick topics for "Tiny Fixes", a social media account for ORDINARY people (not developers) that shows
+small, tested AI fixes for problems everyone runs into. You get numbered trending items.
 For each item decide:
-- "news": it is real AI or AI-adjacent news (models, products, research, policy for AI tools) worth explaining.
-- "fix": the item points to an everyday problem a person could solve with an AI assistant (a prompt they paste). Write
-  "problem" as the plain question people search ("why is my phone battery draining after the update") and "fikir" as one
-  line on how an AI assistant helps.
+- "news": real AI news that changes something for ordinary users of AI apps (not research papers, funding or chips).
+- "fix": the item points to an everyday problem a person could solve with an AI assistant: a prompt they paste, an AI app
+  feature or setting, or a few steps. Write "problem" as the plain question people search ("why is my phone battery
+  draining after the update") and "fikir" as one line on how an AI assistant helps.
+- "herkes": 1-5, how likely an ordinary person with a phone, a computer or a job has this problem or cares this week
+  (5 = almost everyone: phone battery, a flood of emails, a confusing bill; 1 = only developers or specialists).
 - "atla": anything else.
 Always "atla" topics about health or medicine, law, investing or money advice, politics or elections, deaths, attacks,
 disasters, or allegations about named people. Pick at most 3 items that are not "atla". For "news" leave problem and fikir empty."""
 
 YAZAR_SEMASI = {"type": "object", "additionalProperties": False,
-                "required": ["hook_a", "hook_b", "devam", "ig_slaytlar", "ig_caption", "ig_etiketler"],
+                "required": ["bicim", "hook_a", "hook_b", "devam", "kart_baslik", "kart_haber", "ig_slaytlar", "ig_caption",
+                             "ig_etiketler"],
                 "properties": {
+                    "bicim": {"type": "string", "enum": ["kart", "flood"]},
                     "hook_a": {"type": "string"}, "hook_b": {"type": "string"},
+                    "kart_baslik": {"type": "string"}, "kart_haber": {"type": "array", "items": {"type": "string"}},
                     "devam": {"type": "array", "items": {"type": "string"}},
                     "ig_slaytlar": {"type": "array", "items": {
                         "type": "object", "additionalProperties": False, "required": ["baslik", "metin", "tur", "komut"],
@@ -63,9 +70,20 @@ YAZAR_SEMASI = {"type": "object", "additionalProperties": False,
                                        "tur": {"type": "string", "enum": ["icerik", "komut"]}, "komut": {"type": "string"}}}},
                     "ig_caption": {"type": "string"}, "ig_etiketler": {"type": "array", "items": {"type": "string"}}}}
 
-YAZAR_SISTEMI = """You write for the X and Instagram accounts "Tiny Fixes" from ONE verified record. You write TWO different pieces:
-X: a flood. "hook_a" is the first post (problem first), "hook_b" is an alternative first post (result first). "devam" are the
-following 4-8 posts. Every post stands alone, max 270 characters, plain text.
+YAZAR_SISTEMI = """You write for the X and Instagram accounts "Tiny Fixes" from ONE verified record, for ORDINARY people (not
+developers). You write TWO different pieces.
+
+THE HOOK IS EVERYTHING. The first line speaks to "you" about a concrete moment almost everyone has had, so a stranger thinks
+"that's me" in one second: "Your phone is at 20% by lunch since the update?", "Typed the same angry email three times today?".
+Then promise only what the post really delivers. No vague teasers, no "you won't believe", no fake urgency.
+
+X: "bicim" is "kart" by default: the main post ("hook_a", problem first) carries ONE card image that tells the whole story
+(the code builds it from the record: plain answer vs our prompt's answer, the limit, the model). You write "kart_baslik", the
+card's headline (max 80 chars, the hook in fewest words). "devam" are 1-3 replies: for a tested prompt, reply 1 gives the
+prompt in copyable form ("The prompt, copy it: ..."), the last reply is the ask. For news, fill "kart_haber" with exactly 3
+short lines (max 150 chars each): what happened / what it means for you / what to do now; otherwise leave it empty.
+Use "flood" (4-8 posts in "devam") only when the record has several real fix steps. "hook_b" is an alternative main post
+(result first: "One prompt found what's draining your battery. The plain question didn't."). Max 270 characters per post.
 Instagram: a carousel of 5-8 slides ("ig_slaytlar": a short title max 60 chars and a text max 220 chars each; slide 1 is the
 cover hook, the slide that shows the prompt has tur "komut" and the prompt in "komut"; the last slide asks to save or send
 it to a friend who has this problem) plus "ig_caption" (max 600 chars; the first line has the plain words people search for;
@@ -74,6 +92,8 @@ no hashtags in the caption) and up to 3 relevant "ig_etiketler" (each starts wit
 Hard rules:
 - Use ONLY facts, names and numbers from the record. Never add a number, date, price, version or name that is not in it.
   List sizes like "5 steps" are fine. If the record has no fact for a claim, do not make the claim.
+- If the record has a "tested" block it also has the plain question's answer ("plain_answer_summary") and ours
+  ("our_answer_summary"): the difference IS the story. Use those words, never exaggerate them.
 - If the record has a "tested" block, say plainly it was tested: one X post contains "Tested with <model name>" and the
   Instagram cover or caption says "Tested". State the limit honestly. Show the prompt compactly in one X post (max 260 chars,
   you may shorten it, keep its meaning) and in full on the Instagram slide. Quote at most two short lines of the real output.
@@ -104,7 +124,7 @@ def triage(client, ayar, adaylar: list[dict], en_fazla: int = 12) -> list[dict]:
     cevap = _cagir(client, [(ayar.hafif_model, "low")], TRIAGE_SISTEMI, metin, TRIAGE_SEMASI, 8000)
     sonuc = []
     for s in cevap.get("secimler", []):
-        if s["tur"] != "atla" and 0 <= s["indeks"] < len(liste):
+        if s["tur"] != "atla" and 0 <= s["indeks"] < len(liste) and int(s.get("herkes") or 0) >= HERKES_ESIK:  # F16
             sonuc.append({"aday": liste[s["indeks"]], "tur": s["tur"], "problem": s["problem"].strip(), "fikir": s["fikir"].strip()})
     return sonuc[:3]
 
@@ -123,7 +143,8 @@ def _yukle(kayit: dict, sorunlar: list[str] | None) -> str:
     if d:
         veri["tested"] = {"model_name": flood_denetci.model_adi(d["model"]), "prompt_to_show": d["komut"],
                           "sample_input": d["ornek_girdi"], "real_output": d["cikti"][:1400], "time": d["sure"],
-                          "honest_limit": d["sinir"]}
+                          "honest_limit": d["sinir"], "plain_question": d.get("duz_soru", ""),
+                          "plain_answer_summary": d.get("once", ""), "our_answer_summary": d.get("sonra", "")}
     from . import flood_gelir
     veri["final_ask_options"] = flood_gelir.cagri_secenekleri(flood_gelir.ayar_yukle())
     if sorunlar:
@@ -131,9 +152,28 @@ def _yukle(kayit: dict, sorunlar: list[str] | None) -> str:
     return json.dumps(veri, ensure_ascii=False, indent=1)
 
 
-def _birlestir(c: dict) -> dict:
+HABER_ETIKETLERI = ("WHAT HAPPENED", "WHAT IT MEANS FOR YOU", "WHAT TO DO")
+
+
+def kart_kur(kayit: dict, baslik: str, haber: list[str] | None = None) -> dict:
+    """Kart görselinin içeriği. Fix/Library satırları kayıttan gelir (F15: düz cevap ve bizim cevabımız, F2: sınır ve
+    model); yazar yalnızca başlığı yazar. Haberde yazarın 3 satırı (denetçi F1 ile denetler)."""
+    d = kayit.get("denendi") or {}
+    if d:
+        return {"etiket": "TINY FIX", "baslik": baslik,
+                "satirlar": [["ASKED PLAINLY", d.get("once", "")], ["WITH OUR PROMPT", d.get("sonra", "")],
+                             ["THE LIMIT", d.get("sinir", "")]],
+                "alt": f"Tested with {flood_denetci.model_adi(d.get('model', ''))} on a made-up input"}
+    return {"etiket": "AI NEWS", "baslik": baslik, "satirlar": [list(x) for x in zip(HABER_ETIKETLERI, (haber or [])[:3])],
+            "alt": "Every fact checked in two independent sources"}
+
+
+def _birlestir(c: dict, kayit: dict | None = None) -> dict:
     hook_b = (c.get("hook_b") or "").strip()
-    return {"bicim": "flood",
+    bicim = c.get("bicim") or "flood"
+    kart = kart_kur(kayit or {}, (c.get("kart_baslik") or "").strip(), [h.strip() for h in c.get("kart_haber") or []]) \
+        if bicim == "kart" else None
+    return {"bicim": bicim, "kart": kart,
             "x": {"postlar": [c["hook_a"].strip()] + [p.strip() for p in c["devam"]],
                   "alternatif_hook": hook_b or None, "link_yaniti": None},
             "ig": {"slaytlar": [{"baslik": s["baslik"].strip(), "metin": s["metin"].strip(), "tur": s["tur"],
@@ -151,7 +191,7 @@ def yaz(client, ayar, kayit: dict, bugunku_metinler=(), bugunku_ig: int = 0, yaz
         except RuntimeError as e:
             sorunlar = [str(e)]
             continue
-        flood = _birlestir(c)
+        flood = _birlestir(c, kayit)
         sorunlar = flood_denetci.denetle(flood, kayit, bugunku_metinler, bugunku_ig)
         if not sorunlar:
             alt = flood["x"]["alternatif_hook"]

@@ -23,6 +23,8 @@ kendi belgesine ya da Mosseri'nin açıklamasına dayanır, "varsayım" işaretl
 - **Slayt 1 = tüm huni.** Büyük, tek başına anlaşılan kanca + "Tested with <model>". Son slayt: tek çağrı, **kaydet ya da bir
   arkadaşına gönder** (gönderme hedefi: "bu sorunu olan birine gönder").
 - Slayt başına tek fikir; komut slaytı mono fontlu kart (kopyalanabilir). Metin okunur boyutta kalır (`flood_gorsel`).
+- **Slayt 2 = özet kart** (`flood_gorsel.kart_gorseli`): düz soru vs bizim komut vs sınır (F15). X'teki kart postunun
+  görselinin aynısı; "Swipe for the prompt" ile okuyanı sonraki slayta taşır.
 - Caption: ilk satır insanların aradığı düz kelimeler (arama kelimeleri, varsayım: caption Instagram aramasında okunur),
   ≤600 karakter, tek çağrı. Caption'a link konmaz (tıklanmaz); tek tıklanabilir adres profil bağlantısıdır.
 - Etiket: en fazla 3 öneri, hard limit 5 (F8). Genel/trend etiketi yok. Varsayım: etiket menzil için az iş görür, ölçüyoruz.

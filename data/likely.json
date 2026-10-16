@@ -18898,7 +18898,8 @@
      "istatistik": 0.628,
      "uyum": false,
      "buyuk": false,
-     "no": 4
+     "no": 4,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1576198-UST15",
@@ -18978,7 +18979,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 8
+     "no": 8,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1505304-CS12",
@@ -19119,7 +19121,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 15
+     "no": 15,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1553197-UST15",
@@ -19139,7 +19142,8 @@
      "istatistik": 0.777,
      "uyum": true,
      "buyuk": false,
-     "no": 16
+     "no": 16,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1640330-CS12",
@@ -19522,7 +19526,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 35
+     "no": 35,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1558973-CS12",
@@ -19542,7 +19547,8 @@
      "istatistik": 0.798,
      "uyum": true,
      "buyuk": false,
-     "no": 36
+     "no": 36,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1492997-UST15",
@@ -20169,7 +20175,8 @@
      "istatistik": 0.755,
      "uyum": true,
      "buyuk": false,
-     "no": 67
+     "no": 67,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1643400-CSX2",
@@ -20189,7 +20196,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 68
+     "no": 68,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1562097-CS12",
@@ -20434,7 +20442,8 @@
      "istatistik": 0.636,
      "uyum": true,
      "buyuk": false,
-     "no": 80
+     "no": 80,
+     "sonuc": "kazandi"
     }
    ],
    "kuponlar": [
@@ -20800,7 +20809,7 @@
    ],
    "oto": true,
    "issue": 92,
-   "olcum_sorgu": "2026-10-16T17:04:07+00:00"
+   "olcum_sorgu": "2026-10-16T18:01:29+00:00"
   }
  ]
 }

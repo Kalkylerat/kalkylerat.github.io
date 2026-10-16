@@ -82669,7 +82669,26 @@
         "durum": "paylasildi",
         "tweet_id": "2111065472871403935",
         "zaman": "2026-10-16T12:03:21+00:00",
-        "metin": "🆚 IF Brommapojkarna v Djurgardens IF\n\n🏆 IF Brommapojkarna 16% · Draw 20% · Djurgardens IF 64%\n⚽ Over 2.5 goals 61% · Under 39%\n🥅 Both teams score 56% · Not both 44%\n\n📈 Team stats: Djurgardens IF win 46%\n💹 Odds: 64%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 IF Brommapojkarna v Djurgardens IF\n\n🏆 IF Brommapojkarna 16% · Draw 20% · Djurgardens IF 64%\n⚽ Over 2.5 goals 61% · Under 39%\n🥅 Both teams score 56% · Not both 44%\n\n📈 Team stats: Djurgardens IF win 46%\n💹 Odds: 64%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111170999672545348",
+          "skor": "0-2",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "xg": [
+            0.63,
+            0.7
+          ],
+          "zaman": "2026-10-16T19:02:40+00:00",
+          "brier": {
+            "piyasa": 0.8824,
+            "istatistik": 0.8473
+          }
+        }
       },
       "analiz_10": {
         "durum": "paylasildi",

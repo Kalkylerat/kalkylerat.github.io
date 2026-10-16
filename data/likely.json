@@ -18919,7 +18919,8 @@
      "istatistik": 0.905,
      "uyum": true,
      "buyuk": false,
-     "no": 5
+     "no": 5,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1576201-UST15",
@@ -18939,7 +18940,8 @@
      "istatistik": 0.888,
      "uyum": true,
      "buyuk": false,
-     "no": 6
+     "no": 6,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1551837-UST15",
@@ -19204,7 +19206,8 @@
      "istatistik": 0.731,
      "uyum": false,
      "buyuk": false,
-     "no": 19
+     "no": 19,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1643111-CS1X",
@@ -19244,7 +19247,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 21
+     "no": 21,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1492784-CS1X",
@@ -19284,7 +19288,8 @@
      "istatistik": 0.896,
      "uyum": true,
      "buyuk": false,
-     "no": 23
+     "no": 23,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1551838-UST15",
@@ -19506,7 +19511,8 @@
      "istatistik": 0.734,
      "uyum": true,
      "buyuk": false,
-     "no": 34
+     "no": 34,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1558247-UST15",
@@ -19669,7 +19675,8 @@
      "istatistik": 0.702,
      "uyum": false,
      "buyuk": true,
-     "no": 42
+     "no": 42,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1639007-UST15",
@@ -19730,7 +19737,8 @@
      "istatistik": 0.777,
      "uyum": true,
      "buyuk": false,
-     "no": 45
+     "no": 45,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1575187-DPA25",
@@ -19851,7 +19859,8 @@
      "istatistik": 0.794,
      "uyum": true,
      "buyuk": false,
-     "no": 51
+     "no": 51,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1569978-EVU05",
@@ -19994,7 +20003,8 @@
      "istatistik": 0.809,
      "uyum": true,
      "buyuk": false,
-     "no": 58
+     "no": 58,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1550151-DPA25",
@@ -20034,7 +20044,8 @@
      "istatistik": 0.55,
      "uyum": false,
      "buyuk": true,
-     "no": 60
+     "no": 60,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1575187-CS1X",
@@ -20279,7 +20290,8 @@
      "istatistik": 0.739,
      "uyum": true,
      "buyuk": false,
-     "no": 72
+     "no": 72,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1590193-CS12",
@@ -20806,12 +20818,14 @@
     {
      "tur": "ders",
      "metin": "💡 Same stake every coupon. Not double after a loss, not triple when you \"feel it\". Feelings are not a staking plan.\n\n18+ | Play responsibly",
-     "saat": 21.0
+     "saat": 21.0,
+     "tweet_id": "2111171003103535275",
+     "zaman": "2026-10-16T19:02:40+00:00"
     }
    ],
    "oto": true,
    "issue": 92,
-   "olcum_sorgu": "2026-10-16T18:01:29+00:00"
+   "olcum_sorgu": "2026-10-16T19:02:40+00:00"
   }
  ]
 }

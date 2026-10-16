@@ -82494,6 +82494,15 @@
               1
             ],
             "zaman": "2026-10-16T18:32:06+00:00"
+          },
+          "1584432": {
+            "durum": "paylasildi",
+            "tweet_id": "2111168951338312084",
+            "skor": [
+              2,
+              1
+            ],
+            "zaman": "2026-10-16T18:54:35+00:00"
           }
         }
       },
@@ -82557,7 +82566,26 @@
         "durum": "paylasildi",
         "tweet_id": "2111025684739207563",
         "zaman": "2026-10-16T09:25:14+00:00",
-        "metin": "🆚 Çorum FK v Rizespor\n\n🏆 Çorum FK 53% · Draw 23% · Rizespor 25%\n⚽ Over 2.5 goals 59% · Under 41%\n🥅 Both teams score 59% · Not both 41%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: Çorum FK win 28%\n💹 Odds: 53%\n\n💬 Not picks. Your read? 👇\n#SuperLig\n18+ | Play responsibly"
+        "metin": "🆚 Çorum FK v Rizespor\n\n🏆 Çorum FK 53% · Draw 23% · Rizespor 25%\n⚽ Over 2.5 goals 59% · Under 41%\n🥅 Both teams score 59% · Not both 41%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: Çorum FK win 28%\n💹 Odds: 53%\n\n💬 Not picks. Your read? 👇\n#SuperLig\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111168971345166489",
+          "skor": "2-1",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            0.66,
+            0.46
+          ],
+          "zaman": "2026-10-16T18:54:35+00:00",
+          "brier": {
+            "piyasa": 0.6759,
+            "istatistik": 1.3602
+          }
+        }
       },
       "analiz_7": {
         "durum": "paylasildi",

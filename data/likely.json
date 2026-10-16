@@ -19816,7 +19816,8 @@
      "istatistik": 0.635,
      "uyum": false,
      "buyuk": false,
-     "no": 50
+     "no": 50,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1576198-CS12",
@@ -20319,7 +20320,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 75
+     "no": 75,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1492782-CSX2",
@@ -20741,7 +20743,7 @@
    ],
    "oto": true,
    "issue": 92,
-   "olcum_sorgu": "2026-10-16T13:09:11+00:00"
+   "olcum_sorgu": "2026-10-16T14:08:23+00:00"
   }
  ]
 }

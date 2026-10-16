@@ -82566,6 +82566,15 @@
               1
             ],
             "zaman": "2026-10-16T20:25:23+00:00"
+          },
+          "1575187": {
+            "durum": "paylasildi",
+            "tweet_id": "2111192215154520114",
+            "skor": [
+              1,
+              0
+            ],
+            "zaman": "2026-10-16T20:27:01+00:00"
           }
         }
       },
@@ -82702,7 +82711,22 @@
         "durum": "paylasildi",
         "tweet_id": "2111042154051080644",
         "zaman": "2026-10-16T10:30:40+00:00",
-        "metin": "🆚 Eintracht Frankfurt v 1. FC Köln\n\n🏆 Eintracht Frankfurt 54% · Draw 20% · 1. FC Köln 26%\n⚽ Over 2.5 goals 72% · Under 28%\n🥅 Both teams score 69% · Not both 31%\n\n📈 Team stats: too few recent games\n\n💬 Not picks. What's your score? 👇\n#Bundesliga\n18+ | Play responsibly"
+        "metin": "🆚 Eintracht Frankfurt v 1. FC Köln\n\n🏆 Eintracht Frankfurt 54% · Draw 20% · 1. FC Köln 26%\n⚽ Over 2.5 goals 72% · Under 28%\n🥅 Both teams score 69% · Not both 31%\n\n📈 Team stats: too few recent games\n\n💬 Not picks. What's your score? 👇\n#Bundesliga\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111192227808686271",
+          "skor": "1-0",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "xg": [
+            1.31,
+            0.67
+          ],
+          "zaman": "2026-10-16T20:27:01+00:00"
+        }
       },
       "analiz_2": {
         "durum": "paylasildi",

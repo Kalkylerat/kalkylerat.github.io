@@ -19055,7 +19055,8 @@
      "istatistik": 0.89,
      "uyum": true,
      "buyuk": false,
-     "no": 12
+     "no": 12,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1561945-CS12",
@@ -19356,7 +19357,8 @@
      "istatistik": 0.757,
      "uyum": true,
      "buyuk": false,
-     "no": 27
+     "no": 27,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1571167-CS1X",
@@ -19676,7 +19678,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 43
+     "no": 43,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1552785-DPU05",
@@ -20361,7 +20364,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 77
+     "no": 77,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1608330-CSX2",
@@ -20612,8 +20616,40 @@
        "oran": 1.44,
        "olasilik": 0.687,
        "deger": -0.011,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "2-4",
+       "goller": [
+        [
+         12,
+         0,
+         "dep"
+        ],
+        [
+         35,
+         0,
+         "dep"
+        ],
+        [
+         70,
+         0,
+         "ev"
+        ],
+        [
+         72,
+         0,
+         "dep"
+        ],
+        [
+         81,
+         0,
+         "ev"
+        ],
+        [
+         82,
+         0,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1558973-ALT25",
@@ -20745,7 +20781,7 @@
    ],
    "oto": true,
    "issue": 92,
-   "olcum_sorgu": "2026-10-16T14:08:23+00:00"
+   "olcum_sorgu": "2026-10-16T15:06:12+00:00"
   }
  ]
 }

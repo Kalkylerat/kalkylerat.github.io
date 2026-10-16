@@ -82476,7 +82476,17 @@
           1570415,
           1563205
         ],
-        "sonuclar": {}
+        "sonuclar": {
+          "1576201": {
+            "durum": "paylasildi",
+            "tweet_id": "2111161484155724143",
+            "skor": [
+              0,
+              0
+            ],
+            "zaman": "2026-10-16T18:24:53+00:00"
+          }
+        }
       },
       "analiz_5": {
         "durum": "paylasildi",
@@ -82488,7 +82498,26 @@
         "durum": "paylasildi",
         "tweet_id": "2111017407296983070",
         "zaman": "2026-10-16T08:52:11+00:00",
-        "metin": "🆚 Kiel v Hertha\n\n🏆 Kiel 34% · Draw 22% · Hertha 44%\n⚽ Over 2.5 goals 67% · Under 33%\n🥅 Both teams score 67% · Not both 33%\n🎯 Most likely score: 1-1 (9%)\n\n📈 Hertha win: odds 44% · stats 55%\n\n💬 Hertha 44% vs 55%: which do you trust?\n18+ | Play responsibly"
+        "metin": "🆚 Kiel v Hertha\n\n🏆 Kiel 34% · Draw 22% · Hertha 44%\n⚽ Over 2.5 goals 67% · Under 33%\n🥅 Both teams score 67% · Not both 33%\n🎯 Most likely score: 1-1 (9%)\n\n📈 Hertha win: odds 44% · stats 55%\n\n💬 Hertha 44% vs 55%: which do you trust?\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111161526362996739",
+          "skor": "0-0",
+          "isabet": [
+            false,
+            false,
+            false
+          ],
+          "xg": [
+            0.61,
+            1.53
+          ],
+          "zaman": "2026-10-16T18:24:53+00:00",
+          "brier": {
+            "piyasa": 1.8127,
+            "istatistik": 2.0063
+          }
+        }
       },
       "bilgi": {
         "durum": "paylasildi",
@@ -82666,6 +82695,12 @@
         "tweet_id": "2111149347350138958",
         "zaman": "2026-10-16T17:36:37+00:00",
         "metin": "🆚 Burnley v Wolves\n\n🏆 Burnley 33% · Draw 25% · Wolves 42%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 56% · Not both 44%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: Over 2.5 goals 60%\n💹 Odds: 53%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly"
+      },
+      "bilgi_aksam": {
+        "durum": "paylasildi",
+        "tweet_id": "2111161476836647274",
+        "zaman": "2026-10-16T18:24:53+00:00",
+        "metin": "💡 Ten results prove very little\n\nA team that truly wins 55% of its games will still win 4 or fewer of 10 about 26% of the time. Judge strength on a season, not a fortnight.\n\nHow many games before you trust a team's form? 👇\n\n18+ | Play responsibly"
       }
     },
     "tablo_aksam": [

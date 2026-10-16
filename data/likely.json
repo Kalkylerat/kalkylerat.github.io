@@ -20574,8 +20574,9 @@
        "oran": 1.15,
        "olasilik": 0.86,
        "deger": -0.011,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "0-0",
+       "goller": []
       },
       {
        "aday_id": "1575187-CS1X",
@@ -20611,13 +20612,14 @@
      "oran": 2.03,
      "olasilik": 0.475,
      "deger": -0.036,
-     "durum": "bekliyor",
+     "durum": "yatti",
      "secim": "2026-10-16T05:44:15+00:00",
      "oto": true,
      "paylas": "2026-10-16T15:30:00+02:00",
      "tweet_id": "2111087422981226521",
      "metin": "🎩 Three legs today. Dull on purpose.\n\n⚽ Holstein Kiel v Hertha BSC\n⚽ Eintracht Frankfurt v 1. FC Köln\n⚽ Reims v Dijon\n\n📊 Combined 2.03. I make it about 48% to land, so slightly more likely to miss.\n\n💬 Which leg worries you most?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-16T13:30:33+00:00"
+     "yayin": "2026-10-16T13:30:33+00:00",
+     "son_oran": 1
     },
     {
      "ad": "long-shot",

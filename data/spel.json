@@ -82449,6 +82449,31 @@
         "istatistik_kaynak": "lig"
       }
     ],
-    "etkilesim": {}
+    "etkilesim": {
+      "tablo": {
+        "durum": "paylasildi",
+        "tweet_id": "2111006011834204570",
+        "zaman": "2026-10-16T08:06:58+00:00",
+        "metin": "🆚 Çorum FK v Rizespor\n🏆 Çorum FK 53% · Draw 23% · Rizespor 25%\n\n🆚 Eintracht Frankfurt v 1. FC Köln\n🏆 Frankfurt 54% · Draw 20% · Köln 26%\n\n💬 Frankfurt at 54% at home: higher or lower than you had them?\n\n#SuperLig\n18+ | Play responsibly",
+        "maclar": [
+          1576198,
+          1576201,
+          1584432,
+          1552495,
+          1552496,
+          1552497,
+          1552498,
+          1552502,
+          1575187,
+          1601562,
+          1569978,
+          1550151,
+          1552785,
+          1570415,
+          1563205
+        ],
+        "sonuclar": {}
+      }
+    }
   }
 ]

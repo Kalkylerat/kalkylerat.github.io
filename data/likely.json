@@ -20217,7 +20217,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 70
+     "no": 70,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1642173-IYU05",
@@ -20736,7 +20737,7 @@
    ],
    "oto": true,
    "issue": 92,
-   "olcum_sorgu": "2026-10-16T11:12:46+00:00"
+   "olcum_sorgu": "2026-10-16T12:10:32+00:00"
   }
  ]
 }

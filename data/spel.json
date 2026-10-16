@@ -82575,6 +82575,24 @@
               0
             ],
             "zaman": "2026-10-16T20:27:01+00:00"
+          },
+          "1550151": {
+            "durum": "paylasildi",
+            "tweet_id": "2111195943869841581",
+            "skor": [
+              4,
+              2
+            ],
+            "zaman": "2026-10-16T20:41:49+00:00"
+          },
+          "1552785": {
+            "durum": "paylasildi",
+            "tweet_id": "2111195944918327501",
+            "skor": [
+              0,
+              3
+            ],
+            "zaman": "2026-10-16T20:41:49+00:00"
           }
         }
       },
@@ -82732,13 +82750,51 @@
         "durum": "paylasildi",
         "tweet_id": "2111047116940365888",
         "zaman": "2026-10-16T10:50:24+00:00",
-        "metin": "🆚 Frosinone v Sassuolo\n\n🏆 Frosinone 40% · Draw 23% · Sassuolo 38%\n⚽ Over 2.5 goals 65% · Under 35%\n🥅 Both teams score 66% · Not both 34%\n🎯 Most likely score: 1-1 (10%)\n\n📈 Team stats: Frosinone win 54%\n💹 Odds: 40%\n\n💬 Not picks. Your read? 👇\n#SerieA\n18+ | Play responsibly"
+        "metin": "🆚 Frosinone v Sassuolo\n\n🏆 Frosinone 40% · Draw 23% · Sassuolo 38%\n⚽ Over 2.5 goals 65% · Under 35%\n🥅 Both teams score 66% · Not both 34%\n🎯 Most likely score: 1-1 (10%)\n\n📈 Team stats: Frosinone win 54%\n💹 Odds: 40%\n\n💬 Not picks. Your read? 👇\n#SerieA\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111195991777112076",
+          "skor": "4-2",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            2.12,
+            1.94
+          ],
+          "zaman": "2026-10-16T20:41:49+00:00",
+          "brier": {
+            "piyasa": 0.7948,
+            "istatistik": 0.6798
+          }
+        }
       },
       "analiz_3": {
         "durum": "paylasildi",
         "tweet_id": "2111050911795888149",
         "zaman": "2026-10-16T11:05:28+00:00",
-        "metin": "🆚 Le Mans v Toulouse\n\n🏆 Le Mans 34% · Draw 24% · Toulouse 42%\n⚽ Over 2.5 goals 58% · Under 42%\n🥅 Both teams score 60% · Not both 40%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: Over 2.5 goals 74%\n💹 Odds: 58%\n\n💬 Not picks. Your read? 👇\n#Ligue1\n18+ | Play responsibly"
+        "metin": "🆚 Le Mans v Toulouse\n\n🏆 Le Mans 34% · Draw 24% · Toulouse 42%\n⚽ Over 2.5 goals 58% · Under 42%\n🥅 Both teams score 60% · Not both 40%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: Over 2.5 goals 74%\n💹 Odds: 58%\n\n💬 Not picks. Your read? 👇\n#Ligue1\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111196002602680609",
+          "skor": "0-3",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "xg": [
+            0.85,
+            1.83
+          ],
+          "zaman": "2026-10-16T20:41:49+00:00",
+          "brier": {
+            "piyasa": 1.0438,
+            "istatistik": 1.2271
+          }
+        }
       },
       "analiz_4": {
         "durum": "paylasildi",

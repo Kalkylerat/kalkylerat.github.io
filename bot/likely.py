@@ -23,7 +23,7 @@ from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
 from . import analiz, config, denetci, direktor, model
-from .tweets import ANSVAR, LIMIT, uzunluk
+from .tweets import ANSVAR, LIMIT, KopyaPost, uzunluk
 
 DOSYA = config.ROOT / "data" / "likely.json"
 SES_REHBERI = config.ROOT / "marka" / "MR_LIKELY.md"
@@ -1207,7 +1207,13 @@ def oto_bilgi(ayar, x, simdi: datetime, yaz=print) -> bool:
     if siradaki.get("anket"):  # anket maç başlayınca kapanır (X: en az 5 dakika)
         kalan = (datetime.fromisoformat(siradaki["anket"]["bitis"]) - simdi).total_seconds() // 60
         anket = {"options": siradaki["anket"]["options"], "duration_minutes": int(max(5, min(kalan, 24 * 60)))}
-    siradaki["tweet_id"] = x.gonder(siradaki["metin"], anket=anket) if anket else x.gonder(siradaki["metin"])
+    try:
+        siradaki["tweet_id"] = x.gonder(siradaki["metin"], anket=anket) if anket else x.gonder(siradaki["metin"])
+    except KopyaPost:  # X bu metni eski bir posttan tanıyor: yeniden denenmez, alarm da açılmaz
+        siradaki["tweet_id"] = "tekrar"
+        kaydet(veri)
+        yaz(f"Mr. Likely: bilgi postu ({siradaki['tur']}) atlandı; X aynı metni daha önce görmüş.")
+        return False
     siradaki["zaman"] = simdi.isoformat(timespec="seconds")
     kaydet(veri)
     yaz(f"Mr. Likely: bilgi postu paylaşıldı ({siradaki['tur']}).")

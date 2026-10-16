@@ -717,3 +717,89 @@ def test_D6_mr_likely_insan_sesi_yuzde_ve_takilma(monkeypatch):
     t = firsat.taslaklar({"metin": "Italy XI tonight", "kullanici": "433"}, ita, object(), AYAR, "likely", None)
     assert "our_chances" in icerikler[0] and "in_my_coupon_today" not in icerikler[0]
     assert t == ["Brave call, I've still got Italy at 31%"]
+
+
+def test_C2_tek_kanal_x_postu_atip_hata_dondururse_paylasilmis_sayilir(monkeypatch):
+    """16 Ekim (sahibinin isteği: "aynı şey için ikili üçlü e-posta"): X postu atıp 5xx dönerse ya da sonraki deneme
+    "duplicate content" alırsa bot hesabın son postlarına bakar; post oradaysa kimliği döner, yeniden atılmaz."""
+    monkeypatch.setattr(tweets.time, "sleep", lambda sn: None)
+
+    class Yanit:
+        def __init__(self, kod, veri=None, metin=""):
+            self.status_code, self._veri, self.text = kod, veri or {}, metin
+
+        def json(self):
+            return self._veri
+
+    simdi = datetime.now(UTC).isoformat().replace("+00:00", "Z")
+    metin = "💡 Three legs in & one to go.\n\n18+ | Play responsibly"
+
+    class Oturum:
+        def __init__(self, kod, govde, var):
+            self.kod, self.govde, self.var, self.okuma = kod, govde, var, 0
+
+        def post(self, url, **k):
+            return Yanit(self.kod, metin=self.govde)
+
+        def get(self, url, **k):
+            self.okuma += 1
+            if url.endswith("/users/me"):
+                return Yanit(200, {"data": {"id": "42"}})
+            data = [{"id": "777", "created_at": simdi, "text": metin.replace("&", "&amp;") + " https://t.co/x"}] if self.var else []
+            return Yanit(200, {"data": data})
+
+    x = tweets.XClient.__new__(tweets.XClient)
+    x.session = Oturum(503, '{"detail":"Service Unavailable"}', var=True)
+    assert x.gonder(metin) == "777"  # 503 ama post X'te: paylaşılmış sayılır
+    x = tweets.XClient.__new__(tweets.XClient)
+    x.session = Oturum(403, '{"detail":"You are not allowed to create a Tweet with duplicate content."}', var=True)
+    assert x.gonder(metin) == "777"  # önceki 503'ün postu: kimliği bulunur
+    x = tweets.XClient.__new__(tweets.XClient)
+    x.session = Oturum(403, '{"detail":"You are not allowed to create a Tweet with duplicate content."}', var=False)
+    with pytest.raises(tweets.KopyaPost):
+        x.gonder(metin)  # eski bir postun kopyası: yeniden denemek boşuna
+    x = tweets.XClient.__new__(tweets.XClient)
+    x.session = Oturum(400, '{"detail":"Invalid"}', var=True)
+    with pytest.raises(RuntimeError):
+        x.gonder(metin)
+    assert x.session.okuma == 0  # olağan hatada okuma (ücret) yok
+
+
+def test_C2_tek_kanal_alarm_iletildiyse_calisma_basarisiz_sayilmaz():
+    """Bot hatayı alarm issue'suna yazdıysa iş başarısız işaretlenmez (GitHub 'Run failed' e-postası ve nöbetçi alarmı
+    aynı hatayı tekrarlamaz); yazamadıysa başarısız (nöbetçi alarm açar). Nöbetçi hata dizisi başına bir alarm açar."""
+    from bot.__main__ import cikis_kodu
+    assert cikis_kodu(["Mr. Likely bilgi postu: X API hatası 503"], alarm_iletildi=True) == 0
+    assert cikis_kodu(["Mr. Likely bilgi postu: X API hatası 503"], alarm_iletildi=False) == 1
+    assert cikis_kodu([], alarm_iletildi=False) == 0
+    nobet = (ROOT / ".github/workflows/nobet.yml").read_text()
+    assert 'hata_bildirildi=1' in nobet and 'hata_bildirildi=""' in nobet and '= "success" ]' in nobet
+
+
+def test_B2_ayni_anda_biten_cok_mac_uc_nabizda_biter():
+    """15 Ekim: tablodaki 12 maç 21:00'de başladı, 3'er 3'er çıkınca sonuncusu 2,5 saat sınırını geçti (alarm)."""
+    maclar = [mac(i, f"Ev{i}", f"Dep{i}", saat="19:00") for i in range(1, 16)]
+    gun = {"tarih": "2026-10-03", "tablo": maclar,
+           "etkilesim": {"tablo": {"durum": "paylasildi", "tweet_id": "9", "zaman": "2026-10-03T08:00:00+00:00",
+                                   "maclar": [a["fixture_id"] for a in maclar]}}}
+
+    class X:
+        def gonder(self, metin, **k):
+            return "1"
+    bitti = lambda l: {a["fixture_id"]: {"durum": "bitti", "skor": (1, 0)} for a in l}
+    t = datetime(2026, 10, 3, 20, 55, tzinfo=UTC)
+    adetler = [etkilesim.tablo_takibi(gun, AYAR, X(), t + timedelta(minutes=7 * i), bitti) for i in range(3)]
+    assert sum(adetler) == 15 and gun["etkilesim"]["tablo"]["takip"]["durum"] == "tamam"
+    assert max(adetler) <= 5  # yine de art arda yığılmaz
+
+
+def test_D6_kulup_hesabi_takim_adi_sayilir():
+    """15 Ekim: "@SunderlandAFC" etiketli post Sunderland kartına eşleşmiyordu. Kulübün @hesabı takım adı sayılır;
+    başka bir kulübün ya da kadın takımının hesabı eşleşmez."""
+    from bot import firsat
+    kartlar = [mac(1, "Torreense", "Sunderland"), mac(2, "AC Milan", "Inter"), mac(3, "Arsenal", "Chelsea")]
+    assert firsat.eslesen_mac("Block after block 🧱 tonight #UEL | @SunderlandAFC", kartlar)["dep"] == "Sunderland"
+    assert firsat.eslesen_mac("The talent in this squad v Inter 😮‍💨 | @acmilan", kartlar)["ev"] == "AC Milan"
+    assert firsat.eslesen_mac("@ChelseaFC travel to face @Arsenal tonight", kartlar)["ev"] == "Arsenal"
+    assert firsat.eslesen_mac("@InterMiamiCF win tonight", kartlar) is None
+    assert firsat.eslesen_mac("@Arsenal_Women face City tonight", kartlar) is None

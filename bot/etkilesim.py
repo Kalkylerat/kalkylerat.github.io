@@ -815,6 +815,11 @@ def tablo_mac_sonu_tweeti(a: dict, ev: int, dep: int, aksam: bool = False) -> st
     return ilk_sigan(*(x + "\n" + ("" if x.endswith("👇") else "\n") + ANSVAR for x in adaylar))
 
 
+# Tablo maç sonu yanıtları nabız başına en fazla 5: tablo en fazla 15 maç, aynı anda bitseler de hepsi 3 nabızda (~21 dk)
+# çıkar (15 Ekim: 12 maç 21:00'de başladı, 3'er 3'er çıkınca sonuncusu 2,5 saat sınırını geçti, B2 alarmı geldi).
+TABLO_NABIZ_YANIT = 5
+
+
 def tablo_takibi(gun: dict, ayar, x, simdi: datetime, sonuc_getir, tum: list[dict] | None = None, yaz=print) -> int:
     """Günün tablosundaki (ve elle paylaşılan listedeki) her maç bittikçe tablo postuna yanıt: skor ve olanların
     maç öncesi yüzdeleri. Maç başlamasından 1 saat 50 dk sonra bakılmaya başlanır, 6 saat sonra vazgeçilir."""
@@ -838,8 +843,8 @@ def tablo_takibi(gun: dict, ayar, x, simdi: datetime, sonuc_getir, tum: list[dic
                      <= datetime.fromisoformat(a["baslama"]) + timedelta(hours=6)]
         sonuclar = sonuc_getir(sorulacak) if sorulacak else {}
         for a in sorulacak:
-            if paylasilan >= 3:
-                break  # bir nabızda en fazla 3 yanıt: art arda yığılmasın (kalanlar sonraki nabızda)
+            if paylasilan >= TABLO_NABIZ_YANIT:
+                break  # art arda yığılmasın (kalanlar sonraki nabızda)
             r = sonuclar.get(a["fixture_id"]) or {}
             if r.get("durum") == "iptal":
                 biten[str(a["fixture_id"])] = {"durum": "atlandi", "neden": "maç oynanmadı"}

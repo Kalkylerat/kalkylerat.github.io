@@ -33,6 +33,8 @@ Kurallar: `SOZLESME.md` (değişmez), çalışma kuralları: `CLAUDE.md`. Sahibi
    Yeni (daha önce görülmemiş) issue/yorum varsa gövdesini oku.
    Eskiler, açıklandı: #8 #11 #16 #38 #41 (3–8 Ekim), #49 #50 (11 Ekim 14:47, Mr. Likely'de tek seferlik bağlantı kopması),
    #56–#59 (13 Ekim 10:10–11:48, X API kredisi bitti: 402 "credits depleted"; kaçan 14 post aynı gün geri sıraya kondu).
+   #73–#91 (15 Ekim 19:05–20:58): Mr. Likely bilgi postu 503 aldı ama X'te paylaşılmıştı; her nabız 403 "duplicate
+   content" aldı, nöbetçi her başarısız çalışmaya ayrı issue açtı. 16 Ekim'de düzeltildi (SOZLESME C2 "tek kanal").
 5. Sorun yoksa sahibine tek satır "sorun yok" yeter. Sorun varsa kök nedeni bul, Türkçe kısa özet yaz.
    B7: 08–21 UTC arasında 3 saatten uzun post/yanıt yoksa bu HER ZAMAN sorundur ("sakin gün" deme).
 
@@ -65,6 +67,12 @@ Kurallar: `SOZLESME.md` (değişmez), çalışma kuralları: `CLAUDE.md`. Sahibi
 - X'in cevap bağlantısı (web intent) Android'de cevabı ayrı post attı: taslaklar kopyalama sayfasıyla (D3, D6).
 - Yorum fırsatları ve yorum kiti issue yorumu olarak gelir (#yorum-firsatlari, #yorum-kiti); sahibi göremiyorsa
   issue bağlantısını ver.
+
+## Bildirim düzeni (16 Ekim, C2 "tek kanal")
+- Bot yakaladığı hatayı günün `⚠️ Kalkylerat alarmı <tarih>` issue'suna yazar (aynı hata bir kez) ve çalışma YEŞİL biter.
+- Kırmızı çalışma = bot alarm yazamadı ya da çöktü (test, kurulum, push). Nöbetçi bunun için dizi başına tek
+  `(nöbetçi)` issue'su açar; bot düzelince sıfırlanır.
+- Sahibine gelenler: alarm, 🚀 yorum fırsatları (iki hesap ayrı issue), 💬 yorumlar, 🎩 Mr. Likely günlük issue'su.
 
 ## Rutin
 - Saatlik rutin "Kalkylerat saatlik nöbet", cron `3 * * * *` (UTC), Sonnet 5.5. Her çalışmada yeni, kısa bir oturum

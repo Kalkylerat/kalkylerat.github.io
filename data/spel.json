@@ -82647,7 +82647,26 @@
         "durum": "paylasildi",
         "tweet_id": "2111069838374539296",
         "zaman": "2026-10-16T12:20:40+00:00",
-        "metin": "🆚 AC Horsens v Randers FC\n\n🏆 AC Horsens 35% · Draw 25% · Randers FC 40%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 57% · Not both 43%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: Over 2.5 goals 58%\n💹 Odds: 53%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 AC Horsens v Randers FC\n\n🏆 AC Horsens 35% · Draw 25% · Randers FC 40%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 57% · Not both 43%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: Over 2.5 goals 58%\n💹 Odds: 53%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111168722056384595",
+          "skor": "0-0",
+          "isabet": [
+            false,
+            false,
+            false
+          ],
+          "xg": [
+            0.51,
+            1.89
+          ],
+          "zaman": "2026-10-16T18:53:29+00:00",
+          "brier": {
+            "piyasa": 1.443,
+            "istatistik": 1.5578
+          }
+        }
       },
       "analiz_11": {
         "durum": "paylasildi",

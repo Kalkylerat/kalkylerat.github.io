@@ -20672,20 +20672,30 @@
        "oran": 2.15,
        "olasilik": 0.493,
        "deger": 0.06,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-0",
+       "goller": [
+        [
+         75,
+         0,
+         "ev"
+        ]
+       ]
       }
      ],
      "oran": 3.1,
      "olasilik": 0.339,
      "deger": 0.051,
-     "durum": "bekliyor",
+     "durum": "tuttu",
      "secim": "2026-10-16T05:44:15+00:00",
      "oto": true,
      "paylas": "2026-10-16T12:00:00+02:00",
      "tweet_id": "2111035474273775979",
      "metin": "🎩 Outsider day. Small stakes, then.\n\n⚽ Al Fujairah SC v Palm City\n⚽ Triglav v Dekani\n\n📊 Combined 3.10. I make it about 34% to land, so it loses roughly two times in three.\n\n💬 Would you take it at this price?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-16T10:03:58+00:00"
+     "yayin": "2026-10-16T10:03:58+00:00",
+     "son_oran": 3.1,
+     "sonuc_metni": "✅ Both legs in at 3.10. Landed. Trying not to be smug, failing a bit.\n\n✅ Al Fujairah SC 2-4 Palm City: Double chance X2\n✅ Triglav 1-0 Dekani: Under 2.5 goals\n\nRecord: 9 of 17 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2111153808164168083"
     }
    ],
    "islenen": [],

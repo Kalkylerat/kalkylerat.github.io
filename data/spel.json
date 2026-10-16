@@ -82816,6 +82816,15 @@
               1
             ],
             "zaman": "2026-10-16T19:28:58+00:00"
+          },
+          "1551839": {
+            "durum": "paylasildi",
+            "tweet_id": "2111183059600978371",
+            "skor": [
+              0,
+              2
+            ],
+            "zaman": "2026-10-16T19:50:35+00:00"
           }
         }
       },
@@ -82823,7 +82832,26 @@
         "durum": "paylasildi",
         "tweet_id": "2111132655660007473",
         "zaman": "2026-10-16T16:30:18+00:00",
-        "metin": "🆚 Helmond Sport v NAC Breda\n\n🏆 Helmond Sport 18% · Draw 20% · NAC Breda 62%\n⚽ Over 2.5 goals 66% · Under 34%\n🥅 Both teams score 61% · Not both 39%\n🎯 Most likely score: 1-2 (10%)\n\n📈 Team stats: NAC Breda win 32% (odds 62%)\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Helmond Sport v NAC Breda\n\n🏆 Helmond Sport 18% · Draw 20% · NAC Breda 62%\n⚽ Over 2.5 goals 66% · Under 34%\n🥅 Both teams score 61% · Not both 39%\n🎯 Most likely score: 1-2 (10%)\n\n📈 Team stats: NAC Breda win 32% (odds 62%)\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111183113812332850",
+          "skor": "0-2",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "xg": [
+            0.73,
+            1.86
+          ],
+          "zaman": "2026-10-16T19:50:35+00:00",
+          "brier": {
+            "piyasa": 1.0237,
+            "istatistik": 1.7833
+          }
+        }
       },
       "analiz_21": {
         "durum": "paylasildi",

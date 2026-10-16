@@ -82719,7 +82719,26 @@
         "durum": "paylasildi",
         "tweet_id": "2111075199265411322",
         "zaman": "2026-10-16T12:42:00+00:00",
-        "metin": "🆚 Rapid Vienna v TSV Hartberg\n\n🏆 Rapid Vienna 74% · Draw 16% · TSV Hartberg 11%\n⚽ Over 2.5 goals 68% · Under 32%\n🥅 Both teams score 55% · Not both 45%\n\n📈 Team stats: Both teams score 51%\n💹 Odds: 55%\n\n💬 Not picks. More or fewer than 2.5 goals? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Rapid Vienna v TSV Hartberg\n\n🏆 Rapid Vienna 74% · Draw 16% · TSV Hartberg 11%\n⚽ Over 2.5 goals 68% · Under 32%\n🥅 Both teams score 55% · Not both 45%\n\n📈 Team stats: Both teams score 51%\n💹 Odds: 55%\n\n💬 Not picks. More or fewer than 2.5 goals? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111177617999056951",
+          "skor": "3-1",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            1.48,
+            0.64
+          ],
+          "zaman": "2026-10-16T19:28:58+00:00",
+          "brier": {
+            "piyasa": 0.4106,
+            "istatistik": 0.4585
+          }
+        }
       },
       "analiz_12": {
         "durum": "paylasildi",
@@ -82788,7 +82807,17 @@
           1551839,
           1551840
         ],
-        "sonuclar": {}
+        "sonuclar": {
+          "1561945": {
+            "durum": "paylasildi",
+            "tweet_id": "2111177603738394632",
+            "skor": [
+              3,
+              1
+            ],
+            "zaman": "2026-10-16T19:28:58+00:00"
+          }
+        }
       },
       "analiz_20": {
         "durum": "paylasildi",

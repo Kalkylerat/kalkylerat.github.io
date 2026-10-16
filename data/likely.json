@@ -19896,7 +19896,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 54
+     "no": 54,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1593680-EVA25",
@@ -20737,7 +20738,7 @@
    ],
    "oto": true,
    "issue": 92,
-   "olcum_sorgu": "2026-10-16T12:10:32+00:00"
+   "olcum_sorgu": "2026-10-16T13:09:11+00:00"
   }
  ]
 }

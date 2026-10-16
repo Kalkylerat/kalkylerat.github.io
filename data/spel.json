@@ -82530,6 +82530,24 @@
               3
             ],
             "zaman": "2026-10-16T19:56:36+00:00"
+          },
+          "1552496": {
+            "durum": "paylasildi",
+            "tweet_id": "2111186350187708903",
+            "skor": [
+              0,
+              2
+            ],
+            "zaman": "2026-10-16T20:03:43+00:00"
+          },
+          "1552502": {
+            "durum": "paylasildi",
+            "tweet_id": "2111186351504712189",
+            "skor": [
+              4,
+              2
+            ],
+            "zaman": "2026-10-16T20:03:43+00:00"
           }
         }
       },
@@ -82796,7 +82814,26 @@
         "durum": "paylasildi",
         "tweet_id": "2111085670894576003",
         "zaman": "2026-10-16T13:23:35+00:00",
-        "metin": "🆚 Grenoble v Boulogne\n\n🏆 Grenoble 34% · Draw 29% · Boulogne 37%\n⚽ Over 2.5 goals 39% · Under 61%\n🥅 Both teams score 46% · Not both 54%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Team stats: Over 2.5 goals 13%\n💹 Odds: 39%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Grenoble v Boulogne\n\n🏆 Grenoble 34% · Draw 29% · Boulogne 37%\n⚽ Over 2.5 goals 39% · Under 61%\n🥅 Both teams score 46% · Not both 54%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Team stats: Over 2.5 goals 13%\n💹 Odds: 39%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111186415694299159",
+          "skor": "0-2",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            0.59,
+            1.56
+          ],
+          "zaman": "2026-10-16T20:03:43+00:00",
+          "brier": {
+            "piyasa": 0.9597,
+            "istatistik": 0.7853
+          }
+        }
       },
       "analiz_14": {
         "durum": "paylasildi",
@@ -82966,6 +83003,15 @@
               2
             ],
             "zaman": "2026-10-16T19:50:35+00:00"
+          },
+          "1552189": {
+            "durum": "paylasildi",
+            "tweet_id": "2111186359134105606",
+            "skor": [
+              4,
+              0
+            ],
+            "zaman": "2026-10-16T20:03:43+00:00"
           }
         }
       },
@@ -82998,7 +83044,26 @@
         "durum": "paylasildi",
         "tweet_id": "2111136356034617505",
         "zaman": "2026-10-16T16:44:49+00:00",
-        "metin": "🆚 VVV Venlo v Jong AZ\n\n🏆 VVV Venlo 46% · Draw 21% · Jong AZ 32%\n⚽ Over 2.5 goals 72% · Under 28%\n🥅 Both teams score 71% · Not both 29%\n🎯 Score 2-1 (8%)\n\n📈 Stats: Over 2.5 goals 85% · Both score 81%\n\n💬 Goals: which is nearer, 72% or 85%?\n18+ | Play responsibly"
+        "metin": "🆚 VVV Venlo v Jong AZ\n\n🏆 VVV Venlo 46% · Draw 21% · Jong AZ 32%\n⚽ Over 2.5 goals 72% · Under 28%\n🥅 Both teams score 71% · Not both 29%\n🎯 Score 2-1 (8%)\n\n📈 Stats: Over 2.5 goals 85% · Both score 81%\n\n💬 Goals: which is nearer, 72% or 85%?\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111186457645785099",
+          "skor": "4-4",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "xg": [
+            2.41,
+            1.44
+          ],
+          "zaman": "2026-10-16T20:03:43+00:00",
+          "brier": {
+            "piyasa": 1.1022,
+            "istatistik": 1.0704
+          }
+        }
       },
       "analiz_22": {
         "durum": "paylasildi",

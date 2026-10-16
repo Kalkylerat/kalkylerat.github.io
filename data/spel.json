@@ -82485,6 +82485,15 @@
               0
             ],
             "zaman": "2026-10-16T18:24:53+00:00"
+          },
+          "1576198": {
+            "durum": "paylasildi",
+            "tweet_id": "2111163309026103314",
+            "skor": [
+              1,
+              1
+            ],
+            "zaman": "2026-10-16T18:32:06+00:00"
           }
         }
       },
@@ -82492,7 +82501,26 @@
         "durum": "paylasildi",
         "tweet_id": "2111012420705735062",
         "zaman": "2026-10-16T08:32:32+00:00",
-        "metin": "🆚 Energie Cottbus v 1. FC Nürnberg\n\n🏆 Energie Cottbus 26% · Draw 20% · 1. FC Nürnberg 54%\n⚽ Over 2.5 goals 72% · Under 28%\n🥅 Both teams score 69% · Not both 31%\n\n📈 Team stats: 1. FC Nürnberg win 46%\n💹 Odds: 54%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Energie Cottbus v 1. FC Nürnberg\n\n🏆 Energie Cottbus 26% · Draw 20% · 1. FC Nürnberg 54%\n⚽ Over 2.5 goals 72% · Under 28%\n🥅 Both teams score 69% · Not both 31%\n\n📈 Team stats: 1. FC Nürnberg win 46%\n💹 Odds: 54%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111163358678327715",
+          "skor": "1-1",
+          "isabet": [
+            false,
+            false,
+            true
+          ],
+          "xg": [
+            1.91,
+            1.37
+          ],
+          "zaman": "2026-10-16T18:32:06+00:00",
+          "brier": {
+            "piyasa": 1.5952,
+            "istatistik": 1.5932
+          }
+        }
       },
       "analiz_6": {
         "durum": "paylasildi",
@@ -82535,13 +82563,43 @@
         "durum": "paylasildi",
         "tweet_id": "2111029387940556971",
         "zaman": "2026-10-16T09:39:55+00:00",
-        "metin": "🆚 Voitsberg v First Vienna\n\n🏆 Voitsberg 30% · Draw 24% · First Vienna 46%\n⚽ Over 2.5 goals 57% · Under 43%\n🥅 Both teams score 59% · Not both 41%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: First Vienna win 43% (odds 46%)\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Voitsberg v First Vienna\n\n🏆 Voitsberg 30% · Draw 24% · First Vienna 46%\n⚽ Over 2.5 goals 57% · Under 43%\n🥅 Both teams score 59% · Not both 41%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: First Vienna win 43% (odds 46%)\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111163374948000145",
+          "skor": "1-2",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "zaman": "2026-10-16T18:32:06+00:00",
+          "brier": {
+            "piyasa": 0.8022,
+            "istatistik": 0.8786
+          }
+        }
       },
       "analiz_8": {
         "durum": "paylasildi",
         "tweet_id": "2111033628578762757",
         "zaman": "2026-10-16T09:56:48+00:00",
-        "metin": "🆚 SKN ST. Polten v Rapid Wien II\n\n🏆 SKN ST. Polten 60% · Draw 20% · Rapid Wien II 20%\n⚽ Over 2.5 goals 64% · Under 36%\n🥅 Both teams score 60% · Not both 40%\n\n📈 Team stats: SKN ST. Polten win 49%\n💹 Odds: 60%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 SKN ST. Polten v Rapid Wien II\n\n🏆 SKN ST. Polten 60% · Draw 20% · Rapid Wien II 20%\n⚽ Over 2.5 goals 64% · Under 36%\n🥅 Both teams score 60% · Not both 40%\n\n📈 Team stats: SKN ST. Polten win 49%\n💹 Odds: 60%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111163388961181981",
+          "skor": "0-0",
+          "isabet": [
+            false,
+            false,
+            false
+          ],
+          "zaman": "2026-10-16T18:32:06+00:00",
+          "brier": {
+            "piyasa": 1.8117,
+            "istatistik": 1.4691
+          }
+        }
       },
       "ayrisma": {
         "durum": "paylasildi",

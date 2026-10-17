@@ -21328,7 +21328,8 @@
      "istatistik": 0.786,
      "uyum": true,
      "buyuk": true,
-     "no": 20
+     "no": 20,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1550148-CS1X",
@@ -21389,7 +21390,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 23
+     "no": 23,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1550149-CSX2",
@@ -21740,7 +21742,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 40
+     "no": 40,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1563207-CS1X",
@@ -22032,7 +22035,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 54
+     "no": 54,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1557058-CS12",
@@ -22321,7 +22325,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 68
+     "no": 68,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1556676-IYU05",
@@ -23006,12 +23011,14 @@
     {
      "tur": "ders",
      "metin": "💡 Nobody posts the six-leg coupon that died in the 12th minute. That's why it looks like everyone else is winning.\n\n18+ | Play responsibly",
-     "saat": 21.0
+     "saat": 21.0,
+     "tweet_id": "2111534519937573107",
+     "zaman": "2026-10-17T19:07:13+00:00"
     }
    ],
    "oto": true,
    "issue": 94,
-   "olcum_sorgu": "2026-10-17T18:09:47+00:00"
+   "olcum_sorgu": "2026-10-17T19:07:13+00:00"
   }
  ]
 }

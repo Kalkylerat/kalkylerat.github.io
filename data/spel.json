@@ -90722,6 +90722,15 @@
               2
             ],
             "zaman": "2026-10-17T16:12:14+00:00"
+          },
+          "1552790": {
+            "durum": "paylasildi",
+            "tweet_id": "2111505412470038913",
+            "skor": [
+              1,
+              3
+            ],
+            "zaman": "2026-10-17T17:11:20+00:00"
           }
         }
       },
@@ -90791,7 +90800,22 @@
         "durum": "paylasildi",
         "tweet_id": "2111393690006560789",
         "zaman": "2026-10-17T09:47:34+00:00",
-        "metin": "🆚 Strasbourg v Paris Saint Germain\n\n🏆 Strasbourg 14% · Draw 17% · Paris Saint Germain 69%\n⚽ Over 2.5 goals 71% · Under 29%\n🥅 Both teams score 62% · Not both 38%\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Can Strasbourg beat 14%? 👇\n#Ligue1\n18+ | Play responsibly"
+        "metin": "🆚 Strasbourg v Paris Saint Germain\n\n🏆 Strasbourg 14% · Draw 17% · Paris Saint Germain 69%\n⚽ Over 2.5 goals 71% · Under 29%\n🥅 Both teams score 62% · Not both 38%\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Can Strasbourg beat 14%? 👇\n#Ligue1\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111505423438172541",
+          "skor": "1-3",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            1.06,
+            2.68
+          ],
+          "zaman": "2026-10-17T17:11:20+00:00"
+        }
       },
       "analiz_11": {
         "durum": "paylasildi",
@@ -91124,6 +91148,12 @@
         "tweet_id": "2111495590760575309",
         "zaman": "2026-10-17T16:32:29+00:00",
         "metin": "🆚 Telstar v Feyenoord\n\n🏆 Telstar 13% · Draw 16% · Feyenoord 71%\n⚽ Over 2.5 goals 71% · Under 28%\n🥅 Both teams score 60% · Not both 40%\n🎯 Most likely score: 1-2 (9%)\n\n📈 Team stats: Over 2.5 goals 82%\n💹 Odds: 71%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly"
+      },
+      "analiz_28": {
+        "durum": "paylasildi",
+        "tweet_id": "2111505408418271552",
+        "zaman": "2026-10-17T17:11:20+00:00",
+        "metin": "🆚 Troyes v Lens\n\n🏆 Troyes 26% · Draw 23% · Lens 52%\n⚽ Over 2.5 goals 60% · Under 40%\n🥅 Both teams score 60% · Not both 40%\n🎯 Likeliest score: 1-1 (10%)\n\n📈 Stats: Over 2.5 goals 65%\n💹 Odds: 60%\n\n💬 Which number is nearer on goals, 60% or 65%?\n\n18+ | Play responsibly"
       }
     },
     "tablo_aksam": [

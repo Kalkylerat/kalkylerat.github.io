@@ -90608,13 +90608,51 @@
         "durum": "paylasildi",
         "tweet_id": "2111375205465747857",
         "zaman": "2026-10-17T08:34:07+00:00",
-        "metin": "🆚 Metz v Sochaux\n\n🏆 Metz 55% · Draw 24% · Sochaux 21%\n⚽ Over 2.5 goals 49% · Under 51%\n🥅 Both teams score 50% · Not both 50%\n🎯 Most likely score: 1-0 (12%)\n\n📈 Team stats: Over 2.5 goals 40%\n💹 Odds: 49%\n\n💬 Chances, not picks. What's your score? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Metz v Sochaux\n\n🏆 Metz 55% · Draw 24% · Sochaux 21%\n⚽ Over 2.5 goals 49% · Under 51%\n🥅 Both teams score 50% · Not both 50%\n🎯 Most likely score: 1-0 (12%)\n\n📈 Team stats: Over 2.5 goals 40%\n💹 Odds: 49%\n\n💬 Chances, not picks. What's your score? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111456625001447727",
+          "skor": "3-2",
+          "isabet": [
+            true,
+            false,
+            true
+          ],
+          "xg": [
+            1.59,
+            1.63
+          ],
+          "zaman": "2026-10-17T13:57:39+00:00",
+          "brier": {
+            "piyasa": 0.8092,
+            "istatistik": 1.0578
+          }
+        }
       },
       "analiz_9": {
         "durum": "paylasildi",
         "tweet_id": "2111380561369465092",
         "zaman": "2026-10-17T08:55:13+00:00",
-        "metin": "🆚 Nantes v Dunkerque\n\n🏆 Nantes 60% · Draw 22% · Dunkerque 18%\n⚽ Over 2.5 goals 54% · Under 46%\n🥅 Both teams score 52% · Not both 48%\n🎯 Most likely score: 1-0 (11%)\n\n📈 Team stats: Nantes win 44%\n💹 Odds: 60%\n\n💬 Odds 60%, stats 44%. Trust which?\n18+ | Play responsibly"
+        "metin": "🆚 Nantes v Dunkerque\n\n🏆 Nantes 60% · Draw 22% · Dunkerque 18%\n⚽ Over 2.5 goals 54% · Under 46%\n🥅 Both teams score 52% · Not both 48%\n🎯 Most likely score: 1-0 (11%)\n\n📈 Team stats: Nantes win 44%\n💹 Odds: 60%\n\n💬 Odds 60%, stats 44%. Trust which?\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111456638590947752",
+          "skor": "2-3",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "xg": [
+            0.85,
+            1.46
+          ],
+          "zaman": "2026-10-17T13:57:39+00:00",
+          "brier": {
+            "piyasa": 1.5077,
+            "istatistik": 1.1508
+          }
+        }
       },
       "bilgi": {
         "durum": "paylasildi",

@@ -20953,7 +20953,8 @@
      "istatistik": 0.922,
      "uyum": true,
      "buyuk": false,
-     "no": 2
+     "no": 2,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1560047-CS1X",
@@ -22222,7 +22223,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 63
+     "no": 63,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1496364-CS12",
@@ -22284,7 +22286,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 66
+     "no": 66,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1547639-CS12",
@@ -22367,7 +22370,8 @@
      "istatistik": 0.729,
      "uyum": true,
      "buyuk": false,
-     "no": 70
+     "no": 70,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1563209-IYU05",
@@ -23028,7 +23032,7 @@
    ],
    "oto": true,
    "issue": 94,
-   "olcum_sorgu": "2026-10-17T19:07:13+00:00"
+   "olcum_sorgu": "2026-10-17T20:02:22+00:00"
   }
  ]
 }

@@ -91239,6 +91239,15 @@
               1
             ],
             "zaman": "2026-10-17T19:57:58+00:00"
+          },
+          "1552192": {
+            "durum": "paylasildi",
+            "tweet_id": "2111548396150628774",
+            "skor": [
+              3,
+              4
+            ],
+            "zaman": "2026-10-17T20:02:22+00:00"
           }
         }
       },
@@ -91246,7 +91255,26 @@
         "durum": "paylasildi",
         "tweet_id": "2111495590760575309",
         "zaman": "2026-10-17T16:32:29+00:00",
-        "metin": "🆚 Telstar v Feyenoord\n\n🏆 Telstar 13% · Draw 16% · Feyenoord 71%\n⚽ Over 2.5 goals 71% · Under 28%\n🥅 Both teams score 60% · Not both 40%\n🎯 Most likely score: 1-2 (9%)\n\n📈 Team stats: Over 2.5 goals 82%\n💹 Odds: 71%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Telstar v Feyenoord\n\n🏆 Telstar 13% · Draw 16% · Feyenoord 71%\n⚽ Over 2.5 goals 71% · Under 28%\n🥅 Both teams score 60% · Not both 40%\n🎯 Most likely score: 1-2 (9%)\n\n📈 Team stats: Over 2.5 goals 82%\n💹 Odds: 71%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111548408309883319",
+          "skor": "3-4",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            1.47,
+            3.84
+          ],
+          "zaman": "2026-10-17T20:02:22+00:00",
+          "brier": {
+            "piyasa": 0.3618,
+            "istatistik": 0.2236
+          }
+        }
       },
       "analiz_28": {
         "durum": "paylasildi",

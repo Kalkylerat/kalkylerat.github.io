@@ -91166,7 +91166,26 @@
         "durum": "paylasildi",
         "tweet_id": "2111465350483050571",
         "zaman": "2026-10-17T14:32:19+00:00",
-        "metin": "🆚 RED Star FC 93 v Saint Etienne\n\n🏆 RED Star FC 93 32% · Draw 25% · Saint Etienne 43%\n⚽ Over 2.5 goals 54% · Under 46%\n🥅 Both teams score 57% · Not both 43%\n\n📈 Team stats: Saint Etienne win 54%\n💹 Odds: 43%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 RED Star FC 93 v Saint Etienne\n\n🏆 RED Star FC 93 32% · Draw 25% · Saint Etienne 43%\n⚽ Over 2.5 goals 54% · Under 46%\n🥅 Both teams score 57% · Not both 43%\n\n📈 Team stats: Saint Etienne win 54%\n💹 Odds: 43%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111547343665345000",
+          "skor": "0-1",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "xg": [
+            0.31,
+            0.88
+          ],
+          "zaman": "2026-10-17T19:57:58+00:00",
+          "brier": {
+            "piyasa": 1.1086,
+            "istatistik": 0.9373
+          }
+        }
       },
       "analiz_26": {
         "durum": "paylasildi",
@@ -91211,6 +91230,15 @@
               1
             ],
             "zaman": "2026-10-17T19:30:29+00:00"
+          },
+          "1552501": {
+            "durum": "paylasildi",
+            "tweet_id": "2111547295229440144",
+            "skor": [
+              0,
+              1
+            ],
+            "zaman": "2026-10-17T19:57:58+00:00"
           }
         }
       },

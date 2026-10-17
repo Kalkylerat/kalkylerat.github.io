@@ -20912,7 +20912,7 @@
   {
    "tarih": "2026-10-17",
    "olusturma": "2026-10-17T05:39:02+00:00",
-   "durum": "secildi",
+   "durum": "bitti",
    "havuz": [
     {
      "aday_id": "1552190-CSX2",
@@ -22763,20 +22763,30 @@
        "oran": 1.35,
        "olasilik": 0.719,
        "deger": -0.03,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "0-1",
+       "goller": [
+        [
+         79,
+         0,
+         "dep"
+        ]
+       ]
       }
      ],
      "oran": 2.03,
      "olasilik": 0.453,
      "deger": -0.08,
-     "durum": "bekliyor",
+     "durum": "yatti",
      "secim": "2026-10-17T05:39:02+00:00",
      "oto": true,
      "paylas": "2026-10-17T11:00:00+02:00",
      "tweet_id": "2111383189029585402",
      "metin": "🎩 Treble today. Dull legs, on purpose.\n\n⚽ Arsenal Tivat v Mornar\n⚽ Maccabi Netanya v Ironi Kiryat Shmona\n⚽ Argentino Quilmes v Flandria\n\n📊 Combined 2.03. I make it about 45% to land, so more likely not.\n\n💬 Anyone on the other side of one of these?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-17T09:05:50+00:00"
+     "yayin": "2026-10-17T09:05:50+00:00",
+     "son_oran": 1.5,
+     "sonuc_metni": "❌ Two out of three. That's a loss, apparently.\n\n✅ Arsenal Tivat 1-2 Mornar: Double chance X2\n✅ Maccabi Netanya 1-0 Ironi Kiryat Shmona: Double chance 1X\n❌ Argentino Quilmes 0-1 Flandria: Double chance 1X\n\nOne leg short. Record: 9 of 19 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2111547370961846450"
     }
    ],
    "islenen": [],

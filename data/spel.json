@@ -91322,7 +91322,20 @@
               2
             ],
             "zaman": "2026-10-17T20:53:10+00:00"
+          },
+          "1552193": {
+            "durum": "paylasildi",
+            "tweet_id": "2111562292517097717",
+            "skor": [
+              3,
+              2
+            ],
+            "zaman": "2026-10-17T20:57:35+00:00"
           }
+        },
+        "takip": {
+          "durum": "tamam",
+          "zaman": "2026-10-17T20:57:35+00:00"
         }
       },
       "analiz_25": {
@@ -91379,7 +91392,26 @@
         "durum": "paylasildi",
         "tweet_id": "2111510257767788768",
         "zaman": "2026-10-17T17:30:31+00:00",
-        "metin": "🆚 Sparta Rotterdam v Willem II\n\n🏆 Sparta 58% · Draw 21% · Willem II 21%\n⚽ Over 2.5 goals 64% · Under 36%\n🥅 Both teams score 61% · Not both 39%\n🎯 Likeliest: 2-1 (10%)\n\n📈 Over 2.5: stats 77%, odds 64%\n\n💬 Which would you trust here?\n18+ | Play responsibly"
+        "metin": "🆚 Sparta Rotterdam v Willem II\n\n🏆 Sparta 58% · Draw 21% · Willem II 21%\n⚽ Over 2.5 goals 64% · Under 36%\n🥅 Both teams score 61% · Not both 39%\n🎯 Likeliest: 2-1 (10%)\n\n📈 Over 2.5: stats 77%, odds 64%\n\n💬 Which would you trust here?\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111562305494188231",
+          "skor": "3-2",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            3.46,
+            1.24
+          ],
+          "zaman": "2026-10-17T20:57:35+00:00",
+          "brier": {
+            "piyasa": 0.5433,
+            "istatistik": 0.4917
+          }
+        }
       },
       "bilgi_aksam": {
         "durum": "paylasildi",

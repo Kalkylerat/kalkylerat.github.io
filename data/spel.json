@@ -90749,6 +90749,24 @@
               1
             ],
             "zaman": "2026-10-17T18:26:52+00:00"
+          },
+          "1550148": {
+            "durum": "paylasildi",
+            "tweet_id": "2111557653759418727",
+            "skor": [
+              2,
+              0
+            ],
+            "zaman": "2026-10-17T20:39:08+00:00"
+          },
+          "1552786": {
+            "durum": "paylasildi",
+            "tweet_id": "2111557655441313893",
+            "skor": [
+              1,
+              1
+            ],
+            "zaman": "2026-10-17T20:39:08+00:00"
           }
         }
       },
@@ -91191,13 +91209,47 @@
         "durum": "paylasildi",
         "tweet_id": "2111474855661248889",
         "zaman": "2026-10-17T15:10:05+00:00",
-        "metin": "🆚 AS Roma v Genoa\n\n🏆 AS Roma 62% · Draw 22% · Genoa 16%\n⚽ Over 2.5 goals 52% · Under 48%\n🥅 Both teams score 49% · Not both 51%\n🎯 Most likely score: 1-0 (12%)\n\n📈 Team stats: not enough recent games to compare with the odds\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 AS Roma v Genoa\n\n🏆 AS Roma 62% · Draw 22% · Genoa 16%\n⚽ Over 2.5 goals 52% · Under 48%\n🥅 Both teams score 49% · Not both 51%\n🎯 Most likely score: 1-0 (12%)\n\n📈 Team stats: not enough recent games to compare with the odds\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111557702329483762",
+          "skor": "2-0",
+          "isabet": [
+            true,
+            false,
+            true
+          ],
+          "xg": [
+            1.33,
+            0.49
+          ],
+          "zaman": "2026-10-17T20:39:08+00:00"
+        }
       },
       "analiz_27": {
         "durum": "paylasildi",
         "tweet_id": "2111484018873057359",
         "zaman": "2026-10-17T15:46:30+00:00",
-        "metin": "🆚 Lille v Stade Brestois 29\n\n🏆 Lille 49% · Draw 24% · Stade Brestois 29 27%\n⚽ Over 2.5 goals 55% · Under 45%\n🥅 Both teams score 57% · Not both 43%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: Lille win 49%\n💹 Odds: 49%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Lille v Stade Brestois 29\n\n🏆 Lille 49% · Draw 24% · Stade Brestois 29 27%\n⚽ Over 2.5 goals 55% · Under 45%\n🥅 Both teams score 57% · Not both 43%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: Lille win 49%\n💹 Odds: 49%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111557712974651496",
+          "skor": "1-1",
+          "isabet": [
+            false,
+            false,
+            true
+          ],
+          "xg": [
+            1.91,
+            0.82
+          ],
+          "zaman": "2026-10-17T20:39:08+00:00",
+          "brier": {
+            "piyasa": 1.3841,
+            "istatistik": 1.3841
+          }
+        }
       },
       "tablo_aksam": {
         "durum": "paylasildi",

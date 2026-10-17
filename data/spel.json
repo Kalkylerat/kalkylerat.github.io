@@ -90740,6 +90740,15 @@
               3
             ],
             "zaman": "2026-10-17T18:02:12+00:00"
+          },
+          "1557434": {
+            "durum": "paylasildi",
+            "tweet_id": "2111524363594088919",
+            "skor": [
+              0,
+              1
+            ],
+            "zaman": "2026-10-17T18:26:52+00:00"
           }
         }
       },
@@ -91132,7 +91141,26 @@
         "durum": "paylasildi",
         "tweet_id": "2111455359671967791",
         "zaman": "2026-10-17T13:52:37+00:00",
-        "metin": "🆚 Newcastle v Aston Villa\n\n🏆 Newcastle 44% · Draw 24% · Aston Villa 33%\n⚽ Over 2.5 goals 59% · Under 41%\n🥅 Both teams score 61% · Not both 39%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: Newcastle win 53%\n💹 Odds: 44%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Newcastle v Aston Villa\n\n🏆 Newcastle 44% · Draw 24% · Aston Villa 33%\n⚽ Over 2.5 goals 59% · Under 41%\n🥅 Both teams score 61% · Not both 39%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: Newcastle win 53%\n💹 Odds: 44%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111524410217873872",
+          "skor": "0-1",
+          "isabet": [
+            false,
+            false,
+            false
+          ],
+          "xg": [
+            1.13,
+            1.56
+          ],
+          "zaman": "2026-10-17T18:26:52+00:00",
+          "brier": {
+            "piyasa": 1.4172,
+            "istatistik": 1.7064
+          }
+        }
       },
       "analiz_24": {
         "durum": "paylasildi",

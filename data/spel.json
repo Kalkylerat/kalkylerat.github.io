@@ -91059,7 +91059,26 @@
         "durum": "paylasildi",
         "tweet_id": "2111447172231131321",
         "zaman": "2026-10-17T13:20:05+00:00",
-        "metin": "🆚 ADO Den Haag v PSV Eindhoven\n\n🏆 ADO Den Haag 12% · Draw 14% · PSV Eindhoven 74%\n⚽ Over 2.5 goals 78% · Under 22%\n🥅 Both teams score 65% · Not both 35%\n\n📈 Team stats: Both teams score 72%\n💹 Odds: 65%\n\n💬 Chances, not picks. Your read? 👇\n#Eredivisie\n18+ | Play responsibly"
+        "metin": "🆚 ADO Den Haag v PSV Eindhoven\n\n🏆 ADO Den Haag 12% · Draw 14% · PSV Eindhoven 74%\n⚽ Over 2.5 goals 78% · Under 22%\n🥅 Both teams score 65% · Not both 35%\n\n📈 Team stats: Both teams score 72%\n💹 Odds: 65%\n\n💬 Chances, not picks. Your read? 👇\n#Eredivisie\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111495604786393560",
+          "skor": "2-1",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "xg": [
+            1.43,
+            1.21
+          ],
+          "zaman": "2026-10-17T16:32:29+00:00",
+          "brier": {
+            "piyasa": 1.5193,
+            "istatistik": 1.3461
+          }
+        }
       },
       "analiz_4": {
         "durum": "paylasildi",
@@ -91099,6 +91118,12 @@
           1556678
         ],
         "sonuclar": {}
+      },
+      "analiz_25": {
+        "durum": "paylasildi",
+        "tweet_id": "2111495590760575309",
+        "zaman": "2026-10-17T16:32:29+00:00",
+        "metin": "🆚 Telstar v Feyenoord\n\n🏆 Telstar 13% · Draw 16% · Feyenoord 71%\n⚽ Over 2.5 goals 71% · Under 28%\n🥅 Both teams score 60% · Not both 40%\n🎯 Most likely score: 1-2 (9%)\n\n📈 Team stats: Over 2.5 goals 82%\n💹 Odds: 71%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly"
       }
     },
     "tablo_aksam": [

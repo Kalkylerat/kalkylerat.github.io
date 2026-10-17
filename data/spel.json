@@ -91193,7 +91193,17 @@
           1552193,
           1556678
         ],
-        "sonuclar": {}
+        "sonuclar": {
+          "1561943": {
+            "durum": "paylasildi",
+            "tweet_id": "2111538446351356123",
+            "skor": [
+              3,
+              2
+            ],
+            "zaman": "2026-10-17T19:22:49+00:00"
+          }
+        }
       },
       "analiz_25": {
         "durum": "paylasildi",

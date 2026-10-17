@@ -90417,7 +90417,26 @@
         "durum": "paylasildi",
         "tweet_id": "2111332693547905485",
         "zaman": "2026-10-17T05:45:11+00:00",
-        "metin": "🆚 Everton v Chelsea\n\n🏆 Everton 31% · Draw 24% · Chelsea 45%\n⚽ Over 2.5 goals 58% · Under 42%\n🥅 Both teams score 60% · Not both 40%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: Everton win 61%\n💹 Odds: 31%\n\n💬 Not picks. Your read? 👇\n#PremierLeague\n18+ | Play responsibly"
+        "metin": "🆚 Everton v Chelsea\n\n🏆 Everton 31% · Draw 24% · Chelsea 45%\n⚽ Over 2.5 goals 58% · Under 42%\n🥅 Both teams score 60% · Not both 40%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: Everton win 61%\n💹 Odds: 31%\n\n💬 Not picks. Your read? 👇\n#PremierLeague\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111451708752544213",
+          "skor": "0-2",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "xg": [
+            0.53,
+            1.55
+          ],
+          "zaman": "2026-10-17T13:38:06+00:00",
+          "brier": {
+            "piyasa": 1.1536,
+            "istatistik": 1.7118
+          }
+        }
       },
       "analiz_10": {
         "durum": "paylasildi",
@@ -90573,6 +90592,15 @@
               0
             ],
             "zaman": "2026-10-17T13:27:07+00:00"
+          },
+          "1557430": {
+            "durum": "paylasildi",
+            "tweet_id": "2111451694382899339",
+            "skor": [
+              0,
+              2
+            ],
+            "zaman": "2026-10-17T13:38:06+00:00"
           }
         }
       },

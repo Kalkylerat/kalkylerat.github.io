@@ -21310,7 +21310,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 19
+     "no": 19,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1570413-CSX2",
@@ -23037,7 +23038,7 @@
    ],
    "oto": true,
    "issue": 94,
-   "olcum_sorgu": "2026-10-17T20:57:35+00:00"
+   "olcum_sorgu": "2026-10-17T21:53:20+00:00"
   }
  ]
 }

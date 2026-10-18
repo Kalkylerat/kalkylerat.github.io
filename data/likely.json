@@ -24904,8 +24904,30 @@
        "oran": 1.25,
        "olasilik": 0.815,
        "deger": 0.019,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "3-1",
+       "goller": [
+        [
+         27,
+         0,
+         "dep"
+        ],
+        [
+         47,
+         0,
+         "ev"
+        ],
+        [
+         55,
+         0,
+         "ev"
+        ],
+        [
+         90,
+         5,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1498896-CS1X",

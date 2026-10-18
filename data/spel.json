@@ -98527,6 +98527,13 @@
         "istatistik_kaynak": "lig"
       }
     ],
-    "etkilesim": {}
+    "etkilesim": {
+      "analiz_6": {
+        "durum": "paylasildi",
+        "tweet_id": "2111708014336245773",
+        "zaman": "2026-10-18T06:36:34+00:00",
+        "metin": "🆚 Udinese v Lecce\n\n🏆 Udinese 54% · Draw 24% · Lecce 22%\n⚽ Over 2.5 goals 48% · Under 52%\n🥅 Both teams score 50% · Not both 50%\n🎯 Most likely score: 1-0 (12%)\n\n📈 Team stats: Udinese win 35%\n💹 Odds: 54%\n\n💬 Not picks. What's your score? 👇\n#SerieA\n18+ | Play responsibly"
+      }
+    }
   }
 ]

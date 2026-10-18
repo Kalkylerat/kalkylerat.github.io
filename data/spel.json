@@ -98661,6 +98661,24 @@
               0
             ],
             "zaman": "2026-10-18T13:57:46+00:00"
+          },
+          "1557432": {
+            "durum": "paylasildi",
+            "tweet_id": "2111833081136947312",
+            "skor": [
+              1,
+              1
+            ],
+            "zaman": "2026-10-18T14:53:30+00:00"
+          },
+          "1552783": {
+            "durum": "paylasildi",
+            "tweet_id": "2111833082454061171",
+            "skor": [
+              2,
+              5
+            ],
+            "zaman": "2026-10-18T14:53:30+00:00"
           }
         }
       },
@@ -98699,7 +98717,26 @@
         "durum": "paylasildi",
         "tweet_id": "2111745493424292149",
         "zaman": "2026-10-18T09:05:30+00:00",
-        "metin": "🆚 Leeds v Manchester United\n\n🏆 Leeds 42% · Draw 25% · Manchester United 33%\n⚽ Over 2.5 goals 55% · Under 45%\n🥅 Both teams score 58% · Not both 42%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: Leeds win 57%\n💹 Odds: 42%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Leeds v Manchester United\n\n🏆 Leeds 42% · Draw 25% · Manchester United 33%\n⚽ Over 2.5 goals 55% · Under 45%\n🥅 Both teams score 58% · Not both 42%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: Leeds win 57%\n💹 Odds: 42%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111833094487433414",
+          "skor": "1-1",
+          "isabet": [
+            false,
+            false,
+            true
+          ],
+          "xg": [
+            1.0,
+            0.93
+          ],
+          "zaman": "2026-10-18T14:53:30+00:00",
+          "brier": {
+            "piyasa": 1.336,
+            "istatistik": 1.4473
+          }
+        }
       },
       "analiz_11": {
         "durum": "paylasildi",
@@ -98711,7 +98748,26 @@
         "durum": "paylasildi",
         "tweet_id": "2111755879401857178",
         "zaman": "2026-10-18T09:46:47+00:00",
-        "metin": "🆚 Angers v Marseille\n\n🏆 Angers 28% · Draw 23% · Marseille 48%\n⚽ Over 2.5 goals 59% · Under 41%\n🥅 Both teams score 60% · Not both 40%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: Over 2.5 goals 32%\n💹 Odds: 59%\n\n💬 Not picks. Your read? 👇\n#Ligue1\n18+ | Play responsibly"
+        "metin": "🆚 Angers v Marseille\n\n🏆 Angers 28% · Draw 23% · Marseille 48%\n⚽ Over 2.5 goals 59% · Under 41%\n🥅 Both teams score 60% · Not both 40%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: Over 2.5 goals 32%\n💹 Odds: 59%\n\n💬 Not picks. Your read? 👇\n#Ligue1\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111833107200348325",
+          "skor": "2-5",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            2.06,
+            2.77
+          ],
+          "zaman": "2026-10-18T14:53:30+00:00",
+          "brier": {
+            "piyasa": 0.7353,
+            "istatistik": 1.4612
+          }
+        }
       },
       "anket": {
         "durum": "paylasildi",
@@ -98853,6 +98909,12 @@
         "tweet_id": "2111827622992765160",
         "zaman": "2026-10-18T14:31:51+00:00",
         "metin": "🆚 AC Milan v Atalanta\n\n🏆 AC Milan 55% · Draw 23% · Atalanta 22%\n⚽ Over 2.5 goals 57% · Under 43%\n🥅 Both teams score 56% · Not both 44%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. What's your score? 👇\n#SerieA\n18+ | Play responsibly"
+      },
+      "analiz_22": {
+        "durum": "paylasildi",
+        "tweet_id": "2111833069262868986",
+        "zaman": "2026-10-18T14:53:30+00:00",
+        "metin": "🆚 Malaga v Real Sociedad\n\n🏆 Malaga 29% · Draw 25% · Real Sociedad 47%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 56% · Not both 44%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: Malaga win 38%\n💹 Odds: 29%\n\n💬 Not picks. Your read? 👇\n#LaLiga\n18+ | Play responsibly"
       }
     }
   }

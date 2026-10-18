@@ -98744,6 +98744,15 @@
               3
             ],
             "zaman": "2026-10-18T15:04:42+00:00"
+          },
+          "1570414": {
+            "durum": "paylasildi",
+            "tweet_id": "2111852436935843984",
+            "skor": [
+              2,
+              1
+            ],
+            "zaman": "2026-10-18T16:10:31+00:00"
           }
         }
       },
@@ -98963,7 +98972,26 @@
         "durum": "paylasildi",
         "tweet_id": "2111784281710170594",
         "zaman": "2026-10-18T11:39:38+00:00",
-        "metin": "🆚 Celta Vigo v Alaves\n\n🏆 Celta Vigo 45% · Draw 27% · Alaves 28%\n⚽ Over 2.5 goals 44% · Under 56%\n🥅 Both teams score 49% · Not both 51%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Team stats: Celta Vigo win 46%\n💹 Odds: 45%\n\n💬 Not picks. Your read? 👇\n#LaLiga\n18+ | Play responsibly"
+        "metin": "🆚 Celta Vigo v Alaves\n\n🏆 Celta Vigo 45% · Draw 27% · Alaves 28%\n⚽ Over 2.5 goals 44% · Under 56%\n🥅 Both teams score 49% · Not both 51%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Team stats: Celta Vigo win 46%\n💹 Odds: 45%\n\n💬 Not picks. Your read? 👇\n#LaLiga\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111852481680666815",
+          "skor": "2-1",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "xg": [
+            0.91,
+            1.05
+          ],
+          "zaman": "2026-10-18T16:10:31+00:00",
+          "brier": {
+            "piyasa": 1.0242,
+            "istatistik": 1.0353
+          }
+        }
       },
       "analiz_17": {
         "durum": "paylasildi",
@@ -98981,7 +99009,26 @@
         "durum": "paylasildi",
         "tweet_id": "2111800691068907945",
         "zaman": "2026-10-18T12:44:34+00:00",
-        "metin": "🆚 Granada v Cadiz\n\n🏆 Granada 51% · Draw 26% · Cadiz 23%\n⚽ Over 2.5 goals 46% · Under 54% (stats 65%)\n🥅 Both teams score 48% · Not both 52% (stats 66%)\n🎯 Likeliest score: 1-0 (13%)\n\n💬 Over 2.5 goals: 46% or 65%, which is nearer?\n18+ | Play responsibly"
+        "metin": "🆚 Granada v Cadiz\n\n🏆 Granada 51% · Draw 26% · Cadiz 23%\n⚽ Over 2.5 goals 46% · Under 54% (stats 65%)\n🥅 Both teams score 48% · Not both 52% (stats 66%)\n🎯 Likeliest score: 1-0 (13%)\n\n💬 Over 2.5 goals: 46% or 65%, which is nearer?\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111852523766296581",
+          "skor": "2-0",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            0.89,
+            0.48
+          ],
+          "zaman": "2026-10-18T16:10:31+00:00",
+          "brier": {
+            "piyasa": 0.7972,
+            "istatistik": 1.293
+          }
+        }
       },
       "analiz_16": {
         "durum": "paylasildi",

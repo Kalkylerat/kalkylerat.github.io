@@ -23170,7 +23170,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 6
+     "no": 6,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1498891-CS1X",
@@ -23392,7 +23393,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 17
+     "no": 17,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1552195-CSX2",
@@ -23656,7 +23658,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 30
+     "no": 30,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1556677-CS1X",
@@ -23676,7 +23679,8 @@
      "istatistik": 0.748,
      "uyum": true,
      "buyuk": true,
-     "no": 31
+     "no": 31,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1498888-CS12",
@@ -23921,7 +23925,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 43
+     "no": 43,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1523280-CS12",
@@ -24002,7 +24007,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 47
+     "no": 47,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1569976-CS1X",
@@ -24022,7 +24028,8 @@
      "istatistik": 0.685,
      "uyum": false,
      "buyuk": false,
-     "no": 48
+     "no": 48,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1506546-CS12",
@@ -24042,7 +24049,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 49
+     "no": 49,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1570420-MS1",
@@ -24511,7 +24519,8 @@
      "istatistik": 0.706,
      "uyum": true,
      "buyuk": true,
-     "no": 72
+     "no": 72,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1551842-CS1X",
@@ -24613,7 +24622,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 77
+     "no": 77,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1493194-CS12",
@@ -25130,7 +25140,7 @@
    ],
    "oto": true,
    "issue": 98,
-   "olcum_sorgu": "2026-10-18T15:11:45+00:00"
+   "olcum_sorgu": "2026-10-18T16:10:31+00:00"
   }
  ]
 }

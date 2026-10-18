@@ -98938,7 +98938,26 @@
         "durum": "paylasildi",
         "tweet_id": "2111778888875659554",
         "zaman": "2026-10-18T11:18:11+00:00",
-        "metin": "🆚 Celtic v Heart Of Midlothian\n\n🏆 Celtic 60% · Draw 20% · Heart Of Midlothian 20%\n⚽ Over 2.5 goals 64% · Under 36%\n🥅 Both teams score 60% · Not both 40%\n\n📈 Team stats: Over 2.5 goals 46%\n💹 Odds: 64%\n\n💬 Chances, not picks. Your read? 👇\n#CelticFC\n18+ | Play responsibly"
+        "metin": "🆚 Celtic v Heart Of Midlothian\n\n🏆 Celtic 60% · Draw 20% · Heart Of Midlothian 20%\n⚽ Over 2.5 goals 64% · Under 36%\n🥅 Both teams score 60% · Not both 40%\n\n📈 Team stats: Over 2.5 goals 46%\n💹 Odds: 64%\n\n💬 Chances, not picks. Your read? 👇\n#CelticFC\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111848145793552608",
+          "skor": "7-1",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            4.12,
+            1.27
+          ],
+          "zaman": "2026-10-18T15:53:25+00:00",
+          "brier": {
+            "piyasa": 0.5237,
+            "istatistik": 0.9483
+          }
+        }
       },
       "analiz_14": {
         "durum": "paylasildi",

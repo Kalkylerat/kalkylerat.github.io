@@ -99317,6 +99317,24 @@
               1
             ],
             "zaman": "2026-10-18T19:20:49+00:00"
+          },
+          "1552191": {
+            "durum": "paylasildi",
+            "tweet_id": "2111909572323782936",
+            "skor": [
+              2,
+              2
+            ],
+            "zaman": "2026-10-18T19:57:32+00:00"
+          },
+          "1552196": {
+            "durum": "paylasildi",
+            "tweet_id": "2111909573321957798",
+            "skor": [
+              1,
+              2
+            ],
+            "zaman": "2026-10-18T19:57:32+00:00"
           }
         }
       },
@@ -99330,13 +99348,51 @@
         "durum": "paylasildi",
         "tweet_id": "2111860154329190773",
         "zaman": "2026-10-18T16:41:07+00:00",
-        "metin": "🆚 NEC Nijmegen v Fortuna Sittard\n\n🏆 NEC Nijmegen 58% · Draw 20% · Fortuna Sittard 22%\n⚽ Over 2.5 goals 66% · Under 34%\n🥅 Both teams score 63% · Not both 37%\n\n📈 Team stats: NEC Nijmegen win 25%\n💹 Odds: 58%\n\n💬 Not picks. Your read? 👇\n#Eredivisie\n18+ | Play responsibly"
+        "metin": "🆚 NEC Nijmegen v Fortuna Sittard\n\n🏆 NEC Nijmegen 58% · Draw 20% · Fortuna Sittard 22%\n⚽ Over 2.5 goals 66% · Under 34%\n🥅 Both teams score 63% · Not both 37%\n\n📈 Team stats: NEC Nijmegen win 25%\n💹 Odds: 58%\n\n💬 Not picks. Your read? 👇\n#Eredivisie\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111909588232699913",
+          "skor": "2-2",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "xg": [
+            2.86,
+            0.45
+          ],
+          "zaman": "2026-10-18T19:57:32+00:00",
+          "brier": {
+            "piyasa": 1.2664,
+            "istatistik": 1.198
+          }
+        }
       },
       "analiz_25": {
         "durum": "paylasildi",
         "tweet_id": "2111863738819064019",
         "zaman": "2026-10-18T16:55:22+00:00",
-        "metin": "🆚 Twente v Utrecht\n\n🏆 Twente 71% · Draw 16% · Utrecht 13%\n⚽ Over 2.5 goals 71% · Under 29%\n🥅 Both teams score 60% · Not both 40%\n🎯 Most likely score: 2-1 (9%)\n\n📈 Team stats: Twente win 68%\n💹 Odds: 71%\n\n💬 Chances, not picks. Your read? 👇\n#Eredivisie\n18+ | Play responsibly"
+        "metin": "🆚 Twente v Utrecht\n\n🏆 Twente 71% · Draw 16% · Utrecht 13%\n⚽ Over 2.5 goals 71% · Under 29%\n🥅 Both teams score 60% · Not both 40%\n🎯 Most likely score: 2-1 (9%)\n\n📈 Team stats: Twente win 68%\n💹 Odds: 71%\n\n💬 Chances, not picks. Your read? 👇\n#Eredivisie\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111909600115212639",
+          "skor": "1-2",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "xg": [
+            1.36,
+            1.25
+          ],
+          "zaman": "2026-10-18T19:57:32+00:00",
+          "brier": {
+            "piyasa": 1.525,
+            "istatistik": 1.424
+          }
+        }
       },
       "analiz_28": {
         "durum": "paylasildi",

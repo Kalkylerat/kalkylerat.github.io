@@ -98771,6 +98771,15 @@
               0
             ],
             "zaman": "2026-10-18T17:12:31+00:00"
+          },
+          "1557435": {
+            "durum": "paylasildi",
+            "tweet_id": "2111872925582115061",
+            "skor": [
+              0,
+              1
+            ],
+            "zaman": "2026-10-18T17:31:55+00:00"
           }
         }
       },
@@ -99161,7 +99170,26 @@
         "durum": "paylasildi",
         "tweet_id": "2111821052670095727",
         "zaman": "2026-10-18T14:05:45+00:00",
-        "metin": "🆚 Nottingham Forest v Arsenal\n\n🏆 Nottingham Forest 15% · Draw 22% · Arsenal 63%\n⚽ Over 2.5 goals 51% · Under 49%\n🥅 Both teams score 47% · Not both 53%\n🎯 Most likely score: 0-1 (13%)\n\n📈 Stats: Over 2.5 goals 16% · odds 51%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Nottingham Forest v Arsenal\n\n🏆 Nottingham Forest 15% · Draw 22% · Arsenal 63%\n⚽ Over 2.5 goals 51% · Under 49%\n🥅 Both teams score 47% · Not both 53%\n🎯 Most likely score: 0-1 (13%)\n\n📈 Stats: Over 2.5 goals 16% · odds 51%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111872946088112420",
+          "skor": "0-1",
+          "isabet": [
+            true,
+            false,
+            true
+          ],
+          "xg": [
+            0.79,
+            1.09
+          ],
+          "zaman": "2026-10-18T17:31:55+00:00",
+          "brier": {
+            "piyasa": 0.6788,
+            "istatistik": 0.604
+          }
+        }
       },
       "analiz_21": {
         "durum": "paylasildi",

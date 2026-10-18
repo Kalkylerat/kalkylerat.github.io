@@ -23896,7 +23896,8 @@
      "istatistik": 0.871,
      "uyum": true,
      "buyuk": false,
-     "no": 41
+     "no": 41,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1495990-CS12",
@@ -24414,7 +24415,8 @@
      "istatistik": 0.619,
      "uyum": false,
      "buyuk": true,
-     "no": 66
+     "no": 66,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1523282-CS1X",
@@ -24476,7 +24478,8 @@
      "istatistik": 0.752,
      "uyum": true,
      "buyuk": true,
-     "no": 69
+     "no": 69,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1558243-IYU05",
@@ -25229,7 +25232,7 @@
    ],
    "oto": true,
    "issue": 98,
-   "olcum_sorgu": "2026-10-18T18:01:12+00:00",
+   "olcum_sorgu": "2026-10-18T18:59:15+00:00",
    "tazeleme": "2026-10-18T17:24:03+00:00"
   }
  ]

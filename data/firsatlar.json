@@ -47,7 +47,8 @@
   "2111755336487223446",
   "2111758435557491177",
   "2111774302895042563",
-  "2111838927703138324"
+  "2111838927703138324",
+  "2111872441710526975"
  ],
  "kalkylerat": {
   "tarih": "2026-10-18",
@@ -55,7 +56,8 @@
   "aramalar": [
    10,
    13,
-   16
+   16,
+   18
   ],
   "issue": {
    "tarih": "2026-10-18",
@@ -64,11 +66,12 @@
  },
  "likely": {
   "tarih": "2026-10-18",
-  "gonderilen": 4,
+  "gonderilen": 5,
   "aramalar": [
    10,
    13,
-   16
+   16,
+   18
   ],
   "issue": {
    "tarih": "2026-10-18",
@@ -77,566 +80,566 @@
  },
  "onbellek": {
   "tarih": "2026-10-18",
-  "saat": 16,
+  "saat": 18,
   "postlar": [
    {
-    "id": "2111850472566919558",
-    "metin": "🇸🇦😬 Sérgio Conceição has delivered a brutally honest assessment of Saudi Arabian football:\n\n🗣️ Conceição: “The local players aren't demanding. They don't do it because they're bad or because they don't want to.\n\nIt's simply a matter of culture. THERE IS NO TRUE CULTURE OF https://t.co/8JLnSnqxKV",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-18T16:02:43.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 1960,
-     "like_count": 8,
-     "quote_count": 0,
-     "reply_count": 2,
-     "retweet_count": 0
-    }
-   },
-   {
-    "id": "2111850036669624550",
-    "metin": "Lots of the ball for Arsenal (76.3% possession) in the first 30 minutes, but not much to show for it.\n\nOne shot apiece so far. https://t.co/55qenQGWjE",
-    "kullanici": "OptaAnalyst",
-    "zaman": "2026-10-18T16:00:59.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 2137,
-     "like_count": 2,
-     "quote_count": 1,
-     "reply_count": 1,
-     "retweet_count": 0
-    }
-   },
-   {
-    "id": "2111848649533566996",
-    "metin": "\"We set the tone in the game, we were really intense\" 😤\n\nFabian Hürzeler speaking after Brighton's 5-0 win over Crystal Palace https://t.co/Q0PQWW3GTI",
-    "kullanici": "SkySportsPL",
-    "zaman": "2026-10-18T15:55:28.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 40543,
-     "like_count": 90,
-     "quote_count": 1,
-     "reply_count": 4,
-     "retweet_count": 6
-    }
-   },
-   {
-    "id": "2111847500365681083",
-    "metin": "👀 Manchester United in the Premier League this season:\n\n▪️ 7 Matches \n▪️ 7 Points \n▪️ 10 Goals \n▪️ 10 Conceded https://t.co/vhJPycgBXR https://t.co/b3yXC732Cl",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-18T15:50:54.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 6092,
-     "like_count": 24,
-     "quote_count": 0,
-     "reply_count": 2,
-     "retweet_count": 3
-    }
-   },
-   {
-    "id": "2111847239672881591",
-    "metin": "\"We've moved on from it.\" \n\nHarry Maguire responds to questions about Lisandro Martinez's comments 💬 https://t.co/66XB69BSZx",
-    "kullanici": "SkySportsPL",
-    "zaman": "2026-10-18T15:49:52.000Z",
-    "metrik": {
-     "bookmark_count": 6,
-     "impression_count": 41722,
-     "like_count": 112,
-     "quote_count": 1,
-     "reply_count": 12,
-     "retweet_count": 16
-    }
-   },
-   {
-    "id": "2111845285693665383",
-    "metin": "Kamissoko today against Angers 🇲🇱🎩🔝\n\n⚔️ 4 duels won \n👟 90% pass completion \n👌 67 touches \n⚽️ 1 goal https://t.co/zJCIYLjnuP",
-    "kullanici": "Ligue1_ENG",
-    "zaman": "2026-10-18T15:42:06.000Z",
-    "metrik": {
-     "bookmark_count": 2,
-     "impression_count": 2333,
-     "like_count": 17,
-     "quote_count": 0,
-     "reply_count": 1,
-     "retweet_count": 4
-    }
-   },
-   {
-    "id": "2111845101420880169",
-    "metin": "\"We've got something to take us forward\" \n\nMichael Carrick reflects on Manchester United's 1-1 draw at Leeds 💭 https://t.co/9GvyO65u0F",
-    "kullanici": "SkySportsPL",
-    "zaman": "2026-10-18T15:41:23.000Z",
-    "metrik": {
-     "bookmark_count": 10,
-     "impression_count": 79868,
-     "like_count": 183,
-     "quote_count": 16,
-     "reply_count": 48,
-     "retweet_count": 14
-    }
-   },
-   {
-    "id": "2111844062269411796",
-    "metin": "Manchester United managed just 39% possession against Leeds.\n\nA draw away at Elland Road isn't necessarily a bad result in isolation, but it's the performances that should be seriously worrying Michael Carrick.\n\nIt was Leeds who dominated the second half, Leeds who pushed for the https://t.co/Zq3ItNbrJl",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-18T15:37:15.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 10863,
-     "like_count": 23,
-     "quote_count": 1,
-     "reply_count": 2,
-     "retweet_count": 6
-    }
-   },
-   {
-    "id": "2111843814826451014",
-    "metin": "Definition at it's finest ⚽️\n\n#CeltaAlavés https://t.co/HiQvbyPVyt",
-    "kullanici": "LaLigaEN",
-    "zaman": "2026-10-18T15:36:16.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 5105,
-     "like_count": 18,
-     "quote_count": 0,
-     "reply_count": 0,
-     "retweet_count": 0
-    }
-   },
-   {
-    "id": "2111843669435158789",
-    "metin": "308 days later, Takumi Minamino is back in a Ligue 1 match 🔙🇯🇵 https://t.co/IvTqNRYOBY",
-    "kullanici": "Ligue1_ENG",
-    "zaman": "2026-10-18T15:35:41.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 2436,
-     "like_count": 60,
-     "quote_count": 0,
-     "reply_count": 1,
-     "retweet_count": 12
-    }
-   },
-   {
-    "id": "2111843335279128945",
-    "metin": "\"They might never get a better chance.\" 🗣️ Dean Ashton discusses whether Brighton and Leeds can push for a Champions League spot this season. https://t.co/TcdHX3dN5N",
+    "id": "2111879852211241202",
+    "metin": "\"I think we can be stronger as a group\" 🗣️ Roberto De Zerbi on Spurs' form so far and sets expectations for Coventry. https://t.co/tBQ4AXg78s",
     "kullanici": "SkySportsNews",
-    "zaman": "2026-10-18T15:34:21.000Z",
+    "zaman": "2026-10-18T17:59:28.000Z",
     "metrik": {
-     "bookmark_count": 6,
-     "impression_count": 60689,
-     "like_count": 233,
-     "quote_count": 2,
-     "reply_count": 12,
-     "retweet_count": 10
-    }
-   },
-   {
-    "id": "2111841772280188930",
-    "metin": "😂🇪🇸 A match in Spain's fourth division was suspended due to heavy rain, and the referee decided to test whether the ball would still bounce on the flooded pitch. 😭 https://t.co/swcV8TN4Ra",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-18T15:28:09.000Z",
-    "metrik": {
-     "bookmark_count": 10,
-     "impression_count": 16029,
-     "like_count": 170,
-     "quote_count": 7,
-     "reply_count": 5,
-     "retweet_count": 17
-    }
-   },
-   {
-    "id": "2111841290216226959",
-    "metin": "Nico Paz is the Panini Player of the Match 🏆\n\n#FiorentinaComo https://t.co/ISliyQl3Id",
-    "kullanici": "SerieA_EN",
-    "zaman": "2026-10-18T15:26:14.000Z",
-    "metrik": {
-     "bookmark_count": 3,
-     "impression_count": 2870,
-     "like_count": 65,
-     "quote_count": 6,
-     "reply_count": 0,
-     "retweet_count": 17
-    }
-   },
-   {
-    "id": "2111840941568938349",
-    "metin": "The top-scoring sides in Premier League history after seven matches:\n\n🔵 Manchester City (2019-20): 27 goals\n🔴 Arsenal (2009-10): 24\n♦️ Manchester United (2011-12): 24\n🐦 Brighton (2026-27): 23\n\nManchester City, Arsenal and Manchester United ended up securing top-three finishes. https://t.co/WPuq6TuI2O",
-    "kullanici": "TheAthleticFC",
-    "zaman": "2026-10-18T15:24:51.000Z",
-    "metrik": {
-     "bookmark_count": 4,
-     "impression_count": 27467,
-     "like_count": 95,
+     "bookmark_count": 0,
+     "impression_count": 14894,
+     "like_count": 23,
      "quote_count": 0,
-     "reply_count": 8,
-     "retweet_count": 7
-    }
-   },
-   {
-    "id": "2111840014975783366",
-    "metin": "\"You can't be a blaster\"\n\nIan Wright urges Liam Delap to show more composure ⤵️ https://t.co/cJ1mKv34FD",
-    "kullanici": "SkySportsPL",
-    "zaman": "2026-10-18T15:21:10.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 69326,
-     "like_count": 141,
-     "quote_count": 0,
-     "reply_count": 6,
-     "retweet_count": 9
-    }
-   },
-   {
-    "id": "2111839962522157469",
-    "metin": "Up next...\n\n@NFFC 🆚 @Arsenal \n\nFollow live 👉 https://t.co/oHlJi5FqZm https://t.co/OilYYga3Nt",
-    "kullanici": "premierleague",
-    "zaman": "2026-10-18T15:20:57.000Z",
-    "metrik": {
-     "bookmark_count": 2,
-     "impression_count": 104969,
-     "like_count": 464,
-     "quote_count": 1,
-     "reply_count": 30,
-     "retweet_count": 44
-    }
-   },
-   {
-    "id": "2111839907857781009",
-    "metin": "FIVE-GOAL FEAST 🖐💙\n\nBrighton’s Diego Gomez scores insane halfway line strike as Seagulls run riot against Crystal Palace Palace 🤩💥\n\nRead more 🔗 https://t.co/OBaMd2VnXG https://t.co/tuWPACDHRr",
-    "kullanici": "goal",
-    "zaman": "2026-10-18T15:20:44.000Z",
-    "metrik": {
-     "bookmark_count": 2,
-     "impression_count": 20207,
-     "like_count": 60,
-     "quote_count": 0,
-     "reply_count": 4,
-     "retweet_count": 9
-    }
-   },
-   {
-    "id": "2111839739082928636",
-    "metin": "\"We could have played with a little bit more quality in the first half\" \n\nDominic Calvert-Lewin says Leeds were 'unlucky' to not win the game against Manchester United 🔊 https://t.co/NupYGTJhKx",
-    "kullanici": "SkySportsPL",
-    "zaman": "2026-10-18T15:20:04.000Z",
-    "metrik": {
-     "bookmark_count": 8,
-     "impression_count": 107974,
-     "like_count": 491,
-     "quote_count": 1,
-     "reply_count": 8,
-     "retweet_count": 26
-    }
-   },
-   {
-    "id": "2111839136139399398",
-    "metin": "Dominic Calvert-Lewin's game by numbers vs Manchester United: \n\n14/19 passes completed\n10 duels won (most)\n5 touches in opp. box\n3 shots\n1 foul won\n1 chance created\n1 take-on completed\n1 goal\n\nGreat to see. 👏 https://t.co/DmoA8CztAg",
-    "kullanici": "Squawka",
-    "zaman": "2026-10-18T15:17:40.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 12845,
-     "like_count": 31,
-     "quote_count": 0,
-     "reply_count": 0,
+     "reply_count": 2,
      "retweet_count": 2
     }
    },
    {
-    "id": "2111839080875192509",
-    "metin": "Sunderland are currently on the longest losing streak (4) in the Premier League this season. 😬 https://t.co/dsHUmzYynN",
-    "kullanici": "WhoScored",
-    "zaman": "2026-10-18T15:17:27.000Z",
-    "metrik": {
-     "bookmark_count": 2,
-     "impression_count": 8769,
-     "like_count": 58,
-     "quote_count": 2,
-     "reply_count": 1,
-     "retweet_count": 5
-    }
-   },
-   {
-    "id": "2111838927703138324",
-    "metin": "22 goals and six consecutive victories for @BHAFC 👏 https://t.co/Osq3bDNK9A",
-    "kullanici": "premierleague",
-    "zaman": "2026-10-18T15:16:51.000Z",
-    "metrik": {
-     "bookmark_count": 43,
-     "impression_count": 156052,
-     "like_count": 5534,
-     "quote_count": 99,
-     "reply_count": 96,
-     "retweet_count": 403
-    }
-   },
-   {
-    "id": "2111837897855013147",
-    "metin": "𝐅𝐓: 𝐁𝐨𝐮𝐫𝐧𝐞𝐦𝐨𝐮𝐭𝐡 𝟐-𝟎 𝐒𝐮𝐧𝐝𝐞𝐫𝐥𝐚𝐧𝐝\n\nBournemouth get their first league win under Marco Rose. 4.32 xG is their biggest total on record in a PL game.\n\nSunderland have lost their last 4 league games, their longest losing run in the competition since Dec 2015. https://t.co/eR2UgUt0Ju",
+    "id": "2111879499109253400",
+    "metin": "𝐍𝐨𝐭𝐭𝐢𝐧𝐠𝐡𝐚𝐦 𝐅𝐨𝐫𝐞𝐬𝐭 𝟎-𝟏 𝐀𝐫𝐬𝐞𝐧𝐚𝐥\n\nArsenal have won six of their first seven games of a Premier League season for the fourth time (after 2004-05, 2007-08 and 2022-23.\n\nForest, however, are one of two sides without a home goal in Europe’s big five leagues. https://t.co/lXDMf6gm1O",
     "kullanici": "OptaAnalyst",
-    "zaman": "2026-10-18T15:12:45.000Z",
+    "zaman": "2026-10-18T17:58:04.000Z",
     "metrik": {
      "bookmark_count": 0,
-     "impression_count": 6400,
-     "like_count": 28,
+     "impression_count": 2770,
+     "like_count": 10,
      "quote_count": 0,
-     "reply_count": 0,
-     "retweet_count": 3
+     "reply_count": 2,
+     "retweet_count": 2
     }
    },
    {
-    "id": "2111837721274507462",
-    "metin": "Brighton's last six games in all competitions:\n\n◉ Goals Scored: 21\n◉ Goals Conceded: 2\n◉ Wins: 6\n◉ Clean Sheets: 5\n\nThey are SOARING. 💪 https://t.co/inqTrsohyX",
+    "id": "2111879482801819869",
+    "metin": "Most goals scored in the Premier League so far this season. ⚽️\n\nBrighton are putting on a show. 🙌🔵\n\n@bet365 #Ad https://t.co/iYLuRhTnhT",
     "kullanici": "Squawka",
-    "zaman": "2026-10-18T15:12:03.000Z",
+    "zaman": "2026-10-18T17:58:00.000Z",
     "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 12936,
-     "like_count": 53,
+     "bookmark_count": 0,
+     "impression_count": 4748,
+     "like_count": 13,
      "quote_count": 1,
      "reply_count": 1,
      "retweet_count": 2
     }
    },
    {
-    "id": "2111837280209981628",
-    "metin": "Brighton move up to second in the table 💪 https://t.co/uSnNmkoi1i",
-    "kullanici": "premierleague",
-    "zaman": "2026-10-18T15:10:18.000Z",
-    "metrik": {
-     "bookmark_count": 13,
-     "impression_count": 184806,
-     "like_count": 2408,
-     "quote_count": 52,
-     "reply_count": 78,
-     "retweet_count": 223
-    }
-   },
-   {
-    "id": "2111837148827562056",
-    "metin": "👏 Brighton have won their last six matches in a row:\n\n✅ 5-0 vs. Coventry City \n✅ 3-2 vs. Manchester United \n✅ 3-0 vs. Arsenal \n✅ 2-0 vs. Sunderland \n✅ 4-0 vs. FK Kauno Žalgiris \n✅ 5-0 vs. Crystal Palace\n\nThey've got the best attacking record and best defensive record in https://t.co/Akz6xZimT8",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-18T15:09:46.000Z",
-    "metrik": {
-     "bookmark_count": 6,
-     "impression_count": 10928,
-     "like_count": 119,
-     "quote_count": 3,
-     "reply_count": 4,
-     "retweet_count": 9
-    }
-   },
-   {
-    "id": "2111836843675386260",
-    "metin": "Only Tottenham (6) are on a longer winless run than Manchester United (5) in the Premier League this season. 😲 https://t.co/wat2vBcQhy",
-    "kullanici": "WhoScored",
-    "zaman": "2026-10-18T15:08:34.000Z",
-    "metrik": {
-     "bookmark_count": 8,
-     "impression_count": 12920,
-     "like_count": 147,
-     "quote_count": 10,
-     "reply_count": 2,
-     "retweet_count": 27
-    }
-   },
-   {
-    "id": "2111836243520532758",
-    "metin": "Mikel Arteta wants his Arsenal midfield to dominate against Nottingham Forest 😤 https://t.co/5ED9kWkgRn",
-    "kullanici": "SkySportsPL",
-    "zaman": "2026-10-18T15:06:11.000Z",
-    "metrik": {
-     "bookmark_count": 11,
-     "impression_count": 73551,
-     "like_count": 655,
-     "quote_count": 0,
-     "reply_count": 9,
-     "retweet_count": 44
-    }
-   },
-   {
-    "id": "2111836149018730758",
-    "metin": "This is an absolutely unforgivable run of form from Michael Carrick's team. 🤯🤯 https://t.co/el1cUgpWYg https://t.co/856hDXHqwc",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-18T15:05:48.000Z",
-    "metrik": {
-     "bookmark_count": 3,
-     "impression_count": 11939,
-     "like_count": 65,
-     "quote_count": 0,
-     "reply_count": 7,
-     "retweet_count": 5
-    }
-   },
-   {
-    "id": "2111836044731523246",
-    "metin": "Bruno Fernandes in the Premier League since his hat-trick vs Ipswich:\n\n◎ 6.56 vs Everton (0 G/A)\n◎ 6.70 vs Manchester City (0 G/A)\n◎ 7.07 vs Fulham (0 G/A)\n◎ 6.57 vs Tottenham (0 G/A)\n◎ 6.28  vs Leeds (0 G/A)\n\nHe recorded his lowest-rated performance of the season vs Leeds. https://t.co/TziZjMeaZq",
-    "kullanici": "WhoScored",
-    "zaman": "2026-10-18T15:05:23.000Z",
-    "metrik": {
-     "bookmark_count": 6,
-     "impression_count": 13908,
-     "like_count": 159,
-     "quote_count": 17,
-     "reply_count": 8,
-     "retweet_count": 26
-    }
-   },
-   {
-    "id": "2111835853622214962",
-    "metin": "🚨 Manchester United have won just two of their ten matches this season… \n\n❌ 2-0 vs. Hull  \n✅ 5-2 vs. Ipswich  \n🤝 2-2 vs. Everton  \n✅ 4-0 vs. Sabah\n❌ 1-0 vs. Manchester City  \n❌ 3-2 vs. Brighton\n🤝 1-1 vs. Fulham  \n🤝 1-1 vs. Tottenham  \n❌ 2-0 vs. Atletico Madrid\n🤝 1-1 https://t.co/ixIarHhzEW",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-18T15:04:38.000Z",
-    "metrik": {
-     "bookmark_count": 9,
-     "impression_count": 21767,
-     "like_count": 142,
-     "quote_count": 9,
-     "reply_count": 14,
-     "retweet_count": 32
-    }
-   },
-   {
-    "id": "2111835816444256555",
-    "metin": "Brighton's 5-0 win over Crystal Palace is the joint-second highest winning margin in the history of the M23 Derby, beaten only be Crystal Palace 6-0 Brighton in 1950. \n\nIt's also just the fourth time Brighton have scored 5+ goals in the Premier League - two of them coming this https://t.co/oyM6lJknig",
-    "kullanici": "Squawka",
-    "zaman": "2026-10-18T15:04:29.000Z",
+    "id": "2111879365034135746",
+    "metin": "Milan hold on for the win after a strong Atalanta fightback 👏\n\n#MilanAtalanta https://t.co/C79G6jy2bf",
+    "kullanici": "SerieA_EN",
+    "zaman": "2026-10-18T17:57:32.000Z",
     "metrik": {
      "bookmark_count": 0,
-     "impression_count": 19557,
-     "like_count": 55,
+     "impression_count": 1443,
+     "like_count": 19,
      "quote_count": 2,
-     "reply_count": 2,
-     "retweet_count": 4
-    }
-   },
-   {
-    "id": "2111835750484316540",
-    "metin": "A much-needed victory for Bournemouth — their first in the Premier League this season.\n\nGoals from Marcus Tavernier and Evanilson secured a 2-0 win for Marco Rose's side against 10-man Sunderland, who had Kevin Danso sent off after 17 minutes.\n\nRegis Le Bris' side could be bottom https://t.co/kldlMGYxa6",
-    "kullanici": "TheAthleticFC",
-    "zaman": "2026-10-18T15:04:13.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 30201,
-     "like_count": 82,
-     "quote_count": 0,
-     "reply_count": 2,
+     "reply_count": 1,
      "retweet_count": 2
     }
    },
    {
-    "id": "2111835733552153013",
-    "metin": "Old rivals share the points at Elland Road 🤝\n\nMan Utd's wait for a second league win this season goes on 🕰️ https://t.co/ZkErKM6JFE",
-    "kullanici": "BBCSport",
-    "zaman": "2026-10-18T15:04:09.000Z",
+    "id": "2111879196859355607",
+    "metin": "4 GOALS IN 13 MINUTES 😱\n\n#MalagaRealSociedad",
+    "kullanici": "LaLigaEN",
+    "zaman": "2026-10-18T17:56:52.000Z",
     "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 35270,
-     "like_count": 132,
-     "quote_count": 3,
-     "reply_count": 11,
+     "bookmark_count": 0,
+     "impression_count": 2932,
+     "like_count": 8,
+     "quote_count": 1,
+     "reply_count": 1,
+     "retweet_count": 0
+    }
+   },
+   {
+    "id": "2111879011584614579",
+    "metin": "Arsenal have been restricted to just 1 shot on target in only 5 Premier League matches since 2024/25. 🌳👀\n\n◉ vs Nottingham Forest (Oct 2026)\n◎ vs Liverpool (Aug 2025)\n◉ vs Nottingham Forest (Feb 2025)\n◎ vs Newcastle (Nov 2024)\n◎ vs Bournemouth (Oct 2024) https://t.co/v5olC6nOdX",
+    "kullanici": "WhoScored",
+    "zaman": "2026-10-18T17:56:07.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 3943,
+     "like_count": 20,
+     "quote_count": 1,
+     "reply_count": 0,
+     "retweet_count": 2
+    }
+   },
+   {
+    "id": "2111878271189098869",
+    "metin": "We've been expecting your goal all season captain 🫡\n\nMalagaRealSociedad https://t.co/UJw1Vpf1A3",
+    "kullanici": "LaLigaEN",
+    "zaman": "2026-10-18T17:53:11.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 3311,
+     "like_count": 11,
+     "quote_count": 0,
+     "reply_count": 2,
+     "retweet_count": 0
+    }
+   },
+   {
+    "id": "2111877518818934831",
+    "metin": "\"It's part of the challenge of playing for one of the bigger clubs\" 🔝\n\nRoy Keane on the competition in the Arsenal squad 👊 https://t.co/h98X0tkCXu",
+    "kullanici": "SkySportsPL",
+    "zaman": "2026-10-18T17:50:11.000Z",
+    "metrik": {
+     "bookmark_count": 17,
+     "impression_count": 39503,
+     "like_count": 202,
+     "quote_count": 1,
+     "reply_count": 4,
      "retweet_count": 13
     }
    },
    {
-    "id": "2111835717609603506",
-    "metin": "Three goals and three points on the road for Como 👏\n\n#FiorentinaComo https://t.co/LZYRRQkzCt",
-    "kullanici": "SerieA_EN",
-    "zaman": "2026-10-18T15:04:05.000Z",
+    "id": "2111877102878265500",
+    "metin": "Noni Madueke had the left side locked down 😮‍💨\n\nEvery touch from his match-winning performance off the bench ⬇️ https://t.co/Ub2Q7viJtK",
+    "kullanici": "premierleague",
+    "zaman": "2026-10-18T17:48:32.000Z",
+    "metrik": {
+     "bookmark_count": 6,
+     "impression_count": 64341,
+     "like_count": 684,
+     "quote_count": 4,
+     "reply_count": 17,
+     "retweet_count": 88
+    }
+   },
+   {
+    "id": "2111875796100907417",
+    "metin": "\"I liked the patience we showed\" 🧠\n\nIan Wright shares his thoughts after Arsenal's 1-0 win over Nottingham Forest 💬 https://t.co/9rtx8ge9O1",
+    "kullanici": "SkySportsPL",
+    "zaman": "2026-10-18T17:43:21.000Z",
+    "metrik": {
+     "bookmark_count": 17,
+     "impression_count": 51571,
+     "like_count": 552,
+     "quote_count": 3,
+     "reply_count": 13,
+     "retweet_count": 45
+    }
+   },
+   {
+    "id": "2111875416776405499",
+    "metin": "The last time Lucas Digne faced Lamine Yamal, he kicked him instead of the ball in the World Cup semifinals, leading to a penalty and Spain's opening goal 😬\n\nWith Nuno Mendes questionable, these two could battle each other again when PSG takes on Barcelona on Tuesday 👀 https://t.co/wuNHBJaFpn",
+    "kullanici": "ESPNFC",
+    "zaman": "2026-10-18T17:41:50.000Z",
     "metrik": {
      "bookmark_count": 0,
-     "impression_count": 2860,
-     "like_count": 28,
+     "impression_count": 27702,
+     "like_count": 566,
      "quote_count": 0,
+     "reply_count": 11,
+     "retweet_count": 20
+    }
+   },
+   {
+    "id": "2111874849635479823",
+    "metin": "🙏🗣️ Noni Madueke: “First and foremost, I want to say thank-you to my Lord and Savour Jesus Christ, the glory is his.”\n\nFaith is completely crucial to me. Without it, I wouldn't be the person I am or the player. So all glory to God.\" https://t.co/W73Pk1Srxa",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-18T17:39:35.000Z",
+    "metrik": {
+     "bookmark_count": 6,
+     "impression_count": 8501,
+     "like_count": 124,
+     "quote_count": 1,
+     "reply_count": 6,
+     "retweet_count": 22
+    }
+   },
+   {
+    "id": "2111874348977926274",
+    "metin": "No one has more goals (7) than Estéban Lepaul in Ligue 1. ⚽️\n\nAgain. 🤖 https://t.co/n2JUHg3bRw",
+    "kullanici": "Ligue1_ENG",
+    "zaman": "2026-10-18T17:37:36.000Z",
+    "metrik": {
+     "bookmark_count": 1,
+     "impression_count": 2262,
+     "like_count": 14,
+     "quote_count": 0,
+     "reply_count": 0,
+     "retweet_count": 1
+    }
+   },
+   {
+    "id": "2111874067779158167",
+    "metin": "🇧🇷 Gabriel Magalhães | MOTM vs Nottingham Forest:\n\n🥅 2 shots \n🧹 6 clearances\n✈️ 5 aerial duels won \n🚫 3 blocked shots \n☄️ 2 accurate long balls\n🛡️ 1 interception\n🔄 92 touches \n📊 96% pass accuracy \n⭐️ 7.84 WhoScored rating\n\nHe made more defensive actions (12) than any other https://t.co/0b7DSA5RSd",
+    "kullanici": "WhoScored",
+    "zaman": "2026-10-18T17:36:29.000Z",
+    "metrik": {
+     "bookmark_count": 8,
+     "impression_count": 11610,
+     "like_count": 352,
+     "quote_count": 7,
+     "reply_count": 6,
+     "retweet_count": 58
+    }
+   },
+   {
+    "id": "2111873443180491141",
+    "metin": "1 shot on target, 1 goal for Arsenal. \n\nClinical. 💥 https://t.co/VkKF8HCnGl",
+    "kullanici": "Squawka",
+    "zaman": "2026-10-18T17:34:00.000Z",
+    "metrik": {
+     "bookmark_count": 5,
+     "impression_count": 12992,
+     "like_count": 122,
+     "quote_count": 2,
+     "reply_count": 2,
+     "retweet_count": 11
+    }
+   },
+   {
+    "id": "2111873195712118858",
+    "metin": "🇲🇱 2 goals + 2 assists today\n🇲🇱 Bicycle kick goal\n🇲🇱 Game‑winning goal in the 94’\n🇲🇱 Ligue 1 runner‑up top scorer\n🇲🇱 9 G/A in 7 matches with Paris FC\n\nLASSINE SINAYOKO. 🤯⭐️ https://t.co/o3vIRAq0LQ",
+    "kullanici": "Ligue1_ENG",
+    "zaman": "2026-10-18T17:33:01.000Z",
+    "metrik": {
+     "bookmark_count": 1,
+     "impression_count": 2578,
+     "like_count": 28,
+     "quote_count": 1,
+     "reply_count": 0,
+     "retweet_count": 6
+    }
+   },
+   {
+    "id": "2111873019815813413",
+    "metin": "Mikel Arteta’s side tend to find a way to win, but their first half against Nottingham Forest was the continuation of a concerning trend.\n\nThey have now failed to score in six successive first halves, forcing Arteta into game-changing substitutions.\n\nArteta will be thankful for https://t.co/UQrlAVVEUr",
+    "kullanici": "TheAthleticFC",
+    "zaman": "2026-10-18T17:32:19.000Z",
+    "metrik": {
+     "bookmark_count": 3,
+     "impression_count": 27439,
+     "like_count": 234,
+     "quote_count": 0,
+     "reply_count": 6,
+     "retweet_count": 31
+    }
+   },
+   {
+    "id": "2111872962823373059",
+    "metin": "🚨🔴 Arsenal have scored an incredible 95% of their goals (21 out of 22) from open play this season, a higher percentage than ANY other team in the Premier League.\n\nSo much for being set-piece merchants. 😭👏 https://t.co/blaEPKNejl",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-18T17:32:05.000Z",
+    "metrik": {
+     "bookmark_count": 8,
+     "impression_count": 11445,
+     "like_count": 506,
+     "quote_count": 5,
+     "reply_count": 4,
+     "retweet_count": 61
+    }
+   },
+   {
+    "id": "2111872686397734929",
+    "metin": "\"We showed a champions spirit here tonight\"\n\nNoni Madueke reacts after scoring the winner against Nottingham Forest 🔴 https://t.co/m3owLZkDdn",
+    "kullanici": "SkySportsPL",
+    "zaman": "2026-10-18T17:30:59.000Z",
+    "metrik": {
+     "bookmark_count": 68,
+     "impression_count": 117430,
+     "like_count": 2166,
+     "quote_count": 29,
+     "reply_count": 33,
+     "retweet_count": 192
+    }
+   },
+   {
+    "id": "2111872441710526975",
+    "metin": "Arsenal's win at Nottingham Forest sees them move back above Brighton into second 🔴 https://t.co/4RG6ExcqiE",
+    "kullanici": "premierleague",
+    "zaman": "2026-10-18T17:30:01.000Z",
+    "metrik": {
+     "bookmark_count": 23,
+     "impression_count": 131232,
+     "like_count": 6072,
+     "quote_count": 48,
+     "reply_count": 111,
+     "retweet_count": 544
+    }
+   },
+   {
+    "id": "2111872233207476482",
+    "metin": "Noni Madueke's game by numbers vs Nottingham Forest:\n\n45 minutes played\n30 touches\n16/17 passes completed\n6 crosses\n2 touches in opp. box\n2 shots\n1 goal\n\nSuper sub. 💪 https://t.co/10uJ4rdUjV",
+    "kullanici": "Squawka",
+    "zaman": "2026-10-18T17:29:11.000Z",
+    "metrik": {
+     "bookmark_count": 2,
+     "impression_count": 12989,
+     "like_count": 230,
+     "quote_count": 3,
+     "reply_count": 2,
+     "retweet_count": 51
+    }
+   },
+   {
+    "id": "2111872185518166274",
+    "metin": "Gaetano gets Atalanta back within two! 👏\n\n#MilanAtalanta 3-1 https://t.co/g06qbYzWpj",
+    "kullanici": "SerieA_EN",
+    "zaman": "2026-10-18T17:29:00.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 2561,
+     "like_count": 5,
+     "quote_count": 0,
+     "reply_count": 0,
+     "retweet_count": 1
+    }
+   },
+   {
+    "id": "2111872012347924683",
+    "metin": "\"One thing is for sure, Arsenal will keep going\"\n\nIan Wright's immediate reaction to Arsenal's late win against Nottingham Forest 🗣️ https://t.co/70jUzFfErf",
+    "kullanici": "SkySportsPL",
+    "zaman": "2026-10-18T17:28:19.000Z",
+    "metrik": {
+     "bookmark_count": 16,
+     "impression_count": 73955,
+     "like_count": 503,
+     "quote_count": 1,
+     "reply_count": 10,
+     "retweet_count": 36
+    }
+   },
+   {
+    "id": "2111871679777632715",
+    "metin": "32 - Since Mikel Arteta became Arsenal manager in December 2019, they have had the joint-most 1-0 wins in the Premier League of any side (32, level with Everton).\n\nStereotype. https://t.co/nD7C3j7Xjw",
+    "kullanici": "OptaJoe",
+    "zaman": "2026-10-18T17:26:59.000Z",
+    "metrik": {
+     "bookmark_count": 27,
+     "impression_count": 29174,
+     "like_count": 942,
+     "quote_count": 25,
+     "reply_count": 16,
+     "retweet_count": 148
+    }
+   },
+   {
+    "id": "2111871494938886511",
+    "metin": "1-0 to the Arsenal 🎶 https://t.co/djOyDu5eUj",
+    "kullanici": "BBCSport",
+    "zaman": "2026-10-18T17:26:15.000Z",
+    "metrik": {
+     "bookmark_count": 2,
+     "impression_count": 31167,
+     "like_count": 195,
+     "quote_count": 0,
+     "reply_count": 12,
+     "retweet_count": 12
+    }
+   },
+   {
+    "id": "2111871354521751880",
+    "metin": "Arsenal have now won 18 league games by a single goal across the last two seasons, more than any other side in Europe’s top five leagues.\n\nGood champions always find a way to win... 🔴 https://t.co/7BQWiSsZ2R",
+    "kullanici": "Squawka",
+    "zaman": "2026-10-18T17:25:42.000Z",
+    "metrik": {
+     "bookmark_count": 12,
+     "impression_count": 18318,
+     "like_count": 887,
+     "quote_count": 6,
+     "reply_count": 11,
+     "retweet_count": 144
+    }
+   },
+   {
+    "id": "2111871239480627214",
+    "metin": "Noni Madueke's winner against Nottingham Forest means Arsenal remain in touching distance of Manchester City at the top of the Premier League. https://t.co/0HqTpNxKPL",
+    "kullanici": "TheAthleticFC",
+    "zaman": "2026-10-18T17:25:14.000Z",
+    "metrik": {
+     "bookmark_count": 5,
+     "impression_count": 31089,
+     "like_count": 375,
+     "quote_count": 7,
+     "reply_count": 6,
+     "retweet_count": 34
+    }
+   },
+   {
+    "id": "2111871207905628558",
+    "metin": "Noni Madueke's late strike earns @arsenal the win on the road 🔴 https://t.co/AwVUjpc23u",
+    "kullanici": "premierleague",
+    "zaman": "2026-10-18T17:25:07.000Z",
+    "metrik": {
+     "bookmark_count": 17,
+     "impression_count": 126346,
+     "like_count": 4286,
+     "quote_count": 37,
+     "reply_count": 106,
+     "retweet_count": 494
+    }
+   },
+   {
+    "id": "2111871102486290881",
+    "metin": "FULL-TIME: Noni Madueke's late strike is the difference as Arsenal get the three points at Nottingham Forest ✅ https://t.co/aV3QUuxPxx",
+    "kullanici": "SkySportsPL",
+    "zaman": "2026-10-18T17:24:42.000Z",
+    "metrik": {
+     "bookmark_count": 11,
+     "impression_count": 73074,
+     "like_count": 1813,
+     "quote_count": 9,
+     "reply_count": 48,
+     "retweet_count": 164
+    }
+   },
+   {
+    "id": "2111870949792375049",
+    "metin": "\"That was magic!\" \n\nWhat a goal this would have been from Murillo?! 😩 https://t.co/D07lB7hN47",
+    "kullanici": "SkySportsPL",
+    "zaman": "2026-10-18T17:24:05.000Z",
+    "metrik": {
+     "bookmark_count": 37,
+     "impression_count": 162412,
+     "like_count": 571,
+     "quote_count": 18,
+     "reply_count": 15,
+     "retweet_count": 24
+    }
+   },
+   {
+    "id": "2111870605758697878",
+    "metin": "A 4-3 win over Rennes sees Liam Rosenior's Paris FC go level on points with Paris Saint-Germain &amp; Lille at the top of Ligue 1. \n\nEsteban Lepaul's equaliser in the 88th minute looked to have denied the host the win — but Lassine Sinayoko's penalty in the fifth minute of added time https://t.co/DyqKsAhh7q",
+    "kullanici": "TheAthleticFC",
+    "zaman": "2026-10-18T17:22:43.000Z",
+    "metrik": {
+     "bookmark_count": 1,
+     "impression_count": 28557,
+     "like_count": 131,
+     "quote_count": 1,
      "reply_count": 2,
      "retweet_count": 7
     }
    },
    {
-    "id": "2111835630112010485",
-    "metin": "𝐅𝐓: 𝐁𝐫𝐢𝐠𝐡𝐭𝐨𝐧 𝟓-𝟎 𝐂𝐫𝐲𝐬𝐭𝐚𝐥 𝐏𝐚𝐥𝐚𝐜𝐞\n\nBrighton score 5+ goals rivals Crystal Palace for just the second time, last doing so in January 1956 in the Third Division South (5-0).\n\nSeagulls go second in the table (for at least a few hours). https://t.co/Of78OjSjhZ",
-    "kullanici": "OptaAnalyst",
-    "zaman": "2026-10-18T15:03:44.000Z",
+    "id": "2111870477853741345",
+    "metin": "INSANE SUNDAY MULTIPLEX IN FRANCE ❤️‍🔥 https://t.co/7Bs21nyfjO",
+    "kullanici": "Ligue1_ENG",
+    "zaman": "2026-10-18T17:22:13.000Z",
     "metrik": {
      "bookmark_count": 0,
-     "impression_count": 8630,
-     "like_count": 28,
-     "quote_count": 2,
-     "reply_count": 1,
-     "retweet_count": 4
+     "impression_count": 2531,
+     "like_count": 10,
+     "quote_count": 0,
+     "reply_count": 0,
+     "retweet_count": 1
     }
    },
    {
-    "id": "2111835207737495725",
-    "metin": "Only Barcelona (39) have scored more goals than Brighton (23) in Europe's top five leagues this season.\n\nA 5-0 demolition of rivals Crystal Palace — with Diego Gomez's goal the pick of the bunch, catching Walter Benitez out from the halfway line — lifts Fabian Hurzeler's side https://t.co/0cB16Zj7IA",
-    "kullanici": "TheAthleticFC",
-    "zaman": "2026-10-18T15:02:04.000Z",
-    "metrik": {
-     "bookmark_count": 3,
-     "impression_count": 20278,
-     "like_count": 183,
-     "quote_count": 5,
-     "reply_count": 7,
-     "retweet_count": 15
-    }
-   },
-   {
-    "id": "2111834866840912206",
-    "metin": "FULL-TIME: A first Premier League win for Bournemouth under Marco Rose ✅ https://t.co/Kyan0anWcC",
-    "kullanici": "SkySportsPL",
-    "zaman": "2026-10-18T15:00:42.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 69431,
-     "like_count": 361,
-     "quote_count": 3,
-     "reply_count": 7,
-     "retweet_count": 17
-    }
-   },
-   {
-    "id": "2111834857512812583",
-    "metin": "Micah Richards and Jamie Carragher say a point away at Leeds is a decent result for Manchester United 🔊 https://t.co/QuOYQyQ8Ml",
-    "kullanici": "SkySportsPL",
-    "zaman": "2026-10-18T15:00:40.000Z",
-    "metrik": {
-     "bookmark_count": 13,
-     "impression_count": 76291,
-     "like_count": 241,
-     "quote_count": 17,
-     "reply_count": 31,
-     "retweet_count": 11
-    }
-   },
-   {
-    "id": "2111834721831522529",
-    "metin": "23 - Only three sides in Premier League history have scored more goals in their first seven games of a season than Brighton in 2026-27 (23): Arsenal in 2009-10 (24), Man Utd in 2011-12 (24), and Man City in 2019-20 (27).\n\nEntertainers. https://t.co/aixzpkaaky",
-    "kullanici": "OptaJoe",
-    "zaman": "2026-10-18T15:00:08.000Z",
+    "id": "2111870265957228651",
+    "metin": "Substitute Noni Madueke puts @arsenal in front 💪 https://t.co/2IZzUwYPvI",
+    "kullanici": "premierleague",
+    "zaman": "2026-10-18T17:21:22.000Z",
     "metrik": {
      "bookmark_count": 20,
-     "impression_count": 31381,
-     "like_count": 362,
-     "quote_count": 5,
-     "reply_count": 9,
-     "retweet_count": 54
+     "impression_count": 120688,
+     "like_count": 3515,
+     "quote_count": 9,
+     "reply_count": 54,
+     "retweet_count": 251
     }
    },
    {
-    "id": "2111834600775291205",
-    "metin": "𝐅𝐓: 𝐋𝐞𝐞𝐝𝐬 𝟏-𝟏 𝐌𝐚𝐧 𝐔𝐭𝐝\n\nLeeds still haven't beaten Man Utd at Elland Road since 2002.\n\nUltimately a good point for the visitors but still leaves them with just seven points from as many league games this season. https://t.co/RpnFRRxJKb",
-    "kullanici": "OptaAnalyst",
-    "zaman": "2026-10-18T14:59:39.000Z",
+    "id": "2111870206406799606",
+    "metin": "Gila gets Milan's third! 🫡\n\n#MilanAtalanta 3-0 https://t.co/ranXp1TSlD",
+    "kullanici": "SerieA_EN",
+    "zaman": "2026-10-18T17:21:08.000Z",
     "metrik": {
-     "bookmark_count": 3,
-     "impression_count": 8649,
-     "like_count": 41,
+     "bookmark_count": 0,
+     "impression_count": 2570,
+     "like_count": 13,
+     "quote_count": 0,
+     "reply_count": 1,
+     "retweet_count": 0
+    }
+   },
+   {
+    "id": "2111869218157105166",
+    "metin": "Noni Madueke.\n\nStepping up when Arsenal need him 🤫 https://t.co/tmooVdPRUU",
+    "kullanici": "brfootball",
+    "zaman": "2026-10-18T17:17:12.000Z",
+    "metrik": {
+     "bookmark_count": 53,
+     "impression_count": 74278,
+     "like_count": 6178,
+     "quote_count": 20,
+     "reply_count": 36,
+     "retweet_count": 553
+    }
+   },
+   {
+    "id": "2111869073374183688",
+    "metin": "Noni Madueke with a goal to silence his critics. 🤫🔥 https://t.co/FIaCeuU7j5 https://t.co/mBCEGYSKA9",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-18T17:16:38.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 12918,
+     "like_count": 57,
+     "quote_count": 0,
+     "reply_count": 4,
+     "retweet_count": 2
+    }
+   },
+   {
+    "id": "2111868845891690944",
+    "metin": "Relief for Arsenal. \n\nNoni Madueke, who was brought on at half-time, has given Mikel Arteta's side the lead against Nottingham Forest. https://t.co/YN0kxG3e3l",
+    "kullanici": "TheAthleticFC",
+    "zaman": "2026-10-18T17:15:44.000Z",
+    "metrik": {
+     "bookmark_count": 2,
+     "impression_count": 31066,
+     "like_count": 429,
+     "quote_count": 1,
+     "reply_count": 9,
+     "retweet_count": 27
+    }
+   },
+   {
+    "id": "2111868743961706748",
+    "metin": "This is another example of just how ridiculous the Manchester City case has made the Premier League this season.\n\nThat Noni Madueke goal should have been a HUGE moment in the title race. The sort of goal that could define the first half of the season.\n\nBut instead, we're watching https://t.co/XsDrN8f6DD",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-18T17:15:19.000Z",
+    "metrik": {
+     "bookmark_count": 7,
+     "impression_count": 27662,
+     "like_count": 448,
+     "quote_count": 7,
+     "reply_count": 41,
+     "retweet_count": 31
+    }
+   },
+   {
+    "id": "2111868496435138669",
+    "metin": "There have been 57 shots in this fixture at the City Ground across the last three seasons without either side scoring a goal. \n\nFINALLY, the dead lock is broken. 🙌 https://t.co/CRjDMRfvol",
+    "kullanici": "Squawka",
+    "zaman": "2026-10-18T17:14:20.000Z",
+    "metrik": {
+     "bookmark_count": 1,
+     "impression_count": 15913,
+     "like_count": 181,
      "quote_count": 1,
      "reply_count": 1,
-     "retweet_count": 8
+     "retweet_count": 29
+    }
+   },
+   {
+    "id": "2111868320941010985",
+    "metin": "Noni Madueke breaks the deadlock at the City Ground! 🔓 https://t.co/RdL48f3OLC",
+    "kullanici": "SkySportsPL",
+    "zaman": "2026-10-18T17:13:38.000Z",
+    "metrik": {
+     "bookmark_count": 175,
+     "impression_count": 261724,
+     "like_count": 2546,
+     "quote_count": 58,
+     "reply_count": 33,
+     "retweet_count": 281
     }
    }
   ]

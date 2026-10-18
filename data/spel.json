@@ -98780,6 +98780,15 @@
               1
             ],
             "zaman": "2026-10-18T17:31:55+00:00"
+          },
+          "1550147": {
+            "durum": "paylasildi",
+            "tweet_id": "2111880310497718677",
+            "skor": [
+              3,
+              2
+            ],
+            "zaman": "2026-10-18T18:01:12+00:00"
           }
         }
       },
@@ -99195,7 +99204,22 @@
         "durum": "paylasildi",
         "tweet_id": "2111827622992765160",
         "zaman": "2026-10-18T14:31:51+00:00",
-        "metin": "🆚 AC Milan v Atalanta\n\n🏆 AC Milan 55% · Draw 23% · Atalanta 22%\n⚽ Over 2.5 goals 57% · Under 43%\n🥅 Both teams score 56% · Not both 44%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. What's your score? 👇\n#SerieA\n18+ | Play responsibly"
+        "metin": "🆚 AC Milan v Atalanta\n\n🏆 AC Milan 55% · Draw 23% · Atalanta 22%\n⚽ Over 2.5 goals 57% · Under 43%\n🥅 Both teams score 56% · Not both 44%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. What's your score? 👇\n#SerieA\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111880346581246254",
+          "skor": "3-2",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            2.53,
+            1.71
+          ],
+          "zaman": "2026-10-18T18:01:12+00:00"
+        }
       },
       "analiz_22": {
         "durum": "paylasildi",

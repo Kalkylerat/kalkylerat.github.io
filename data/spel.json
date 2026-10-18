@@ -98619,7 +98619,26 @@
         "durum": "paylasildi",
         "tweet_id": "2111727098251383003",
         "zaman": "2026-10-18T07:52:25+00:00",
-        "metin": "🆚 Brighton v Crystal Palace\n\n🏆 Brighton 65% · Draw 19% · Crystal Palace 16%\n⚽ Over 2.5 goals 62% · Under 38%\n🥅 Both teams score 56% · Not both 44%\n🎯 Most likely score: 2-0 (10%)\n\n📈 Stats: Both teams score 41% · odds 56%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Brighton v Crystal Palace\n\n🏆 Brighton 65% · Draw 19% · Crystal Palace 16%\n⚽ Over 2.5 goals 62% · Under 38%\n🥅 Both teams score 56% · Not both 44%\n🎯 Most likely score: 2-0 (10%)\n\n📈 Stats: Both teams score 41% · odds 56%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111833928256676238",
+          "skor": "5-0",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "xg": [
+            2.02,
+            0.77
+          ],
+          "zaman": "2026-10-18T14:56:45+00:00",
+          "brier": {
+            "piyasa": 0.6488,
+            "istatistik": 0.5726
+          }
+        }
       },
       "tablo": {
         "durum": "paylasildi",
@@ -98679,6 +98698,15 @@
               5
             ],
             "zaman": "2026-10-18T14:53:30+00:00"
+          },
+          "1557429": {
+            "durum": "paylasildi",
+            "tweet_id": "2111833876649881762",
+            "skor": [
+              5,
+              0
+            ],
+            "zaman": "2026-10-18T14:56:45+00:00"
           }
         }
       },

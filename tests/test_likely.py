@@ -421,7 +421,7 @@ def test_E6_long_shot_kurallari():
 
 
 def test_E6_buyuk_maclar_kuponu_yalniz_buyuk_maclardan():
-    """Üçüncü kupon: yalnızca büyük maçlar, günün kuponunun sınırlarıyla, öncekilerle maç paylaşmaz; günde en fazla 3 kupon."""
+    """Üçüncü kupon: yalnızca büyük maçlar, günün kuponunun sınırlarıyla, öncekilerle maç paylaşmaz; günde en fazla 5 kupon."""
     kucuk = [dict(mac(600 + i, f"Kasaba {i}", f"Mahalle {i}", 8, lig_id=41), lig="League One") for i in range(4)]
     orta = [dict(mac(700 + i, f"Denk {i}", f"Rakip {i}", 8, lig_id=41), lig="League One") for i in range(5)]
     buyuk = [mac(800 + i, f"Baskent {i}", f"Liman {i}", 8, lig_id=39) for i in range(9)]
@@ -432,7 +432,7 @@ def test_E6_buyuk_maclar_kuponu_yalniz_buyuk_maclardan():
     harita = {a["aday_id"]: a for a in adaylar}
     secilen = likely.otomatik_sec(adaylar, OTO)
     adlar = [k["ad"] for k in secilen]
-    assert OTO.oto_max_kupon == 3 and len(secilen) <= 3 and adlar[0] == "gunun-kuponu" and "buyuk-maclar" in adlar
+    assert OTO.oto_max_kupon == 5 and len(secilen) <= 5 and adlar[0] == "gunun-kuponu" and "buyuk-maclar" in adlar
     b = secilen[adlar.index("buyuk-maclar")]
     assert all(harita[i]["buyuk"] for i in b["ayaklar"]) and len(b["ayaklar"]) <= OTO.oto_max_ayak
     assert OTO.oto_oran_min <= b["oran"] <= OTO.oto_oran_max and b["olasilik"] >= OTO.oto_min_tutma and b["deger"] >= OTO.oto_min_kupon_deger
@@ -455,6 +455,27 @@ def test_E6_yogun_gunde_de_gunun_kuponu_bulunur():
     assert len(adaylar) <= OTO.havuz and any(a["oran"] >= 1.19 for a in adaylar)  # bant: orta oranlı adaylar havuzda
     secilen = likely.otomatik_sec(adaylar, OTO)
     assert secilen and secilen[0]["ad"] == "gunun-kuponu" and OTO.oto_oran_min <= secilen[0]["oran"] <= OTO.oto_oran_max
+
+
+def test_E6_ek_kuponlar_gunun_kuponu_sinirlariyla_en_fazla_5():
+    """18 Ekim 2026 (sahibinin isteği): üç türden sonra kalan yer, kalan maçlardan günün kuponuyla AYNI sınırlarla
+    dolar; günde en fazla 5 kupon, kuponlar maç paylaşmaz. Sınır 3'e inerse ek kupon çıkmaz."""
+    cok = [mac(1100 + i, f"Guclu {i}", f"Zayif {i}", 8, lig_id=41) for i in range(40)]
+    oranlar = {m["fixture_id"]: oran_seti(0.80, 0.13, 0.50, 0.70) for m in cok}
+    adaylar = likely.havuz(cok, oranlar, AYAR, OTO, SIMDI)
+    harita = {a["aday_id"]: a for a in adaylar}
+    secilen = likely.otomatik_sec(adaylar, OTO)
+    adlar = [k["ad"] for k in secilen]
+    assert 4 <= len(secilen) <= 5 and adlar[0] == "gunun-kuponu" and "gunun-kuponu-2" in adlar
+    for k in secilen:
+        if k["ad"].startswith("gunun-kuponu"):
+            assert OTO.oto_oran_min <= k["oran"] <= OTO.oto_oran_max and k["olasilik"] >= OTO.oto_min_tutma
+            assert k["deger"] >= OTO.oto_min_kupon_deger and len(k["ayaklar"]) <= OTO.oto_max_ayak
+            assert all(likely.kupona_uygun(harita[i], OTO) for i in k["ayaklar"])
+    maclar = [harita[i]["fixture_id"] for k in secilen for i in k["ayaklar"]]
+    assert len(maclar) == len(set(maclar))
+    assert len(likely.otomatik_sec(adaylar, replace(OTO, oto_max_kupon=3))) <= 3
+    assert likely.KUPON_ADI["gunun-kuponu-2"] == "Günün kuponu 2"
 
 
 def test_kupon_cikmazsa_bildirim_uyarir(monkeypatch, tmp_path):
@@ -699,6 +720,35 @@ def test_ek_kupon_eksik_turu_tamamlar_mevcuda_dokunmaz(oto):
     assert [k["ad"] for k in gun["secilen"]][:len(once)] == once and len(gun["secilen"]) == len(once) + eklenen <= OTO.oto_max_kupon
     for k in gun["secilen"][len(once):]:
         assert k["oto"] and k["ad"] not in once and not {a["fixture_id"] for a in k["ayaklar"]} & dolu
+
+
+def test_ek_kupon_ikinci_gunun_kuponunu_ek_adla_ekler(oto):
+    """Öğlen tazelemede günün kuponu türü zaten varsa yeni kupon "gunun-kuponu-2" adıyla girer; toplam en fazla 5."""
+    gun = likely.yukle()["gunler"][0]
+    once = [k["ad"] for k in gun["secilen"]]
+    dolu = {a["fixture_id"] for k in gun["secilen"] for a in k["ayaklar"]}
+    cok = [mac(1300 + i, f"Guclu {i}", f"Zayif {i}", 8) for i in range(30)]
+    oranlar = {**ORANLAR, **{m["fixture_id"]: oran_seti(0.80, 0.13, 0.50, 0.70) for m in cok}}
+    likely.ek_kupon(AYAR, MACLAR + cok, oranlar, SIMDI + timedelta(minutes=10), oto)
+    gun = likely.yukle()["gunler"][0]
+    adlar = [k["ad"] for k in gun["secilen"]]
+    assert "gunun-kuponu" in once and "gunun-kuponu-2" in adlar and len(adlar) == len(set(adlar)) <= OTO.oto_max_kupon
+    for k in gun["secilen"][len(once):]:
+        assert not {a["fixture_id"] for a in k["ayaklar"]} & dolu
+
+
+def test_ogle_tazeleme_gunde_bir_kez_ve_saatinde(oto, monkeypatch):
+    """Tazeleme yalnızca otomatik modda, oto_tazele_saati'nden sonra, kupon sayısı sınırın altındayken ve günde bir kez."""
+    assert len(likely.yukle()["gunler"][0]["secilen"]) < OTO.oto_max_kupon
+    tz = likely.ZoneInfo(AYAR.saat_dilimi)
+    gun_ = SIMDI.astimezone(tz)
+    erken = gun_.replace(hour=OTO.oto_tazele_saati - 1, minute=30)
+    ogle = gun_.replace(hour=OTO.oto_tazele_saati, minute=30)
+    assert not likely.tazeleme_zamani(AYAR, erken)
+    assert likely.tazeleme_zamani(AYAR, ogle) and likely.yukle()["gunler"][0].get("tazeleme")
+    assert not likely.tazeleme_zamani(AYAR, ogle + timedelta(minutes=15))  # ikinci kez yok
+    monkeypatch.setattr(likely, "ayar_yukle", lambda *a, **k: replace(OTO, mod="elle"))
+    assert not likely.tazeleme_zamani(AYAR, ogle + timedelta(days=0))
 
 
 # ---------- Anket, haftalık karne, ölçüm (gölge test) ----------

@@ -25001,8 +25001,25 @@
        "oran": 1.25,
        "olasilik": 0.775,
        "deger": -0.031,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "1-2",
+       "goller": [
+        [
+         14,
+         0,
+         "ev"
+        ],
+        [
+         44,
+         0,
+         "dep"
+        ],
+        [
+         90,
+         5,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1549509-CSX2",
@@ -25050,13 +25067,14 @@
      "oran": 2.11,
      "olasilik": 0.439,
      "deger": -0.074,
-     "durum": "bekliyor",
+     "durum": "yatti",
      "secim": "2026-10-18T17:24:03+00:00",
      "oto": true,
      "paylas": "2026-10-18T19:30:00+02:00",
      "tweet_id": "2111872963892957544",
      "metin": "🎩 Three picks, one coupon.\n\n⚽ Godoy Cruz v CA Estudiantes\n⚽ Estudiantes L.P. v San Lorenzo\n⚽ Alianza Atletico v Universitario\n\n📊 Combined 2.11. I make it about 44% to land.\n\n💬 Anyone on the other side of one of these?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-18T17:31:55+00:00"
+     "yayin": "2026-10-18T17:31:55+00:00",
+     "son_oran": 1.44
     }
    ],
    "islenen": [],

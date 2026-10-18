@@ -98532,7 +98532,26 @@
         "durum": "paylasildi",
         "tweet_id": "2111708014336245773",
         "zaman": "2026-10-18T06:36:34+00:00",
-        "metin": "🆚 Udinese v Lecce\n\n🏆 Udinese 54% · Draw 24% · Lecce 22%\n⚽ Over 2.5 goals 48% · Under 52%\n🥅 Both teams score 50% · Not both 50%\n🎯 Most likely score: 1-0 (12%)\n\n📈 Team stats: Udinese win 35%\n💹 Odds: 54%\n\n💬 Not picks. What's your score? 👇\n#SerieA\n18+ | Play responsibly"
+        "metin": "🆚 Udinese v Lecce\n\n🏆 Udinese 54% · Draw 24% · Lecce 22%\n⚽ Over 2.5 goals 48% · Under 52%\n🥅 Both teams score 50% · Not both 50%\n🎯 Most likely score: 1-0 (12%)\n\n📈 Team stats: Udinese win 35%\n💹 Odds: 54%\n\n💬 Not picks. What's your score? 👇\n#SerieA\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111795536382836960",
+          "skor": "0-3",
+          "isabet": [
+            false,
+            false,
+            true
+          ],
+          "xg": [
+            0.33,
+            3.3
+          ],
+          "zaman": "2026-10-18T12:24:17+00:00",
+          "brier": {
+            "piyasa": 1.4759,
+            "istatistik": 1.2612
+          }
+        }
       },
       "analiz_5": {
         "durum": "paylasildi",
@@ -98605,7 +98624,17 @@
           1550152,
           1570420
         ],
-        "sonuclar": {}
+        "sonuclar": {
+          "1550155": {
+            "durum": "paylasildi",
+            "tweet_id": "2111795524294820083",
+            "skor": [
+              0,
+              3
+            ],
+            "zaman": "2026-10-18T12:24:17+00:00"
+          }
+        }
       },
       "analiz_7": {
         "durum": "paylasildi",
@@ -98678,6 +98707,12 @@
         "tweet_id": "2111790184106766570",
         "zaman": "2026-10-18T12:02:58+00:00",
         "metin": "🆚 Groningen v Ajax\n\n🏆 Groningen 28% · Draw 21% · Ajax 52%\n⚽ Over 2.5 goals 70% · Under 30%\n🥅 Both teams score 68% · Not both 32%\n🎯 Most likely score: 1-2 (9%)\n\n📈 Team stats: Ajax win 65%\n💹 Odds: 52%\n\n💬 Chances, not picks. Your read? 👇\n#Eredivisie\n18+ | Play responsibly"
+      },
+      "analiz_18": {
+        "durum": "paylasildi",
+        "tweet_id": "2111795520704528456",
+        "zaman": "2026-10-18T12:24:17+00:00",
+        "metin": "🆚 Le Havre v Auxerre\n\n🏆 Le Havre 43% · Draw 25% · Auxerre 32%\n⚽ Over 2.5 goals 52% · Under 48%\n🥅 Both teams score 55% · Not both 45%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: Le Havre win 60%\n💹 Odds: 43%\n\n💬 Not picks. Your read? 👇\n#Ligue1\n18+ | Play responsibly"
       }
     }
   }

@@ -5,7 +5,7 @@
 - **@kalkylerat** (analiz): her sabah günün maçlarını analiz eder; X'te sabah tablosu, analiz kartları (oran ve
   takım istatistiği yan yana, yüzdelerle), maç bitince maç sonu postu, tablo altına sonuçlar, anket ve bilgi postları.
   Kupon, kasa ya da bahis tavsiyesi yok.
-- **Mr. Likely** (kupon): aynı sabah taramasından sabit kurallarla günde en fazla 3 kupon, maçlar bitince sonuç postu,
+- **Mr. Likely** (kupon): aynı sabah taramasından sabit kurallarla günde en fazla 5 kupon, maçlar bitince sonuç postu,
   günde en fazla 4 bilgi postu. Karakter ve kurulum: [marka/MR_LIKELY.md](marka/MR_LIKELY.md).
 
 ## Nerede ne var

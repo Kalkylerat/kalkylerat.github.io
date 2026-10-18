@@ -7,6 +7,7 @@ import os
 import re
 import sys
 import time
+from collections import Counter
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
@@ -952,6 +953,23 @@ def _likely_yazici(ayar):
     return None
 
 
+def _likely_tazele(ayar, simdi: datetime) -> None:
+    """Öğlen tazeleme (SOZLESME E6): sabah eksik kalan kuponlar güncel oranlarla, aynı kurallarla tamamlanır.
+    Günde bir kez: toplu oran sayfaları + oranı eksik büyük maçlar (en fazla ~55 istek)."""
+    bugun = simdi.astimezone(ZoneInfo(ayar.saat_dilimi)).date().isoformat()
+    try:
+        dosya = config.DATA_FILE.parent / "analiz" / f"{bugun}.json"
+        analizler = json.loads(dosya.read_text(encoding="utf-8"))
+        api = _api(ayar)
+        oranlar = football.toplu_oranlar(api, bugun, ayar.saat_dilimi, ayar.max_oran_sayfasi)
+        _likely_buyuk_oranlar(api, analizler, oranlar)
+        sayim = Counter(len(b) for b in oranlar.values())
+        _ozet_yaz("Mr. Likely öğlen tazeleme: maç başına bahisçi sayısı " + ", ".join(f"{n}: {m} maç" for n, m in sorted(sayim.items())))
+        likely.ek_kupon(ayar, analizler, oranlar, simdi, onay.GitHub(), yaz=_ozet_yaz)
+    except Exception as e:
+        _hata("Mr. Likely öğlen tazeleme", e)
+
+
 def _likely_buyuk_oranlar(api, analizler: list[dict], oranlar: dict, en_fazla: int = 25) -> int:
     """Toplu oran taramasında oranı gelmeyen BÜYÜK maçların oranını tek tek ister (maç başına 1 istek): Mr. Likely
     büyük maçları kaçırmasın. Eklenen maç sayısını döndürür."""
@@ -1144,6 +1162,8 @@ def likely_nabiz(ayar, simdi: datetime, sonuclar: bool = True) -> None:
             _ozet_yaz(f"Mr. Likely ölçümü bu turda yapılamadı ({e}).")
     if likely.ayar_yukle().mod != "otomatik":
         return
+    if os.environ.get("API_FOOTBALL_KEY") and likely.tazeleme_zamani(ayar, simdi):
+        _likely_tazele(ayar, simdi)
     # Otomatik mod: Mr. Likely hesabında kupon postu, sonuç yanıtı ve günün dersi (SOZLESME E1). Anahtarlar yoksa beklenir.
     x = _x_likely()
     if x is None:

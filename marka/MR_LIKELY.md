@@ -78,7 +78,7 @@ Example lines in his voice:
   takip, beğeni, DM yok (X otomasyon kuralı; bunları sahibi elle yapar).
 - Her kupon postunda tutma ihtimali yazar ve post "18+ | Play responsibly" ile biter.
 - Bahis sitesi adı, linki, reklamı yok. Kesinlik dili yok. Uydurma geçmiş, sahte kazanç görüntüsü yok.
-- Kupon kuralları sabit (SOZLESME E6): günde en fazla 3 kupon, kuponda en fazla 4 maç. **Günün kuponu** 2.00–4.00
+- Kupon kuralları sabit (SOZLESME E6): günde en fazla 5 kupon (üç türden sonra günün kuponuyla aynı sınırlarda ek kuponlar), kuponda en fazla 4 maç. **Günün kuponu** 2.00–4.00
   oran, en olası seçenek (genelde 2.00 civarı, yaklaşık %47). **Long shot** 3.00–4.00 oran, tutma en az %22. **Büyük maçlar** yalnızca
   büyük maçlardan, günün kuponuyla aynı sınırlar. Hepsinde en olası kupona 3 puan yakın olanlar içinde büyük maçı en çok olan seçilir. Kural sağlanmazsa o kupon çıkmaz.
 - Post düzeni: 🎩 açılış, ⚽ maçlar, 📊 toplam oran ve tutma ihtimali, 💬 yanıt çağıran tek soru, 18+ satırı. Oyunlar ve
@@ -101,7 +101,7 @@ Example lines in his voice:
 - Sabah taramasından sonra GitHub'da `🎩 Mr. Likely <tarih>: otomatik, N kupon paylaşılacak` bildirimi gelir (bilgi).
 - Kupon, ilk maçtan yaklaşık 3 saat önce paylaşılır; sonuç postu maçlar bitince: kupon postunu alıntılar, sonuç kartı (skorlar, ✓/✗, LANDED/DOWN damgası) eklenir.
 - Bilgi postları: 10:00 strateji notu, 13:00 günün en büyük favorisi, 16:00 en gollü ya da en dengeli maç, 21:00
-  ikinci strateji notu (başka bir posta 40 dakikadan yakınsa bekler). Günlük hedef 8–10 post: 3 kupon, 3 sonuç, 4 bilgi.
+  ikinci strateji notu (başka bir posta 40 dakikadan yakınsa bekler). Günlük hedef 8–14 post: en fazla 5 kupon, 5 sonuç, 4 bilgi.
   Büyük maç postları (favori, gol, denk) **anketli**: seçenekler kısa, anket maç başlayınca kapanır (ek post yok).
   Strateji notları sade ve günlük dilde (90. dakika golü, son ayak, cash out, kendi takımına oynamak); marj/fiyat dili az.
 - Haftalık karne postu: Pazartesi 10:00, dersin yerine; geçen haftanın paylaşılmış kuponları, kaybedenler dahil, ve

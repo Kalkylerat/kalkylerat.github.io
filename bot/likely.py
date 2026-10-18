@@ -29,7 +29,8 @@ DOSYA = config.ROOT / "data" / "likely.json"
 SES_REHBERI = config.ROOT / "marka" / "MR_LIKELY.md"
 ETIKET = "mr-likely"
 HARFLER = "ABCDEFGHIJ"
-KUPON_ADI = {"gunun-kuponu": "Günün kuponu", "long-shot": "Long shot (yüksek oran)", "buyuk-maclar": "Büyük maçlar"}
+KUPON_ADI = {"gunun-kuponu": "Günün kuponu", "long-shot": "Long shot (yüksek oran)", "buyuk-maclar": "Büyük maçlar",
+             **{f"gunun-kuponu-{n}": f"Günün kuponu {n}" for n in range(2, 6)}}
 MAC_SURESI = timedelta(minutes=105)   # sonuç bu kadar sonra sorulmaya başlanır
 VAZGEC = timedelta(hours=30)          # sonuç bu kadar sonra da yoksa ayak iade sayılır
 YETKILI = {"OWNER", "MEMBER", "COLLABORATOR"}
@@ -51,7 +52,8 @@ class LikelyAyar:
     max_ayak: int = 4
     # "elle": taslak GitHub'a gelir, sahibi seçer ve postu kendisi atar. "otomatik": kuponu kurallar seçer, bot paylaşır.
     mod: str = "elle"
-    oto_max_kupon: int = 3
+    oto_max_kupon: int = 5         # üç türden sonra kalan yer günün kuponu sınırlarıyla dolar (E6, 18 Ekim 2026)
+    oto_tazele_saati: int = 11     # sabah eksik kalan kuponlar bu saatte (yerel) güncel oranlarla bir kez tamamlanır
     oto_max_ayak: int = 4
     oto_oran_min: float = 2.0      # kuponun toplam oranı bu aralıkta olur (sahibinin kararı, 6 Ekim 2026)
     oto_oran_max: float = 4.0
@@ -234,6 +236,7 @@ def otomatik_sec(adaylar: list[dict], cfg: LikelyAyar) -> list[dict]:
     2) Long shot (ilkiyle maç paylaşmaz): toplam oran oto_uzun_oran_min–oto_uzun_oran_max, tutma ≥ oto_uzun_min_tutma,
        fiyat ≥ oto_uzun_min_kupon_deger; ayak oranı ≥ oto_uzun_min_ayak_oran.
     3) Büyük maçlar (öncekilerle maç paylaşmaz): yalnızca büyük maçlardan, günün kuponuyla aynı sınırlarla.
+    4) Ek kuponlar (gunun-kuponu-2, -3, ...): kalan yer, kalan maçlardan günün kuponuyla aynı sınırlarla dolar.
     Her birinde koşulu sağlayanlar içinde tutma ihtimali en yüksek olana oto_buyuk_tolerans kadar yakın kuponlardan
     BÜYÜK MAÇI EN ÇOK olan seçilir (eşitlikte tutma ihtimali, sonra fiyat, sonra kısa kupon)."""
     ayaklar = [a for a in adaylar if kupona_uygun(a, cfg)]
@@ -244,9 +247,12 @@ def otomatik_sec(adaylar: list[dict], cfg: LikelyAyar) -> list[dict]:
                 ("long-shot", cfg.oto_uzun_oran_min, cfg.oto_uzun_oran_max, cfg.oto_uzun_min_tutma,
                  cfg.oto_uzun_min_kupon_deger, cfg.oto_uzun_min_ayak_oran, False),
                 ("buyuk-maclar", cfg.oto_oran_min, cfg.oto_oran_max, cfg.oto_min_tutma, cfg.oto_min_kupon_deger, 0.0, True)]
+    tarifler += [(f"gunun-kuponu-{n}",) + tarifler[0][1:] for n in range(2, cfg.oto_max_kupon + 1)]
     secilen: list[dict] = []
     dolu: set[int] = set()
-    for ad, oran_min, oran_max, min_tutma, min_deger, min_ayak_oran, yalniz_buyuk in tarifler[:cfg.oto_max_kupon]:
+    for ad, oran_min, oran_max, min_tutma, min_deger, min_ayak_oran, yalniz_buyuk in tarifler:
+        if len(secilen) >= cfg.oto_max_kupon:
+            break
         bos = [a for a in ayaklar if a["fixture_id"] not in dolu and a["oran"] >= min_ayak_oran
                and (buyuk[a["aday_id"]] or not yalniz_buyuk)]
         # Arama her oran bandından en olası adayları alır (yalnızca en olası 16 aday değil: onlar yoğun günlerde
@@ -774,7 +780,7 @@ def _buyuk_tani(a: dict, b: dict, ayar, cfg: LikelyAyar) -> dict:
     fiyat = model.piyasa_oranlari(b, ayar.oran_bahiscileri, ayar.oran_yontemi) if b else {}
     en_iyi = max(((p, pz) for pz, p in adil.items() if pz in fiyat and cfg.oran_min <= fiyat[pz][0] <= cfg.oran_max),
                  default=None)
-    kayit = {"mac": f'{a["ev"]} v {a["dep"]}', "bahisci": len(b),
+    kayit = {"mac": f'{a["ev"]} v {a["dep"]}', "bahisci": len(b), "bahisciler": sorted(b),
              "keskin": any(ad.lower() == ayar.keskin_bahisci.lower() for ad in b),
              "zorunlu": all(any(ad.lower() == z.lower() for ad in b) for z in ayar.zorunlu_bahisciler)}
     if en_iyi:
@@ -847,6 +853,22 @@ def sabah(ayar, analizler: list[dict], oranlar: dict, simdi: datetime, gh, yaz=p
     return gun
 
 
+def tazeleme_zamani(ayar, simdi: datetime) -> bool:
+    """Öğlen tazeleme (E6): otomatik modda bugünün kayıtlı günü varsa, kupon sayısı sınırın altındaysa, yerel saat
+    oto_tazele_saati'ni geçtiyse ve bugün henüz tazelenmediyse True döner ve günü işaretler (hata olsa da bir kez)."""
+    cfg = ayar_yukle()
+    if not cfg.aktif or cfg.mod != "otomatik":
+        return False
+    yerel = simdi.astimezone(ZoneInfo(ayar.saat_dilimi))
+    veri = yukle()
+    gun = next((g for g in veri["gunler"] if g["tarih"] == yerel.date().isoformat() and g.get("oto")), None)
+    if gun is None or gun.get("tazeleme") or yerel.hour < cfg.oto_tazele_saati or len(gun["secilen"]) >= cfg.oto_max_kupon:
+        return False
+    gun["tazeleme"] = simdi.isoformat(timespec="seconds")
+    kaydet(veri)
+    return True
+
+
 def ek_kupon(ayar, analizler: list[dict], oranlar: dict, simdi: datetime, gh=None, yaz=print) -> int:
     """Otomatik modda gün içinde eksik kalan kupon türünü (ör. sabah long shot çıkmadıysa) güncel oranlarla tamamlar.
     Mevcut kuponlara dokunmaz; yeni kupon onlarla maç paylaşmaz. Eklenen kupon sayısını döndürür."""
@@ -866,8 +888,16 @@ def ek_kupon(ayar, analizler: list[dict], oranlar: dict, simdi: datetime, gh=Non
     harita = {a["aday_id"]: a for a in adaylar}
     eklenen = 0
     for k in otomatik_sec(adaylar, cfg):
-        if k["ad"] in var or len(gun["secilen"]) >= cfg.oto_max_kupon:
-            continue
+        if len(gun["secilen"]) >= cfg.oto_max_kupon:
+            break
+        if k["ad"] in var:
+            if not k["ad"].startswith("gunun-kuponu"):
+                continue  # long shot ve büyük maçlar günde bir kez
+            # günün kuponu sınırlarındaki kupon: sıradaki boş ek kupon adıyla girer
+            k["ad"] = next((a for a in [f"gunun-kuponu-{n}" for n in range(2, cfg.oto_max_kupon + 1)] if a not in var), None)
+            if k["ad"] is None:
+                continue
+        var.add(k["ad"])
         d = _dondur([harita[i] for i in k["ayaklar"]], k["ad"], simdi)
         mevcut = [datetime.fromisoformat(m.get("yayin") or m["paylas"]) for m in gun["secilen"] if m.get("yayin") or m.get("paylas")]
         zaman = paylasim_zamanlari([d], simdi, cfg, mevcut)[0]

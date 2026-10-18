@@ -98997,7 +98997,26 @@
         "durum": "paylasildi",
         "tweet_id": "2111790184106766570",
         "zaman": "2026-10-18T12:02:58+00:00",
-        "metin": "🆚 Groningen v Ajax\n\n🏆 Groningen 28% · Draw 21% · Ajax 52%\n⚽ Over 2.5 goals 70% · Under 30%\n🥅 Both teams score 68% · Not both 32%\n🎯 Most likely score: 1-2 (9%)\n\n📈 Team stats: Ajax win 65%\n💹 Odds: 52%\n\n💬 Chances, not picks. Your read? 👇\n#Eredivisie\n18+ | Play responsibly"
+        "metin": "🆚 Groningen v Ajax\n\n🏆 Groningen 28% · Draw 21% · Ajax 52%\n⚽ Over 2.5 goals 70% · Under 30%\n🥅 Both teams score 68% · Not both 32%\n🎯 Most likely score: 1-2 (9%)\n\n📈 Team stats: Ajax win 65%\n💹 Odds: 52%\n\n💬 Chances, not picks. Your read? 👇\n#Eredivisie\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111861844524605842",
+          "skor": "2-5",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            2.29,
+            3.04
+          ],
+          "zaman": "2026-10-18T16:47:50+00:00",
+          "brier": {
+            "piyasa": 0.5479,
+            "istatistik": 0.3512
+          }
+        }
       },
       "analiz_18": {
         "durum": "paylasildi",

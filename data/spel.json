@@ -98668,7 +98668,26 @@
         "durum": "paylasildi",
         "tweet_id": "2111736333722870105",
         "zaman": "2026-10-18T08:29:06+00:00",
-        "metin": "🆚 AD Ceuta FC v Oviedo\n\n🏆 AD Ceuta FC 31% · Draw 26% · Oviedo 43%\n⚽ Over 2.5 goals 47% · Under 53%\n🥅 Both teams score 52% · Not both 48%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Team stats: Over 2.5 goals 57%\n💹 Odds: 47%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 AD Ceuta FC v Oviedo\n\n🏆 AD Ceuta FC 31% · Draw 26% · Oviedo 43%\n⚽ Over 2.5 goals 47% · Under 53%\n🥅 Both teams score 52% · Not both 48%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Team stats: Over 2.5 goals 57%\n💹 Odds: 47%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111821064921612337",
+          "skor": "1-2",
+          "isabet": [
+            true,
+            false,
+            true
+          ],
+          "xg": [
+            2.6,
+            2.12
+          ],
+          "zaman": "2026-10-18T14:05:45+00:00",
+          "brier": {
+            "piyasa": 1.0107,
+            "istatistik": 0.8793
+          }
+        }
       },
       "ayrisma": {
         "durum": "paylasildi",
@@ -98803,6 +98822,12 @@
         "tweet_id": "2111815965126386013",
         "zaman": "2026-10-18T13:45:31+00:00",
         "metin": "🆚 Paris FC v Rennes\n\n🏆 Paris FC 47% · Draw 24% · Rennes 29%\n⚽ Over 2.5 goals 58% · Under 42%\n🥅 Both teams score 60% · Not both 40%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: too few recent games\n\n💬 Chances, not picks. Your read? 👇\n#Ligue1\n18+ | Play responsibly"
+      },
+      "analiz_4": {
+        "durum": "paylasildi",
+        "tweet_id": "2111821052670095727",
+        "zaman": "2026-10-18T14:05:45+00:00",
+        "metin": "🆚 Nottingham Forest v Arsenal\n\n🏆 Nottingham Forest 15% · Draw 22% · Arsenal 63%\n⚽ Over 2.5 goals 51% · Under 49%\n🥅 Both teams score 47% · Not both 53%\n🎯 Most likely score: 0-1 (13%)\n\n📈 Stats: Over 2.5 goals 16% · odds 51%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
       }
     }
   }

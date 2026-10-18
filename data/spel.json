@@ -99034,7 +99034,26 @@
         "durum": "paylasildi",
         "tweet_id": "2111804261021434284",
         "zaman": "2026-10-18T12:58:49+00:00",
-        "metin": "🆚 Halmstad v Hammarby FF\n\n🏆 Halmstad 9% · Draw 14% · Hammarby 77%\n⚽ Over 2.5 goals 67% · Under 33%\n🥅 Both teams score 51% · Not both 49%\n🎯 0-2 (11%)\n\n📈 Hammarby win, stats 48%\n💹 Hammarby win, odds 77%\n\n💬 77% or 48% for Hammarby, who's right?\n18+ | Play responsibly"
+        "metin": "🆚 Halmstad v Hammarby FF\n\n🏆 Halmstad 9% · Draw 14% · Hammarby 77%\n⚽ Over 2.5 goals 67% · Under 33%\n🥅 Both teams score 51% · Not both 49%\n🎯 0-2 (11%)\n\n📈 Hammarby win, stats 48%\n💹 Hammarby win, odds 77%\n\n💬 77% or 48% for Hammarby, who's right?\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111856082834375124",
+          "skor": "0-1",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "xg": [
+            0.35,
+            1.46
+          ],
+          "zaman": "2026-10-18T16:24:53+00:00",
+          "brier": {
+            "piyasa": 0.794,
+            "istatistik": 0.8869
+          }
+        }
       },
       "analiz_19": {
         "durum": "paylasildi",
@@ -99092,6 +99111,12 @@
           1569970
         ],
         "sonuclar": {}
+      },
+      "analiz_27": {
+        "durum": "paylasildi",
+        "tweet_id": "2111856067118317586",
+        "zaman": "2026-10-18T16:24:53+00:00",
+        "metin": "🆚 Lyon v Nice\n\n🏆 Lyon 50% · Draw 24% · Nice 26%\n⚽ Over 2.5 goals 57% · Under 43%\n🥅 Both teams score 58% · Not both 42%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: not enough recent games to compare with the odds\n\n💬 Not picks. Your read? 👇\n#Ligue1\n18+ | Play responsibly"
       }
     },
     "tablo_aksam": [

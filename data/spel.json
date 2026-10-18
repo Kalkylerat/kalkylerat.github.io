@@ -98807,7 +98807,20 @@
               3
             ],
             "zaman": "2026-10-18T20:45:08+00:00"
+          },
+          "1570420": {
+            "durum": "paylasildi",
+            "tweet_id": "2111926462228087113",
+            "skor": [
+              4,
+              1
+            ],
+            "zaman": "2026-10-18T21:04:39+00:00"
           }
+        },
+        "takip": {
+          "durum": "tamam",
+          "zaman": "2026-10-18T21:04:39+00:00"
         }
       },
       "analiz_7": {
@@ -99463,7 +99476,26 @@
         "durum": "paylasildi",
         "tweet_id": "2111871002338639878",
         "zaman": "2026-10-18T17:24:03+00:00",
-        "metin": "🆚 Real Madrid v Sevilla\n\n🏆 Real Madrid 77% · Draw 14% · Sevilla 9%\n⚽ Over 2.5 goals 68% · Under 32%\n🥅 Both teams score 51% · Not both 49%\n🎯 Likeliest score 2-0 (11%)\n\n📈 Stats: Madrid win 61% (odds 77%)\n\n💬 2-0 at 11%: too low or fair?\n18+ | Play responsibly"
+        "metin": "🆚 Real Madrid v Sevilla\n\n🏆 Real Madrid 77% · Draw 14% · Sevilla 9%\n⚽ Over 2.5 goals 68% · Under 32%\n🥅 Both teams score 51% · Not both 49%\n🎯 Likeliest score 2-0 (11%)\n\n📈 Stats: Madrid win 61% (odds 77%)\n\n💬 2-0 at 11%: too low or fair?\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111926475968672224",
+          "skor": "4-1",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            2.32,
+            0.81
+          ],
+          "zaman": "2026-10-18T21:04:39+00:00",
+          "brier": {
+            "piyasa": 0.4173,
+            "istatistik": 0.4544
+          }
+        }
       },
       "analiz_29": {
         "durum": "paylasildi",

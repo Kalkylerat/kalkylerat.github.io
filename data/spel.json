@@ -98538,7 +98538,26 @@
         "durum": "paylasildi",
         "tweet_id": "2111711783040029153",
         "zaman": "2026-10-18T06:51:33+00:00",
-        "metin": "🆚 PEC Zwolle v GO Ahead Eagles\n\n🏆 PEC Zwolle 28% · Draw 22% · GO Ahead Eagles 50%\n⚽ Over 2.5 goals 65% · Under 35%\n🥅 Both teams score 65% · Not both 35%\n\n📈 Team stats: Over 2.5 goals 79%\n💹 Odds: 65%\n\n💬 Chances, not picks. Your read? 👇\n#Eredivisie\n18+ | Play responsibly"
+        "metin": "🆚 PEC Zwolle v GO Ahead Eagles\n\n🏆 PEC Zwolle 28% · Draw 22% · GO Ahead Eagles 50%\n⚽ Over 2.5 goals 65% · Under 35%\n🥅 Both teams score 65% · Not both 35%\n\n📈 Team stats: Over 2.5 goals 79%\n💹 Odds: 65%\n\n💬 Chances, not picks. Your read? 👇\n#Eredivisie\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111791939670401492",
+          "skor": "4-1",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "xg": [
+            1.79,
+            2.76
+          ],
+          "zaman": "2026-10-18T12:10:03+00:00",
+          "brier": {
+            "piyasa": 1.0744,
+            "istatistik": 1.1431
+          }
+        }
       },
       "maclar": {
         "durum": "paylasildi",

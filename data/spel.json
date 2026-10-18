@@ -99299,7 +99299,17 @@
           1552788,
           1569970
         ],
-        "sonuclar": {}
+        "sonuclar": {
+          "1494785": {
+            "durum": "paylasildi",
+            "tweet_id": "2111898448786080117",
+            "skor": [
+              1,
+              1
+            ],
+            "zaman": "2026-10-18T19:13:20+00:00"
+          }
+        }
       },
       "analiz_27": {
         "durum": "paylasildi",
@@ -99336,6 +99346,12 @@
         "tweet_id": "2111886963867275276",
         "zaman": "2026-10-18T18:27:40+00:00",
         "metin": "💡 One chance, three ways to write it\n\nDecimal 2.50, fractional 3/2 and American +150 all mean a 40% chance.\n\nDecimal 1.50, 1/2 and −200 all mean 66.7%.\n\nDecimal is the easiest one to turn into a %.\n\n💬 Which of the three formats did you grow up reading?\n\n18+ | Play responsibly"
+      },
+      "bilgi_aksam": {
+        "durum": "paylasildi",
+        "tweet_id": "2111898444679766152",
+        "zaman": "2026-10-18T19:13:20+00:00",
+        "metin": "💡 From expected goals to a result\n\nFeed 1.4 v 1.1 expected goals into a Poisson model and you get home 44%, draw 27%, away 30%. A small edge in goals is a small edge in results.\n\nBigger home edge than you'd expect, or smaller? 👇\n\n18+ | Play responsibly"
       }
     },
     "tablo_aksam": [

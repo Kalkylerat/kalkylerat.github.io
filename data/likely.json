@@ -24986,8 +24986,55 @@
        "oran": 1.17,
        "olasilik": 0.84,
        "deger": -0.017,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "6-3",
+       "goller": [
+        [
+         12,
+         0,
+         "dep"
+        ],
+        [
+         33,
+         0,
+         "ev"
+        ],
+        [
+         40,
+         0,
+         "dep"
+        ],
+        [
+         43,
+         0,
+         "ev"
+        ],
+        [
+         45,
+         0,
+         "ev"
+        ],
+        [
+         52,
+         0,
+         "ev"
+        ],
+        [
+         58,
+         0,
+         "ev"
+        ],
+        [
+         69,
+         0,
+         "dep"
+        ],
+        [
+         88,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1493188-CS1X",
@@ -25074,7 +25121,9 @@
      "tweet_id": "2111872963892957544",
      "metin": "🎩 Three picks, one coupon.\n\n⚽ Godoy Cruz v CA Estudiantes\n⚽ Estudiantes L.P. v San Lorenzo\n⚽ Alianza Atletico v Universitario\n\n📊 Combined 2.11. I make it about 44% to land.\n\n💬 Anyone on the other side of one of these?\n\n18+ | Play responsibly",
      "yayin": "2026-10-18T17:31:55+00:00",
-     "son_oran": 1.44
+     "son_oran": 1.68,
+     "sonuc_metni": "❌ Had Double chance 1X in Estudiantes L.P. v San Lorenzo right up to 90+5'. Then 1-2. I'm going for a walk.\n\nRecord: 9 of 20 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2111956215379181832"
     }
    ],
    "islenen": [],

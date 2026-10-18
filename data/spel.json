@@ -99140,7 +99140,22 @@
         "durum": "paylasildi",
         "tweet_id": "2111815965126386013",
         "zaman": "2026-10-18T13:45:31+00:00",
-        "metin": "🆚 Paris FC v Rennes\n\n🏆 Paris FC 47% · Draw 24% · Rennes 29%\n⚽ Over 2.5 goals 58% · Under 42%\n🥅 Both teams score 60% · Not both 40%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: too few recent games\n\n💬 Chances, not picks. Your read? 👇\n#Ligue1\n18+ | Play responsibly"
+        "metin": "🆚 Paris FC v Rennes\n\n🏆 Paris FC 47% · Draw 24% · Rennes 29%\n⚽ Over 2.5 goals 58% · Under 42%\n🥅 Both teams score 60% · Not both 40%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: too few recent games\n\n💬 Chances, not picks. Your read? 👇\n#Ligue1\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111871016150487403",
+          "skor": "4-3",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            3.71,
+            3.14
+          ],
+          "zaman": "2026-10-18T17:24:03+00:00"
+        }
       },
       "analiz_4": {
         "durum": "paylasildi",
@@ -99204,6 +99219,12 @@
         "tweet_id": "2111863738819064019",
         "zaman": "2026-10-18T16:55:22+00:00",
         "metin": "🆚 Twente v Utrecht\n\n🏆 Twente 71% · Draw 16% · Utrecht 13%\n⚽ Over 2.5 goals 71% · Under 29%\n🥅 Both teams score 60% · Not both 40%\n🎯 Most likely score: 2-1 (9%)\n\n📈 Team stats: Twente win 68%\n💹 Odds: 71%\n\n💬 Chances, not picks. Your read? 👇\n#Eredivisie\n18+ | Play responsibly"
+      },
+      "analiz_28": {
+        "durum": "paylasildi",
+        "tweet_id": "2111871002338639878",
+        "zaman": "2026-10-18T17:24:03+00:00",
+        "metin": "🆚 Real Madrid v Sevilla\n\n🏆 Real Madrid 77% · Draw 14% · Sevilla 9%\n⚽ Over 2.5 goals 68% · Under 32%\n🥅 Both teams score 51% · Not both 49%\n🎯 Likeliest score 2-0 (11%)\n\n📈 Stats: Madrid win 61% (odds 77%)\n\n💬 2-0 at 11%: too low or fair?\n18+ | Play responsibly"
       }
     },
     "tablo_aksam": [

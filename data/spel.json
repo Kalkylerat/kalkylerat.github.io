@@ -99372,7 +99372,20 @@
               1
             ],
             "zaman": "2026-10-18T20:45:08+00:00"
+          },
+          "1569970": {
+            "durum": "paylasildi",
+            "tweet_id": "2111924545204404226",
+            "skor": [
+              1,
+              0
+            ],
+            "zaman": "2026-10-18T20:57:02+00:00"
           }
+        },
+        "takip": {
+          "durum": "tamam",
+          "zaman": "2026-10-18T20:57:02+00:00"
         }
       },
       "analiz_27": {
@@ -99456,7 +99469,26 @@
         "durum": "paylasildi",
         "tweet_id": "2111874709331538003",
         "zaman": "2026-10-18T17:38:58+00:00",
-        "metin": "🆚 Burgos v Sabadell\n\n🏆 Burgos 35% · Draw 30% · Sabadell 35%\n⚽ Over 2.5 goals 35% · Under 65%\n🥅 Both teams score 42% · Not both 58%\n🎯 Most likely score: 1-1 (14%)\n\n📈 Team stats: Burgos win 46%\n💹 Odds: 35%\n\n💬 Not picks. Can Sabadell beat 35%? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Burgos v Sabadell\n\n🏆 Burgos 35% · Draw 30% · Sabadell 35%\n⚽ Over 2.5 goals 35% · Under 65%\n🥅 Both teams score 42% · Not both 58%\n🎯 Most likely score: 1-1 (14%)\n\n📈 Team stats: Burgos win 46%\n💹 Odds: 35%\n\n💬 Not picks. Can Sabadell beat 35%? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2111924558445867187",
+          "skor": "1-0",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            2.13,
+            0.43
+          ],
+          "zaman": "2026-10-18T20:57:02+00:00",
+          "brier": {
+            "piyasa": 0.9364,
+            "istatistik": 0.7697
+          }
+        }
       },
       "bilgi": {
         "durum": "paylasildi",

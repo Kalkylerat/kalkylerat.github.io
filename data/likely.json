@@ -24149,7 +24149,8 @@
      "istatistik": 0.815,
      "uyum": true,
      "buyuk": false,
-     "no": 55
+     "no": 55,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1493756-CS12",
@@ -25077,7 +25078,7 @@
    ],
    "oto": true,
    "issue": 98,
-   "olcum_sorgu": "2026-10-18T10:18:37+00:00"
+   "olcum_sorgu": "2026-10-18T11:18:11+00:00"
   }
  ]
 }

@@ -105580,6 +105580,15 @@
               1
             ],
             "zaman": "2026-10-19T20:54:50+00:00"
+          },
+          "1557436": {
+            "durum": "paylasildi",
+            "tweet_id": "2112288191164354584",
+            "skor": [
+              3,
+              1
+            ],
+            "zaman": "2026-10-19T21:02:02+00:00"
           }
         }
       },
@@ -105753,7 +105762,26 @@
         "durum": "paylasildi",
         "tweet_id": "2112155069151879185",
         "zaman": "2026-10-19T12:13:00+00:00",
-        "metin": "🆚 Tottenham v Coventry\n\n🏆 Tottenham 65% · Draw 20% · Coventry 16%\n⚽ Over 2.5 goals 60% · Under 40%\n🥅 Both teams score 54% · Not both 46%\n🎯 Most likely score: 2-0 (10%)\n\n📈 Team stats: Tottenham win 35%\n💹 Odds: 65%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Tottenham v Coventry\n\n🏆 Tottenham 65% · Draw 20% · Coventry 16%\n⚽ Over 2.5 goals 60% · Under 40%\n🥅 Both teams score 54% · Not both 46%\n🎯 Most likely score: 2-0 (10%)\n\n📈 Team stats: Tottenham win 35%\n💹 Odds: 65%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2112288205387260102",
+          "skor": "3-1",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            0.9,
+            0.83
+          ],
+          "zaman": "2026-10-19T21:02:02+00:00",
+          "brier": {
+            "piyasa": 0.5572,
+            "istatistik": 1.4612
+          }
+        }
       },
       "analiz_4": {
         "durum": "paylasildi",

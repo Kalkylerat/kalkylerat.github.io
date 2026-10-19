@@ -24968,7 +24968,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 16
+     "no": 16,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1551844-CS12",
@@ -26448,7 +26449,7 @@
    "oto": true,
    "issue": 103,
    "tazeleme": "2026-10-19T09:03:56+00:00",
-   "olcum_sorgu": "2026-10-19T09:50:33+00:00"
+   "olcum_sorgu": "2026-10-19T10:47:40+00:00"
   }
  ]
 }

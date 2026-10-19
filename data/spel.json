@@ -105440,6 +105440,31 @@
       "kiyas": 117,
       "oran_yakin": 69
     },
-    "etkilesim": {}
+    "etkilesim": {
+      "tablo": {
+        "durum": "paylasildi",
+        "tweet_id": "2112092129786781971",
+        "zaman": "2026-10-19T08:02:53+00:00",
+        "metin": "📋 Today's chances, not picks · every % in the image\n\n🆚 Trabzonspor v Beşiktaş\n🏆 Trabzonspor 39% · Draw 24% · Beşiktaş 37%\n\n🆚 Dinamo Minsk v Arsenal\n🏆 Dinamo Minsk 72% · Draw 17% · Arsenal 10%\n\n💬 Which % surprises you? 👇\n\n#SuperLig #Besiktas\n18+ | Play responsibly",
+        "maclar": [
+          1585794,
+          1550153,
+          1584438,
+          1526001,
+          1494299,
+          1549039,
+          1551844,
+          1551845,
+          1551846,
+          1569971,
+          1550154,
+          1552503,
+          1557436,
+          1570417,
+          1575458
+        ],
+        "sonuclar": {}
+      }
+    }
   }
 ]

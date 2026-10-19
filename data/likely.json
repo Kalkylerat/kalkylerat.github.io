@@ -24648,7 +24648,7 @@
   {
    "tarih": "2026-10-19",
    "olusturma": "2026-10-19T05:39:12+00:00",
-   "durum": "secildi",
+   "durum": "bitti",
    "havuz": [
     {
      "aday_id": "1642117-CS1X",
@@ -26505,8 +26505,20 @@
        "oran": 1.26,
        "olasilik": 0.781,
        "deger": -0.016,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-1",
+       "goller": [
+        [
+         5,
+         0,
+         "dep"
+        ],
+        [
+         22,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1498899-CSX2",
@@ -26528,13 +26540,16 @@
      "oran": 2.02,
      "olasilik": 0.464,
      "deger": -0.063,
-     "durum": "bekliyor",
+     "durum": "tuttu",
      "secim": "2026-10-19T09:03:56+00:00",
      "oto": true,
      "paylas": "2026-10-19T16:00:00+02:00",
      "tweet_id": "2112182279241970133",
      "metin": "🎩 Three legs today. Dull on purpose.\n\n⚽ Trabzonspor v Beşiktaş\n⚽ Mushuc Runa SC v Orense SC\n⚽ San Telmo v Defensores De Belgrano\n\n📊 Combined 2.02. I make it about 46% to land, so it loses more than it wins.\n\n💬 Too cautious or about right?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-19T14:01:05+00:00"
+     "yayin": "2026-10-19T14:01:05+00:00",
+     "son_oran": 2.02,
+     "sonuc_metni": "✅ Landed at 2.02. Quiet one, just how I like them.\n\n✅ Trabzonspor 2-0 Beşiktaş: Over 1.5 goals\n✅ Mushuc Runa SC 1-1 Orense SC: Double chance 1X\n✅ San Telmo 0-0 Defensores De Belgrano: Double chance X2\n\nRecord: 13 of 26 landed. Right on the line.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2112311970149843276"
     }
    ],
    "islenen": [],

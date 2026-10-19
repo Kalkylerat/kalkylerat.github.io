@@ -25070,7 +25070,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 21
+     "no": 21,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1551845-CS12",
@@ -25890,7 +25891,8 @@
      "istatistik": 0.436,
      "uyum": true,
      "buyuk": false,
-     "no": 62
+     "no": 62,
+     "sonuc": "kazandi"
     }
    ],
    "kuponlar": [
@@ -26480,7 +26482,9 @@
        "Under 2.5 goals"
       ],
       "bitis": "2026-10-19T19:00:00+02:00"
-     }
+     },
+     "tweet_id": "2112193552734191736",
+     "zaman": "2026-10-19T14:45:58+00:00"
     },
     {
      "tur": "ders",
@@ -26491,7 +26495,7 @@
    "oto": true,
    "issue": 103,
    "tazeleme": "2026-10-19T09:03:56+00:00",
-   "olcum_sorgu": "2026-10-19T13:45:58+00:00"
+   "olcum_sorgu": "2026-10-19T14:45:58+00:00"
   }
  ]
 }

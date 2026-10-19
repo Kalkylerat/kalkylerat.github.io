@@ -26274,8 +26274,30 @@
        "oran": 1.19,
        "olasilik": 0.836,
        "deger": -0.005,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "4-0",
+       "goller": [
+        [
+         6,
+         0,
+         "ev"
+        ],
+        [
+         51,
+         0,
+         "ev"
+        ],
+        [
+         70,
+         0,
+         "ev"
+        ],
+        [
+         87,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1552503-UST15",

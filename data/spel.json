@@ -105508,6 +105508,15 @@
               2
             ],
             "zaman": "2026-10-19T18:54:11+00:00"
+          },
+          "1549039": {
+            "durum": "paylasildi",
+            "tweet_id": "2112257703515152655",
+            "skor": [
+              1,
+              2
+            ],
+            "zaman": "2026-10-19T19:00:53+00:00"
           }
         }
       },
@@ -105699,13 +105708,51 @@
         "durum": "paylasildi",
         "tweet_id": "2112173080915370455",
         "zaman": "2026-10-19T13:24:34+00:00",
-        "metin": "🆚 Viborg v FC Midtjylland\n\n🏆 Viborg 35% · Draw 24% · FC Midtjylland 41%\n⚽ Over 2.5 goals 61% · Under 39%\n🥅 Both teams score 63% · Not both 37%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: Viborg win 47%\n💹 Odds: 35%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Viborg v FC Midtjylland\n\n🏆 Viborg 35% · Draw 24% · FC Midtjylland 41%\n⚽ Over 2.5 goals 61% · Under 39%\n🥅 Both teams score 63% · Not both 37%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: Viborg win 47%\n💹 Odds: 35%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2112257720858693649",
+          "skor": "1-2",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            1.51,
+            0.75
+          ],
+          "zaman": "2026-10-19T19:00:53+00:00",
+          "brier": {
+            "piyasa": 0.8121,
+            "istatistik": 1.2042
+          }
+        }
       },
       "analiz_10": {
         "durum": "paylasildi",
         "tweet_id": "2112178755712291005",
         "zaman": "2026-10-19T13:46:56+00:00",
-        "metin": "🆚 Bursaspor v Pendikspor\n\n🏆 Bursaspor 67% · Draw 19% · Pendikspor 14%\n⚽ Over 2.5 goals 60% · Under 40%\n🥅 Both teams score 53% · Not both 47%\n🎯 Top score 2-0 (11%)\n\n📈 Both teams score: stats 60%, market 53%\n\n💬 Which number is closer here?\n18+ | Play responsibly"
+        "metin": "🆚 Bursaspor v Pendikspor\n\n🏆 Bursaspor 67% · Draw 19% · Pendikspor 14%\n⚽ Over 2.5 goals 60% · Under 40%\n🥅 Both teams score 53% · Not both 47%\n🎯 Top score 2-0 (11%)\n\n📈 Both teams score: stats 60%, market 53%\n\n💬 Which number is closer here?\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2112257744892018978",
+          "skor": "2-0",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "xg": [
+            1.26,
+            0.37
+          ],
+          "zaman": "2026-10-19T19:00:53+00:00",
+          "brier": {
+            "piyasa": 0.8021,
+            "istatistik": 0.988
+          }
+        }
       },
       "analiz_11": {
         "durum": "paylasildi",
@@ -105736,7 +105783,22 @@
         "durum": "paylasildi",
         "tweet_id": "2112191805441880410",
         "zaman": "2026-10-19T14:38:58+00:00",
-        "metin": "🆚 Varbergs BoIS FC v Helsingborg\n\n🏆 Varbergs BoIS FC 53% · Draw 24% · Helsingborg 24%\n⚽ Over 2.5 goals 54% · Under 46%\n🥅 Both teams score 55% · Not both 45%\n\n📈 Team stats: Over 2.5 goals 62%\n💹 Odds: 54%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Varbergs BoIS FC v Helsingborg\n\n🏆 Varbergs BoIS FC 53% · Draw 24% · Helsingborg 24%\n⚽ Over 2.5 goals 54% · Under 46%\n🥅 Both teams score 55% · Not both 45%\n\n📈 Team stats: Over 2.5 goals 62%\n💹 Odds: 54%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2112257759198810378",
+          "skor": "0-0",
+          "isabet": [
+            false,
+            false,
+            false
+          ],
+          "zaman": "2026-10-19T19:00:53+00:00",
+          "brier": {
+            "piyasa": 1.5144,
+            "istatistik": 1.7148
+          }
+        }
       },
       "analiz_13": {
         "durum": "paylasildi",
@@ -105763,7 +105825,17 @@
           1498899,
           1608324
         ],
-        "sonuclar": {}
+        "sonuclar": {
+          "1497728": {
+            "durum": "paylasildi",
+            "tweet_id": "2112257705641721987",
+            "skor": [
+              0,
+              0
+            ],
+            "zaman": "2026-10-19T19:00:53+00:00"
+          }
+        }
       },
       "anket": {
         "durum": "paylasildi",

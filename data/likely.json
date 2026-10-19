@@ -26020,20 +26020,35 @@
        "oran": 2.15,
        "olasilik": 0.484,
        "deger": 0.04,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-1",
+       "goller": [
+        [
+         38,
+         0,
+         "ev"
+        ],
+        [
+         45,
+         3,
+         "dep"
+        ]
+       ]
       }
      ],
      "oran": 2.15,
      "olasilik": 0.484,
      "deger": 0.041,
-     "durum": "bekliyor",
+     "durum": "tuttu",
      "secim": "2026-10-19T05:39:12+00:00",
      "oto": true,
      "paylas": "2026-10-19T11:00:00+02:00",
      "tweet_id": "2112107587931939194",
      "metin": "🎩 One pick on the board today. Fine by me.\n\n⚽ Aresimi v Tikveš\n\n📊 2.15. I make it about 48% to land, so slightly more likely not.\n\n💬 Which part of a coupon do you trust least?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-19T09:03:56+00:00"
+     "yayin": "2026-10-19T09:03:56+00:00",
+     "son_oran": 2.15,
+     "sonuc_metni": "✅ Landed at 2.15. I'll take that.\n\n✅ Aresimi 1-1 Tikveš: Double chance 1X\n\nRecord stands at 11 of 23. Not smug about it.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2112182283306156290"
     },
     {
      "ad": "long-shot",
@@ -26303,7 +26318,10 @@
      "durum": "bekliyor",
      "secim": "2026-10-19T09:03:56+00:00",
      "oto": true,
-     "paylas": "2026-10-19T16:00:00+02:00"
+     "paylas": "2026-10-19T16:00:00+02:00",
+     "tweet_id": "2112182279241970133",
+     "metin": "🎩 Three legs today. Dull on purpose.\n\n⚽ Trabzonspor v Beşiktaş\n⚽ Mushuc Runa SC v Orense SC\n⚽ San Telmo v Defensores De Belgrano\n\n📊 Combined 2.02. I make it about 46% to land, so it loses more than it wins.\n\n💬 Too cautious or about right?\n\n18+ | Play responsibly",
+     "yayin": "2026-10-19T14:01:05+00:00"
     }
    ],
    "islenen": [],

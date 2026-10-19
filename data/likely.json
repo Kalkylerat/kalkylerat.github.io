@@ -24689,7 +24689,8 @@
      "istatistik": 0.643,
      "uyum": false,
      "buyuk": false,
-     "no": 2
+     "no": 2,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1585790-CS1X",
@@ -24910,7 +24911,8 @@
      "istatistik": 0.787,
      "uyum": true,
      "buyuk": false,
-     "no": 13
+     "no": 13,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1622653-CS12",
@@ -25011,7 +25013,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 18
+     "no": 18,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1638632-CS12",
@@ -25233,7 +25236,8 @@
      "istatistik": 0.713,
      "uyum": true,
      "buyuk": false,
-     "no": 29
+     "no": 29,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1584438-CS12",
@@ -25618,7 +25622,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 48
+     "no": 48,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1609086-CS12",
@@ -25860,7 +25865,8 @@
      "istatistik": 0.729,
      "uyum": true,
      "buyuk": false,
-     "no": 60
+     "no": 60,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1612261-CSX2",
@@ -26543,7 +26549,7 @@
    "oto": true,
    "issue": 103,
    "tazeleme": "2026-10-19T09:03:56+00:00",
-   "olcum_sorgu": "2026-10-19T16:46:12+00:00"
+   "olcum_sorgu": "2026-10-19T17:43:00+00:00"
   }
  ]
 }

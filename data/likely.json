@@ -26143,8 +26143,25 @@
        "oran": 1.4,
        "olasilik": 0.704,
        "deger": -0.015,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "1-2",
+       "goller": [
+        [
+         3,
+         0,
+         "dep"
+        ],
+        [
+         17,
+         0,
+         "dep"
+        ],
+        [
+         41,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1644240-CS1X",
@@ -26182,13 +26199,14 @@
      "oran": 3.47,
      "olasilik": 0.261,
      "deger": -0.094,
-     "durum": "bekliyor",
+     "durum": "yatti",
      "secim": "2026-10-19T05:39:12+00:00",
      "oto": true,
      "paylas": "2026-10-19T12:20:00+02:00",
      "tweet_id": "2112128262075785236",
      "metin": "🎩 Long shot of the day. Pocket money stuff.\n\n⚽ Tzeirey Tamra v Ironi Baka El Garbiya\n⚽ Varbergs BoIS FC v Helsingborg\n⚽ Degerfors IF v Kalmar FF\n⚽ Dobrudzha v Montana\n\n📊 Combined 3.47. I make it about 26% to land.\n\n💬 What would you swap in?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-19T10:26:28+00:00"
+     "yayin": "2026-10-19T10:26:28+00:00",
+     "son_oran": 1.82
     },
     {
      "ad": "gunun-kuponu-2",
@@ -26365,8 +26383,20 @@
        "oran": 1.18,
        "olasilik": 0.827,
        "deger": -0.024,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "2-0",
+       "goller": [
+        [
+         21,
+         0,
+         "ev"
+        ],
+        [
+         71,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1639826-CS1X",

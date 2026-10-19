@@ -105472,6 +105472,15 @@
               2
             ],
             "zaman": "2026-10-19T15:54:17+00:00"
+          },
+          "1550153": {
+            "durum": "paylasildi",
+            "tweet_id": "2112248832255738031",
+            "skor": [
+              4,
+              0
+            ],
+            "zaman": "2026-10-19T18:25:39+00:00"
           }
         }
       },
@@ -105504,7 +105513,22 @@
         "durum": "paylasildi",
         "tweet_id": "2112102642537160960",
         "zaman": "2026-10-19T08:44:40+00:00",
-        "metin": "🆚 Monza v Cagliari\n\n🏆 Monza 40% · Draw 27% · Cagliari 33%\n⚽ Over 2.5 goals 44% · Under 56%\n🥅 Both teams score 50% · Not both 50%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. More or fewer than 2.5 goals? 👇\n#SerieA\n18+ | Play responsibly"
+        "metin": "🆚 Monza v Cagliari\n\n🏆 Monza 40% · Draw 27% · Cagliari 33%\n⚽ Over 2.5 goals 44% · Under 56%\n🥅 Both teams score 50% · Not both 50%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. More or fewer than 2.5 goals? 👇\n#SerieA\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2112248888027459974",
+          "skor": "4-0",
+          "isabet": [
+            true,
+            false,
+            true
+          ],
+          "xg": [
+            2.08,
+            1.85
+          ],
+          "zaman": "2026-10-19T18:25:39+00:00"
+        }
       },
       "bilgi": {
         "durum": "paylasildi",

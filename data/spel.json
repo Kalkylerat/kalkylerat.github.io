@@ -105571,6 +105571,15 @@
               3
             ],
             "zaman": "2026-10-19T20:40:48+00:00"
+          },
+          "1570417": {
+            "durum": "paylasildi",
+            "tweet_id": "2112286378591662225",
+            "skor": [
+              1,
+              1
+            ],
+            "zaman": "2026-10-19T20:54:50+00:00"
           }
         }
       },
@@ -105750,7 +105759,26 @@
         "durum": "paylasildi",
         "tweet_id": "2112162056380309906",
         "zaman": "2026-10-19T12:40:46+00:00",
-        "metin": "🆚 Getafe v Rayo Vallecano\n\n🏆 Getafe 32% · Draw 30% · Rayo Vallecano 38%\n⚽ Over 2.5 goals 35% · Under 65%\n🥅 Both teams score 42% · Not both 58%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Team stats: Getafe win 63%\n💹 Odds: 32%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Getafe v Rayo Vallecano\n\n🏆 Getafe 32% · Draw 30% · Rayo Vallecano 38%\n⚽ Over 2.5 goals 35% · Under 65%\n🥅 Both teams score 42% · Not both 58%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Team stats: Getafe win 63%\n💹 Odds: 32%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2112286426729689302",
+          "skor": "1-1",
+          "isabet": [
+            false,
+            true,
+            false
+          ],
+          "xg": [
+            0.64,
+            2.22
+          ],
+          "zaman": "2026-10-19T20:54:50+00:00",
+          "brier": {
+            "piyasa": 1.195,
+            "istatistik": 1.5929
+          }
+        }
       },
       "analiz_8": {
         "durum": "paylasildi",

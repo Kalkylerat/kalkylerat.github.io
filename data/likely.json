@@ -26310,8 +26310,15 @@
        "oran": 1.39,
        "olasilik": 0.694,
        "deger": -0.035,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "1-0",
+       "goller": [
+        [
+         62,
+         0,
+         "ev"
+        ]
+       ]
       }
      ],
      "oran": 2.01,
@@ -26324,7 +26331,9 @@
      "tweet_id": "2112117486493536765",
      "metin": "🎩 Treble for today. Nothing fancy in it.\n\n⚽ Bursaspor v Pendikspor\n⚽ Maccabi Neve Sha'anan v Maccabi Nujeidat Ahmed\n⚽ Derry City v St Patrick's Athl.\n\n📊 Combined 2.01. I make it about 46% to land.\n\n💬 What would you swap in?\n\n18+ | Play responsibly",
      "yayin": "2026-10-19T09:43:40+00:00",
-     "son_oran": 1.13
+     "son_oran": 1.13,
+     "sonuc_metni": "❌ Coupon down.\n\n✅ Bursaspor 2-0 Pendikspor: Double chance 1X\n❌ Maccabi Neve Sha'anan 1-2 Maccabi Nujeidat Ahmed: Double chance 1X\n❌ Derry City 1-0 St Patrick's Athl.: 1st half Over 0.5 goals\n\nRecord: 12 of 25 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2112286449840308624"
     },
     {
      "ad": "gunun-kuponu-3",

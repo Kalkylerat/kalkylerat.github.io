@@ -52,22 +52,32 @@
   "2112118558490509596",
   "2112106856877269360",
   "2112139803311354066",
-  "2112136688168214665"
+  "2112136688168214665",
+  "2112184784512327863",
+  "2112211671691444627",
+  "2112202926437306784",
+  "2112204625340420606"
  ],
  "kalkylerat": {
   "tarih": "2026-10-19",
-  "gonderilen": 0,
+  "gonderilen": 1,
   "aramalar": [
    10,
-   13
-  ]
+   13,
+   16
+  ],
+  "issue": {
+   "tarih": "2026-10-19",
+   "no": 106
+  }
  },
  "likely": {
   "tarih": "2026-10-19",
-  "gonderilen": 3,
+  "gonderilen": 4,
   "aramalar": [
    10,
-   13
+   13,
+   16
   ],
   "issue": {
    "tarih": "2026-10-19",
@@ -76,510 +86,524 @@
  },
  "onbellek": {
   "tarih": "2026-10-19",
-  "saat": 13,
+  "saat": 16,
   "postlar": [
    {
-    "id": "2112167254921998520",
-    "metin": "Plenty of managers are known for a possession-based style of football and take pride in their appearance.\n\nA plethora of them have a ginormous ego. Well, pretty much all of them.\n\nBut none of the above seem to be castigated as much as the head coach of Leicester City, Russell https://t.co/FwmLELdZkx",
+    "id": "2112212553254248879",
+    "metin": "Bruno Fernandes is now without a goal or an assist in his last six games for Manchester United.\n\nWhat is behind his drop in form — and how can Michael Carrick help the playmaker get back to his best?\n\n🎙️  𝗧𝗵𝗲 𝗔𝘁𝗵𝗹𝗲𝘁𝗶𝗰 𝗙𝗖 𝗣𝗼𝗱𝗰𝗮𝘀𝘁 https://t.co/wuds3eHGUo",
     "kullanici": "TheAthleticFC",
-    "zaman": "2026-10-19T13:01:30.000Z",
+    "zaman": "2026-10-19T16:01:30.000Z",
     "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 5963,
-     "like_count": 10,
+     "bookmark_count": 1,
+     "impression_count": 8098,
+     "like_count": 21,
      "quote_count": 0,
-     "reply_count": 0,
+     "reply_count": 1,
      "retweet_count": 3
     }
    },
    {
-    "id": "2112164360617373777",
-    "metin": "Fisayo Dele-Bashiru with the icing on the Lazio cake 🍰😋\n\n#JuveLazio https://t.co/qZ9f98HM2A",
-    "kullanici": "SerieA_EN",
-    "zaman": "2026-10-19T12:50:00.000Z",
+    "id": "2112212384207257670",
+    "metin": "It's a big week for Lamine Yamal and Barcelona 🔥 https://t.co/vnNUk0IuBU",
+    "kullanici": "brfootball",
+    "zaman": "2026-10-19T16:00:50.000Z",
     "metrik": {
      "bookmark_count": 0,
-     "impression_count": 1399,
-     "like_count": 9,
+     "impression_count": 12054,
+     "like_count": 79,
+     "quote_count": 1,
+     "reply_count": 4,
+     "retweet_count": 8
+    }
+   },
+   {
+    "id": "2112211865808122056",
+    "metin": "Manchester United are finding their rhythm.\n\nTheir 700 completed passes, including 211 in the final third, were both the highest totals they have ever recorded in a WSL match. https://t.co/y97Ac8ZGWt",
+    "kullanici": "OptaAnalyst",
+    "zaman": "2026-10-19T15:58:46.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 3586,
+     "like_count": 8,
+     "quote_count": 1,
+     "reply_count": 1,
+     "retweet_count": 2
+    }
+   },
+   {
+    "id": "2112211671691444627",
+    "metin": "📢 Tottenham Hotspur v Coventry with BOYLE Sports\n\nBet £10 Get £30 in free bets + 50% Bet Builder Boost\n\nClaim on BOYLE Sports HERE ➡️ https://t.co/rPdRFzoQyk\n\n#Ad | 18+ | New Customer Offer | T&amp;C’s Apply | https://t.co/Po0CPbV7Tn | BET Responsibly https://t.co/LGdRKRIPyp",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-19T15:58:00.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 3462,
+     "like_count": 3,
      "quote_count": 0,
      "reply_count": 0,
      "retweet_count": 0
     }
    },
    {
-    "id": "2112162850730876987",
-    "metin": "🇵🇸❤️ Pep Guardiola has delivered a powerful and emotional message about the suffering of Palestinians in Gaza:\n\n🗣️ Guardiola: \"They are not dead, they are people who have been killed. They are not numbers. They are lives with names, faces, families, dreams, and memories.\n\nWhen we https://t.co/9vfPfhpoqQ",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-19T12:44:00.000Z",
+    "id": "2112209753346601305",
+    "metin": "Barcelona are just the second team in LaLiga history to win their first nine matches of a season after Real Madrid in 1968/69.\n\nNext up: Real Madrid (H) 🍿 https://t.co/XseMg9po3g",
+    "kullanici": "Squawka",
+    "zaman": "2026-10-19T15:50:22.000Z",
     "metrik": {
      "bookmark_count": 0,
-     "impression_count": 5889,
-     "like_count": 36,
+     "impression_count": 7111,
+     "like_count": 31,
+     "quote_count": 1,
+     "reply_count": 3,
+     "retweet_count": 3
+    }
+   },
+   {
+    "id": "2112208383969300951",
+    "metin": "🏴󠁧󠁢󠁥󠁮󠁧󠁿😳 Bizarre scenes during Brentford vs Liverpool on Saturday, as a supporter attempted to boot a RUGBY BALL onto the pitch from the roof of a nearby building.\n\nBrentford have since released a statement condemning the dangerous incident and confirmed that the matter has been",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-19T15:44:56.000Z",
+    "metrik": {
+     "bookmark_count": 2,
+     "impression_count": 6283,
+     "like_count": 13,
+     "quote_count": 1,
+     "reply_count": 2,
+     "retweet_count": 2
+    }
+   },
+   {
+    "id": "2112207897295810801",
+    "metin": "🎙️ Gary Neville on Carlos Baleba's start to life at Manchester United:\n\n🗣️ Neville: \"I know he had a difficult season last year at Brighton, but you watch him in his first couple of games or so for United, and he's got something. He's got a bit of strength about him, he's got a https://t.co/PZmAwiyUm4",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-19T15:43:00.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 6026,
+     "like_count": 29,
      "quote_count": 0,
      "reply_count": 1,
+     "retweet_count": 3
+    }
+   },
+   {
+    "id": "2112204816462090457",
+    "metin": "🎄⚽ THE PREMIER LEAGUE BOXING DAY FIXTURES ARE HERE. 🔥🏴󠁧󠁢󠁥󠁮󠁧󠁿\n\n🗓️ Saturday, December 26:\n\n12.30pm – Aston Villa 🆚 Leeds United\n3pm – Everton 🆚 Sunderland\n3pm – Fulham 🆚 Brighton\n3pm – Ipswich 🆚 Brentford\n3pm – Tottenham 🆚 Bournemouth\n5.30pm – Hull City 🆚 Liverpool\n8pm – https://t.co/SgX00VPC3H",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-19T15:30:45.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 7978,
+     "like_count": 42,
+     "quote_count": 1,
+     "reply_count": 0,
+     "retweet_count": 8
+    }
+   },
+   {
+    "id": "2112204625340420606",
+    "metin": "Matchweek 7's final fixture sees @SpursOfficial host @CoventryCityFC 💪 https://t.co/3BI4cQlclG",
+    "kullanici": "premierleague",
+    "zaman": "2026-10-19T15:30:00.000Z",
+    "metrik": {
+     "bookmark_count": 4,
+     "impression_count": 82390,
+     "like_count": 1252,
+     "quote_count": 12,
+     "reply_count": 28,
+     "retweet_count": 83
+    }
+   },
+   {
+    "id": "2112202926437306784",
+    "metin": "BREAKING: Brentford are working with the police to identify those responsible for a rugby ball being kicked into the stadium during their 2-1 defeat to Liverpool on Saturday 🚨 https://t.co/kTwqO5Gfuy",
+    "kullanici": "SkySportsNews",
+    "zaman": "2026-10-19T15:23:15.000Z",
+    "metrik": {
+     "bookmark_count": 78,
+     "impression_count": 158817,
+     "like_count": 1945,
+     "quote_count": 23,
+     "reply_count": 63,
+     "retweet_count": 73
+    }
+   },
+   {
+    "id": "2112200427957567752",
+    "metin": "The longest-range Premier League goals since distance records began in 2006/07:\n\n◎ 95.7m - Asmir Begović vs. Southampton (13/14)\n◎ 92.2m - Tim Howard vs. Bolton (11/12)\n◎ 84.7m - Paul Robinson vs. Watford (06/07)\n◎ 63.9m - Charlie Adam vs. Chelsea (14/15)\n◎ 60.6m - Xabi https://t.co/tHwNbPjbST",
+    "kullanici": "Squawka",
+    "zaman": "2026-10-19T15:13:19.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 13982,
+     "like_count": 45,
+     "quote_count": 0,
+     "reply_count": 4,
      "retweet_count": 9
     }
    },
    {
-    "id": "2112158628270543062",
-    "metin": "Building a team using one team's defense, one team's midfield, and another team's attack 🧱\n\n(w/ @Culturecams, @LyesBouzidi10) https://t.co/gDPOwtG7xC",
-    "kullanici": "brfootball",
-    "zaman": "2026-10-19T12:27:13.000Z",
-    "metrik": {
-     "bookmark_count": 6,
-     "impression_count": 32012,
-     "like_count": 187,
-     "quote_count": 2,
-     "reply_count": 9,
-     "retweet_count": 13
-    }
-   },
-   {
-    "id": "2112158367146000663",
-    "metin": "7 goal involvements (4G, 3A) in 7 Serie A games for Adrien Rabiot this season! 🔥 https://t.co/z0nGxcN5TS",
-    "kullanici": "SerieA_EN",
-    "zaman": "2026-10-19T12:26:11.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 2328,
-     "like_count": 39,
-     "quote_count": 0,
-     "reply_count": 0,
-     "retweet_count": 5
-    }
-   },
-   {
-    "id": "2112156558960566537",
-    "metin": "⬜👑 José Mourinho on the good form of Yan Diomande:\n\n🗣️ Mourinho: \"I am very happy with Diomande. He reminds me of young Vinícius Júnior.\n\nHe has a lot to work on, and he has many things he needs to improve. He need to work on his finishing. He gets to a lot of dangerous https://t.co/0bdK3bvIUr https://t.co/EMAirOzxTX",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-19T12:19:00.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 8130,
-     "like_count": 33,
-     "quote_count": 0,
-     "reply_count": 2,
-     "retweet_count": 3
-    }
-   },
-   {
-    "id": "2112156453612253585",
-    "metin": "👀 Fantasy football options for this week?  \n\nPlay now! 🎮 https://t.co/WK327k68j4\n\n@playstation | #UCLfantasy https://t.co/DYiZPbKTKn",
-    "kullanici": "ChampionsLeague",
-    "zaman": "2026-10-19T12:18:35.000Z",
-    "metrik": {
-     "bookmark_count": 4,
-     "impression_count": 78488,
-     "like_count": 376,
-     "quote_count": 1,
-     "reply_count": 9,
-     "retweet_count": 25
-    }
-   },
-   {
-    "id": "2112156075633820129",
-    "metin": "🐎 Brighton are in the title race\n🐯 Hull's bubble has burst\n✍️ Manzambi is the signing of the summer\n🙄 Jaissle could be forgotten before long\n🇪🇺 Sunderland need to get out of Europe\n\nWe've summed up the weekend's Premier League action with our weekly dose of knee-jerk",
-    "kullanici": "OptaAnalyst",
-    "zaman": "2026-10-19T12:17:05.000Z",
-    "metrik": {
-     "bookmark_count": 5,
-     "impression_count": 5854,
-     "like_count": 16,
-     "quote_count": 1,
-     "reply_count": 3,
-     "retweet_count": 0
-    }
-   },
-   {
-    "id": "2112155678592664023",
-    "metin": "Manchester City winger Antoine Semenyo will miss around eight weeks with a knee injury, although Erling Haaland’s knock appears not to be serious.\n\nBoth players limped off at the end of City’s 3-2 victory over Ipswich Town on Saturday, and manager Enzo Maresca said that while",
-    "kullanici": "TheAthleticFC",
-    "zaman": "2026-10-19T12:15:30.000Z",
-    "metrik": {
-     "bookmark_count": 2,
-     "impression_count": 26631,
-     "like_count": 127,
-     "quote_count": 1,
-     "reply_count": 10,
-     "retweet_count": 11
-    }
-   },
-   {
-    "id": "2112152521242243124",
-    "metin": "Elversberg have had a DREAM start to their debut Bundesliga campaign. 😍\n\nThey come from a tiny German town of just 13,000, where the nearly the entire population could fit inside their stadium.\n\nAfter three promotions in five years, they're now SIXTH after six games, having https://t.co/vlUfssYX4T",
-    "kullanici": "Squawka",
-    "zaman": "2026-10-19T12:02:57.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 10334,
-     "like_count": 38,
-     "quote_count": 0,
-     "reply_count": 3,
-     "retweet_count": 2
-    }
-   },
-   {
-    "id": "2112152030059847788",
-    "metin": "In 2016, the funding of Manchester City owner Sheikh Mansour's 482ft superyacht, the Topaz, saw him named as one of the \"co-conspirators\" in a $4.5 billion scandal a U.S. judge called “one of the biggest financial crimes in the history of the world”.\n\nIn the international https://t.co/HNd9nd1Kng",
-    "kullanici": "TheAthleticFC",
-    "zaman": "2026-10-19T12:01:00.000Z",
-    "metrik": {
-     "bookmark_count": 24,
-     "impression_count": 37409,
-     "like_count": 211,
-     "quote_count": 8,
-     "reply_count": 13,
-     "retweet_count": 41
-    }
-   },
-   {
-    "id": "2112151810546749797",
-    "metin": "Bruno Cheyrou: Harry Kane’s mastery of timing and space offers a lesson to young players 🧐\n\nAnalysis 👉 https://t.co/AIiIvtQf70 \n\n#UCL https://t.co/5f59PzJLH7",
-    "kullanici": "ChampionsLeague",
-    "zaman": "2026-10-19T12:00:08.000Z",
-    "metrik": {
-     "bookmark_count": 2,
-     "impression_count": 84128,
-     "like_count": 408,
-     "quote_count": 0,
-     "reply_count": 30,
-     "retweet_count": 31
-    }
-   },
-   {
-    "id": "2112151782814306376",
-    "metin": "Proud manager 🫶 https://t.co/mawiw95fES",
-    "kullanici": "LaLigaEN",
-    "zaman": "2026-10-19T12:00:01.000Z",
-    "metrik": {
-     "bookmark_count": 2,
-     "impression_count": 6356,
-     "like_count": 263,
-     "quote_count": 0,
-     "reply_count": 1,
-     "retweet_count": 7
-    }
-   },
-   {
-    "id": "2112149763974164918",
-    "metin": "💔 Ahhh man. We all know who he reminds us of. https://t.co/J7Z3mjMhYZ",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-19T11:52:00.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 18397,
-     "like_count": 224,
-     "quote_count": 0,
-     "reply_count": 8,
-     "retweet_count": 12
-    }
-   },
-   {
-    "id": "2112146703549952287",
-    "metin": "Unbeaten and unstoppable! 🛑🚫\n\nSeven games into the Serie A season and the top 4 sides are still standing tall without a single loss. Who is your favorite to lift the title this season? 🏆 https://t.co/Csu1fHsyg5",
+    "id": "2112198629717074359",
+    "metin": "FPF president Pedro Proenca backs Cristiano Ronaldo to resolve Jorge Jesus feud and make Portugal return 👏🇵🇹\n\nRead more 🔗 https://t.co/bQYYEKJ49f https://t.co/aik9EdcuF6",
     "kullanici": "goal",
-    "zaman": "2026-10-19T11:39:50.000Z",
+    "zaman": "2026-10-19T15:06:10.000Z",
     "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 26205,
-     "like_count": 370,
-     "quote_count": 0,
-     "reply_count": 8,
-     "retweet_count": 15
-    }
-   },
-   {
-    "id": "2112144982723514465",
-    "metin": "A record-breaking double for Man City, a 33-year first for Chelsea and unwanted history for Newcastle. 👀\n\nThe best Premier League stats from GW7 so far. 👇\n\nhttps://t.co/OeXAeJ1GGd",
-    "kullanici": "Squawka",
-    "zaman": "2026-10-19T11:33:00.000Z",
-    "metrik": {
-     "bookmark_count": 2,
-     "impression_count": 12054,
-     "like_count": 22,
-     "quote_count": 0,
-     "reply_count": 1,
-     "retweet_count": 3
-    }
-   },
-   {
-    "id": "2112139803311354066",
-    "metin": "Manchester City boss Enzo Maresca says Erling Haaland could be available against AEK Athens but Antoine Semenyo is \"probably out for eight weeks\" ⤵️ https://t.co/8yKO7UNy4h",
-    "kullanici": "SkySportsNews",
-    "zaman": "2026-10-19T11:12:25.000Z",
-    "metrik": {
-     "bookmark_count": 26,
-     "impression_count": 123439,
-     "like_count": 1886,
-     "quote_count": 8,
-     "reply_count": 27,
-     "retweet_count": 97
-    }
-   },
-   {
-    "id": "2112137433378619606",
-    "metin": "⚽️⚽️⚽️⚽️⚽️⚽️⚽️\n\nCeltic put on a show on the weekend 😤\n\n#UEL | @CelticFC https://t.co/C38PV6GCa7",
-    "kullanici": "EuropaLeague",
-    "zaman": "2026-10-19T11:03:00.000Z",
-    "metrik": {
-     "bookmark_count": 2,
-     "impression_count": 27689,
-     "like_count": 563,
-     "quote_count": 0,
-     "reply_count": 5,
-     "retweet_count": 22
-    }
-   },
-   {
-    "id": "2112137339145482682",
-    "metin": "Charlton are currently on the longest winless run (8) of any team in England's top four tiers. 😬\n\n#cafc https://t.co/5i9UrbFuf2",
-    "kullanici": "WhoScored",
-    "zaman": "2026-10-19T11:02:37.000Z",
-    "metrik": {
-     "bookmark_count": 3,
-     "impression_count": 9878,
-     "like_count": 44,
+     "bookmark_count": 0,
+     "impression_count": 20849,
+     "like_count": 64,
      "quote_count": 0,
      "reply_count": 7,
-     "retweet_count": 5
+     "retweet_count": 10
     }
    },
    {
-    "id": "2112136930309612021",
-    "metin": "The problem is that for all Pierre Sage's acceptance of his own mistakes, he does not seem to be able to find solutions. \n\nHe has a style of play in which he believes fervently. There is no sign of changing it, only doubling down. \n\n“I like the pressing and we are better when we",
-    "kullanici": "TheAthleticFC",
-    "zaman": "2026-10-19T11:01:00.000Z",
+    "id": "2112198342583169367",
+    "metin": "Clinton Morrison has named his Team of the Weekend - Do you agree with his choices? ⚽️ \n\n Tune in to the Premier League Show at 5pm 🕔 https://t.co/63a464qY8U",
+    "kullanici": "SkySportsNews",
+    "zaman": "2026-10-19T15:05:02.000Z",
     "metrik": {
      "bookmark_count": 6,
-     "impression_count": 31214,
-     "like_count": 79,
-     "quote_count": 0,
-     "reply_count": 3,
-     "retweet_count": 3
+     "impression_count": 71297,
+     "like_count": 370,
+     "quote_count": 1,
+     "reply_count": 18,
+     "retweet_count": 16
     }
    },
    {
-    "id": "2112136929814933912",
-    "metin": "Yan Diomande is the first player under 20 to score AND assist in the same LaLiga game for Real Madrid in the 21st century.\n\n19 years and 338 days old. ⭐ https://t.co/YEfVNwpFD8",
-    "kullanici": "Squawka",
-    "zaman": "2026-10-19T11:01:00.000Z",
+    "id": "2112197831331139687",
+    "metin": "Milan, Sunderland and Juventus producing great team goals from MD2 🤩\n\nFavourite move? 🧐\n\n#UELteamwork | @StraussWorkwear https://t.co/6JdzbqTvB8",
+    "kullanici": "EuropaLeague",
+    "zaman": "2026-10-19T15:03:00.000Z",
     "metrik": {
      "bookmark_count": 1,
-     "impression_count": 12755,
-     "like_count": 166,
-     "quote_count": 2,
+     "impression_count": 20293,
+     "like_count": 68,
+     "quote_count": 0,
      "reply_count": 4,
-     "retweet_count": 24
+     "retweet_count": 10
     }
    },
    {
-    "id": "2112136698523947401",
-    "metin": "Take it away, Adrien Rabiot 😮‍💨\n\n#MilanAtalanta https://t.co/MJZJJCFKyY",
-    "kullanici": "SerieA_EN",
-    "zaman": "2026-10-19T11:00:05.000Z",
+    "id": "2112192043501908111",
+    "metin": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 Liam Rosenior has got Paris FC soaring in his debut season at the club, with a dramatic last-gasp winner against Rennes securing a 4-3 victory and sending them joint-top of Ligue 1.\n\nAnd just look at the table over in France - it genuinely looks like they might have a title https://t.co/p91N8bH1mL",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-19T14:40:00.000Z",
     "metrik": {
      "bookmark_count": 0,
-     "impression_count": 2986,
+     "impression_count": 11531,
+     "like_count": 106,
+     "quote_count": 1,
+     "reply_count": 6,
+     "retweet_count": 10
+    }
+   },
+   {
+    "id": "2112190430053863516",
+    "metin": "Derry City has distanced itself from comments made by its player James McClean after he said he believed that speaking to a psychologist was “weak”.\n\nThe League of Ireland club said on Monday that the comments from McClean “do not reflect our core values or beliefs” and added the",
+    "kullanici": "TheAthleticFC",
+    "zaman": "2026-10-19T14:33:35.000Z",
+    "metrik": {
+     "bookmark_count": 4,
+     "impression_count": 37892,
+     "like_count": 86,
+     "quote_count": 1,
+     "reply_count": 8,
+     "retweet_count": 6
+    }
+   },
+   {
+    "id": "2112189616019353607",
+    "metin": "Manchester United are now winless in their past six games in all competitions (D4 L2).\n\nIs time running out for Michael Carrick? 😬 https://t.co/NPhTkABHzl",
+    "kullanici": "Squawka",
+    "zaman": "2026-10-19T14:30:21.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 11450,
      "like_count": 34,
-     "quote_count": 0,
-     "reply_count": 0,
-     "retweet_count": 2
-    }
-   },
-   {
-    "id": "2112136688168214665",
-    "metin": "There was no stopping Evanilson on Sunday 💪\n\n🍒 @afcbournemouth https://t.co/mV6VCDbQNW",
-    "kullanici": "premierleague",
-    "zaman": "2026-10-19T11:00:02.000Z",
-    "metrik": {
-     "bookmark_count": 12,
-     "impression_count": 140538,
-     "like_count": 1485,
-     "quote_count": 4,
-     "reply_count": 34,
-     "retweet_count": 70
-    }
-   },
-   {
-    "id": "2112135077660344769",
-    "metin": "🗣️ Duncan Ferguson: \"Glentoran is a big club with a tremendous history, and it is a great opportunity for me. I want to win trophies here. Glentoran should be challenging for the title and every cup and shield we enter. I know that success here will be judged on what we win.\n\nI https://t.co/S6JICSgkgn https://t.co/k8om9Gt6oy",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-19T10:53:38.000Z",
-    "metrik": {
-     "bookmark_count": 2,
-     "impression_count": 13394,
-     "like_count": 55,
      "quote_count": 0,
      "reply_count": 2,
      "retweet_count": 4
     }
    },
    {
-    "id": "2112134664433385959",
-    "metin": "What's going wrong for Eberechi Eze at Arsenal? https://t.co/MMh1CQCbA8",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-19T10:52:00.000Z",
+    "id": "2112189528211378687",
+    "metin": "Efficiency brought to you by @BHAFC ⚡️ https://t.co/FndjRouPrF",
+    "kullanici": "premierleague",
+    "zaman": "2026-10-19T14:30:00.000Z",
     "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 10790,
-     "like_count": 134,
+     "bookmark_count": 23,
+     "impression_count": 138567,
+     "like_count": 1414,
+     "quote_count": 5,
+     "reply_count": 18,
+     "retweet_count": 63
+    }
+   },
+   {
+    "id": "2112189046369792423",
+    "metin": "UCL prep for Lamine and crew 🤣\n\nTough 2nd place for Pedri 😅 https://t.co/eyLcQx4WOR",
+    "kullanici": "ESPNFC",
+    "zaman": "2026-10-19T14:28:05.000Z",
+    "metrik": {
+     "bookmark_count": 33,
+     "impression_count": 69479,
+     "like_count": 3050,
      "quote_count": 4,
-     "reply_count": 10,
-     "retweet_count": 5
+     "reply_count": 28,
+     "retweet_count": 79
     }
    },
    {
-    "id": "2112133748984525226",
-    "metin": "BREAKING: Glentoran Football Club have named Duncan Ferguson as their new manager 🚨 https://t.co/xVQslPmAoa",
-    "kullanici": "SkySportsNews",
-    "zaman": "2026-10-19T10:48:21.000Z",
+    "id": "2112187083959730241",
+    "metin": "Champions League team news 🗒️ \n\nDetails 👉 https://t.co/tGYnogDVX2\n\n#UCL https://t.co/1aBdrGWrYC",
+    "kullanici": "ChampionsLeague",
+    "zaman": "2026-10-19T14:20:18.000Z",
     "metrik": {
-     "bookmark_count": 27,
-     "impression_count": 156621,
-     "like_count": 744,
-     "quote_count": 13,
-     "reply_count": 37,
-     "retweet_count": 52
-    }
-   },
-   {
-    "id": "2112131554184990819",
-    "metin": "PSG and the NFL release an exclusive collection ahead of Steelers-Saints in Paris, the first-ever regular-season game in France ⚽🤝🏈 https://t.co/nTyKizWtLR",
-    "kullanici": "brfootball",
-    "zaman": "2026-10-19T10:39:38.000Z",
-    "metrik": {
-     "bookmark_count": 13,
-     "impression_count": 50796,
-     "like_count": 893,
-     "quote_count": 3,
-     "reply_count": 13,
-     "retweet_count": 51
-    }
-   },
-   {
-    "id": "2112130956857311674",
-    "metin": "An outrageous goal. 😤\n\nhttps://t.co/JwpjSEeqUW https://t.co/XgBdjaQYAv",
-    "kullanici": "Squawka",
-    "zaman": "2026-10-19T10:37:16.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 13502,
-     "like_count": 25,
+     "bookmark_count": 9,
+     "impression_count": 110820,
+     "like_count": 1605,
      "quote_count": 1,
-     "reply_count": 0,
-     "retweet_count": 3
+     "reply_count": 15,
+     "retweet_count": 87
     }
    },
    {
-    "id": "2112129631746974165",
-    "metin": "Lamine Yamal for Barcelona vs. Real Betis:\n\n◉ Most duels won (8)\n◉ Most successful take-ons (6)\n◉ Most shots (4)\n◉ =Most shots on target (2)\n◉ =Most chances created (2)\n\nHe played just 70 minutes. 🔥 https://t.co/JZvyC9YEwa",
-    "kullanici": "Squawka",
-    "zaman": "2026-10-19T10:32:00.000Z",
+    "id": "2112185751571935552",
+    "metin": "Andoni Iraola fears that Jeremie Frimpong will be sidelined until after the November international break, but Liverpool midfielder Dominik Szoboszlai should be back in action sooner.\n\nFrimpong pulled his hamstring shortly after coming off the bench in Saturday’s 2-1 Premier",
+    "kullanici": "TheAthleticFC",
+    "zaman": "2026-10-19T14:15:00.000Z",
     "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 18435,
-     "like_count": 118,
-     "quote_count": 1,
-     "reply_count": 1,
-     "retweet_count": 14
-    }
-   },
-   {
-    "id": "2112129270348652739",
-    "metin": "6 - Only between August and October 2022 (7 games) has Erling Haaland enjoyed a longer run of scoring in successive Premier League appearances than his ongoing 6-game streak.\n\nRolling. https://t.co/wJxyDBRGe4",
-    "kullanici": "OptaJoe",
-    "zaman": "2026-10-19T10:30:34.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 24678,
-     "like_count": 57,
+     "bookmark_count": 3,
+     "impression_count": 29578,
+     "like_count": 100,
      "quote_count": 0,
-     "reply_count": 4,
-     "retweet_count": 8
-    }
-   },
-   {
-    "id": "2112128876545777746",
-    "metin": "🇨🇮 Yan Diomande is showing why Real Madrid spent €125M on him. \n\nhttps://t.co/Mff9QUItOc https://t.co/EMAirOzxTX",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-19T10:29:00.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 12064,
-     "like_count": 34,
-     "quote_count": 0,
-     "reply_count": 1,
-     "retweet_count": 6
-    }
-   },
-   {
-    "id": "2112128682630463684",
-    "metin": "A tough environment at Manchester United 😬\n\nSpeaking on The Gary Neville Podcast, Gary Neville explained how expectations around the club have dropped but how the point at Elland Road might offer some optimism 🗣️\n\n\"[There's] a depressed standard and a low expectation right now,\" https://t.co/XoffpqhLJV",
-    "kullanici": "goal",
-    "zaman": "2026-10-19T10:28:14.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 27512,
-     "like_count": 106,
-     "quote_count": 0,
-     "reply_count": 11,
+     "reply_count": 5,
      "retweet_count": 9
     }
    },
    {
-    "id": "2112125851576029374",
-    "metin": "🔴 Gary Neville believes Lisandro Martínez's outspoken comments may have been exactly what Manchester United needed to spark a reaction from the players.\n\n🗣️ Neville: “That dressing room did need spiking.” https://t.co/aDsFLGUiUh https://t.co/5vFkKAwTYX",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-19T10:16:59.000Z",
+    "id": "2112184784512327863",
+    "metin": "Broadcast selections for December have been confirmed, including Arsenal v Man Utd and the north London derby 👀\n\nSee the schedule in full 📲  https://t.co/QjZsnFv0L8 https://t.co/UKwNZxORmC",
+    "kullanici": "premierleague",
+    "zaman": "2026-10-19T14:11:09.000Z",
     "metrik": {
-     "bookmark_count": 3,
-     "impression_count": 11609,
-     "like_count": 26,
-     "quote_count": 0,
-     "reply_count": 0,
-     "retweet_count": 5
+     "bookmark_count": 11,
+     "impression_count": 174270,
+     "like_count": 714,
+     "quote_count": 12,
+     "reply_count": 21,
+     "retweet_count": 82
     }
    },
    {
-    "id": "2112125822714724666",
-    "metin": "Diego Gomez scored a stunning goal from halfway in Brighton's 5-0 thrashing of Crystal Palace on Sunday. \n\nBut where do you rank the midfielder's strike compared to other Premier League goals from the halfway line?💭 https://t.co/g4K9bOEIOx",
-    "kullanici": "SkySportsPL",
-    "zaman": "2026-10-19T10:16:52.000Z",
+    "id": "2112184744679293062",
+    "metin": "🚨🇵🇹 Cristiano Ronaldo is dominating an official Ballon d'Or fan vote to decide the greatest Ballon d'Or-winning season of all time! 🐐\n\nThe competition features 10 football legends who have won the award at least twice, including Lionel Messi, Johan Cruyff, Ronaldo Nazário and https://t.co/BQCs58dxKj",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-19T14:11:00.000Z",
     "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 73387,
-     "like_count": 545,
-     "quote_count": 3,
-     "reply_count": 26,
+     "bookmark_count": 10,
+     "impression_count": 13641,
+     "like_count": 193,
+     "quote_count": 1,
+     "reply_count": 7,
+     "retweet_count": 23
+    }
+   },
+   {
+    "id": "2112182354789699968",
+    "metin": "Liverpool may have passed the test against Brentford at the Gtech Community Stadium, but there's still plenty of work to be done as the team adjusts to Andoni Iraola's more disruptive approach.\n\n@LiamTharmeCoach looks at the challenges of Liverpool’s tactics and why chaos can be https://t.co/6e2OGFj7e6",
+    "kullanici": "TheAthleticFC",
+    "zaman": "2026-10-19T14:01:30.000Z",
+    "metrik": {
+     "bookmark_count": 40,
+     "impression_count": 48764,
+     "like_count": 269,
+     "quote_count": 5,
+     "reply_count": 10,
      "retweet_count": 21
     }
    },
    {
-    "id": "2112123591777034646",
-    "metin": "🚨🔴 Gary Neville is convinced there has been a MASSIVE confrontation inside the Manchester United dressing room following Lisandro Martínez’s explosive comments:\n\n🗣️ Neville: “I think that dressing room’s definitely had a tear-up and they’ve had a meeting, 100%.\n\nThere’s no way https://t.co/T1zD94LNRL",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-19T10:08:00.000Z",
+    "id": "2112181980456476869",
+    "metin": "9 world champions.\nThe all-time leading goalscorer in World Cup history.\nThe MVP of the tournament.\nThe best young player.\nThe greatest concentration of football stars\ncomes together in one single match.\n\nOn October 25th, the stars align.\nExperience it in #ELCLÁSICO\n\n👉 https://t.co/LMyDgAERqF",
+    "kullanici": "LaLigaEN",
+    "zaman": "2026-10-19T14:00:01.000Z",
     "metrik": {
-     "bookmark_count": 6,
-     "impression_count": 35663,
-     "like_count": 139,
-     "quote_count": 3,
-     "reply_count": 2,
+     "bookmark_count": 16,
+     "impression_count": 14427,
+     "like_count": 691,
+     "quote_count": 6,
+     "reply_count": 7,
+     "retweet_count": 67
+    }
+   },
+   {
+    "id": "2112181950144262356",
+    "metin": "🇫🇷🏆 Kylian Mbappé has been crowned the winner of the 2026 Onze d'Or, receiving a massive 48.2% of the vote.\n\nThe Onze d'Or is an annual award presented by French football magazine Onze Mondial, with fans voting to recognise the best footballer in the world over the past season. https://t.co/8NNBgfUp1Q",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-19T13:59:54.000Z",
+    "metrik": {
+     "bookmark_count": 3,
+     "impression_count": 9650,
+     "like_count": 96,
+     "quote_count": 2,
+     "reply_count": 3,
+     "retweet_count": 13
+    }
+   },
+   {
+    "id": "2112181349616689478",
+    "metin": "Amine Gouiri keeps finding the net 🇩🇿🔵⚪ https://t.co/L0jYkNI8qQ",
+    "kullanici": "Ligue1_ENG",
+    "zaman": "2026-10-19T13:57:30.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 3349,
+     "like_count": 52,
+     "quote_count": 0,
+     "reply_count": 0,
      "retweet_count": 6
     }
    },
    {
-    "id": "2112123295139013015",
-    "metin": "BREAKING: Sarina Wiegman has signed a two-year contract extension with England until the end of Euro 2029 🚨 https://t.co/VFq6uF4zLY",
-    "kullanici": "SkySportsNews",
-    "zaman": "2026-10-19T10:06:49.000Z",
+    "id": "2112180902503526878",
+    "metin": "Since Mikel Arteta took charge in December 2019, no Premier League side has scored more winning goals through substitutes than Arsenal. 🤯\n\nLuck, squad depth or brilliant in-game management?\n\nAnalysis below 👇 https://t.co/Y6CzcyIr1M",
+    "kullanici": "OptaAnalyst",
+    "zaman": "2026-10-19T13:55:44.000Z",
     "metrik": {
-     "bookmark_count": 4,
-     "impression_count": 93106,
-     "like_count": 384,
-     "quote_count": 2,
-     "reply_count": 15,
-     "retweet_count": 27
+     "bookmark_count": 21,
+     "impression_count": 26549,
+     "like_count": 203,
+     "quote_count": 8,
+     "reply_count": 6,
+     "retweet_count": 44
+    }
+   },
+   {
+    "id": "2112177949625749550",
+    "metin": "🎙️ Roberto De Zerbi has confirmed Dejan Kulusevski will be in Tottenham's match day squad for the first time in nearly 18 months:\n\n🗣️ De Zerbi: \"The medical staff gave the okay and it's great news. He suffered too much.\"\n\nhttps://t.co/O6ULHXk4pp https://t.co/lYjIa5rc8b",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-19T13:44:00.000Z",
+    "metrik": {
+     "bookmark_count": 1,
+     "impression_count": 11038,
+     "like_count": 52,
+     "quote_count": 0,
+     "reply_count": 1,
+     "retweet_count": 4
+    }
+   },
+   {
+    "id": "2112175330391736421",
+    "metin": "Brighton are on the longest clean sheet streak (4) across Europe's top five leagues. 🛡️ https://t.co/tKYXuIrGEl https://t.co/C2bCXRwXXj",
+    "kullanici": "WhoScored",
+    "zaman": "2026-10-19T13:33:35.000Z",
+    "metrik": {
+     "bookmark_count": 2,
+     "impression_count": 10388,
+     "like_count": 68,
+     "quote_count": 0,
+     "reply_count": 2,
+     "retweet_count": 5
+    }
+   },
+   {
+    "id": "2112174929970151632",
+    "metin": "🗣️ Oliver Glasner: \"Ezri Konsa and Gabriel are possibly the best centre-back pairing in the world at the moment.\"\n\n🗣️ Gabriel on his partnership with Konsa: \"Since he arrived, he’s adapted really quickly. He’s a top player and I really enjoy playing with him. We have the best https://t.co/tuXr6kXfT7",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-19T13:32:00.000Z",
+    "metrik": {
+     "bookmark_count": 2,
+     "impression_count": 11431,
+     "like_count": 74,
+     "quote_count": 0,
+     "reply_count": 2,
+     "retweet_count": 3
+    }
+   },
+   {
+    "id": "2112173979888673145",
+    "metin": "When leaving Elland Road yesterday, Bruno Fernandes walked past the press after the final whistle.\n\n🗣️ Bruno: \"I can’t speak, I’m not allowed.\" https://t.co/IwA1Bn7Hec",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-19T13:28:13.000Z",
+    "metrik": {
+     "bookmark_count": 2,
+     "impression_count": 14041,
+     "like_count": 77,
+     "quote_count": 0,
+     "reply_count": 0,
+     "retweet_count": 7
+    }
+   },
+   {
+    "id": "2112171658224267644",
+    "metin": "😎🕴️ Barcelona are on their way to Paris.  https://t.co/BObqO8Nqvs",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-19T13:19:00.000Z",
+    "metrik": {
+     "bookmark_count": 2,
+     "impression_count": 12927,
+     "like_count": 115,
+     "quote_count": 0,
+     "reply_count": 1,
+     "retweet_count": 8
+    }
+   },
+   {
+    "id": "2112169486409154695",
+    "metin": "🚨 𝗢𝗙𝗙𝗜𝗖𝗜𝗔𝗟: The hosts of the 2026 Ballon d’Or ceremony in London will be Thierry Henry and Kate Scott. https://t.co/YLCEiu06iF",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-19T13:10:22.000Z",
+    "metrik": {
+     "bookmark_count": 14,
+     "impression_count": 24129,
+     "like_count": 744,
+     "quote_count": 4,
+     "reply_count": 7,
+     "retweet_count": 49
+    }
+   },
+   {
+    "id": "2112168963476209753",
+    "metin": "Yan Diomande is in incredible form 🔥\n\nHe has 5 G/A in his last four starts for Real Madrid:\n\n🅰️ vs Elche\n⚽️ vs Villarreal\n🅰️ vs AS Roma\n🅰️⚽️ vs Sevilla https://t.co/3VBLqdZt5o",
+    "kullanici": "goal",
+    "zaman": "2026-10-19T13:08:17.000Z",
+    "metrik": {
+     "bookmark_count": 3,
+     "impression_count": 31741,
+     "like_count": 820,
+     "quote_count": 1,
+     "reply_count": 8,
+     "retweet_count": 46
+    }
+   },
+   {
+    "id": "2112168661918089231",
+    "metin": "Delivered by Youri Tielemans 🎁\n\n🔴 @ManUtd https://t.co/V9SR0k8zt7",
+    "kullanici": "premierleague",
+    "zaman": "2026-10-19T13:07:05.000Z",
+    "metrik": {
+     "bookmark_count": 58,
+     "impression_count": 223705,
+     "like_count": 4652,
+     "quote_count": 25,
+     "reply_count": 57,
+     "retweet_count": 253
+    }
+   },
+   {
+    "id": "2112168273488060614",
+    "metin": "The table makes grim reading for Tottenham fans. But there are reasons to keep the faith.\n\nThe key signs that Spurs are turning a corner under Roberto De Zerbi. 👇\n\nhttps://t.co/uOaI1qmSMn",
+    "kullanici": "Squawka",
+    "zaman": "2026-10-19T13:05:33.000Z",
+    "metrik": {
+     "bookmark_count": 1,
+     "impression_count": 13106,
+     "like_count": 24,
+     "quote_count": 0,
+     "reply_count": 3,
+     "retweet_count": 4
     }
    }
   ]

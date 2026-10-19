@@ -24770,7 +24770,8 @@
      "istatistik": 0.77,
      "uyum": true,
      "buyuk": false,
-     "no": 6
+     "no": 6,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1608324-CS1X",
@@ -24810,7 +24811,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 8
+     "no": 8,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1608325-CSX2",
@@ -24952,7 +24954,8 @@
      "istatistik": 0.866,
      "uyum": true,
      "buyuk": false,
-     "no": 15
+     "no": 15,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1607329-CS12",
@@ -25176,7 +25179,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 26
+     "no": 26,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1558246-CS12",
@@ -25196,7 +25200,8 @@
      "istatistik": 0.761,
      "uyum": true,
      "buyuk": false,
-     "no": 27
+     "no": 27,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1549039-CS12",
@@ -25338,7 +25343,8 @@
      "istatistik": 0.781,
      "uyum": true,
      "buyuk": false,
-     "no": 34
+     "no": 34,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1492776-CSX2",
@@ -25440,7 +25446,8 @@
      "istatistik": 0.73,
      "uyum": true,
      "buyuk": false,
-     "no": 39
+     "no": 39,
+     "sonuc": "iade"
     },
     {
      "aday_id": "1497728-IYU05",
@@ -25582,7 +25589,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 46
+     "no": 46,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1494299-IYA15",
@@ -25684,7 +25692,8 @@
      "istatistik": 0.675,
      "uyum": true,
      "buyuk": false,
-     "no": 51
+     "no": 51,
+     "sonuc": "iade"
     },
     {
      "aday_id": "1492776-IYU05",
@@ -26571,7 +26580,7 @@
    "oto": true,
    "issue": 103,
    "tazeleme": "2026-10-19T09:03:56+00:00",
-   "olcum_sorgu": "2026-10-19T17:43:00+00:00"
+   "olcum_sorgu": "2026-10-19T18:39:34+00:00"
   }
  ]
 }

@@ -105553,6 +105553,24 @@
               1
             ],
             "zaman": "2026-10-19T20:33:43+00:00"
+          },
+          "1550154": {
+            "durum": "paylasildi",
+            "tweet_id": "2112282848912650500",
+            "skor": [
+              0,
+              3
+            ],
+            "zaman": "2026-10-19T20:40:48+00:00"
+          },
+          "1552503": {
+            "durum": "paylasildi",
+            "tweet_id": "2112282850175156408",
+            "skor": [
+              0,
+              3
+            ],
+            "zaman": "2026-10-19T20:40:48+00:00"
           }
         }
       },
@@ -105701,7 +105719,26 @@
         "durum": "paylasildi",
         "tweet_id": "2112149555387248801",
         "zaman": "2026-10-19T11:51:04+00:00",
-        "metin": "🆚 Parma v Torino\n\n🏆 Parma 31% · Draw 28% · Torino 41%\n⚽ Over 2.5 goals 40% · Under 60%\n🥅 Both teams score 46% · Not both 54%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Team stats: Parma win 36%\n💹 Odds: 31%\n\n💬 Not picks. Can Parma beat 31%? 👇\n#SerieA\n18+ | Play responsibly"
+        "metin": "🆚 Parma v Torino\n\n🏆 Parma 31% · Draw 28% · Torino 41%\n⚽ Over 2.5 goals 40% · Under 60%\n🥅 Both teams score 46% · Not both 54%\n🎯 Most likely score: 1-1 (13%)\n\n📈 Team stats: Parma win 36%\n💹 Odds: 31%\n\n💬 Not picks. Can Parma beat 31%? 👇\n#SerieA\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2112282866868420902",
+          "skor": "0-3",
+          "isabet": [
+            true,
+            false,
+            true
+          ],
+          "xg": [
+            1.43,
+            1.37
+          ],
+          "zaman": "2026-10-19T20:40:48+00:00",
+          "brier": {
+            "piyasa": 1.0966,
+            "istatistik": 1.1943
+          }
+        }
       },
       "analiz_3": {
         "durum": "paylasildi",
@@ -106020,7 +106057,26 @@
         "durum": "paylasildi",
         "tweet_id": "2112230964008992858",
         "zaman": "2026-10-19T17:14:35+00:00",
-        "metin": "🆚 Rodez v Montpellier\n\n🏆 Rodez 34% · Draw 24% · Montpellier 42%\n⚽ Over 2.5 goals 58% · Under 42%\n🥅 Both teams score 60% · Not both 40%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: Rodez win 38%\n💹 Odds: 34%\n\n💬 Not picks. What's your score? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Rodez v Montpellier\n\n🏆 Rodez 34% · Draw 24% · Montpellier 42%\n⚽ Over 2.5 goals 58% · Under 42%\n🥅 Both teams score 60% · Not both 40%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: Rodez win 38%\n💹 Odds: 34%\n\n💬 Not picks. What's your score? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2112282927123902658",
+          "skor": "0-3",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "xg": [
+            1.51,
+            1.61
+          ],
+          "zaman": "2026-10-19T20:40:48+00:00",
+          "brier": {
+            "piyasa": 1.0438,
+            "istatistik": 1.1326
+          }
+        }
       },
       "analiz_18": {
         "durum": "paylasildi",

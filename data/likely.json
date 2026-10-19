@@ -26378,8 +26378,25 @@
        "oran": 1.21,
        "olasilik": 0.812,
        "deger": -0.017,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "0-3",
+       "goller": [
+        [
+         55,
+         0,
+         "dep"
+        ],
+        [
+         59,
+         0,
+         "dep"
+        ],
+        [
+         76,
+         0,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1550154-CSX2",
@@ -26393,20 +26410,40 @@
        "oran": 1.39,
        "olasilik": 0.702,
        "deger": -0.025,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "0-3",
+       "goller": [
+        [
+         4,
+         0,
+         "dep"
+        ],
+        [
+         24,
+         0,
+         "dep"
+        ],
+        [
+         69,
+         0,
+         "dep"
+        ]
+       ]
       }
      ],
      "oran": 2.0,
      "olasilik": 0.477,
      "deger": -0.046,
-     "durum": "bekliyor",
+     "durum": "tuttu",
      "secim": "2026-10-19T09:03:56+00:00",
      "oto": true,
      "paylas": "2026-10-19T15:00:00+02:00",
      "tweet_id": "2112167483884925090",
      "metin": "🎩 Treble today. Three dull legs, as ever.\n\n⚽ Sutjeska v Bokelj\n⚽ Rodez v Montpellier\n⚽ Parma v Torino\n\n📊 Combined 2.00. I make it about 48% to land, so slightly worse than a coin flip.\n\n💬 Which of the three do you trust least?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-19T13:02:09+00:00"
+     "yayin": "2026-10-19T13:02:09+00:00",
+     "son_oran": 2.0,
+     "sonuc_metni": "✅ Landed at 2.00. Lovely. Quietly lovely, I'm not going to make a fuss.\n\n✅ Sutjeska 4-0 Bokelj: Double chance 1X\n✅ Rodez 0-3 Montpellier: Over 1.5 goals\n✅ Parma 0-3 Torino: Double chance X2\n\nRecord: 12 of 25 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2112282949592768610"
     },
     {
      "ad": "gunun-kuponu-4",

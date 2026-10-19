@@ -24888,7 +24888,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 12
+     "no": 12,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1565276-CS1X",
@@ -26454,7 +26455,7 @@
    "oto": true,
    "issue": 103,
    "tazeleme": "2026-10-19T09:03:56+00:00",
-   "olcum_sorgu": "2026-10-19T12:47:31+00:00"
+   "olcum_sorgu": "2026-10-19T13:45:58+00:00"
   }
  ]
 }

@@ -105517,6 +105517,33 @@
               2
             ],
             "zaman": "2026-10-19T19:00:53+00:00"
+          },
+          "1551844": {
+            "durum": "paylasildi",
+            "tweet_id": "2112272100472033605",
+            "skor": [
+              2,
+              1
+            ],
+            "zaman": "2026-10-19T19:58:05+00:00"
+          },
+          "1551845": {
+            "durum": "paylasildi",
+            "tweet_id": "2112272101541654711",
+            "skor": [
+              0,
+              1
+            ],
+            "zaman": "2026-10-19T19:58:05+00:00"
+          },
+          "1551846": {
+            "durum": "paylasildi",
+            "tweet_id": "2112272102661525746",
+            "skor": [
+              1,
+              2
+            ],
+            "zaman": "2026-10-19T19:58:05+00:00"
           }
         }
       },
@@ -105804,13 +105831,51 @@
         "durum": "paylasildi",
         "tweet_id": "2112198968184914132",
         "zaman": "2026-10-19T15:07:26+00:00",
-        "metin": "🆚 Jong Ajax v De Graafschap\n\n🏆 Jong Ajax 37% · Draw 21% · De Graafschap 41%\n⚽ Over 2.5 goals 73% · Under 27%\n🥅 Both teams score 72% · Not both 28%\n🎯 Most likely score: 1-1 (8%)\n\n📈 Team stats: Draw 22%\n💹 Odds: 21%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Jong Ajax v De Graafschap\n\n🏆 Jong Ajax 37% · Draw 21% · De Graafschap 41%\n⚽ Over 2.5 goals 73% · Under 27%\n🥅 Both teams score 72% · Not both 28%\n🎯 Most likely score: 1-1 (8%)\n\n📈 Team stats: Draw 22%\n💹 Odds: 21%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2112272123939242433",
+          "skor": "2-1",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "xg": [
+            2.85,
+            0.73
+          ],
+          "zaman": "2026-10-19T19:58:05+00:00",
+          "brier": {
+            "piyasa": 0.7569,
+            "istatistik": 0.7761
+          }
+        }
       },
       "analiz_14": {
         "durum": "paylasildi",
         "tweet_id": "2112205789494464563",
         "zaman": "2026-10-19T15:34:33+00:00",
-        "metin": "🆚 Jong PSV U21 v Dordrecht\n\n🏆 Jong PSV U21 47% · Draw 22% · Dordrecht 31%\n⚽ Over 2.5 goals 68% · Under 32%\n🥅 Both teams score 68% · Not both 32%\n🎯 Most likely score: 1-1 (9%)\n\n📈 Team stats: Jong PSV U21 win 66% (odds 47%)\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Jong PSV U21 v Dordrecht\n\n🏆 Jong PSV U21 47% · Draw 22% · Dordrecht 31%\n⚽ Over 2.5 goals 68% · Under 32%\n🥅 Both teams score 68% · Not both 32%\n🎯 Most likely score: 1-1 (9%)\n\n📈 Team stats: Jong PSV U21 win 66% (odds 47%)\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2112272137558143069",
+          "skor": "0-1",
+          "isabet": [
+            false,
+            false,
+            false
+          ],
+          "xg": [
+            0.21,
+            1.97
+          ],
+          "zaman": "2026-10-19T19:58:05+00:00",
+          "brier": {
+            "piyasa": 1.6662,
+            "istatistik": 1.9336
+          }
+        }
       },
       "tablo_aksam": {
         "durum": "paylasildi",
@@ -105856,7 +105921,26 @@
         "durum": "paylasildi",
         "tweet_id": "2112222073439621576",
         "zaman": "2026-10-19T16:39:04+00:00",
-        "metin": "🆚 Jong Utrecht v Roda\n\n🏆 Jong Utrecht 26% · Draw 23% · Roda 52%\n⚽ Over 2.5 goals 60% · Under 40%\n🥅 Both teams score 60% · Not both 40%\n🎯 Most likely score: 1-1 (10%)\n\n📈 Team stats: Roda win 42%\n💹 Odds: 52%\n\n💬 Not picks. Can Jong Utrecht beat 26%? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Jong Utrecht v Roda\n\n🏆 Jong Utrecht 26% · Draw 23% · Roda 52%\n⚽ Over 2.5 goals 60% · Under 40%\n🥅 Both teams score 60% · Not both 40%\n🎯 Most likely score: 1-1 (10%)\n\n📈 Team stats: Roda win 42%\n💹 Odds: 52%\n\n💬 Not picks. Can Jong Utrecht beat 26%? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2112272149214019674",
+          "skor": "1-2",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            1.02,
+            2.41
+          ],
+          "zaman": "2026-10-19T19:58:05+00:00",
+          "brier": {
+            "piyasa": 0.6733,
+            "istatistik": 0.9168
+          }
+        }
       },
       "analiz_16": {
         "durum": "paylasildi",

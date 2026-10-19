@@ -26028,7 +26028,10 @@
      "durum": "bekliyor",
      "secim": "2026-10-19T05:39:12+00:00",
      "oto": true,
-     "paylas": "2026-10-19T11:00:00+02:00"
+     "paylas": "2026-10-19T11:00:00+02:00",
+     "tweet_id": "2112107587931939194",
+     "metin": "🎩 One pick on the board today. Fine by me.\n\n⚽ Aresimi v Tikveš\n\n📊 2.15. I make it about 48% to land, so slightly more likely not.\n\n💬 Which part of a coupon do you trust least?\n\n18+ | Play responsibly",
+     "yayin": "2026-10-19T09:03:56+00:00"
     },
     {
      "ad": "long-shot",
@@ -26158,6 +26161,120 @@
      "secim": "2026-10-19T05:39:12+00:00",
      "oto": true,
      "paylas": "2026-10-19T11:40:00+02:00"
+    },
+    {
+     "ad": "gunun-kuponu-3",
+     "ayaklar": [
+      {
+       "aday_id": "1558540-CS1X",
+       "fixture_id": 1558540,
+       "pazar": "CS1X",
+       "ev": "Sutjeska",
+       "dep": "Bokelj",
+       "lig": "First League",
+       "baslama": "2026-10-19T18:00:00+02:00",
+       "etiket": "Double chance 1X",
+       "oran": 1.19,
+       "olasilik": 0.836,
+       "deger": -0.005,
+       "durum": "bekliyor",
+       "skor": null
+      },
+      {
+       "aday_id": "1552503-UST15",
+       "fixture_id": 1552503,
+       "pazar": "UST15",
+       "ev": "Rodez",
+       "dep": "Montpellier",
+       "lig": "Ligue 2",
+       "baslama": "2026-10-19T20:45:00+02:00",
+       "etiket": "Over 1.5 goals",
+       "oran": 1.21,
+       "olasilik": 0.812,
+       "deger": -0.017,
+       "durum": "bekliyor",
+       "skor": null
+      },
+      {
+       "aday_id": "1550154-CSX2",
+       "fixture_id": 1550154,
+       "pazar": "CSX2",
+       "ev": "Parma",
+       "dep": "Torino",
+       "lig": "Serie A",
+       "baslama": "2026-10-19T20:45:00+02:00",
+       "etiket": "Double chance X2",
+       "oran": 1.39,
+       "olasilik": 0.702,
+       "deger": -0.025,
+       "durum": "bekliyor",
+       "skor": null
+      }
+     ],
+     "oran": 2.0,
+     "olasilik": 0.477,
+     "deger": -0.046,
+     "durum": "bekliyor",
+     "secim": "2026-10-19T09:03:56+00:00",
+     "oto": true,
+     "paylas": "2026-10-19T15:00:00+02:00"
+    },
+    {
+     "ad": "gunun-kuponu-4",
+     "ayaklar": [
+      {
+       "aday_id": "1584438-UST15",
+       "fixture_id": 1584438,
+       "pazar": "UST15",
+       "ev": "Trabzonspor",
+       "dep": "Beşiktaş",
+       "lig": "Süper Lig",
+       "baslama": "2026-10-19T19:00:00+02:00",
+       "etiket": "Over 1.5 goals",
+       "oran": 1.18,
+       "olasilik": 0.827,
+       "deger": -0.024,
+       "durum": "bekliyor",
+       "skor": null
+      },
+      {
+       "aday_id": "1639826-CS1X",
+       "fixture_id": 1639826,
+       "pazar": "CS1X",
+       "ev": "Mushuc Runa SC",
+       "dep": "Orense SC",
+       "lig": "Liga Pro",
+       "baslama": "2026-10-19T22:30:00+02:00",
+       "etiket": "Double chance 1X",
+       "oran": 1.26,
+       "olasilik": 0.781,
+       "deger": -0.016,
+       "durum": "bekliyor",
+       "skor": null
+      },
+      {
+       "aday_id": "1498899-CSX2",
+       "fixture_id": 1498899,
+       "pazar": "CSX2",
+       "ev": "San Telmo",
+       "dep": "Defensores De Belgrano",
+       "lig": "Primera Nacional",
+       "baslama": "2026-10-19T20:30:00+02:00",
+       "etiket": "Double chance X2",
+       "oran": 1.36,
+       "olasilik": 0.719,
+       "deger": -0.023,
+       "durum": "bekliyor",
+       "skor": null
+      }
+     ],
+     "oran": 2.02,
+     "olasilik": 0.464,
+     "deger": -0.063,
+     "durum": "bekliyor",
+     "secim": "2026-10-19T09:03:56+00:00",
+     "oto": true,
+     "paylas": "2026-10-19T16:00:00+02:00"
     }
    ],
    "islenen": [],
@@ -26323,7 +26440,8 @@
     }
    ],
    "oto": true,
-   "issue": 103
+   "issue": 103,
+   "tazeleme": "2026-10-19T09:03:56+00:00"
   }
  ]
 }

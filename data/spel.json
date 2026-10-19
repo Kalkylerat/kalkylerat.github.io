@@ -105589,7 +105589,20 @@
               1
             ],
             "zaman": "2026-10-19T21:02:02+00:00"
+          },
+          "1575458": {
+            "durum": "paylasildi",
+            "tweet_id": "2112294018700734742",
+            "skor": [
+              1,
+              2
+            ],
+            "zaman": "2026-10-19T21:25:12+00:00"
           }
+        },
+        "takip": {
+          "durum": "tamam",
+          "zaman": "2026-10-19T21:25:12+00:00"
         }
       },
       "analiz_5": {
@@ -106138,7 +106151,26 @@
         "durum": "paylasildi",
         "tweet_id": "2112238132691152948",
         "zaman": "2026-10-19T17:43:00+00:00",
-        "metin": "🆚 SC Braga v GIL Vicente\n\n🏆 SC Braga 61% · Draw 23% · GIL Vicente 16%\n⚽ Over 2.5 goals 48% · Under 52%\n🥅 Both teams score 46% · Not both 54%\n🎯 Most likely score: 1-0 (13%)\n\n📈 Team stats: SC Braga win 38%\n💹 Odds: 61%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 SC Braga v GIL Vicente\n\n🏆 SC Braga 61% · Draw 23% · GIL Vicente 16%\n⚽ Over 2.5 goals 48% · Under 52%\n🥅 Both teams score 46% · Not both 54%\n🎯 Most likely score: 1-0 (13%)\n\n📈 Team stats: SC Braga win 38%\n💹 Odds: 61%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2112294064183706070",
+          "skor": "1-2",
+          "isabet": [
+            false,
+            false,
+            false
+          ],
+          "xg": [
+            1.4,
+            1.54
+          ],
+          "zaman": "2026-10-19T21:25:12+00:00",
+          "brier": {
+            "piyasa": 1.6866,
+            "istatistik": 1.6613
+          }
+        }
       },
       "bilgi_aksam": {
         "durum": "paylasildi",

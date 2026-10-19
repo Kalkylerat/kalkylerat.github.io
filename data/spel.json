@@ -105463,13 +105463,42 @@
           1570417,
           1575458
         ],
-        "sonuclar": {}
+        "sonuclar": {
+          "1585794": {
+            "durum": "paylasildi",
+            "tweet_id": "2112210742699319511",
+            "skor": [
+              1,
+              2
+            ],
+            "zaman": "2026-10-19T15:54:17+00:00"
+          }
+        }
       },
       "analiz_5": {
         "durum": "paylasildi",
         "tweet_id": "2112097246867026179",
         "zaman": "2026-10-19T08:23:15+00:00",
-        "metin": "🆚 Fatih Karagümrük v Keçiörengücü\n\n🏆 Fatih Karagümrük 40% · Draw 25% · Keçiörengücü 35%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 57% · Not both 43%\n\n📈 Team stats: Fatih Karagümrük win 35%\n💹 Odds: 40%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Fatih Karagümrük v Keçiörengücü\n\n🏆 Fatih Karagümrük 40% · Draw 25% · Keçiörengücü 35%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 57% · Not both 43%\n\n📈 Team stats: Fatih Karagümrük win 35%\n💹 Odds: 40%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2112210794788336024",
+          "skor": "1-2",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "xg": [
+            1.92,
+            1.65
+          ],
+          "zaman": "2026-10-19T15:54:17+00:00",
+          "brier": {
+            "piyasa": 1.049,
+            "istatistik": 1.0032
+          }
+        }
       },
       "analiz_0": {
         "durum": "paylasildi",

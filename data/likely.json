@@ -28140,8 +28140,25 @@
        "oran": 1.38,
        "olasilik": 0.704,
        "deger": -0.028,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-2",
+       "goller": [
+        [
+         6,
+         0,
+         "dep"
+        ],
+        [
+         20,
+         0,
+         "dep"
+        ],
+        [
+         57,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1563820-CS1X",
@@ -28174,13 +28191,16 @@
      "oran": 2.0,
      "olasilik": 0.476,
      "deger": -0.048,
-     "durum": "bekliyor",
+     "durum": "tuttu",
      "secim": "2026-10-20T05:40:19+00:00",
      "oto": true,
      "paylas": "2026-10-20T18:25:00+02:00",
      "tweet_id": "2112581707379744782",
      "metin": "🎩 A double today. Two legs, nothing fancy.\n\n⚽ Bristol Rovers v Salford City\n⚽ Exeter City v Crewe\n\n📊 Combined 2.00. I make it about 48% to land, so slightly worse than a coin toss.\n\n💬 Too cautious or about right?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-20T16:28:19+00:00"
+     "yayin": "2026-10-20T16:28:19+00:00",
+     "son_oran": 2.0,
+     "sonuc_metni": "✅ Both legs landed, 2.00 on the coupon. Lovely. I'll keep the smugness to a minimum.\n\n✅ Bristol Rovers 1-2 Salford City: 1st half Over 0.5 goals\n✅ Exeter City 2-0 Crewe: Double chance 1X\n\nRecord: 14 of 29 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2112647052727296433"
     }
    ],
    "islenen": [],

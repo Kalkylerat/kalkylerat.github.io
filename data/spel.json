@@ -112857,7 +112857,26 @@
         "durum": "paylasildi",
         "tweet_id": "2112624831644553252",
         "zaman": "2026-10-20T19:19:34+00:00",
-        "metin": "🆚 Deportivo Pereira v Chico\n\n🏆 Deportivo Pereira 45% · Draw 26% · Chico 29%\n⚽ Over 2.5 goals 47% · Under 53%\n🥅 Both teams score 51% · Not both 49%\n\n📈 Team stats: Deportivo Pereira win 56%\n💹 Odds: 45%\n\n💬 Not picks. Deportivo Pereira 45%: too high? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Deportivo Pereira v Chico\n\n🏆 Deportivo Pereira 45% · Draw 26% · Chico 29%\n⚽ Over 2.5 goals 47% · Under 53%\n🥅 Both teams score 51% · Not both 49%\n\n📈 Team stats: Deportivo Pereira win 56%\n💹 Odds: 45%\n\n💬 Not picks. Deportivo Pereira 45%: too high? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2112685680899805284",
+          "skor": "2-0",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "xg": [
+            1.23,
+            0.83
+          ],
+          "zaman": "2026-10-20T23:21:22+00:00",
+          "brier": {
+            "piyasa": 0.9335,
+            "istatistik": 0.7553
+          }
+        }
       }
     },
     "tablo_aksam": [

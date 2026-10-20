@@ -26069,7 +26069,8 @@
      "istatistik": 0.919,
      "uyum": true,
      "buyuk": false,
-     "no": 1
+     "no": 1,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1640382-CS12",
@@ -26679,7 +26680,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 31
+     "no": 31,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1497724-UST15",
@@ -26699,7 +26701,8 @@
      "istatistik": 0.793,
      "uyum": true,
      "buyuk": false,
-     "no": 32
+     "no": 32,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1635700-CS1X",
@@ -26779,7 +26782,8 @@
      "istatistik": 0.828,
      "uyum": true,
      "buyuk": false,
-     "no": 36
+     "no": 36,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1563826-CS1X",
@@ -27545,7 +27549,8 @@
      "istatistik": 0.534,
      "uyum": false,
      "buyuk": false,
-     "no": 74
+     "no": 74,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1635688-DPA15",
@@ -27585,7 +27590,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 76
+     "no": 76,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1635655-DPA15",
@@ -28417,7 +28423,7 @@
    ],
    "oto": true,
    "issue": 108,
-   "olcum_sorgu": "2026-10-20T18:36:24+00:00"
+   "olcum_sorgu": "2026-10-20T19:34:52+00:00"
   }
  ]
 }

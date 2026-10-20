@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><title>Yorum fırsatları @kalkylerat · 16:00 UTC</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{overflow-wrap:anywhere;margin:0;background:#000;color:#e7e9ea;font:16px/1.45 -apple-system,system-ui,Roboto,sans-serif}
+main{max-width:640px;margin:0 auto;padding:16px}h1{font-size:18px;margin:4px 0 4px}.not{color:#ffd166;margin:0 0 12px}
+.oge{border:1px solid #2f3336;border-radius:14px;padding:14px;margin:0 0 18px}.kim{color:#71767b;font-size:14px}
+.post{color:#c4c9cc;font-size:14px;margin:6px 0 10px;white-space:pre-wrap}.ac{color:#1d9bf0;font-size:14px}
+.taslak{background:#16181c;border-radius:12px;padding:12px;margin:10px 0 0}.metin{white-space:pre-wrap;margin:0 0 10px}
+button{width:100%;border:0;border-radius:999px;padding:13px;font-size:16px;font-weight:700;background:#1d9bf0;color:#fff}
+button.ikinci{background:#2f3336;margin-top:8px;font-weight:600}
+</style></head><body><main>
+<h1>Yorum fırsatları @kalkylerat · 16:00 UTC</h1>
+<p class="kim">Düğme metni panoya kopyalar ve postu X'te açar. X'te <b>Yanıtla</b>'ya dokun, kutuya uzun basıp
+<b>Yapıştır</b>, sonra gönder.</p>
+<section class="oge"><div class="kim">2. @OptaJoe · Paris Saint Germain v Barcelona</div><p class="post">19 - Slavia Prague&#x27;s Mubarak Suleiman is the first 🇳🇬 Nigerian teenager to start a UEFA Champions League match since Alex Iwobi in March 2016 for Arsenal against Barcelona.
+
+Opportunity. https://t.co/NDqEjfQ0Xb</p><a class="ac" href="https://x.com/OptaJoe/status/2112574615121809730">Postu X'te gör</a><div class="taslak"><div class="kim">1. taslak</div><p class="metin">Proper moment for a 19-year-old. Iwobi in 2016 feels like yesterday, mad how quickly time goes.
+
+https://x.com/kalkylerat/status/2112534444464611705</p><button onclick="kopyala(0,true,this)">📋 Kopyala ve postu aç</button><button class="ikinci" onclick="kopyala(0,false,this)">Sadece kopyala</button></div><div class="taslak"><div class="kim">2. taslak</div><p class="metin">Good to see a teenager get a go on that stage. Do you remember Iwobi&#x27;s night against Barcelona?
+
+https://x.com/kalkylerat/status/2112534444464611705</p><button onclick="kopyala(1,true,this)">📋 Kopyala ve postu aç</button><button class="ikinci" onclick="kopyala(1,false,this)">Sadece kopyala</button></div></section>
+<section class="oge"><div class="kim">3. @goal · Paris Saint Germain v Barcelona</div><p class="post">Luis Enrique praises his side’s relentless work rate 💪
+
+The PSG manager is ready for match-up against his former side and believes his team have the edge at home 🗣️
+
+&quot;It will be a tight match because both teams have so much individual quality,&quot;
+
+&quot;Playing at home makes a https://t.co/bdXlm4tGSS</p><a class="ac" href="https://x.com/goal/status/2112567016284467210">Postu X'te gör</a><div class="taslak"><div class="kim">1. taslak</div><p class="metin">Tight is right. We had both sides level at 40% each, so hard to split them. Should be a cracker 🔥
+
+https://x.com/kalkylerat/status/2112534444464611705</p><button onclick="kopyala(2,true,this)">📋 Kopyala ve postu aç</button><button class="ikinci" onclick="kopyala(2,false,this)">Sadece kopyala</button></div><div class="taslak"><div class="kim">2. taslak</div><p class="metin">Both sides with that much quality, goals feel very likely. Who&#x27;s your man to score in this one?
+
+https://x.com/kalkylerat/status/2112534444464611705</p><button onclick="kopyala(3,true,this)">📋 Kopyala ve postu aç</button><button class="ikinci" onclick="kopyala(3,false,this)">Sadece kopyala</button></div></section>
+</main><script>
+const V = [{"metin": "Proper moment for a 19-year-old. Iwobi in 2016 feels like yesterday, mad how quickly time goes.\n\nhttps://x.com/kalkylerat/status/2112534444464611705", "url": "https://x.com/OptaJoe/status/2112574615121809730"}, {"metin": "Good to see a teenager get a go on that stage. Do you remember Iwobi's night against Barcelona?\n\nhttps://x.com/kalkylerat/status/2112534444464611705", "url": "https://x.com/OptaJoe/status/2112574615121809730"}, {"metin": "Tight is right. We had both sides level at 40% each, so hard to split them. Should be a cracker 🔥\n\nhttps://x.com/kalkylerat/status/2112534444464611705", "url": "https://x.com/goal/status/2112567016284467210"}, {"metin": "Both sides with that much quality, goals feel very likely. Who's your man to score in this one?\n\nhttps://x.com/kalkylerat/status/2112534444464611705", "url": "https://x.com/goal/status/2112567016284467210"}];
+function kopyala(i, ac, btn) {
+  const t = V[i].metin, git = () => { if (ac) setTimeout(() => location.href = V[i].url, 350); };
+  const tamam = () => { btn.textContent = "✅ Kopyalandı" + (ac ? ", post açılıyor…" : ""); git(); };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(t).then(tamam, () => yedek(t, tamam));
+  } else { yedek(t, tamam); }
+}
+function yedek(t, tamam) {
+  const a = document.createElement("textarea"); a.value = t; document.body.appendChild(a); a.select();
+  try { document.execCommand("copy"); } catch (e) {} a.remove(); tamam();
+}
+</script></body></html>

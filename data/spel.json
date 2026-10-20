@@ -112225,6 +112225,662 @@
         "zaman": "2026-10-20T15:59:20+00:00",
         "metin": "🆚 Doncaster v Stockport County\n\n🏆 Doncaster 25% · Draw 24% · Stockport County 51%\n⚽ Over 2.5 goals 55% · Under 45%\n🥅 Both teams score 56% · Not both 44%\n\n📈 Team stats: Over 2.5 goals 40%\n💹 Odds: 55%\n\n💬 Not picks. Stockport County 51%: too high? 👇\n18+ | Play responsibly"
       }
-    }
+    },
+    "tablo_aksam": [
+      {
+        "fixture_id": 1564372,
+        "lig": "League One",
+        "ulke": "England",
+        "lig_id": 41,
+        "ev": "Doncaster",
+        "dep": "Stockport County",
+        "baslama": "2026-10-20T20:45:00+02:00",
+        "p": {
+          "MS1": 0.25,
+          "MSX": 0.236,
+          "MS2": 0.514,
+          "CS1X": 0.486,
+          "CSX2": 0.75,
+          "CS12": 0.764,
+          "KGVAR": 0.565,
+          "KGYOK": 0.435,
+          "UST15": 0.785,
+          "ALT15": 0.215,
+          "UST25": 0.554,
+          "ALT25": 0.446,
+          "UST35": 0.33,
+          "ALT35": 0.67,
+          "IY1": 0.22,
+          "IYX": 0.393,
+          "IY2": 0.386,
+          "IYU05": 0.729,
+          "IYA05": 0.271,
+          "IYU15": 0.375,
+          "IYA15": 0.625,
+          "EVU05": 0.683,
+          "EVA05": 0.317,
+          "EVU15": 0.319,
+          "EVA15": 0.681,
+          "EVU25": 0.11,
+          "EVA25": 0.89,
+          "DPU05": 0.826,
+          "DPA05": 0.174,
+          "DPU15": 0.522,
+          "DPA15": 0.478,
+          "DPU25": 0.256,
+          "DPA25": 0.744,
+          "YYU05": 0.797,
+          "YYA05": 0.203,
+          "YYU15": 0.473,
+          "YYA15": 0.527
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1107
+          ],
+          [
+            "1-2",
+            0.0969
+          ],
+          [
+            "0-1",
+            0.0963
+          ],
+          [
+            "0-2",
+            0.0843
+          ],
+          [
+            "2-1",
+            0.0637
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.554,
+            "istatistik": 0.404
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.565,
+            "istatistik": 0.447
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.236,
+            "istatistik": 0.272
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Stockport County win",
+            "piyasa": 0.514,
+            "istatistik": 0.486
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Doncaster win",
+            "piyasa": 0.25,
+            "istatistik": 0.242
+          }
+        ],
+        "beklenen_gol": [
+          1.15,
+          1.75
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1564373,
+        "lig": "League One",
+        "ulke": "England",
+        "lig_id": 41,
+        "ev": "Huddersfield",
+        "dep": "Peterborough",
+        "baslama": "2026-10-20T20:45:00+02:00",
+        "p": {
+          "MS1": 0.622,
+          "MSX": 0.195,
+          "MS2": 0.184,
+          "CS1X": 0.816,
+          "CSX2": 0.378,
+          "CS12": 0.805,
+          "KGVAR": 0.611,
+          "KGYOK": 0.389,
+          "UST15": 0.853,
+          "ALT15": 0.147,
+          "UST25": 0.66,
+          "ALT25": 0.34,
+          "UST35": 0.442,
+          "ALT35": 0.558,
+          "IY1": 0.469,
+          "IYX": 0.346,
+          "IY2": 0.185,
+          "IYU05": 0.783,
+          "IYA05": 0.217,
+          "IYU15": 0.452,
+          "IYA15": 0.548,
+          "EVU05": 0.895,
+          "EVA05": 0.105,
+          "EVU15": 0.657,
+          "EVA15": 0.343,
+          "EVU25": 0.391,
+          "EVA25": 0.609,
+          "DPU05": 0.683,
+          "DPA05": 0.317,
+          "DPU15": 0.319,
+          "DPA15": 0.681,
+          "DPU25": 0.11,
+          "DPA25": 0.89,
+          "YYU05": 0.846,
+          "YYA05": 0.154,
+          "YYU15": 0.558,
+          "YYA15": 0.442
+        },
+        "skorlar": [
+          [
+            "2-1",
+            0.0971
+          ],
+          [
+            "1-1",
+            0.0864
+          ],
+          [
+            "2-0",
+            0.0845
+          ],
+          [
+            "1-0",
+            0.0751
+          ],
+          [
+            "3-1",
+            0.0729
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.66,
+            "istatistik": 0.565
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.611,
+            "istatistik": 0.517
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Huddersfield win",
+            "piyasa": 0.622,
+            "istatistik": 0.64
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Peterborough win",
+            "piyasa": 0.184,
+            "istatistik": 0.156
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.195,
+            "istatistik": 0.204
+          }
+        ],
+        "beklenen_gol": [
+          2.25,
+          1.15
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1564374,
+        "lig": "League One",
+        "ulke": "England",
+        "lig_id": 41,
+        "ev": "Luton",
+        "dep": "Barnsley",
+        "baslama": "2026-10-20T20:45:00+02:00",
+        "p": {
+          "MS1": 0.62,
+          "MSX": 0.192,
+          "MS2": 0.188,
+          "CS1X": 0.812,
+          "CSX2": 0.38,
+          "CS12": 0.808,
+          "KGVAR": 0.629,
+          "KGYOK": 0.371,
+          "UST15": 0.864,
+          "ALT15": 0.136,
+          "UST25": 0.679,
+          "ALT25": 0.321,
+          "UST35": 0.463,
+          "ALT35": 0.537,
+          "IY1": 0.471,
+          "IYX": 0.34,
+          "IY2": 0.189,
+          "IYU05": 0.793,
+          "IYA05": 0.207,
+          "IYU15": 0.467,
+          "IYA15": 0.533,
+          "EVU05": 0.9,
+          "EVA05": 0.1,
+          "EVU15": 0.669,
+          "EVA15": 0.331,
+          "EVU25": 0.404,
+          "EVA25": 0.596,
+          "DPU05": 0.699,
+          "DPA05": 0.301,
+          "DPU15": 0.337,
+          "DPA15": 0.663,
+          "DPU25": 0.121,
+          "DPA25": 0.879,
+          "YYU05": 0.854,
+          "YYA05": 0.146,
+          "YYU15": 0.573,
+          "YYA15": 0.427
+        },
+        "skorlar": [
+          [
+            "2-1",
+            0.0958
+          ],
+          [
+            "1-1",
+            0.0833
+          ],
+          [
+            "2-0",
+            0.0799
+          ],
+          [
+            "3-1",
+            0.0735
+          ],
+          [
+            "1-0",
+            0.0695
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.679,
+            "istatistik": 0.469
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.629,
+            "istatistik": 0.498
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Luton win",
+            "piyasa": 0.62,
+            "istatistik": 0.501
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.192,
+            "istatistik": 0.255
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Barnsley win",
+            "piyasa": 0.188,
+            "istatistik": 0.244
+          }
+        ],
+        "beklenen_gol": [
+          2.3,
+          1.2
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1564375,
+        "lig": "League One",
+        "ulke": "England",
+        "lig_id": 41,
+        "ev": "Notts County",
+        "dep": "Sheffield Wednesday",
+        "baslama": "2026-10-20T20:45:00+02:00",
+        "p": {
+          "MS1": 0.304,
+          "MSX": 0.255,
+          "MS2": 0.441,
+          "CS1X": 0.559,
+          "CSX2": 0.696,
+          "CS12": 0.745,
+          "KGVAR": 0.543,
+          "KGYOK": 0.457,
+          "UST15": 0.751,
+          "ALT15": 0.249,
+          "UST25": 0.506,
+          "ALT25": 0.494,
+          "UST35": 0.286,
+          "ALT35": 0.714,
+          "IY1": 0.25,
+          "IYX": 0.415,
+          "IY2": 0.335,
+          "IYU05": 0.703,
+          "IYA05": 0.297,
+          "IYU15": 0.343,
+          "IYA15": 0.657,
+          "EVU05": 0.699,
+          "EVA05": 0.301,
+          "EVU15": 0.337,
+          "EVA15": 0.663,
+          "EVU25": 0.121,
+          "EVA25": 0.879,
+          "DPU05": 0.777,
+          "DPA05": 0.223,
+          "DPU15": 0.442,
+          "DPA15": 0.558,
+          "DPU25": 0.191,
+          "DPA25": 0.809,
+          "YYU05": 0.773,
+          "YYA05": 0.227,
+          "YYU15": 0.437,
+          "YYA15": 0.563
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.121
+          ],
+          [
+            "0-1",
+            0.1008
+          ],
+          [
+            "1-2",
+            0.0907
+          ],
+          [
+            "1-0",
+            0.0806
+          ],
+          [
+            "0-2",
+            0.0756
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS2",
+            "ad": "Sheffield Wednesday win",
+            "piyasa": 0.441,
+            "istatistik": 0.49
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Notts County win",
+            "piyasa": 0.304,
+            "istatistik": 0.266
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.255,
+            "istatistik": 0.244
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.506,
+            "istatistik": 0.531
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.543,
+            "istatistik": 0.552
+          }
+        ],
+        "beklenen_gol": [
+          1.2,
+          1.5
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1564376,
+        "lig": "League One",
+        "ulke": "England",
+        "lig_id": 41,
+        "ev": "Oxford United",
+        "dep": "Wigan",
+        "baslama": "2026-10-20T20:45:00+02:00",
+        "p": {
+          "MS1": 0.49,
+          "MSX": 0.249,
+          "MS2": 0.262,
+          "CS1X": 0.738,
+          "CSX2": 0.51,
+          "CS12": 0.751,
+          "KGVAR": 0.532,
+          "KGYOK": 0.468,
+          "UST15": 0.751,
+          "ALT15": 0.249,
+          "UST25": 0.506,
+          "ALT25": 0.494,
+          "UST35": 0.286,
+          "ALT35": 0.714,
+          "IY1": 0.365,
+          "IYX": 0.412,
+          "IY2": 0.223,
+          "IYU05": 0.703,
+          "IYA05": 0.297,
+          "IYU15": 0.343,
+          "IYA15": 0.657,
+          "EVU05": 0.798,
+          "EVA05": 0.202,
+          "EVU15": 0.475,
+          "EVA15": 0.525,
+          "EVU25": 0.217,
+          "EVA25": 0.783,
+          "DPU05": 0.667,
+          "DPA05": 0.333,
+          "DPU15": 0.301,
+          "DPA15": 0.699,
+          "DPU25": 0.1,
+          "DPA25": 0.9,
+          "YYU05": 0.773,
+          "YYA05": 0.227,
+          "YYU15": 0.437,
+          "YYA15": 0.563
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1183
+          ],
+          [
+            "1-0",
+            0.1075
+          ],
+          [
+            "2-1",
+            0.0946
+          ],
+          [
+            "2-0",
+            0.086
+          ],
+          [
+            "0-1",
+            0.0739
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Oxford United win",
+            "piyasa": 0.49,
+            "istatistik": 0.589
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.532,
+            "istatistik": 0.426
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Wigan win",
+            "piyasa": 0.262,
+            "istatistik": 0.168
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.506,
+            "istatistik": 0.43
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.249,
+            "istatistik": 0.243
+          }
+        ],
+        "beklenen_gol": [
+          1.6,
+          1.1
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1564377,
+        "lig": "League One",
+        "ulke": "England",
+        "lig_id": 41,
+        "ev": "Stevenage",
+        "dep": "Plymouth",
+        "baslama": "2026-10-20T20:45:00+02:00",
+        "p": {
+          "MS1": 0.371,
+          "MSX": 0.258,
+          "MS2": 0.371,
+          "CS1X": 0.629,
+          "CSX2": 0.629,
+          "CS12": 0.742,
+          "KGVAR": 0.549,
+          "KGYOK": 0.451,
+          "UST15": 0.751,
+          "ALT15": 0.249,
+          "UST25": 0.506,
+          "ALT25": 0.494,
+          "UST35": 0.286,
+          "ALT35": 0.714,
+          "IY1": 0.292,
+          "IYX": 0.417,
+          "IY2": 0.292,
+          "IYU05": 0.703,
+          "IYA05": 0.297,
+          "IYU15": 0.343,
+          "IYA15": 0.657,
+          "EVU05": 0.741,
+          "EVA05": 0.259,
+          "EVU15": 0.391,
+          "EVA15": 0.609,
+          "EVU25": 0.155,
+          "EVA25": 0.845,
+          "DPU05": 0.741,
+          "DPA05": 0.259,
+          "DPU15": 0.391,
+          "DPA15": 0.609,
+          "DPU25": 0.155,
+          "DPA25": 0.845,
+          "YYU05": 0.773,
+          "YYA05": 0.227,
+          "YYU15": 0.437,
+          "YYA15": 0.563
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1225
+          ],
+          [
+            "0-1",
+            0.0907
+          ],
+          [
+            "1-0",
+            0.0907
+          ],
+          [
+            "1-2",
+            0.0827
+          ],
+          [
+            "2-1",
+            0.0827
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.506,
+            "istatistik": 0.599
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.549,
+            "istatistik": 0.618
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Plymouth win",
+            "piyasa": 0.371,
+            "istatistik": 0.425
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Stevenage win",
+            "piyasa": 0.371,
+            "istatistik": 0.338
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.258,
+            "istatistik": 0.237
+          }
+        ],
+        "beklenen_gol": [
+          1.35,
+          1.35
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      }
+    ]
   }
 ]

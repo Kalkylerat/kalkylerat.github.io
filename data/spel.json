@@ -112196,6 +112196,33 @@
               3
             ],
             "zaman": "2026-10-20T20:53:45+00:00"
+          },
+          "1635693": {
+            "durum": "paylasildi",
+            "tweet_id": "2112650294903640268",
+            "skor": [
+              5,
+              1
+            ],
+            "zaman": "2026-10-20T21:00:52+00:00"
+          },
+          "1635700": {
+            "durum": "paylasildi",
+            "tweet_id": "2112650296002597265",
+            "skor": [
+              4,
+              3
+            ],
+            "zaman": "2026-10-20T21:00:52+00:00"
+          },
+          "1635702": {
+            "durum": "paylasildi",
+            "tweet_id": "2112650297055330505",
+            "skor": [
+              4,
+              2
+            ],
+            "zaman": "2026-10-20T21:00:52+00:00"
           }
         }
       },
@@ -112393,13 +112420,43 @@
         "durum": "paylasildi",
         "tweet_id": "2112529094781153437",
         "zaman": "2026-10-20T12:59:14+00:00",
-        "metin": "🆚 Napoli v Bodo/Glimt\n\n🏆 Napoli 59% · Draw 21% · Bodo/Glimt 20%\n⚽ Over 2.5 goals 63% · Under 37%\n🥅 Both teams score 60% · Not both 40%\n🎯 Most likely score: 2-1 (10%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Napoli 59%: too high? 👇\n#UCL\n18+ | Play responsibly"
+        "metin": "🆚 Napoli v Bodo/Glimt\n\n🏆 Napoli 59% · Draw 21% · Bodo/Glimt 20%\n⚽ Over 2.5 goals 63% · Under 37%\n🥅 Both teams score 60% · Not both 40%\n🎯 Most likely score: 2-1 (10%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Napoli 59%: too high? 👇\n#UCL\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2112650358422188215",
+          "skor": "4-3",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            1.57,
+            2.51
+          ],
+          "zaman": "2026-10-20T21:00:52+00:00"
+        }
       },
       "analiz_20": {
         "durum": "paylasildi",
         "tweet_id": "2112534444464611705",
         "zaman": "2026-10-20T13:20:30+00:00",
-        "metin": "🆚 Paris Saint Germain v Barcelona\n\n🏆 Paris Saint Germain 40% · Draw 20% · Barcelona 40%\n⚽ Over 2.5 goals 80% · Under 20%\n🥅 Both teams score 78% · Not both 22%\n\n📈 Team stats: not enough recent games to compare with the odds\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Paris Saint Germain v Barcelona\n\n🏆 Paris Saint Germain 40% · Draw 20% · Barcelona 40%\n⚽ Over 2.5 goals 80% · Under 20%\n🥅 Both teams score 78% · Not both 22%\n\n📈 Team stats: not enough recent games to compare with the odds\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2112650407361319272",
+          "skor": "4-2",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            3.77,
+            2.22
+          ],
+          "zaman": "2026-10-20T21:00:52+00:00"
+        }
       },
       "analiz_21": {
         "durum": "paylasildi",

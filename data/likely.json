@@ -26049,7 +26049,7 @@
   {
    "tarih": "2026-10-20",
    "olusturma": "2026-10-20T05:40:19+00:00",
-   "durum": "secildi",
+   "durum": "bitti",
    "havuz": [
     {
      "aday_id": "1612264-CSX2",
@@ -27828,8 +27828,45 @@
        "oran": 1.22,
        "olasilik": 0.807,
        "deger": -0.016,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "4-3",
+       "goller": [
+        [
+         1,
+         0,
+         "ev"
+        ],
+        [
+         27,
+         0,
+         "dep"
+        ],
+        [
+         41,
+         0,
+         "ev"
+        ],
+        [
+         62,
+         0,
+         "dep"
+        ],
+        [
+         75,
+         0,
+         "ev"
+        ],
+        [
+         88,
+         0,
+         "ev"
+        ],
+        [
+         90,
+         4,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1635738-CSX2",
@@ -27869,7 +27906,9 @@
      "tweet_id": "2112592447570415725",
      "metin": "🎩 Today's three.\n\n⚽ FC Porto v PSV Eindhoven\n⚽ Napoli v Bodo/Glimt\n⚽ VfB Stuttgart v Atletico Madrid\n\n📊 Combined 2.00. I make it about 47% to land.\n\n💬 Which of these do you trust least?\n\n18+ | Play responsibly",
      "yayin": "2026-10-20T17:10:54+00:00",
-     "son_oran": 1.38
+     "son_oran": 1.68,
+     "sonuc_metni": "❌ Everything landed bar one.\n\n❌ FC Porto 0-1 PSV Eindhoven: Double chance 1X\n✅ Napoli 4-3 Bodo/Glimt: Double chance 1X\n✅ VfB Stuttgart 1-1 Atletico Madrid: Double chance X2\n\nRecord: 14 of 31 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2112650437082112338"
     },
     {
      "ad": "long-shot",

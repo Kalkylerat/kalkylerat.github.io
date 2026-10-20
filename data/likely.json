@@ -26330,7 +26330,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 14
+     "no": 14,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1635688-CS1X",
@@ -28017,7 +28018,10 @@
      "durum": "bekliyor",
      "secim": "2026-10-20T05:40:19+00:00",
      "oto": true,
-     "paylas": "2026-10-20T17:45:00+02:00"
+     "paylas": "2026-10-20T17:45:00+02:00",
+     "tweet_id": "2112570939674087759",
+     "metin": "🎩 Treble for today. Nothing fancy in it.\n\n⚽ AS Roma v Slovan Bratislava\n⚽ York v Accrington ST\n⚽ Northampton v Tranmere\n\n📊 Combined 2.03. I make it about 46% to land.\n\n💬 Which of these do you trust least?\n\n18+ | Play responsibly",
+     "yayin": "2026-10-20T15:45:31+00:00"
     },
     {
      "ad": "gunun-kuponu-4",
@@ -28335,7 +28339,7 @@
    ],
    "oto": true,
    "issue": 108,
-   "olcum_sorgu": "2026-10-20T14:46:21+00:00"
+   "olcum_sorgu": "2026-10-20T15:45:31+00:00"
   }
  ]
 }

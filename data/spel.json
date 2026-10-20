@@ -112074,6 +112074,31 @@
         "istatistik_kaynak": "lig"
       }
     ],
-    "etkilesim": {}
+    "etkilesim": {
+      "tablo": {
+        "durum": "paylasildi",
+        "tweet_id": "2112455477309116615",
+        "zaman": "2026-10-20T08:06:42+00:00",
+        "metin": "📋 Today's chances, not picks · every % in the image\n\n🆚 Paris Saint Germain v Barcelona\n🏆 Paris Saint Germain 40% · Draw 20% · Barcelona 40%\n\n🆚 Fenerbahçe v Slavia Praha\n🏆 Fenerbahçe 60% · Draw 20% · Slavia Praha 19%\n\n💬 Which % surprises you? 👇\n\n#UCL\n18+ | Play responsibly",
+        "maclar": [
+          1635661,
+          1635719,
+          1563150,
+          1564367,
+          1564368,
+          1564369,
+          1564370,
+          1564371,
+          1635617,
+          1635655,
+          1635688,
+          1635693,
+          1635700,
+          1635702,
+          1635738
+        ],
+        "sonuclar": {}
+      }
+    }
   }
 ]

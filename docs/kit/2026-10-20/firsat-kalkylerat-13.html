@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><title>Yorum fırsatları @kalkylerat · 13:00 UTC</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{overflow-wrap:anywhere;margin:0;background:#000;color:#e7e9ea;font:16px/1.45 -apple-system,system-ui,Roboto,sans-serif}
+main{max-width:640px;margin:0 auto;padding:16px}h1{font-size:18px;margin:4px 0 4px}.not{color:#ffd166;margin:0 0 12px}
+.oge{border:1px solid #2f3336;border-radius:14px;padding:14px;margin:0 0 18px}.kim{color:#71767b;font-size:14px}
+.post{color:#c4c9cc;font-size:14px;margin:6px 0 10px;white-space:pre-wrap}.ac{color:#1d9bf0;font-size:14px}
+.taslak{background:#16181c;border-radius:12px;padding:12px;margin:10px 0 0}.metin{white-space:pre-wrap;margin:0 0 10px}
+button{width:100%;border:0;border-radius:999px;padding:13px;font-size:16px;font-weight:700;background:#1d9bf0;color:#fff}
+button.ikinci{background:#2f3336;margin-top:8px;font-weight:600}
+</style></head><body><main>
+<h1>Yorum fırsatları @kalkylerat · 13:00 UTC</h1>
+<p class="kim">Düğme metni panoya kopyalar ve postu X'te açar. X'te <b>Yanıtla</b>'ya dokun, kutuya uzun basıp
+<b>Yapıştır</b>, sonra gönder.</p>
+<section class="oge"><div class="kim">1. @TheAthleticFC · Liverpool v Villarreal</div><p class="post">Andoni Iraola and Inigo Perez have not been calling or messaging as much as usual.
+
+“We usually talk a lot, but when you are going to be facing each other, you stop talking.”
+
+This is the story of a bond between the Liverpool and Villarreal head coaches. They have been friends https://t.co/0DwNhi05hZ</p><a class="ac" href="https://x.com/TheAthleticFC/status/2112529517285716353">Postu X'te gör</a><div class="taslak"><div class="kim">1. taslak</div><p class="metin">Going quiet before you face a mate makes total sense. We had Liverpool around 63% for this one, but the friendship comes first 🙂
+
+https://x.com/kalkylerat/status/2112518327813738613</p><button onclick="kopyala(0,true,this)">📋 Kopyala ve postu aç</button><button class="ikinci" onclick="kopyala(0,false,this)">Sadece kopyala</button></div><div class="taslak"><div class="kim">2. taslak</div><p class="metin">Radio silence before facing a mate, so relatable. Reckon they&#x27;ll have a proper catch-up after the final whistle?
+
+https://x.com/kalkylerat/status/2112518327813738613</p><button onclick="kopyala(1,true,this)">📋 Kopyala ve postu aç</button><button class="ikinci" onclick="kopyala(1,false,this)">Sadece kopyala</button></div></section>
+</main><script>
+const V = [{"metin": "Going quiet before you face a mate makes total sense. We had Liverpool around 63% for this one, but the friendship comes first 🙂\n\nhttps://x.com/kalkylerat/status/2112518327813738613", "url": "https://x.com/TheAthleticFC/status/2112529517285716353"}, {"metin": "Radio silence before facing a mate, so relatable. Reckon they'll have a proper catch-up after the final whistle?\n\nhttps://x.com/kalkylerat/status/2112518327813738613", "url": "https://x.com/TheAthleticFC/status/2112529517285716353"}];
+function kopyala(i, ac, btn) {
+  const t = V[i].metin, git = () => { if (ac) setTimeout(() => location.href = V[i].url, 350); };
+  const tamam = () => { btn.textContent = "✅ Kopyalandı" + (ac ? ", post açılıyor…" : ""); git(); };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(t).then(tamam, () => yedek(t, tamam));
+  } else { yedek(t, tamam); }
+}
+function yedek(t, tamam) {
+  const a = document.createElement("textarea"); a.value = t; document.body.appendChild(a); a.select();
+  try { document.execCommand("copy"); } catch (e) {} a.remove(); tamam();
+}
+</script></body></html>

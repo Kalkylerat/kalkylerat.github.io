@@ -112097,7 +112097,17 @@
           1635702,
           1635738
         ],
-        "sonuclar": {}
+        "sonuclar": {
+          "1635719": {
+            "durum": "paylasildi",
+            "tweet_id": "2112613946607730700",
+            "skor": [
+              1,
+              2
+            ],
+            "zaman": "2026-10-20T18:36:24+00:00"
+          }
+        }
       },
       "analiz_0": {
         "durum": "paylasildi",
@@ -112115,7 +112125,22 @@
         "durum": "paylasildi",
         "tweet_id": "2112477024761614528",
         "zaman": "2026-10-20T09:32:20+00:00",
-        "metin": "🆚 Sabah FA v Borussia Dortmund\n\n🏆 Sabah FA 11% · Draw 16% · Borussia Dortmund 74%\n⚽ Over 2.5 goals 68% · Under 32%\n🥅 Both teams score 55% · Not both 45%\n🎯 Most likely score: 0-2 (10%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Sabah FA v Borussia Dortmund\n\n🏆 Sabah FA 11% · Draw 16% · Borussia Dortmund 74%\n⚽ Over 2.5 goals 68% · Under 32%\n🥅 Both teams score 55% · Not both 45%\n🎯 Most likely score: 0-2 (10%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2112613998814277751",
+          "skor": "1-2",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            1.5,
+            3.73
+          ],
+          "zaman": "2026-10-20T18:36:24+00:00"
+        }
       },
       "analiz_5": {
         "durum": "paylasildi",

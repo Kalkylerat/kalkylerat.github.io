@@ -112169,6 +112169,33 @@
               0
             ],
             "zaman": "2026-10-20T20:46:35+00:00"
+          },
+          "1635617": {
+            "durum": "paylasildi",
+            "tweet_id": "2112648503541497962",
+            "skor": [
+              4,
+              0
+            ],
+            "zaman": "2026-10-20T20:53:45+00:00"
+          },
+          "1635655": {
+            "durum": "paylasildi",
+            "tweet_id": "2112648504963371008",
+            "skor": [
+              0,
+              1
+            ],
+            "zaman": "2026-10-20T20:53:45+00:00"
+          },
+          "1635688": {
+            "durum": "paylasildi",
+            "tweet_id": "2112648505936449706",
+            "skor": [
+              4,
+              3
+            ],
+            "zaman": "2026-10-20T20:53:45+00:00"
           }
         }
       },
@@ -112276,13 +112303,43 @@
         "durum": "paylasildi",
         "tweet_id": "2112502125381239142",
         "zaman": "2026-10-20T11:12:05+00:00",
-        "metin": "🆚 AS Roma v Slovan Bratislava\n\n🏆 AS Roma 83% · Draw 11% · Slovan Bratislava 6%\n⚽ Over 2.5 goals 74% · Under 26%\n🥅 Both teams score 50% · Not both 50%\n🎯 Most likely score: 3-0 (11%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n#UCL\n18+ | Play responsibly"
+        "metin": "🆚 AS Roma v Slovan Bratislava\n\n🏆 AS Roma 83% · Draw 11% · Slovan Bratislava 6%\n⚽ Over 2.5 goals 74% · Under 26%\n🥅 Both teams score 50% · Not both 50%\n🎯 Most likely score: 3-0 (11%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n#UCL\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2112648571107619048",
+          "skor": "4-0",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "xg": [
+            3.62,
+            0.04
+          ],
+          "zaman": "2026-10-20T20:53:45+00:00"
+        }
       },
       "analiz_3": {
         "durum": "paylasildi",
         "tweet_id": "2112507569335890042",
         "zaman": "2026-10-20T11:33:43+00:00",
-        "metin": "🆚 FC Porto v PSV Eindhoven\n\n🏆 FC Porto 62% · Draw 20% · PSV Eindhoven 18%\n⚽ Over 2.5 goals 64% · Under 36%\n🥅 Both teams score 59% · Not both 41%\n🎯 Most likely score: 2-1 (10%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n#UCL\n18+ | Play responsibly"
+        "metin": "🆚 FC Porto v PSV Eindhoven\n\n🏆 FC Porto 62% · Draw 20% · PSV Eindhoven 18%\n⚽ Over 2.5 goals 64% · Under 36%\n🥅 Both teams score 59% · Not both 41%\n🎯 Most likely score: 2-1 (10%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n#UCL\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2112648584546193865",
+          "skor": "0-1",
+          "isabet": [
+            false,
+            false,
+            false
+          ],
+          "xg": [
+            1.4,
+            1.69
+          ],
+          "zaman": "2026-10-20T20:53:45+00:00"
+        }
       },
       "maclar": {
         "durum": "paylasildi",
@@ -112294,13 +112351,43 @@
         "durum": "paylasildi",
         "tweet_id": "2112518327813738613",
         "zaman": "2026-10-20T12:16:28+00:00",
-        "metin": "🆚 Liverpool v Villarreal\n\n🏆 Liverpool 63% · Draw 19% · Villarreal 17%\n⚽ Over 2.5 goals 65% · Under 35%\n🥅 Both teams score 60% · Not both 40%\n🎯 Most likely score: 2-1 (10%)\n\n📈 Team stats: too few recent games\n\n💬 Chances, not picks. Your read? 👇\n#UCL\n18+ | Play responsibly"
+        "metin": "🆚 Liverpool v Villarreal\n\n🏆 Liverpool 63% · Draw 19% · Villarreal 17%\n⚽ Over 2.5 goals 65% · Under 35%\n🥅 Both teams score 60% · Not both 40%\n🎯 Most likely score: 2-1 (10%)\n\n📈 Team stats: too few recent games\n\n💬 Chances, not picks. Your read? 👇\n#UCL\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2112648641823613282",
+          "skor": "4-3",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            2.41,
+            1.54
+          ],
+          "zaman": "2026-10-20T20:53:45+00:00"
+        }
       },
       "analiz_18": {
         "durum": "paylasildi",
         "tweet_id": "2112523688427880521",
         "zaman": "2026-10-20T12:37:45+00:00",
-        "metin": "🆚 Manchester City v AEK Athens FC\n\n🏆 Manchester City 85% · Draw 10% · AEK Athens FC 5%\n⚽ Over 2.5 goals 75% · Under 25%\n🥅 Both teams score 48% · Not both 52%\n\n📈 Team stats: not enough recent games to compare with the odds\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Manchester City v AEK Athens FC\n\n🏆 Manchester City 85% · Draw 10% · AEK Athens FC 5%\n⚽ Over 2.5 goals 75% · Under 25%\n🥅 Both teams score 48% · Not both 52%\n\n📈 Team stats: not enough recent games to compare with the odds\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2112648658621718991",
+          "skor": "5-1",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "xg": [
+            2.92,
+            0.78
+          ],
+          "zaman": "2026-10-20T20:53:45+00:00"
+        }
       },
       "analiz_19": {
         "durum": "paylasildi",
@@ -112318,7 +112405,22 @@
         "durum": "paylasildi",
         "tweet_id": "2112539822258536901",
         "zaman": "2026-10-20T13:41:52+00:00",
-        "metin": "🆚 VfB Stuttgart v Atletico Madrid\n\n🏆 VfB Stuttgart 31% · Draw 22% · Atletico Madrid 47%\n⚽ Over 2.5 goals 66% · Under 34%\n🥅 Both teams score 66% · Not both 34%\n\n📈 Team stats: not enough recent games to compare with the odds\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 VfB Stuttgart v Atletico Madrid\n\n🏆 VfB Stuttgart 31% · Draw 22% · Atletico Madrid 47%\n⚽ Over 2.5 goals 66% · Under 34%\n🥅 Both teams score 66% · Not both 34%\n\n📈 Team stats: not enough recent games to compare with the odds\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2112648672236450106",
+          "skor": "1-1",
+          "isabet": [
+            false,
+            false,
+            true
+          ],
+          "xg": [
+            1.53,
+            0.9
+          ],
+          "zaman": "2026-10-20T20:53:45+00:00"
+        }
       },
       "anket": {
         "durum": "paylasildi",

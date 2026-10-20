@@ -27806,8 +27806,15 @@
        "oran": 1.19,
        "olasilik": 0.822,
        "deger": -0.022,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "0-1",
+       "goller": [
+        [
+         57,
+         0,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1635700-CS1X",
@@ -27836,20 +27843,33 @@
        "oran": 1.38,
        "olasilik": 0.709,
        "deger": -0.021,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-1",
+       "goller": [
+        [
+         36,
+         0,
+         "ev"
+        ],
+        [
+         47,
+         0,
+         "dep"
+        ]
+       ]
       }
      ],
      "oran": 2.0,
      "olasilik": 0.47,
      "deger": -0.06,
-     "durum": "bekliyor",
+     "durum": "yatti",
      "secim": "2026-10-20T05:40:19+00:00",
      "oto": true,
      "paylas": "2026-10-20T19:05:00+02:00",
      "tweet_id": "2112592447570415725",
      "metin": "🎩 Today's three.\n\n⚽ FC Porto v PSV Eindhoven\n⚽ Napoli v Bodo/Glimt\n⚽ VfB Stuttgart v Atletico Madrid\n\n📊 Combined 2.00. I make it about 47% to land.\n\n💬 Which of these do you trust least?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-20T17:10:54+00:00"
+     "yayin": "2026-10-20T17:10:54+00:00",
+     "son_oran": 1.38
     },
     {
      "ad": "long-shot",
@@ -27866,8 +27886,45 @@
        "oran": 1.4,
        "olasilik": 0.698,
        "deger": -0.023,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "4-3",
+       "goller": [
+        [
+         4,
+         0,
+         "dep"
+        ],
+        [
+         29,
+         0,
+         "dep"
+        ],
+        [
+         36,
+         0,
+         "ev"
+        ],
+        [
+         45,
+         2,
+         "ev"
+        ],
+        [
+         65,
+         0,
+         "ev"
+        ],
+        [
+         68,
+         0,
+         "ev"
+        ],
+        [
+         87,
+         0,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1640382-UST35",
@@ -27915,13 +27972,16 @@
      "oran": 3.08,
      "olasilik": 0.341,
      "deger": 0.05,
-     "durum": "bekliyor",
+     "durum": "yatti",
      "secim": "2026-10-20T05:40:19+00:00",
      "oto": true,
      "paylas": "2026-10-20T15:00:00+02:00",
      "tweet_id": "2112530922075574579",
      "metin": "🎩 Bit of a long shot today. Small stakes only, as ever.\n\n⚽ Liverpool v Villarreal\n⚽ Karlovac 1919 v HNK Rijeka\n\n📊 Combined 3.08. I make it about 34% to land, so it loses roughly two times in three.\n\n💬 What would you swap in?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-20T13:06:17+00:00"
+     "yayin": "2026-10-20T13:06:17+00:00",
+     "son_oran": 2.2,
+     "sonuc_metni": "❌ Coupon down. One leg let me down, as ever. I had it at 34%, which was never 100.\n\n❌ Liverpool 4-3 Villarreal: Villarreal Under 1.5 goals\n✅ Karlovac 1919 1-4 HNK Rijeka: Over 3.5 goals\n\nRecord: 14 of 31 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2112648728188506422"
     },
     {
      "ad": "gunun-kuponu-2",
@@ -27938,8 +27998,40 @@
        "oran": 1.13,
        "olasilik": 0.857,
        "deger": -0.032,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "5-1",
+       "goller": [
+        [
+         12,
+         0,
+         "ev"
+        ],
+        [
+         34,
+         0,
+         "ev"
+        ],
+        [
+         52,
+         0,
+         "dep"
+        ],
+        [
+         57,
+         0,
+         "ev"
+        ],
+        [
+         65,
+         0,
+         "ev"
+        ],
+        [
+         76,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1603061-UST15",
@@ -28043,7 +28135,9 @@
      "tweet_id": "2112469909212995912",
      "metin": "🎩 Four picks, one coupon.\n\n⚽ Manchester City v AEK Athens FC\n⚽ Al Taawon v Al-Qadisiyah FC\n⚽ Fenerbahçe v Slavia Praha\n⚽ Paro v Al Ansar\n\n📊 Combined 2.01. I make it about 46% to land.\n\n💬 What would you swap in?\n\n18+ | Play responsibly",
      "yayin": "2026-10-20T09:04:03+00:00",
-     "son_oran": 1.56
+     "son_oran": 1.76,
+     "sonuc_metni": "❌ One out.\n\n✅ Manchester City 5-1 AEK Athens FC: Manchester City to win\n❌ Al Taawon 0-1 Al-Qadisiyah FC: Over 1.5 goals\n✅ Fenerbahçe 2-2 Slavia Praha: Double chance 1X\n✅ Paro 1-2 Al Ansar: Double chance X2\n\nRecord: 14 of 31 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2112648732273746058"
     },
     {
      "ad": "gunun-kuponu-3",
@@ -28060,8 +28154,30 @@
        "oran": 1.17,
        "olasilik": 0.833,
        "deger": -0.025,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "4-0",
+       "goller": [
+        [
+         21,
+         0,
+         "ev"
+        ],
+        [
+         39,
+         0,
+         "ev"
+        ],
+        [
+         52,
+         0,
+         "ev"
+        ],
+        [
+         58,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1563826-CS1X",
@@ -28123,7 +28239,9 @@
      "tweet_id": "2112570939674087759",
      "metin": "🎩 Treble for today. Nothing fancy in it.\n\n⚽ AS Roma v Slovan Bratislava\n⚽ York v Accrington ST\n⚽ Northampton v Tranmere\n\n📊 Combined 2.03. I make it about 46% to land.\n\n💬 Which of these do you trust least?\n\n18+ | Play responsibly",
      "yayin": "2026-10-20T15:45:31+00:00",
-     "son_oran": 1.24
+     "son_oran": 1.45,
+     "sonuc_metni": "❌ One leg short. Northampton 0-1 Tranmere, so the coupon's down.\n\n✅ AS Roma 4-0 Slovan Bratislava: AS Roma to win\n✅ York 1-1 Accrington ST: Double chance 1X\n❌ Northampton 0-1 Tranmere: Double chance 1X\n\nRecord: 14 of 31 landed. My miss, no excuses.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2112648736308592787"
     },
     {
      "ad": "gunun-kuponu-4",

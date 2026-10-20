@@ -26153,7 +26153,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 5
+     "no": 5,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1588321-CS1X",
@@ -26173,7 +26174,8 @@
      "istatistik": 0.826,
      "uyum": true,
      "buyuk": false,
-     "no": 6
+     "no": 6,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1564374-UST15",
@@ -26193,7 +26195,8 @@
      "istatistik": 0.723,
      "uyum": false,
      "buyuk": false,
-     "no": 7
+     "no": 7,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1603061-UST15",
@@ -26234,7 +26237,8 @@
      "istatistik": 0.901,
      "uyum": true,
      "buyuk": false,
-     "no": 9
+     "no": 9,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1646587-CS12",
@@ -26254,7 +26258,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 10
+     "no": 10,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1635719-CS12",
@@ -26316,7 +26321,8 @@
      "istatistik": 0.793,
      "uyum": true,
      "buyuk": false,
-     "no": 13
+     "no": 13,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1635288-CS1X",
@@ -26357,7 +26363,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 15
+     "no": 15,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1603055-UST15",
@@ -26398,7 +26405,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 17
+     "no": 17,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1612266-ALT35",
@@ -26439,7 +26447,8 @@
      "istatistik": 0.769,
      "uyum": true,
      "buyuk": false,
-     "no": 19
+     "no": 19,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1564369-UST15",
@@ -26459,7 +26468,8 @@
      "istatistik": 0.793,
      "uyum": true,
      "buyuk": false,
-     "no": 20
+     "no": 20,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1622801-CS1X",
@@ -26500,7 +26510,8 @@
      "istatistik": 0.665,
      "uyum": false,
      "buyuk": false,
-     "no": 22
+     "no": 22,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1635655-CS1X",
@@ -26520,7 +26531,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 23
+     "no": 23,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1603054-CS1X",
@@ -26582,7 +26594,8 @@
      "istatistik": 0.799,
      "uyum": true,
      "buyuk": false,
-     "no": 26
+     "no": 26,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1564374-CS1X",
@@ -26602,7 +26615,8 @@
      "istatistik": 0.756,
      "uyum": true,
      "buyuk": false,
-     "no": 27
+     "no": 27,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1564373-CS1X",
@@ -26622,7 +26636,8 @@
      "istatistik": 0.844,
      "uyum": true,
      "buyuk": false,
-     "no": 28
+     "no": 28,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1563818-CS1X",
@@ -26642,7 +26657,8 @@
      "istatistik": 0.775,
      "uyum": true,
      "buyuk": false,
-     "no": 29
+     "no": 29,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1597417-CS1X",
@@ -26662,7 +26678,8 @@
      "istatistik": 0.913,
      "uyum": true,
      "buyuk": false,
-     "no": 30
+     "no": 30,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1635661-CS1X",
@@ -26724,7 +26741,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 33
+     "no": 33,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1564368-UST15",
@@ -26744,7 +26762,8 @@
      "istatistik": 0.893,
      "uyum": true,
      "buyuk": false,
-     "no": 34
+     "no": 34,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1596950-CS1X",
@@ -26764,7 +26783,8 @@
      "istatistik": 0.869,
      "uyum": true,
      "buyuk": false,
-     "no": 35
+     "no": 35,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1497724-CS1X",
@@ -26805,7 +26825,8 @@
      "istatistik": 0.869,
      "uyum": true,
      "buyuk": false,
-     "no": 37
+     "no": 37,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1635719-IYU05",
@@ -26846,7 +26867,8 @@
      "istatistik": 0.992,
      "uyum": true,
      "buyuk": false,
-     "no": 39
+     "no": 39,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1596951-CS1X",
@@ -26866,7 +26888,8 @@
      "istatistik": 0.805,
      "uyum": true,
      "buyuk": false,
-     "no": 40
+     "no": 40,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1635738-EVU05",
@@ -26886,7 +26909,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 41
+     "no": 41,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1612262-ALT35",
@@ -26927,7 +26951,8 @@
      "istatistik": 0.785,
      "uyum": true,
      "buyuk": false,
-     "no": 43
+     "no": 43,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1564371-EVU05",
@@ -26947,7 +26972,8 @@
      "istatistik": 0.835,
      "uyum": true,
      "buyuk": false,
-     "no": 44
+     "no": 44,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1596952-CS12",
@@ -26967,7 +26993,8 @@
      "istatistik": 0.777,
      "uyum": true,
      "buyuk": false,
-     "no": 45
+     "no": 45,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1635702-CS12",
@@ -26987,7 +27014,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 46
+     "no": 46,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1564369-CSX2",
@@ -27007,7 +27035,8 @@
      "istatistik": 0.794,
      "uyum": true,
      "buyuk": false,
-     "no": 47
+     "no": 47,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1563817-DPU05",
@@ -27027,7 +27056,8 @@
      "istatistik": 0.727,
      "uyum": true,
      "buyuk": false,
-     "no": 48
+     "no": 48,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1563823-UST15",
@@ -27047,7 +27077,8 @@
      "istatistik": 0.733,
      "uyum": true,
      "buyuk": false,
-     "no": 49
+     "no": 49,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1597411-CS12",
@@ -27067,7 +27098,8 @@
      "istatistik": 0.796,
      "uyum": true,
      "buyuk": false,
-     "no": 50
+     "no": 50,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1632225-CSX2",
@@ -27108,7 +27140,8 @@
      "istatistik": 0.777,
      "uyum": true,
      "buyuk": false,
-     "no": 52
+     "no": 52,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1563824-EVU05",
@@ -27128,7 +27161,8 @@
      "istatistik": 0.798,
      "uyum": true,
      "buyuk": false,
-     "no": 53
+     "no": 53,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1563150-UST15",
@@ -27148,7 +27182,8 @@
      "istatistik": 0.742,
      "uyum": true,
      "buyuk": false,
-     "no": 54
+     "no": 54,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1603054-UST15",
@@ -27189,7 +27224,8 @@
      "istatistik": 0.727,
      "uyum": true,
      "buyuk": false,
-     "no": 56
+     "no": 56,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1564376-EVA25",
@@ -27209,7 +27245,8 @@
      "istatistik": 0.77,
      "uyum": true,
      "buyuk": false,
-     "no": 57
+     "no": 57,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1596954-CS12",
@@ -27229,7 +27266,8 @@
      "istatistik": 0.785,
      "uyum": true,
      "buyuk": false,
-     "no": 58
+     "no": 58,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1603055-CS12",
@@ -27270,7 +27308,8 @@
      "istatistik": 0.727,
      "uyum": true,
      "buyuk": false,
-     "no": 60
+     "no": 60,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1564372-CS12",
@@ -27290,7 +27329,8 @@
      "istatistik": 0.728,
      "uyum": true,
      "buyuk": false,
-     "no": 61
+     "no": 61,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1564375-UST15",
@@ -27310,7 +27350,8 @@
      "istatistik": 0.769,
      "uyum": true,
      "buyuk": false,
-     "no": 62
+     "no": 62,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1563824-CS1X",
@@ -27330,7 +27371,8 @@
      "istatistik": 0.665,
      "uyum": true,
      "buyuk": false,
-     "no": 63
+     "no": 63,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1612266-CS1X",
@@ -27371,7 +27413,8 @@
      "istatistik": 0.751,
      "uyum": true,
      "buyuk": false,
-     "no": 65
+     "no": 65,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1563821-CS12",
@@ -27391,7 +27434,8 @@
      "istatistik": 0.756,
      "uyum": true,
      "buyuk": false,
-     "no": 66
+     "no": 66,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1604031-CS12",
@@ -27432,7 +27476,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 68
+     "no": 68,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1564375-CSX2",
@@ -27452,7 +27497,8 @@
      "istatistik": 0.734,
      "uyum": true,
      "buyuk": false,
-     "no": 69
+     "no": 69,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1563817-CSX2",
@@ -27472,7 +27518,8 @@
      "istatistik": 0.556,
      "uyum": false,
      "buyuk": false,
-     "no": 70
+     "no": 70,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1563822-CS1X",
@@ -27492,7 +27539,8 @@
      "istatistik": 0.761,
      "uyum": true,
      "buyuk": false,
-     "no": 71
+     "no": 71,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1563816-IYU05",
@@ -27512,7 +27560,8 @@
      "istatistik": 0.783,
      "uyum": true,
      "buyuk": false,
-     "no": 72
+     "no": 72,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1556863-CS12",
@@ -27532,7 +27581,8 @@
      "istatistik": 0.627,
      "uyum": true,
      "buyuk": false,
-     "no": 73
+     "no": 73,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1612263-CS12",
@@ -27573,7 +27623,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 75
+     "no": 75,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1635661-DPA15",
@@ -27614,7 +27665,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 77
+     "no": 77,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1635700-DPU05",
@@ -27634,7 +27686,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 78
+     "no": 78,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1563820-CS1X",
@@ -27654,7 +27707,8 @@
      "istatistik": 0.753,
      "uyum": true,
      "buyuk": false,
-     "no": 79
+     "no": 79,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1640382-UST35",
@@ -28635,7 +28689,8 @@
    ],
    "oto": true,
    "issue": 108,
-   "olcum_sorgu": "2026-10-20T20:32:16+00:00"
+   "olcum_sorgu": "2026-10-20T21:29:18+00:00",
+   "olcum_bitti": true
   }
  ]
 }

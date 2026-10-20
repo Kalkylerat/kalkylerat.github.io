@@ -112170,7 +112170,22 @@
         "durum": "paylasildi",
         "tweet_id": "2112482440166203813",
         "zaman": "2026-10-20T09:53:52+00:00",
-        "metin": "🆚 IFK Norrkoping v Orebro SK\n\n🏆 IFK Norrkoping 57% · Draw 22% · Orebro SK 22%\n⚽ Over 2.5 goals 61% · Under 39%\n🥅 Both teams score 59% · Not both 41%\n🎯 Most likely score: 2-1 (10%)\n\n📈 Stats: Both teams score 53% · odds 59%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 IFK Norrkoping v Orebro SK\n\n🏆 IFK Norrkoping 57% · Draw 22% · Orebro SK 22%\n⚽ Over 2.5 goals 61% · Under 39%\n🥅 Both teams score 59% · Not both 41%\n🎯 Most likely score: 2-1 (10%)\n\n📈 Stats: Both teams score 53% · odds 59%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2112619436754813240",
+          "skor": "2-2",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "zaman": "2026-10-20T18:58:10+00:00",
+          "brier": {
+            "piyasa": 1.3079,
+            "istatistik": 1.4457
+          }
+        }
       },
       "ayrisma": {
         "durum": "paylasildi",

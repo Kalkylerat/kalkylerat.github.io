@@ -28075,8 +28075,20 @@
        "oran": 1.24,
        "olasilik": 0.791,
        "deger": -0.019,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-1",
+       "goller": [
+        [
+         61,
+         0,
+         "dep"
+        ],
+        [
+         90,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1563822-CS1X",
@@ -28090,20 +28102,28 @@
        "oran": 1.4,
        "olasilik": 0.705,
        "deger": -0.012,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "0-1",
+       "goller": [
+        [
+         37,
+         0,
+         "dep"
+        ]
+       ]
       }
      ],
      "oran": 2.03,
      "olasilik": 0.465,
      "deger": -0.056,
-     "durum": "bekliyor",
+     "durum": "yatti",
      "secim": "2026-10-20T05:40:19+00:00",
      "oto": true,
      "paylas": "2026-10-20T17:45:00+02:00",
      "tweet_id": "2112570939674087759",
      "metin": "🎩 Treble for today. Nothing fancy in it.\n\n⚽ AS Roma v Slovan Bratislava\n⚽ York v Accrington ST\n⚽ Northampton v Tranmere\n\n📊 Combined 2.03. I make it about 46% to land.\n\n💬 Which of these do you trust least?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-20T15:45:31+00:00"
+     "yayin": "2026-10-20T15:45:31+00:00",
+     "son_oran": 1.24
     },
     {
      "ad": "gunun-kuponu-4",
@@ -28135,8 +28155,20 @@
        "oran": 1.45,
        "olasilik": 0.676,
        "deger": -0.02,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "2-0",
+       "goller": [
+        [
+         21,
+         0,
+         "ev"
+        ],
+        [
+         90,
+         4,
+         "ev"
+        ]
+       ]
       }
      ],
      "oran": 2.0,

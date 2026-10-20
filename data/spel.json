@@ -112115,6 +112115,33 @@
               2
             ],
             "zaman": "2026-10-20T18:43:36+00:00"
+          },
+          "1564367": {
+            "durum": "paylasildi",
+            "tweet_id": "2112644895462613081",
+            "skor": [
+              0,
+              3
+            ],
+            "zaman": "2026-10-20T20:39:25+00:00"
+          },
+          "1564369": {
+            "durum": "paylasildi",
+            "tweet_id": "2112644896985166117",
+            "skor": [
+              0,
+              4
+            ],
+            "zaman": "2026-10-20T20:39:25+00:00"
+          },
+          "1564371": {
+            "durum": "paylasildi",
+            "tweet_id": "2112644898448916562",
+            "skor": [
+              2,
+              2
+            ],
+            "zaman": "2026-10-20T20:39:25+00:00"
           }
         }
       },
@@ -112257,7 +112284,26 @@
         "durum": "paylasildi",
         "tweet_id": "2112548859385917684",
         "zaman": "2026-10-20T14:17:47+00:00",
-        "metin": "🆚 AFC Wimbledon v Mansfield Town\n\n🏆 AFC Wimbledon 31% · Draw 25% · Mansfield Town 44%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 56% · Not both 44%\n\n📈 Team stats: AFC Wimbledon win 65%\n💹 Odds: 31%\n\n💬 Chances, not picks. What's your score? 👇\n18+ | Play responsibly"
+        "metin": "🆚 AFC Wimbledon v Mansfield Town\n\n🏆 AFC Wimbledon 31% · Draw 25% · Mansfield Town 44%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 56% · Not both 44%\n\n📈 Team stats: AFC Wimbledon win 65%\n💹 Odds: 31%\n\n💬 Chances, not picks. What's your score? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2112644925611225198",
+          "skor": "0-3",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "xg": [
+            0.58,
+            1.99
+          ],
+          "zaman": "2026-10-20T20:39:25+00:00",
+          "brier": {
+            "piyasa": 1.0028,
+            "istatistik": 1.8654
+          }
+        }
       },
       "analiz_8": {
         "durum": "paylasildi",
@@ -112269,7 +112315,26 @@
         "durum": "paylasildi",
         "tweet_id": "2112559536774979645",
         "zaman": "2026-10-20T15:00:12+00:00",
-        "metin": "🆚 Bromley v Leicester\n\n🏆 Bromley 24% · Draw 22% · Leicester 55%\n⚽ Over 2.5 goals 63% · Under 37%\n🥅 Both teams score 62% · Not both 38%\n🎯 Most likely score: 1-2 (10%)\n\n📈 Team stats: Over 2.5 goals 56%\n💹 Odds: 63%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Bromley v Leicester\n\n🏆 Bromley 24% · Draw 22% · Leicester 55%\n⚽ Over 2.5 goals 63% · Under 37%\n🥅 Both teams score 62% · Not both 38%\n🎯 Most likely score: 1-2 (10%)\n\n📈 Team stats: Over 2.5 goals 56%\n💹 Odds: 63%\n\n💬 Chances, not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2112644940035485872",
+          "skor": "0-4",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "xg": [
+            0.26,
+            2.35
+          ],
+          "zaman": "2026-10-20T20:39:25+00:00",
+          "brier": {
+            "piyasa": 0.8242,
+            "istatistik": 0.7699
+          }
+        }
       },
       "analiz_10": {
         "durum": "paylasildi",
@@ -112281,7 +112346,26 @@
         "durum": "paylasildi",
         "tweet_id": "2112569153487778010",
         "zaman": "2026-10-20T15:38:26+00:00",
-        "metin": "🆚 Cambridge United v Wycombe\n\n🏆 Cambridge United 41% · Draw 25% · Wycombe 34%\n⚽ Over 2.5 goals 54% · Under 46%\n🥅 Both teams score 57% · Not both 42%\n\n📈 Team stats: Cambridge United win 48%\n💹 Odds: 41%\n\n💬 Chances, not picks. What's your score? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Cambridge United v Wycombe\n\n🏆 Cambridge United 41% · Draw 25% · Wycombe 34%\n⚽ Over 2.5 goals 54% · Under 46%\n🥅 Both teams score 57% · Not both 42%\n\n📈 Team stats: Cambridge United win 48%\n💹 Odds: 41%\n\n💬 Chances, not picks. What's your score? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2112644954476421280",
+          "skor": "2-2",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "xg": [
+            0.93,
+            1.28
+          ],
+          "zaman": "2026-10-20T20:39:25+00:00",
+          "brier": {
+            "piyasa": 1.2386,
+            "istatistik": 1.2058
+          }
+        }
       },
       "analiz_12": {
         "durum": "paylasildi",
@@ -112308,7 +112392,26 @@
         "durum": "paylasildi",
         "tweet_id": "2112583482996068413",
         "zaman": "2026-10-20T16:35:22+00:00",
-        "metin": "🆚 Huddersfield v Peterborough\n\n🏆 Huddersfield 62% · Draw 20% · Peterborough 18%\n⚽ Over 2.5 goals 66% · Under 34%\n🥅 Both teams score 61% · Not both 39%\n🎯 Most likely score: 2-1 (10%)\n\n📈 Stats: Over 2.5 goals 56% · odds 66%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Huddersfield v Peterborough\n\n🏆 Huddersfield 62% · Draw 20% · Peterborough 18%\n⚽ Over 2.5 goals 66% · Under 34%\n🥅 Both teams score 61% · Not both 39%\n🎯 Most likely score: 2-1 (10%)\n\n📈 Stats: Over 2.5 goals 56% · odds 66%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2112644971002056747",
+          "skor": "4-1",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            2.57,
+            1.08
+          ],
+          "zaman": "2026-10-20T20:39:25+00:00",
+          "brier": {
+            "piyasa": 0.4817,
+            "istatistik": 0.6181
+          }
+        }
       },
       "analiz_14": {
         "durum": "paylasildi",
@@ -112326,7 +112429,26 @@
         "durum": "paylasildi",
         "tweet_id": "2112596118718529584",
         "zaman": "2026-10-20T17:25:34+00:00",
-        "metin": "🆚 Oxford United v Wigan\n\n🏆 Oxford United 49% · Draw 25% · Wigan 26%\n⚽ Over 2.5 goals 51% · Under 49%\n🥅 Both teams score 53% · Not both 47%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: Oxford United win 59%\n💹 Odds: 49%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Oxford United v Wigan\n\n🏆 Oxford United 49% · Draw 25% · Wigan 26%\n⚽ Over 2.5 goals 51% · Under 49%\n🥅 Both teams score 53% · Not both 47%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: Oxford United win 59%\n💹 Odds: 49%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2112644985635930490",
+          "skor": "2-1",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            1.97,
+            0.54
+          ],
+          "zaman": "2026-10-20T20:39:25+00:00",
+          "brier": {
+            "piyasa": 0.8538,
+            "istatistik": 0.9106
+          }
+        }
       },
       "analiz_17": {
         "durum": "paylasildi",

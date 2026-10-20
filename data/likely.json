@@ -26132,7 +26132,8 @@
      "istatistik": 0.774,
      "uyum": false,
      "buyuk": false,
-     "no": 4
+     "no": 4,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1635693-MS1",
@@ -26376,7 +26377,8 @@
      "istatistik": 0.777,
      "uyum": true,
      "buyuk": false,
-     "no": 16
+     "no": 16,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1635617-MS1",
@@ -27247,7 +27249,8 @@
      "istatistik": 0.757,
      "uyum": true,
      "buyuk": false,
-     "no": 59
+     "no": 59,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1563819-DPU05",
@@ -28423,7 +28426,7 @@
    ],
    "oto": true,
    "issue": 108,
-   "olcum_sorgu": "2026-10-20T19:34:52+00:00"
+   "olcum_sorgu": "2026-10-20T20:32:16+00:00"
   }
  ]
 }

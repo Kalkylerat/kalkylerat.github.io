@@ -1,6 +1,6 @@
 {
- "issue": 73,
- "tarih": "2026-10-15",
+ "issue": 111,
+ "tarih": "2026-10-20",
  "bildirilen": [
   "2026-10-02:analiz_0:takip_gecikti",
   "2026-10-02:analiz_1:takip_gecikti",
@@ -58,6 +58,7 @@
   "2026-10-14:tablo_aksam:1641824:tablo_gec",
   "2026-10-15:hata:Mr. Likely bilgi postu: X API hatası 403: {\"detail\":\"You are not allowed to crea",
   "2026-10-15:hata:Mr. Likely bilgi postu: X API hatası 503: {\"detail\":\"Service Unavailable\",\"statu",
-  "2026-10-15:tablo_aksam:1564359:tablo_gec"
+  "2026-10-15:tablo_aksam:1564359:tablo_gec",
+  "2026-10-20:tablo_aksam:1564377:tablo_gec"
  ]
 }

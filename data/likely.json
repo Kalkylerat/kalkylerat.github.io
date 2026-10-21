@@ -27884,7 +27884,8 @@
      "istatistik": 0.825,
      "uyum": true,
      "buyuk": false,
-     "no": 12
+     "no": 12,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1612267-CS12",
@@ -27944,7 +27945,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 15
+     "no": 15,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1582297-CSX2",
@@ -28546,7 +28548,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 44
+     "no": 44,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1635645-DPU05",
@@ -28857,7 +28860,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 59
+     "no": 59,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1635621-DPA15",
@@ -28897,7 +28901,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 61
+     "no": 61,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1606714-EVU05",
@@ -29715,8 +29720,25 @@
        "oran": 1.15,
        "olasilik": 0.842,
        "deger": -0.031,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "2-1",
+       "goller": [
+        [
+         57,
+         0,
+         "ev"
+        ],
+        [
+         73,
+         0,
+         "dep"
+        ],
+        [
+         79,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1606708-CS1X",
@@ -29766,7 +29788,7 @@
      "tweet_id": "2112821728946606095",
      "metin": "🎩 Three legs today. Nothing fancy.\n\n⚽ Sogndal v Raufoss\n⚽ Tokushima Vortis v Vanraure Hachinohe\n⚽ Bayern München v Arsenal\n\n📊 Combined 2.00. I make it about 46% to land, so more often than not it doesn't.\n\n💬 Which leg do you reckon lets me down?\n\n18+ | Play responsibly",
      "yayin": "2026-10-21T08:22:04+00:00",
-     "son_oran": 1
+     "son_oran": 1.15
     }
    ],
    "islenen": [],
@@ -30066,7 +30088,7 @@
    ],
    "oto": true,
    "issue": 112,
-   "olcum_sorgu": "2026-10-21T17:55:27+00:00"
+   "olcum_sorgu": "2026-10-21T18:52:20+00:00"
   }
  ]
 }

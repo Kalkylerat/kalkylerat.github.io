@@ -29441,8 +29441,30 @@
        "oran": 2.15,
        "olasilik": 0.48,
        "deger": 0.032,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-3",
+       "goller": [
+        [
+         9,
+         0,
+         "dep"
+        ],
+        [
+         24,
+         0,
+         "dep"
+        ],
+        [
+         35,
+         0,
+         "dep"
+        ],
+        [
+         43,
+         0,
+         "ev"
+        ]
+       ]
       }
      ],
      "oran": 3.1,
@@ -29528,8 +29550,20 @@
        "oran": 1.27,
        "olasilik": 0.773,
        "deger": -0.019,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "2-0",
+       "goller": [
+        [
+         52,
+         0,
+         "ev"
+        ],
+        [
+         65,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1635672-DPA15",
@@ -29588,8 +29622,15 @@
        "oran": 1.28,
        "olasilik": 0.769,
        "deger": -0.015,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "0-1",
+       "goller": [
+        [
+         83,
+         0,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1635630-CS1X",
@@ -29610,13 +29651,14 @@
      "oran": 2.0,
      "olasilik": 0.46,
      "deger": -0.08,
-     "durum": "bekliyor",
+     "durum": "yatti",
      "secim": "2026-10-21T05:38:22+00:00",
      "oto": true,
      "paylas": "2026-10-21T10:20:00+02:00",
      "tweet_id": "2112821728946606095",
      "metin": "🎩 Three legs today. Nothing fancy.\n\n⚽ Sogndal v Raufoss\n⚽ Tokushima Vortis v Vanraure Hachinohe\n⚽ Bayern München v Arsenal\n\n📊 Combined 2.00. I make it about 46% to land, so more often than not it doesn't.\n\n💬 Which leg do you reckon lets me down?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-21T08:22:04+00:00"
+     "yayin": "2026-10-21T08:22:04+00:00",
+     "son_oran": 1
     }
    ],
    "islenen": [],

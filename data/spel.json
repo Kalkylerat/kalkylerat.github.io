@@ -116546,6 +116546,13 @@
         "istatistik_kaynak": "lig"
       }
     ],
-    "etkilesim": {}
+    "etkilesim": {
+      "ayrisma": {
+        "durum": "paylasildi",
+        "tweet_id": "2112816329501634568",
+        "zaman": "2026-10-21T08:00:36+00:00",
+        "metin": "📊 ODDS vs TEAM STATS\n📸 6 matches side by side in the image\n\n🆚 Al Anwar v Al Wehda Club\n⚽ Over 2.5 goals: 💹 odds 53% · 📈 stats 20%\n\n🆚 Albirex Niigata v Sagan Tosu\n🏆 Sagan Tosu win: 💹 odds 44% · 📈 stats 13%\n\n💬 Who's right: the odds or the stats? 👇\n18+ | Play responsibly"
+      }
+    }
   }
 ]

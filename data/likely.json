@@ -28171,7 +28171,8 @@
      "istatistik": 0.685,
      "uyum": false,
      "buyuk": false,
-     "no": 26
+     "no": 26,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1564378-UST15",
@@ -29178,7 +29179,8 @@
      "istatistik": 0.585,
      "uyum": false,
      "buyuk": false,
-     "no": 75
+     "no": 75,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1555751-CS1X",
@@ -30026,7 +30028,7 @@
    ],
    "oto": true,
    "issue": 112,
-   "olcum_sorgu": "2026-10-21T14:05:41+00:00"
+   "olcum_sorgu": "2026-10-21T15:02:38+00:00"
   }
  ]
 }

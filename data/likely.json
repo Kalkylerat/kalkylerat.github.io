@@ -27637,7 +27637,7 @@
   {
    "tarih": "2026-10-21",
    "olusturma": "2026-10-21T05:38:22+00:00",
-   "durum": "secildi",
+   "durum": "bitti",
    "havuz": [
     {
      "aday_id": "1635737-CS12",
@@ -29670,20 +29670,45 @@
        "oran": 1.8,
        "olasilik": 0.588,
        "deger": 0.059,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "2-2",
+       "goller": [
+        [
+         41,
+         0,
+         "ev"
+        ],
+        [
+         60,
+         0,
+         "dep"
+        ],
+        [
+         62,
+         0,
+         "dep"
+        ],
+        [
+         82,
+         0,
+         "ev"
+        ]
+       ]
       }
      ],
      "oran": 2.18,
      "olasilik": 0.476,
      "deger": 0.038,
-     "durum": "bekliyor",
+     "durum": "tuttu",
      "secim": "2026-10-21T05:38:22+00:00",
      "oto": true,
      "paylas": "2026-10-21T17:45:00+02:00",
      "tweet_id": "2112933650161336496",
      "metin": "🎩 Two legs today. Nothing fancy.\n\n⚽ Real Betis v Feyenoord\n⚽ Warrenpoint Town v Crusaders FC\n\n📊 Combined 2.18. I make it about 48% to land, so it probably doesn't.\n\n💬 Which of the two do you trust least?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-21T15:46:49+00:00"
+     "yayin": "2026-10-21T15:46:49+00:00",
+     "son_oran": 2.18,
+     "sonuc_metni": "✅ Warrenpoint Town v Crusaders FC. 1-2 and it looked gone. Then 2-2 on 82'. I'll take it. In at 2.18.\n\n✅ Real Betis 1-0 Feyenoord: Double chance 1X\n✅ Warrenpoint Town 2-2 Crusaders FC: Double chance 1X\n\nRecord: 16 of 36 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2113017301096149221"
     },
     {
      "ad": "gunun-kuponu-3",

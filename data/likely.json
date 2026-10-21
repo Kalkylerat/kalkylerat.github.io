@@ -28021,7 +28021,8 @@
      "istatistik": 0.729,
      "uyum": false,
      "buyuk": false,
-     "no": 19
+     "no": 19,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1635636-CS1X",
@@ -28617,7 +28618,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 48
+     "no": 48,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1635645-CS12",
@@ -28803,7 +28805,8 @@
      "istatistik": 0.888,
      "uyum": true,
      "buyuk": false,
-     "no": 57
+     "no": 57,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1606709-ALT35",
@@ -28987,7 +28990,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 66
+     "no": 66,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1635630-DPU05",
@@ -30012,7 +30016,7 @@
    ],
    "oto": true,
    "issue": 112,
-   "olcum_sorgu": "2026-10-21T12:11:24+00:00"
+   "olcum_sorgu": "2026-10-21T13:08:20+00:00"
   }
  ]
 }

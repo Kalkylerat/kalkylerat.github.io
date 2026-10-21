@@ -116639,6 +116639,662 @@
         "zaman": "2026-10-21T15:32:20+00:00",
         "metin": "🆚 Inter v Shakhtar Donetsk\n\n🏆 Inter 80% · Draw 12% · Shakhtar Donetsk 8%\n⚽ Over 2.5 goals 73% · Under 27%\n🥅 Both teams score 54% · Not both 46%\n🎯 Most likely score: 2-0 (10%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n#UCL\n18+ | Play responsibly"
       }
-    }
+    },
+    "tablo_aksam": [
+      {
+        "fixture_id": 1579839,
+        "lig": "First Amateur Division",
+        "ulke": "Belgium",
+        "lig_id": 487,
+        "ev": "Albert Quévy-Mons",
+        "dep": "Rochefort",
+        "baslama": "2026-10-21T20:00:00+02:00",
+        "p": {
+          "MS1": 0.526,
+          "MSX": 0.231,
+          "MS2": 0.243,
+          "CS1X": 0.757,
+          "CSX2": 0.474,
+          "CS12": 0.769,
+          "KGVAR": 0.57,
+          "KGYOK": 0.43,
+          "UST15": 0.793,
+          "ALT15": 0.207,
+          "UST25": 0.566,
+          "ALT25": 0.434,
+          "UST35": 0.342,
+          "ALT35": 0.658,
+          "IY1": 0.395,
+          "IYX": 0.388,
+          "IY2": 0.217,
+          "IYU05": 0.735,
+          "IYA05": 0.265,
+          "IYU15": 0.383,
+          "IYA15": 0.617,
+          "EVU05": 0.835,
+          "EVA05": 0.165,
+          "EVU15": 0.537,
+          "EVA15": 0.463,
+          "EVU25": 0.269,
+          "EVA25": 0.731,
+          "DPU05": 0.683,
+          "DPA05": 0.317,
+          "DPU15": 0.319,
+          "DPA15": 0.681,
+          "DPU25": 0.11,
+          "DPA25": 0.89,
+          "YYU05": 0.803,
+          "YYA05": 0.197,
+          "YYU15": 0.482,
+          "YYA15": 0.518
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1083
+          ],
+          [
+            "2-1",
+            0.0975
+          ],
+          [
+            "1-0",
+            0.0942
+          ],
+          [
+            "2-0",
+            0.0848
+          ],
+          [
+            "1-2",
+            0.0623
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Albert Quévy-Mons win",
+            "piyasa": 0.526,
+            "istatistik": 0.354
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Rochefort win",
+            "piyasa": 0.243,
+            "istatistik": 0.399
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.231,
+            "istatistik": 0.247
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.566,
+            "istatistik": 0.554
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.57,
+            "istatistik": 0.585
+          }
+        ],
+        "beklenen_gol": [
+          1.8,
+          1.15
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1579978,
+        "lig": "First Amateur Division",
+        "ulke": "Belgium",
+        "lig_id": 487,
+        "ev": "Heist",
+        "dep": "Tienen",
+        "baslama": "2026-10-21T20:00:00+02:00",
+        "p": {
+          "MS1": 0.526,
+          "MSX": 0.236,
+          "MS2": 0.238,
+          "CS1X": 0.762,
+          "CSX2": 0.474,
+          "CS12": 0.764,
+          "KGVAR": 0.551,
+          "KGYOK": 0.449,
+          "UST15": 0.777,
+          "ALT15": 0.223,
+          "UST25": 0.542,
+          "ALT25": 0.458,
+          "UST35": 0.319,
+          "ALT35": 0.681,
+          "IY1": 0.392,
+          "IYX": 0.396,
+          "IY2": 0.211,
+          "IYU05": 0.723,
+          "IYA05": 0.277,
+          "IYU15": 0.367,
+          "IYA15": 0.633,
+          "EVU05": 0.826,
+          "EVA05": 0.174,
+          "EVU15": 0.522,
+          "EVA15": 0.478,
+          "EVU25": 0.256,
+          "EVA25": 0.744,
+          "DPU05": 0.667,
+          "DPA05": 0.333,
+          "DPU15": 0.301,
+          "DPA15": 0.699,
+          "DPU25": 0.1,
+          "DPA25": 0.9,
+          "YYU05": 0.791,
+          "YYA05": 0.209,
+          "YYU15": 0.464,
+          "YYA15": 0.535
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1114
+          ],
+          [
+            "1-0",
+            0.1012
+          ],
+          [
+            "2-1",
+            0.0974
+          ],
+          [
+            "2-0",
+            0.0886
+          ],
+          [
+            "0-1",
+            0.0636
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS2",
+            "ad": "Tienen win",
+            "piyasa": 0.238,
+            "istatistik": 0.408
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Heist win",
+            "piyasa": 0.526,
+            "istatistik": 0.366
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.542,
+            "istatistik": 0.66
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.551,
+            "istatistik": 0.668
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.236,
+            "istatistik": 0.226
+          }
+        ],
+        "beklenen_gol": [
+          1.75,
+          1.1
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1582297,
+        "lig": "Premier League",
+        "ulke": "Malta",
+        "lig_id": 393,
+        "ev": "Mosta",
+        "dep": "Valletta FC",
+        "baslama": "2026-10-21T20:30:00+02:00",
+        "p": {
+          "MS1": 0.174,
+          "MSX": 0.228,
+          "MS2": 0.599,
+          "CS1X": 0.401,
+          "CSX2": 0.826,
+          "CS12": 0.772,
+          "KGVAR": 0.478,
+          "KGYOK": 0.522,
+          "UST15": 0.742,
+          "ALT15": 0.258,
+          "UST25": 0.494,
+          "ALT25": 0.506,
+          "UST35": 0.275,
+          "ALT35": 0.725,
+          "IY1": 0.163,
+          "IYX": 0.405,
+          "IY2": 0.432,
+          "IYU05": 0.697,
+          "IYA05": 0.303,
+          "IYU15": 0.335,
+          "IYA15": 0.665,
+          "EVU05": 0.573,
+          "EVA05": 0.427,
+          "EVU15": 0.209,
+          "EVA15": 0.791,
+          "EVU25": 0.055,
+          "EVA25": 0.945,
+          "DPU05": 0.835,
+          "DPA05": 0.165,
+          "DPU15": 0.537,
+          "DPA15": 0.463,
+          "DPU25": 0.269,
+          "DPA25": 0.731,
+          "YYU05": 0.767,
+          "YYA05": 0.233,
+          "YYU15": 0.428,
+          "YYA15": 0.572
+        },
+        "skorlar": [
+          [
+            "0-1",
+            0.1272
+          ],
+          [
+            "0-2",
+            0.1145
+          ],
+          [
+            "1-1",
+            0.1081
+          ],
+          [
+            "1-2",
+            0.0973
+          ],
+          [
+            "0-0",
+            0.0707
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS2",
+            "ad": "Valletta FC win",
+            "piyasa": 0.599,
+            "istatistik": 0.667
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Mosta win",
+            "piyasa": 0.174,
+            "istatistik": 0.131
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.228,
+            "istatistik": 0.202
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.494,
+            "istatistik": 0.519
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.478,
+            "istatistik": 0.456
+          }
+        ],
+        "beklenen_gol": [
+          0.85,
+          1.8
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1582298,
+        "lig": "Premier League",
+        "ulke": "Malta",
+        "lig_id": 393,
+        "ev": "Zabbar St. Patrick",
+        "dep": "Sliema Wanderers",
+        "baslama": "2026-10-21T20:30:00+02:00",
+        "p": {
+          "MS1": 0.239,
+          "MSX": 0.261,
+          "MS2": 0.5,
+          "CS1X": 0.5,
+          "CSX2": 0.761,
+          "CS12": 0.739,
+          "KGVAR": 0.476,
+          "KGYOK": 0.524,
+          "UST15": 0.702,
+          "ALT15": 0.298,
+          "UST25": 0.443,
+          "ALT25": 0.557,
+          "UST35": 0.232,
+          "ALT35": 0.768,
+          "IY1": 0.202,
+          "IYX": 0.435,
+          "IY2": 0.363,
+          "IYU05": 0.668,
+          "IYA05": 0.332,
+          "IYU15": 0.302,
+          "IYA15": 0.698,
+          "EVU05": 0.613,
+          "EVA05": 0.387,
+          "EVU15": 0.246,
+          "EVA15": 0.754,
+          "EVU25": 0.071,
+          "EVA25": 0.929,
+          "DPU05": 0.777,
+          "DPA05": 0.223,
+          "DPU15": 0.442,
+          "DPA15": 0.558,
+          "DPU25": 0.191,
+          "DPA25": 0.809,
+          "YYU05": 0.74,
+          "YYA05": 0.26,
+          "YYU15": 0.39,
+          "YYA15": 0.61
+        },
+        "skorlar": [
+          [
+            "0-1",
+            0.1294
+          ],
+          [
+            "1-1",
+            0.123
+          ],
+          [
+            "0-2",
+            0.0971
+          ],
+          [
+            "1-2",
+            0.0922
+          ],
+          [
+            "0-0",
+            0.0863
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS2",
+            "ad": "Sliema Wanderers win",
+            "piyasa": 0.5,
+            "istatistik": 0.432
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.443,
+            "istatistik": 0.377
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Zabbar St. Patrick win",
+            "piyasa": 0.239,
+            "istatistik": 0.281
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.476,
+            "istatistik": 0.438
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.261,
+            "istatistik": 0.287
+          }
+        ],
+        "beklenen_gol": [
+          0.95,
+          1.5
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1596044,
+        "lig": "Non League Premier - Isthmian",
+        "ulke": "England",
+        "lig_id": 58,
+        "ev": "Whyteleafe",
+        "dep": "Burgess Hill Town",
+        "baslama": "2026-10-21T20:45:00+02:00",
+        "p": {
+          "MS1": 0.371,
+          "MSX": 0.236,
+          "MS2": 0.393,
+          "CS1X": 0.607,
+          "CSX2": 0.629,
+          "CS12": 0.764,
+          "KGVAR": 0.629,
+          "KGYOK": 0.371,
+          "UST15": 0.822,
+          "ALT15": 0.178,
+          "UST25": 0.61,
+          "ALT25": 0.39,
+          "UST35": 0.386,
+          "ALT35": 0.614,
+          "IY1": 0.303,
+          "IYX": 0.38,
+          "IY2": 0.317,
+          "IYU05": 0.758,
+          "IYA05": 0.242,
+          "IYU15": 0.414,
+          "IYA15": 0.586,
+          "EVU05": 0.788,
+          "EVA05": 0.212,
+          "EVU15": 0.459,
+          "EVA15": 0.541,
+          "EVU25": 0.204,
+          "EVA25": 0.796,
+          "DPU05": 0.798,
+          "DPA05": 0.202,
+          "DPU15": 0.475,
+          "DPA15": 0.525,
+          "DPU25": 0.217,
+          "DPA25": 0.783,
+          "YYU05": 0.823,
+          "YYA05": 0.177,
+          "YYU15": 0.517,
+          "YYA15": 0.483
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1063
+          ],
+          [
+            "1-2",
+            0.085
+          ],
+          [
+            "2-1",
+            0.0824
+          ],
+          [
+            "0-1",
+            0.0686
+          ],
+          [
+            "1-0",
+            0.0664
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Whyteleafe win",
+            "piyasa": 0.371,
+            "istatistik": 0.602
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Burgess Hill Town win",
+            "piyasa": 0.393,
+            "istatistik": 0.196
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.236,
+            "istatistik": 0.203
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.61,
+            "istatistik": 0.641
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.629,
+            "istatistik": 0.604
+          }
+        ],
+        "beklenen_gol": [
+          1.55,
+          1.6
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1596442,
+        "lig": "Non League Premier - Northern",
+        "ulke": "England",
+        "lig_id": 59,
+        "ev": "Avro",
+        "dep": "Ashton United",
+        "baslama": "2026-10-21T20:45:00+02:00",
+        "p": {
+          "MS1": 0.515,
+          "MSX": 0.227,
+          "MS2": 0.258,
+          "CS1X": 0.742,
+          "CSX2": 0.485,
+          "CS12": 0.773,
+          "KGVAR": 0.601,
+          "KGYOK": 0.399,
+          "UST15": 0.815,
+          "ALT15": 0.185,
+          "UST25": 0.599,
+          "ALT25": 0.401,
+          "UST35": 0.375,
+          "ALT35": 0.625,
+          "IY1": 0.392,
+          "IYX": 0.378,
+          "IY2": 0.23,
+          "IYU05": 0.752,
+          "IYA05": 0.248,
+          "IYU15": 0.406,
+          "IYA15": 0.594,
+          "EVU05": 0.843,
+          "EVA05": 0.157,
+          "EVU15": 0.552,
+          "EVA15": 0.448,
+          "EVU25": 0.283,
+          "EVA25": 0.717,
+          "DPU05": 0.713,
+          "DPA05": 0.287,
+          "DPU15": 0.355,
+          "DPA15": 0.645,
+          "DPU25": 0.132,
+          "DPA25": 0.868,
+          "YYU05": 0.818,
+          "YYA05": 0.182,
+          "YYU15": 0.508,
+          "YYA15": 0.492
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1042
+          ],
+          [
+            "2-1",
+            0.0964
+          ],
+          [
+            "1-0",
+            0.0833
+          ],
+          [
+            "2-0",
+            0.0771
+          ],
+          [
+            "1-2",
+            0.0651
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.599,
+            "istatistik": 0.747
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.601,
+            "istatistik": 0.718
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.227,
+            "istatistik": 0.199
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Avro win",
+            "piyasa": 0.515,
+            "istatistik": 0.535
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Ashton United win",
+            "piyasa": 0.258,
+            "istatistik": 0.266
+          }
+        ],
+        "beklenen_gol": [
+          1.85,
+          1.25
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      }
+    ]
   }
 ]

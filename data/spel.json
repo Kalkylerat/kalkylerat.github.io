@@ -114129,6 +114129,514 @@
         "istatistik_gol": null,
         "istatistik_kaynak": null,
         "karsilastirma": []
+      },
+      {
+        "fixture_id": 1635636,
+        "lig": "UEFA Champions League",
+        "ulke": "World",
+        "lig_id": 2,
+        "ev": "Real Betis",
+        "dep": "Feyenoord",
+        "baslama": "2026-10-21T21:00:00+02:00",
+        "beklenen_gol": [
+          2.35,
+          1.25
+        ],
+        "p": {
+          "MS1": 0.619,
+          "MSX": 0.19,
+          "MS2": 0.191,
+          "CS1X": 0.808,
+          "CSX2": 0.381,
+          "CS12": 0.81,
+          "KGVAR": 0.645,
+          "KGYOK": 0.355,
+          "UST15": 0.874,
+          "ALT15": 0.126,
+          "UST25": 0.697,
+          "ALT25": 0.303,
+          "UST35": 0.485,
+          "ALT35": 0.515,
+          "IY1": 0.472,
+          "IYX": 0.334,
+          "IY2": 0.194,
+          "IYU05": 0.802,
+          "IYA05": 0.198,
+          "IYU15": 0.481,
+          "IYA15": 0.518,
+          "EVU05": 0.905,
+          "EVA05": 0.095,
+          "EVU15": 0.68,
+          "EVA15": 0.319,
+          "EVU25": 0.417,
+          "EVA25": 0.583,
+          "DPU05": 0.713,
+          "DPA05": 0.286,
+          "DPU15": 0.355,
+          "DPA15": 0.645,
+          "DPU25": 0.132,
+          "DPA25": 0.868,
+          "YYU05": 0.862,
+          "YYA05": 0.138,
+          "YYU15": 0.588,
+          "YYA15": 0.411
+        },
+        "skorlar": [
+          [
+            "2-1",
+            0.0943
+          ],
+          [
+            "1-1",
+            0.0803
+          ],
+          [
+            "2-0",
+            0.0754
+          ],
+          [
+            "3-1",
+            0.0739
+          ],
+          [
+            "1-0",
+            0.0642
+          ]
+        ],
+        "guven": "yuksek",
+        "kaynak": "piyasa",
+        "istatistik_gol": null,
+        "istatistik_kaynak": null,
+        "karsilastirma": []
+      },
+      {
+        "fixture_id": 1635645,
+        "lig": "UEFA Champions League",
+        "ulke": "World",
+        "lig_id": 2,
+        "ev": "Club Brugge KV",
+        "dep": "Lens",
+        "baslama": "2026-10-21T21:00:00+02:00",
+        "beklenen_gol": [
+          2.0,
+          1.5
+        ],
+        "p": {
+          "MS1": 0.494,
+          "MSX": 0.216,
+          "MS2": 0.29,
+          "CS1X": 0.71,
+          "CSX2": 0.506,
+          "CS12": 0.784,
+          "KGVAR": 0.672,
+          "KGYOK": 0.328,
+          "UST15": 0.864,
+          "ALT15": 0.136,
+          "UST25": 0.679,
+          "ALT25": 0.321,
+          "UST35": 0.463,
+          "ALT35": 0.537,
+          "IY1": 0.388,
+          "IYX": 0.353,
+          "IY2": 0.259,
+          "IYU05": 0.793,
+          "IYA05": 0.207,
+          "IYU15": 0.467,
+          "IYA15": 0.533,
+          "EVU05": 0.865,
+          "EVA05": 0.135,
+          "EVU15": 0.594,
+          "EVA15": 0.406,
+          "EVU25": 0.323,
+          "EVA25": 0.677,
+          "DPU05": 0.777,
+          "DPA05": 0.223,
+          "DPU15": 0.442,
+          "DPA15": 0.558,
+          "DPU25": 0.191,
+          "DPA25": 0.809,
+          "YYU05": 0.854,
+          "YYA05": 0.146,
+          "YYU15": 0.573,
+          "YYA15": 0.427
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.0906
+          ],
+          [
+            "2-1",
+            0.0906
+          ],
+          [
+            "1-2",
+            0.0679
+          ],
+          [
+            "2-2",
+            0.0679
+          ],
+          [
+            "3-1",
+            0.0604
+          ]
+        ],
+        "guven": "yuksek",
+        "kaynak": "piyasa",
+        "istatistik_gol": null,
+        "istatistik_kaynak": null,
+        "karsilastirma": []
+      },
+      {
+        "fixture_id": 1635672,
+        "lig": "UEFA Champions League",
+        "ulke": "World",
+        "lig_id": 2,
+        "ev": "Inter",
+        "dep": "Shakhtar Donetsk",
+        "baslama": "2026-10-21T21:00:00+02:00",
+        "beklenen_gol": [
+          2.95,
+          0.85
+        ],
+        "p": {
+          "MS1": 0.797,
+          "MSX": 0.125,
+          "MS2": 0.078,
+          "CS1X": 0.922,
+          "CSX2": 0.203,
+          "CS12": 0.875,
+          "KGVAR": 0.542,
+          "KGYOK": 0.457,
+          "UST15": 0.892,
+          "ALT15": 0.107,
+          "UST25": 0.731,
+          "ALT25": 0.269,
+          "UST35": 0.526,
+          "ALT35": 0.473,
+          "IY1": 0.609,
+          "IYX": 0.285,
+          "IY2": 0.106,
+          "IYU05": 0.819,
+          "IYA05": 0.181,
+          "IYU15": 0.51,
+          "IYA15": 0.49,
+          "EVU05": 0.947,
+          "EVA05": 0.052,
+          "EVU15": 0.793,
+          "EVA15": 0.207,
+          "EVU25": 0.565,
+          "EVA25": 0.434,
+          "DPU05": 0.572,
+          "DPA05": 0.427,
+          "DPU15": 0.209,
+          "DPA15": 0.79,
+          "DPU25": 0.055,
+          "DPA25": 0.945,
+          "YYU05": 0.876,
+          "YYA05": 0.124,
+          "YYU15": 0.617,
+          "YYA15": 0.382
+        },
+        "skorlar": [
+          [
+            "2-0",
+            0.0973
+          ],
+          [
+            "3-0",
+            0.0957
+          ],
+          [
+            "2-1",
+            0.0827
+          ],
+          [
+            "3-1",
+            0.0814
+          ],
+          [
+            "4-0",
+            0.0706
+          ]
+        ],
+        "guven": "yuksek",
+        "kaynak": "piyasa",
+        "istatistik_gol": null,
+        "istatistik_kaynak": null,
+        "karsilastirma": []
+      },
+      {
+        "fixture_id": 1635716,
+        "lig": "UEFA Champions League",
+        "ulke": "World",
+        "lig_id": 2,
+        "ev": "Real Madrid",
+        "dep": "RB Leipzig",
+        "baslama": "2026-10-21T21:00:00+02:00",
+        "beklenen_gol": [
+          3.1,
+          1.1
+        ],
+        "p": {
+          "MS1": 0.769,
+          "MSX": 0.13,
+          "MS2": 0.1,
+          "CS1X": 0.899,
+          "CSX2": 0.231,
+          "CS12": 0.869,
+          "KGVAR": 0.637,
+          "KGYOK": 0.363,
+          "UST15": 0.922,
+          "ALT15": 0.078,
+          "UST25": 0.789,
+          "ALT25": 0.21,
+          "UST35": 0.604,
+          "ALT35": 0.395,
+          "IY1": 0.594,
+          "IYX": 0.275,
+          "IY2": 0.131,
+          "IYU05": 0.848,
+          "IYA05": 0.151,
+          "IYU15": 0.563,
+          "IYA15": 0.436,
+          "EVU05": 0.954,
+          "EVA05": 0.045,
+          "EVU15": 0.815,
+          "EVA15": 0.185,
+          "EVU25": 0.598,
+          "EVA25": 0.401,
+          "DPU05": 0.667,
+          "DPA05": 0.333,
+          "DPU15": 0.301,
+          "DPA15": 0.699,
+          "DPU25": 0.1,
+          "DPA25": 0.9,
+          "YYU05": 0.9,
+          "YYA05": 0.099,
+          "YYU15": 0.671,
+          "YYA15": 0.329
+        },
+        "skorlar": [
+          [
+            "3-1",
+            0.0819
+          ],
+          [
+            "2-1",
+            0.0793
+          ],
+          [
+            "3-0",
+            0.0745
+          ],
+          [
+            "2-0",
+            0.0721
+          ],
+          [
+            "4-1",
+            0.0635
+          ]
+        ],
+        "guven": "yuksek",
+        "kaynak": "piyasa",
+        "istatistik_gol": null,
+        "istatistik_kaynak": null,
+        "karsilastirma": []
+      },
+      {
+        "fixture_id": 1635737,
+        "lig": "UEFA Champions League",
+        "ulke": "World",
+        "lig_id": 2,
+        "ev": "Sporting CP",
+        "dep": "Lask Linz",
+        "baslama": "2026-10-21T21:00:00+02:00",
+        "beklenen_gol": [
+          3.05,
+          0.85
+        ],
+        "p": {
+          "MS1": 0.809,
+          "MSX": 0.118,
+          "MS2": 0.072,
+          "CS1X": 0.927,
+          "CSX2": 0.191,
+          "CS12": 0.881,
+          "KGVAR": 0.545,
+          "KGYOK": 0.454,
+          "UST15": 0.9,
+          "ALT15": 0.099,
+          "UST25": 0.746,
+          "ALT25": 0.253,
+          "UST35": 0.546,
+          "ALT35": 0.453,
+          "IY1": 0.621,
+          "IYX": 0.276,
+          "IY2": 0.102,
+          "IYU05": 0.827,
+          "IYA05": 0.173,
+          "IYU15": 0.523,
+          "IYA15": 0.476,
+          "EVU05": 0.952,
+          "EVA05": 0.047,
+          "EVU15": 0.808,
+          "EVA15": 0.192,
+          "EVU25": 0.587,
+          "EVA25": 0.412,
+          "DPU05": 0.572,
+          "DPA05": 0.427,
+          "DPU15": 0.209,
+          "DPA15": 0.79,
+          "DPU25": 0.055,
+          "DPA25": 0.945,
+          "YYU05": 0.882,
+          "YYA05": 0.117,
+          "YYU15": 0.631,
+          "YYA15": 0.368
+        },
+        "skorlar": [
+          [
+            "3-0",
+            0.0957
+          ],
+          [
+            "2-0",
+            0.0942
+          ],
+          [
+            "3-1",
+            0.0814
+          ],
+          [
+            "2-1",
+            0.08
+          ],
+          [
+            "4-0",
+            0.073
+          ]
+        ],
+        "guven": "yuksek",
+        "kaynak": "piyasa",
+        "istatistik_gol": null,
+        "istatistik_kaynak": null,
+        "karsilastirma": []
+      },
+      {
+        "fixture_id": 1564378,
+        "lig": "League One",
+        "ulke": "England",
+        "lig_id": 41,
+        "ev": "Reading",
+        "dep": "Leyton Orient",
+        "baslama": "2026-10-21T21:00:00+02:00",
+        "beklenen_gol": [
+          2.0,
+          0.95
+        ],
+        "p": {
+          "MS1": 0.618,
+          "MSX": 0.21,
+          "MS2": 0.172,
+          "CS1X": 0.828,
+          "CSX2": 0.382,
+          "CS12": 0.79,
+          "KGVAR": 0.53,
+          "KGYOK": 0.47,
+          "UST15": 0.793,
+          "ALT15": 0.207,
+          "UST25": 0.565,
+          "ALT25": 0.434,
+          "UST35": 0.342,
+          "ALT35": 0.658,
+          "IY1": 0.454,
+          "IYX": 0.377,
+          "IY2": 0.168,
+          "IYU05": 0.735,
+          "IYA05": 0.265,
+          "IYU15": 0.383,
+          "IYA15": 0.617,
+          "EVU05": 0.865,
+          "EVA05": 0.135,
+          "EVU15": 0.594,
+          "EVA15": 0.406,
+          "EVU25": 0.323,
+          "EVA25": 0.677,
+          "DPU05": 0.613,
+          "DPA05": 0.387,
+          "DPU15": 0.246,
+          "DPA15": 0.754,
+          "DPU25": 0.071,
+          "DPA25": 0.929,
+          "YYU05": 0.803,
+          "YYA05": 0.197,
+          "YYU15": 0.482,
+          "YYA15": 0.518
+        },
+        "skorlar": [
+          [
+            "2-0",
+            0.1047
+          ],
+          [
+            "1-0",
+            0.1047
+          ],
+          [
+            "2-1",
+            0.0994
+          ],
+          [
+            "1-1",
+            0.0994
+          ],
+          [
+            "3-0",
+            0.0698
+          ]
+        ],
+        "guven": "yuksek",
+        "kaynak": "piyasa",
+        "istatistik_gol": [
+          1.55,
+          1.6
+        ],
+        "istatistik_kaynak": "lig",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Reading win",
+            "piyasa": 0.618,
+            "istatistik": 0.371
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Leyton Orient win",
+            "piyasa": 0.172,
+            "istatistik": 0.393
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.53,
+            "istatistik": 0.629
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.565,
+            "istatistik": 0.61
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.21,
+            "istatistik": 0.236
+          }
+        ]
       }
     ],
     "tablo": [
@@ -116037,6 +116545,7 @@
         "kaynak": "piyasa",
         "istatistik_kaynak": "lig"
       }
-    ]
+    ],
+    "etkilesim": {}
   }
 ]

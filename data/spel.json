@@ -116598,6 +116598,33 @@
               1
             ],
             "zaman": "2026-10-21T20:07:57+00:00"
+          },
+          "1635621": {
+            "durum": "paylasildi",
+            "tweet_id": "2113011843291648168",
+            "skor": [
+              3,
+              1
+            ],
+            "zaman": "2026-10-21T20:57:31+00:00"
+          },
+          "1635630": {
+            "durum": "paylasildi",
+            "tweet_id": "2113011844503752957",
+            "skor": [
+              2,
+              2
+            ],
+            "zaman": "2026-10-21T20:57:31+00:00"
+          },
+          "1635636": {
+            "durum": "paylasildi",
+            "tweet_id": "2113011845804019747",
+            "skor": [
+              1,
+              0
+            ],
+            "zaman": "2026-10-21T20:57:31+00:00"
           }
         }
       },
@@ -116678,7 +116705,22 @@
         "durum": "paylasildi",
         "tweet_id": "2112870442948051257",
         "zaman": "2026-10-21T11:35:38+00:00",
-        "metin": "🆚 Aston Villa v Viking\n\n🏆 Aston Villa 79% · Draw 13% · Viking 8%\n⚽ Over 2.5 goals 74% · Under 26%\n🥅 Both teams score 56% · Not both 44%\n🎯 Most likely score: 2-0 (9%)\n\n📈 Team stats: too few recent games\n\n💬 Chances, not picks. Your read? 👇\n#UCL\n18+ | Play responsibly"
+        "metin": "🆚 Aston Villa v Viking\n\n🏆 Aston Villa 79% · Draw 13% · Viking 8%\n⚽ Over 2.5 goals 74% · Under 26%\n🥅 Both teams score 56% · Not both 44%\n🎯 Most likely score: 2-0 (9%)\n\n📈 Team stats: too few recent games\n\n💬 Chances, not picks. Your read? 👇\n#UCL\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113011901500166285",
+          "skor": "3-1",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            2.78,
+            0.63
+          ],
+          "zaman": "2026-10-21T20:57:31+00:00"
+        }
       },
       "maclar": {
         "durum": "paylasildi",
@@ -116690,13 +116732,43 @@
         "durum": "paylasildi",
         "tweet_id": "2112888445714731356",
         "zaman": "2026-10-21T12:47:11+00:00",
-        "metin": "🆚 Bayern München v Arsenal\n\n🏆 Bayern München 47% · Draw 23% · Arsenal 30%\n⚽ Over 2.5 goals 60% · Under 40%\n🥅 Both teams score 61% · Not both 39%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n#UCL\n18+ | Play responsibly"
+        "metin": "🆚 Bayern München v Arsenal\n\n🏆 Bayern München 47% · Draw 23% · Arsenal 30%\n⚽ Over 2.5 goals 60% · Under 40%\n🥅 Both teams score 61% · Not both 39%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n#UCL\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113011950296695134",
+          "skor": "2-2",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "xg": [
+            2.55,
+            1.42
+          ],
+          "zaman": "2026-10-21T20:57:31+00:00"
+        }
       },
       "analiz_5": {
         "durum": "paylasildi",
         "tweet_id": "2112899217081377009",
         "zaman": "2026-10-21T13:29:59+00:00",
-        "metin": "🆚 Real Betis v Feyenoord\n\n🏆 Real Betis 62% · Draw 19% · Feyenoord 19%\n⚽ Over 2.5 goals 70% · Under 30%\n🥅 Both teams score 64% · Not both 36%\n🎯 Most likely score: 2-1 (9%)\n\n📈 Team stats: too few recent games\n\n💬 Chances, not picks. Your read? 👇\n#UCL\n18+ | Play responsibly"
+        "metin": "🆚 Real Betis v Feyenoord\n\n🏆 Real Betis 62% · Draw 19% · Feyenoord 19%\n⚽ Over 2.5 goals 70% · Under 30%\n🥅 Both teams score 64% · Not both 36%\n🎯 Most likely score: 2-1 (9%)\n\n📈 Team stats: too few recent games\n\n💬 Chances, not picks. Your read? 👇\n#UCL\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113011993217020144",
+          "skor": "1-0",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "xg": [
+            2.06,
+            0.81
+          ],
+          "zaman": "2026-10-21T20:57:31+00:00"
+        }
       },
       "anket": {
         "durum": "paylasildi",
@@ -116708,13 +116780,43 @@
         "durum": "paylasildi",
         "tweet_id": "2112920804946334080",
         "zaman": "2026-10-21T14:55:45+00:00",
-        "metin": "🆚 Club Brugge KV v Lens\n\n🏆 Club Brugge KV 49% · Draw 22% · Lens 29%\n⚽ Over 2.5 goals 68% · Under 32%\n🥅 Both teams score 67% · Not both 33%\n🎯 Most likely score: 1-1 (9%)\n\n📈 Team stats: too few recent games\n\n💬 Chances, not picks. Your read? 👇\n#UCL\n18+ | Play responsibly"
+        "metin": "🆚 Club Brugge KV v Lens\n\n🏆 Club Brugge KV 49% · Draw 22% · Lens 29%\n⚽ Over 2.5 goals 68% · Under 32%\n🥅 Both teams score 67% · Not both 33%\n🎯 Most likely score: 1-1 (9%)\n\n📈 Team stats: too few recent games\n\n💬 Chances, not picks. Your read? 👇\n#UCL\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113012005036589437",
+          "skor": "3-0",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "xg": [
+            2.54,
+            2.14
+          ],
+          "zaman": "2026-10-21T20:57:31+00:00"
+        }
       },
       "analiz_7": {
         "durum": "paylasildi",
         "tweet_id": "2112930010319187973",
         "zaman": "2026-10-21T15:32:20+00:00",
-        "metin": "🆚 Inter v Shakhtar Donetsk\n\n🏆 Inter 80% · Draw 12% · Shakhtar Donetsk 8%\n⚽ Over 2.5 goals 73% · Under 27%\n🥅 Both teams score 54% · Not both 46%\n🎯 Most likely score: 2-0 (10%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n#UCL\n18+ | Play responsibly"
+        "metin": "🆚 Inter v Shakhtar Donetsk\n\n🏆 Inter 80% · Draw 12% · Shakhtar Donetsk 8%\n⚽ Over 2.5 goals 73% · Under 27%\n🥅 Both teams score 54% · Not both 46%\n🎯 Most likely score: 2-0 (10%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n#UCL\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113012019691434036",
+          "skor": "1-0",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "xg": [
+            1.02,
+            0.58
+          ],
+          "zaman": "2026-10-21T20:57:31+00:00"
+        }
       },
       "tablo_aksam": {
         "durum": "paylasildi",
@@ -116794,7 +116896,22 @@
         "durum": "paylasildi",
         "tweet_id": "2112948030735614162",
         "zaman": "2026-10-21T16:43:57+00:00",
-        "metin": "🆚 Real Madrid v RB Leipzig\n\n🏆 Real Madrid 77% · Draw 13% · RB Leipzig 10%\n⚽ Over 2.5 goals 79% · Under 21%\n🥅 Both teams score 64% · Not both 36%\n🎯 Most likely score: 3-1 (8%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n#UCL\n18+ | Play responsibly"
+        "metin": "🆚 Real Madrid v RB Leipzig\n\n🏆 Real Madrid 77% · Draw 13% · RB Leipzig 10%\n⚽ Over 2.5 goals 79% · Under 21%\n🥅 Both teams score 64% · Not both 36%\n🎯 Most likely score: 3-1 (8%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n#UCL\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113012067049333069",
+          "skor": "4-1",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            2.95,
+            1.46
+          ],
+          "zaman": "2026-10-21T20:57:31+00:00"
+        }
       },
       "analiz_9": {
         "durum": "paylasildi",
@@ -116806,7 +116923,26 @@
         "durum": "paylasildi",
         "tweet_id": "2112960611252392225",
         "zaman": "2026-10-21T17:33:57+00:00",
-        "metin": "🆚 Reading v Leyton Orient\n\n🏆 Reading 62% · Draw 21% · Leyton Orient 17%\n⚽ Over 2.5 goals 56% · Under 43%\n🥅 Both teams score 53% · Not both 47%\n🎯 Most likely score: 2-0 (10%)\n\n📈 Team stats: Reading win 37%\n💹 Odds: 62%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Reading v Leyton Orient\n\n🏆 Reading 62% · Draw 21% · Leyton Orient 17%\n⚽ Over 2.5 goals 56% · Under 43%\n🥅 Both teams score 53% · Not both 47%\n🎯 Most likely score: 2-0 (10%)\n\n📈 Team stats: Reading win 37%\n💹 Odds: 62%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113012127602504162",
+          "skor": "1-0",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "xg": [
+            1.49,
+            2.85
+          ],
+          "zaman": "2026-10-21T20:57:31+00:00",
+          "brier": {
+            "piyasa": 0.8197,
+            "istatistik": 1.3735
+          }
+        }
       },
       "bilgi_aksam": {
         "durum": "paylasildi",

@@ -29501,20 +29501,40 @@
        "oran": 1.25,
        "olasilik": 0.773,
        "deger": -0.034,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "3-0",
+       "goller": [
+        [
+         45,
+         3,
+         "ev"
+        ],
+        [
+         50,
+         0,
+         "ev"
+        ],
+        [
+         72,
+         0,
+         "ev"
+        ]
+       ]
       }
      ],
      "oran": 2.02,
      "olasilik": 0.473,
      "deger": -0.045,
-     "durum": "bekliyor",
+     "durum": "yatti",
      "secim": "2026-10-21T05:38:22+00:00",
      "oto": true,
      "paylas": "2026-10-21T15:45:00+02:00",
      "tweet_id": "2112904565024501912",
      "metin": "🎩 Treble day. One leg more than I like, but here we are.\n\n⚽ Ceramica Cleopatra v Petrojet\n⚽ Como v Manchester United\n⚽ Club Brugge KV v Lens\n\n📊 Combined 2.02. I make it about 47% to land, so probably not.\n\n💬 Too cautious or about right?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-21T13:51:14+00:00"
+     "yayin": "2026-10-21T13:51:14+00:00",
+     "son_oran": 1.61,
+     "sonuc_metni": "❌ One leg short.\n\n✅ Ceramica Cleopatra 2-0 Petrojet: Double chance 1X\n✅ Como 4-1 Manchester United: Manchester United Over 0.5 goals\n❌ Club Brugge KV 3-0 Lens: Lens Over 0.5 goals\n\nRecord: 14 of 34 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2113012195961286970"
     },
     {
      "ad": "long-shot",
@@ -29531,8 +29551,35 @@
        "oran": 1.44,
        "olasilik": 0.667,
        "deger": -0.04,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "4-1",
+       "goller": [
+        [
+         43,
+         0,
+         "ev"
+        ],
+        [
+         52,
+         0,
+         "ev"
+        ],
+        [
+         83,
+         0,
+         "ev"
+        ],
+        [
+         85,
+         0,
+         "dep"
+        ],
+        [
+         87,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1645174-UST25",
@@ -29575,13 +29622,16 @@
      "oran": 3.1,
      "olasilik": 0.32,
      "deger": -0.008,
-     "durum": "bekliyor",
+     "durum": "tuttu",
      "secim": "2026-10-21T05:38:22+00:00",
      "oto": true,
      "paylas": "2026-10-21T09:00:00+02:00",
      "tweet_id": "2112802042611941573",
      "metin": "🎩 A long shot today. Loses more often than it lands, and I'd rather say so up front.\n\n⚽ Real Madrid v RB Leipzig\n⚽ Kasetsart FC v Chanthaburi\n\n📊 Combined 3.10. I make it about 32% to land.\n\n💬 Which of these two do you trust least?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-21T07:03:51+00:00"
+     "yayin": "2026-10-21T07:03:51+00:00",
+     "son_oran": 3.1,
+     "sonuc_metni": "✅ Real Madrid v RB Leipzig. 85': 3-1. RB Leipzig Over 0.5 goals in, just. Not great for the heart. In at 3.10.\n\n✅ Real Madrid 4-1 RB Leipzig: RB Leipzig Over 0.5 goals\n✅ Kasetsart FC 1-3 Chanthaburi: Over 2.5 goals\n\nRecord: 15 of 35 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2113012200033996842"
     },
     {
      "ad": "gunun-kuponu-2",
@@ -29598,8 +29648,15 @@
        "oran": 1.21,
        "olasilik": 0.81,
        "deger": -0.019,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-0",
+       "goller": [
+        [
+         59,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1639283-CS1X",
@@ -29707,8 +29764,15 @@
        "oran": 1.26,
        "olasilik": 0.768,
        "deger": -0.032,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-0",
+       "goller": [
+        [
+         77,
+         0,
+         "ev"
+        ]
+       ]
       }
      ],
      "oran": 2.0,
@@ -29721,7 +29785,9 @@
      "tweet_id": "2112812755157758253",
      "metin": "🎩 Treble today. Every leg is dull, on purpose.\n\n⚽ Yokohama F. Marinos v Tokyo Verdy\n⚽ Fagiano Okayama v Mito Hollyhock\n⚽ Inter v Shakhtar Donetsk\n\n📊 Combined 2.00. I make it about 47% to land, so probably not.\n\n💬 Too cautious or about right?\n\n18+ | Play responsibly",
      "yayin": "2026-10-21T07:46:25+00:00",
-     "son_oran": 1.27
+     "son_oran": 1.6,
+     "sonuc_metni": "❌ Yokohama F. Marinos v Tokyo Verdy. 73': 2-1. Still fine. 90+3': 2-2. Of course it was.\n\nRecord: 15 of 35 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2113012204295368971"
     },
     {
      "ad": "gunun-kuponu-4",
@@ -29792,8 +29858,30 @@
        "oran": 1.36,
        "olasilik": 0.71,
        "deger": -0.034,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "2-2",
+       "goller": [
+        [
+         25,
+         0,
+         "dep"
+        ],
+        [
+         35,
+         0,
+         "ev"
+        ],
+        [
+         61,
+         0,
+         "ev"
+        ],
+        [
+         82,
+         0,
+         "dep"
+        ]
+       ]
       }
      ],
      "oran": 2.0,
@@ -29806,7 +29894,9 @@
      "tweet_id": "2112821728946606095",
      "metin": "🎩 Three legs today. Nothing fancy.\n\n⚽ Sogndal v Raufoss\n⚽ Tokushima Vortis v Vanraure Hachinohe\n⚽ Bayern München v Arsenal\n\n📊 Combined 2.00. I make it about 46% to land, so more often than not it doesn't.\n\n💬 Which leg do you reckon lets me down?\n\n18+ | Play responsibly",
      "yayin": "2026-10-21T08:22:04+00:00",
-     "son_oran": 1.15
+     "son_oran": 1.56,
+     "sonuc_metni": "❌ Tokushima Vortis v Vanraure Hachinohe. 83': 0-0 becomes 0-1, and Double chance 1X goes with it. Football, eh.\n\nRecord: 15 of 35 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2113012209055850537"
     }
    ],
    "islenen": [],

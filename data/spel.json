@@ -116589,6 +116589,15 @@
               1
             ],
             "zaman": "2026-10-21T18:45:24+00:00"
+          },
+          "1570389": {
+            "durum": "paylasildi",
+            "tweet_id": "2112999355074724128",
+            "skor": [
+              3,
+              1
+            ],
+            "zaman": "2026-10-21T20:07:57+00:00"
           }
         }
       },
@@ -116644,7 +116653,26 @@
         "durum": "paylasildi",
         "tweet_id": "2112861397457461275",
         "zaman": "2026-10-21T10:59:41+00:00",
-        "metin": "🆚 Levante v Athletic Club\n\n🏆 Levante 29% · Draw 26% · Athletic Club 45%\n⚽ Over 2.5 goals 47% · Under 53%\n🥅 Both teams score 51% · Not both 49%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: Over 2.5 goals 74%\n💹 Odds: 47%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Levante v Athletic Club\n\n🏆 Levante 29% · Draw 26% · Athletic Club 45%\n⚽ Over 2.5 goals 47% · Under 53%\n🥅 Both teams score 51% · Not both 49%\n🎯 Most likely score: 1-1 (12%)\n\n📈 Team stats: Over 2.5 goals 74%\n💹 Odds: 47%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2112999370950091243",
+          "skor": "3-1",
+          "isabet": [
+            false,
+            false,
+            true
+          ],
+          "xg": [
+            2.05,
+            1.95
+          ],
+          "zaman": "2026-10-21T20:07:57+00:00",
+          "brier": {
+            "piyasa": 1.3015,
+            "istatistik": 0.6511
+          }
+        }
       },
       "analiz_3": {
         "durum": "paylasildi",

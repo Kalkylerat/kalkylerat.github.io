@@ -29436,8 +29436,35 @@
        "oran": 1.25,
        "olasilik": 0.775,
        "deger": -0.032,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "4-1",
+       "goller": [
+        [
+         2,
+         0,
+         "ev"
+        ],
+        [
+         49,
+         0,
+         "ev"
+        ],
+        [
+         57,
+         0,
+         "ev"
+        ],
+        [
+         76,
+         0,
+         "ev"
+        ],
+        [
+         90,
+         1,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1635645-DPU05",

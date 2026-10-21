@@ -116580,6 +116580,15 @@
               4
             ],
             "zaman": "2026-10-21T18:38:13+00:00"
+          },
+          "1635647": {
+            "durum": "paylasildi",
+            "tweet_id": "2112978581077024806",
+            "skor": [
+              4,
+              1
+            ],
+            "zaman": "2026-10-21T18:45:24+00:00"
           }
         }
       },
@@ -116593,7 +116602,22 @@
         "durum": "paylasildi",
         "tweet_id": "2112843260607742318",
         "zaman": "2026-10-21T09:47:38+00:00",
-        "metin": "🆚 Como v Manchester United\n\n🏆 Como 45% · Draw 23% · Manchester United 32%\n⚽ Over 2.5 goals 64% · Under 36%\n🥅 Both teams score 65% · Not both 35%\n🎯 Most likely score: 1-1 (10%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n#UCL\n18+ | Play responsibly"
+        "metin": "🆚 Como v Manchester United\n\n🏆 Como 45% · Draw 23% · Manchester United 32%\n⚽ Over 2.5 goals 64% · Under 36%\n🥅 Both teams score 65% · Not both 35%\n🎯 Most likely score: 1-1 (10%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n#UCL\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2112978596604367287",
+          "skor": "4-1",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            2.12,
+            1.11
+          ],
+          "zaman": "2026-10-21T18:45:24+00:00"
+        }
       },
       "analiz_1": {
         "durum": "paylasildi",

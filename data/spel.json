@@ -116625,6 +116625,33 @@
               0
             ],
             "zaman": "2026-10-21T20:57:31+00:00"
+          },
+          "1635645": {
+            "durum": "paylasildi",
+            "tweet_id": "2113013738865414616",
+            "skor": [
+              3,
+              0
+            ],
+            "zaman": "2026-10-21T21:05:04+00:00"
+          },
+          "1635672": {
+            "durum": "paylasildi",
+            "tweet_id": "2113013740161347976",
+            "skor": [
+              1,
+              0
+            ],
+            "zaman": "2026-10-21T21:05:04+00:00"
+          },
+          "1635716": {
+            "durum": "paylasildi",
+            "tweet_id": "2113013741566513475",
+            "skor": [
+              4,
+              1
+            ],
+            "zaman": "2026-10-21T21:05:04+00:00"
           }
         }
       },
@@ -116917,7 +116944,22 @@
         "durum": "paylasildi",
         "tweet_id": "2112956959007940756",
         "zaman": "2026-10-21T17:19:26+00:00",
-        "metin": "🆚 Sporting CP v Lask Linz\n\n🏆 Sporting CP 81% · Draw 12% · Lask Linz 7%\n⚽ Over 2.5 goals 75% · Under 25%\n🥅 Both teams score 55% · Not both 45%\n🎯 Most likely score: 3-0 (10%)\n\n📈 Team stats: too few recent games\n\n💬 Chances, not picks. Your read? 👇\n#UCL\n18+ | Play responsibly"
+        "metin": "🆚 Sporting CP v Lask Linz\n\n🏆 Sporting CP 81% · Draw 12% · Lask Linz 7%\n⚽ Over 2.5 goals 75% · Under 25%\n🥅 Both teams score 55% · Not both 45%\n🎯 Most likely score: 3-0 (10%)\n\n📈 Team stats: too few recent games\n\n💬 Chances, not picks. Your read? 👇\n#UCL\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113013756934357039",
+          "skor": "2-3",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "xg": [
+            3.2,
+            1.14
+          ],
+          "zaman": "2026-10-21T21:05:04+00:00"
+        }
       },
       "analiz_10": {
         "durum": "paylasildi",

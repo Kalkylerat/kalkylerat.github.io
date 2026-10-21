@@ -27967,7 +27967,8 @@
      "istatistik": 0.869,
      "uyum": true,
      "buyuk": false,
-     "no": 16
+     "no": 16,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1645183-CS12",
@@ -28363,7 +28364,8 @@
      "istatistik": 0.801,
      "uyum": true,
      "buyuk": false,
-     "no": 35
+     "no": 35,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1556109-EVA15",
@@ -30106,7 +30108,7 @@
    ],
    "oto": true,
    "issue": 112,
-   "olcum_sorgu": "2026-10-21T19:53:27+00:00"
+   "olcum_sorgu": "2026-10-21T20:50:30+00:00"
   }
  ]
 }

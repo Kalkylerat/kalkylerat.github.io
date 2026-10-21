@@ -116571,7 +116571,17 @@
           1635737,
           1564378
         ],
-        "sonuclar": {}
+        "sonuclar": {
+          "1635684": {
+            "durum": "paylasildi",
+            "tweet_id": "2112976776398004416",
+            "skor": [
+              2,
+              4
+            ],
+            "zaman": "2026-10-21T18:38:13+00:00"
+          }
+        }
       },
       "bilgi": {
         "durum": "paylasildi",
@@ -116589,7 +116599,22 @@
         "durum": "paylasildi",
         "tweet_id": "2112852797263847859",
         "zaman": "2026-10-21T10:25:31+00:00",
-        "metin": "🆚 Lille v Galatasaray\n\n🏆 Lille 45% · Draw 24% · Galatasaray 32%\n⚽ Over 2.5 goals 60% · Under 40%\n🥅 Both teams score 62% · Not both 38%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Lille 45%: too high? 👇\n#UCL\n18+ | Play responsibly"
+        "metin": "🆚 Lille v Galatasaray\n\n🏆 Lille 45% · Draw 24% · Galatasaray 32%\n⚽ Over 2.5 goals 60% · Under 40%\n🥅 Both teams score 62% · Not both 38%\n🎯 Most likely score: 1-1 (11%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Lille 45%: too high? 👇\n#UCL\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2112976826343862485",
+          "skor": "2-4",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "xg": [
+            1.76,
+            1.66
+          ],
+          "zaman": "2026-10-21T18:38:13+00:00"
+        }
       },
       "analiz_2": {
         "durum": "paylasildi",

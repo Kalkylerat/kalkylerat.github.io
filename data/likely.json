@@ -29247,7 +29247,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 3
+     "no": 3,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1636442-CS12",
@@ -29307,7 +29308,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 6
+     "no": 6,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1636215-CSX2",
@@ -29327,7 +29329,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 7
+     "no": 7,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1636475-CS12",
@@ -29509,7 +29512,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 16
+     "no": 16,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1636262-CS12",
@@ -29529,7 +29533,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 17
+     "no": 17,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1636429-CSX2",
@@ -29549,7 +29554,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 18
+     "no": 18,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1636434-CSX2",
@@ -29590,7 +29596,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 20
+     "no": 20,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1636449-CS1X",
@@ -29630,7 +29637,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 22
+     "no": 22,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1636385-CS1X",
@@ -29711,7 +29719,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 26
+     "no": 26,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1636437-CS12",
@@ -29731,7 +29740,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 27
+     "no": 27,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1636388-CS1X",
@@ -29954,7 +29964,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 38
+     "no": 38,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1636474-CS12",
@@ -30155,7 +30166,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 48
+     "no": 48,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1636454-CS1X",
@@ -30237,7 +30249,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 52
+     "no": 52,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1636424-IYU05",
@@ -30257,7 +30270,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 53
+     "no": 53,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1636385-IYU05",
@@ -30339,7 +30353,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 57
+     "no": 57,
+     "sonuc": "kazandi"
     }
    ],
    "kuponlar": [
@@ -30543,8 +30558,30 @@
        "oran": 1.14,
        "olasilik": 0.852,
        "deger": -0.029,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "0-4",
+       "goller": [
+        [
+         21,
+         0,
+         "dep"
+        ],
+        [
+         27,
+         0,
+         "dep"
+        ],
+        [
+         76,
+         0,
+         "dep"
+        ],
+        [
+         79,
+         0,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1636388-CS1X",
@@ -30730,8 +30767,20 @@
        "oran": 1.42,
        "olasilik": 0.687,
        "deger": -0.024,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-1",
+       "goller": [
+        [
+         55,
+         0,
+         "ev"
+        ],
+        [
+         89,
+         0,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1628013-CS1X",
@@ -31216,7 +31265,7 @@
    "oto": true,
    "issue": 117,
    "tazeleme": "2026-10-22T09:03:25+00:00",
-   "olcum_sorgu": "2026-10-22T17:41:49+00:00"
+   "olcum_sorgu": "2026-10-22T18:38:52+00:00"
   }
  ]
 }

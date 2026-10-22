@@ -1,100 +1,43 @@
-"""Herkese açık doğruluk paneli (İngilizce): docs/index.html (GitHub Pages)."""
+"""Herkese açık tanıtım sayfası (İngilizce): docs/index.html (GitHub Pages). Kupon ve kasa yok (analiz konsepti)."""
 
-import re
-from datetime import datetime
-from html import escape
 from pathlib import Path
-from zoneinfo import ZoneInfo
 
-from .kayit import gun_kar, kar, kupon_durumu, kupon_kar, kupon_olasilik, kuponlar, ozet
-from .tweets import kupon_oran_metni, oran_metni, para
-
-DURUM = {"kazandi": "Won", "kaybetti": "Lost", "iptal": "Void", "bekliyor": "Pending"}
-
-SABLON = """<!doctype html>
+SAYFA = """<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kalkylerat – Record</title>
+<title>Kalkylerat</title>
 <style>
-:root {{ --bg:#f5f6f8; --card:#fff; --text:#0f1b2d; --muted:#5d6878; --line:#e1e4ea; --win:#12805a; --loss:#b3261e; --pend:#8a6d00; --accent:#19c37d; }}
-@media (prefers-color-scheme: dark) {{ :root {{ --bg:#0f1b2d; --card:#16243a; --text:#eef2f7; --muted:#9aa7b8; --line:#253652; --win:#3fd394; --loss:#ff6b61; --pend:#e0b84a; }} }}
-* {{ box-sizing:border-box; }}
-body {{ margin:0; background:var(--bg); color:var(--text); font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; }}
-main {{ max-width:960px; margin:0 auto; padding:24px 16px 48px; }}
-h1 {{ font-size:26px; margin:0 0 4px; }} h1 span {{ color:var(--accent); }}
-p.alt {{ color:var(--muted); margin:0 0 20px; }}
-.tiles {{ display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px; margin-bottom:24px; }}
-.tile {{ background:var(--card); border:1px solid var(--line); border-radius:10px; padding:14px; }}
-.tile b {{ display:block; font-size:24px; font-variant-numeric:tabular-nums; }}
-.tile span {{ color:var(--muted); font-size:13px; }}
-.dag {{ background:var(--card); border:1px solid var(--line); border-radius:10px; padding:14px; margin-bottom:12px; }}
-.dag header {{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; font-weight:600; }}
-table {{ width:100%; border-collapse:collapse; margin-top:8px; font-size:14px; }}
-td {{ overflow-wrap:anywhere; padding:6px 4px; border-top:1px solid var(--line); vertical-align:top; }}
-td.num {{ text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }}
-.kazandi,.tuttu {{ color:var(--win); }} .kaybetti,.yatti {{ color:var(--loss); }} .bekliyor {{ color:var(--pend); }}
-.yorum {{ color:var(--muted); font-size:13px; }}
-footer {{ color:var(--muted); font-size:13px; margin-top:32px; }}
+:root { --bg:#f5f6f8; --card:#fff; --text:#0f1b2d; --muted:#5d6878; --line:#e1e4ea; --accent:#19c37d; }
+@media (prefers-color-scheme: dark) { :root { --bg:#0f1b2d; --card:#16243a; --text:#eef2f7; --muted:#9aa7b8; --line:#253652; } }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--text); font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; }
+main { max-width:720px; margin:0 auto; padding:32px 16px 48px; }
+h1 { font-size:28px; margin:0 0 8px; } h1 span { color:var(--accent); }
+section { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px; margin:16px 0; }
+a { color:var(--accent); }
+footer { color:var(--muted); font-size:13px; margin-top:32px; }
 </style>
 </head>
 <body><main>
-<h1>Kalkyl<span>erat</span> – record</h1>
-<p class="alt">A public, virtual {baslangic} bankroll. Every coupon (one match or a combination) risks {yuzde}% of the current bank. Every pick is posted on X before kick-off, and all results are counted and logged here automatically. Updated {guncelleme} (Swedish time).</p>
-<div class="tiles">
-<div class="tile"><b>{kasa}</b><span>Bank ({kasa_degisim}%)</span></div>
-<div class="tile"><b>{kombi_tuttu}/{kombi}</b><span>Coupons won</span></div>
-<div class="tile"><b>{traff}%</b><span>Picks won ({vunna}–{forlorade})</span></div>
-<div class="tile"><b>{snittodds}</b><span>Average odds</span></div>
-<div class="tile"><b>{vantande}</b><span>Pending</span></div>
-</div>
-{gunler}
-<footer>18+ | For information only, not an invitation to gamble. Gambling can be addictive – never bet money you cannot afford to lose. Sweden: Stödlinjen 020-81 91 00. Chances are fair probabilities from a sharp betting market with the bookmaker margin removed. Odds are the best price available at a major bookmaker at posting time. High-chance picks win at least 65% of the time by the market's estimate and are priced close to their fair chance (within a normal bookmaker margin); value picks pay more than their chance suggests and are what grows the bank over time. Bet builder odds (≈) are estimated from the goal model because bookmakers price them individually. Odds are taken at posting time and may have changed.</footer>
+<h1>Kalkyl<span>erat</span></h1>
+<p>Football match probabilities, every day, on <a href="https://x.com/kalkylerat">X (@kalkylerat)</a>.</p>
+<section>
+<p>Each match card shows the market's chance for every outcome (bookmaker margin removed) next to the teams' own
+stats from the same competition. These are probabilities, not picks.</p>
+<p>After the final whistle we post what happened and the chance it had before kick-off. Every Monday a report card
+compares last week's chances with what actually happened, misses included.</p>
+</section>
+<footer>18+ | For information only, not an invitation to gamble. Gambling can be addictive. Sweden: Stödlinjen
+020-81 91 00.</footer>
 </main></body></html>
 """
 
 
-def _gun_html(g: dict) -> str:
-    birim = g.get("para", "€")
-    tur = {"guvenli": "high-chance", "deger": "value"}
-    satirlar = "".join(
-        f'<tr><td>{escape(s["ev"])} v {escape(s["dep"])}<div class="yorum">{escape(s["yorum"])}</div></td>'
-        f'<td>{escape(s["kisa"])}<div class="yorum">{100 * s["adil_olasilik"]:.0f}% chance · {"bet builder · " if s.get("bet_builder") else ""}{tur[s["tur"]]}'
-        f'{" · single stake " + para(s["stake"], birim) if s.get("stake") else ""}</div></td>'
-        f'<td class="num">{oran_metni(s)}</td><td class="num">{escape((s.get("skor") or "").replace("-", "–"))}</td>'
-        f'<td class="num {s["durum"]}">{DURUM[s["durum"]]}<br>{para(kar(s), birim) if s.get("stake") and s["durum"] in ("kazandi", "kaybetti") else ""}</td></tr>'
-        for s in g["secimler"]
-    )
-    kombi = ""
-    for n, k in enumerate(kuponlar(g), 1):
-        durum = kupon_durumu(g, k)
-        etiket = {"tuttu": "won", "yatti": "lost", "iptal": "void", None: "pending"}[durum]
-        sonuc = f' {para(kupon_kar(g, k), birim)}' if durum in ("tuttu", "yatti") else ""
-        numaralar = "+".join(str(i + 1) for i in k["ayaklar"])
-        kombi += (f'<tr><td colspan="5" class="{durum or "bekliyor"}">Coupon {n} (picks {numaralar}) · odds {kupon_oran_metni(g, k)} · '
-                  f'chance {100 * kupon_olasilik(g, k):.0f}% · stake {para(k["stake"], birim)} · {etiket}{sonuc}</td></tr>')
-    kar_g = gun_kar(g)
-    gunluk = f"{'+' if kar_g >= 0 else ''}{para(kar_g, birim)}" if g["sonuc"] else "In play"
-    return (f'<section class="dag"><header><span>{escape(g["tarih"])}</span><span>{gunluk}</span></header>'
-            f'<table>{satirlar}{kombi}</table></section>')
-
-
 def olustur(gunler: list[dict], path: Path, ayar) -> None:
-    yayinlanan = sorted((g for g in gunler if g.get("tweet_id")), key=lambda g: g["tarih"], reverse=True)
-    o = ozet(gunler, ayar.kasa_baslangic)
+    """Sayfa sabittir; içerik değişmediyse dosyaya dokunulmaz (her nabızda boş commit ve Pages derlemesi olmasın)."""
     path.parent.mkdir(parents=True, exist_ok=True)
-    yeni = SABLON.format(
-        guncelleme=datetime.now(ZoneInfo(ayar.saat_dilimi)).strftime("%Y-%m-%d %H:%M"),
-        baslangic=para(ayar.kasa_baslangic, ayar.para_birimi), yuzde=f"{ayar.oyun_yuzdesi:g}",
-        gunler="".join(_gun_html(g) for g in yayinlanan) or "<p>No published picks yet.</p>",
-        kasa=para(o["kasa"], ayar.para_birimi), kasa_degisim=f'{o["kasa_degisim"]:+.1f}',
-        vunna=o["vunna"], forlorade=o["forlorade"], traff=f'{o["traff"]:.0f}',
-        kombi=o["kombi"], kombi_tuttu=o["kombi_tuttu"],
-        snittodds=f'{o["snittodds"]:.2f}', vantande=o["vantande"],
-    )
-    # Veri değişmediyse dosyaya dokunulmaz (her 15 dakikada boş commit ve Pages derlemesi olmasın).
-    zamansiz = lambda metin: re.sub(r"Updated [^(]*\(Swedish time\)", "", metin)
-    if path.exists() and zamansiz(path.read_text(encoding="utf-8")) == zamansiz(yeni):
+    if path.exists() and path.read_text(encoding="utf-8") == SAYFA:
         return
-    path.write_text(yeni, encoding="utf-8")
+    path.write_text(SAYFA, encoding="utf-8")

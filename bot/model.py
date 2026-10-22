@@ -1,10 +1,10 @@
 """Olasılık motoru: keskin piyasanın (Pinnacle) marjı arındırılmış adil olasılığı, büyük bahisçilerdeki en iyi oran
-(listedeki bahisçilerin medyan oranı) ve Poisson gol modeli. Adaylar iki türdür: "guvenli" (yüksek ihtimal) ve "deger" (oran gerçek ihtimalden yüksek)."""
+(listedeki bahisçilerin medyan oranı) ve Poisson gol modeli. Kalkylerat analizi ve Mr. Likely'nin aday havuzu kullanır;
+adaylar iki türdür: "guvenli" (yüksek ihtimal) ve "deger" (oran gerçek ihtimalden yüksek)."""
 
 import math
 import statistics
 
-MAX_GOL = 10
 IY_ORANI = 0.45  # maçtaki gollerin yaklaşık %45'i ilk yarıda atılır
 
 UC_YOLLU = (("MS1", "MSX", "MS2"), ("IY1", "IYX", "IY2"))
@@ -85,18 +85,6 @@ def veri_yeterli(ist: dict) -> bool:
     return lig or son5
 
 
-def beklenen_goller(ist: dict) -> tuple[float, float]:
-    ev, dep = ist["ev"], ist["dep"]
-    if ev["oynanan_ic"] >= 3 and dep["oynanan_dis"] >= 3:
-        lam_ev = (ev["atilan_ic_ort"] + dep["yenilen_dis_ort"]) / 2
-        lam_dep = (dep["atilan_dis_ort"] + ev["yenilen_ic_ort"]) / 2
-    else:
-        lam_ev = (ev["son5_atilan_ort"] + dep["son5_yenilen_ort"]) / 2
-        lam_dep = (dep["son5_atilan_ort"] + ev["son5_yenilen_ort"]) / 2
-    kirp = lambda x: min(max(x, 0.2), 4.0)
-    return kirp(lam_ev), kirp(lam_dep)
-
-
 def en_olasi_skor(lam_ev: float, lam_dep: float) -> tuple[str, float]:
     i, j = max(((i, j) for i in range(6) for j in range(6)),
                key=lambda s: _poisson(s[0], lam_ev) * _poisson(s[1], lam_dep))
@@ -122,27 +110,6 @@ def model_olasiliklari(lam_ev: float, lam_dep: float) -> dict[str, float]:
             if kazandi_mi(pazar, ev, dep, iy=iy):
                 p[pazar] += olas
     return p
-
-
-def ortak_olasilik(pazarlar: list[str], lam_ev: float, lam_dep: float) -> float:
-    """Aynı maçtaki gol/ilk yarı pazarlarının birlikte gerçekleşme olasılığı (korner hariç)."""
-    return sum(olas for iy, (ev, dep), olas in _skor_dagilimi(lam_ev, lam_dep)
-               if all(kazandi_mi(pz, ev, dep, iy=iy) for pz in pazarlar))
-
-
-def bet_builder(bacaklar: list[dict]) -> tuple[float, float]:
-    """Aynı maçtaki seçimler için (tahmini oran, tahmini adil olasılık).
-    Piyasa olasılıkları çarpılır, gol modelinin gösterdiği ilişki (korelasyon) oranıyla düzeltilir."""
-    gol = [b for b in bacaklar if not b["pazar"].startswith("KOR")]
-    carpan = 1.0
-    if len(gol) >= 2:
-        lam_ev, lam_dep = gol[0]["beklenen_gol"]
-        tekil = math.prod(model_olasiliklari(lam_ev, lam_dep)[b["pazar"]] for b in gol)
-        if tekil > 0:
-            carpan = min(max(ortak_olasilik([b["pazar"] for b in gol], lam_ev, lam_dep) / tekil, 0.5), 2.0)
-    olasilik = min(math.prod(b["adil_olasilik"] for b in bacaklar) * carpan, 0.99)
-    oran = math.prod(b["oran"] for b in bacaklar) / carpan
-    return round(oran, 2), round(olasilik, 3)
 
 
 def piyasa_olasiliklari(oranlar: dict[str, float]) -> dict[str, float]:
@@ -242,43 +209,3 @@ def _piyasa_adaylari(bahisciler: dict[str, dict[str, float]], ayar, guvenilir_li
             yield pazar, oran, bolag, bahisci_oranlari, p, deger, tur, kaynak[pazar]
 
 
-def on_eleme_puani(bahisciler: dict[str, dict[str, float]], ayar, guvenilir_lig: bool) -> float | None:
-    """Toplu taramada detaylı incelemeye (istatistik isteği) değer maçları sıralamak için puan; aday yoksa None."""
-    puanlar = [p + 2 * deger for _, _, _, _, p, deger, _, _ in _piyasa_adaylari(bahisciler, ayar, guvenilir_lig)]
-    return max(puanlar) if puanlar else None
-
-
-def adaylari_uret(mac: dict, bahisciler: dict[str, dict[str, float]], ist: dict, ayar,
-                  guvenilir_lig: bool = True) -> list[dict]:
-    if not veri_yeterli(ist):
-        return []
-    lam_ev, lam_dep = beklenen_goller(ist)
-    model = model_olasiliklari(lam_ev, lam_dep)
-    skor, skor_p = en_olasi_skor(lam_ev, lam_dep)
-    adaylar = []
-    for pazar, oran, bolag, bahisci_oranlari, p, deger, tur, adil_kaynak in _piyasa_adaylari(bahisciler, ayar, guvenilir_lig):
-        if pazar in model and model[pazar] < p - ayar.model_tolerans:
-            continue
-        uzun, kisa = etiketler(pazar, mac["ev"], mac["dep"])
-        adaylar.append({
-            "aday_id": f'{mac["fixture_id"]}-{pazar}',
-            "fixture_id": mac["fixture_id"],
-            "pazar": pazar,
-            "tur": tur,
-            "etiket": uzun,
-            "kisa": kisa,
-            "oran": oran,
-            "bolag": bolag,
-            "oranlar": bahisci_oranlari,
-            "adil_olasilik": round(p, 3),
-            "adil_oran": round(1 / p, 2),
-            "adil_kaynak": adil_kaynak,
-            "model_olasilik": round(model[pazar], 3) if pazar in model else None,
-            "deger": round(deger, 3),
-            "beklenen_gol": [round(lam_ev, 2), round(lam_dep, 2)],
-            "olasi_skor": skor,
-            "olasi_skor_olasilik": round(skor_p, 3),
-        })
-    adaylar.sort(key=lambda a: (a["tur"] == "deger", a["deger"] if a["tur"] == "deger" else a["adil_olasilik"]),
-                 reverse=True)
-    return adaylar[:4]

@@ -53,8 +53,8 @@ zamanlama `.github/workflows/kalkylerat.yml`.
 
 ## Ölçülen durum (3 Ekim 2026, `metrik` komutu → data/metrikler.json)
 - 37 post, post başına ~5,6 görüntülenme, 1 takipçi, 0 takip edilen, 0 beğeni. Yayın tek başına görünürlük getirmiyor.
-- Kaldıraçlar: (1) sahibinin elle, büyük hesapların maç postlarına ilk 30–60 dakikada yanıtları (bot her sabah
-  "yanıt kiti" issue'su hazırlar: kit.py); (2) X Toplulukları ([topluluk] id, API community_id); (3) hesabın insan
+- Kaldıraçlar: (1) sahibinin elle, büyük hesapların maç postlarına ilk 30–60 dakikada yanıtları (bot "yorum
+  fırsatları" hazırlar: firsat.py, madde 5; kapalıyken eski "yanıt kiti", kit.py); (2) X Toplulukları ([topluluk] id, API community_id); (3) hesabın insan
   gibi davranması: ilgili 50–100 hesabı takip, beğeni, sohbet (otomatikleştirilemez, X kuralı).
 - Otomatik takip/beğeni/yanıt yapan araçlar (XActions, Cloudflare atlatan kazıyıcılar) X kurallarına aykırı:
   hesabı kapatır. Kullanılmaz.
@@ -75,8 +75,8 @@ zamanlama `.github/workflows/kalkylerat.yml`.
 6. **Kilometre taşları** (1. ay, 1.000 analiz) ayrı tweet ve sabit tweet güncellemesi.
 7. **Soru posta uygun olmalı**: tek maçlık postta çoğul ya da karşılaştırma sorusu sorulmaz; soru o maçın adıyla
    sorulur ("How did you read Wales v Norway?").
-8. **Günlük bilgi postu** (`bot/bilgi.py`, 20 konu sırayla): oran = olasılık, marj, değer, kombine, kayıp serileri,
-   %1 kasa, Kelly, Asya handikapı, Poisson, xG, örneklem, kapanış oranı… Sayıların hepsi tanım gereği doğru ya da
+8. **Günlük bilgi postu** (`bot/bilgi.py`, 20 konu sırayla): oran = olasılık, marj, oran hareketi, kombine, seriler,
+   en olası gol sayısı, 0-0, kalesini gole kapatma, Poisson, en olası skor, xG, örneklem, kapanış oranı… Sayıların hepsi tanım gereği doğru ya da
    kodda hesaplanmış; istatistik iddiası yok. Direktör doğal dille yazar ama olgularda olmayan sayı kullanamaz (kod
    denetler). Sonunda gerçek bir soru. Robot gibi değil: her gün farklı açılış, kalıp cümle yok.
 9. **Hashtag:** taraftarların zaten kullandığı etiketler (`tweets.MILLI_ETIKETLER`: #BizimÇocuklar, #ThreeLions,

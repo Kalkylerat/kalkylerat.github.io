@@ -241,36 +241,6 @@ def ek_pazarlari_ekle(api: OddsApi, maclar: list[dict], oranlar: dict, ayar, yaz
     yaz(f"Ek pazarlar (çifte şans, gol çizgileri, karşılıklı gol): {eklenen} maç.")
 
 
-def adaylar(m: dict, bahisciler: dict, ayar) -> list[dict]:
-    """İstatistiksiz aday üretimi: değer kuralları aynı; beklenen goller piyasadan çıkarılır. Bu kaynakta
-    Bet365 yok, o yüzden "zorunlu bahisçi" yerine listeden en az min_oran_bahiscisi site aranır."""
-    from dataclasses import replace
-    ayar = replace(ayar, zorunlu_bahisciler=[])
-    guvenilir = m["lig_id"] in ayar.ligler
-    piyasa = list(model._piyasa_adaylari(bahisciler, ayar, guvenilir))
-    adil, _ = model.adil_olasiliklar(bahisciler, ayar.keskin_bahisci)
-    goller = ima_edilen_goller(adil) if piyasa else None
-    if goller is None:
-        return []
-    lam_ev, lam_dep = goller
-    olas = model.model_olasiliklari(lam_ev, lam_dep)
-    skor, skor_p = model.en_olasi_skor(lam_ev, lam_dep)
-    sonuc = []
-    for pazar, oran, bolag, bahisci_oranlari, p, deger, tur, kaynak in piyasa:
-        uzun, kisa = model.etiketler(pazar, m["ev"], m["dep"])
-        sonuc.append({
-            "aday_id": f'{m["fixture_id"]}-{pazar}', "fixture_id": m["fixture_id"], "pazar": pazar, "tur": tur,
-            "etiket": uzun, "kisa": kisa, "oran": oran, "bolag": bolag, "oranlar": bahisci_oranlari,
-            "adil_olasilik": round(p, 3), "adil_oran": round(1 / p, 2), "adil_kaynak": kaynak,
-            "model_olasilik": round(olas[pazar], 3) if pazar in olas else None, "deger": round(deger, 3),
-            "beklenen_gol": [round(lam_ev, 2), round(lam_dep, 2)],
-            "olasi_skor": skor, "olasi_skor_olasilik": round(skor_p, 3),
-        })
-    sonuc.sort(key=lambda a: (a["tur"] == "deger", a["deger"] if a["tur"] == "deger" else a["adil_olasilik"]),
-               reverse=True)
-    return sonuc[:4]
-
-
 def sonuclari_al(api: OddsApi, istekler: dict[str, list[str]]) -> dict[int, dict]:
     """spor -> [odds_id]; fixture_id -> {"durum", "skor", "iy", "korner"} (football.sonuclari_al ile aynı yapı).
     İlk yarı skoru ve korner bu kaynakta yok (bu kaynaktan o pazarlar zaten seçilmez)."""

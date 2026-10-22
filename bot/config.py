@@ -6,32 +6,19 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 DATA_FILE = ROOT / "data" / "spel.json"
 PANEL_FILE = ROOT / "docs" / "index.html"
-HAFTA_FILE = ROOT / "data" / "haftalik.json"
 
 
 @dataclass(frozen=True)
 class Ayarlar:
     saat_dilimi: str
     ligler: list[int]
-    max_mac_tarama: int
     tum_ligler: bool
     max_oran_sayfasi: int
-    max_detay_mac: int
     istek_araligi_sn: float
-    max_oyun: int
-    max_oyun_mac_basina: int
-    max_kupon: int
-    guvenli_min_olasilik: float
-    guvenli_min_deger: float
     deger_min_olasilik: float
     deger_min_deger: float
-    oran_min: float
-    oran_max: float
     model_tolerans: float
     min_dakika_once: int
-    kasa_baslangic: float
-    oyun_yuzdesi: float
-    para_birimi: str
     keskin_bahisci: str
     oran_bahiscileri: list[str]
     oran_yontemi: str
@@ -39,17 +26,11 @@ class Ayarlar:
     zorunlu_bahisciler: list[str]
     keskinsiz_ek_marj: float
     claude_model: str
-    claude_effort: str
-    otomatik_paylas: bool
-    onay_bekle: bool
-    onay_suresi_dk: int
     direktor_aktif: bool = True
     direktor_model: str = "claude-sonnet-5-5"
     direktor_effort: str = "medium"
     direktor_strateji_model: str = "claude-fable-5-1"
     direktor_strateji_effort: str = "high"
-    # "kupon": eski düzen (kupon + sanal kasa). "analiz": kupon yok; günlük maç analizi kartları.
-    konsept: str = "kupon"
     # Yoğun gün (ör. maç dolu Cumartesi): postlar arası daha kısa, öne çıkan kart sayısı akşam maçlarıyla genişler.
     yogun_gunler: tuple = ()
     yogun_aralik_dk: int = 15
@@ -58,12 +39,17 @@ class Ayarlar:
     yogun_hafta_sonu: bool = False  # Cumartesi ve Pazar her zaman yoğun gün
     alarm_kime: str = ""
     topluluk_id: str = ""
+    # Aday havuzu eşikleri (model._piyasa_adaylari): Mr. Likely kendi değerleriyle ezer (likely.havuz).
+    guvenli_min_olasilik: float = 0.65
+    guvenli_min_deger: float = -0.04
+    oran_min: float = 1.20
+    oran_max: float = 2.60
     gunluk_post_siniri: int = 24  # etkileşim postları (maç sonu yanıtları hariç) günde en fazla  # X Topluluğu kimliği: tablo, kıyas ve kart postları oraya da gider (hesap üye olmalı)  # sorun olunca GitHub issue'sunda etiketlenecek kullanıcı (bildirim gider)
 
 
-# Tek çalışmalık istisna (elle çalıştırmada "ek" alanı): ör. "guvenli_min_deger=-0.03 api_yedek=8".
+# Tek çalışmalık istisna (elle çalıştırmada "ek" alanı): ör. "deger_min_deger=0.02".
 # Yalnızca bu sayısal ayarlar değiştirilebilir; ayarlar.toml'a dokunulmaz, sonraki çalışma normal kurallarla döner.
-ISTISNA_ALANLARI = {"guvenli_min_deger", "deger_min_deger", "keskinsiz_ek_marj", "model_tolerans", "api_yedek"}
+ISTISNA_ALANLARI = {"deger_min_deger", "keskinsiz_ek_marj", "model_tolerans"}
 
 
 def istisnalar() -> dict[str, float]:
@@ -77,7 +63,7 @@ def istisnalar() -> dict[str, float]:
 
 def yukle(path: Path = ROOT / "ayarlar.toml") -> Ayarlar:
     ayar = _yukle(path)
-    ek = {k: v for k, v in istisnalar().items() if k != "api_yedek"}
+    ek = istisnalar()
     if ek:
         from dataclasses import replace
         print(f"Tek çalışmalık istisna: {ek}")
@@ -88,29 +74,17 @@ def yukle(path: Path = ROOT / "ayarlar.toml") -> Ayarlar:
 def _yukle(path: Path) -> Ayarlar:
     with open(path, "rb") as f:
         t = tomllib.load(f)
-    s, kasa = t["strateji"], t["kasa"]
+    s = t["strateji"]
     return Ayarlar(
         saat_dilimi=t["genel"]["saat_dilimi"],
         ligler=list(t["ligler"]["izinli"]),
-        max_mac_tarama=int(t["ligler"]["max_mac_tarama"]),
         tum_ligler=bool(t["ligler"]["tum_ligler"]),
         max_oran_sayfasi=int(t["ligler"]["max_oran_sayfasi"]),
-        max_detay_mac=int(t["ligler"]["max_detay_mac"]),
         istek_araligi_sn=float(t["ligler"]["istek_araligi_sn"]),
-        max_oyun=int(s["max_oyun"]),
-        max_oyun_mac_basina=int(s["max_oyun_mac_basina"]),
-        max_kupon=int(s["max_kupon"]),
-        guvenli_min_olasilik=float(s["guvenli_min_olasilik"]),
-        guvenli_min_deger=float(s["guvenli_min_deger"]),
         deger_min_olasilik=float(s["deger_min_olasilik"]),
         deger_min_deger=float(s["deger_min_deger"]),
-        oran_min=float(s["oran_min"]),
-        oran_max=float(s["oran_max"]),
         model_tolerans=float(s["model_tolerans"]),
         min_dakika_once=int(s["min_dakika_once"]),
-        kasa_baslangic=float(kasa["baslangic"]),
-        oyun_yuzdesi=float(kasa["oyun_yuzdesi"]),
-        para_birimi=kasa["para_birimi"],
         keskin_bahisci=t["bahisciler"]["keskin"],
         oran_bahiscileri=list(t["bahisciler"]["oran_bahiscileri"]),
         oran_yontemi=t["bahisciler"].get("oran_yontemi", "medyan"),
@@ -118,11 +92,6 @@ def _yukle(path: Path) -> Ayarlar:
         zorunlu_bahisciler=list(t["bahisciler"]["zorunlu_bahisciler"]),
         keskinsiz_ek_marj=float(t["bahisciler"]["keskinsiz_ek_marj"]),
         claude_model=t["claude"]["model"],
-        claude_effort=t["claude"]["effort"],
-        otomatik_paylas=bool(t["yayin"]["otomatik_paylas"]),
-        onay_bekle=bool(t["yayin"]["onay_bekle"]),
-        onay_suresi_dk=int(t["yayin"]["onay_suresi_dk"]),
-        konsept=t.get("konsept", {}).get("mod", "kupon"),
         yogun_gunler=tuple(str(g) for g in t.get("yogun", {}).get("gunler", [])),
         yogun_aralik_dk=int(t.get("yogun", {}).get("aralik_dk", 15)),
         yogun_kart=int(t.get("yogun", {}).get("kart", 20)),

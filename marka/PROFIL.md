@@ -20,33 +20,22 @@ Data-driven football analysis: probabilities for every market and the most likel
 
 ## Sabitlenmiş tweet (elle atıp profilde sabitleyin)
 
-**1. tweet (sabitlenecek):**
+Eski "€10,000 challenge" sabit tweeti kupon döneminden kaldı (1 Ekim 2026'ya kadar); profilde hâlâ duruyorsa bununla
+değiştirin:
 
 ```
-Day 1 of the €10,000 challenge 📊
+Every match, analysed every day 📊
 
-A public, virtual €10,000 bank run on data:
-• Each coupon = 1% of the current bank
-• High-chance picks + value picks
-• Posted before kick-off, all results counted
+• Chances for every market and the most likely scores
+• The odds and the team stats side by side
+• Checked at full time, misses included
+• Every Monday: how close the numbers came
 
-Live record: https://kalkylerat.github.io/
-How it works 👇
-18+ | Play responsibly
+Probabilities, not picks. Not betting advice.
+18+
 ```
 
-**2. tweet (1. tweete yanıt olarak):**
-
-```
-How it works:
-
-• Start: €10,000 (virtual money)
-• Stake = 1% of the bank at that moment. Win and stakes grow, lose and they shrink, so one bad day can't sink the bank
-• Chances: sharp market, margin removed, checked by our goal model
-• Odds: median of big bookmakers
-```
-
-270/280 ve 271/280 karakter (X her linki 23 karakter sayar). Elle attığınız için link ücreti yoktur.
+270/280 karakter (`tweets.uzunluk`).
 
 ## Zorunlu ayar
 
@@ -55,6 +44,6 @@ Ayarlar → Hesabınız → Hesap bilgileri → **Otomasyon** → "Managing acco
 ## Gizlilik notu
 
 İsminiz hiçbir yerde görünmemeli:
-- Panel `kalkylerat` adlı bir GitHub organizasyonunda durur (kurulum README'de), üyeliğiniz gizli olarak ayarlanır.
+- Panel ve bot `Kalkylerat` adlı bir GitHub organizasyonunda durur, üyeliğiniz gizli olarak ayarlanır.
 - Görsellerden gizli bilgiler (meta veri) temizlendi.
 - X otomasyon etiketi "Automated by @..." yönetici hesabın kullanıcı adını gösterir. Kişisel hesabınız görünmesin istiyorsanız yönetici olarak isminizi içermeyen ikinci bir hesap kullanın.

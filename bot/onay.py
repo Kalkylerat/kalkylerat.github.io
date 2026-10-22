@@ -1,24 +1,14 @@
-"""Paylaşım öncesi onay: kupon hazırlanınca GitHub'da önizlemeli bir "issue" açılır.
-Sahibi "ok" yazarsa hemen, "iptal" yazarsa hiç paylaşılmaz; cevap gelmezse son saatte otomatik paylaşılır."""
+"""GitHub issue yardımcıları (sahibine bildirim, rapor ve taslak issue'ları) ve sahibinin "ok" / "iptal" cevabını okuma.
+Kalkylerat'ın eski kupon onay akışı (önizleme, otomatik paylaşım) 22 Ekim 2026'da kaldırıldı."""
 
 import os
-from datetime import datetime, timedelta
-from zoneinfo import ZoneInfo
 
 import requests
 
-from . import config, gorsel, kayit, tweets
-
-ONIZLEME_KLASORU = config.ROOT / "docs" / "onizleme"
-ISTEK_DOSYASI = config.ROOT / "onay_istegi.md"  # iş akışı bu dosya varsa issue açar
-AYRAC = "<<<SONRAKI_ISTEK>>>\n"  # dosyada birden fazla istek varsa aralarında
-ETIKET = "onay"
 ESKIYI_KAPAT = ("alarm", "yanit-kiti", "rapor", "mr-likely", "yorum-kiti", "yorum-kiti-likely", "yorum-firsatlari", "yorum-firsatlari-likely", "yorum-kiti-flood", "yorum-kiti-flood-ig", "flood-rapor", "flood-tani")  # yenisi açılınca eskisi kapanan günlük/haftalık issue'lar
 OK = {"ok", "okay", "onay", "onayla", "onaylıyorum", "evet", "tamam", "paylas", "paylaş", "yes"}
-# "iptal" = "bir hata var, dur": kupon bekletilir (paylaşılmaz), sahibi hatayı Claude'a söyler, düzeltilince
-# yeni önizleme gelir. Düzeltme gelmezse o gün paylaşım olmaz.
+# "iptal" her zaman önceliklidir: yanlışlıkla paylaşmaktansa paylaşmamak.
 IPTAL = {"iptal", "hayir", "hayır", "cancel", "dur", "durdur", "bekle"}
-YETKILI = {"OWNER", "MEMBER", "COLLABORATOR"}
 
 
 def karar(metin: str) -> str | None:
@@ -32,82 +22,6 @@ def karar(metin: str) -> str | None:
     return None
 
 
-def _ham_url(yol: str) -> str:
-    repo = os.environ.get("GITHUB_REPOSITORY", "Kalkylerat/kalkylerat.github.io")
-    dal = os.environ.get("GITHUB_REF_NAME", "claude/twitter-football-predictions-ywwfxw")
-    return f"https://raw.githubusercontent.com/{repo}/{dal}/{yol}"
-
-
-def istek_hazirla(gun: dict, gunler: list[dict], ayar, simdi: datetime, test: bool = False) -> str:
-    """Önizleme görsellerini kaydeder ve issue metnini ISTEK_DOSYASI'na yazar. Başlığı döndürür."""
-    ozet = kayit.ozet(gunler, ayar.kasa_baslangic)
-    liste = kayit.kuponlar(gun)
-    ONIZLEME_KLASORU.mkdir(parents=True, exist_ok=True)
-    resimler, pngler = [], []
-    for sira, kupon in enumerate(liste, 1):
-        surum = gun.get("onay", {}).get("surum", 1)
-        ad = f'{gun["id"]}-{sira}-v{surum}.png'  # her önizleme yeni dosya: GitHub eski resmi önbellekten göstermesin
-        pngler.append(gorsel.kupon_gorseli(gun, kupon, ozet["kasa"], sira, len(liste)))
-        (ONIZLEME_KLASORU / ad).write_bytes(pngler[-1])
-        resimler.append(_ham_url(f"docs/onizleme/{ad}"))
-    ana, *yanitlar = tweets.gun_floodu(gun, ozet, gorselli=True)
-    # Denetçi: paylaşılacak postun kendisi. Kod denetimi engelleyicidir; görsel denetimi (yapay zekâ) uyarıdır.
-    engel, uyari = [], []
-    if not test:
-        from . import denetci
-        engel = denetci.yayin_kontrolu(gun, [ana, *yanitlar], gunler, ayar, simdi, pngler)
-        if ayar.direktor_aktif and os.environ.get("ANTHROPIC_API_KEY"):
-            try:
-                uyari = denetci.gorsel_denetimi(gun, pngler, ayar)
-            except Exception as e:
-                uyari = [f"Görsel denetimi yapılamadı: {e}"]
-        gun["onay"]["denetim"] = {"engel": engel, "uyari": uyari}
-        if engel:
-            gun["onay"]["durum"] = "durduruldu"
-    # Paylaşım, önizlemede gösterilenin birebir aynısı olsun: metinler ve görseldeki kasa burada sabitlenir.
-    if not test:
-        gun["onay"]["metinler"] = [ana, *yanitlar]
-        gun["onay"]["kasa"] = ozet["kasa"]
-    son = datetime.fromisoformat(gun["onay"]["son"]).astimezone(ZoneInfo(ayar.saat_dilimi))
-    baslik = f'{"TEST – " if test else ""}Onay: {gun["id"]} kuponu'
-    parcalar = [
-        f"**{'TEST: hiçbir şey paylaşılmayacak. ' if test else ''}Cevap olarak yazın:**",
-        "- `ok` → hemen X'te paylaşılır",
-        "- `iptal` → paylaşım **durur** (hata var demek). Hatayı Claude'a yazın; düzeltilince yeni önizleme gelir.",
-        f"- Cevap yoksa **{son:%H:%M}** (İsveç saati) otomatik paylaşılır." if not test else "- Test: cevap gelmezse bir şey olmaz.",
-        *([f"## ⛔ Denetçi durdurdu: bu kupon otomatik paylaşılmayacak", *[f"- {h}" for h in engel],
-            "Yine de paylaşmak istersen `ok` yaz."] if engel else []),
-        *([f"## ⚠️ Görsel denetimi uyarıları", *[f"- {u}" for u in uyari]] if uyari else []),
-        "", "---", "### Tweet 1 (ana tweet)", "```", ana, "```",
-        *[f"![Kupon {i}]({u})" for i, u in enumerate(resimler, 1)],
-    ]
-    for i, metin in enumerate(yanitlar, 2):
-        parcalar += [f"### Tweet {i} (yanıt)", "```", metin, "```"]
-    if gun.get("yanit_onerileri"):
-        parcalar += ["", "---", "## 💬 Elle yazabileceğin yanıtlar",
-                     "Arama linkinden o maçın tweetlerini aç, büyük hesapların tweetlerine @kalkylerat'tan yapıştır:"]
-        for o in gun["yanit_onerileri"]:
-            parcalar += [f"**{o['mac']}** · [X'te ara]({o['arama']})", "```", o["metin"], "```"]
-    metin = f"{baslik}\n" + "\n".join(parcalar) + "\n"
-    # Aynı çalışmada birden fazla kupon onaya gelebilir: iş akışı her parçayı ayrı issue olarak açar.
-    onceki = ISTEK_DOSYASI.read_text(encoding="utf-8") if ISTEK_DOSYASI.exists() else ""
-    ISTEK_DOSYASI.write_text(onceki + AYRAC + metin if onceki.strip() else metin, encoding="utf-8")
-    return baslik
-
-
-def onay_iste(gun: dict, gunler: list[dict], ayar, simdi: datetime, gecikme_dk: int = 0) -> None:
-    """İlk önizleme ya da düzeltmeden sonra yeni önizleme (sürüm artar, süre yeniden başlar).
-    gecikme_dk: aynı gün birden fazla kupon varsa cevapsız kalanlar arayla paylaşılsın."""
-    ilk = min(datetime.fromisoformat(s["baslama"]) for s in gun["secimler"])
-    # En geç ilk maçtan 2 saat önce paylaşılsın; sahibe en fazla onay_suresi_dk süre tanınır.
-    son = min(simdi + timedelta(minutes=ayar.onay_suresi_dk + gecikme_dk), ilk - timedelta(minutes=120))
-    # Düzeltme sonrası da sahibine en az 30 dk bakma süresi (ama ilk maçtan en geç 1 saat önce).
-    son = min(max(son, simdi + timedelta(minutes=30)), ilk - timedelta(minutes=60))
-    surum = (gun.get("onay") or {}).get("surum", 0) + 1
-    gun["onay"] = {"durum": "bekliyor", "son": max(son, simdi).isoformat(timespec="seconds"), "surum": surum}
-    istek_hazirla(gun, gunler, ayar, simdi)
-
-
 class GitHub:
     def __init__(self, token: str | None = None, repo: str | None = None):
         self.repo = repo or os.environ.get("GITHUB_REPOSITORY", "")
@@ -117,12 +31,6 @@ class GitHub:
 
     def _url(self, yol: str) -> str:
         return f"https://api.github.com/repos/{self.repo}/{yol}"
-
-    def istekler(self) -> list[dict]:
-        """Son onay istekleri (açık ve kapalı; elle kapatılan istek de kontrol edilir)."""
-        r = self.s.get(self._url("issues"), params={"labels": ETIKET, "state": "all", "per_page": 20}, timeout=30)
-        r.raise_for_status()
-        return r.json()
 
     def yorumlar(self, no: int) -> list[dict]:
         r = self.s.get(self._url(f"issues/{no}/comments"), params={"per_page": 100}, timeout=30)
@@ -163,111 +71,3 @@ class GitHub:
     def kapat(self, no: int, mesaj: str) -> None:
         self.yorum(no, mesaj)
         self.s.patch(self._url(f"issues/{no}"), json={"state": "closed"}, timeout=30).raise_for_status()
-
-
-def sahibin_karari(gh, no: int) -> str | None:
-    """Deponun sahibi/üyesi/ortağının son geçerli cevabı ("ok" / "iptal"); başkalarının yorumları sayılmaz."""
-    sonuc = None
-    for y in gh.yorumlar(no):
-        k = karar(y.get("body") or "")
-        if k and (y.get("author_association") in YETKILI or gh.yetkili(y["user"]["login"])):
-            sonuc = k
-    return sonuc
-
-
-def onizlemeleri_sil(gun_id: str) -> None:
-    for yol in ONIZLEME_KLASORU.glob(f"{gun_id}-*.png"):
-        yol.unlink()
-
-
-def kontrol(ayar, gh, x, gunler: list[dict], simdi: datetime, yayinla) -> None:
-    """Onay bekleyen kuponları işler: karar varsa uygular, yoksa ve süre dolduysa otomatik paylaşır.
-    İstek elle kapatılmış olsa bile ("gördüm") kupon beklemede sayılır; kapatmak iptal demek değildir."""
-    istekler = gh.istekler()
-    for issue in istekler:
-        if issue["title"].startswith("TEST") and issue.get("state", "open") == "open":
-            k = sahibin_karari(gh, issue["number"])
-            if k:
-                gh.kapat(issue["number"], f"✅ Test tamam: `{k}` alındı. Gerçek günde bu cevapla kupon "
-                                          f"{'hemen paylaşılırdı' if k == 'ok' else 'paylaşılmazdı'}. Hiçbir şey paylaşılmadı.")
-                onizlemeleri_sil("test")
-    bekleyenler = [g for g in gunler if (g.get("onay") or {}).get("durum") in ("bekliyor", "durduruldu")]
-    for issue in istekler:  # geçersiz kalmış açık istekler kapatılır
-        if (issue.get("state", "open") == "open" and not issue["title"].startswith("TEST")
-                and not any(issue["title"].endswith(f'{g["id"]} kuponu') for g in bekleyenler)):
-            gh.kapat(issue["number"], "Bu istek artık geçerli değil (kupon zaten paylaşıldı, iptal edildi ya da kayıt yok).")
-    for gun in bekleyenler:
-        # En yeni istek geçerlidir (düzeltmeden sonra yeni önizleme açılır); eski aynı günlü istekler kapatılır.
-        ayni = sorted((i for i in istekler if not i["title"].startswith("TEST")
-                       and i["title"].endswith(f'{gun["id"]} kuponu')), key=lambda i: i["number"], reverse=True)
-        for eski in ayni[1:]:
-            if eski.get("state", "open") == "open":
-                gh.kapat(eski["number"], "Yerine yeni önizleme açıldı.")
-        issue = ayni[0] if ayni else None
-        no = issue["number"] if issue else None
-        _isle(ayar, gh, x, gunler, gun, no, sahibin_karari(gh, no) if no else None, simdi, yayinla)
-
-
-def _zaten_var(x, gun: dict) -> str | None:
-    from .__main__ import zaten_paylasildi
-    if gun.get("ek"):
-        return None  # ek kupon: o günün ana kuponu X'te zaten var, onunla karıştırılmaz
-    try:
-        return zaten_paylasildi(x, gun["tarih"])
-    except Exception:
-        return None
-
-
-def _isle(ayar, gh, x, gunler, gun, no, k, simdi, yayinla) -> None:
-    def bildir(mesaj):
-        if no:
-            gh.kapat(no, mesaj)
-
-    if gun.get("tweet_id"):
-        # Önceki deneme floodun ortasında kesildi: kararı beklemeden eksik yanıtlar tamamlanır.
-        yayinla(ayar, gun, x, gunler, simdi)
-        gun["onay"]["durum"] = gun["onay"].get("sonuc_durumu", "onaylandi")
-        bildir(f"🚀 Paylaşıldı: https://x.com/kalkylerat/status/{gun['tweet_id']}")
-        return
-    ilk = min(datetime.fromisoformat(s["baslama"]) for s in gun["secimler"])
-    if k == "iptal":
-        if gun["onay"]["durum"] != "durduruldu":
-            gun["onay"]["durum"] = "durduruldu"
-            if no:
-                gh.yorum(no, "⏸️ Durduruldu, paylaşılmayacak. Hatayı Claude'a yazın; düzeltilince yeni önizleme gelir. "
-                             "Bu haliyle paylaşmak isterseniz `ok` yazın.")
-        if simdi >= ilk - timedelta(minutes=60):
-            # Düzeltme maçlardan önce yetişmedi: bugün paylaşım yok, rekora girmez.
-            gun["onay"]["durum"] = "iptal"
-            gun["sonuc"] = "pas"
-            gun["pas_nedeni"] = "Hata düzeltilemeden maç saati geldi; paylaşılmadı."
-            onizlemeleri_sil(gun["id"])
-            bildir("🛑 Düzeltme maçlardan önce yetişmedi: bugün paylaşım yok.")
-    elif k == "ok" or (gun["onay"]["durum"] == "bekliyor" and simdi >= datetime.fromisoformat(gun["onay"]["son"])):
-        yeni_durum = "onaylandi" if k == "ok" else "otomatik"
-        gun["onay"]["sonuc_durumu"] = yeni_durum  # X hatası olursa durum "bekliyor" kalır, sonraki kontrol tekrar dener
-        # Önizlemedeki görsellerle paylaşılır; görsel yüklenemezse sonraki kontrolde tekrar denenir.
-        # Ancak ilk maça 1 saatten az kaldıysa kupon hiç çıkmamaktansa metin olarak paylaşılır.
-        gorsel_sart = simdi < ilk - timedelta(minutes=60)
-        onceki = _zaten_var(x, gun)
-        if onceki:  # kayıt kaybolmuş ama kupon X'te: ikinci kez atılmaz, kayıt düzeltilir
-            gun["tweet_id"], gun["onay"]["durum"] = onceki, yeni_durum
-            bildir(f"🚀 Zaten paylaşılmış: https://x.com/kalkylerat/status/{onceki}")
-            return
-        sonuc = yayinla(ayar, gun, x, gunler, simdi, gorsel_sart=gorsel_sart)
-        if sonuc == "gorsel_bekle":
-            print("Görsel yüklenemedi; önizlemeyle aynı olsun diye sonraki kontrolde tekrar denenecek.")
-            return
-        if sonuc:
-            gun["onay"]["durum"] = yeni_durum
-            onizlemeleri_sil(gun["id"])
-            bildir(f"🚀 Paylaşıldı ({'onayla' if k == 'ok' else 'süre dolduğu için otomatik'}): "
-                   f"https://x.com/kalkylerat/status/{gun['tweet_id']}")
-        else:
-            # Tek sebep: ilk maç başlamış (paylaşım artık şeffaf olmaz). Gün pas olur, hata bildirilir.
-            gun["onay"]["durum"] = "kacirildi"
-            gun["sonuc"] = "pas"
-            gun["pas_nedeni"] = "Onay süresi içinde paylaşılamadı."
-            onizlemeleri_sil(gun["id"])
-            bildir("⚠️ Paylaşılamadı: ilk maç başlamış. Bugün paylaşım yok.")
-            raise RuntimeError(f"{gun['id']} kuponu zamanında paylaşılamadı")

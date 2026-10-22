@@ -101,7 +101,7 @@ def sorunlar(gunler: list[dict], simdi: datetime, ayar, hatalar: list[str] = ())
                 if ihlal:
                     bulunan.append((anahtar + ":kural", f'📏 {g["tarih"]} {ad}: paylaşılan metin sözleşme dışı: {", ".join(ihlal)}'))
     bugun = next((g for g in reversed(gunler) if g["tarih"] == gun_adi and g.get("konsept") == "analiz"), None)
-    if ayar.konsept == "analiz" and not any(g["tarih"] == gun_adi for g in gunler) and _sabah_gecti(simdi, ayar):
+    if not any(g["tarih"] == gun_adi for g in gunler) and _sabah_gecti(simdi, ayar):
         bulunan.append((f"{gun_adi}:sabah", "🌅 Bugünün sabah analizi yapılmadı (tablo, kartlar ve kit çıkmayacak)"))
     if bugun and config.yogun_mu(ayar, gun_adi, bugun):
         durum = bugun.get("etkilesim") or {}
@@ -122,7 +122,7 @@ def sorunlar(gunler: list[dict], simdi: datetime, ayar, hatalar: list[str] = ())
 
 def _son_hareket(gun: dict) -> datetime | None:
     """Son post ya da yanıt (maç sonu, tablo sonucu) anı."""
-    zamanlar = [gun.get("yayin")]
+    zamanlar = []
     for e in (gun.get("etkilesim") or {}).values():
         if e.get("durum") == "paylasildi":
             zamanlar.append(e.get("zaman"))

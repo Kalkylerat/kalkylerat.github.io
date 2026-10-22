@@ -31,7 +31,9 @@
 - 3 Ekim: `SOZLESME.md` doğdu. 5–6 Ekim: Mr. Likely doğdu (önce elle, sonra otomatik).
 - 9 Ekim: CEST/UTC hatası, 6–7 kart kaçtı ve düzeltildi. 11 Ekim: "hesap 10 saattir post atmamış" → nöbet ve alarm.
 - 12 Ekim: nöbet rehberi + `python -m bot.durum`; 4 eski sohbet arşivlendi, 18 issue kapandı, README yenilendi.
-- Temizlik işi (acil değil): kodda ~400 satır eski kupon/kasa kodu duruyor. Öneri: nöbet saatlerini maç saatlerine daralt.
+- 22 Ekim: eski kupon/kasa düzeni koddan tamamen söküldü (~2 000 satır: kupon postu, sanal kasa, onay isteği, kasa
+  grafiği, eski komutlar, `[kasa]` ve `[yayin]` ayarları). Ana sayfa (kalkylerat.github.io) artık analiz hesabını anlatıyor.
+- Öneri: nöbet saatlerini maç saatlerine daralt.
 
 ## İlk mesaj
 > Kalkylerat üzerinde çalışacağız. Önce CLAUDE.md, SOZLESME.md ve projeler/kalkylerat.md dosyalarını oku, sonra

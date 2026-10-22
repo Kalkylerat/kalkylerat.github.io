@@ -29488,7 +29488,8 @@
      "istatistik": 0.706,
      "uyum": false,
      "buyuk": false,
-     "no": 15
+     "no": 15,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1636462-CS1X",
@@ -31215,7 +31216,7 @@
    "oto": true,
    "issue": 117,
    "tazeleme": "2026-10-22T09:03:25+00:00",
-   "olcum_sorgu": "2026-10-22T16:44:50+00:00"
+   "olcum_sorgu": "2026-10-22T17:41:49+00:00"
   }
  ]
 }

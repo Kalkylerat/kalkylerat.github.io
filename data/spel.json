@@ -122469,7 +122469,22 @@
         "durum": "paylasildi",
         "tweet_id": "2113165911955829130",
         "zaman": "2026-10-22T07:09:44+00:00",
-        "metin": "🆚 Kairat Almaty v Panathinaikos\n\n🏆 Kairat Almaty 20% · Draw 23% · Panathinaikos 57%\n⚽ Over 2.5 goals 52% · Under 48%\n🥅 Both teams score 51% · Not both 49%\n🎯 Most likely score: 0-1 (12%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 Kairat Almaty v Panathinaikos\n\n🏆 Kairat Almaty 20% · Draw 23% · Panathinaikos 57%\n⚽ Over 2.5 goals 52% · Under 48%\n🥅 Both teams score 51% · Not both 49%\n🎯 Most likely score: 0-1 (12%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113307108875612560",
+          "skor": "1-5",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            0.83,
+            2.49
+          ],
+          "zaman": "2026-10-22T16:30:37+00:00"
+        }
       },
       "tablo": {
         "durum": "paylasildi",

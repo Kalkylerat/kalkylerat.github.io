@@ -30806,8 +30806,15 @@
        "oran": 1.44,
        "olasilik": 0.678,
        "deger": -0.023,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-0",
+       "goller": [
+        [
+         82,
+         0,
+         "ev"
+        ]
+       ]
       }
      ],
      "oran": 3.98,
@@ -31293,7 +31300,9 @@
     {
      "tur": "ders",
      "metin": "💡 Only stake money you'd be fine never seeing again. If that sentence stings, the stake is too big.\n\n18+ | Play responsibly",
-     "saat": 21.0
+     "saat": 21.0,
+     "tweet_id": "2113344788757970964",
+     "zaman": "2026-10-22T19:00:35+00:00"
     }
    ],
    "oto": true,

@@ -36,3 +36,15 @@
 ## İlk mesaj
 > Kalkylerat üzerinde çalışacağız. Önce CLAUDE.md, SOZLESME.md ve projeler/kalkylerat.md dosyalarını oku, sonra
 > `python -m bot.durum` çalıştır. Bana durumu ve açık işler listesini 5 satırda özetle, ilk işe geçmeden onayımı bekle.
+
+## Bulut kanalı ve rutin kayıtlarından
+- 29 Eylül'den beri 463 rutin koşusu, hepsi "succeeded": saatlik sağlık kontrolü (3 Ekim, kapalı, 207 koşu), saatlik nöbet
+  (12 Ekim, etkin, 242 koşu), 14 tek seferlik kontrol. Nöbet SADECE KONTROL modundadır: kod, commit, PR, issue ve elle X
+  paylaşımı yok; tek izin, hiç `in_progress` nöbetçi yoksa onu workflow_dispatch ile başlatmak. Yanlış alarm sayılanlar:
+  nöbetçinin 5,5 saate kadar `in_progress` kalması (330 dk döngü), kuyrukta `pending`/`cancelled` koşular, `gh auth status`
+  "token invalid" ama `gh api` çalışıyor. B7: 08–21 UTC arasında 3 saatten uzun sessizlik her zaman sorun.
+- Yedek kaynak: The Odds API (`bot/oddsapi.py`), API-Football çalışmazsa oran ve sonuç. Ücretsiz plan ayda 500 kredi; lig ve
+  maç listesi kredi harcamaz, oran isteği pazar × bölge başına 1 kredi. 29 Eylül'de ilk kez bu kaynakla sonuç kapandı.
+- Maliyet notu: Mr. Likely 18 Ekim'den beri sabah verisi zayıfsa 11:00'de ~55 API-Football isteği daha atar (PR #102),
+  yani "Mr. Likely ek istek atmaz" artık geçerli değil. `max_oran_sayfasi = 30`.
+- 28 Eylül'de kuponlu ve kasalı eski düzenin günü: 3 ayaklı kupon tuttu (+114 €, banka 10 114 €). Bugünkü Kalkylerat kupon ve kasa paylaşmaz.

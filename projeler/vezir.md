@@ -27,3 +27,14 @@ otomatik yükleme kapalı.
 ## İlk mesaj
 > Claude Code'da `Kalkylerat-desk/vezir` deposunu seçerek aç: "Vezir üzerinde çalışacağız. CLAUDE.md'yi oku. Önce
 > sunucudaki aktif modeli nasıl kontrol edeceğimi göster, sonra sıradaki özellik için plan öner."
+
+## claude.ai sohbetlerinden
+- Başlangıç fikri (Eylül): "DJ Co-Pilot", Telegram'dan kontrol; Booking, Radar, Content modülleri; saf kod, ucuz model;
+  hedef $0–3 hosting + $2–5/ay API. Sonra kapsam genişledi: kişisel asistan, tüm ajan ekosisteminin yöneticisi.
+- Sahibinin istekleri: iş programı fotoğrafından takvim (eski bot okuyamadı), sesli mesaj (Groq Whisper açıldı), 3 hafta
+  önceden hazırlık hatırlatması, kvitto ve fatura için ayrı finans uzmanı, doğrulama döngüsü (üretici -> denetçi),
+  Gmail'de 2 000–3 000 eski maili temizleme, yatırım araştırma ajanı, fırsat izleme, yolculuk planı, koç/antrenör ajanı
+  (Health Connect Webhook uygulaması alındı), Meta Muse benzeri asistan. Ton: iş gibi, arkadaş gibi değil.
+- Google OAuth "Testing" modunda; jeton ~7 günde dolabilir (bot Telegram'dan bildirir). Tam Drive kapsamı Google
+  doğrulaması ister, o yüzden Production'a geçilmedi.
+- 29 Eylül: "Vezir istediğim gibi çalışmıyor" şikâyeti; sonra bağımsız denetim ve eksik Muse özellikleri istendi.

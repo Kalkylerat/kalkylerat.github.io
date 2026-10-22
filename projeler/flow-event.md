@@ -23,3 +23,11 @@ Aynı firma üzerinden konuşulan yerel işletme hizmeti fikirleri ("Lokalt synl
 ## İlk mesaj
 > Flow Event projesine devam ediyoruz: DJ hizmeti ve DJ kursu. projeler/flow-event.md dosyasını oku. Site ve kurs planı
 > hazır: [bağlantıları yapıştır]. Bugün şunu yapalım: [iş].
+
+## claude.ai sohbetlerinden
+- Kaynak: claude.ai hafıza özeti ve 7 Ekim sohbeti (diğer sohbetlerin metni dışa aktarmada boş geldi).
+- İlk fikir (Eylül): yerel DJ hizmeti, küçük PA, ~80 kişiye kadar; ilk fiyat fikri ~15 000 kr + moms/gece; fiyatsız "teklif iste".
+- 22 Eylül: site ve logo (FLOWEVENT, FLOW beyaz, EVENT altın; SVG/PNG) hazır. "Sound Plus" ve "ek hizmetler" paketleri
+  bilinçli çıkarıldı (küçük başla, büyük kalabalık yok). Alan adı `flowevent.se` önerildi, alındı mı belli değil.
+- DJ okulu (7 Ekim): perşembe randevulu, İsveççe/İngilizce karışık, XDJ-XZ ile; oda kirası ~4 000 kr/ay gider yazılır
+  (vergi iadesi değil, kâr azalır). Özel DJ kursu vermek için resmî eğitim şartı yok. Kurs fiyatları yukarıda.

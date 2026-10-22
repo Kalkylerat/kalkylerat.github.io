@@ -62,3 +62,12 @@
 ## İlk mesaj
 > Fikir rafındaki bir fikre bakacağız. projeler/fikir-rafi.md dosyasını oku. [Fikir adı] için maliyeti, ilk 30 günü ve
 > "ne zaman bırakırız" ölçütünü tek sayfada çıkar. Benden çıkan her fikri mantıklıymış gibi düşünme.
+
+## claude.ai sohbetlerinden (12 Ekim: "İş planı brainstorming")
+- Fikir: Google'da en çok aranan sorunları bul, sahibinin bilgisi + Claude yetenekleriyle çöz, uygulama/servis sat.
+- Otel ve restoran ekip iletişimi + vardiya uygulaması (şema -> herkesin takvimi): piyasada hazır ürünler var
+  (Connecteam, Planday gibi). Öneri: dar niş (sınır bölgesindeki 10–50 kişilik bağımsız işletmeler), yazılım değil
+  "kurulum + düzen" hizmeti, tek acıyla başla (şema -> takvim + okundu onayı), sonra açık vardiya ve etkinlik görevleri.
+- Pilot: kendi iş yerinin restoran mutfağı ve şefi. Şef sistemleri: alerjen uyumu, hazırlık listesi, israf takibi.
+  Şefe yaklaşım: önce dinle, işi sen yap, zaman kazandıran yardım götür.
+- Karar bekliyor; kod yok.

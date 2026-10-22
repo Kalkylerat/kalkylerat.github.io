@@ -15,8 +15,14 @@
 - Kurallar `SOZLESME.md` A–D, her madde `tests/test_sozlesme.py` ile bağlı.
 - Jev (TypeSafe) eklenmedi (12 Ekim): metin yazamıyor, Haiku 5.5 karşısında kazanç küçük.
 - Türkçe hesap avukat görüşüne kadar beklemede: `marka/TURKCE_HESAP_PLANI.md`.
+- Yeni analiz kartı ve post açılışı (22 Ekim, sahibinin "sen karar ver"i): kart ve postun ilk satırı maçın hikâyesi
+  (`analiz.hikaye`: oranla istatistik ayrışıyor / güçlü favori / açık maç / gollü maç / en olası skor). Kartta oran ve
+  istatistik çubukları alt alta, kaç gol sütunları, en olası skorlar; renk tek anlam (ev mavi, deplasman turuncu, yeşil
+  yalnızca "en olası"). Çifte şans ve takım golleri karttan çıktı. Direktör postu hikâyeyle açmazsa şablon gider.
 
 ## Açık işler
+- [ ] Yeni kartın etkisini ölç (22 Ekim'den): bir hafta sonra `metrik` (tek seferde ~100 post okuma, ~$0,50) ve
+      eski haftayla görüntülenme/yanıt karşılaştırması. Son ölçüm 3 Ekim'den.
 - [x] Bildirim düzeltmesi canlıda (22 Ekim): X 5xx ya da "aynı metin" dönerse hesabın son postlarına bakılır, aynı
       hata için tek bildirim, tablo sonuçları nabız başına 5 (SOZLESME B2, C2).
 - [ ] Profildeki sabit tweet hâlâ "€10,000 challenge" ise `marka/PROFIL.md`'deki yeni metinle elle değiştir.

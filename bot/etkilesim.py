@@ -458,38 +458,58 @@ def iki_tarafli(a: dict) -> list[str]:
             f'🥅 Both teams score {_pct(p["KGVAR"])} · Not both {_pct(p["KGYOK"])}']
 
 
+# Hikâye oranla istatistiğin ayrışmasıysa kapanış sorusu onu sorar (Pazartesi karnesi aynı sorunun cevabıdır, A9);
+# maça göre dönüşümlü: aynı soru art arda gitmesin (X benzer post cezası). Kısa: iki takım hikâyede adıyla geçer,
+# soru bu maçın iki okumasını sorar (çok maçlı karşılaştırma değil).
+ODDS_STATS_SORULARI = ("Odds or stats? 👇", "Which read is right? 👇", "Which number looks off? 👇")
+
+
 def analiz_tweeti(a: dict, ayar) -> str:
-    """Analiz kartıyla giden metin: her veri satırı tek emojiyle başlar, bloklar boş satırla ayrılır. Takım
-    istatistiği satırı (ya da neden olmadığı) hep yazılır; sığmazsa önce başlık ve soru kısalır, sonra etiketler."""
-    skor, p_skor = a["skorlar"][0]
-    govdeler = ("\n".join(iki_tarafli(a)) + f'\n🎯 Most likely score: {skor} ({_pct(p_skor)})', "\n".join(iki_tarafli(a)))
-    baslar = (f'📊 MATCH CHANCES · not picks\n🆚 {a["ev"]} v {a["dep"]}\n🕗 {_saat(a, ayar)}\n\n',
-              f'🆚 {a["ev"]} v {a["dep"]} · {_saat(a, ayar)}\n\n', f'🆚 {a["ev"]} v {a["dep"]}\n\n')
-    # İstatistik karşılığı her zaman (en büyük fark önce); yoksa nedeni açıkça
+    """Analiz kartıyla giden metin. İlk satırlar maçın hikâyesi (kartın manşetiyle aynı, analiz.hikaye): akışta
+    okuyanı durduran şey "MATCH CHANCES" etiketi değil hikâye (22 Ekim 2026). Sonra maç, üç pazar iki tarafıyla,
+    takım istatistiği satırı (ya da neden olmadığı; hikâye zaten oranla istatistiği veriyorsa tekrar etmez), maça özel
+    soru. Sığmazsa önce etiket, saat, "Chances," ve ikinci hikâye satırı düşer (istatistik yüzdesini taşıyorsa düşmez);
+    maça özel soru en son."""
+    tur, h1, h2 = analiz.hikaye(a)
+    karsilastirma_hikayede = tur in ("ayri", "fark")
+    if karsilastirma_hikayede:
+        h1 = "📈 " + h1  # oran/istatistik yan yana (SÖZLEŞME A4)
+    mac = f'🆚 {a["ev"]} v {a["dep"]}'
+    baslar = (f'{h1}\n{h2}\n\n{mac} · {_saat(a, ayar)}\n', f'{h1}\n{h2}\n\n{mac}\n', f'{h1}\n\n{mac}\n')
+    if tur == "ayri":  # istatistik yüzdesi ikinci satırda: o satır düşerse oran yanında istatistik kalmaz (A4)
+        baslar = baslar[:2]
+    govde = "\n".join(iki_tarafli(a))
     c = (a.get("karsilastirma") or [None])[0]
-    farklar = ((f'\n\n📈 Team stats: {c["ad"]} {_pct(c["istatistik"])}\n💹 Odds: {_pct(c["piyasa"])}',
-                f'\n\n📈 Team stats: {c["ad"]} {_pct(c["istatistik"])} (odds {_pct(c["piyasa"])})',
-                f'\n\n📈 Stats: {c["ad"]} {_pct(c["istatistik"])} · odds {_pct(c["piyasa"])}') if c else
-               ("\n\n📈 Every % here is from team stats (no odds)",) if a.get("kaynak") == "istatistik" else
-               ("\n\n📈 Team stats: not enough recent games to compare with the odds", "\n\n📈 Team stats: too few recent games"))
-    soru = kart_sorusu(a)  # maça özel kapanış: aynı soru her kartta tekrar etmesin (X benzer post cezası)
-    sonlar = ("\n\n💬 Chances, not picks. " + soru, "\n\n💬 Not picks. " + soru,
-              "\n\n💬 Chances, not picks. Your read? 👇", "\n\n💬 Not picks. Your read? 👇")
+    istatistik = ((f'\n📈 Team stats: {c["ad"]} {_pct(c["istatistik"])} (odds {_pct(c["piyasa"])})',
+                   f'\n📈 Stats: {c["ad"]} {_pct(c["istatistik"])} · odds {_pct(c["piyasa"])}') if c else
+                  ("\n📈 Every % here is from team stats (no odds)",) if a.get("kaynak") == "istatistik" else
+                  ("\n📈 Team stats: not enough games to compare with the odds", "\n📈 Team stats: too few games"))
+    farklar = ("",) if karsilastirma_hikayede else istatistik
+    soru = ODDS_STATS_SORULARI[int(a.get("fixture_id") or 0) % len(ODDS_STATS_SORULARI)] if karsilastirma_hikayede \
+        else kart_sorusu(a)
+    sorular = (soru, "Your read? 👇")
+    sonlar = ("\n\n💬 Chances, not picks. ", "\n\n💬 Not picks. ")
     etiket = _etiket(a)
     etiketler = dict.fromkeys((etiket, etiket.split(" ")[0] if etiket else "", ""))
-    # Öncelik: istatistik satırı > skor satırı (görselde de var) > etiketler > uzun başlık ve soru
-    # Maça özel soru, uzun başlıktan önemli: önce başlık kısalır
-    secenekler = [*product(govdeler, farklar, etiketler, sonlar, baslar), *product(govdeler, ("",), etiketler, sonlar, baslar)]
-    for satirlar, fark, et, son, bas in secenekler:
-        metin = bas + satirlar + fark + son + et + f"\n{ANSVAR}"
+    # Sığmazsa düşme sırası (en içteki döngü önce): etiket, saat, ikinci hikâye satırı, istatistik satırının uzunu;
+    # maça özel soru en son (yanıtı o getirir)
+    secenekler = [(fark, son + q, et, bas) for q in sorular for fark in farklar for bas in baslar for son in sonlar
+                  for et in etiketler]
+    # Son çare (çok uzun takım adları): hikâyesiz eski düzen, istatistik satırı yine yazılır
+    secenekler += product(istatistik, [s + q for q in sorular for s in sonlar], etiketler, (f"{mac}\n",))
+    for fark, son, et, bas in secenekler:
+        metin = bas + govde + fark + son + et + f"\n{ANSVAR}"
         if "not picks" in metin.lower() and uzunluk(metin) <= LIMIT:  # her kart postu seçim olmadığını söyler
             return metin
-    govde = baslar[2] + govdeler[1] + sonlar[3]
-    return govde[:LIMIT - len(ANSVAR) - 1] + f"\n{ANSVAR}"
+    metin, son = f"{mac}\n" + govde, sonlar[1] + sorular[1]
+    while uzunluk(metin + son + f"\n{ANSVAR}") > LIMIT:
+        metin = metin[:-1]
+    return metin + son + f"\n{ANSVAR}"
 
 
 def analiz_olgulari(a: dict, ayar) -> dict:
-    return {"home": a["ev"], "away": a["dep"], "competition": a.get("lig"), "kickoff": _saat(a, ayar),
+    _, h1, h2 = analiz.hikaye(a)
+    return {"story": [h1, h2], "home": a["ev"], "away": a["dep"], "competition": a.get("lig"), "kickoff": _saat(a, ayar),
             "chances_both_sides": iki_tarafli(a),
             "framing": "probabilities, not picks: always give both sides of each market as in the template",
             "most_likely_score": f'{a["skorlar"][0][0]} ({_pct(a["skorlar"][0][1])})',

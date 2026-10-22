@@ -5,7 +5,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from bot import config, football, model, tweets
+from bot import analiz, config, football, model, tweets
 
 AYAR = config.yukle()
 def test_poisson_olasiliklari_tutarli():
@@ -425,6 +425,13 @@ def test_direktor_metni_kural_disiysa_sablon_kullanilir():
     etkilesim.paylas(gun, AYAR, x, datetime(2026, 10, 1, 13, 50, tzinfo=timezone.utc),
                      yazar=direktor.yazar(AYAR, iyi, yaz=lambda m: None))
     assert gun["etkilesim"]["maclar"]["durum"] == "paylasildi"
+    # 22 Ekim 2026: analiz postu maçın hikâyesiyle açılır; direktör etiketle ya da rakam yığınıyla açarsa şablon
+    olg = {"story": ["The odds lean Anderlecht (43%).", "Team stats lean Jagiellonia (55%)."]}
+    sablon = f"📈 The odds lean Anderlecht (43%).\nTeam stats lean Jagiellonia (55%).\n\n🆚 Jagiellonia v Anderlecht\n{tweets.ANSVAR}"
+    sikici = Sahte(f"📊 MATCH CHANCES\n\nAnderlecht 43%, Jagiellonia stats 55%. Odds or stats? 👇\n{tweets.ANSVAR}")
+    assert direktor.yazar(AYAR, sikici, yaz=lambda m: None)("analiz", olg, sablon) == sablon
+    hikayeli = Sahte(f"Odds like Anderlecht at 43%, but Jagiellonia's numbers say 55%.\n\nOdds or stats? 👇\n{tweets.ANSVAR}")
+    assert direktor.yazar(AYAR, hikayeli, yaz=lambda m: None)("analiz", olg, sablon) == hikayeli.metin
 
 
 def test_direktor_haftalik_strateji_ve_rapor(monkeypatch, tmp_path):
@@ -631,7 +638,8 @@ def test_analiz_gunu_kartlar_ve_mac_sonu_takibi(monkeypatch, tmp_path):
     assert {"analiz_0", "analiz_1", "analiz_2", "bilgi"} <= set(turler)
     assert not {"radar", "deger", "istatistik", "skor", "pas"} & set(turler)
     metin = etkilesim.analiz_tweeti(gun["analizler"][0], AYAR)
-    assert "🆚 Arsenal v Fulham" in metin and "Most likely score" in metin and "📈 Team stats" in metin
+    assert "🆚 Arsenal v Fulham" in metin and "📈 Team stats" in metin
+    assert metin.startswith(analiz.hikaye(gun["analizler"][0])[1])  # ilk satır maçın hikâyesi (kartın manşeti)
     assert tweets.uzunluk(metin) <= 280 and direktor.kurala_uygun(metin, "analiz", AYAR.oran_bahiscileri)
     assert gorsel.analiz_karti(gun["analizler"][0], "16:00", "tr")[:4] == b"\x89PNG"
     # maç sonu: skor ve üç çağrı, alıntıyla; bir kez
@@ -664,7 +672,8 @@ def test_analiz_istatistik_ile_piyasayi_karsilastirir():
     assert c and c["istatistik"] > c["piyasa"]  # istatistik daha çok gol görüyor
     assert all(c["piyasa"] == a["p"][c["pazar"]] for c in a["karsilastirma"])  # karttaki ana rakamla aynı
     metin = etkilesim.analiz_tweeti(a, AYAR)
-    assert "📈 Team stats: Over 2.5 goals 66%\n💹 Odds: 51%" in metin and tweets.uzunluk(metin) <= 280
+    # fark hikâyenin kendisi: ilk satır oranla istatistiği yan yana verir (ayrı istatistik satırı tekrar etmez)
+    assert metin.startswith("📈 Over 2.5 goals: odds 51%, team stats 66%.") and tweets.uzunluk(metin) <= 280
     assert direktor.kurala_uygun(metin, "analiz", AYAR.oran_bahiscileri)
     for dil in ("en", "tr"):
         assert gorsel.analiz_karti(a, "20:45", dil)[:4] == b"\x89PNG"
@@ -1137,3 +1146,31 @@ def test_yeni_issue_eski_ayni_etiketlileri_kapatir():
     assert gh.s.kapanan == []  # listede olmayan etiketlere dokunulmaz
 
 
+
+
+def test_kart_hikayesi_kayittan_secimsiz_ve_postun_ilk_satiri(monkeypatch):
+    """22 Ekim 2026: kart ve postun ilk satırı maçın hikâyesi (analiz.hikaye). Her türde yüzdeler kayıttan (denetçi
+    geçer), seçim/kesinlik dili yok, 280'e sığar; kartta ev ve deplasman rengi vurgu (en olası) renginden ayrı."""
+    from bot import analiz, denetci, direktor, etkilesim, gorsel
+    gorulen = set()
+    for i, (le, ld) in enumerate([(2.4, 0.5), (0.6, 2.1), (1.2, 1.15), (2.0, 1.9), (1.4, 1.1), (1.0, 1.0)]):
+        p = {k: round(v, 3) for k, v in model.model_olasiliklari(le, ld).items()}
+        for kars in ([], [{"pazar": k, "ad": ad, "piyasa": p[k], "istatistik": v} for k, ad, v in
+                          (("MS1", "Home win", round(p["MS2"], 3)), ("MSX", "Draw", round(p["MSX"], 3)),
+                           ("MS2", "Away win", round(p["MS1"], 3)))],
+                     [{"pazar": "UST25", "ad": "Over 2.5 goals", "piyasa": p["UST25"], "istatistik": round(p["UST25"] - 0.2, 3)}]):
+            a = {"fixture_id": i, "ev": "Home", "dep": "Away", "lig": "Premier League", "lig_id": 39, "guven": "yuksek",
+                 "baslama": "2026-10-03T18:45:00+00:00", "beklenen_gol": [le, ld], "p": p, "kaynak": "piyasa",
+                 "skorlar": analiz._skorlar(le, ld), "karsilastirma": kars, "istatistik_kaynak": "lig" if kars else None}
+            tur, h1, h2 = analiz.hikaye(a)
+            gorulen.add(tur)
+            metin = etkilesim.analiz_tweeti(a, AYAR)
+            assert metin.lstrip("📈 ").startswith(h1) and tweets.uzunluk(metin) <= 280
+            assert denetci.analiz_kontrolu("analiz", metin, [a], AYAR) == [], (tur, metin)
+            assert direktor.kurala_uygun(metin, "analiz", AYAR.oran_bahiscileri)
+            assert not denetci._SECIM_DILI.search(h1 + h2) and not denetci._KESINLIK.search(h1 + h2)
+            dag = analiz.toplam_gol_dagilimi(a, 6)
+            assert abs(1 - sum(dag[:3]) - p["UST25"]) < 0.01 and abs(sum(dag) - 1) < 1e-9  # aynı model
+    assert gorulen >= {"ayri", "fark", "favori", "gol", "skor"}
+    for r in gorsel.PALETLER.values():  # renk tek anlam taşır: takım rengi "en olası" vurgusu değildir
+        assert len({r["ev"], r["dep"], r["vurgu"], r["ber"]}) == 4

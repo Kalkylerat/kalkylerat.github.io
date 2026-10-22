@@ -98,6 +98,71 @@ def dikkat_cekici(a: dict) -> dict | None:
     return c if c and abs(fark_puani(c)) >= round(100 * FARK_ESIGI) else None
 
 
+def toplam_gol_dagilimi(a: dict, ust: int = 5) -> list[float]:
+    """0, 1, …, ust-1 ve "ust+" toplam gol olasılıkları (aynı Poisson modeli: iki takımın golleri toplamı)."""
+    lam = sum(a["beklenen_gol"])
+    p = [model._poisson(k, lam) for k in range(ust)]
+    return p + [max(0.0, 1 - sum(p))]
+
+
+def istatistik_ms(a: dict) -> tuple[float, float, float] | None:
+    """Takım istatistiğinin maç sonucu üçlüsü (kayıttaki karşılaştırmadan); üçü birden yoksa None."""
+    k = {c["pazar"]: c["istatistik"] for c in a.get("karsilastirma") or []}
+    return (k["MS1"], k["MSX"], k["MS2"]) if all(x in k for x in ("MS1", "MSX", "MS2")) else None
+
+
+HIKAYE = {
+    "en": {"ayri": ("The odds lean {o}{op}.", "Team stats lean {i}{ip}."),
+           "fark": ("{ad}: odds {o}, team stats {i}.", "Same game, two different reads."),
+           "favori": ("{t} {p} to win.", "{d} or a draw: {q}."), "acik": ("No result above {p}.", "Wide open on paper."),
+           "gol": ("4+ goals: {p}.", "Expected goals {x} – {y}."),
+           "skor": ("Most likely score: {s}.", "Even that is only {p}."),
+           "pazar": {"UST25": "Over 2.5 goals", "KGVAR": "Both teams score",
+                                                       "MS1": "{ev} win", "MS2": "{dep} win", "MSX": "Draw"}},
+    "tr": {"ayri": ("Oranlar {o} diyor{op}.", "Takım istatistiği {i} diyor{ip}."),
+           "fark": ("{ad}: oran {o}, takım istatistiği {i}.", "Aynı maç, iki farklı okuma."),
+           "favori": ("{t} kazanır: {p}.", "{d} ya da beraberlik: {q}."), "acik": ("Hiçbir sonuç {p} üstünde değil.", "Kâğıt üstünde açık maç."),
+           "gol": ("4 ve üstü gol: {p}.", "Beklenen gol {x} – {y}."),
+           "skor": ("En olası skor: {s}.", "O bile yalnızca {p}."),
+           "pazar": {"UST25": "2.5 üst", "KGVAR": "Karşılıklı gol",
+                                                                        "MS1": "{ev} kazanır", "MS2": "{dep} kazanır", "MSX": "Beraberlik"}},
+}
+
+
+def hikaye(a: dict, dil: str = "en", yuzdeli: bool = True) -> tuple[str, str, str]:
+    """Kartın ve postun ilk satırı: maçın tek cümlelik hikâyesi (tür, satır 1, satır 2). Bütün yüzdeler kayıttan
+    (denetçi kayıtta olmayan yüzdeyi engeller); seçim ve kesinlik dili yok. Öncelik: oranla istatistiğin favorisi
+    ayrışıyorsa o, sonra en büyük fark (eşiği geçiyorsa), sonra güçlü favori, gollü maç, açık maç, en olası skor.
+    yuzdeli=False: karttaki çubuklar yüzdeyi zaten gösterdiği için "ayri" türünde yüzde yazılmaz."""
+    e, p = HIKAYE[dil], a["p"]
+    y = (lambda x: f"%{100 * x:.0f}") if dil == "tr" else (lambda x: f"{100 * x:.0f}%")
+    takim = {"MS1": a["ev"], "MS2": a["dep"]}
+    ist = istatistik_ms(a)
+    if ist:
+        fav_o = "MS1" if p["MS1"] >= p["MS2"] else "MS2"
+        fav_i = "MS1" if ist[0] >= ist[2] else "MS2"
+        if fav_o != fav_i and abs(ist[0] - ist[2]) >= 0.05 and abs(p["MS1"] - p["MS2"]) >= 0.05:
+            ip = ist[0] if fav_i == "MS1" else ist[2]
+            op, ip = (f" ({y(p[fav_o])})", f" ({y(ip)})") if yuzdeli else ("", "")
+            return "ayri", e["ayri"][0].format(o=takim[fav_o], op=op), e["ayri"][1].format(i=takim[fav_i], ip=ip)
+    c = dikkat_cekici(a)
+    if c:
+        ad = e["pazar"][c["pazar"]].format(ev=a["ev"], dep=a["dep"])
+        return "fark", e["fark"][0].format(ad=ad, o=y(c["piyasa"]), i=y(c["istatistik"])), e["fark"][1]
+    fav = max(("MS1", "MS2"), key=lambda k: p[k])
+    if p[fav] >= 0.62:
+        diger, cs = ("MS2", "CSX2") if fav == "MS1" else ("MS1", "CS1X")
+        return "favori", e["favori"][0].format(t=takim[fav], p=y(p[fav])), e["favori"][1].format(d=takim[diger], q=y(p[cs]))
+    if p["UST25"] >= 0.62 and p["KGVAR"] >= 0.55:
+        x, z = a["beklenen_gol"]
+        return "gol", e["gol"][0].format(p=y(p["UST35"])), e["gol"][1].format(x=f"{x:.1f}", y=f"{z:.1f}")
+    en = max(p["MS1"], p["MSX"], p["MS2"])
+    if en < 0.42:
+        return "acik", e["acik"][0].format(p=y(en)), e["acik"][1]
+    s, v = a["skorlar"][0]
+    return "skor", e["skor"][0].format(s=s), e["skor"][1].format(p=y(v))
+
+
 def manset(a: dict) -> list[dict]:
     """Kartın üç ana çağrısı: maç sonucu favorisi, 2.5 alt/üst, karşılıklı gol var/yok (olası taraf)."""
     p = a["p"]

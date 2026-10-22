@@ -64,22 +64,25 @@ zamanlama `.github/workflows/kalkylerat.yml`.
    Pazartesi haftalık karne (`etkilesim.hafta_ozeti`, SOZLESME A9): kartların ana yüzdeleri ortalaması, kaçının olduğu,
    oran mı istatistik mi olana yakındı; günlük "Who's right: the odds or the stats?" sorusunun haftalık cevabı.
 2. **Her gün aynı ritim**: sabah tablo, gün boyu kartlar, akşam tablo ve sonuçlar; alışkanlık yaratır.
-3. **Yoruma davet eden gerçek soru** (etkilesim.kart_sorusu): maça özel, dönüşümlü; tuzak kurma.
-4. **İlk saat**: sahibi paylaşımdan sonraki 30–60 dk'da gelen yorumlara @kalkylerat'tan kısa, bilgi veren cevaplar yazar.
+3. **İlk satır hikâye** (22 Ekim 2026): kart ve post maçın tek cümlelik hikâyesiyle açılır (`analiz.hikaye`; en güçlüsü
+   "oranlar X diyor, takım istatistiği Y diyor"). Akışta durduran şey "MATCH CHANCES" etiketi ya da rakam yığını değil.
+   Direktör hikâyeyle açmazsa şablon gider (`direktor.hikaye_basta`). Kartta renk tek anlam taşır.
+4. **Yoruma davet eden gerçek soru** (etkilesim.kart_sorusu): maça özel, dönüşümlü; tuzak kurma.
+5. **İlk saat**: sahibi paylaşımdan sonraki 30–60 dk'da gelen yorumlara @kalkylerat'tan kısa, bilgi veren cevaplar yazar.
    Yorum kiti (`bot/yorum.py`, SOZLESME D3): yeni yorumlar gündüz 30 dk'da bir okunur, "💬 Yorumlar" issue'suna 3 cevap
    taslağıyla düşer (telefona bildirim). Bot cevap atmaz; sahibi taslağı düzeltip elle atar.
-5. **Günlük elle yanıt**: büyük futbol hesaplarının maç tweetlerine 10–20 anlamlı yanıt (istatistik, kısa gerekçe).
+6. **Günlük elle yanıt**: büyük futbol hesaplarının maç tweetlerine 10–20 anlamlı yanıt (istatistik, kısa gerekçe).
    Yorum fırsatları (`bot/firsat.py`, SOZLESME D3): bot bu postları kendisi bulur (X arama, `[buyume]` ayarı),
    "🚀 Yorum fırsatları" issue'suna bağlantı + 2 taslakla gönderir; sahibi yapıştırıp elle atar. Eski yanıt kiti
    (arama bağlantıları) fırsatlar açıkken gönderilmez.
-6. **Kilometre taşları** (1. ay, 1.000 analiz) ayrı tweet ve sabit tweet güncellemesi.
-7. **Soru posta uygun olmalı**: tek maçlık postta çoğul ya da karşılaştırma sorusu sorulmaz; soru o maçın adıyla
+7. **Kilometre taşları** (1. ay, 1.000 analiz) ayrı tweet ve sabit tweet güncellemesi.
+8. **Soru posta uygun olmalı**: tek maçlık postta çoğul ya da karşılaştırma sorusu sorulmaz; soru o maçın adıyla
    sorulur ("How did you read Wales v Norway?").
-8. **Günlük bilgi postu** (`bot/bilgi.py`, 20 konu sırayla): oran = olasılık, marj, oran hareketi, kombine, seriler,
+9. **Günlük bilgi postu** (`bot/bilgi.py`, 20 konu sırayla): oran = olasılık, marj, oran hareketi, kombine, seriler,
    en olası gol sayısı, 0-0, kalesini gole kapatma, Poisson, en olası skor, xG, örneklem, kapanış oranı… Sayıların hepsi tanım gereği doğru ya da
    kodda hesaplanmış; istatistik iddiası yok. Direktör doğal dille yazar ama olgularda olmayan sayı kullanamaz (kod
    denetler). Sonunda gerçek bir soru. Robot gibi değil: her gün farklı açılış, kalıp cümle yok.
-9. **Hashtag:** taraftarların zaten kullandığı etiketler (`tweets.MILLI_ETIKETLER`: #BizimÇocuklar, #ThreeLions,
+10. **Hashtag:** taraftarların zaten kullandığı etiketler (`tweets.MILLI_ETIKETLER`: #BizimÇocuklar, #ThreeLions,
     #LesBleus...; kulüpler: #Arsenal, #COYS...). Uydurma kod etiketi (#FRAITA) yok. Liste postu (günün analiz tablosu)
     istisna (sahibinin kararı): tablodaki maçların takım etiketleri + turnuva + #Football #FootballPredictions, en
     fazla 8. Bahis etiketleri (#BettingTips) hiçbir postta yok. Diğer postlarda en fazla 1–2 ve yalnızca büyük turnuva/lig için (#UCL, #PremierLeague); her tweette değil.

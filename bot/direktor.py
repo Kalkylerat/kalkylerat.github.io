@@ -73,8 +73,11 @@ Follow this week's strategy notes when they are given. Return the post text in "
 "bilgi" is the daily knowledge post (odds, probability, staking, models): explain the given facts in a lively,
 plain way with a real-life angle and end with one open question. Use exactly the numbers in "facts_to_use" and no
 others; never add stats, history or claims of your own. Keep the 18+ line.
-"analiz" introduces our match analysis card (image attached): mention the headline chances and the most likely
-score from the facts, invite opinions; analysis only, never tell people to bet. "analiz_sonuc" quotes that card after
+"analiz" introduces our match analysis card (image attached). Open with the match's story from "story" in the facts
+(the card's headline: the odds and team stats disagreeing, a strong favourite, an open game...), in your own words
+but with all its percentages, before the block of numbers: the first line is what makes people stop scrolling, so
+never open with a label like "MATCH CHANCES". Then the chances from the template, and one specific question; analysis
+only, never tell people to bet. "analiz_sonuc" quotes that card after
 full time: the score and, for what happened, the chance it had before kick-off. The card gives probabilities, not
 picks or predictions: never write right, wrong, called it, our pick/call/prediction or ✅/❌. Use only numbers from the facts.
 "tablo" introduces the image of today's analysis board (many matches, lower leagues too). "ayrisma" introduces the
@@ -169,6 +172,14 @@ def yuzdeler_tam(metin: str, sablon: str, olgular: dict | None = None) -> bool:
                 for t in (ev, dep)):
             return False
     return True
+
+
+def hikaye_basta(metin: str, olgular: dict) -> bool:
+    """Analiz postunun ilk paragrafı maçın hikâyesinin (kartın manşeti) bütün yüzdelerini taşır: post akışta
+    hikâyeyle açılır, etiketle ya da rakam yığınıyla değil (22 Ekim 2026)."""
+    hikaye = " ".join(olgular.get("story") or [])
+    ilk = metin.strip().split("\n\n")[0]
+    return all(y in ilk for y in _YUZDE.findall(hikaye))
 
 
 # Yapay zekâ izleri (kaynak: sergebulaev/x-skills, MIT, "scrub rules"): okur yapay zekâyı tek kelimeden değil
@@ -266,6 +277,9 @@ def yazar(ayar, client=None, yaz=print):
             return sablon
         if tur in ("analiz", "analiz_sonuc", "tablo", "ayrisma") and not yuzdeler_tam(metin, sablon, olgular):
             yaz(f"Direktör metni şablondaki yüzdelerden birini düşürdü ({tur}); şablon kullanıldı.")
+            return sablon
+        if tur == "analiz" and not hikaye_basta(metin, olgular):
+            yaz("Direktör analiz postunu maçın hikâyesiyle açmadı; şablon kullanıldı.")
             return sablon
         if yz_izi(metin):
             yaz(f"Direktör metninde yapay zekâ izi ({tur}: {'; '.join(yz_izi(metin))}); şablon kullanıldı.")

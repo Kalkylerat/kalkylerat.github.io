@@ -24,4 +24,4 @@ claude.ai sohbetlerinde konuşulduysa `claude-ai-aktarim.md` adımlarıyla buray
 - Hafıza özeti (6 Ekim) brief'i doğruluyor: haftada 7–10 saat, test bütçesi 5 000–10 000 kr, ajan Claude'da yaşar
   (Vezir alt ajanı değil), ayrı denetçi, print-on-demand'e şüphe, sahibine az soru, Flow Event paralel sürer.
 - Ek: ürün kendi tasarımı da olabilir; alan DJ/otelcilikle sınırlı değil; "birkaç küçük mağaza" hedefi; araç onay
-  istemleri (TinyFish) sahibini rahatsız ediyor. Ana işverenle çıkar çatışması henüz kontrol edilmedi.
+  istemleri (TinyFish) sahibini rahatsız ediyor.

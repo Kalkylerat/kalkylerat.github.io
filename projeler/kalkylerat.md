@@ -47,4 +47,3 @@
   maç listesi kredi harcamaz, oran isteği pazar × bölge başına 1 kredi. 29 Eylül'de ilk kez bu kaynakla sonuç kapandı.
 - Maliyet notu: Mr. Likely 18 Ekim'den beri sabah verisi zayıfsa 11:00'de ~55 API-Football isteği daha atar (PR #102),
   yani "Mr. Likely ek istek atmaz" artık geçerli değil. `max_oran_sayfasi = 30`.
-- 28 Eylül'de kuponlu ve kasalı eski düzenin günü: 3 ayaklı kupon tuttu (+114 €, banka 10 114 €). Bugünkü Kalkylerat kupon ve kasa paylaşmaz.

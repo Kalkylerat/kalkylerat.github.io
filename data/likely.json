@@ -30499,7 +30499,10 @@
      "durum": "bekliyor",
      "secim": "2026-10-22T05:43:06+00:00",
      "oto": true,
-     "paylas": "2026-10-22T11:00:00+02:00"
+     "paylas": "2026-10-22T11:00:00+02:00",
+     "tweet_id": "2113194603968917693",
+     "metin": "🎩 A treble today. One leg more than I like.\n\n⚽ Pafos v Riga\n⚽ Borac Banja Luka v KuPS\n⚽ Awassa Kenema v Ethiopia Nigd Bank\n\n📊 Combined 2.00. I make it about 46% to land, so more often than not it doesn't.\n\n💬 Which leg lets me down?\n\n18+ | Play responsibly",
+     "yayin": "2026-10-22T09:03:25+00:00"
     },
     {
      "ad": "gunun-kuponu-2",
@@ -30557,6 +30560,222 @@
      "secim": "2026-10-22T05:43:06+00:00",
      "oto": true,
      "paylas": "2026-10-22T11:40:00+02:00"
+    },
+    {
+     "ad": "gunun-kuponu-3",
+     "ayaklar": [
+      {
+       "aday_id": "1636378-CS1X",
+       "fixture_id": 1636378,
+       "pazar": "CS1X",
+       "ev": "Aarhus",
+       "dep": "Egnatia Rrogozhinë",
+       "lig": "UEFA Europa Conference League",
+       "baslama": "2026-10-22T21:00:00+02:00",
+       "etiket": "Double chance 1X",
+       "oran": 1.14,
+       "olasilik": 0.859,
+       "deger": -0.02,
+       "durum": "bekliyor",
+       "skor": null
+      },
+      {
+       "aday_id": "1636288-CSX2",
+       "fixture_id": 1636288,
+       "pazar": "CSX2",
+       "ev": "Lillestrom",
+       "dep": "Real Sociedad",
+       "lig": "UEFA Europa League",
+       "baslama": "2026-10-22T21:00:00+02:00",
+       "etiket": "Double chance X2",
+       "oran": 1.14,
+       "olasilik": 0.858,
+       "deger": -0.022,
+       "durum": "bekliyor",
+       "skor": null
+      },
+      {
+       "aday_id": "1636318-CS1X",
+       "fixture_id": 1636318,
+       "pazar": "CS1X",
+       "ev": "Plzen",
+       "dep": "Levski Sofia",
+       "lig": "UEFA Europa League",
+       "baslama": "2026-10-22T21:00:00+02:00",
+       "etiket": "Double chance 1X",
+       "oran": 1.24,
+       "olasilik": 0.795,
+       "deger": -0.014,
+       "durum": "bekliyor",
+       "skor": null
+      },
+      {
+       "aday_id": "1636249-UST15",
+       "fixture_id": 1636249,
+       "pazar": "UST15",
+       "ev": "Celtic",
+       "dep": "Celta Vigo",
+       "lig": "UEFA Europa League",
+       "baslama": "2026-10-22T21:00:00+02:00",
+       "etiket": "Over 1.5 goals",
+       "oran": 1.24,
+       "olasilik": 0.791,
+       "deger": -0.019,
+       "durum": "bekliyor",
+       "skor": null
+      }
+     ],
+     "oran": 2.0,
+     "olasilik": 0.463,
+     "deger": -0.074,
+     "durum": "bekliyor",
+     "secim": "2026-10-22T09:03:25+00:00",
+     "oto": true,
+     "paylas": "2026-10-22T18:00:00+02:00"
+    },
+    {
+     "ad": "long-shot",
+     "ayaklar": [
+      {
+       "aday_id": "1636454-CS1X",
+       "fixture_id": 1636454,
+       "pazar": "CS1X",
+       "ev": "Monaco",
+       "dep": "SC Freiburg",
+       "lig": "UEFA Europa Conference League",
+       "baslama": "2026-10-22T21:00:00+02:00",
+       "etiket": "Double chance 1X",
+       "oran": 1.37,
+       "olasilik": 0.706,
+       "deger": -0.032,
+       "durum": "bekliyor",
+       "skor": null
+      },
+      {
+       "aday_id": "1636234-CS1X",
+       "fixture_id": 1636234,
+       "pazar": "CS1X",
+       "ev": "Beşiktaş",
+       "dep": "Crystal Palace",
+       "lig": "UEFA Europa League",
+       "baslama": "2026-10-22T21:00:00+02:00",
+       "etiket": "Double chance 1X",
+       "oran": 1.42,
+       "olasilik": 0.691,
+       "deger": -0.019,
+       "durum": "bekliyor",
+       "skor": null
+      },
+      {
+       "aday_id": "1636424-CSX2",
+       "fixture_id": 1636424,
+       "pazar": "CSX2",
+       "ev": "FC Iberia 1999",
+       "dep": "Mjallby AIF",
+       "lig": "UEFA Europa Conference League",
+       "baslama": "2026-10-22T18:45:00+02:00",
+       "etiket": "Double chance X2",
+       "oran": 1.42,
+       "olasilik": 0.687,
+       "deger": -0.024,
+       "durum": "bekliyor",
+       "skor": null
+      },
+      {
+       "aday_id": "1628013-CS1X",
+       "fixture_id": 1628013,
+       "pazar": "CS1X",
+       "ev": "Al Talaba",
+       "dep": "Al Quwa Al Jawiya",
+       "lig": "Iraqi League",
+       "baslama": "2026-10-22T19:00:00+02:00",
+       "etiket": "Double chance 1X",
+       "oran": 1.44,
+       "olasilik": 0.678,
+       "deger": -0.023,
+       "durum": "bekliyor",
+       "skor": null
+      }
+     ],
+     "oran": 3.98,
+     "olasilik": 0.227,
+     "deger": -0.097,
+     "durum": "bekliyor",
+     "secim": "2026-10-22T09:03:25+00:00",
+     "oto": true,
+     "paylas": "2026-10-22T15:45:00+02:00"
+    },
+    {
+     "ad": "gunun-kuponu-4",
+     "ayaklar": [
+      {
+       "aday_id": "1636276-CS1X",
+       "fixture_id": 1636276,
+       "pazar": "CS1X",
+       "ev": "Juventus",
+       "dep": "Rennes",
+       "lig": "UEFA Europa League",
+       "baslama": "2026-10-22T18:45:00+02:00",
+       "etiket": "Double chance 1X",
+       "oran": 1.14,
+       "olasilik": 0.857,
+       "deger": -0.023,
+       "durum": "bekliyor",
+       "skor": null
+      },
+      {
+       "aday_id": "1636308-CS1X",
+       "fixture_id": 1636308,
+       "pazar": "CS1X",
+       "ev": "Olympiakos Piraeus",
+       "dep": "Sparta Praha",
+       "lig": "UEFA Europa League",
+       "baslama": "2026-10-22T21:00:00+02:00",
+       "etiket": "Double chance 1X",
+       "oran": 1.16,
+       "olasilik": 0.849,
+       "deger": -0.016,
+       "durum": "bekliyor",
+       "skor": null
+      },
+      {
+       "aday_id": "1636474-UST15",
+       "fixture_id": 1636474,
+       "pazar": "UST15",
+       "ev": "FC Thun",
+       "dep": "HNK Hajduk Split",
+       "lig": "UEFA Europa Conference League",
+       "baslama": "2026-10-22T21:00:00+02:00",
+       "etiket": "Over 1.5 goals",
+       "oran": 1.2,
+       "olasilik": 0.81,
+       "deger": -0.028,
+       "durum": "bekliyor",
+       "skor": null
+      },
+      {
+       "aday_id": "1597947-UST25",
+       "fixture_id": 1597947,
+       "pazar": "UST25",
+       "ev": "Al Shahaniya",
+       "dep": "Al Sadd",
+       "lig": "Stars League",
+       "baslama": "2026-10-22T16:30:00+02:00",
+       "etiket": "Over 2.5 goals",
+       "oran": 1.26,
+       "olasilik": 0.785,
+       "deger": -0.011,
+       "durum": "bekliyor",
+       "skor": null
+      }
+     ],
+     "oran": 2.0,
+     "olasilik": 0.463,
+     "deger": -0.074,
+     "durum": "bekliyor",
+     "secim": "2026-10-22T09:03:25+00:00",
+     "oto": true,
+     "paylas": "2026-10-22T13:30:00+02:00"
     }
    ],
    "islenen": [],
@@ -30911,7 +31130,8 @@
     }
    ],
    "oto": true,
-   "issue": 117
+   "issue": 117,
+   "tazeleme": "2026-10-22T09:03:25+00:00"
   }
  ]
 }

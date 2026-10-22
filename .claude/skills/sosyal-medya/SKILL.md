@@ -7,7 +7,7 @@ description: X (Twitter) büyüme ve içerik uzmanı — Kalkylerat hesabının 
 
 Hesap: @kalkylerat. İngilizce, geniş futbol kitlesi. **Konsept: analiz** (Ekim 2026'dan beri; kupon, stake,
 kasa yok). Her gün bütün maçlar analiz edilir (`bot/analiz.py`, data/analiz/<tarih>.json); X'te sabah tablosu, analiz
-kartları (`gorsel.analiz_karti`; günde en fazla 10, 22 Ekim 2026'dan beri; önce oranla istatistiğin ayrıştığı büyük maçlar), maç bitince kartın alıntısıyla maç sonu postu
+kartları (`gorsel.analiz_karti`; günde en fazla 10, 22 Ekim 2026'dan beri; önce taraftar etiketli büyük kulüpler), maç bitince kartın alıntısıyla maç sonu postu
 (`etkilesim.analiz_takibi`), tablo altına sonuç yanıtları, anket, günün maçları, iki bilgi postu. Kurallar SOZLESME.md.
 Plan: Türkçe hesap (@kalkyleratTR, altın palet) ve bütün analizler için ücretli kanal. Kupon yalnızca Mr. Likely'de.
 Bot: `bot/etkilesim.py` (paylaşım akışı), `bot/tweets.py` (metinler), `bot/gorsel.py` (görseller),
@@ -51,7 +51,13 @@ zamanlama `.github/workflows/kalkylerat.yml`.
 - Yalnızca resmi API; kazıyıcı, tarayıcı otomasyonu, Cloudflare atlatma yok.
 - Bahis dili yok, kesinlik dili yok, link yok (denetçi + direktör kuralları).
 
-## Ölçülen durum (3 Ekim 2026, `metrik` komutu → data/metrikler.json)
+## Ölçülen durum (22 Ekim 2026, eski kart, son 100 post)
+- 30 takipçi. Kart ort. 47 görüntülenme (medyan 38), 17 yanıt, 4 kayıt; maç sonu ort. 25, 1 yanıt; bilgi postu ort. 7.
+  En çok görülenler büyük kulüp maçları (Betis–Feyenoord 141, Lille–Galatasaray 119, Real Madrid–Leipzig 108).
+- @fmeetsdata incelemesi (22 Ekim, 40 tweet): maç bitince duygusal tek cümle + görsel, bayrak/ülke kimliği, listeler
+  en çok yayılıyor; soru sormuyorlar (bizim avantajımız). Turnuva simülasyonu onların ürünü, kopyalanmıyor.
+
+## Eski ölçüm (3 Ekim 2026, `metrik` komutu → data/metrikler.json)
 - 37 post, post başına ~5,6 görüntülenme, 1 takipçi, 0 takip edilen, 0 beğeni. Yayın tek başına görünürlük getirmiyor.
 - Kaldıraçlar: (1) sahibinin elle, büyük hesapların maç postlarına ilk 30–60 dakikada yanıtları (bot "yorum
   fırsatları" hazırlar: firsat.py, madde 5; kapalıyken eski "yanıt kiti", kit.py); (2) X Toplulukları ([topluluk] id, API community_id); (3) hesabın insan
@@ -60,13 +66,18 @@ zamanlama `.github/workflows/kalkylerat.yml`.
   hesabı kapatır. Kullanılmaz.
 
 ## Kalkylerat için işe yarayanlar
-1. **Şeffaflık** en büyük koz: her kartın maç sonu postu, tutsa da tutmasa da maç öncesi yüzdeyle aynı görünürlükte.
-   Pazartesi haftalık karne (`etkilesim.hafta_ozeti`, SOZLESME A9): kartların ana yüzdeleri ortalaması, kaçının olduğu,
-   oran mı istatistik mi olana yakındı; günlük "Who's right: the odds or the stats?" sorusunun haftalık cevabı.
+0. **Konum (22 Ekim 2026, sahibinin kararı): "oynamadan önce hesap makinesi".** Zaten oynayanların daha mantıklı karar
+   vermesine yardım, bahse teşvik yok. Yalnızca oranlardan (marjsız) gelen ihtimal; takım istatistiği yok (A4: 342 maçta
+   oranlardan kötüydü, bilgi katmıyordu). Kartta her sonucun adil oranı, bahisçi payı, gerçeklik notu (A10); tek sonuç
+   öne çıkmaz, "value/back/bet" yok. Kombine hesabı yok (Mr. Likely ayrı karakter).
+1. **Şeffaflık** en büyük koz: her kartın maç sonu postu, tutsa da tutmasa da maç öncesi yüzdeyle aynı görünürlükte,
+   sürpriz ölçerle ("Upset meter: 15%, about a 1-in-7 result", A7). Pazartesi karnesi (`etkilesim.hafta_ozeti`, A9):
+   kartların ana yüzdeleri ve kalibrasyon ("said 40–49% → happened 48%", bütün kayıttan); güvenin temeli bu.
 2. **Her gün aynı ritim**: sabah tablo, gün boyu kartlar, akşam tablo ve sonuçlar; alışkanlık yaratır.
-3. **İlk satır hikâye** (22 Ekim 2026): kart ve post maçın tek cümlelik hikâyesiyle açılır (`analiz.hikaye`; en güçlüsü
-   "oranlar X diyor, takım istatistiği Y diyor"). Akışta durduran şey "MATCH CHANCES" etiketi ya da rakam yığını değil.
-   Direktör hikâyeyle açmazsa şablon gider (`direktor.hikaye_basta`). Kartta renk tek anlam taşır.
+3. **İlk satır hikâye** (22 Ekim 2026): kart ve post oranların gözden kaçan gerçeğiyle açılır (`analiz.hikaye`): "Anderlecht
+   are favourites. They still fail to win 57% of the time.", "AZ win 66%: about 2 in 3." Sıklık dili yalnızca yüzdenin
+   yanında. Yer darsa `analiz.hikaye_tek`. Direktör hikâyeyle açmazsa şablon gider (`direktor.hikaye_basta`). Maç
+   satırında bayraklar (`etkilesim.mac_satiri`, takım ülkesi önbellekte: data/takim_ulke.json). Kartta renk tek anlam.
 4. **Yoruma davet eden gerçek soru** (etkilesim.kart_sorusu): maça özel, dönüşümlü; tuzak kurma.
 5. **İlk saat**: sahibi paylaşımdan sonraki 30–60 dk'da gelen yorumlara @kalkylerat'tan kısa, bilgi veren cevaplar yazar.
    Yorum kiti (`bot/yorum.py`, SOZLESME D3): yeni yorumlar gündüz 30 dk'da bir okunur, "💬 Yorumlar" issue'suna 3 cevap

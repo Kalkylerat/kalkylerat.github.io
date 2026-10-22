@@ -171,9 +171,7 @@ def _plan(gun: dict) -> list[tuple[str, datetime, datetime]]:
         elif vit:
             ilk = min(datetime.fromisoformat(v["baslama"]) for v in vit)
             plan.append(("maclar", ilk - timedelta(hours=5), ilk - timedelta(minutes=15)))
-        if len(gun.get("kiyas") or gun.get("ayrisma") or []) >= 2:  # oran vs istatistik (ikinci tablo): kim haklı?
-            ilk = min(datetime.fromisoformat(a["baslama"]) for a in gun.get("kiyas") or gun["ayrisma"])
-            plan.append(("ayrisma", _acilis(10, ilk), ilk - timedelta(minutes=30)))
+        # oran vs istatistik (ayrisma) postu 22 Ekim 2026'da kalktı (SÖZLEŞME A4)
         if vit:
             a = datetime.fromisoformat(anket_maci(vit)["baslama"])
             plan.append(("anket", a - timedelta(hours=3), a - timedelta(minutes=30)))
@@ -355,7 +353,7 @@ def paylas(gun: dict, ayar, x, simdi: datetime, yaz=print, yazar=None) -> str | 
             if tur.startswith("analiz_"):
                 a = gun["analizler"][int(tur.split("_")[1])]
                 sablon = analiz_tweeti(a, ayar)
-                metin = yazar("analiz", analiz_olgulari(a, ayar), sablon) if yazar else sablon
+                metin = yazar("analiz", analiz_olgulari(a, ayar, sablon), sablon) if yazar else sablon
                 if not metin:
                     durum[tur] = {"durum": "atlandi", "neden": "direktör"}
                     continue
@@ -458,47 +456,33 @@ def iki_tarafli(a: dict) -> list[str]:
             f'🥅 Both teams score {_pct(p["KGVAR"])} · Not both {_pct(p["KGYOK"])}']
 
 
-# Hikâye oranla istatistiğin ayrışmasıysa kapanış sorusu onu sorar (Pazartesi karnesi aynı sorunun cevabıdır, A9);
-# maça göre dönüşümlü: aynı soru art arda gitmesin (X benzer post cezası). Kısa: iki takım hikâyede adıyla geçer,
-# soru bu maçın iki okumasını sorar (çok maçlı karşılaştırma değil).
-ODDS_STATS_SORULARI = ("Odds or stats? 👇", "Which read is right? 👇", "Which number looks off? 👇")
+def mac_satiri(a: dict, bos: str = "🆚") -> str:
+    """Postta maç satırı: takımların bayrağıyla (ülkesi biliniyorsa; taraftar kendi takımını hemen görür), yoksa bos."""
+    from .tweets import bayrak
+    b1, b2 = bayrak(a.get("ev_ulke")), bayrak(a.get("dep_ulke"))
+    if b1 and b2:
+        return f'{b1} {a["ev"]} v {a["dep"]} {b2}'
+    return f'{bos} {a["ev"]} v {a["dep"]}'
 
 
 def analiz_tweeti(a: dict, ayar) -> str:
-    """Analiz kartıyla giden metin. İlk satırlar maçın hikâyesi (kartın manşetiyle aynı, analiz.hikaye): akışta
-    okuyanı durduran şey "MATCH CHANCES" etiketi değil hikâye (22 Ekim 2026). Sonra maç, üç pazar iki tarafıyla,
-    takım istatistiği satırı (ya da neden olmadığı; hikâye zaten oranla istatistiği veriyorsa tekrar etmez), maça özel
-    soru. Sığmazsa önce etiket, saat, "Chances," ve ikinci hikâye satırı düşer (istatistik yüzdesini taşıyorsa düşmez);
-    maça özel soru en son."""
+    """Analiz kartıyla giden metin. İlk satırlar oranların hikâyesi (kartın manşetiyle aynı, analiz.hikaye, A10);
+    sonra bayraklı maç satırı, üç pazar iki tarafıyla, maça özel soru. Takım istatistiği yok (A4); adil oran ve
+    bahisçi payı yalnızca kartta (280 sınırı). Sığmazsa önce etiket, saat, "Chances," ve ikinci hikâye satırı
+    düşer; maça özel soru en son (yanıtı o getirir)."""
     tur, h1, h2 = analiz.hikaye(a)
-    karsilastirma_hikayede = tur in ("ayri", "fark")
-    if karsilastirma_hikayede:
-        h1 = "📈 " + h1  # oran/istatistik yan yana (SÖZLEŞME A4)
-    mac = f'🆚 {a["ev"]} v {a["dep"]}'
-    baslar = (f'{h1}\n{h2}\n\n{mac} · {_saat(a, ayar)}\n', f'{h1}\n{h2}\n\n{mac}\n', f'{h1}\n\n{mac}\n')
-    if tur == "ayri":  # istatistik yüzdesi ikinci satırda: o satır düşerse oran yanında istatistik kalmaz (A4)
-        baslar = baslar[:2]
+    mac = mac_satiri(a)
+    tek = analiz.hikaye_tek(a)
+    baslar = (f'{h1}\n{h2}\n\n{mac} · {_saat(a, ayar)}\n', f'{h1}\n{h2}\n\n{mac}\n', f'{tek}\n\n{mac}\n')
     govde = "\n".join(iki_tarafli(a))
-    c = (a.get("karsilastirma") or [None])[0]
-    istatistik = ((f'\n📈 Team stats: {c["ad"]} {_pct(c["istatistik"])} (odds {_pct(c["piyasa"])})',
-                   f'\n📈 Stats: {c["ad"]} {_pct(c["istatistik"])} · odds {_pct(c["piyasa"])}') if c else
-                  ("\n📈 Every % here is from team stats (no odds)",) if a.get("kaynak") == "istatistik" else
-                  ("\n📈 Team stats: not enough games to compare with the odds", "\n📈 Team stats: too few games"))
-    farklar = ("",) if karsilastirma_hikayede else istatistik
-    soru = ODDS_STATS_SORULARI[int(a.get("fixture_id") or 0) % len(ODDS_STATS_SORULARI)] if karsilastirma_hikayede \
-        else kart_sorusu(a)
-    sorular = (soru, "Your read? 👇")
+    sorular = (kart_sorusu(a), "Your read? 👇")
     sonlar = ("\n\n💬 Chances, not picks. ", "\n\n💬 Not picks. ")
     etiket = _etiket(a)
     etiketler = dict.fromkeys((etiket, etiket.split(" ")[0] if etiket else "", ""))
-    # Sığmazsa düşme sırası (en içteki döngü önce): etiket, saat, ikinci hikâye satırı, istatistik satırının uzunu;
-    # maça özel soru en son (yanıtı o getirir)
-    secenekler = [(fark, son + q, et, bas) for q in sorular for fark in farklar for bas in baslar for son in sonlar
-                  for et in etiketler]
-    # Son çare (çok uzun takım adları): hikâyesiz eski düzen, istatistik satırı yine yazılır
-    secenekler += product(istatistik, [s + q for q in sorular for s in sonlar], etiketler, (f"{mac}\n",))
-    for fark, son, et, bas in secenekler:
-        metin = bas + govde + fark + son + et + f"\n{ANSVAR}"
+    secenekler = [(son + q, et, bas) for q in sorular for bas in baslar for son in sonlar for et in etiketler]
+    secenekler += [(son + q, et, f"{mac}\n") for q in sorular for son in sonlar for et in etiketler]  # son çare
+    for son, et, bas in secenekler:
+        metin = bas + govde + son + et + f"\n{ANSVAR}"
         if "not picks" in metin.lower() and uzunluk(metin) <= LIMIT:  # her kart postu seçim olmadığını söyler
             return metin
     metin, son = f"{mac}\n" + govde, sonlar[1] + sorular[1]
@@ -507,15 +491,14 @@ def analiz_tweeti(a: dict, ayar) -> str:
     return metin + son + f"\n{ANSVAR}"
 
 
-def analiz_olgulari(a: dict, ayar) -> dict:
-    _, h1, h2 = analiz.hikaye(a)
-    return {"story": [h1, h2], "home": a["ev"], "away": a["dep"], "competition": a.get("lig"), "kickoff": _saat(a, ayar),
+def analiz_olgulari(a: dict, ayar, sablon: str | None = None) -> dict:
+    # Hikâye: şablonun gerçekten açıldığı paragraf (yer darsa tek satırlık hali; direktor.hikaye_basta bununla denetler)
+    hikaye = sablon.split("\n\n")[0].split("\n") if sablon and not sablon.startswith("🆚") else list(analiz.hikaye(a)[1:])
+    return {"story": hikaye, "home": a["ev"], "away": a["dep"], "competition": a.get("lig"), "kickoff": _saat(a, ayar),
             "chances_both_sides": iki_tarafli(a),
             "framing": "probabilities, not picks: always give both sides of each market as in the template",
             "most_likely_score": f'{a["skorlar"][0][0]} ({_pct(a["skorlar"][0][1])})',
             "expected_goals": a["beklenen_gol"], "data_confidence": a["guven"],
-            "team_stats_vs_market": [{"market": c["ad"], "market_chance": _pct(c["piyasa"]),
-                                      "team_stats_chance": _pct(c["istatistik"])} for c in (a.get("karsilastirma") or [])[:2]],
             "note": "the image card shows every market; this text introduces it. No betting advice."}
 
 
@@ -542,41 +525,50 @@ def xg_metni(xg) -> str:
     return f"{xg[0]:.1f} – {xg[1]:.1f}"
 
 
+def surpriz_olcer(p: float) -> str:
+    """Olan sonucun maç öncesi yüzdesi, sıklık diliyle (SÖZLEŞME A7): olgu, duygu iddiası değil."""
+    if p < 0.35:
+        return f"📉 Upset meter: {_pct(p)}, about a 1-in-{max(2, round(1 / max(p, 0.01)))} result"
+    k, n = analiz.siklik(p)
+    return f"🔎 That result had {_pct(p)} before kick-off, about {k} in {n}"
+
+
 def analiz_takip_tweeti(a: dict, skor: str, isabet: list | None = None, xg=None) -> str:
-    """Maç sonu alıntısı: skor, (varsa) maçın gerçek xG'si, olanların maç öncesi yüzdeleri. Doğru/yanlış, ✅/❌,
-    "seçimimiz" yok: kart seçim değil, olasılıktı."""
+    """Maç sonu alıntısı: bayraklı skor, sürpriz ölçer (olan sonucun maç öncesi yüzdesi, sıklık diliyle), (varsa)
+    maçın gerçek xG'si, olanların maç öncesi yüzdeleri. Doğru/yanlış, ✅/❌, "seçimimiz" yok: kart seçim değil,
+    olasılıktı."""
     ev, dep = (int(x) for x in skor.split("-"))
-    satirlar = "\n".join(f'{o["emoji"]} {o["ad"]}: {_pct(o["p"]) if o["p"] >= 0.005 else "under 1%"}'
-                         for o in olan_sanslar(a, ev, dep))
+    olanlar = olan_sanslar(a, ev, dep)
+    satir = [f'{o["emoji"]} {o["ad"]}: {_pct(o["p"]) if o["p"] >= 0.005 else "under 1%"}' for o in olanlar]
     xg_satiri = f"\n📐 Expected goals from shots: {xg_metni(xg)}" if xg else ""
-    bas = (f'🔁 FULL TIME\n⚽ {a["ev"]} {ev}–{dep} {a["dep"]}{xg_satiri}\n\n📊 Our pre-match chance of what happened:\n'
-           + satirlar)
-    if xg:  # gerçek xG varsa soru onunla: skor, yaratılan pozisyonları yansıttı mı
-        return ilk_sigan(bas + "\n\n💡 Chances, not picks.\n💬 Fair result on the chances created? 👇\n" + ANSVAR,
-                         bas + "\n\n💬 Fair result? 👇\n" + ANSVAR, bas + "\n\n" + ANSVAR)
-    return ilk_sigan(bas + "\n\n💡 Chances, not picks. One match proves little.\n💬 Saw it coming? 👇\n" + ANSVAR,
-                     bas + "\n\n💡 Chances, not picks.\n💬 Saw it coming? 👇\n" + ANSVAR, bas + "\n\n" + ANSVAR)
+    skor_satiri = mac_satiri(a, "⚽").replace(f' v {a["dep"]}', f' {ev}–{dep} {a["dep"]}', 1)
+    olcer = "\n" + surpriz_olcer(olanlar[0]["p"])
+    soru = "💬 Fair result on the chances created? 👇" if xg else "💬 Saw it coming? 👇"  # xG varsa soru onunla
+    # Sığmazsa: önce açıklama, sonra başlık kısalır, sonra skor satırı, en son sürpriz ölçer; "not picks" hep kalır
+    sonlar = ((True, f"\n\n💡 Chances, not picks. One match proves little.\n{soru}\n{ANSVAR}"),
+              (True, f"\n\n💡 Chances, not picks.\n{soru}\n{ANSVAR}"), (True, f"\n\n💬 Not picks. {soru[2:]}\n{ANSVAR}"),
+              (False, f"\n\nNot picks.\n{ANSVAR}"))
+    basliklar = ("📊 Our pre-match chance of what happened:", "📊 Pre-match chances:")
+    adaylar = [((not q, not o, len(satirlar) < 4, b != basliklar[0], i),
+                f'🔁 FULL TIME\n{skor_satiri}{o}{xg_satiri}\n\n{b}\n' + "\n".join(satirlar) + son)
+               for i, (q, son) in enumerate(sonlar) for o in (olcer, "") for b in basliklar for satirlar in (satir, satir[:3])]
+    # öncelik: soru > sürpriz ölçer > skor satırı > uzun başlık > açıklama cümlesi; "not picks" hepsinde
+    return ilk_sigan(*(m for _, m in sorted(adaylar, key=lambda x: x[0])))
 
 
 def tablo_mac_sonu_tweeti(a: dict, ev: int, dep: int, aksam: bool = False) -> str:
-    """Tablodaki bir maç bitince tablo postuna yanıt: skor ve olanların maç öncesi yüzdeleri, istatistik varsa
-    oranla yan yana (karşılaştırmalı). Seçim dili yok."""
-    kars = {c["pazar"]: c["istatistik"] for c in a.get("karsilastirma") or []}
-    sonuc = "MS1" if ev > dep else "MS2" if dep > ev else "MSX"
-    ist = [kars.get(sonuc),
-           (kars["UST25"] if ev + dep >= 3 else 1 - kars["UST25"]) if "UST25" in kars else None,
-           (kars["KGVAR"] if ev and dep else 1 - kars["KGVAR"]) if "KGVAR" in kars else None, None]
-    satirlar = []
-    for o, i in zip(olan_sanslar(a, ev, dep), ist):
-        p = _pct(o["p"]) if o["p"] >= 0.005 else "under 1%"
-        satirlar.append(f'{o["emoji"]} {o["ad"]}: odds {p} · stats {_pct(i)}' if i is not None else
-                        f'{o["emoji"]} {o["ad"]}: {p}')
-    mac = f'🆚 {a["ev"]} {ev}–{dep} {a["dep"]}\n\n'
-    uzun = f"⚽ FULL TIME · from {'tonight' if aksam else 'this morning'}'s board\n" + mac + "📊 Our pre-match chance of what happened:\n"
-    kisa = "⚽ FT · from today's board\n" + mac + "📊 Pre-match chance:\n"
-    sik = [x.replace("odds ", "").replace(" · stats ", " / stats ") for x in satirlar]
+    """Tablodaki bir maç bitince tablo postuna yanıt: skor, sürpriz ölçer ve olanların maç öncesi yüzdeleri
+    (oranlardan; takım istatistiği yok, A4). Seçim dili yok."""
+    olanlar = olan_sanslar(a, ev, dep)
+    satirlar = [f'{o["emoji"]} {o["ad"]}: {_pct(o["p"]) if o["p"] >= 0.005 else "under 1%"}' for o in olanlar]
+    mac = mac_satiri(a).replace(f' v {a["dep"]}', f' {ev}–{dep} {a["dep"]}', 1) + "\n"
+    olcer = surpriz_olcer(olanlar[0]["p"]) + "\n\n"
+    uzun = f"⚽ FULL TIME · from {'tonight' if aksam else 'this morning'}'s board\n" + mac + olcer + "📊 Our pre-match chance of what happened:\n"
+    kisa = "⚽ FT · from today's board\n" + mac + "\n📊 Pre-match chance:\n"
+    orta = "⚽ FT · from today's board\n" + mac + olcer + "📊 Pre-match chance:\n"
     adaylar = [uzun + "\n".join(satirlar) + "\n\n💬 Saw it coming? 👇", uzun + "\n".join(satirlar),
-               kisa + "\n".join(satirlar), kisa + "\n".join(sik), kisa + "\n".join(sik[:3])]
+               orta + "\n".join(satirlar), orta + "\n".join(satirlar[:3]), kisa + "\n".join(satirlar),
+               kisa + "\n".join(satirlar[:3])]
     return ilk_sigan(*(x + "\n" + ("" if x.endswith("👇") else "\n") + ANSVAR for x in adaylar))
 
 
@@ -709,13 +701,49 @@ def analiz_takibi(gun: dict, ayar, x, simdi: datetime, sonuc_getir, yaz=print, y
 HAFTA_MIN = 30  # karne en az bu kadar maç sonu çağrısıyla (daha azı gürültü)
 
 
+KALIBRASYON_MIN = 50  # bir bandın karnede yazılması için en az bu kadar çağrı
+KALIBRASYON_PAZARLARI = ("MS1", "MSX", "MS2", "UST25", "ALT25", "KGVAR", "KGYOK")
+
+
+def kalibrasyon(gunler: list[dict], son: str | None = None) -> list[dict]:
+    """SÖZLEŞME A9: bütün kayıttaki oran yüzdelerimiz %10'luk bantlarda (kart ve tablo maçları, sonucu kayıtlı
+    olanlar; tarih son'a kadar): bandın çağrı sayısı, ortalama yüzdemiz ve gerçekleşen oran. Kötüyse o da çıkar."""
+    maclar: dict = {}
+    for g in gunler:
+        if g.get("konsept") != "analiz" or (son and g["tarih"] > son):
+            continue
+        e = g.get("etkilesim") or {}
+        for tur, k in e.items():
+            t = (k or {}).get("takip") or {}
+            if tur.startswith("analiz_") and t.get("skor") and int(tur.split("_")[1]) < len(g.get("analizler") or []):
+                a = g["analizler"][int(tur.split("_")[1])]
+                maclar[a["fixture_id"]] = (a, tuple(int(x) for x in t["skor"].split("-")))
+        for liste in ("tablo", "tablo_aksam", "tablo_gece"):
+            ozetler = {a["fixture_id"]: a for a in g.get(liste) or [] if isinstance(a, dict)}
+            for fid, sn in ((e.get(liste) or {}).get("sonuclar") or {}).items():
+                if isinstance(sn, dict) and sn.get("skor") and int(fid) in ozetler:
+                    maclar.setdefault(int(fid), (ozetler[int(fid)], tuple(sn["skor"])))
+    bantlar: dict = {}
+    for a, (ev, dep) in maclar.values():
+        for k in KALIBRASYON_PAZARLARI:
+            p = (a.get("p") or {}).get(k)
+            if p is None:
+                continue
+            b = bantlar.setdefault(min(int(p * 10), 9), [0, 0, 0.0])
+            b[0] += 1
+            b[1] += bool(model.kazandi_mi(k, ev, dep))
+            b[2] += p
+    return [{"alt": 10 * b, "ust": 10 * b + 9, "adet": n, "ort_p": round(ps / n, 3), "olan": round(o / n, 3)}
+            for b, (n, o, ps) in sorted(bantlar.items()) if n >= KALIBRASYON_MIN]
+
+
 def hafta_ozeti(gunler: list[dict], tarih: str) -> dict | None:
     """SÖZLEŞME A9: tarihten önceki 7 günün karnesi, yalnızca paylaşılmış maç sonu postlarından (kayıtta ne varsa;
-    olmayanlar da sayılır). Kartın üç ana çağrısı (analiz.manset): ortalama yüzdemiz ve kaçının olduğu. Oran ile
-    takım istatistiğinin ikisi de olan maçlarda hangisi olana daha yakındı (maç sonunda kaydedilen Brier puanı)."""
+    olmayanlar da sayılır). Kartın üç ana çağrısı (analiz.manset): ortalama yüzdemiz ve kaçının olduğu; ve bütün
+    kayıttan kalibrasyon (yüzde bantlarına göre dediğimiz ile olan)."""
     son = datetime.fromisoformat(tarih).date() - timedelta(days=1)
     ilk = son - timedelta(days=6)
-    p_top = olan = adet = oran = ist = 0
+    p_top = olan = adet = 0
     for g in gunler:
         if g.get("konsept") != "analiz" or not ilk.isoformat() <= g["tarih"] <= son.isoformat():
             continue
@@ -725,29 +753,29 @@ def hafta_ozeti(gunler: list[dict], tarih: str) -> dict | None:
                 continue
             for c, oldu in zip(analiz.manset(g["analizler"][int(tur.split("_")[1])]), t["isabet"]):
                 p_top, olan, adet = p_top + c["p"], olan + bool(oldu), adet + 1
-            b = t.get("brier") or {}
-            if b and b["piyasa"] != b["istatistik"]:
-                oran, ist = oran + (b["piyasa"] < b["istatistik"]), ist + (b["istatistik"] < b["piyasa"])
     if adet < HAFTA_MIN:
         return None
     return {"ilk": ilk.isoformat(), "son": son.isoformat(), "adet": adet, "olan": olan,
-            "ort_p": round(p_top / adet, 3), "kiyas": oran + ist, "oran_yakin": oran}
+            "ort_p": round(p_top / adet, 3), "kalibrasyon": kalibrasyon(gunler, son.isoformat())}
 
 
 def hafta_tweeti(oz: dict) -> str:
-    """Pazartesi karnesi: bütün rakamlar kayıttan (hafta_ozeti); seçim/isabet dili yok, olanla yüzdemiz yan yana."""
+    """Pazartesi karnesi: bütün rakamlar kayıttan (hafta_ozeti); seçim/isabet dili yok, olanla yüzdemiz yan yana.
+    Kalibrasyon: en çok çağrılı bantlar ("When we said 50–59%, it happened 55%")."""
     ilk, son = (datetime.fromisoformat(oz[k]) for k in ("ilk", "son"))
     aralik = f"{ilk:%-d}–{son:%-d %b}" if ilk.month == son.month else f"{ilk:%-d %b} – {son:%-d %b}"
     govde = [f"🎯 Our cards' main chances averaged {_pct(oz['ort_p'])}.",
              f"📈 Actually happened: {_pct(oz['olan'] / oz['adet'])} ({oz['olan']} of {oz['adet']})."]
-    if oz["kiyas"] >= 10:
-        govde.append(f"⚖️ Odds beat team stats in {_pct(oz['oran_yakin'] / oz['kiyas'])} of games "
-                     f"({oz['oran_yakin']} of {oz['kiyas']}).")
-    for seffaf in ("\n\nEvery result is under its card, misses too.", ""):
-        metin = (f"📊 OUR WEEK IN NUMBERS | {aralik}\n\n" + "\n".join(govde) + seffaf
-                 + "\n\n💬 Higher or lower than you expected? 👇\n" + ANSVAR)
-        if uzunluk(metin) <= LIMIT:
-            break
+    bantlar = sorted(oz.get("kalibrasyon") or [], key=lambda b: -b["adet"])
+    kal = [f"{b['alt']}–{b['ust']}% → {_pct(b['olan'])} ({b['adet']} calls)"
+           for b in sorted(bantlar[:3], key=lambda b: b["alt"])]
+    for k in (len(kal), 2, 1, 0):
+        for seffaf in ("\n\nEvery result is under its card, misses too.", ""):
+            ek = ("\n\n⚖️ All season, said → happened:\n" + "\n".join(kal[:k])) if k else ""
+            metin = (f"📊 OUR WEEK IN NUMBERS | {aralik}\n\n" + "\n".join(govde) + ek + seffaf
+                     + "\n\n💬 Higher or lower than you expected? 👇\n" + ANSVAR)
+            if uzunluk(metin) <= LIMIT:
+                return metin
     return metin
 
 

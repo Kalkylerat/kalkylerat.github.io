@@ -74,12 +74,25 @@ def test_A3_olasilik_secim_degil():
     assert denetci.analiz_kontrolu("tablo", liste.replace("Which % surprises you", "Which number looks wrong"), [FRA, BEL], AYAR)
 
 
-def test_A4_oran_ve_istatistik_yan_yana():
-    kart = etkilesim.analiz_tweeti(FRA, AYAR)
-    assert "📈" in kart and ("Odds" in kart or "odds" in kart)
-    assert "📈 Team stats:" in etkilesim.analiz_tweeti(KAZ, AYAR)  # istatistik yoksa nedeni yazılır
-    yanit = etkilesim.tablo_mac_sonu_tweeti(FRA, 2, 1)
-    assert "odds" in yanit and "stats" in yanit
+def test_A4_yalnizca_oranlar_takim_istatistigi_gosterilmez():
+    """22 Ekim 2026: istatistik kayıtta kalır ama kartta, postta, tabloda ve maç sonunda yok; ayrışma postu yok."""
+    for metin in (etkilesim.analiz_tweeti(FRA, AYAR), etkilesim.analiz_tweeti(KAZ, AYAR),
+                  etkilesim.tablo_mac_sonu_tweeti(FRA, 2, 1), etkilesim.analiz_takip_tweeti(FRA, "2-1"),
+                  etkilesim.tablo_tweeti({"tarih": "2026-10-03"}, [FRA, BEL], AYAR)):
+        assert "stats" not in metin.lower() and "📈 Team" not in metin
+    assert "team_stats_vs_market" not in etkilesim.analiz_olgulari(FRA, AYAR)
+    gun = {"tarih": "2026-10-03", "konsept": "analiz", "olusturma": "2026-10-03T05:20:00+00:00",
+           "kiyas": [FRA, BEL, KAZ], "ayrisma": [FRA, BEL]}
+    assert "ayrisma" not in [t for t, _, _ in etkilesim._plan(gun)]
+    yazilan = []
+    asil = gorsel.ImageDraw.ImageDraw.text
+    gorsel.ImageDraw.ImageDraw.text = lambda self, xy, t, *a, **k: (yazilan.append(t), asil(self, xy, t, *a, **k))
+    try:
+        gorsel.analiz_karti(FRA, "20:45")
+        gorsel.analiz_tablosu([FRA, BEL], "2026-10-03", ["20:45", "20:45"])
+    finally:
+        gorsel.ImageDraw.ImageDraw.text = asil
+    assert not [t for t in yazilan if "stat" in t.lower() or "İSTATİSTİK" in t]
 
 
 def test_A4_istatistik_kendi_kategorisinden():
@@ -191,16 +204,24 @@ def test_A9_haftalik_karne_kayittan_kaybedenler_dahil():
             gunler.append(g)
         g["analizler"].append(a)
         g["etkilesim"][f"analiz_{len(g['analizler']) - 1}"] = {"durum": "paylasildi", "takip": {
-            "durum": "paylasildi", "isabet": [n % 2 == 0] * 3,
-            "brier": {"piyasa": 0.4, "istatistik": 0.5 if n < 9 else 0.3}}}
+            "durum": "paylasildi", "isabet": [n % 2 == 0] * 3, "skor": "2-0" if n % 2 == 0 else "0-1"}}
     gunler.append({"tarih": "2026-10-12", "konsept": "analiz", "analizler": [a], "etkilesim": {
         "analiz_0": {"durum": "paylasildi", "takip": {"durum": "paylasildi", "isabet": [True] * 3}}}})  # bu hafta değil
     oz = etkilesim.hafta_ozeti(gunler, "2026-10-12")
     assert (oz["ilk"], oz["son"], oz["adet"], oz["olan"]) == ("2026-10-05", "2026-10-11", 36, 18)
-    assert (oz["kiyas"], oz["oran_yakin"]) == (12, 9)
+    assert "kiyas" not in oz and "oran_yakin" not in oz  # oran vs istatistik karnesi 22 Ekim 2026'da kalktı (A4)
     assert oz["ort_p"] == round(sum(c["p"] for c in analiz.manset(a)) / 3, 3)
     metin = etkilesim.hafta_tweeti(oz)
-    assert "50% (18 of 36)" in metin and "75% of games (9 of 12)" in metin
+    assert "50% (18 of 36)" in metin and "stats" not in metin
+    # Kalibrasyon (22 Ekim 2026): bütün kayıttan bantlar; az çağrılı bant yazılmaz, kötü bant gizlenmez
+    bol = [{"tarih": "2026-10-01", "konsept": "analiz", "analizler": [dict(a, fixture_id=1000 + i) for i in range(60)], "etkilesim": {
+        f"analiz_{i}": {"takip": {"durum": "paylasildi", "skor": "2-0"}} for i in range(60)}}]
+    kal = etkilesim.kalibrasyon(bol)
+    assert kal and all(b["adet"] >= etkilesim.KALIBRASYON_MIN for b in kal)
+    ms1 = next(b for b in kal if b["alt"] <= 100 * a["p"]["MS1"] <= b["ust"] + 1)
+    assert ms1["olan"] >= 0.5  # France 60 kez kazandı: bant yüksek çıkar ve öyle yazılır
+    kmetin = etkilesim.hafta_tweeti({**oz, "kalibrasyon": kal})
+    assert "said → happened" in kmetin and "calls)" in kmetin and tweets.uzunluk(kmetin) <= tweets.LIMIT
     assert tweets.uzunluk(metin) <= tweets.LIMIT and metin.endswith(tweets.ANSVAR)
     assert not denetci._SECIM_DILI.search(metin) and not denetci._LINK.search(metin) and not denetci.KISALTMA.search(metin)
     for satir in metin.splitlines():
@@ -220,6 +241,32 @@ def test_A9_haftalik_karne_kayittan_kaybedenler_dahil():
     yazar = lambda *a: pytest.fail("karneyi direktör yazmaz")
     assert etkilesim.paylas(gun, AYAR, x, simdi, yaz=lambda *_: None, yazar=yazar) == "hafta"
     assert x.giden == [metin]
+
+
+def test_A10_durust_fiyat_her_sonuc_esit_secim_yok(monkeypatch):
+    """22 Ekim 2026: kartta her sonucun adil oranı (1/ihtimal) ve bahisçi payı; tek sonuç öne çıkmaz, bahis çağrısı yok;
+    gerçeklik notu kayıttan; ilk satır oranların hikâyesi."""
+    yazilan = []
+    asil = gorsel.ImageDraw.ImageDraw.text
+    monkeypatch.setattr(gorsel.ImageDraw.ImageDraw, "text", lambda self, xy, t, *a, **k: (yazilan.append(t), asil(self, xy, t, *a, **k)))
+    a = {**FRA, "marj": 0.052}
+    gorsel.analiz_karti(a, "20:45")
+    for k in ("MS1", "MSX", "MS2"):  # üç sonuç aynı biçimde
+        assert f"fair {analiz.adil_oran(a['p'][k])}" in yazilan
+    assert any("Bookmakers keep about 5%" in t for t in yazilan)
+    gorsel.analiz_karti(FRA, "20:45")  # marj yoksa uydurulmaz
+    assert any(t.startswith("Fair odds = 1 ÷ chance") for t in yazilan)
+    assert any(t.startswith("Reality check:") for t in yazilan)
+    yasak = re.compile(r"\b(value|back|bet|play)\b", re.IGNORECASE)
+    assert not [t for t in yazilan if yasak.search(t) and "not betting advice" not in t]
+    assert analiz.adil_oran(0.43) == "2.33" and analiz.adil_oran(0.25) == "4.00"
+    # bahisçi payı: o sabahki maç sonucu oranlarının ortancası
+    assert analiz.bahisci_marji({"A": {"MS1": 2.0, "MSX": 3.4, "MS2": 3.8}, "B": {"MS1": 2.1, "MSX": 3.5, "MS2": 3.9},
+                                 "C": {"MS1": 1.9}}) == round(sorted([1/2.0 + 1/3.4 + 1/3.8 - 1, 1/2.1 + 1/3.5 + 1/3.9 - 1])[0] / 2
+                                                             + sorted([1/2.0 + 1/3.4 + 1/3.8 - 1, 1/2.1 + 1/3.5 + 1/3.9 - 1])[1] / 2, 4)
+    assert analiz.bahisci_marji(None) is None
+    metin = etkilesim.analiz_tweeti(FRA, AYAR)
+    assert metin.startswith((analiz.hikaye(FRA)[1], analiz.hikaye_tek(FRA))) and not yasak.search(metin.replace(tweets.ANSVAR, ""))
 
 
 # ---------- B. Zamanlama ----------
@@ -304,12 +351,10 @@ def test_B6_buyuk_maclar_kart_ve_tabloda():
     assert {a["fixture_id"] for a in uluslar} <= kartlar
     ek = analiz.ek_kart_secimi(uluslar, AYAR.ligler, [], set(), "2026-10-03T08:00:00+00:00", adet=20)
     assert len(ek) == 8  # yoğun günde lig sınırı büyük maçı dışarıda bırakmaz
-    # 22 Ekim 2026: günde en fazla 10 kart; büyük maç fazlaysa önce oranla istatistiğin ayrıştığı maçlar
+    # 22 Ekim 2026: günde en fazla 10 kart; büyük maç fazlaysa önce taraftar etiketli kulüplerin maçları
     sakin = [dict(mac(70 + i, f"Calm{i}", f"Quiet{i}", saat="19:00", kars=False), lig_id=2) for i in range(12)]
-    ayrisan = dict(mac(90, "Split", "Read", saat="20:00"), lig_id=2)
-    ayrisan["karsilastirma"] = [{"pazar": "UST25", "ad": "Over 2.5 goals", "piyasa": ayrisan["p"]["UST25"],
-                                 "istatistik": round(ayrisan["p"]["UST25"] - 0.2, 3)}]
-    assert analiz.ayrisiyor(ayrisan) and not analiz.ayrisiyor(sakin[0])
+    ayrisan = dict(mac(90, "Galatasaray", "Read", saat="20:00"), lig_id=2)
+    assert analiz.populer(ayrisan) and not analiz.populer(sakin[0])
     assert 90 in {a["fixture_id"] for a in analiz.one_cikanlar(sakin + [ayrisan], AYAR.ligler)}  # sabah 5 kartında
     assert analiz.ek_kart_secimi(sakin + [ayrisan], AYAR.ligler, [], set(), "2026-10-03T08:00:00+00:00", adet=1)[0]["fixture_id"] == 90
     gun10 = {"tarih": "2026-10-03", "konsept": "analiz", "analizler": analiz.one_cikanlar(sakin + [ayrisan], AYAR.ligler)}

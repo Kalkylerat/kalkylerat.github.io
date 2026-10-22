@@ -83,8 +83,8 @@ def mac_analizi(m: dict, bahisciler: dict | None, ist: dict | None, ayar) -> dic
             "ev": m["ev"], "dep": m["dep"], "baslama": m["baslama"], "beklenen_gol": [le, ld], "p": p,
             "skorlar": _skorlar(le, ld), "guven": guven, "kaynak": "piyasa" if piyasa_gol else "istatistik",
             "istatistik_gol": list(istat_gol) if istat_gol else None, "istatistik_kaynak": istat_kaynak,
-            "karsilastirma": karsilastirma,
-            **{k: m[k] for k in ("odds_id", "odds_spor") if k in m}}
+            "karsilastirma": karsilastirma, "marj": bahisci_marji(bahisciler),
+            **{k: m[k] for k in ("odds_id", "odds_spor", "ev_id", "dep_id", "ev_ulke", "dep_ulke") if k in m}}
 
 
 def fark_puani(c: dict) -> int:
@@ -105,54 +105,49 @@ def toplam_gol_dagilimi(a: dict, ust: int = 5) -> list[float]:
     return p + [max(0.0, 1 - sum(p))]
 
 
-def istatistik_ms(a: dict) -> tuple[float, float, float] | None:
-    """Takım istatistiğinin maç sonucu üçlüsü (kayıttaki karşılaştırmadan); üçü birden yoksa None."""
-    k = {c["pazar"]: c["istatistik"] for c in a.get("karsilastirma") or []}
-    return (k["MS1"], k["MSX"], k["MS2"]) if all(x in k for x in ("MS1", "MSX", "MS2")) else None
+def siklik(p: float) -> tuple[int, int]:
+    """Yüzdenin insanın kavradığı sıklık hali ("about 2 in 3"): paydası 2, 3, 4, 5, 10 ya da 20 olan en sade yakın kesir."""
+    for n in (2, 3, 4, 5, 10, 20):
+        k = round(p * n)
+        if 0 < k < n and abs(k / n - p) <= 0.035:
+            return k, n
+    return max(1, min(19, round(p * 20))), 20
 
 
 HIKAYE = {
-    "en": {"ayri": ("The odds lean {o}{op}.", "Team stats lean {i}{ip}."),
-           "fark": ("{ad}: odds {o}, team stats {i}.", "Same game, two different reads."),
-           "favori": ("{t} {p} to win.", "{d} or a draw: {q}."), "acik": ("No result above {p}.", "Wide open on paper."),
+    "en": {"favori_ama": ("{t} are favourites.", "They still fail to win {q} of the time."),
+           "favori": ("{t} win {p}: about {k} in {n}.", "{d} win it about 1 time in {m} ({q})."),
+           "favori_x": ("{t} win {p}: about {k} in {n}.", "{d} or a draw: {q}."),
+           "acik": ("No result above {p}.", "Wide open on paper."),
            "gol": ("4+ goals: {p}.", "Expected goals {x} – {y}."),
-           "skor": ("Most likely score: {s}.", "Even that is only {p}."),
-           "pazar": {"UST25": "Over 2.5 goals", "KGVAR": "Both teams score",
-                                                       "MS1": "{ev} win", "MS2": "{dep} win", "MSX": "Draw"}},
-    "tr": {"ayri": ("Oranlar {o} diyor{op}.", "Takım istatistiği {i} diyor{ip}."),
-           "fark": ("{ad}: oran {o}, takım istatistiği {i}.", "Aynı maç, iki farklı okuma."),
-           "favori": ("{t} kazanır: {p}.", "{d} ya da beraberlik: {q}."), "acik": ("Hiçbir sonuç {p} üstünde değil.", "Kâğıt üstünde açık maç."),
+           "skor": ("Most likely score: {s}.", "Even that is only {p}.")},
+    "tr": {"favori_ama": ("{t} favori.", "Yine de {q} ihtimalle kazanamıyor."),
+           "favori": ("{t} kazanır: {p}, kabaca {n} maçta {k}.", "{d} kazanır: {q}, kabaca {m} maçta 1."),
+           "favori_x": ("{t} kazanır: {p}, kabaca {n} maçta {k}.", "{d} ya da beraberlik: {q}."),
+           "acik": ("Hiçbir sonuç {p} üstünde değil.", "Kâğıt üstünde açık maç."),
            "gol": ("4 ve üstü gol: {p}.", "Beklenen gol {x} – {y}."),
-           "skor": ("En olası skor: {s}.", "O bile yalnızca {p}."),
-           "pazar": {"UST25": "2.5 üst", "KGVAR": "Karşılıklı gol",
-                                                                        "MS1": "{ev} kazanır", "MS2": "{dep} kazanır", "MSX": "Beraberlik"}},
+           "skor": ("En olası skor: {s}.", "O bile yalnızca {p}.")},
 }
 
 
-def hikaye(a: dict, dil: str = "en", yuzdeli: bool = True) -> tuple[str, str, str]:
-    """Kartın ve postun ilk satırı: maçın tek cümlelik hikâyesi (tür, satır 1, satır 2). Bütün yüzdeler kayıttan
-    (denetçi kayıtta olmayan yüzdeyi engeller); seçim ve kesinlik dili yok. Öncelik: oranla istatistiğin favorisi
-    ayrışıyorsa o, sonra en büyük fark (eşiği geçiyorsa), sonra güçlü favori, gollü maç, açık maç, en olası skor.
-    yuzdeli=False: karttaki çubuklar yüzdeyi zaten gösterdiği için "ayri" türünde yüzde yazılmaz."""
+def hikaye(a: dict, dil: str = "en") -> tuple[str, str, str]:
+    """Kartın ve postun ilk satırı: oranların söylediği ama gözden kaçan şey (tür, satır 1, satır 2), SÖZLEŞME A10.
+    Takım istatistiği kullanılmaz (A4). Bütün yüzdeler kayıttan (denetçi kayıtta olmayanı engeller); sıklık dili
+    yalnızca aynı yüzdenin yanında (A5). Öncelik: %50'nin altındaki favori, güçlü favori, gollü maç, açık maç, skor."""
     e, p = HIKAYE[dil], a["p"]
     y = (lambda x: f"%{100 * x:.0f}") if dil == "tr" else (lambda x: f"{100 * x:.0f}%")
     takim = {"MS1": a["ev"], "MS2": a["dep"]}
-    ist = istatistik_ms(a)
-    if ist:
-        fav_o = "MS1" if p["MS1"] >= p["MS2"] else "MS2"
-        fav_i = "MS1" if ist[0] >= ist[2] else "MS2"
-        if fav_o != fav_i and abs(ist[0] - ist[2]) >= 0.05 and abs(p["MS1"] - p["MS2"]) >= 0.05:
-            ip = ist[0] if fav_i == "MS1" else ist[2]
-            op, ip = (f" ({y(p[fav_o])})", f" ({y(ip)})") if yuzdeli else ("", "")
-            return "ayri", e["ayri"][0].format(o=takim[fav_o], op=op), e["ayri"][1].format(i=takim[fav_i], ip=ip)
-    c = dikkat_cekici(a)
-    if c:
-        ad = e["pazar"][c["pazar"]].format(ev=a["ev"], dep=a["dep"])
-        return "fark", e["fark"][0].format(ad=ad, o=y(c["piyasa"]), i=y(c["istatistik"])), e["fark"][1]
     fav = max(("MS1", "MS2"), key=lambda k: p[k])
+    diger, cs = ("MS2", "CSX2") if fav == "MS1" else ("MS1", "CS1X")
+    if 0.38 <= p[fav] < 0.5 and p[fav] - p[diger] >= 0.08:
+        return "favori_ama", e["favori_ama"][0].format(t=takim[fav]), e["favori_ama"][1].format(q=y(p[cs]))
     if p[fav] >= 0.62:
-        diger, cs = ("MS2", "CSX2") if fav == "MS1" else ("MS1", "CS1X")
-        return "favori", e["favori"][0].format(t=takim[fav], p=y(p[fav])), e["favori"][1].format(d=takim[diger], q=y(p[cs]))
+        k, n = siklik(p[fav])
+        if p[diger] >= 0.06:
+            return "favori", e["favori"][0].format(t=takim[fav], p=y(p[fav]), k=k, n=n), \
+                e["favori"][1].format(d=takim[diger], m=round(1 / p[diger]), q=y(p[diger]))
+        return "favori", e["favori_x"][0].format(t=takim[fav], p=y(p[fav]), k=k, n=n), \
+            e["favori_x"][1].format(d=takim[diger], q=y(p[cs]))
     if p["UST25"] >= 0.62 and p["KGVAR"] >= 0.55:
         x, z = a["beklenen_gol"]
         return "gol", e["gol"][0].format(p=y(p["UST35"])), e["gol"][1].format(x=f"{x:.1f}", y=f"{z:.1f}")
@@ -161,6 +156,47 @@ def hikaye(a: dict, dil: str = "en", yuzdeli: bool = True) -> tuple[str, str, st
         return "acik", e["acik"][0].format(p=y(en)), e["acik"][1]
     s, v = a["skorlar"][0]
     return "skor", e["skor"][0].format(s=s), e["skor"][1].format(p=y(v))
+
+
+HIKAYE_TEK = {"favori_ama": "{t} are favourites, yet fail to win {q} of the time.",
+              "skor": "Most likely score {s}, and only {p}."}
+
+
+def hikaye_tek(a: dict) -> str:
+    """Hikâyenin tek satıra sığan, kendi başına anlamlı hali (postta yer darsa): vurucu kısım ikinci satırdaysa
+    birleşik cümle, değilse ilk satır."""
+    tur, h1, _ = hikaye(a)
+    p = a["p"]
+    if tur == "favori_ama":
+        fav = max(("MS1", "MS2"), key=lambda k: p[k])
+        return HIKAYE_TEK[tur].format(t=a["ev"] if fav == "MS1" else a["dep"],
+                                      q=f'{100 * p["CSX2" if fav == "MS1" else "CS1X"]:.0f}%')
+    if tur == "skor":
+        s, v = a["skorlar"][0]
+        return HIKAYE_TEK[tur].format(s=s, p=f"{100 * v:.0f}%")
+    return h1
+
+
+def adil_oran(p: float) -> str:
+    """İhtimalin hak ettiği ondalık oran (marjsız): 1 / ihtimal, iki ondalık (SÖZLEŞME A10)."""
+    return f"{1 / p:.2f}" if p > 0 else "–"
+
+
+def bahisci_marji(bahisciler: dict | None) -> float | None:
+    """O sabahki maç sonucu oranlarından bahisçinin payı (1/oranlar toplamı − 1), bahisçilerin ortancası."""
+    marjlar = sorted(sum(1 / o[k] for k in ("MS1", "MSX", "MS2")) - 1 for o in (bahisciler or {}).values()
+                     if all((o.get(k) or 0) > 1 for k in ("MS1", "MSX", "MS2")))
+    if not marjlar:
+        return None
+    orta = len(marjlar) // 2
+    m = marjlar[orta] if len(marjlar) % 2 else (marjlar[orta - 1] + marjlar[orta]) / 2
+    return round(m, 4) if 0 <= m < 0.3 else None
+
+
+def populer(a: dict) -> bool:
+    """Taraftar etiketi olan kulüp ya da milli takım: en çok görülen kartlar bunlar (22 Ekim ölçümü), SÖZLEŞME B6."""
+    from .tweets import KULUP_ETIKETLERI, MILLI_ETIKETLER
+    return any(t.lower().strip() in MILLI_ETIKETLER or t.lower().strip() in KULUP_ETIKETLERI for t in (a["ev"], a["dep"]))
 
 
 def manset(a: dict) -> list[dict]:
@@ -192,11 +228,6 @@ def onemli(a: dict) -> bool:
         t.lower().strip() in MILLI_ETIKETLER or t.lower().strip() in KULUP_ETIKETLERI for t in (a["ev"], a["dep"]))
 
 
-def ayrisiyor(a: dict) -> bool:
-    """Oranla takım istatistiği ayrışıyor (kartın en güçlü hikâyesi): günlük kart sınırı dolarken önce bunlar (B6)."""
-    return hikaye(a)[0] in ("ayri", "fark")
-
-
 def one_cikanlar(analizler: list[dict], izinli: list[int], adet: int = 5) -> list[dict]:
     """X'te paylaşılacak maçlar: önce günün önemli maçları (Türkiye, büyük milli takımlar ve kulüpler), sonra izinli
     (büyük) ligler ve veri güveni yüksek olanlar; aynı saate yığılmasın diye farklı başlama saatleri tercih edilir."""
@@ -204,7 +235,7 @@ def one_cikanlar(analizler: list[dict], izinli: list[int], adet: int = 5) -> lis
     puan = {"yuksek": 0, "orta": 1, "dusuk": 2}
     aday = sorted((a for a in analizler if (a.get("lig_id") in sira or onemli(a)) and a["guven"] != "dusuk"
                    and _gecerli(a)),
-                  key=lambda a: (not onemli(a), not ayrisiyor(a), puan[a["guven"]], sira.get(a.get("lig_id"), 99),
+                  key=lambda a: (not onemli(a), not populer(a), puan[a["guven"]], sira.get(a.get("lig_id"), 99),
                                  a["baslama"]))
     secilen: list[dict] = [a for a in aday if onemli(a)][:adet]  # önemli maçlar saat çakışsa da girer
     for a in aday:  # sonra farklı saatler
@@ -227,7 +258,7 @@ def ek_kart_secimi(analizler: list[dict], izinli: list[int], ek_ligler, haric: s
     aday = [a for a in analizler if a["fixture_id"] not in haric and _gecerli(a) and a["guven"] != "dusuk"
             and (a.get("lig_id") in sira or onemli(a))
             and datetime.fromisoformat(a["baslama"]) > datetime.fromisoformat(en_erken)]
-    aday.sort(key=lambda a: (not onemli(a), not ayrisiyor(a), sira.get(a.get("lig_id"), 999), a["baslama"]))
+    aday.sort(key=lambda a: (not onemli(a), not populer(a), sira.get(a.get("lig_id"), 999), a["baslama"]))
     secilen, sayac = [], {}
     for a in aday:  # büyük ve izinli liglerde lig sınırı yok (SÖZLEŞME B6); ek liglerde en fazla 2
         if len(secilen) < adet and (onemli(a) or a.get("lig_id") in izinli or sayac.get(a["lig"], 0) < 2):
@@ -286,5 +317,5 @@ def ayrisma_secimi(analizler: list[dict], adet: int = 3) -> list[dict]:
 def ozet(a: dict) -> dict:
     """Kayıtta saklanacak kısa hali (tablo ve ayrışma postları için)."""
     return {k: a[k] for k in ("fixture_id", "lig", "ulke", "lig_id", "ev", "dep", "baslama", "p", "skorlar", "guven",
-                              "karsilastirma", "beklenen_gol", "kaynak",
+                              "karsilastirma", "beklenen_gol", "kaynak", "ev_ulke", "dep_ulke",
                                                        "istatistik_kaynak", "odds_id", "odds_spor") if k in a}

@@ -19,8 +19,13 @@
   (`analiz.hikaye`: oranla istatistik ayrışıyor / güçlü favori / açık maç / gollü maç / en olası skor). Kartta oran ve
   istatistik çubukları alt alta, kaç gol sütunları, en olası skorlar; renk tek anlam (ev mavi, deplasman turuncu, yeşil
   yalnızca "en olası"). Çifte şans ve takım golleri karttan çıktı. Direktör postu hikâyeyle açmazsa şablon gider.
+- **Yeni konum (22 Ekim, sahibinin kararı): "oynamadan önce hesap makinesi".** Takım istatistiği Kalkylerat'tan kalktı
+  (342 maçta oranlardan her ölçüde kötüydü, bilgi katmıyordu; ayrıştıklarında istatistik tarafı adil oranla −%13).
+  Kartta her sonucun adil oranı, bahisçi payı ve gerçeklik notu (A10); manşet oranlardan, sıklık diliyle; maç sonunda
+  sürpriz ölçer (A7); Pazartesi karnesinde kalibrasyon (A9); postta bayraklar; "oran vs istatistik" postu yok. X büyüme
+  rehberi denetledi: adil oran/marj yalnızca kartta (280 sınırı), bayrak yalnızca maç satırında, kombine hesabı yok.
 - Günde en fazla 10 kart (22 Ekim, sahibinin kararı; önceden yoğun günde 30): benzer postlar benzerlik cezası
-  alıyordu. Büyük maç fazlaysa önce oranla istatistiğin ayrıştığı maçlar; kartsız büyük maçlar tabloda (SOZLESME B4, B6).
+  alıyordu. Büyük maç fazlaysa önce taraftar etiketli kulüpler; kartsız büyük maçlar tabloda (SOZLESME B4, B6).
   Kart ve maç sonu postu azaldığı için günde ~40 post ve direktör çağrısı daha az.
 
 ## Açık işler

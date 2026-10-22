@@ -141,9 +141,6 @@ def mac_olgulari(a: dict) -> dict:
            "our_chances": f'{a["ev"]} {_pct(p["MS1"])} · Draw {_pct(p["MSX"])} · {a["dep"]} {_pct(p["MS2"])}',
            "over_2_5_goals": _pct(p["UST25"]), "both_teams_score": _pct(p["KGVAR"]),
            "most_likely_score": f'{a["skorlar"][0][0]} ({_pct(a["skorlar"][0][1])})'}
-    c = (a.get("karsilastirma") or [None])[0]
-    if c:
-        olg["odds_vs_team_stats"] = f'{c["ad"]}: odds {_pct(c["piyasa"])}, team stats {_pct(c["istatistik"])}'
     return olg
 
 

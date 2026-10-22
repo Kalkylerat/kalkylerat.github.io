@@ -30,10 +30,10 @@ def yanitlar(a: dict) -> list[str]:
               f"Likeliest score {skor}, but only {_pct(p_skor)}. Feels about right?",
               f"Over 2.5 goals sits at {_pct(p['UST25'])} for this one, both teams scoring {_pct(p['KGVAR'])}. "
               f"More goals than that or a tight game?"]
-    c = (a.get("karsilastirma") or [None])[0]
-    if c and abs(analiz.fark_puani(c)) >= 8:
-        taslak.append(f"Odd one: the odds give {c['ad']} {_pct(c['piyasa'])}, team stats say {_pct(c['istatistik'])}. "
-                      f"Which would you trust here?")
+    fav = max(("MS1", "MS2"), key=lambda k: p[k])
+    if p[fav] >= 0.5:  # takım istatistiği yok (SÖZLEŞME A4): yerine oranların gerçeklik notu
+        taslak.append(f"{ev if fav == 'MS1' else dep} at {_pct(p[fav])} still fail to win about 1 time in "
+                      f"{round(1 / (1 - p[fav]))}. Does that feel too high or too low?")
     return taslak
 
 

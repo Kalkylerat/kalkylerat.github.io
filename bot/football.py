@@ -116,6 +116,8 @@ def gunun_maclari(api, tarih: str, ligler: list[int], saat_dilimi: str,
             "ulke": f["league"].get("country", ""),
             "ev": f["teams"]["home"]["name"],
             "dep": f["teams"]["away"]["name"],
+            "ev_id": f["teams"]["home"].get("id"),
+            "dep_id": f["teams"]["away"].get("id"),
             "baslama": baslama.isoformat(),
         })
     maclar.sort(key=lambda m: (sira.get(m["lig_id"], len(sira)), m["baslama"]))
@@ -192,6 +194,35 @@ def _takim_ozeti(t: dict) -> dict:
         "gol_yemedigi": ((lg.get("clean_sheet") or {}).get("total")),
         "gol_atamadigi": ((lg.get("failed_to_score") or {}).get("total")),
     }
+
+
+def ulkeleri_doldur(api, analizler: list[dict], dosya, hak: int = 80) -> int:
+    """Takımların ülkesi (postta bayrak için): API-Football teams?id=, takım başına bir kez, kalıcı önbellekte
+    (dosya). Günde en fazla hak kadar yeni istek; önce büyük maçlar. Bulunamazsa alan boş kalır, bayrak çıkmaz.
+    Yapılan istek sayısını döner."""
+    import json
+    try:
+        onbellek = json.loads(dosya.read_text(encoding="utf-8"))
+    except (FileNotFoundError, ValueError):
+        onbellek = {}
+    from .analiz import onemli
+    istek = 0
+    for a in sorted(analizler, key=lambda a: not onemli(a)):
+        for taraf in ("ev", "dep"):
+            tid = a.get(f"{taraf}_id")
+            if not tid:
+                continue
+            if str(tid) not in onbellek and istek < hak:
+                istek += 1
+                try:
+                    kayit = api.get("teams", id=tid)
+                    onbellek[str(tid)] = ((kayit[0].get("team") or {}).get("country") or "") if kayit else ""
+                except ApiHatasi:
+                    break
+            if onbellek.get(str(tid)):
+                a[f"{taraf}_ulke"] = onbellek[str(tid)]
+    dosya.write_text(json.dumps(onbellek, ensure_ascii=False, indent=0, sort_keys=True) + "\n", encoding="utf-8")
+    return istek
 
 
 def istatistik_al(api, fixture_id: int) -> dict | None:

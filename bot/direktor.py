@@ -49,8 +49,9 @@ KURALLAR = """Hard rules (never break them):
   "what do you think?". Do not repeat the same closing line across posts.
 - Keep every percentage that is in the template (the pinned post promises the numbers). Never name a match without
   its own percentages; if it does not fit, leave the match out rather than its numbers.
-- Keep the team stats line (📈) of a match card: the stats percentage next to the market one, or the reason there is
-  none. The account promises market and team stats side by side.
+- Our chances come from the odds (margin removed) only. Never mention "team stats" or compare against them: on our
+  record they were less accurate than the odds and added nothing.
+- Never single out one outcome as the one to bet or as "value"; never say back, play, bet, value, tip.
 - Hashtags: only from "allowed_hashtags" in the facts, at most one (the "tablo" board post at most two); none if the
   list is empty. X's automation rules treat trend-chasing or unrelated hashtags on automated posts as spam.
 - Never say "lock", "guaranteed", "sure thing", "banker", "free money" or promise wins. Talk in chances.
@@ -74,16 +75,13 @@ Follow this week's strategy notes when they are given. Return the post text in "
 plain way with a real-life angle and end with one open question. Use exactly the numbers in "facts_to_use" and no
 others; never add stats, history or claims of your own. Keep the 18+ line.
 "analiz" introduces our match analysis card (image attached). Open with the match's story from "story" in the facts
-(the card's headline: the odds and team stats disagreeing, a strong favourite, an open game...), in your own words
-but with all its percentages, before the block of numbers: the first line is what makes people stop scrolling, so
+(the card's headline: a favourite that still fails to win most of the time, a strong favourite and how often the
+other side wins, an open game...), in your own words but with all its percentages, before the block of numbers: the first line is what makes people stop scrolling, so
 never open with a label like "MATCH CHANCES". Then the chances from the template, and one specific question; analysis
 only, never tell people to bet. "analiz_sonuc" quotes that card after
 full time: the score and, for what happened, the chance it had before kick-off. The card gives probabilities, not
 picks or predictions: never write right, wrong, called it, our pick/call/prediction or ✅/❌. Use only numbers from the facts.
-"tablo" introduces the image of today's analysis board (many matches, lower leagues too). "ayrisma" introduces the
-second image (odds vs team stats side by side for the day's bigger matches) and gives, for each game named, BOTH the
-odds percentage and the team stats percentage of the same market (e.g. "Over 2.5 goals: odds 53%, stats 75%"); ask who
-is right, no advice.""" + _rehber()
+"tablo" introduces the image of today's analysis board (many matches, lower leagues too).""" + _rehber()
 
 HAFTALIK_SISTEM = f"""You are the X (Twitter) growth director of @kalkylerat, a football stats account that publishes
 data-driven match analysis every day (probabilities for every market, most likely scores) and shows after full time

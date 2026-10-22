@@ -80,6 +80,11 @@ def analiz_gunu(ayar, gunler: list[dict], bugun: str, simdi: datetime, api=None)
         if a:
             a["lig"] = _lig_adi(m, ayar)
             analizler.append(a)
+    try:  # postta bayrak için takımların ülkesi (kalıcı önbellek; bulunamazsa bayrak yok)
+        istek = football.ulkeleri_doldur(api, analizler, config.DATA_FILE.parent / "takim_ulke.json")
+        _ozet_yaz(f"Takım ülkeleri: {istek} yeni istek.")
+    except Exception as e:  # bayrak süs: analiz bunun yüzünden durmaz
+        print(f"Takım ülkeleri alınamadı: {e}")
     klasor = config.DATA_FILE.parent / "analiz"
     klasor.mkdir(parents=True, exist_ok=True)
     (klasor / f"{bugun}.json").write_text(json.dumps(analizler, ensure_ascii=False) + "\n", encoding="utf-8")

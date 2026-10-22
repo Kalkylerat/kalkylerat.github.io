@@ -45,35 +45,46 @@ PALETLER = {
            "ev": (77, 166, 255), "dep": (240, 112, 92), "ber": (110, 118, 132)},
 }
 ETIKETLER = {
-    "en": {"baslik": "MATCH ANALYSIS", "kazanan": "WHO WINS?", "oran": "ODDS", "ist": "TEAM STATS", "olasilik": "CHANCES",
-           "beraberlik": "Draw", "gol": "HOW MANY GOALS?", "gol_eksen": "total goals in the match",
+    "en": {"baslik": "MATCH ANALYSIS", "kazanan": "WHO WINS?", "beraberlik": "Draw", "adil": "fair {o}",
+           "marj": "Bookmakers keep about {m} on this game. Fair odds = 1 ÷ chance, no margin.",
+           "marjsiz": "Fair odds = 1 ÷ chance, no bookmaker margin.",
+           "gol": "HOW MANY GOALS?", "gol_eksen": "total goals in the match",
            "ust": "Over 2.5 goals {p} · Under {q}", "kg": "Both teams score {p} · Not both {q}",
            "skor": "MOST LIKELY SCORES", "iy": "FIRST HALF", "iy_satir": "Goal in 1st half {p} · Level at half-time {q}",
+           "not_fav": "Reality check: even at {p}, {t} fail to win about 1 time in {m}.",
+           "not_skor": "Reality check: the likeliest score is only {p}. Think in ranges, not one score.",
            "bg": "Expected goals", "guven": "Data confidence", "g": {"yuksek": "High", "orta": "Medium", "dusuk": "Low"},
-           "kaynak": {"lig": "team stats from this season", "son5": "team stats from the last 5 games"},
-           "yok": "Team stats: not enough games this season to compare with the odds.",
-           "sadece": "No odds for this game: every chance here comes from team stats.",
-           "pazar": {"UST25": "Over 2.5 goals", "KGVAR": "Both teams score"}, "kars": "{ad}: odds {o} · team stats {i}",
            "alt": "Chances, not picks · not betting advice · 18+"},
-    "tr": {"baslik": "MAÇ ANALİZİ", "kazanan": "KİM KAZANIR?", "oran": "ORANLAR", "ist": "İSTATİSTİK", "olasilik": "OLASILIK",
-           "beraberlik": "Beraberlik", "gol": "KAÇ GOL?", "gol_eksen": "maçtaki toplam gol",
+    "tr": {"baslik": "MAÇ ANALİZİ", "kazanan": "KİM KAZANIR?", "beraberlik": "Beraberlik", "adil": "adil {o}",
+           "marj": "Bahisçilerin bu maçtaki payı yaklaşık {m}. Adil oran = 1 ÷ ihtimal, marjsız.",
+           "marjsiz": "Adil oran = 1 ÷ ihtimal, bahisçi payı olmadan.",
+           "gol": "KAÇ GOL?", "gol_eksen": "maçtaki toplam gol",
            "ust": "2.5 üst {p} · 2.5 alt {q}", "kg": "Karşılıklı gol {p} · Yok {q}",
            "skor": "EN OLASI SKORLAR", "iy": "İLK YARI", "iy_satir": "İlk yarıda gol {p} · İlk yarı berabere {q}",
+           "not_fav": "Gerçeklik notu: {p} ile bile {t} kabaca {m} maçta 1 kazanamıyor.",
+           "not_skor": "Gerçeklik notu: en olası skor bile yalnızca {p}. Tek skora değil, aralığa bakın.",
            "bg": "Beklenen gol", "guven": "Veri güveni", "g": {"yuksek": "Yüksek", "orta": "Orta", "dusuk": "Düşük"},
-           "kaynak": {"lig": "takım istatistiği bu sezondan", "son5": "takım istatistiği son 5 maçtan"},
-           "yok": "Takım istatistiği: oranlarla karşılaştırmaya yetecek kadar maç yok.",
-           "sadece": "Bu maçın oranı yok: bütün yüzdeler takım istatistiğinden.",
-           "pazar": {"UST25": "2.5 üst", "KGVAR": "Karşılıklı gol"}, "kars": "{ad}: oran {o} · istatistik {i}",
            "alt": "Olasılık, tahmin değil · bahis tavsiyesi değildir · 18+"},
 }
 
 
+def gerceklik_notu(a: dict, dil: str = "en") -> str:
+    """Kartın tek satırlık gerçeklik notu (SÖZLEŞME A10): tek maç olgusu, rakamlar kayıttan; hikâyeyi tekrar etmez."""
+    from .analiz import hikaye
+    e, p = ETIKETLER[dil], a["p"]
+    yuzde = (lambda x: f"%{100 * x:.0f}") if dil == "tr" else (lambda x: f"{100 * x:.0f}%")
+    fav = max(("MS1", "MS2"), key=lambda k: p[k])
+    if p[fav] >= 0.5 and hikaye(a, dil)[0] != "favori":
+        return e["not_fav"].format(p=yuzde(p[fav]), t=a["ev"] if fav == "MS1" else a["dep"], m=round(1 / (1 - p[fav])))
+    return e["not_skor"].format(p=yuzde(a["skorlar"][0][1]))
+
+
 def analiz_karti(a: dict, saat: str, dil: str = "en") -> bytes:
-    """Tek maçın analiz kartı (1080×1350), yukarıdan aşağı bir hikâye: maçın tek cümlesi (analiz.hikaye; postun ilk
-    satırıyla aynı), kim kazanır (oran ve takım istatistiği aynı renklerle alt alta: fark gözle görülür), kaç gol
-    (toplam gol dağılımı, 2.5 alt/üst ve karşılıklı gol iki tarafıyla), en olası skorlar, ilk yarı. Bütün rakamlar
-    aynı Poisson modelinden ve kayıttan; yüzdesiz rakam yok (SÖZLEŞME A3, A4, A6)."""
-    from .analiz import hikaye, istatistik_ms, toplam_gol_dagilimi
+    """Tek maçın analiz kartı (1080×1350), yukarıdan aşağı: oranların hikâyesi (analiz.hikaye; postun ilk satırıyla
+    aynı), kim kazanır (her sonucun yüzdesi ve adil oranı, bahisçi payı), kaç gol (toplam gol dağılımı, 2.5 alt/üst ve
+    karşılıklı gol iki tarafıyla), en olası skorlar, ilk yarı, gerçeklik notu. Yalnızca oranlardan (takım istatistiği
+    yok, A4); bütün rakamlar aynı Poisson modelinden ve kayıttan (A3, A6, A10)."""
+    from .analiz import adil_oran, hikaye, toplam_gol_dagilimi
     r, e, p = PALETLER[dil], ETIKETLER[dil], a["p"]
     W, H, K = 1080, 1350, 60
     im = Image.new("RGB", (W, H), r["arka"])
@@ -83,7 +94,7 @@ def analiz_karti(a: dict, saat: str, dil: str = "en") -> bytes:
     tarih = datetime.fromisoformat(a["baslama"]).strftime("%-d %b").upper()
     sag, f = _sigdir(d, f"{tarih} · {saat}", 360, 22, True, 16)
     d.text((W - K - d.textlength(sag, font=f), 52), sag, font=f, fill=r["soluk"])
-    # Maç: takım adları kendi renklerinin noktasıyla (aşağıdaki çubuk ve skor renkleriyle aynı)
+    # Maç: takım adları kendi renklerinin noktasıyla (aşağıdaki çubukla aynı renk)
     fm = _font(50, True)
     while fm.size > 30 and d.textlength(f'{a["ev"]}  v  {a["dep"]}', font=fm) > W - 2 * K - 60:
         fm = _font(fm.size - 2, True)
@@ -100,70 +111,53 @@ def analiz_karti(a: dict, saat: str, dil: str = "en") -> bytes:
     lig, f = _sigdir(d, f'{a["lig"]}  ·  {e["bg"]} {a["beklenen_gol"][0]:.1f} – {a["beklenen_gol"][1]:.1f}', W - 2 * K, 24)
     d.text((K, 168), lig, font=f, fill=r["soluk"])
     # Hikâye: kartın ilk okunan cümlesi
-    _, h1, h2 = hikaye(a, dil, yuzdeli=False)
+    _, h1, h2 = hikaye(a, dil)
     for i, satir in enumerate((h1, h2)):
         t, f = _sigdir(d, satir, W - 2 * K, 38, True, 26)
         d.text((K, 222 + 50 * i), t, font=f, fill=r["yazi"] if i == 0 else r["soluk"])
-    # Kim kazanır: oran çubuğu ve (varsa) takım istatistiği çubuğu, aynı renklerle alt alta
+    # Kim kazanır: üç sonuç aynı biçimde (yüzde çubukta, altında adı ve adil oranı); tek sonuç öne çıkmaz (A10)
     y = 350
     d.text((K, y), e["kazanan"], font=_font(21, True), fill=r["soluk"])
-    ist = istatistik_ms(a)
-    satirlar = [(e["oran"] if ist else e["olasilik"], (p["MS1"], p["MSX"], p["MS2"]))]
-    if ist:
-        satirlar.append((e["ist"], ist))
     y += 40
-    etiket_w = 190 if dil == "tr" else 170
-    x0, cw = K + etiket_w, W - 2 * K - etiket_w
-    for ad, uc in satirlar:
-        t, f = _sigdir(d, ad, etiket_w - 16, 21, True, 14)
-        d.text((K, y + 17), t, font=f, fill=r["soluk"])
-        x = x0
-        for v, renk in zip(uc, (r["ev"], r["ber"], r["dep"])):
-            w = cw * v
-            if w > 6:
-                d.rounded_rectangle((x, y, x + w - 4, y + 56), radius=10, fill=renk)
-            t = yuzde(v)
-            f = _font(26, True)
-            while f.size > 15 and d.textlength(t, font=f) > w - 10:
-                f = _font(f.size - 2, True)
-            yazi = (12, 18, 30) if renk != r["ber"] else (255, 255, 255)
-            if d.textlength(t, font=f) <= w - 10:
-                d.text((x + (w - 4 - d.textlength(t, font=f)) / 2, y + (56 - f.size) / 2 - 2), t, font=f, fill=yazi)
-            else:  # dilim yüzdeye dar: yüzde çubuğun üstüne (yüzdesiz dilim yok, SÖZLEŞME A6)
-                f = _font(15, True)
-                d.text((x + (w - d.textlength(t, font=f)) / 2, y - 18), t, font=f, fill=r["soluk"])
-            x += w
-        y += 70
-    x = x0  # renk anahtarı: ev, beraberlik, deplasman (üçü aynı boyda)
-    anahtar = ((a["ev"], r["ev"]), (e["beraberlik"], r["ber"]), (a["dep"], r["dep"]))
-    boy = min(_sigdir(d, ad, cw // 3 - 34, 21, True, 14)[1].size for ad, _ in anahtar)
-    for ad, renk in anahtar:
+    x, cw = K, W - 2 * K
+    for v, renk in zip((p["MS1"], p["MSX"], p["MS2"]), (r["ev"], r["ber"], r["dep"])):
+        w = cw * v
+        if w > 6:
+            d.rounded_rectangle((x, y, x + w - 4, y + 64), radius=12, fill=renk)
+        t = yuzde(v)
+        f = _font(28, True)
+        while f.size > 15 and d.textlength(t, font=f) > w - 10:
+            f = _font(f.size - 2, True)
+        yazi = (12, 18, 30) if renk != r["ber"] else (255, 255, 255)
+        if d.textlength(t, font=f) <= w - 10:
+            d.text((x + (w - 4 - d.textlength(t, font=f)) / 2, y + (64 - f.size) / 2 - 2), t, font=f, fill=yazi)
+        else:  # dilim yüzdeye dar: yüzde çubuğun üstüne (yüzdesiz dilim yok, A6)
+            f = _font(15, True)
+            d.text((x + (w - d.textlength(t, font=f)) / 2, y - 18), t, font=f, fill=r["soluk"])
+        x += w
+    y += 80
+    anahtar = ((a["ev"], r["ev"], p["MS1"]), (e["beraberlik"], r["ber"], p["MSX"]), (a["dep"], r["dep"], p["MS2"]))
+    boy = min(_sigdir(d, ad, cw // 3 - 34, 22, True, 14)[1].size for ad, _, _ in anahtar)
+    for i, (ad, renk, v) in enumerate(anahtar):
+        x = K + i * (cw // 3)
         t, f = _sigdir(d, ad, cw // 3 - 34, boy, True, boy)
-        d.ellipse((x, y + 4, x + 14, y + 18), fill=renk)
+        d.ellipse((x, y + 5, x + 14, y + 19), fill=renk)
         d.text((x + 22, y), t, font=f, fill=r["yazi"])
-        x += cw // 3
-    y += 38
-    if not ist:  # istatistik yoksa nedeni (SÖZLEŞME A4); kısmi karşılaştırma varsa satır satır
-        kars = [c for c in a.get("karsilastirma") or [] if c["pazar"] in e["pazar"]]
-        if kars:
-            for c in kars[:2]:
-                t, f = _sigdir(d, e["kars"].format(ad=e["pazar"][c["pazar"]], o=yuzde(c["piyasa"]),
-                                                   i=yuzde(c["istatistik"])), W - 2 * K, 21)
-                d.text((K, y), t, font=f, fill=r["yazi"])
-                y += 30
-        else:
-            t, f = _sigdir(d, e["sadece" if a.get("kaynak") == "istatistik" else "yok"], W - 2 * K, 21)
-            d.text((K, y), t, font=f, fill=r["yazi"])
-            y += 30
+        d.text((x + 22, y + 32), e["adil"].format(o=adil_oran(v)), font=_font(24, True), fill=r["yazi"])
+    y += 76
+    marj = a.get("marj")
+    t = e["marj"].format(m=yuzde(marj)) if marj else e["marjsiz"]
+    t, f = _sigdir(d, t, W - 2 * K, 20, en_kucuk=15)
+    d.text((K, y), t, font=f, fill=r["soluk"])
     # Kaç gol: toplam gol dağılımı (sütunlar), en olası sütun vurgulu
-    y = max(y + 24, 600)
-    d.rounded_rectangle((K, y, W - K, y + 350), radius=18, fill=r["kart"])
+    y += 46
+    d.rounded_rectangle((K, y, W - K, y + 330), radius=18, fill=r["kart"])
     d.text((K + 24, y + 18), e["gol"], font=_font(21, True), fill=r["soluk"])
     t = e["gol_eksen"]
     d.text((W - K - 24 - d.textlength(t, font=_font(19)), y + 20), t, font=_font(19), fill=r["soluk"])
     dag = toplam_gol_dagilimi(a, 6)
     en = max(dag[:-1])  # "6+" birden çok sayının toplamı: en olası işareti yalnızca tek bir gol sayısına
-    gx, gw, taban, boy = K + 30, (W - 2 * K - 60) / len(dag), y + 250, 160
+    gx, gw, taban, boy = K + 30, (W - 2 * K - 60) / len(dag), y + 236, 150
     for i, v in enumerate(dag):
         h = max(4, boy * v / max(dag))
         renk = r["vurgu"] if v == en else r["bar2"]
@@ -178,27 +172,27 @@ def analiz_karti(a: dict, saat: str, dil: str = "en") -> bytes:
     for i, satir in enumerate((e["ust"].format(p=yuzde(p["UST25"]), q=yuzde(p["ALT25"])),
                                e["kg"].format(p=yuzde(p["KGVAR"]), q=yuzde(p["KGYOK"])))):
         t, f = _sigdir(d, satir, (W - 2 * K - 72) // 2, 21)
-        d.text((K + 24 + i * ((W - 2 * K - 48) // 2), y + 306), t, font=f, fill=r["yazi"])
-    y += 376
+        d.text((K + 24 + i * ((W - 2 * K - 48) // 2), y + 290), t, font=f, fill=r["yazi"])
+    y += 356
     # En olası skorlar
     d.text((K, y), e["skor"], font=_font(21, True), fill=r["soluk"])
     cw = (W - 2 * K) / len(a["skorlar"])
-    for i, (s, v) in enumerate(a["skorlar"]):
+    for i, (s_, v) in enumerate(a["skorlar"]):
         cx = K + cw * i + cw / 2
-        fs, fp = _font(44 if i == 0 else 36, True), _font(22, i == 0)
-        d.text((cx - d.textlength(s, font=fs) / 2, y + 40 + (0 if i == 0 else 6)), s, font=fs,
+        fs, fp = _font(42 if i == 0 else 34, True), _font(22, i == 0)
+        d.text((cx - d.textlength(s_, font=fs) / 2, y + 38 + (0 if i == 0 else 6)), s_, font=fs,
                fill=r["vurgu"] if i == 0 else r["yazi"])
-        d.text((cx - d.textlength(yuzde(v), font=fp) / 2, y + 98), yuzde(v), font=fp, fill=r["soluk"])
-    y += 160
+        d.text((cx - d.textlength(yuzde(v), font=fp) / 2, y + 94), yuzde(v), font=fp, fill=r["soluk"])
+    y += 140
     d.text((K, y), e["iy"], font=_font(21, True), fill=r["soluk"])
     ix = K + d.textlength(e["iy"], font=_font(21, True)) + 24
     t, f = _sigdir(d, e["iy_satir"].format(p=yuzde(p["IYU05"]), q=yuzde(p["IYX"])), W - K - ix, 22)
     d.text((ix, y - 1), t, font=f, fill=r["yazi"])
-    y += 46
-    guven = f'{e["guven"]}: {e["g"][a["guven"]]}'
-    if ist and a.get("istatistik_kaynak") in e["kaynak"]:
-        guven += f' · {e["kaynak"][a["istatistik_kaynak"]]}'
-    t, f = _sigdir(d, guven, W - 2 * K, 20)
+    y += 44
+    t, f = _sigdir(d, gerceklik_notu(a, dil), W - 2 * K, 22, True, 16)
+    d.text((K, y), t, font=f, fill=r["yazi"])
+    y += 40
+    t, f = _sigdir(d, f'{e["guven"]}: {e["g"][a["guven"]]}', W - 2 * K, 20)
     d.text((K, y), t, font=f, fill=r["soluk"])
     alt, f = _sigdir(d, e["alt"], W - 2 * K, 21)
     d.text(((W - d.textlength(alt, font=f)) / 2, H - 58), alt, font=f, fill=r["soluk"])
@@ -211,21 +205,11 @@ TABLO_ETIKETLERI = {
     "en": {"baslik": "TODAY'S ANALYSIS BOARD", "mac": "MATCH",
            "sutun": ["HOME\nWIN", "DRAW", "AWAY\nWIN", "OVER 1.5\nGOALS", "OVER 2.5\nGOALS", "OVER 3.5\nGOALS",
                      "BOTH\nSCORE", "GOAL IN\n1ST HALF", "LIKELY\nSCORE"],
-           "alt": "Top row: market-based chances · bottom row: team stats · not betting advice · 18+",
-           "ist_baslik": "TEAM STATS{k}:", "ist_pazar": {"MS1": "{ev} win", "MS2": "{dep} win",
-                                                            "UST25": "Over 2.5 goals", "KGVAR": "Both score"},
-           "kaynak": {"lig": "this season", "son5": "last 5 games"},
-           "ist_yok": "Team stats: not enough recent games to compare",
-           "ist_sadece": "No market price: chances above come from team stats"},
+           "alt": "Chances from the odds, margin removed · not betting advice · 18+"},
     "tr": {"baslik": "GÜNÜN ANALİZ TABLOSU", "mac": "MAÇ",
            "sutun": ["EV\nKAZANIR", "BERA-\nBERLİK", "DEPLASMAN\nKAZANIR", "1.5 ÜST\n(2+ GOL)", "2.5 ÜST\n(3+ GOL)",
                      "3.5 ÜST\n(4+ GOL)", "KARŞILIKLI\nGOL", "İLK YARI\nGOL", "OLASI\nSKOR"],
-           "alt": "Üst satır: piyasaya göre · alt satır: takım istatistiği · bahis tavsiyesi değildir · 18+",
-           "ist_baslik": "TAKIM İSTATİSTİĞİ{k}:", "ist_pazar": {"MS1": "{ev} kazanır", "MS2": "{dep} kazanır",
-                                                                    "UST25": "2.5 üst", "KGVAR": "Karşılıklı gol"},
-           "kaynak": {"lig": "bu sezon", "son5": "son 5 maç"},
-           "ist_yok": "Takım istatistiği: karşılaştırmaya yetecek maç yok",
-           "ist_sadece": "Piyasa fiyatı yok: yüzdeler takım istatistiğinden"},
+           "alt": "Oranlardan, marjı çıkarılmış ihtimaller · bahis tavsiyesi değildir · 18+"},
 }
 
 
@@ -234,7 +218,7 @@ def analiz_tablosu(liste: list[dict], tarih_iso: str, saatler: list[str], dil: s
     (1/X/2, 1.5/2.5/3.5 üst, karşılıklı gol, ilk yarıda gol, en olası skor ve yüzdesi). Yüzdesiz rakam yok."""
     r, e = PALETLER[dil], TABLO_ETIKETLERI[dil]
     W, K = 1080, 40
-    satir = 142
+    satir = 112  # takım istatistiği satırı 22 Ekim 2026'da kalktı (SÖZLEŞME A4)
     H = 200 + satir * len(liste) + 80
     im = Image.new("RGB", (W, H), r["arka"])
     d = ImageDraw.Draw(im)
@@ -275,28 +259,6 @@ def analiz_tablosu(liste: list[dict], tarih_iso: str, saatler: list[str], dil: s
         d.text((x - d.textlength(skor, font=_font(24, True)) / 2, yy + 38), skor, font=_font(24, True), fill=r["yazi"])
         t = yuzde(p_skor)  # skorun da yüzdesi: tabloda yüzdesiz rakam olmasın
         d.text((x - d.textlength(t, font=_font(15)) / 2, yy + 68), t, font=_font(15), fill=r["soluk"])
-        # Takım istatistiği satırı: piyasadan gelen rakamların istatistikteki karşılığı (10+ puan fark vurgulu)
-        kars = {c["pazar"]: c for c in a.get("karsilastirma") or []}
-        fs = _font(17)
-        if kars:
-            kaynak = e["kaynak"].get(a.get("istatistik_kaynak"))
-            parcalar = [(e["ist_baslik"].format(k=f" ({kaynak})" if kaynak else ""), r["soluk"])]
-            for kod in ("MS1", "MS2", "UST25", "KGVAR"):
-                if kod in kars:
-                    c = kars[kod]
-                    ad = e["ist_pazar"][kod].format(ev=a["ev"], dep=a["dep"])
-                    parcalar.append((f'{ad} {yuzde(c["istatistik"])}', r["vurgu"] if abs(fark_puani(c)) >= 10 else r["yazi"]))
-            metin_ = "  ·  ".join(t for t, _ in parcalar)
-            while d.textlength(metin_, font=fs) > W - 2 * K and fs.size > 12:
-                fs = _font(fs.size - 1)
-            xx = K
-            for j, (t, renk) in enumerate(parcalar):
-                t = ("", " ", "  ·  ")[min(j, 2)] + t
-                d.text((xx, yy + 96), t, font=fs, fill=renk)
-                xx += d.textlength(t, font=fs)
-        else:
-            t = e["ist_sadece"] if a.get("kaynak") == "istatistik" else e["ist_yok"]
-            d.text((K, yy + 96), t, font=fs, fill=r["soluk"])
     alt, f = _sigdir(d, e["alt"], W - 2 * K, 20)
     d.text(((W - d.textlength(alt, font=f)) / 2, H - 56), alt, font=f, fill=r["soluk"])
     tampon = io.BytesIO()

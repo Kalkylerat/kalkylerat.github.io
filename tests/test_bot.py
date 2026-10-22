@@ -638,8 +638,8 @@ def test_analiz_gunu_kartlar_ve_mac_sonu_takibi(monkeypatch, tmp_path):
     assert {"analiz_0", "analiz_1", "analiz_2", "bilgi"} <= set(turler)
     assert not {"radar", "deger", "istatistik", "skor", "pas"} & set(turler)
     metin = etkilesim.analiz_tweeti(gun["analizler"][0], AYAR)
-    assert "🆚 Arsenal v Fulham" in metin and "📈 Team stats" in metin
-    assert metin.startswith(analiz.hikaye(gun["analizler"][0])[1])  # ilk satır maçın hikâyesi (kartın manşeti)
+    assert "🆚 Arsenal v Fulham" in metin and "stats" not in metin.lower()  # takım istatistiği yok (A4)
+    assert metin.startswith((analiz.hikaye(gun["analizler"][0])[1], analiz.hikaye_tek(gun["analizler"][0])))  # ilk satır maçın hikâyesi (kartın manşeti)
     assert tweets.uzunluk(metin) <= 280 and direktor.kurala_uygun(metin, "analiz", AYAR.oran_bahiscileri)
     assert gorsel.analiz_karti(gun["analizler"][0], "16:00", "tr")[:4] == b"\x89PNG"
     # maç sonu: skor ve üç çağrı, alıntıyla; bir kez
@@ -672,8 +672,8 @@ def test_analiz_istatistik_ile_piyasayi_karsilastirir():
     assert c and c["istatistik"] > c["piyasa"]  # istatistik daha çok gol görüyor
     assert all(c["piyasa"] == a["p"][c["pazar"]] for c in a["karsilastirma"])  # karttaki ana rakamla aynı
     metin = etkilesim.analiz_tweeti(a, AYAR)
-    # fark hikâyenin kendisi: ilk satır oranla istatistiği yan yana verir (ayrı istatistik satırı tekrar etmez)
-    assert metin.startswith("📈 Over 2.5 goals: odds 51%, team stats 66%.") and tweets.uzunluk(metin) <= 280
+    # 22 Ekim 2026: istatistik kayıtta kalır ama postta yok (A4); hikâye oranlardan
+    assert "stats" not in metin.lower() and metin.startswith((analiz.hikaye(a)[1], analiz.hikaye_tek(a))) and tweets.uzunluk(metin) <= 280
     assert direktor.kurala_uygun(metin, "analiz", AYAR.oran_bahiscileri)
     for dil in ("en", "tr"):
         assert gorsel.analiz_karti(a, "20:45", dil)[:4] == b"\x89PNG"
@@ -972,8 +972,8 @@ def test_tablodaki_mac_bittikce_tabloya_yanit():
     assert etkilesim.tablo_takibi(gun, AYAR, x, datetime(2026, 10, 3, 14, 0, tzinfo=timezone.utc), lambda l: sonuc) == 1
     metin, k = x.giden[0]
     assert k == {"yanit": "50"} and "🆚 Burton 2–2 Burton B" in metin
-    assert "🏆 Draw: odds" in metin and "stats 31%" in metin and "⚽ Over 2.5 goals:" in metin and "stats 62%" in metin
-    assert "🥅 Both teams scored:" in metin and "stats 58%" in metin and "🎯 Score 2-2:" in metin
+    assert "🏆 Draw:" in metin and "⚽ Over 2.5 goals:" in metin and "stats" not in metin  # istatistik yok (A4)
+    assert "🥅 Both teams scored:" in metin and "Upset meter" in metin and "🎯 Score 2-2:" in metin
     assert tweets.uzunluk(metin) <= 280 and denetci.analiz_kontrolu("tablo_sonuc", metin, [], AYAR) == []
     assert gun["etkilesim"]["tablo"]["sonuclar"]["3"]["neden"] == "maç oynanmadı" and not gun["etkilesim"]["tablo"].get("takip")
     assert etkilesim.tablo_takibi(gun, AYAR, x, datetime(2026, 10, 3, 14, 15, tzinfo=timezone.utc), lambda l: sonuc) == 0
@@ -1006,7 +1006,7 @@ def test_yanit_kiti_taslak_hazirlar_gunde_bir_kez(tmp_path, monkeypatch):
     baslik, govde, etiket = gh.acilan[0]
     assert etiket == "yanit-kiti" and "Spain v Spain B" in govde and "Old v" not in govde  # başlamış maç yok
     assert "x.com/search?q=Spain%20Spain%20B&f=top" in govde and "https://raw/x/docs/kit/2026-10-04/1.png" in govde
-    assert "team stats say 62%" in govde and (tmp_path / "kit" / "2026-10-04" / "1.png").exists()
+    assert "team stats" not in govde and (tmp_path / "kit" / "2026-10-04" / "1.png").exists()
     for t in kit.yanitlar(gun["analizler"][0]):
         assert len(t) <= 280 and not denetci._SECIM_DILI.search(t) and "bet" not in t.lower()
     assert kit.gonder(gun, AYAR, gh, lambda x: "", simdi, "u") is None and len(gh.acilan) == 1  # günde bir kez
@@ -1035,16 +1035,16 @@ def test_x_kurallari_tekrar_ve_gunluk_sinir():
     assert "#Football" not in tweets.liste_etiketleri([("Premier League", "England")], [("Arsenal", "Leeds")])
 
 
-def test_erken_ilk_macta_tablo_ve_ayrisma_penceresi_one_cekilir():
+def test_erken_ilk_macta_tablo_penceresi_one_cekilir_ayrisma_postu_yok():
     """İlk tablo maçı 08:00 UTC'de (Asya öğle maçı): pencere sabit açılıştan önce, analizden sonra açılır; boş kalmaz."""
     from bot import etkilesim
     m = {"baslama": "2026-10-07T08:00:00+00:00"}
     gun = {"tarih": "2026-10-07", "konsept": "analiz", "olusturma": "2026-10-07T05:36:00+00:00",
            "tablo": [m], "kiyas": [m, {"baslama": "2026-10-07T12:00:00+00:00"}]}
     plan = {t: (e, l) for t, e, l in etkilesim._plan(gun)}
-    for tur in ("tablo", "ayrisma"):
-        e, l = plan[tur]
-        assert e < l and e >= datetime(2026, 10, 7, 5, 36, tzinfo=timezone.utc)
+    e, l = plan["tablo"]
+    assert e < l and e >= datetime(2026, 10, 7, 5, 36, tzinfo=timezone.utc)
+    assert "ayrisma" not in plan  # oran vs istatistik postu 22 Ekim 2026'da kalktı (A4)
     assert plan["tablo"][0] == datetime(2026, 10, 7, 6, 0, tzinfo=timezone.utc)
     gec = {**gun, "tablo": [{"baslama": "2026-10-07T18:45:00+00:00"}], "kiyas": None}  # akşam maçı: sabit 08:00 kalır
     assert dict((t, e) for t, e, _ in etkilesim._plan(gec))["tablo"] == datetime(2026, 10, 7, 8, 0, tzinfo=timezone.utc)
@@ -1149,28 +1149,49 @@ def test_yeni_issue_eski_ayni_etiketlileri_kapatir():
 
 
 def test_kart_hikayesi_kayittan_secimsiz_ve_postun_ilk_satiri(monkeypatch):
-    """22 Ekim 2026: kart ve postun ilk satırı maçın hikâyesi (analiz.hikaye). Her türde yüzdeler kayıttan (denetçi
-    geçer), seçim/kesinlik dili yok, 280'e sığar; kartta ev ve deplasman rengi vurgu (en olası) renginden ayrı."""
+    """22 Ekim 2026: kart ve postun ilk satırı oranların hikâyesi (analiz.hikaye, A10). Her türde yüzdeler kayıttan
+    (denetçi geçer), sıklık dili yüzdenin yanında, seçim/kesinlik dili ve takım istatistiği yok, 280'e sığar; kartta
+    ev ve deplasman rengi vurgu (en olası) renginden ayrı."""
     from bot import analiz, denetci, direktor, etkilesim, gorsel
     gorulen = set()
-    for i, (le, ld) in enumerate([(2.4, 0.5), (0.6, 2.1), (1.2, 1.15), (2.0, 1.9), (1.4, 1.1), (1.0, 1.0)]):
+    for i, (le, ld) in enumerate([(2.4, 0.5), (0.6, 2.1), (1.2, 1.15), (2.0, 1.9), (1.45, 1.0), (1.0, 1.0), (1.35, 0.95), (1.7, 1.0)]):
         p = {k: round(v, 3) for k, v in model.model_olasiliklari(le, ld).items()}
-        for kars in ([], [{"pazar": k, "ad": ad, "piyasa": p[k], "istatistik": v} for k, ad, v in
-                          (("MS1", "Home win", round(p["MS2"], 3)), ("MSX", "Draw", round(p["MSX"], 3)),
-                           ("MS2", "Away win", round(p["MS1"], 3)))],
-                     [{"pazar": "UST25", "ad": "Over 2.5 goals", "piyasa": p["UST25"], "istatistik": round(p["UST25"] - 0.2, 3)}]):
-            a = {"fixture_id": i, "ev": "Home", "dep": "Away", "lig": "Premier League", "lig_id": 39, "guven": "yuksek",
-                 "baslama": "2026-10-03T18:45:00+00:00", "beklenen_gol": [le, ld], "p": p, "kaynak": "piyasa",
-                 "skorlar": analiz._skorlar(le, ld), "karsilastirma": kars, "istatistik_kaynak": "lig" if kars else None}
-            tur, h1, h2 = analiz.hikaye(a)
-            gorulen.add(tur)
-            metin = etkilesim.analiz_tweeti(a, AYAR)
-            assert metin.lstrip("📈 ").startswith(h1) and tweets.uzunluk(metin) <= 280
-            assert denetci.analiz_kontrolu("analiz", metin, [a], AYAR) == [], (tur, metin)
-            assert direktor.kurala_uygun(metin, "analiz", AYAR.oran_bahiscileri)
-            assert not denetci._SECIM_DILI.search(h1 + h2) and not denetci._KESINLIK.search(h1 + h2)
-            dag = analiz.toplam_gol_dagilimi(a, 6)
-            assert abs(1 - sum(dag[:3]) - p["UST25"]) < 0.01 and abs(sum(dag) - 1) < 1e-9  # aynı model
-    assert gorulen >= {"ayri", "fark", "favori", "gol", "skor"}
+        kars = [{"pazar": "MS1", "ad": "Home win", "piyasa": p["MS1"], "istatistik": round(p["MS2"], 3)}]
+        a = {"fixture_id": i, "ev": "Home", "dep": "Away", "lig": "Premier League", "lig_id": 39, "guven": "yuksek",
+             "baslama": "2026-10-03T18:45:00+00:00", "beklenen_gol": [le, ld], "p": p, "kaynak": "piyasa",
+             "skorlar": analiz._skorlar(le, ld), "karsilastirma": kars, "istatistik_kaynak": "lig", "marj": 0.052,
+             "ev_ulke": "England", "dep_ulke": "Turkey"}
+        tur, h1, h2 = analiz.hikaye(a)
+        gorulen.add(tur)
+        metin = etkilesim.analiz_tweeti(a, AYAR)
+        assert metin.startswith((h1, analiz.hikaye_tek(a))) and tweets.uzunluk(metin) <= 280 and "stats" not in metin.lower()
+        assert tweets.bayrak("England") in metin and tweets.bayrak("Turkey") in metin
+        assert denetci.analiz_kontrolu("analiz", metin, [a], AYAR) == [], (tur, metin)
+        assert direktor.kurala_uygun(metin, "analiz", AYAR.oran_bahiscileri)
+        assert not denetci._SECIM_DILI.search(h1 + h2) and not denetci._KESINLIK.search(h1 + h2)
+        for k, n in re.findall(r"about (\d+) in (\d+)", h1 + h2):  # sıklık dili, aynı yüzdeyle tutarlı
+            assert any(abs(int(k) / int(n) - int(y) / 100) <= 0.04 for y in re.findall(r"(\d+)%", h1 + h2))
+        dag = analiz.toplam_gol_dagilimi(a, 6)
+        assert abs(1 - sum(dag[:3]) - p["UST25"]) < 0.01 and abs(sum(dag) - 1) < 1e-9  # aynı model
+    assert gorulen >= {"favori", "favori_ama", "gol", "skor"}
     for r in gorsel.PALETLER.values():  # renk tek anlam taşır: takım rengi "en olası" vurgusu değildir
         assert len({r["ev"], r["dep"], r["vurgu"], r["ber"]}) == 4
+
+def test_takim_ulkeleri_onbellekli_ve_sinirli(tmp_path):
+    """22 Ekim 2026: postta bayrak için takım ülkesi teams?id= ile takım başına bir kez (kalıcı önbellek), günde sınırlı."""
+    from bot import etkilesim
+    class Api:
+        def __init__(self):
+            self.n = 0
+        def get(self, yol, **k):
+            self.n += 1
+            return [{"team": {"country": {1: "Poland", 2: "Belgium", 3: "Narnia"}[k["id"]]}}]
+    dosya = tmp_path / "takim_ulke.json"
+    api = Api()
+    a = [{"ev": "Jagiellonia", "dep": "Anderlecht", "ev_id": 1, "dep_id": 2, "lig_id": 3},
+         {"ev": "X", "dep": "Y", "ev_id": 3, "dep_id": None, "lig_id": 999}]
+    assert football.ulkeleri_doldur(api, a, dosya, hak=2) == 2 and api.n == 2
+    assert (a[0]["ev_ulke"], a[0]["dep_ulke"]) == ("Poland", "Belgium") and "ev_ulke" not in a[1]  # sınır doldu
+    assert football.ulkeleri_doldur(api, a, dosya, hak=2) == 1 and api.n == 3  # önbellekteki tekrar sorulmaz
+    assert etkilesim.mac_satiri(a[0]) == "🇵🇱 Jagiellonia v Anderlecht 🇧🇪"
+    assert etkilesim.mac_satiri(a[1]) == "🆚 X v Y"  # bilinmeyen ülke: yanlış bayrak yerine hiç

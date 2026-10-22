@@ -110,7 +110,16 @@ def liste_etiketleri(ligler: list[tuple[str, str]], maclar: list[tuple[str, str]
 
 
 def uzunluk(metin: str) -> int:
-    return sum(1 if any(a <= ord(c) <= b for a, b in _TEK) else 2 for c in metin)
+    """X'in ağırlıklı uzunluğu (üst sınır): bayrak iki bölge harfinden oluşur ve X'te 2 sayılır (harf başına 1);
+    İngiltere/İskoçya/Galler bayraklarının etiket karakterleri X'te sayılmaz."""
+    def agirlik(c: str) -> int:
+        k = ord(c)
+        if 0xE0020 <= k <= 0xE007F:
+            return 0
+        if 0x1F1E6 <= k <= 0x1F1FF:
+            return 1
+        return 1 if any(a <= k <= b for a, b in _TEK) else 2
+    return sum(agirlik(c) for c in metin)
 
 
 def kirp(metin: str, limit: int = LIMIT) -> str:
@@ -335,3 +344,35 @@ class KonsolClient:
 
     def metrikler(self, adet: int = 100) -> list[dict]:
         return []
+
+
+# API-Football ülke adı -> ISO kodu (postta bayrak). İngiltere, İskoçya ve Galler'in kendi bayrağı var; Kuzey
+# İrlanda'nın resmi emoji bayrağı yok (bayrak çıkmaz). Listede olmayan ülkede bayrak çıkmaz (yanlış bayrak olmasın).
+_ULKE_KODU = {
+    "albania": "AL", "algeria": "DZ", "andorra": "AD", "argentina": "AR", "armenia": "AM", "australia": "AU",
+    "austria": "AT", "azerbaijan": "AZ", "belarus": "BY", "belgium": "BE", "bolivia": "BO", "bosnia": "BA",
+    "brazil": "BR", "bulgaria": "BG", "cameroon": "CM", "canada": "CA", "chile": "CL", "china": "CN", "colombia": "CO",
+    "costa-rica": "CR", "croatia": "HR", "cyprus": "CY", "czech-republic": "CZ", "denmark": "DK", "ecuador": "EC",
+    "egypt": "EG", "estonia": "EE", "faroe-islands": "FO", "finland": "FI", "france": "FR", "georgia": "GE",
+    "germany": "DE", "ghana": "GH", "gibraltar": "GI", "greece": "GR", "hungary": "HU", "iceland": "IS", "india": "IN",
+    "indonesia": "ID", "iran": "IR", "iraq": "IQ", "ireland": "IE", "israel": "IL", "italy": "IT", "ivory-coast": "CI",
+    "japan": "JP", "jordan": "JO", "kazakhstan": "KZ", "kosovo": "XK", "kuwait": "KW", "latvia": "LV",
+    "liechtenstein": "LI", "lithuania": "LT", "luxembourg": "LU", "malta": "MT", "mexico": "MX", "moldova": "MD",
+    "montenegro": "ME", "morocco": "MA", "netherlands": "NL", "new-zealand": "NZ", "nigeria": "NG",
+    "north-macedonia": "MK", "macedonia": "MK", "norway": "NO", "paraguay": "PY", "peru": "PE", "poland": "PL",
+    "portugal": "PT", "qatar": "QA", "romania": "RO", "russia": "RU", "san-marino": "SM", "saudi-arabia": "SA",
+    "senegal": "SN", "serbia": "RS", "slovakia": "SK", "slovenia": "SI", "south-africa": "ZA", "south-korea": "KR",
+    "spain": "ES", "sweden": "SE", "switzerland": "CH", "thailand": "TH", "tunisia": "TN", "turkey": "TR",
+    "türkiye": "TR", "ukraine": "UA", "united-arab-emirates": "AE", "uruguay": "UY", "usa": "US", "venezuela": "VE",
+    "vietnam": "VN",
+}
+_ALT_BAYRAK = {"england": "gbeng", "scotland": "gbsct", "wales": "gbwls"}
+
+
+def bayrak(ulke: str | None) -> str:
+    """Ülke adının bayrak emojisi ("Turkey" -> 🇹🇷); bilinmiyorsa boş (yanlış bayrak koymaktansa hiç)."""
+    ad = (ulke or "").strip().lower().replace(" ", "-")
+    if ad in _ALT_BAYRAK:
+        return "\U0001F3F4" + "".join(chr(0xE0000 + ord(c)) for c in _ALT_BAYRAK[ad]) + "\U000E007F"
+    kod = _ULKE_KODU.get(ad)
+    return "".join(chr(0x1F1E6 + ord(c) - ord("A")) for c in kod) if kod and kod != "XK" else ""

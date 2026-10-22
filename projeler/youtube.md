@@ -33,3 +33,10 @@ hatası saklanmaz), sınır cümlesi, kapanışta ücretsiz paket. Aynı bölüm
 ## İlk mesaj
 > YouTube kanalı projesine devam ediyoruz. projeler/youtube.md ve marka/TINY_FIXES.md dosyalarını oku. Brainstorming
 > skill'ini yükle ve kaldığımız yerden, yüz düzeni sorusundan devam et. Kararlarım: [buraya yaz].
+
+## claude.ai sohbetlerinden
+- Eski felsefe kanalı fikri "Modern Bilgelik & Varoluşsal Psikoloji" (Eylül 2026'da önceliksiz): Frankl, Watts, Jung,
+  Stoacılar, Spinoza; uykuya dalarken dinlenen 30 dk anlatım; samimi, akademik olmayan ton; ElevenLabs ses kuralları
+  (virgül kısa, nokta orta, üç nokta uzun duraklama, köşeli parantez etiketi yok); Midjourney yağlıboya, koyu görsel.
+  İlk bölüm "Acının Anlamı". Bu kanal Tiny Fixes kanalından ayrı bir fikirdi.
+- DJ YouTube kanalı: aktif değil; haftada bir deck arkası çekim ya da Rekordbox ayar videosu seçenekleri vardı.

@@ -21,3 +21,10 @@
 - "Benden çıkan her fikri mantıklıymış gibi düşünme."
 - "Bir sorun olduğunda hemen bize haber gelmesi lazım." (nöbet ve alarm sistemi buradan)
 - Her düzeltme bir testle gelir; verilen karar aynı gün koda döner (C4–C6).
+
+## claude.ai sohbetlerinden
+- 13 Ekim: claude.ai sohbeti evdeki PC'ye yalnızca masaüstü uygulama köprüsüyle ulaşır; terminaldeki Claude Code ayrı
+  oturumdur. Erişim klasör bazlı (Downloads, Desktop, Documents, Pictures) ve o oturum için; PC uykuya geçmemeli.
+- Çalışma tarzı: araştırıp somut, öncelikli seçeneklerle dön; sahibi tepki vererek ilerler; önce ucuz pilot, sonra yatırım.
+- Dışa aktarma notu (22 Ekim): 112 sohbetin yalnızca 3'ünün metni geldi; kalan 109 sohbet yalnızca claude.ai hafızası ve
+  artifact'lar üzerinden özetlenebildi. Eksik içerik için dışa aktarma yeniden istenebilir.

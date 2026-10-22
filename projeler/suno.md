@@ -22,3 +22,11 @@ Her ay şarkı çıkarmak, DistroKid ile yayınlamak, manzarada canlı çekim.
 ## İlk mesaj
 > Suno müzik skill'ini kurmak istiyorum. Kalkylerat deposunun `claude/chrome-music-generation-9cyq2h` dalındaki `suno/`
 > klasörüne bak ve beni adım adım kurulumdan ilk test şarkısına kadar götür.
+
+## claude.ai sohbetlerinden
+- Tercihler: minimal söz, güçlü ve kısa emirli nakarat, sokak dili ölçülü, özgüvenli ve eşit anlatıcı; "aura" teması;
+  satır başına 8 hece, tam kafiye, günlük Türkçe, yapay zekâ klişesi yok; kendi kendini denetleyen döngü istemi.
+- Çıktı biçimi: etiketli bölümler (verse, pre-chorus, chorus, bridge) ve şarkı başına ayrı kopyalanabilir stil istemi.
+- Fikir: ayda ~20 Suno şarkısı, DistroKid'de sanatçı adıyla yayın, güzel manzarada çalıp YouTube'a çekim.
+- Resmî olmayan Suno API sarmalayıcıları (hesap çerezi, kural ihlali riski) reddedildi; resmî API davetli ortaklara açık.
+- Görev başına stil, söz ve kredi tavanını (örn. 250) sahibi belirler; sözleri kendisi denetler.

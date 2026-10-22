@@ -29667,7 +29667,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 24
+     "no": 24,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1636318-CS1X",
@@ -30210,7 +30211,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 51
+     "no": 51,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1636429-IYU05",
@@ -30492,8 +30494,20 @@
        "oran": 1.4,
        "olasilik": 0.7,
        "deger": -0.019,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-1",
+       "goller": [
+        [
+         5,
+         0,
+         "ev"
+        ],
+        [
+         84,
+         0,
+         "dep"
+        ]
+       ]
       }
      ],
      "oran": 2.0,
@@ -30552,8 +30566,30 @@
        "oran": 1.44,
        "olasilik": 0.681,
        "deger": -0.019,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-3",
+       "goller": [
+        [
+         15,
+         0,
+         "dep"
+        ],
+        [
+         55,
+         0,
+         "dep"
+        ],
+        [
+         64,
+         0,
+         "ev"
+        ],
+        [
+         90,
+         5,
+         "dep"
+        ]
+       ]
       }
      ],
      "oran": 2.05,
@@ -30709,7 +30745,10 @@
      "durum": "bekliyor",
      "secim": "2026-10-22T09:03:25+00:00",
      "oto": true,
-     "paylas": "2026-10-22T15:45:00+02:00"
+     "paylas": "2026-10-22T15:45:00+02:00",
+     "tweet_id": "2113265713209094207",
+     "metin": "🎩 Long shot of the day. Pocket money stuff.\n\n⚽ Monaco v SC Freiburg\n⚽ Beşiktaş v Crystal Palace\n⚽ FC Iberia 1999 v Mjallby AIF\n⚽ Al Talaba v Al Quwa Al Jawiya\n\n📊 Combined 3.98. I make it about 23% to land.\n\n💬 Too cautious or about right?\n\n18+ | Play responsibly",
+     "yayin": "2026-10-22T13:46:17+00:00"
     },
     {
      "ad": "gunun-kuponu-4",
@@ -31132,7 +31171,9 @@
        "Under 2.5 goals"
       ],
       "bitis": "2026-10-22T18:45:00+02:00"
-     }
+     },
+     "tweet_id": "2113276445799706839",
+     "zaman": "2026-10-22T14:29:00+00:00"
     },
     {
      "tur": "ders",
@@ -31143,7 +31184,7 @@
    "oto": true,
    "issue": 117,
    "tazeleme": "2026-10-22T09:03:25+00:00",
-   "olcum_sorgu": "2026-10-22T11:22:46+00:00"
+   "olcum_sorgu": "2026-10-22T14:43:09+00:00"
   }
  ]
 }

@@ -29667,7 +29667,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 24
+     "no": 24,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1636318-CS1X",
@@ -30210,7 +30211,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 51
+     "no": 51,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1636429-IYU05",
@@ -31160,7 +31162,7 @@
    "oto": true,
    "issue": 117,
    "tazeleme": "2026-10-22T09:03:25+00:00",
-   "olcum_sorgu": "2026-10-22T13:46:17+00:00"
+   "olcum_sorgu": "2026-10-22T14:43:09+00:00"
   }
  ]
 }

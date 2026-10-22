@@ -34,10 +34,16 @@ Bot `claude/twitter-football-predictions-ywwfxw` dalından çalışır. Aşağı
 | `claude/x-page-automation-monetization-7mjcki` | 8 Ekim | `marka/B2B_TEKLIF.md` (fikir, bot dışı) |
 | `claude/three-agent-brainstorm-automation-sdb84b` | 1 Ekim | `beyin/firsat-botu.md` (İsveççe fırsat botu devir notu, fikir) |
 | `claude/chrome-music-generation-9cyq2h` | 1 Ekim | `suno/` (Suno müzik skill'i, bot dışı) |
+| `claude/x-viral-content-system-97j6jh` | 15 Ekim | "Prompt Proof" ilk sürümü; yerini Tiny Fixes (PR #71) aldı, birleştirilmeyecek |
+| `ccr-a04ad725-brbtyt` | 16 Ekim | reverse-engineer-anything skill'i (morluto/rea), bot dışı |
 
 İlk ikisi doğrudan botu etkiler. Birleştirmeden önce ana dalla çakışmasına bakılmalı ve `python -m pytest -q` yeşil olmalı.
 
 ## Silinmeyecekler
+
+22 Ekim'de bütün eski Claude Code oturumları arşivlendi; içerikleri bu klasörde ve özel "Proje Haritası" belgesinde.
+Arşivlenen oturum gerekirse geri açılabilir.
+
 
 - "Kalkylerat (Do Not Delete)" oturumu ve ona bağlı, devre dışı "Kalkylerat saatlik sağlık kontrolü" rutini. Bir rutini
   silmek başlattığı oturumları da siler.

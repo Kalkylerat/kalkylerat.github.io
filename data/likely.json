@@ -29387,7 +29387,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 10
+     "no": 10,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1636276-CS1X",
@@ -29487,7 +29488,8 @@
      "istatistik": 0.706,
      "uyum": false,
      "buyuk": false,
-     "no": 15
+     "no": 15,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1636462-CS1X",
@@ -29567,7 +29569,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 19
+     "no": 19,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1636258-CS1X",
@@ -29848,7 +29851,8 @@
      "istatistik": 0.719,
      "uyum": true,
      "buyuk": false,
-     "no": 33
+     "no": 33,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1640336-CS12",
@@ -30191,7 +30195,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 50
+     "no": 50,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1641326-CSX2",
@@ -30292,7 +30297,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 55
+     "no": 55,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1603065-IYA15",
@@ -30312,7 +30318,8 @@
      "istatistik": 0.789,
      "uyum": true,
      "buyuk": false,
-     "no": 56
+     "no": 56,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1636280-IYA15",
@@ -30673,7 +30680,10 @@
      "durum": "bekliyor",
      "secim": "2026-10-22T09:03:25+00:00",
      "oto": true,
-     "paylas": "2026-10-22T18:00:00+02:00"
+     "paylas": "2026-10-22T18:00:00+02:00",
+     "tweet_id": "2113299810979577986",
+     "metin": "🎩 Today's four-fold.\n\n⚽ Aarhus v Egnatia Rrogozhinë\n⚽ Lillestrom v Real Sociedad\n⚽ Plzen v Levski Sofia\n⚽ Celtic v Celta Vigo\n\n📊 Combined 2.00. I make it about 46% to land.\n\n💬 Which leg lets me down?\n\n18+ | Play responsibly",
+     "yayin": "2026-10-22T16:01:28+00:00"
     },
     {
      "ad": "long-shot",
@@ -30810,8 +30820,30 @@
        "oran": 1.26,
        "olasilik": 0.785,
        "deger": -0.011,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "0-4",
+       "goller": [
+        [
+         21,
+         0,
+         "dep"
+        ],
+        [
+         28,
+         0,
+         "dep"
+        ],
+        [
+         51,
+         0,
+         "dep"
+        ],
+        [
+         70,
+         0,
+         "dep"
+        ]
+       ]
       }
      ],
      "oran": 2.0,
@@ -31184,7 +31216,7 @@
    "oto": true,
    "issue": 117,
    "tazeleme": "2026-10-22T09:03:25+00:00",
-   "olcum_sorgu": "2026-10-22T14:43:09+00:00"
+   "olcum_sorgu": "2026-10-22T17:41:49+00:00"
   }
  ]
 }

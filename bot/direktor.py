@@ -1,10 +1,9 @@
 """X Direktörü: hesabın içerik ve büyüme uzmanı.
 
 İki görevi var:
-1) Günlük (hızlı model): kupon dışı paylaşımların (günün maçları, anket, skor tahmini, günün istatistiği, radar,
-   doğru tahmin/kötü fiyat, pas günü)
+1) Günlük (hızlı model): paylaşımların (analiz kartı, tablolar, ayrışma, maç sonu, günün maçları, anket, bilgi postu)
    metnini o haftanın stratejisine göre yazar. Her metin kod tarafından denetlenir; kurala uymazsa şablon paylaşılır.
-2) Haftalık (en güçlü model): hesabın son tweetlerinin etkileşim rakamlarını ve kupon rekorunu inceler, gelecek haftanın
+2) Haftalık (en güçlü model): hesabın son tweetlerinin etkileşim rakamlarını ve Pazartesi karnesini inceler, gelecek haftanın
    stratejisini belirler (günlük yazarın kullandığı ton, soru tarzı, kaçınılacaklar) ve sahibine Türkçe rapor yazar.
 
 X otomasyon kuralları kodda sabittir ve direktör bunları değiştiremez: başkalarına otomatik yanıt, etiketleme (@), DM,
@@ -16,8 +15,8 @@ from datetime import datetime, timedelta
 
 import anthropic
 
-from . import config, kayit
-from .tweets import GENEL_ETIKETLER, LISTE_ETIKET_SINIRI, ANSVAR, LIMIT, izinli_etiket, uzunluk
+from . import config, etkilesim
+from .tweets import LISTE_ETIKET_SINIRI, ANSVAR, LIMIT, izinli_etiket, uzunluk
 
 DOSYA = config.ROOT / "data" / "direktor.json"
 REHBER_DOSYASI = config.ROOT / ".claude" / "skills" / "sosyal-medya" / "SKILL.md"
@@ -71,13 +70,6 @@ full time. No coupons, no stakes, no betting advice. You write one post at a tim
 
 Follow this week's strategy notes when they are given. Return the post text in "metin". Set "paylas" to false (and
 "metin" empty) only if this post would add nothing today or go against the playbook; otherwise true.
-"radar" posts list games we deliberately left out of our coupon with our chance for one market each: they are
-information for the reader, never a recommendation; keep the "not in our coupon" framing and the 18+ line.
-"deger" posts ("good call, poor price") show games we expect to go our way but skipped because the odds are below our
-fair price: explain that a likely outcome at a too-short price is not worth it for the bank, give our chance, the odds and
-the fair odds from the facts, ask whether skipping was right, keep the 18+ line. Never tell people to play them.
-"deger_sonuc" quotes that post after the games: give each score and whether our call came in, be honest (right or
-wrong), say in one short line why the price still mattered, keep the 18+ line.
 "bilgi" is the daily knowledge post (odds, probability, staking, models): explain the given facts in a lively,
 plain way with a real-life angle and end with one open question. Use exactly the numbers in "facts_to_use" and no
 others; never add stats, history or claims of your own. Keep the 18+ line.
@@ -104,7 +96,6 @@ The account posts automatically every day: today's big games, 3 match analysis c
 {KURALLAR}
 
 Base every claim on the numbers given. "strateji" guides the daily writer next week: keep it short and concrete.
-"gunluk_max_kupon" is how many coupons per day (1-3) the bot may post next week; the owner follows your call.
 "rapor" is for the owner, in Turkish, plain and practical (what worked, what to change, what the owner should do by hand).""" + _rehber()
 
 GUNLUK_SEMA = {"type": "object", "properties": {"paylas": {"type": "boolean"}, "metin": {"type": "string"}},
@@ -119,9 +110,8 @@ HAFTALIK_SEMA = {
                 "soru_ornekleri": {"type": "array", "items": {"type": "string"}},
                 "kacinilacaklar": {"type": "array", "items": {"type": "string"}},
                 "odak": {"type": "string"},
-                "gunluk_max_kupon": {"type": "integer"},
             },
-            "required": ["ton", "soru_ornekleri", "kacinilacaklar", "odak", "gunluk_max_kupon"],
+            "required": ["ton", "soru_ornekleri", "kacinilacaklar", "odak"],
             "additionalProperties": False,
         },
         "rapor": {"type": "string"},
@@ -130,7 +120,7 @@ HAFTALIK_SEMA = {
     "additionalProperties": False,
 }
 
-# Kupon dışı paylaşımlar bahis tavsiyesi, kesinlik dili, link, yönlendirme ve bahis sitesi adı içeremez.
+# Paylaşımlar bahis tavsiyesi, kesinlik dili, link, yönlendirme ve bahis sitesi adı içeremez.
 _YASAK = re.compile(
     r"\block(ed|s)?\b|guarantee|sure (thing|win|bet)|dead cert|\bcert\b|certain (win|winner|to win)|"
     r"can'?t (lose|miss)|100\s*%|\bbanker\b|free money|smash (it|the)|\bstake\b|\bbets?\b|\bbetting\b|"
@@ -143,7 +133,7 @@ _YASAK = re.compile(
 # Alan adı (küçük harfle yazılır; "Spurs.Me" gibi büyük harfli kısaltmalar yakalanmaz).
 _ALAN_ADI = re.compile(r"\b[a-z0-9-]+\.(com|net|org|io|co|se|uk|tr|bet|app|gg|ly|me|tv)\b")
 
-
+# Bilgi postu oranların ve olasılığın nasıl işlediğini anlatır: "bet", "stake" gibi terimlerin adı geçebilir, gerisi aynı.
 # Bilgi postu oran/stake/kasa yönetimini anlatır: "stake", "bet" gibi sözcükler serbest, gerisi aynı.
 _YASAK_BILGI = re.compile(_YASAK.pattern.replace(r"\bstake\b|\bbets?\b|\bbetting\b|", "")
                           .replace(r"\btips?\b|\btipster\b|\bwager|", "")
@@ -216,7 +206,7 @@ def kurala_uygun(metin: str, tur: str, bahisciler: list[str], izinli: set[str] |
         return False  # yalnızca gerçek turnuva etiketleri, en fazla iki
     if any(b.lower() in metin.lower() for b in bahisciler):
         return False
-    return tur not in ("pas", "radar", "deger", "deger_sonuc", "bilgi", "analiz", "analiz_sonuc", "tablo", "ayrisma") or metin.rstrip().endswith(ANSVAR)
+    return tur not in ("bilgi", "analiz", "analiz_sonuc", "tablo", "ayrisma") or metin.rstrip().endswith(ANSVAR)
 
 
 def yukle() -> dict:
@@ -259,7 +249,7 @@ def yazar(ayar, client=None, yaz=print):
         etiketler = sorted(set(re.findall(r"#\w+", sablon)))  # yalnızca şablonun (kodun doğruladığı) etiketleri
         icerik = json.dumps({"post_type": tur, "facts": olgular, "template_for_reference": sablon,
                              "allowed_hashtags": etiketler, "this_week_strategy": strateji}, ensure_ascii=False, indent=1)
-        if tur in ("pas", "radar", "deger", "deger_sonuc", "bilgi", "analiz", "analiz_sonuc", "tablo", "ayrisma"):
+        if tur in ("bilgi", "analiz", "analiz_sonuc", "tablo", "ayrisma"):
             icerik += f'\nThe post must end with the line "{ANSVAR}".'
         try:
             cevap = _cagir(client or anthropic.Anthropic(), [(ayar.direktor_model, ayar.direktor_effort),
@@ -268,8 +258,8 @@ def yazar(ayar, client=None, yaz=print):
         except Exception as e:
             yaz(f"Direktör metni yazamadı ({tur}): {e}; şablon kullanıldı.")
             return sablon
-        if cevap.get("paylas") is False and tur != "pas":
-            return ""  # direktör bugün bu paylaşımı uygun görmedi (pas açıklaması her zaman gider)
+        if cevap.get("paylas") is False:
+            return ""  # direktör bugün bu paylaşımı uygun görmedi
         metin = (cevap.get("metin") or "").strip()
         if tur in ("bilgi", "analiz", "analiz_sonuc", "tablo", "ayrisma") and not sayilar_dogru(metin, json.dumps(olgular, ensure_ascii=False) + sablon):
             yaz("Direktör bilgi metninde olgularda olmayan bir sayı kullandı; şablon kullanıldı.")
@@ -311,12 +301,13 @@ def haftalik(ayar, gunler: list[dict], tweetler: list[dict], gh, simdi_yerel: da
              "deneme_sayisi": onceki.get("deneme_sayisi", 0) + 1})
     hafta_once = (simdi_yerel - timedelta(days=7)).date().isoformat()
     son = [g for g in gunler if g["tarih"] >= hafta_once]
-    veri_kupon = [{"tarih": g["tarih"], "kupon": g["id"], "sonuc": [kayit.kupon_durumu(g, k) for k in kayit.kuponlar(g)],
-                   "secimler": [s["kisa"] for s in g["secimler"]]} for g in son]
+    # Son 7 günün paylaşımları (tür ve durum) ve kayıttan Pazartesi karnesi: kupon ve kasa yok (analiz konsepti).
+    veri_gun = [{"tarih": g["tarih"], "posts": {tur: e.get("durum") for tur, e in (g.get("etkilesim") or {}).items()}}
+                for g in son if g.get("konsept") == "analiz"]
     icerik = json.dumps({
         "today": simdi_yerel.date().isoformat(),
-        "bank_summary": kayit.ozet(gunler, ayar.kasa_baslangic),
-        "last_7_days_coupons": veri_kupon,
+        "last_7_days_posts": veri_gun,
+        "last_7_days_report_card": etkilesim.hafta_ozeti(gunler, simdi_yerel.date().isoformat()),
         "own_recent_tweets_with_metrics": [{"text": t.get("text", "")[:200], "created_at": t.get("created_at"),
                                             "metrics": t.get("public_metrics")} for t in tweetler],
         "previous_strategy": yukle().get("strateji"),
@@ -335,7 +326,3 @@ def haftalik(ayar, gunler: list[dict], tweetler: list[dict], gh, simdi_yerel: da
     return veri
 
 
-def gunluk_max_kupon(ayar) -> int:
-    """Direktörün belirlediği günlük kupon sınırı (1-3); yoksa ayarlar.toml'daki."""
-    deger = (yukle().get("strateji") or {}).get("gunluk_max_kupon")
-    return max(1, min(3, int(deger))) if isinstance(deger, (int, float)) else ayar.max_kupon

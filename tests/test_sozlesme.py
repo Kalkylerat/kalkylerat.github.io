@@ -289,6 +289,9 @@ def test_B5_sabah_analizi_yoksa_alarm():
     assert any("sabah analizi" in m for _, m in saglik.sorunlar([], datetime(2026, 10, 5, 6, 30, tzinfo=UTC), AYAR))
     wf = (ROOT / ".github/workflows/kalkylerat.yml").read_text()
     assert 'cron: "17 5 * * *"' in wf and config.SABAH_YEREL_DK == 7 * 60 + 17
+    # elle cevap taslakları: fırsatlar açıkken yorum fırsatları, kapalıyken yanıt kiti (ikisi birden gelmez)
+    kod = (ROOT / "bot/__main__.py").read_text(encoding="utf-8")
+    assert "not (firsat.ayar_yukle().aktif and firsat.ayar_yukle().gunluk_yorum > 0)" in kod and "kit.gonder(" in kod
 
 
 def test_B6_buyuk_maclar_kart_ve_tabloda():

@@ -3,14 +3,8 @@
 [genel]
 saat_dilimi = "Europe/Stockholm"
 
-[konsept]
-# "analiz": kupon, stake ve kasa yok; her gün maç analizi kartları (olasılıklar, skor dağılımı).
-# "kupon": eski düzen (kupon + sanal kasa).
-mod = "analiz"
-
 [ligler]
 # API-Football lig ID'leri; sıra önceliktir (günlük tarama sınırı dolarsa sondakiler atlanır).
-# Sadece takım istatistiği ve güvenilir oranı olan maçlar seçilir.
 izinli = [
   39, 140, 135, 78, 61,        # Premier League, La Liga, Serie A, Bundesliga, Ligue 1
   2, 3, 848, 5,                # Şampiyonlar Ligi, Avrupa Ligi, Konferans Ligi, Nations League
@@ -19,50 +13,24 @@ izinli = [
   113, 103, 119, 218, 207,     # Allsvenskan, Norveç, Danimarka, Avusturya, İsviçre
   41, 89, 204, 219, 114,       # League One, Eerste Divisie, TFF 1. Lig, Avusturya 2. Liga, Superettan
 ]
-# İki aşamalı tarama: 1) günün bütün maçlarının oranları toplu çekilir (istek başına 10 maç),
-# 2) yalnızca piyasaya göre umut vadeden maçlar için istatistik istenir.
-# tum_ligler: izinli liste dışındaki ligler de taranır; bu liglerde oyun ancak keskin bahisçi (Pinnacle)
-# o pazarı fiyatlıyorsa, Bet365 ve en az 3 büyük sitede oran varsa ve takım istatistiği yeterliyse seçilir.
+# Günün bütün maçlarının oranları toplu çekilir (istek başına 10 maç); takım istatistiği maç başına istenir.
+# tum_ligler: izinli liste dışındaki ligler de taranır (yedek kaynak The Odds API'de de).
 tum_ligler = true
 # Toplu oran taramasında en fazla kaç sayfa (her sayfa 1 istek, 10 maç). Ücretsiz plan en fazla 3 sayfaya izin
 # veriyor; kalan maçların oranı hak yettiğince tek tek çekilir. Pro plan: 100+.
 max_oran_sayfasi = 30
-# Detaylı incelenecek en fazla maç sayısı (her biri 1 istatistik + gerekirse 1 sakat listesi isteği).
-max_detay_mac = 30
-# Toplu tarama çalışmazsa eski yöntem: izinli liglerden en fazla kaç maç (maç başına 2 istek).
-max_mac_tarama = 150
 # İstekler arası bekleme (sn). Ücretsiz plan dakikada 10 istek: 6.5. Pro plan (şu an): 0.3.
 istek_araligi_sn = 0.3
 
 [strateji]
-# Günde en fazla kaç oyun, bir maçtan en fazla kaç oyun ve en fazla kaç kupon (X Direktörü haftalık stratejide
-# günlük kupon sınırını 1-3 arasında belirler; o varsa bu değer yerine o kullanılır).
-# Kupon: tek maç ya da 2-3 maçlık kombine; her kupon kasanın oyun_yuzdesi kadarıyla oynanır.
-max_oyun = 7
-max_oyun_mac_basina = 2
-max_kupon = 2
-# YÜKSEK İHTİMALLİ oyun: en az %65 kazanma ihtimali (keskin piyasanın marjsız fiyatından) VE oran adil fiyata
-# yakın: en fazla %4 altında (normal bahisçi marjı kadar). Öncelik her gün güvenilir, sık tutan bir kupon;
-# adil fiyatın çok altındaki (marjı yüksek) oranlar alınmaz. Kasayı asıl büyüten değer oyunlarıdır.
-guvenli_min_olasilik = 0.65
-guvenli_min_deger = -0.04
-# DEĞER oyunu (kasayı büyüten): oran gerçek ihtimalden en az %3 yüksek, ihtimal en az %45.
+# Mr. Likely aday havuzu (model._piyasa_adaylari): yüksek ihtimal eşiği ve oran aralığı [likely] içinde; buradakiler
+# değer adayı içindir. DEĞER adayı: oran gerçek ihtimalden en az %3 yüksek, ihtimal en az %45.
 deger_min_olasilik = 0.45
 deger_min_deger = 0.03
-oran_min = 1.20
-oran_max = 2.60
-# Gol modeli (Poisson) adil olasılıktan bu kadar düşükse oyuna güvenilmez.
+# Gol modeli (Poisson) adil olasılıktan bu kadar düşükse aday güvenilmez sayılır.
 model_tolerans = 0.08
-# Maça bu kadar dakikadan az kaldıysa oyuna alınmaz (takipçinin oynamaya vakti olsun: 2,5 saat).
+# Yedek kaynakta (The Odds API) bu kadar dakikadan az sonra başlayacak maçlar taranmaz.
 min_dakika_once = 150
-
-# Kupon oranı = ayakların oranlarının çarpımı, gerçek ihtimal = ihtimallerin çarpımı.
-
-[kasa]
-# Sanal kasa: her kupona güncel kasanın bu yüzdesi yatırılır.
-baslangic = 10000
-oyun_yuzdesi = 1.0
-para_birimi = "€"
 
 [bahisciler]
 # "Adil" olasılık için referans alınan keskin bahisçi. Yoksa en az 3 bahisçinin ortalaması kullanılır.
@@ -80,17 +48,8 @@ min_oran_bahiscisi = 3
 zorunlu_bahisciler = ["Bet365"]
 
 [claude]
+# X Direktörünün yedek modeli, yorum taslakları ve tanı komutu.
 model = "claude-opus-5-5"
-effort = "high"
-
-[yayin]
-# false: oyunlar taslak olarak kaydedilir, siz "yayinla" komutunu çalıştırınca paylaşılır.
-# true: oyunlar hazırlanır hazırlanmaz X'te paylaşılır.
-otomatik_paylas = true
-# true: kupon önce GitHub'da önizlemeli bir onay isteği (issue) olarak gelir. "ok" → hemen paylaşılır,
-# "iptal" → paylaşılmaz, cevap yoksa onay_suresi_dk sonra (en geç ilk maçtan 2 saat önce) otomatik paylaşılır.
-onay_bekle = true
-onay_suresi_dk = 90
 
 [yogun]
 # Yoğun günler (maç dolu günler): postlar arası aralik_dk dakika (normalde 45), öne çıkan kart sayısı "kart"a kadar
@@ -131,7 +90,7 @@ likely_saatler = [10, 13, 16, 18]
 id = ""
 
 [direktor]
-# X Direktörü: kupon dışı paylaşımların metnini yazar (günlük, hızlı model) ve her Pazartesi hesabın
+# X Direktörü: Kalkylerat postlarının metnini yazar (günlük, hızlı model) ve her Pazartesi hesabın
 # etkileşim rakamlarını inceleyip haftanın stratejisini ve sahibine Türkçe raporu hazırlar (en güçlü model).
 # Model erişilemezse ya da metin kurallara uymazsa şablon metin paylaşılır; X otomasyon kuralları kodda sabittir.
 aktif = true

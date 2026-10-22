@@ -1,0 +1,49 @@
+# Projeler: durum ve açık işler
+
+Bu depodaki projelerin tek sayfalık özetleri (22 Ekim 2026). Her dosyada durum, kararlar, açık işler ve yeni bir
+Claude oturumuna yapıştırılacak ilk mesaj var. Bir iş bitince ilgili dosyanın **Durum** satırını ve açık işler listesini
+güncelle.
+
+| Proje | Dosya | Durum | Sıradaki adım |
+|---|---|---|---|
+| Kalkylerat (analiz, X) | [kalkylerat.md](kalkylerat.md) | çalışıyor | e-posta yağmuru düzeltmesini ana dala al |
+| Mr. Likely (kupon, X) | [mr-likely.md](mr-likely.md) | çalışıyor, otomatik | sabah duyuru postunu ana dala al |
+| Tiny Fixes (yapay zekâ, X + Instagram) | [tiny-fixes.md](tiny-fixes.md) | kod hazır, `mod = "kapali"` | sahibinin kurulum adımları |
+| YouTube kanalı (Tiny Fixes) | [youtube.md](youtube.md) | tasarım | yüz düzeni kararı |
+| Vezir (kişisel asistan, özel depo) | [vezir.md](vezir.md) | çalışıyor | aktif modeli kontrol et |
+| Flow Event (DJ hizmeti ve kursu) | [flow-event.md](flow-event.md) | beklemede | alan adı, pilot öğrenci |
+| E-ticaret (Shopify) | [e-ticaret.md](e-ticaret.md) | başlamadı | ilk ürün kararı |
+| Suno müzik | [suno.md](suno.md) | skill hazır | test şarkısı |
+| Fikir rafı | [fikir-rafi.md](fikir-rafi.md) | karar bekliyor | "Sezon hazır" (1 Kasım öncesi) |
+| Genel: Claude kullanımı ve maliyet | [genel.md](genel.md) | not | — |
+
+claude.ai sohbetleri (normal sohbetler, Projects) bulut oturumlarından görünmez; onları eklemek için
+[claude-ai-aktarim.md](claude-ai-aktarim.md). Daha ayrıntılı özel sürüm: claude.ai'deki "Proje Haritası" belgesi.
+
+Değişmez kurallar her zaman `SOZLESME.md`'de; bu klasör yalnızca durum özetidir, kural koymaz.
+
+## Ana dala alınmamış dallar
+
+Bot `claude/twitter-football-predictions-ywwfxw` dalından çalışır. Aşağıdakiler o dalda yok:
+
+| Dal | Tarih | İçerik |
+|---|---|---|
+| `claude/email-notification-cleanup-314g6n` | 16 Ekim | Bildirimler tek kanal (C2): X 503/kopya döngüsü, nöbetçi alarm yağmuru, tablo sonuç gecikmesi |
+| `claude/daily-coupon-teaser-2bolvm` | 21 Ekim | Mr. Likely sabah duyuru postu ("bugün N kupon"), testleriyle |
+| `ccr-53dc4a08-tzpiit` | 12 Ekim | `MALIYET.md` (aylık maliyet ve işletme devir notu) |
+| `claude/x-page-automation-monetization-7mjcki` | 8 Ekim | `marka/B2B_TEKLIF.md` (fikir, bot dışı) |
+| `claude/three-agent-brainstorm-automation-sdb84b` | 1 Ekim | `beyin/firsat-botu.md` (İsveççe fırsat botu devir notu, fikir) |
+| `claude/chrome-music-generation-9cyq2h` | 1 Ekim | `suno/` (Suno müzik skill'i, bot dışı) |
+| `claude/x-viral-content-system-97j6jh` | 15 Ekim | "Prompt Proof" ilk sürümü; yerini Tiny Fixes (PR #71) aldı, birleştirilmeyecek |
+| `ccr-a04ad725-brbtyt` | 16 Ekim | reverse-engineer-anything skill'i (morluto/rea), bot dışı |
+
+İlk ikisi doğrudan botu etkiler. Birleştirmeden önce ana dalla çakışmasına bakılmalı ve `python -m pytest -q` yeşil olmalı.
+
+## Silinmeyecekler
+
+22 Ekim'de bütün eski Claude Code oturumları arşivlendi; içerikleri bu klasörde ve özel "Proje Haritası" belgesinde.
+Arşivlenen oturum gerekirse geri açılabilir.
+
+
+- "Kalkylerat (Do Not Delete)" oturumu ve ona bağlı, devre dışı "Kalkylerat saatlik sağlık kontrolü" rutini. Bir rutini
+  silmek başlattığı oturumları da siler.

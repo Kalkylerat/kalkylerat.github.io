@@ -5,13 +5,9 @@ from types import SimpleNamespace
 
 import pytest
 
-from bot import config, editor, football, kayit, model, tweets
-from bot.__main__ import main
+from bot import config, football, model, tweets
 
 AYAR = config.yukle()
-SIMDI = datetime(2026, 10, 4, tzinfo=timezone.utc)
-
-
 def test_poisson_olasiliklari_tutarli():
     p = model.model_olasiliklari(1.6, 1.1)
     assert p["MS1"] + p["MSX"] + p["MS2"] == pytest.approx(1, abs=1e-4)
@@ -46,16 +42,6 @@ def test_piyasa_orani_medyan_ve_sadece_listedeki_bahisciler():
     oran, bolag, detay = model.piyasa_oranlari(b, ["Unibet", "Bet365", "Betano"])["MS1"]
     assert model.piyasa_oranlari(b, ["Unibet", "Bet365", "Betano"], "en_iyi")["MS1"][:2] == (2.2, "best of 3")
     assert (oran, bolag) == (2.1, "median of 3") and len(detay) == 3
-
-
-def test_bet_builder_iliskiyi_hesaba_katar():
-    lam = [2.2, 0.6]
-    ms1 = dict(pazar="MS1", oran=1.5, adil_olasilik=0.66, beklenen_gol=lam)
-    ust = dict(pazar="UST25", oran=1.9, adil_olasilik=0.52, beklenen_gol=lam)
-    oran, p = model.bet_builder([ms1, ust])
-    assert p > 0.66 * 0.52 and oran < 1.5 * 1.9  # ev sahibi galibiyeti ile çok gol birlikte daha olası
-    kor = dict(pazar="KORU95", oran=1.8, adil_olasilik=0.55, beklenen_gol=lam)
-    assert model.bet_builder([ms1, kor]) == (2.7, 0.363)  # korner için model yok: bağımsız kabul
 
 
 @pytest.mark.parametrize("pazar,ev,dep,iy,korner,beklenen", [
@@ -93,202 +79,6 @@ def test_aday_turu():
     assert model.aday_turu(0.40, 0.10, AYAR) is None
 
 
-def _secim(fid, oran, p, pazar="MS1", **ek):
-    s = {"fixture_id": fid, "lig": "Test League", "pazar": pazar, "oran": oran, "adil_olasilik": p, "tur": "guvenli",
-         "baslama": "2026-10-03T15:00:00+02:00", "saat": "15:00 CEST", "durum": "bekliyor", "stake": 100.0,
-         "ev": f"Home{fid}", "dep": f"Away{fid}", "etiket": "Home to win", "kisa": f"Home{fid} win",
-         "olasi_skor": "2-0", "yorum": ""}
-    s.update(ek)
-    return s
-
-
-def _gun(gid, secimler, tweet_id="t1", kombi=None, kuponlar=None):
-    """kombi: eski biçim (tekliler + tek kombine). kuponlar: yeni biçim, oyunlar yalnızca kuponlarda oynanır."""
-    g = {"id": gid, "tarih": gid, "sonuc": None, "tweet_id": tweet_id, "secimler": secimler, "para": "€", "yuzde": 1.0}
-    if kombi:
-        g["kombi"] = {"ayaklar": kombi, "stake": 100.0, "durum": None}
-    if kuponlar:
-        for s in secimler:
-            s["stake"] = 0
-        g["kuponlar"] = [{"ayaklar": k, "stake": 100.0, "durum": None} for k in kuponlar]
-    return g
-
-
-def test_kupon_orani_ve_ihtimali():
-    secimler = [_secim(1, 1.25, 0.76), _secim(2, 1.35, 0.706), _secim(3, 1.27, 0.739)]
-    g = _gun("2026-09-28", secimler, kuponlar=[[0, 1, 2]])
-    k = kayit.kuponlar(g)[0]
-    assert kayit.kupon_oran(g, k) == pytest.approx(2.14, abs=0.01)
-    assert kayit.kupon_olasilik(g, k) == pytest.approx(0.397, abs=0.001)
-    eski = _gun("2026-09-28", [_secim(1, 1.25, 0.76), _secim(2, 1.35, 0.706)], kombi=[0, 1])
-    assert len(kayit.kuponlar(eski)) == 1  # eski kayıtların kombisi kupon sayılır
-
-
-def test_sonuclandirma_ve_kasa():
-    g1 = _gun("a", [_secim(1, 2.0, 0.5), _secim(2, 1.5, 0.7)], kombi=[0, 1])
-    g2 = _gun("b", [_secim(1, 1.8, 0.6)], tweet_id=None)
-    biten = kayit.sonuclandir([g1], {1: {"durum": "bitti", "skor": (2, 0)}, 2: {"durum": "bekliyor", "skor": None}}, SIMDI)
-    assert biten == [] and g1["secimler"][0]["durum"] == "kazandi"
-    biten = kayit.sonuclandir([g1], {2: {"durum": "bitti", "skor": (0, 1)}}, SIMDI)
-    assert biten == [g1] and g1["kombi"]["durum"] == "yatti"
-    kayit.sonuclandir([g2], {1: {"durum": "bitti", "skor": (1, 0)}}, SIMDI)
-    o = kayit.ozet([g1, g2], 10000)
-    assert (o["spel"], o["vunna"], o["forlorade"]) == (2, 1, 1)  # yayınlanmamış g2 sayılmaz
-    assert (o["kombi"], o["kombi_tuttu"]) == (1, 0)
-    assert o["kasa"] == pytest.approx(10000 + 100 - 100 - 100)
-
-
-def test_korner_verisi_yoksa_iptal_ve_kasa_etkilenmez():
-    g = _gun("a", [_secim(1, 1.9, 0.55, "KORU95")])
-    kayit.sonuclandir([g], {1: {"durum": "bitti", "skor": (1, 0), "korner": None}}, SIMDI)
-    assert g["secimler"][0]["durum"] == "iptal" and kayit.ozet([g], 10000)["kasa"] == 10000
-
-
-def test_uzun_bekleyen_mac_iptal_olur():
-    g = _gun("a", [_secim(1, 1.5, 0.7)])
-    kayit.sonuclandir([g], {}, datetime(2026, 10, 7, tzinfo=timezone.utc))
-    assert g["sonuc"] == "tamam" and g["secimler"][0]["durum"] == "iptal"
-
-
-def test_tweetler_sinirda_ve_ansvar_satiri_kalir():
-    uzun = dict(ev="Borussia Mönchengladbach", dep="Wolverhampton Wanderers", yorum="x" * 400)
-    secimler = [_secim(i, 1.5 + i / 10, 0.7, "UST15", kisa="Over 1.5 goals", tur="deger", **uzun) for i in range(1, 4)]
-    g = _gun("2026-10-03", secimler, kombi=[0, 1, 2])
-    ana = tweets.gun_tweeti(g, kayit.ozet([], 10000))
-    assert tweets.uzunluk(ana) <= 280 and ana.endswith(tweets.ANSVAR)
-    assert all(tweets.uzunluk(t) <= 280 for t in tweets.analiz_tweetleri(g))
-    for s in g["secimler"]:
-        s.update(durum="kazandi", skor="2-1")
-    g["sonuc"] = "tamam"
-    assert all(tweets.uzunluk(t) <= 280 for t in tweets.gun_floodu(g, kayit.ozet([], 10000)))
-    assert all(tweets.uzunluk(t) <= 280 for t in tweets.sonuc_tweetleri(g, kayit.ozet([g], 10000)))
-    assert tweets.uzunluk("⚽") == 2 and tweets.uzunluk("ö") == 1
-
-
-def test_ana_tweet_icerigi():
-    g = _gun("2026-10-03", [_secim(1, 2.0, 0.52, tur="deger"), _secim(2, 1.4, 0.7, "UST25", kisa="Over 2.5 goals"),
-                            _secim(3, 1.3, 0.75)], kuponlar=[[0], [1, 2]])
-    ana = tweets.gorselli_gun_tweeti(g)
-    assert ana.startswith("TODAY'S 2 COUPONS | 3 Oct\n\n") and ana.endswith("in the thread 🧵\n18+ | Play responsibly")
-    assert any(soru in ana for soru in tweets.KUPON_SORULARI) and tweets.uzunluk(ana) <= 280
-    metin = tweets.gun_tweeti(g, kayit.ozet([], 10000))
-    assert "🎫 Coupon 1: odds 2.00 · 52% chance\n€100.00 → €200.00\n• Home1 v Away1: Home1 win" in metin
-    tek = _gun("2026-10-03", [_secim(1, 2.0, 0.52, tur="deger")], kuponlar=[[0]])
-    assert "💰 Balance €9,900.00 · 1% per coupon" in tweets.gun_tweeti(tek, kayit.ozet([], 10000))
-    assert "🎫 Coupon 2: odds 1.82" in metin and "• Home2 v Away2: Over 2.5 goals" in metin
-    analiz = tweets.analiz_tweetleri(g)
-    assert analiz[0].startswith("1) Home1 v Away1 · 15:00 CEST · coupon 1\n🎯 Pick: ") and "value pick" in analiz[0]
-    assert "coupon 2" in analiz[2] and "high-chance pick" in analiz[2]
-    assert tweets.gun_floodu(g, kayit.ozet([], 10000), gorselli=True)[1:] == analiz  # kasa tweeti yok
-
-
-def test_sonuc_tweeti_kupon_bazinda():
-    g = _gun("2026-10-03", [_secim(1, 2.0, 0.5), _secim(2, 1.5, 0.7), _secim(3, 1.4, 0.7)], kuponlar=[[0], [1, 2]])
-    sonuc = {1: {"durum": "bitti", "skor": (0, 1)}, 2: {"durum": "bitti", "skor": (2, 0)}, 3: {"durum": "bitti", "skor": (1, 0)}}
-    kayit.sonuclandir([g], sonuc, SIMDI)
-    o = kayit.ozet([g], 10000)
-    assert o["kasa"] == pytest.approx(10000 - 100 + 110)  # yalnızca kuponlar oynanır
-    assert (o["kombi"], o["kombi_tuttu"]) == (2, 1) and (o["vunna"], o["forlorade"]) == (2, 1)
-    parcalar = tweets.sonuc_tweetleri(g, o)
-    assert all(tweets.uzunluk(t) <= 280 for t in parcalar)
-    metin = "\n".join(parcalar)
-    assert "❌ Home1 0–1 Away1" in metin and "🎫 Coupon 1: ❌ lost\n" in metin
-    assert "🎫 Coupon 2: ✅ won, +€210.00 back" in metin and "💰 Balance: €10,010.00" in metin
-    assert "📈 Record: coupons 1/2 won · picks 2–1 (67%)" in metin and "Singles" not in metin
-
-
-def test_eski_kayit_tekli_ve_kombi_sonucu():
-    g = _gun("2026-10-03", [_secim(1, 1.5, 0.8), _secim(2, 1.4, 0.7)], kombi=[0, 1])
-    kayit.sonuclandir([g], {1: {"durum": "bitti", "skor": (2, 0)}, 2: {"durum": "bitti", "skor": (1, 0)}}, SIMDI)
-    o = kayit.ozet([g], 10000)
-    assert o["kasa"] == pytest.approx(10000 + 50 + 40 + 110)
-    metin = "\n".join(tweets.sonuc_tweetleri(g, o))
-    assert "🎫 Coupon: ✅ won, +€210.00 back" in metin and "Singles: 2/2 won, +€90.00" in metin
-
-
-class _Ctx:
-    def __init__(self, msg):
-        self.msg = msg
-
-    def __enter__(self):
-        return SimpleNamespace(get_final_message=lambda: self.msg)
-
-    def __exit__(self, *a):
-        return False
-
-
-class SahteClaude:
-    def __init__(self, yanitlar):
-        self.yanitlar = list(yanitlar)
-        self.cagrilar = []
-        self.messages = self
-
-    def stream(self, **kw):
-        self.cagrilar.append(kw)
-        metin = json.dumps(self.yanitlar.pop(0), ensure_ascii=False)
-        return _Ctx(SimpleNamespace(stop_reason="end_turn", content=[SimpleNamespace(type="text", text=metin)]))
-
-
-def _adaylar():
-    return [{"aday_id": f"{i}-MS1", "fixture_id": i, "oran": o, "deger": 0.03, "adil_olasilik": 0.7}
-            for i, o in [(1, 1.8), (2, 1.9)]]
-
-
-def test_claude_hatali_secimi_duzeltir():
-    kotu = {"secimler": [{"aday_id": "9-MS1", "yorum": "a"}], "kuponlar": [{"aday_idler": ["9-MS1"]}],
-            "baslik": "b", "gerekce_yoksa": ""}
-    iyi = {"secimler": [{"aday_id": "1-MS1", "yorum": "a"}], "kuponlar": [{"aday_idler": ["1-MS1"]}],
-           "baslik": "b", "gerekce_yoksa": ""}
-    c = SahteClaude([kotu, iyi])
-    assert editor.claude_ile_sec({1: {}, 2: {}}, _adaylar(), AYAR, client=c) == iyi
-    assert len(c.cagrilar) == 2
-    assert c.cagrilar[0]["model"] == AYAR.claude_model
-    assert c.cagrilar[0]["output_config"]["format"]["type"] == "json_schema"
-    assert "Unknown aday_id" in c.cagrilar[1]["messages"][-1]["content"]
-
-
-def test_claude_pas_gecebilir():
-    pas = {"secimler": [], "kuponlar": [], "baslik": "", "gerekce_yoksa": "Nothing convincing"}
-    assert editor.claude_ile_sec({1: {}, 2: {}}, _adaylar(), AYAR, client=SahteClaude([pas])) == pas
-
-
-def test_dogrulama_mac_basina_sinir():
-    a = {x["aday_id"]: x for x in _adaylar()}
-    for pazar in ("UST15", "KORU95"):
-        a[f"1-{pazar}"] = {"aday_id": f"1-{pazar}", "fixture_id": 1, "oran": 1.5}
-    iki = [{"aday_id": "1-MS1"}, {"aday_id": "1-UST15"}]
-    assert editor.secimi_dogrula(iki, a, AYAR, [{"aday_idler": ["1-MS1", "1-UST15"]}]) is None
-    uc = iki + [{"aday_id": "1-KORU95"}]
-    assert "same match" in editor.secimi_dogrula(uc, a, AYAR, [{"aday_idler": ["1-MS1", "1-UST15", "1-KORU95"]}])
-    assert "twice" in editor.secimi_dogrula([{"aday_id": "1-MS1"}] * 2, a, AYAR, [])
-
-
-def test_kupon_dogrulama():
-    a = {x["aday_id"]: x for x in _adaylar()}
-    a["1-UST15"] = {"aday_id": "1-UST15", "fixture_id": 1, "oran": 1.5}
-    secim = [{"aday_id": "1-MS1"}, {"aday_id": "2-MS1"}]
-    assert editor.secimi_dogrula(secim, a, AYAR, [{"aday_idler": ["1-MS1"]}, {"aday_idler": ["2-MS1"]}]) is None
-    assert "exactly one coupon" in editor.secimi_dogrula(secim, a, AYAR, [{"aday_idler": ["1-MS1"]}])
-    ayni_mac = [{"aday_id": "1-MS1"}, {"aday_id": "1-UST15"}]
-    assert "same coupon" in editor.secimi_dogrula(ayni_mac, a, AYAR, [{"aday_idler": ["1-MS1"]}, {"aday_idler": ["1-UST15"]}])
-    dort = [{"aday_idler": [i]} for i in ("1-MS1", "2-MS1", "1-UST15")] + [{"aday_idler": []}]
-    assert "coupons" in editor.secimi_dogrula(secim + [{"aday_id": "1-UST15"}], a, AYAR, dort)
-
-
-def test_demo_uctan_uca(monkeypatch, capsys, tmp_path):
-    import shutil
-    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
-    # Demo çıktıları (örnek görseller, panel) depodaki ornek/ yerine geçici kopyaya yazılsın: test depoyu kirletmesin
-    shutil.copytree(config.ROOT / "ornek", tmp_path / "ornek")
-    monkeypatch.setattr(config, "ROOT", tmp_path)
-    assert main(["demo"]) == 0
-    cikti = capsys.readouterr().out
-    assert "TWEET #1 + gorsel-" in cikti and "TODAY'S COUPON" in cikti and "RESULTS | 3 Oct" in cikti
-    assert "value pick" in cikti and "✅ Coupon won: +€" in cikti and "Balance: €10," in cikti
-    assert "1xBet" not in cikti  # listede olmayan bahisçi asla kullanılmaz
-    assert "Djurgården" not in cikti.split("TWEET #1")[1]  # kriteri geçmeyen maç seçilmez
-
-
 def test_api_istek_siniri_bekler_ve_tekrar_dener(monkeypatch):
     beklemeler = []
     monkeypatch.setattr(football.time, "sleep", beklemeler.append)
@@ -318,110 +108,6 @@ def test_en_olasi_skor():
     assert skor == "2-0" and 0 < p < 1
 
 
-def test_bet_builder_birlestirme_ve_sonuclandirma():
-    from bot.__main__ import bet_builder_birlestir
-    lam = [1.8, 0.9]
-    a = _secim(1, 1.5, 0.66, "MS1", beklenen_gol=lam, yorum="Home are strong.")
-    b = _secim(1, 1.3, 0.75, "UST15", kisa="Over 1.5 goals", etiket="2+ goals", beklenen_gol=lam, yorum="")
-    c = _secim(2, 1.4, 0.7, "MS1", beklenen_gol=lam)
-    secimler = bet_builder_birlestir([a, b, c])
-    assert len(secimler) == 2
-    bb = secimler[0]
-    assert bb["bet_builder"] and bb["kisa"] == "Home1 win + Over 1.5 goals" and bb["yorum"] == "Home are strong."
-    g = _gun("2026-10-03", secimler, kuponlar=[[0, 1]])
-    ana = tweets.gun_tweeti(g, kayit.ozet([], 10000))
-    assert "• Home1 v Away1: Home1 win + Over 1.5 goals" in ana and "odds ≈" in ana
-    assert "bet builder" in tweets.analiz_tweetleri(g)[0]
-    kayit.sonuclandir([g], {1: {"durum": "bitti", "skor": (1, 0)}, 2: {"durum": "bitti", "skor": (2, 0)}}, SIMDI)
-    assert bb["durum"] == "kaybetti" and [x["durum"] for x in bb["bacaklar"]] == ["kazandi", "kaybetti"]
-    assert secimler[1]["durum"] == "kazandi"
-
-
-def test_istek_siniri_dolarsa_toplananlarla_devam_eder(monkeypatch, capsys):
-    """Toplu tarama çalışmazsa maç maç taramaya geçilir; o da sınıra takılırsa toplananlarla devam edilir."""
-    from bot.__main__ import tahmin
-    api = football.DemoApi(config.ROOT / "ornek" / "api_football.json")
-    asil = api.get
-
-    def sinirli(path, _sayma=False, **params):
-        if path == "odds" and params.get("fixture") == 9104:
-            raise football.ApiHatasi("request limit")
-        return asil(path, _sayma=_sayma, **params)
-
-    def toplu_yok(path, **params):
-        raise football.ApiHatasi("request limit")
-
-    api.get = sinirli
-    api.get_body = toplu_yok
-    simdi = datetime.fromisoformat(api.data["simdi"])
-    gun = tahmin(AYAR, api, editor.basit_sec, [], "2026-10-03", simdi)
-    cikti = capsys.readouterr().out
-    assert gun and gun["secimler"] and "maç maç taramaya geçiliyor" in cikti and "Tarama erken bitti" in cikti
-
-
-def test_toplu_tarama_az_istekle_cok_mac(capsys):
-    from bot.__main__ import tahmin
-    api = football.DemoApi(config.ROOT / "ornek" / "api_football.json")
-    simdi = datetime.fromisoformat(api.data["simdi"])
-    gun = tahmin(AYAR, api, editor.basit_sec, [], "2026-10-03", simdi)
-    assert gun and gun["secimler"] and "oranı okundu" in capsys.readouterr().out
-
-
-def test_liste_disi_ligde_keskin_fiyat_sart():
-    b = {"Bet365": {"MS1": 1.40, "MSX": 4.5, "MS2": 8.0}, "Unibet": {"MS1": 1.41, "MSX": 4.6, "MS2": 8.2},
-         "Betano": {"MS1": 1.42, "MSX": 4.4, "MS2": 7.9}}
-    assert model.on_eleme_puani(b, AYAR, guvenilir_lig=False) is None  # Pinnacle yok: güvenilmez lig elenir
-
-def test_metin_kuponda_her_macin_adi_var():
-    ms = [("Bulgaria", "Estonia", "Under 3.5 goals", 1.20, 0.79), ("Czechia", "England", "Over 1.5 goals", 1.22, 0.78),
-          ("Spain", "Croatia", "1st-half goal", 1.25, 0.76)]
-    secimler = [_secim(i, o, p, "UST15", ev=e, dep=d, kisa=k) for i, (e, d, k, o, p) in enumerate(ms, 1)]
-    flood = tweets.gun_floodu(_gun("2026-09-29", secimler, kuponlar=[[0, 1, 2]]), kayit.ozet([], 10000))
-    assert all(f"{e} v {d}" in flood[0] for e, d, *_ in ms)  # her oyunda maç adı olmalı
-    assert "💰 Balance" in flood[0] and all(tweets.uzunluk(t) <= 280 for t in flood)
-
-
-def test_tweetlerde_at_isareti_yok():
-    """X "@" ile başlayan her şeyi kullanıcı etiketi sanar; oranlar asla "@1.25" gibi yazılmamalı."""
-    g = _gun("2026-10-03", [_secim(1, 1.5, 0.8), _secim(2, 1.4, 0.7, "UST25", kisa="Over 2.5 goals")], kombi=[0, 1])
-    metinler = tweets.gun_floodu(g, kayit.ozet([], 10000))
-    kayit.sonuclandir([g], {1: {"durum": "bitti", "skor": (2, 0)}, 2: {"durum": "bitti", "skor": (1, 2)}}, SIMDI)
-    metinler += tweets.sonuc_tweetleri(g, kayit.ozet([g], 10000))
-    assert not any("@" in m for m in metinler)
-
-
-def test_sabit_tweetler_sinirda_ve_eskileri_siler():
-    from bot.__main__ import sabit_tweet
-    link_farki = len("https://kalkylerat.github.io/") - 23  # X her linki 23 karakter sayar
-    assert tweets.uzunluk(tweets.SABIT_TWEETLER[0]) - link_farki <= 280
-    assert tweets.uzunluk(tweets.SABIT_TWEETLER[1]) <= 280
-
-    class SahteX(tweets.KonsolClient):
-        silinen = []
-
-        def son_tweetler(self):
-            return [{"id": "1", "text": "Welcome to Kalkylerat 📊 ..."}, {"id": "2", "text": "⚽ TODAY'S PICKS | 28 Sep"}]
-
-        def sil(self, tid):
-            self.silinen.append(tid)
-
-    x = SahteX()
-    sabit_tweet(x)
-    assert x.silinen == ["1"] and x.sayac == 2
-
-
-def test_uzun_isim_ve_aciklama_kesilmez():
-    """Takım adı ve açıklama cümle ortasından kesilmemeli; sığmazsa önce gereksiz satırlar düşer."""
-    yorum = "Their last meeting ended 0-1 and neither side scored more than once lately. About a 3 in 4 chance of it."
-    ms = [("Georgia", "Ukraine", "Under 3.5 goals"), ("Leganes", "Castellón", "Double chance X2"),
-          ("Northern Ireland", "Hungary", "1st half Under 1.5 goals")]
-    secimler = [_secim(i, 1.27, 0.74, "IYA15", ev=e, dep=d, kisa=k, yorum=yorum, etiket="1st half Under 1.5 goals")
-                for i, (e, d, k) in enumerate(ms, 1)]
-    flood = tweets.gun_floodu(_gun("2026-09-28", secimler, kuponlar=[[0, 1, 2]]), kayit.ozet([], 10000))
-    assert "• Northern Ireland v Hungary: 1st half Under 1.5 goals" in flood[0]
-    assert not any("…" in t for t in flood) and all(tweets.uzunluk(t) <= 280 for t in flood)
-
-
 def test_oran_takipcinin_bulabilecegi_pazardan_olmali():
     assert model.oran_yeterli({"Bet365": 1.3, "Unibet": 1.28, "Betano": 1.27}, AYAR)
     assert not model.oran_yeterli({"Bet365": 1.3, "Unibet": 1.28}, AYAR)  # çok az site
@@ -433,214 +119,6 @@ def test_keskin_bahisci_yoksa_sinir_sikilasir():
     assert model.aday_turu(0.74, -0.02, AYAR) == "guvenli"
     assert model.aday_turu(0.74, -0.02, AYAR, AYAR.keskinsiz_ek_marj) is None
     assert model.aday_turu(0.74, 0.04, AYAR, AYAR.keskinsiz_ek_marj) == "guvenli"
-
-
-def test_kupon_gorseli_png():
-    from bot import gorsel
-    g = _gun("2026-10-03", [_secim(1, 1.5, 0.8), _secim(2, 1.4, 0.7, "UST25", kisa="Over 2.5 goals",
-                                                        ev="Borussia Mönchengladbach", dep="Wolverhampton Wanderers")],
-             kuponlar=[[0, 1]])
-    png = gorsel.kupon_gorseli(g, kayit.kuponlar(g)[0], 10123.45, 1, 1)
-    assert png[:8] == b"\x89PNG\r\n\x1a\n" and len(png) < 5_000_000
-
-
-def test_yayinla_her_kupon_icin_gorsel_ekler(capsys):
-    from bot.__main__ import yayinla
-    g = _gun("2026-10-03", [_secim(1, 1.5, 0.8), _secim(2, 1.4, 0.7), _secim(3, 2.0, 0.52)], tweet_id=None,
-             kuponlar=[[0, 1], [2]])
-    assert yayinla(AYAR, g, tweets.KonsolClient(), [g], datetime(2026, 10, 3, 8, tzinfo=timezone.utc))
-    cikti = capsys.readouterr().out
-    ana = cikti.split("TWEET #1")[1].split("TWEET #2")[0]
-    assert ana.count("gorsel-") == 2 and "TODAY'S 2 COUPONS | 3 Oct" in ana and "in the thread 🧵" in ana
-    assert len(g["analiz_tweet_idleri"]) == 3 and g["gorselli"]
-
-
-def test_haftalik_ozet_bir_kez_ve_yeterli_veriyle(monkeypatch, tmp_path):
-    from bot.__main__ import haftalik
-    monkeypatch.setattr(config, "HAFTA_FILE", tmp_path / "haftalik.json")
-    gunler = []
-    for i, gun in enumerate(["2026-09-22", "2026-09-24", "2026-09-27"]):
-        g = _gun(gun, [_secim(10 * i + 1, 1.5, 0.7), _secim(10 * i + 2, 1.3, 0.75)], kombi=[0, 1])
-        g["secimler"][0].update(durum="kazandi", skor="2-0")
-        g["secimler"][1].update(durum="kaybetti" if i == 0 else "kazandi", skor="0-1")
-        g["sonuc"] = "tamam"
-        gunler.append(g)
-    pazar_aksam = datetime(2026, 9, 27, 21, 30, tzinfo=timezone.utc)
-    x = tweets.KonsolClient()
-    assert not haftalik(AYAR, x, gunler[:1], pazar_aksam)  # tek gün: özet yok
-    assert not haftalik(AYAR, x, gunler, datetime(2026, 9, 26, 21, 30, tzinfo=timezone.utc))  # Cumartesi
-    assert haftalik(AYAR, x, gunler, pazar_aksam)
-    assert not haftalik(AYAR, x, gunler, pazar_aksam + timedelta(hours=11))  # Pazartesi tekrar atmaz
-    h = kayit.hafta_ozeti(gunler, "2026-09-27")
-    metin = tweets.hafta_tweeti(h, kayit.ozet(gunler, 10000), "€")
-    assert "WEEKLY RECAP | 21–27 Sep" in metin and "✅ Picks: 5 won · ❌ 1 lost (83%)" in metin
-    assert "Coupons: 2 of 3 won" in metin and tweets.uzunluk(metin) <= 280 and "@" not in metin
-
-
-def test_gorsel_yukleme_tekrar_dener():
-    from bot.__main__ import _gorsel_yukle
-    g = _gun("2026-10-03", [_secim(1, 1.5, 0.8), _secim(2, 1.4, 0.7)], kuponlar=[[0], [1]])
-    hatalar = [RuntimeError("503"), RuntimeError("timeout")]
-
-    class X:
-        def medya_yukle(self, png):
-            if hatalar:
-                raise hatalar.pop(0)
-            return "m"
-
-    bekleme = []
-    assert _gorsel_yukle(X(), g, 10000, bekleme.append) == ["m", "m"] and len(bekleme) == 2 and "gorsel_eksik" not in g
-    hatalar.extend(RuntimeError("x") for _ in range(9))
-    assert _gorsel_yukle(X(), g, 10000, bekleme.append) is None and g["gorsel_eksik"]
-
-
-def test_bet_builder_kaybeden_ayak_varsa_kaybeder():
-    """Korner verisi yok ama gol ayağı kaybetti: oyun iptal değil, kayıp sayılmalı."""
-    bb = _secim(1, 3.0, 0.3, "BB", bet_builder=True,
-                bacaklar=[{"pazar": "UST25", "durum": "bekliyor"}, {"pazar": "KORU95", "durum": "bekliyor"}])
-    g = _gun("2026-10-03", [bb])
-    kayit.sonuclandir([g], {1: {"durum": "bitti", "skor": (0, 0), "korner": None}}, SIMDI)
-    assert bb["durum"] == "kaybetti"
-
-
-def test_sonuc_floodu_x_hatasinda_sonra_tamamlanir(monkeypatch):
-    from bot.__main__ import sonuc
-    uzun = dict(ev="Borussia Mönchengladbach", dep="Wolverhampton Wanderers", kisa="1st half Under 1.5 goals")
-    g = _gun("2026-10-03", [_secim(i, 1.3, 0.8, **uzun) for i in (1, 2, 3)], kuponlar=[[0, 1, 2]])
-    monkeypatch.setattr(football, "sonuclari_al",
-                        lambda api, ids, korner: {i: {"durum": "bitti", "skor": (2, 0)} for i in ids})
-
-    class X:
-        def __init__(self, hata_sirasi=None):
-            self.atilan, self.hata_sirasi = [], hata_sirasi
-
-        def gonder(self, metin, yanit=None, medya=None, alinti=None):
-            if len(self.atilan) == self.hata_sirasi:
-                raise RuntimeError("X 503")
-            self.atilan.append((metin, yanit))
-            return f"s{len(self.atilan)}"
-
-    with pytest.raises(RuntimeError):
-        sonuc(AYAR, object(), X(hata_sirasi=1), [g], SIMDI)  # uzun: iki tweet; ikincisi başarısız
-    assert g["sonuc"] == "tamam" and not g.get("sonuc_tweet_id") and g["sonuc_tweet_idleri"] == ["s1"]
-    x2 = X()
-    sonuc(AYAR, object(), x2, [g], SIMDI)  # yalnızca eksik ikinci tweet, ilkinin altına
-    assert len(x2.atilan) == 1 and x2.atilan[0][1] == "s1" and g["sonuc_tweet_id"] == "s1"
-    sonuc(AYAR, object(), X(), [g], SIMDI)
-    assert len(g["sonuc_tweet_idleri"]) == 2
-
-
-def test_yarim_flood_tamamlanir():
-    from bot.__main__ import yayinla
-    g = _gun("2026-10-03", [_secim(1, 1.5, 0.8), _secim(2, 1.4, 0.7)], tweet_id="ana", kuponlar=[[0, 1]])
-    g["analiz_tweet_idleri"] = ["k1"]
-    x = tweets.KonsolClient()
-    simdi = datetime(2026, 10, 3, 8, tzinfo=timezone.utc)
-    assert yayinla(AYAR, g, x, [g], simdi) and len(g["analiz_tweet_idleri"]) == 2  # 2 analiz
-    assert not yayinla(AYAR, g, x, [g], simdi)  # tamamsa bir şey atılmaz
-
-
-def test_ayni_gunun_kuponu_ikinci_kez_atilmaz():
-    from bot.__main__ import zaten_paylasildi
-    x = SimpleNamespace(son_tweetler=lambda adet, yanitsiz: [
-        {"id": "9", "text": "📅 WEEKLY RECAP | 21–27 Sep"},
-        {"id": "7", "text": "TODAY'S COUPON | 28 Sep\n\n⚽ Georgia v Ukraine"}])
-    assert zaten_paylasildi(x, "2026-09-28") == "7"
-    assert zaten_paylasildi(x, "2026-09-29") is None
-
-
-def test_yorumda_bahisci_adi_ve_etiket_olmaz():
-    y = editor.temiz_yorum("Castellón won 5 of 6. Pinnacle gives 71%. Ask @someone! Unbeaten in 4.", ["Pinnacle", "Bet365"])
-    assert y == "Castellón won 5 of 6. Unbeaten in 4."
-    baglam = editor._baglam({1: {}}, [{"aday_id": "1-MS1", "fixture_id": 1, "adil_kaynak": "Pinnacle",
-                                      "oranlar": {"Bet365": 1.5}, "bolag": "median of 3"}], AYAR)
-    assert "Pinnacle" not in baglam and "Bet365" not in baglam
-
-
-def test_claude_metinsiz_yanit_editor_hatasi():
-    c = SimpleNamespace(messages=SimpleNamespace(stream=lambda **kw: _Ctx(
-        SimpleNamespace(stop_reason="end_turn", content=[SimpleNamespace(type="thinking")]))))
-    with pytest.raises(editor.EditorHatasi):
-        editor.claude_ile_sec({1: {}, 2: {}}, _adaylar(), AYAR, client=c)
-
-
-def test_sonuc_hatasi_gunun_kuponunu_engellemez(monkeypatch, tmp_path):
-    import bot.__main__ as ana
-    from dataclasses import replace
-    gercek = config.yukle
-    monkeypatch.setattr(config, "yukle", lambda: replace(gercek(), konsept="kupon"))  # eski kupon akışının testi
-    monkeypatch.setattr(config, "DATA_FILE", tmp_path / "spel.json")
-    monkeypatch.setattr(config, "PANEL_FILE", tmp_path / "index.html")
-    monkeypatch.setattr(ana, "HATALAR", [])
-    cagrilar = []
-    monkeypatch.setattr(ana, "sonuc", lambda *a: (_ for _ in ()).throw(RuntimeError("API limiti")))
-    monkeypatch.setattr(ana, "haftalik", lambda *a, **k: False)
-    monkeypatch.setattr(ana, "zaten_paylasildi", lambda x, t: None)
-    monkeypatch.setattr(ana, "tahmin", lambda *a: cagrilar.append("tahmin"))
-    monkeypatch.setattr(ana, "_api", lambda ayar: None)
-    monkeypatch.setattr(ana, "_x_client", lambda: None)
-    monkeypatch.setattr(ana, "_secici", lambda: None)
-    assert ana.main(["otomatik"]) == 1 and cagrilar == ["tahmin"]
-
-
-def test_bet_builder_kuponda_toplam_oran_tahmini():
-    bb = _secim(1, 2.0, 0.5, "BB", bet_builder=True, bacaklar=[])
-    g = _gun("2026-10-03", [bb, _secim(2, 1.4, 0.7)], kuponlar=[[0, 1]])
-    assert "odds ≈2.80" in tweets.gun_tweeti(g)
-
-
-def test_x_okuma_hatasi_kuponu_engellemez(monkeypatch, tmp_path):
-    import bot.__main__ as ana
-    from dataclasses import replace
-    gercek = config.yukle
-    monkeypatch.setattr(config, "yukle", lambda: replace(gercek(), konsept="kupon"))  # eski kupon akışının testi
-    monkeypatch.setattr(config, "DATA_FILE", tmp_path / "spel.json")
-    monkeypatch.setattr(config, "PANEL_FILE", tmp_path / "index.html")
-    monkeypatch.setattr(ana, "HATALAR", [])
-    cagrilar = []
-    monkeypatch.setattr(ana, "sonuc", lambda *a: None)
-    monkeypatch.setattr(ana, "haftalik", lambda *a, **k: False)
-    monkeypatch.setattr(ana, "zaten_paylasildi", lambda x, t: (_ for _ in ()).throw(RuntimeError("403")))
-    monkeypatch.setattr(ana, "tahmin", lambda *a: cagrilar.append("tahmin"))
-    monkeypatch.setattr(ana, "_api", lambda ayar: None)
-    monkeypatch.setattr(ana, "_x_client", lambda: None)
-    monkeypatch.setattr(ana, "_secici", lambda: None)
-    assert ana.main(["otomatik"]) == 0 and cagrilar == ["tahmin"]
-
-
-def test_yenile_bugunu_silip_yeniden_secer(monkeypatch):
-    import bot.__main__ as ana
-    eski = _gun("2026-10-03", [_secim(1, 1.25, 0.76)], tweet_id="t1", kuponlar=[[0]])
-    eski["analiz_tweet_idleri"] = ["a1"]
-    gunler = [eski]
-    silinen = []
-    x = SimpleNamespace(sil=silinen.append)
-    yeni = _gun("2026-10-03", [_secim(2, 1.9, 0.56)], tweet_id=None, kuponlar=[[0]])
-    monkeypatch.setattr(ana, "tahmin", lambda ayar, api, sec, g, bugun, simdi: g.append(yeni) or yeni)
-    hatali = []
-    monkeypatch.setattr(ana, "yayinla", lambda *a: True)
-    # önce: seçim başarısızsa (kayıt yok) hiçbir şey silinmez
-    orijinal = ana.tahmin
-    monkeypatch.setattr(ana, "tahmin", lambda *a: None)
-    assert not ana.yenile(AYAR, None, None, x, gunler, "2026-10-03", datetime(2026, 10, 3, 8, tzinfo=timezone.utc))
-    assert silinen == [] and gunler == [eski]
-    monkeypatch.setattr(ana, "tahmin", orijinal)
-    monkeypatch.setattr(ana, "yayinla", lambda *a: True)
-    monkeypatch.setattr(ana.onay, "onay_iste", lambda *a, **k: None)  # testte gerçek onay dosyası yazılmasın
-    assert ana.yenile(AYAR, None, None, x, gunler, "2026-10-03", datetime(2026, 10, 3, 8, tzinfo=timezone.utc))
-    assert silinen == ["a1", "t1"] and gunler == [yeni]
-    # maç başladıysa hiçbir şey silinmez
-    assert not ana.yenile(AYAR, None, None, x, gunler, "2026-10-03", datetime(2026, 10, 3, 14, tzinfo=timezone.utc))
-    assert silinen == ["a1", "t1"]
-
-
-def test_metin_kuponda_sorumluluk_satiri_hep_kalir():
-    uzun = dict(ev="Borussia Mönchengladbach", dep="Wolverhampton Wanderers",
-                kisa="1st half Under 1.5 goals + Both teams to score: No + Over 8.5 corners")
-    secimler = [_secim(i, 1.9, 0.55, bet_builder=True, **uzun) for i in range(1, 4)]
-    g = _gun("2026-10-03", secimler, kuponlar=[[0], [1], [2]])
-    metin = tweets.gun_tweeti(g, kayit.ozet([], 10000))
-    assert metin.endswith(tweets.ANSVAR) and tweets.uzunluk(metin) <= 280
 
 
 def test_liste_disi_hazirlik_genc_kadin_maclari_alinmaz():
@@ -656,295 +134,11 @@ def test_liste_disi_hazirlik_genc_kadin_maclari_alinmaz():
     assert [m["fixture_id"] for m in maclar] == [5, 4]  # izinli lig önce; hazırlık/genç/kadın maçları elenir
 
 
-class SahteGitHub:
-    def __init__(self, issues, yorumlar, yetkililer=("sahip",)):
-        self.issues, self._yorumlar, self.yetkililer, self.kapatilan = issues, yorumlar, yetkililer, []
-
-    def istekler(self):
-        kapali = [k[0] for k in self.kapatilan]
-        return [{**i, "state": "closed" if i["number"] in kapali else i.get("state", "open")} for i in self.issues]
-
-    def yorumlar(self, no):
-        return self._yorumlar.get(no, [])
-
-    def yetkili(self, kullanici):
-        return kullanici in self.yetkililer
-
-    def kapat(self, no, mesaj):
-        self.kapatilan.append((no, mesaj))
-
-    def yorum(self, no, mesaj):
-        self.yorumlanan = getattr(self, "yorumlanan", []) + [(no, mesaj)]
-
-
-def _onayli_gun(son):
-    g = _gun("2026-10-03", [_secim(1, 1.5, 0.8), _secim(2, 1.4, 0.7)], tweet_id=None, kuponlar=[[0, 1]])
-    g["onay"] = {"durum": "bekliyor", "son": son}
-    return g
-
-
 def test_onay_karar_kelimeleri():
     from bot import onay
     assert onay.karar("OK!") == "ok" and onay.karar("iptal edelim") == "iptal" and onay.karar("belki") is None
-
-
-def test_onay_iptal_ok_ve_sure_dolumu(monkeypatch, tmp_path):
-    from bot import onay
-    monkeypatch.setattr(onay, "ONIZLEME_KLASORU", tmp_path)
-    simdi = datetime(2026, 10, 3, 9, tzinfo=timezone.utc)
-    son = "2026-10-03T10:30:00+00:00"
-    yayinlanan = []
-
-    def yayinla(ayar, gun, x, gunler, simdi, **k):
-        gun["tweet_id"] = "T"
-        yayinlanan.append(gun["id"])
-        return True
-
-    issue = [{"number": 7, "title": "Onay: 2026-10-03 kuponu"}]
-    # yetkisiz birinin "ok"u sayılmaz, süre de dolmadı: bir şey olmaz
-    g = _onayli_gun(son)
-    gh = SahteGitHub(issue, {7: [{"body": "ok", "user": {"login": "yabanci"}}]})
-    onay.kontrol(AYAR, gh, None, [g], simdi, yayinla)
-    assert not yayinlanan and not gh.kapatilan
-    # sahibin "iptal"i: paylaşım durur (hata var); süre dolsa bile otomatik paylaşılmaz
-    gh = SahteGitHub(issue, {7: [{"body": "iptal", "user": {"login": "sahip"}}]})
-    onay.kontrol(AYAR, gh, None, [g], simdi, yayinla)
-    assert not yayinlanan and g["onay"]["durum"] == "durduruldu" and gh.yorumlanan and not gh.kapatilan
-    onay.kontrol(AYAR, gh, None, [g], datetime(2026, 10, 3, 11, tzinfo=timezone.utc), yayinla)
-    assert not yayinlanan and g["onay"]["durum"] == "durduruldu"
-    # sonra "ok" gelirse bu haliyle paylaşılır
-    gh._yorumlar[7].append({"body": "ok", "user": {"login": "sahip"}})
-    onay.kontrol(AYAR, gh, None, [g], datetime(2026, 10, 3, 11, tzinfo=timezone.utc), yayinla)
-    assert yayinlanan == ["2026-10-03"]
-    yayinlanan.clear()
-    # düzeltme maçtan 1 saat öncesine kadar gelmezse gün pas
-    g = _onayli_gun(son)
-    gh = SahteGitHub(issue, {7: [{"body": "iptal", "user": {"login": "sahip"}}]})
-    onay.kontrol(AYAR, gh, None, [g], datetime(2026, 10, 3, 12, 5, tzinfo=timezone.utc), yayinla)
-    assert not yayinlanan and g["sonuc"] == "pas" and g["onay"]["durum"] == "iptal" and gh.kapatilan
-    # sahibin "ok"u: hemen paylaşılır
-    g = _onayli_gun(son)
-    gh = SahteGitHub(issue, {7: [{"body": "ok", "user": {"login": "sahip"}}]})
-    onay.kontrol(AYAR, gh, None, [g], simdi, yayinla)
-    assert yayinlanan == ["2026-10-03"] and g["onay"]["durum"] == "onaylandi"
-    # cevap yok, süre doldu: otomatik paylaşılır
-    g = _onayli_gun(son)
-    gh = SahteGitHub(issue, {})
-    onay.kontrol(AYAR, gh, None, [g], datetime(2026, 10, 3, 10, 31, tzinfo=timezone.utc), yayinla)
-    assert len(yayinlanan) == 2 and g["onay"]["durum"] == "otomatik"
-
-
-def test_onay_testi_hicbir_sey_paylasmaz(monkeypatch, tmp_path):
-    from bot import onay
-    monkeypatch.setattr(onay, "ONIZLEME_KLASORU", tmp_path)
-    gh = SahteGitHub([{"number": 3, "title": "TEST – Onay: 2026-09-28 kuponu"}],
-                     {3: [{"body": "iptal", "user": {"login": "sahip"}}]})
-    onay.kontrol(AYAR, gh, None, [], SIMDI, lambda *a: pytest.fail("test paylaşım yapmamalı"))
-    assert gh.kapatilan and "Hiçbir şey paylaşılmadı" in gh.kapatilan[0][1]
-
-
-def test_otomatik_onay_istegi_acar(monkeypatch, tmp_path):
-    from bot import onay
-    monkeypatch.setattr(onay, "ONIZLEME_KLASORU", tmp_path)
-    monkeypatch.setattr(onay, "ISTEK_DOSYASI", tmp_path / "istek.md")
-    g = _gun("2026-10-03", [_secim(1, 1.5, 0.8), _secim(2, 1.4, 0.7)], tweet_id=None, kuponlar=[[0, 1]])
-    simdi = datetime(2026, 10, 3, 8, tzinfo=timezone.utc)
-    onay.onay_iste(g, [g], AYAR, simdi)
-    metin = (tmp_path / "istek.md").read_text()
-    assert metin.startswith("Onay: 2026-10-03 kuponu\n") and "`ok`" in metin and "TODAY'S COUPON" in metin
-    assert "raw.githubusercontent.com" in metin and (tmp_path / "2026-10-03-1-v1.png").exists()
-    # son: en fazla 90 dk sonra, en geç ilk maçtan (13:00 UTC) 2 saat önce
-    assert g["onay"]["son"] == "2026-10-03T09:30:00+00:00"
-
-
-def test_onayli_paylasim_onizlemenin_aynisi(monkeypatch, tmp_path):
-    """Önizleme ile paylaşım arasında kasa değişse bile gönderilen tweetler ve görsel önizlemedekiyle aynı olmalı."""
-    from bot import onay, gorsel
-    from bot.__main__ import yayinla
-    monkeypatch.setattr(onay, "ONIZLEME_KLASORU", tmp_path)
-    monkeypatch.setattr(onay, "ISTEK_DOSYASI", tmp_path / "istek.md")
-    g = _gun("2026-10-03", [_secim(1, 1.5, 0.8), _secim(2, 1.4, 0.7)], tweet_id=None, kuponlar=[[0, 1]])
-    simdi = datetime(2026, 10, 3, 8, tzinfo=timezone.utc)
-    onay.onay_iste(g, [g], AYAR, simdi)
-    onizleme_png = (tmp_path / "2026-10-03-1-v1.png").read_bytes()
-    beklenen = list(g["onay"]["metinler"])
-    # arada başka bir gün sonuçlandı, kasa değişti
-    eski = _gun("2026-10-02", [_secim(9, 2.0, 0.5)], kuponlar=[[0]])
-    eski["secimler"][0].update(durum="kazandi", skor="1-0")
-    eski["sonuc"] = "tamam"
-    atilan, pngler = [], []
-
-    class X:
-        def medya_yukle(self, png):
-            pngler.append(png)
-            return "m"
-
-        def gonder(self, metin, yanit=None, medya=None, alinti=None):
-            atilan.append(metin)
-            return f"t{len(atilan)}"
-
-    assert yayinla(AYAR, g, X(), [eski, g], simdi + timedelta(minutes=30))
-    assert atilan == beklenen and pngler == [onizleme_png]
-
-
-def test_onay_hata_ve_kacirma_durumlari(monkeypatch, tmp_path):
-    from bot import onay
-    monkeypatch.setattr(onay, "ONIZLEME_KLASORU", tmp_path)
-    assert onay.karar("ok ama iptal") == "iptal" and onay.karar("Ok, paylaş") == "ok"
-    # olumsuzluk ya da "ok" ile başlamayan mesaj onay sayılmaz (yanlışlıkla paylaşmaktansa beklemek)
+    assert onay.karar("ok ama iptal") == "iptal" and onay.karar("Ok, paylaş") == "ok"  # iptal her zaman önce
     assert onay.karar("not ok") is None and onay.karar("ok değil") is None and onay.karar("No problem, ok") is None
-    issue = [{"number": 7, "title": "Onay: 2026-10-03 kuponu"}]
-    ok = {7: [{"body": "ok", "user": {"login": "biri"}, "author_association": "MEMBER"}]}
-    simdi = datetime(2026, 10, 3, 9, tzinfo=timezone.utc)
-    # X hatası: durum "bekliyor" kalır, sonraki kontrol tekrar dener
-    g = _onayli_gun("2026-10-03T10:30:00+00:00")
-    def hatali(*a, **k):
-        raise RuntimeError("X 503")
-    with pytest.raises(RuntimeError):
-        onay.kontrol(AYAR, SahteGitHub(issue, ok), None, [g], simdi, hatali)
-    assert g["onay"]["durum"] == "bekliyor"
-    # ana tweet atıldı ama flood yarım kaldı: sonraki kontrol tamamlar ve kapatır
-    g["tweet_id"] = "T"
-    tamamlanan = []
-    gh = SahteGitHub(issue, ok)
-    onay.kontrol(AYAR, gh, None, [g], simdi, lambda *a, **k: tamamlanan.append(1) or True)
-    assert tamamlanan and g["onay"]["durum"] == "onaylandi" and gh.kapatilan
-    # maç başlamış, paylaşılamıyor: gün pas, hata bildirilir
-    g = _onayli_gun("2026-10-03T10:30:00+00:00")
-    with pytest.raises(RuntimeError):
-        onay.kontrol(AYAR, SahteGitHub(issue, ok), None, [g], simdi, lambda *a, **k: False)
-    assert g["onay"]["durum"] == "kacirildi" and g["sonuc"] == "pas"
-
-
-def test_onayli_kupon_gorselsiz_paylasilmaz_ama_son_saatte_metinle_gider(monkeypatch, tmp_path):
-    from bot import onay
-    import bot.__main__ as ana
-    monkeypatch.setattr(onay, "ONIZLEME_KLASORU", tmp_path)
-    monkeypatch.setattr(ana, "_gorsel_yukle", lambda x, gun, kasa: None)
-    issue = [{"number": 7, "title": "Onay: 2026-10-03 kuponu"}]
-    ok = {7: [{"body": "ok", "user": {"login": "biri"}, "author_association": "OWNER"}]}
-    atilan = []
-    x = SimpleNamespace(gonder=lambda metin, yanit=None, medya=None, alinti=None: atilan.append(metin) or f"t{len(atilan)}")
-    g = _onayli_gun("2026-10-03T10:30:00+00:00")  # ilk maç 13:00 UTC
-    gh = SahteGitHub(issue, ok)
-    onay.kontrol(AYAR, gh, x, [g], datetime(2026, 10, 3, 9, tzinfo=timezone.utc), ana.yayinla)
-    assert not atilan and g["onay"]["durum"] == "bekliyor" and not gh.kapatilan
-    onay.kontrol(AYAR, gh, x, [g], datetime(2026, 10, 3, 12, 10, tzinfo=timezone.utc), ana.yayinla)
-    assert atilan and atilan[0].startswith("⚽ TODAY'S COUPON") and g["onay"]["durum"] == "onaylandi"
-
-
-def test_elle_kapatilan_istek_iptal_sayilmaz_sure_dolunca_paylasilir(monkeypatch, tmp_path):
-    from bot import onay
-    monkeypatch.setattr(onay, "ONIZLEME_KLASORU", tmp_path)
-    g = _onayli_gun("2026-10-03T10:30:00+00:00")
-    gh = SahteGitHub([{"number": 9, "title": "Onay: 2026-10-03 kuponu", "state": "closed"}], {})
-    yayinlanan = []
-
-    def yayinla(ayar, gun, x, gunler, simdi, **k):
-        gun["tweet_id"] = "T"
-        yayinlanan.append(1)
-        return True
-
-    onay.kontrol(AYAR, gh, None, [g], datetime(2026, 10, 3, 9, tzinfo=timezone.utc), yayinla)
-    assert not yayinlanan and g["onay"]["durum"] == "bekliyor"
-    onay.kontrol(AYAR, gh, None, [g], datetime(2026, 10, 3, 10, 31, tzinfo=timezone.utc), yayinla)
-    assert yayinlanan and g["onay"]["durum"] == "otomatik"
-
-
-def test_duzeltme_sonrasi_yeni_onizleme_gecerli_eskisi_kapanir(monkeypatch, tmp_path):
-    from bot import onay
-    monkeypatch.setattr(onay, "ONIZLEME_KLASORU", tmp_path)
-    monkeypatch.setattr(onay, "ISTEK_DOSYASI", tmp_path / "istek.md")
-    g = _gun("2026-10-03", [_secim(1, 1.5, 0.8), _secim(2, 1.4, 0.7)], tweet_id=None, kuponlar=[[0, 1]])
-    simdi = datetime(2026, 10, 3, 8, tzinfo=timezone.utc)
-    onay.onay_iste(g, [g], AYAR, simdi)
-    g["onay"]["durum"] = "durduruldu"
-    onay.onay_iste(g, [g], AYAR, simdi + timedelta(minutes=20))  # düzeltildi, yeni önizleme
-    assert g["onay"]["durum"] == "bekliyor" and g["onay"]["surum"] == 2 and (tmp_path / "2026-10-03-1-v2.png").exists()
-    istekler = [{"number": 7, "title": "Onay: 2026-10-03 kuponu"}, {"number": 8, "title": "Onay: 2026-10-03 kuponu"}]
-    gh = SahteGitHub(istekler, {7: [{"body": "iptal", "user": {"login": "sahip"}}]})
-    onay.kontrol(AYAR, gh, None, [g], simdi + timedelta(minutes=25), lambda *a, **k: pytest.fail("erken paylaşım"))
-    assert gh.kapatilan == [(7, "Yerine yeni önizleme açıldı.")] and g["onay"]["durum"] == "bekliyor"
-
-
-def test_yanit_onerileri_suzulur_ve_onizlemede_gorunur(monkeypatch, tmp_path):
-    from bot import onay
-    maclar = {1: {"ev": "Arsenal", "dep": "Everton"}, 2: {"ev": "Hammarby", "dep": "AIK"}}
-    oneriler = [
-        {"fixture_id": 1, "metin": "Arsenal have scored in 11 straight home games, better than anyone. We make it about 80%."},
-        {"fixture_id": 2, "metin": "Great bet here, follow us!"},        # bahis dili / kendini tanıtma: atılır
-        {"fixture_id": 99, "metin": "Unknown match."},                     # veride yok: atılır
-        {"fixture_id": 2, "metin": "Check Bet365 for this one. AIK lost 4 of 5 away."},  # bahisçi cümlesi silinir
-    ]
-    temiz = editor.yanit_onerilerini_hazirla(oneriler, maclar, ["Bet365"])
-    assert [o["metin"] for o in temiz] == [oneriler[0]["metin"], "AIK lost 4 of 5 away."]
-    assert temiz[0]["arama"] == "https://x.com/search?q=Arsenal%20Everton&f=live"
-    monkeypatch.setattr(onay, "ONIZLEME_KLASORU", tmp_path)
-    monkeypatch.setattr(onay, "ISTEK_DOSYASI", tmp_path / "istek.md")
-    g = _gun("2026-10-03", [_secim(1, 1.5, 0.8), _secim(2, 1.4, 0.7)], tweet_id=None, kuponlar=[[0, 1]])
-    g["yanit_onerileri"] = temiz
-    onay.onay_iste(g, [g], AYAR, datetime(2026, 10, 3, 8, tzinfo=timezone.utc))
-    metin = (tmp_path / "istek.md").read_text()
-    assert "Elle yazabileceğin yanıtlar" in metin and "AIK lost 4 of 5 away." in metin and "@kalkylerat" in metin
-
-
-def test_kasa_seyri_ve_grafik():
-    from bot import gorsel
-    g1 = _gun("2026-09-28", [_secim(1, 2.0, 0.5)], kuponlar=[[0]])
-    g1["secimler"][0].update(durum="kazandi", skor="1-0")
-    g1["sonuc"] = "tamam"
-    g2 = _gun("2026-09-29", [_secim(2, 1.5, 0.7)], kuponlar=[[0]])
-    g2["secimler"][0].update(durum="kaybetti", skor="0-1")
-    g2["sonuc"] = "tamam"
-    taslak = _gun("2026-09-30", [_secim(3, 1.5, 0.7)], tweet_id=None, kuponlar=[[0]])
-    seyir = kayit.kasa_seyri([g2, g1, taslak], 10000)
-    assert seyir == [("2026-09-27", 10000), ("2026-09-28", 10100.0), ("2026-09-29", 10000.0)]
-    assert gorsel.kasa_grafigi(seyir, 10000, "€")[:4] == b"\x89PNG"
-
-
-def test_sonuc_yalnizca_bitmis_olmasi_gereken_yayinlanmis_maclar_icin_sorulur():
-    g = _gun("2026-10-03", [_secim(1, 1.5, 0.8), _secim(2, 1.4, 0.7, baslama="2026-10-03T20:45:00+02:00")],
-             kuponlar=[[0, 1]])
-    taslak = _gun("2026-10-03", [_secim(3, 1.5, 0.8)], tweet_id=None, kuponlar=[[0]])
-    # 15:00 CEST başlayan maç 16:50'de bitmiş sayılır; 20:45 maçı henüz sorulmaz, taslak hiç sorulmaz
-    simdi = datetime(2026, 10, 3, 15, 0, tzinfo=timezone.utc)  # 17:00 CEST
-    assert kayit.bekleyen_fixturelar([g, taslak], simdi) == [1]
-    assert kayit.bekleyen_fixturelar([g, taslak], datetime(2026, 10, 3, 14, 30, tzinfo=timezone.utc)) == []
-
-
-def test_sonuc_sorusu_kazanca_ve_kayba_gore():
-    kazanan = _gun("2026-10-03", [_secim(1, 1.5, 0.8)], kuponlar=[[0]])
-    kaybeden = _gun("2026-10-03", [_secim(1, 1.5, 0.8)], kuponlar=[[0]])
-    kayit.sonuclandir([kazanan], {1: {"durum": "bitti", "skor": (1, 0)}}, SIMDI)
-    kayit.sonuclandir([kaybeden], {1: {"durum": "bitti", "skor": (0, 1)}}, SIMDI)
-    k = "\n".join(tweets.sonuc_tweetleri(kazanan, kayit.ozet([kazanan], 10000)))
-    y = "\n".join(tweets.sonuc_tweetleri(kaybeden, kayit.ozet([kaybeden], 10000)))
-    mac = tweets._mac(kazanan["secimler"][0], 20)
-    assert any(s.format(mac=mac) in k for s in tweets.SONUC_SORULARI_TEK["tuttu"])  # tek maç: o maçın sorusu
-    assert any(s.format(mac=mac) in y for s in tweets.SONUC_SORULARI_TEK["yatti"]) and mac in y
-    for sorular in tweets.SONUC_SORULARI_TEK.values():  # tek maçta karşılaştırma sorusu olmaz
-        assert all("{mac}" in q and "surprise" not in q and "most" not in q for q in sorular)
-    iki = _gun("2026-10-03", [_secim(1, 1.5, 0.8), _secim(2, 1.5, 0.8)], kuponlar=[[0, 1]])
-    kayit.sonuclandir([iki], {1: {"durum": "bitti", "skor": (0, 1)}, 2: {"durum": "bitti", "skor": (1, 0)}}, SIMDI)
-    assert any(s in tweets.gorselli_sonuc_tweeti(iki, kayit.ozet([iki], 10000)) for s in tweets.SONUC_SORULARI["yatti"])
-
-
-def test_tek_macli_kuponda_tekil_dil():
-    tek = _gun("2026-10-03", [_secim(1, 1.46, 0.66)], kuponlar=[[0]])
-    metin = tweets.gorselli_gun_tweeti(tek)
-    assert "Why this pick" in metin and "picks" not in metin and "leg" not in metin
-    cift = _gun("2026-10-03", [_secim(1, 1.5, 0.7), _secim(2, 1.4, 0.7)], kuponlar=[[0, 1]])
-    assert "Why these picks" in tweets.gorselli_gun_tweeti(cift)
-
-
-def test_takilan_mac_saatte_bir_sorulur():
-    bas = datetime(2026, 10, 3, 13, 0, tzinfo=timezone.utc)
-    assert not kayit._sorulmali(bas, bas + timedelta(minutes=100))
-    assert kayit._sorulmali(bas, bas + timedelta(minutes=115))
-    # 3 saatten sonra: hiç sorulmadıysa hemen, sonra saatte bir (saatin dakikasından bağımsız)
-    assert kayit._sorulmali(bas, bas + timedelta(hours=11, minutes=24))
-    assert not kayit._sorulmali(bas, bas + timedelta(hours=4, minutes=22), bas + timedelta(hours=4))
-    assert kayit._sorulmali(bas, bas + timedelta(hours=5, minutes=1), bas + timedelta(hours=4))
 
 
 def test_sabah_penceresi_ve_sponsorlu_lig_adi():
@@ -957,40 +151,13 @@ def test_sabah_penceresi_ve_sponsorlu_lig_adi():
     assert _lig_adi({"lig": "Premier League", "ulke": "England"}, AYAR) == "Premier League"
 
 
-def test_hak_yetmezse_mac_mac_taramaya_gecilmez(monkeypatch):
-    import bot.__main__ as ana
-    monkeypatch.setattr(ana, "HATALAR", [])
-    api = football.DemoApi(config.ROOT / "ornek" / "api_football.json")
-    api.session = SimpleNamespace()
-    monkeypatch.setattr(football, "kalan_istek", lambda api: 30)
-    monkeypatch.setattr(ana, "_mac_mac_tara", lambda *a: pytest.fail("yedek hak harcanmamalı"))
-    simdi = datetime.fromisoformat(api.data["simdi"])
-    assert ana.tahmin(AYAR, api, editor.basit_sec, [], "2026-10-03", simdi) is None and ana.HATALAR
-
-
-def test_sonuc_kuponu_alintilayan_ayri_paylasim(monkeypatch):
-    from bot.__main__ import sonuc
-    g = _gun("2026-10-03", [_secim(1, 1.5, 0.8)], kuponlar=[[0]])
-    monkeypatch.setattr(football, "sonuclari_al", lambda api, ids, korner: {1: {"durum": "bitti", "skor": (2, 0)}})
-    atilan = []
-    x = SimpleNamespace(gonder=lambda metin, yanit=None, medya=None, alinti=None:
-                        atilan.append((yanit, alinti, medya, metin)) or f"s{len(atilan)}",
-                        medya_yukle=lambda png: "kart")
-    sonuc(AYAR, object(), x, [g], SIMDI)
-    yanit, alinti, medya, metin = atilan[0]
-    assert (yanit, alinti, medya) == (None, "t1", ["kart"]) and len(atilan) == 1  # tek, görselli, alıntılı paylaşım
-    assert "✅ Coupon won: +€150.00 back" in metin and metin.endswith(tweets.ANSVAR)
-    assert "💰 Balance: €10,050.00" in metin
-    assert tweets.uzunluk(metin) <= 280 and g["sonuc_tweet_id"] == "s1"
-
-
 def test_tek_calismalik_istisna(monkeypatch):
-    monkeypatch.setenv("BOT_EK", "guvenli_min_deger=-0.03 api_yedek=8 oran_min=5 zararli=1")
+    monkeypatch.setenv("BOT_EK", "deger_min_deger=0.02 oran_min=5 zararli=1")
     ayar = config.yukle()
-    assert ayar.guvenli_min_deger == -0.03 and ayar.oran_min == AYAR.oran_min  # yalnızca izinli alanlar
-    assert config.istisnalar()["api_yedek"] == 8
+    assert ayar.deger_min_deger == 0.02 and ayar.oran_min == AYAR.oran_min  # yalnızca izinli alanlar
+    assert set(config.istisnalar()) == {"deger_min_deger"}
     monkeypatch.delenv("BOT_EK")
-    assert config.yukle().guvenli_min_deger == AYAR.guvenli_min_deger
+    assert config.yukle().deger_min_deger == AYAR.deger_min_deger
 
 
 # --- Yedek kaynak: The Odds API ---
@@ -1055,17 +222,6 @@ def test_odds_bahisci_oranlari_ve_kimlik():
     assert oddsapi.fixture_id("abcdef1234567890") == int("abcdef123456", 16) < 2 ** 53
 
 
-def test_odds_adaylar_bet365_sartsiz_ve_deger_kurali():
-    from bot import oddsapi
-    ayar = config.yukle()
-    m = {"fixture_id": 1, "lig_id": ayar.ligler[0], "ev": "Home FC", "dep": "Away FC"}
-    adaylar = oddsapi.adaylar(m, oddsapi.bahisci_oranlari(_odds_etkinlik()), ayar)
-    assert adaylar, "Bet365 olmadan da en az 3 sitede fiyat varsa aday çıkmalı"
-    for a in adaylar:
-        assert a["deger"] >= ayar.guvenli_min_deger and a["olasi_skor"] and len(a["beklenen_gol"]) == 2
-    assert any(a["pazar"] == "MS1" and a["oran"] == 1.47 for a in adaylar)  # en iyi fiyat
-
-
 def test_odds_tara_kredi_ve_yedek():
     from bot import oddsapi
     ayar = config.yukle()
@@ -1128,14 +284,18 @@ def test_odds_sonuclari():
     assert oturum.cagrilar[0][1]["daysFrom"] == 3
 
 
-def test_api_football_kapaliyken_yedek_kaynakla_kupon_ve_sonuc(monkeypatch):
+def test_api_football_kapaliyken_analiz_ve_sonuc_yedek_kaynaktan(monkeypatch, tmp_path):
     from bot import __main__ as ana, oddsapi
     ayar = config.yukle()
     monkeypatch.setenv("ODDS_API_KEY", "x")
+    monkeypatch.delenv("GH_TOKEN", raising=False)
+    monkeypatch.setattr(config, "DATA_FILE", tmp_path / "spel.json")
+    monkeypatch.setattr(ana, "HATALAR", [])
 
     def kapali(*a, **k):
         raise football.ApiHatasi("Your account is suspended")
     monkeypatch.setattr(football, "gunun_maclari", kapali)
+    monkeypatch.setattr(football, "sonuclari_al", kapali)
     oturum = _OddsOturum({
         "sports": [{"key": "soccer_epl", "group": "Soccer", "title": "EPL", "active": True, "has_outrights": False}],
         "events": [{"id": "abcdef1234567890"}], "odds": [_odds_etkinlik()], "abcdef1234567890/odds": _ek_pazarlar(),
@@ -1145,13 +305,12 @@ def test_api_football_kapaliyken_yedek_kaynakla_kupon_ve_sonuc(monkeypatch):
     monkeypatch.setattr(oddsapi, "OddsApi", lambda key, session=None: gercek(key, session=oturum, aralik=0))
     gunler = []
     simdi = datetime(2026, 9, 29, 10, 0, tzinfo=timezone.utc)
-    gun = ana.tahmin(ayar, SimpleNamespace(istek_sayisi=0), editor.basit_sec, gunler, "2026-09-29", simdi)
-    assert gun and gun["secimler"] and not ana.HATALAR
-    s = gun["secimler"][0]
-    assert s["odds_id"] == "abcdef1234567890" and s["odds_spor"] == "soccer_epl"
-    gun["tweet_id"] = "1"
-    ana.sonuc(ayar, SimpleNamespace(), tweets.KonsolClient(), gunler, simdi + timedelta(hours=12))
-    assert gun["sonuc"] == "tamam" and s["skor"] == "3-1"
+    gun = ana.analiz_gunu(ayar, gunler, "2026-09-29", simdi, api=SimpleNamespace())
+    assert gun and gun["konsept"] == "analiz" and not ana.HATALAR
+    tum = json.loads((tmp_path / "analiz" / "2026-09-29.json").read_text(encoding="utf-8"))
+    assert tum and tum[0]["odds_id"] == "abcdef1234567890"  # maç sonu sonucu aynı kaynaktan sorulur
+    sonuc = ana._mac_sonuclari(ayar, tum)
+    assert sonuc[tum[0]["fixture_id"]]["skor"] == (3, 1)
 
 
 def test_odds_429_tekrar_denenir():
@@ -1176,8 +335,7 @@ def _vitrin_gunu(**ek):
     ]
     oranlar = {1: oran(2.0, 3.4, 3.8), 2: oran(1.22, 6.5, 13.0), 3: oran(5.0, 4.2, 1.6)}
     vit = etkilesim.vitrin(maclar, oranlar, AYAR, datetime(2026, 10, 1, 8, tzinfo=timezone.utc))
-    return {"id": "2026-10-01", "tarih": "2026-10-01", "olusturma": "2026-10-01T10:55:00+00:00",
-            "secimler": [{"x": 1}], "tweet_id": "t1", "yayin": "2026-10-01T12:48:00+00:00", "sonuc": None,
+    return {"id": "2026-10-01", "tarih": "2026-10-01", "olusturma": "2026-10-01T10:55:00+00:00", "konsept": "analiz",
             "vitrin": vit, "etkilesim": {"bilgi": {"durum": "paylasildi", "zaman": "2026-10-01T09:00:00+00:00"}}, **ek}
 
 
@@ -1186,7 +344,6 @@ def test_vitrin_izinli_ligler_once_anket_dengeli_maca():
     gun = _vitrin_gunu()
     assert [v["fixture_id"] for v in gun["vitrin"]][-1] == 1  # liste dışı lig sonda
     assert etkilesim.anket_maci(gun["vitrin"])["ev"] == "Wales"  # Almanya %80 favori: oylamaya değmez
-    assert etkilesim.skor_maci(gun["vitrin"])["ev"] == "Germany"
     for v in gun["vitrin"]:
         assert sum(v["p"].values()) == pytest.approx(1, abs=0.01)
 
@@ -1196,19 +353,15 @@ def test_etkilesim_paylasimlari_sirayla_aralikli_ve_birer_kez():
     gun = _vitrin_gunu()
     x = tweets.KonsolClient()
     t = lambda s, d: datetime(2026, 10, 1, s, d, tzinfo=timezone.utc)
-    assert etkilesim.paylas(gun, AYAR, x, t(13, 0)) is None  # kupondan 45 dk geçmedi
-    assert etkilesim.paylas(gun, AYAR, x, t(13, 50)) == "maclar"  # maçtan 5 saat önce açılır
+    assert etkilesim.paylas(gun, AYAR, x, t(13, 0)) is None  # günün maçları maçtan 5 saat önce açılır
+    assert etkilesim.paylas(gun, AYAR, x, t(13, 50)) == "maclar"
     assert etkilesim.paylas(gun, AYAR, x, t(14, 0)) is None  # 45 dk aralık
-    assert etkilesim.paylas(gun, AYAR, x, t(14, 40)) is None  # günün istatistiği maçtan 4 saat önce
-    assert etkilesim.paylas(gun, AYAR, x, t(15, 30)) == "istatistik"
-    assert etkilesim.paylas(gun, AYAR, x, t(15, 50)) is None  # 45 dk aralık
-    assert etkilesim.paylas(gun, AYAR, x, t(16, 20)) == "anket"
-    assert etkilesim.paylas(gun, AYAR, x, t(17, 0)) is None  # 45 dk aralık
-    assert etkilesim.paylas(gun, AYAR, x, t(17, 10)) == "radar"  # kupon dışı maçlar, maçtan ~2 saat önce
-    assert etkilesim.paylas(gun, AYAR, x, t(17, 40)) is None
-    assert etkilesim.paylas(gun, AYAR, x, t(18, 0)) == "skor"
-    assert etkilesim.paylas(gun, AYAR, x, t(18, 40)) is None
-    assert x.sayac == 5 and gun["etkilesim"].pop("deger")["durum"] == "atlandi"  # fiyatı kısa maç yok
+    assert etkilesim.paylas(gun, AYAR, x, t(14, 40)) is None  # anket maçtan 3 saat önce
+    assert etkilesim.paylas(gun, AYAR, x, t(15, 50)) == "anket"
+    assert etkilesim.paylas(gun, AYAR, x, t(16, 20)) is None  # 45 dk aralık
+    assert etkilesim.paylas(gun, AYAR, x, t(18, 10)) == "bilgi_aksam"
+    assert etkilesim.paylas(gun, AYAR, x, t(19, 30)) is None  # her tür bir kez
+    assert x.sayac == 3
     assert all(e["durum"] == "paylasildi" for e in gun["etkilesim"].values())  # bilgi testte önceden atıldı
 
 
@@ -1217,64 +370,8 @@ def test_etkilesim_metinleri_kurallara_uyar():
     gun = _vitrin_gunu()
     metin, secenekler, dakika = etkilesim.anket({**gun, "_simdi": "2026-10-01T15:50:00+00:00"}, AYAR)
     assert secenekler == ["Wales", "Draw", "Norway"] and dakika == 175
-    for m in (metin, etkilesim.maclar_tweeti(gun, AYAR), etkilesim.skor_tweeti(gun, AYAR),
-              etkilesim.istatistik_tweeti(gun, AYAR),
-              etkilesim.pas_tweeti({**gun, "taranan": 12})):
+    for m in (metin, etkilesim.maclar_tweeti(gun, AYAR)):
         assert tweets.uzunluk(m) <= 280 and "@" not in m and "http" not in m
-
-
-def test_etkilesim_onaysiz_kupondan_once_paylasmaz_hata_tekrar_denenmez():
-    from bot import etkilesim
-    gun = _vitrin_gunu(tweet_id=None, yayin=None)
-    t = datetime(2026, 10, 1, 14, 0, tzinfo=timezone.utc)
-    assert etkilesim.paylas(gun, AYAR, tweets.KonsolClient(), t) is None  # kupon onay bekliyor
-
-    class Bozuk:
-        def gonder(self, *a, **k):
-            raise RuntimeError("403")
-    gun = _vitrin_gunu()
-    assert etkilesim.paylas(gun, AYAR, Bozuk(), t, yaz=lambda m: None) is None
-    assert gun["etkilesim"]["maclar"]["durum"] == "hata"
-    assert etkilesim.paylas(gun, AYAR, tweets.KonsolClient(), t) is None  # anket saati gelmedi; maclar tekrar denenmez
-
-
-def test_pas_gununde_aciklama_paylasilir():
-    from bot import etkilesim
-    gun = _vitrin_gunu(secimler=[], tweet_id=None, yayin=None, sonuc="pas", taranan=12)
-    x = tweets.KonsolClient()
-    assert etkilesim.paylas(gun, AYAR, x, datetime(2026, 10, 1, 11, 0, tzinfo=timezone.utc)) == "pas"
-
-
-def test_ek_kupon_ayri_kayit_ana_kupondaki_takimlar_haric(monkeypatch):
-    from bot import __main__ as m, onay
-    gunler = [{"id": "2026-10-01", "tarih": "2026-10-01", "secimler": [{"ev": "Wales", "dep": "Norway"}],
-               "kuponlar": [{"ayaklar": [0], "stake": 100}]}]
-    gorulen = {}
-
-    def sahte_tahmin(ayar, api, sec, gunler, bugun, simdi, gun_id=None, haric_takimlar=None):
-        gorulen.update(ayar=ayar, gun_id=gun_id, haric=haric_takimlar)
-        g = {"id": gun_id, "tarih": bugun, "secimler": [{"ev": "Denmark", "dep": "Portugal"}], "sonuc": None}
-        gunler.append(g)
-        return g
-    monkeypatch.setattr(m, "tahmin", sahte_tahmin)
-    monkeypatch.setattr(m, "_api", lambda ayar: None)
-    monkeypatch.setattr(onay, "onay_iste", lambda g, *a, **k: g.update(onay={"son": "x"}))
-    yeni = m.ek_kupon(AYAR, gunler, "2026-10-01", SIMDI)
-    assert yeni["id"] == "2026-10-01-2" and yeni["ek"] and gorulen["ayar"].max_kupon == AYAR.max_kupon - 1
-    assert gorulen["haric"] == {"wales", "norway"}
-    assert onay._zaten_var(None, yeni) is None  # ana kuponun tweeti ek kupon sanılmaz
-    assert tweets._baslik({**yeni, "kuponlar": [{"ayaklar": [0]}]}).startswith("BONUS")
-
-
-def test_ek_kupon_cikmazsa_bos_kayit_kalmaz(monkeypatch):
-    from bot import __main__ as m
-    gunler = [{"id": "2026-10-01", "tarih": "2026-10-01", "secimler": []}]
-
-    def pas(ayar, api, sec, gunler, bugun, simdi, gun_id=None, haric_takimlar=None):
-        gunler.append({"id": gun_id, "tarih": bugun, "secimler": [], "sonuc": "pas"})
-    monkeypatch.setattr(m, "tahmin", pas)
-    monkeypatch.setattr(m, "_api", lambda ayar: None)
-    assert m.ek_kupon(AYAR, gunler, "2026-10-01", SIMDI) is None and len(gunler) == 1
 
 
 def test_takim_golu_ve_ikinci_yari_pazarlari():
@@ -1292,82 +389,6 @@ def test_takim_golu_ve_ikinci_yari_pazarlari():
     assert model.piyasa_olasiliklari({"DPU05": 1.5, "DPA05": 2.5})["DPU05"] == pytest.approx(0.625)
 
 
-def test_stake_acik_kuponlar_dusulerek_kalan_kasadan():
-    acik = {"id": "a", "tarih": "2026-10-01", "tweet_id": "1", "sonuc": None,
-            "secimler": [{"durum": "bekliyor", "oran": 1.5, "stake": 0}],
-            "kuponlar": [{"ayaklar": [0], "stake": 100.0, "durum": None}]}
-    assert kayit.acik_stake([acik]) == 100.0
-    assert kayit.stakeler([acik], 10000, 1.0, 2) == [(9900.0, 99.0), (9801.0, 98.01)]  # kalan kasanın %1'i, sırayla
-    assert kayit.stakeler([], 10000, 1.0, 1) == [(10000.0, 100.0)]
-
-
-def test_cok_kuponlu_kayit_kupon_basina_ayri_kayit_olur():
-    g = _gun("2026-10-03", [_secim(i, 1.5, 0.7) for i in range(1, 6)], tweet_id=None,
-             kuponlar=[[0, 1, 2], [3, 4]])
-    g["vitrin"] = [1]
-    parcalar = kayit.kuponlara_bol(g, [{"id": "2026-10-03-2"}])
-    assert [p["id"] for p in parcalar] == ["2026-10-03", "2026-10-03-3"]  # -2 dolu
-    assert [len(p["secimler"]) for p in parcalar] == [3, 2]
-    assert parcalar[1]["kuponlar"] == [{**g["kuponlar"][1], "ayaklar": [0, 1]}] and parcalar[1]["ek"]
-    assert "vitrin" in parcalar[0] and "vitrin" not in parcalar[1]
-    assert kayit.kuponlara_bol(parcalar[1], []) == [parcalar[1]]
-
-
-def test_ayir_tek_paylasimi_silip_kupon_basina_paylasir(monkeypatch):
-    from bot import __main__ as m
-    simdi = datetime(2026, 10, 3, 8, tzinfo=timezone.utc)
-    g = _gun("2026-10-03", [_secim(i, 1.5, 0.7) for i in range(1, 4)], kuponlar=[[0, 1], [2]])
-    g.update(id="2026-10-03-2", ek=True, analiz_tweet_idleri=["a1", "a2"], onay={"durum": "onaylandi", "kasa": 9000})
-    gunler, ana_tweet = [g], g["tweet_id"]
-    silinen, paylasilan = [], []
-    monkeypatch.setattr(m, "yayinla", lambda ayar, gun, x, gunler, simdi: paylasilan.append(gun["id"]) or True)
-    assert m.ayir(AYAR, gunler, "2026-10-03", simdi, SimpleNamespace(sil=silinen.append)) == 2
-    assert silinen == ["a2", "a1", ana_tweet] and paylasilan == ["2026-10-03-2"]
-    ikinci = next(x for x in gunler if x["id"] == "2026-10-03-3")
-    assert ikinci["onay"]["durum"] == "bekliyor" and ikinci["onay"]["kasa"] == 9000
-    assert datetime.fromisoformat(ikinci["onay"]["son"]) == simdi + timedelta(minutes=30)
-
-
-def test_ayni_calismada_birden_fazla_onay_istegi(monkeypatch, tmp_path):
-    from bot import onay
-    monkeypatch.setattr(onay, "ISTEK_DOSYASI", tmp_path / "istek.md")
-    monkeypatch.setattr(onay, "ONIZLEME_KLASORU", tmp_path)
-    simdi = datetime(2026, 10, 3, 8, tzinfo=timezone.utc)
-    a = _gun("2026-10-03", [_secim(1, 1.5, 0.7)], tweet_id=None, kuponlar=[[0]])
-    b = {**_gun("2026-10-03", [_secim(2, 1.5, 0.7)], tweet_id=None, kuponlar=[[0]]), "id": "2026-10-03-2", "ek": True}
-    onay.onay_iste(a, [a, b], AYAR, simdi)
-    onay.onay_iste(b, [a, b], AYAR, simdi, gecikme_dk=30)
-    parcalar = (tmp_path / "istek.md").read_text().split(onay.AYRAC)
-    assert [p.splitlines()[0] for p in parcalar] == ["Onay: 2026-10-03 kuponu", "Onay: 2026-10-03-2 kuponu"]
-    assert datetime.fromisoformat(b["onay"]["son"]) - datetime.fromisoformat(a["onay"]["son"]) == timedelta(minutes=30)
-
-
-def test_kasa_duzelt_kuponlar_sirayla_azalan_kasadan(monkeypatch):
-    from bot import __main__ as m
-    simdi = datetime(2026, 10, 3, 8, tzinfo=timezone.utc)
-    ilk = _gun("2026-10-03", [_secim(1, 1.5, 0.7)], kuponlar=[[0]])
-    ilk.update(yayin="2026-10-03T07:00:00+00:00")
-    ikinci = {**_gun("2026-10-03", [_secim(2, 1.5, 0.7)], kuponlar=[[0]]), "id": "2026-10-03-2",
-              "yayin": "2026-10-03T07:30:00+00:00", "tweet_id": "t2"}
-    ucuncu = {**_gun("2026-10-03", [_secim(3, 1.5, 0.7)], tweet_id=None, kuponlar=[[0]]), "id": "2026-10-03-3"}
-    for g in (ilk, ikinci, ucuncu):
-        g["kuponlar"][0]["stake"] = 100.0
-    yeniden = []
-    monkeypatch.setattr(m, "duzelt", lambda ayar, g, x, gunler, simdi: yeniden.append(g["id"]) or True)
-    assert m.kasa_duzelt(AYAR, [ilk, ikinci, ucuncu], "2026-10-03", simdi, None) == 2
-    assert [(g["kuponlar"][0]["kasa"], g["kuponlar"][0]["stake"]) for g in (ilk, ikinci, ucuncu)] == \
-        [(10000.0, 100.0), (9900.0, 99.0), (9801.0, 98.01)]
-    assert yeniden == ["2026-10-03-2"]  # ilki doğruydu; üçüncü henüz paylaşılmadı
-
-
-
-def test_etkilesim_baska_kupon_paylasimina_da_aralik_birakir():
-    from bot import etkilesim
-    gun = _vitrin_gunu()
-    t = datetime(2026, 10, 1, 13, 50, tzinfo=timezone.utc)
-    assert etkilesim.paylas(gun, AYAR, tweets.KonsolClient(), t, diger_paylasimlar=("2026-10-01T13:30:00+00:00",)) is None
-
-
 def test_direktor_metni_kural_disiysa_sablon_kullanilir():
     from bot import direktor, etkilesim
     bahisciler = AYAR.oran_bahiscileri + [AYAR.keskin_bahisci]
@@ -1375,8 +396,8 @@ def test_direktor_metni_kural_disiysa_sablon_kullanilir():
     for kotu in ("A lock tonight 👇", "Bet at Bet365 now", "Ask @someone", "x" * 300, "see https://a.b",
                  "RT if you agree", "#UCL #Football two tags"):
         assert not direktor.kurala_uygun(kotu, "maclar", bahisciler), kotu
-    assert not direktor.kurala_uygun("No coupon today.", "pas", bahisciler)  # sorumluluk satırı şart
-    assert direktor.kurala_uygun(f"No coupon today.\n\n{tweets.ANSVAR}", "pas", bahisciler)
+    assert not direktor.kurala_uygun("Odds turn into chances.", "bilgi", bahisciler)  # sorumluluk satırı şart
+    assert direktor.kurala_uygun(f"Odds turn into chances.\n\n{tweets.ANSVAR}", "bilgi", bahisciler)
 
     class Sahte:
         def __init__(self, metin):
@@ -1457,249 +478,6 @@ def test_denetim_dogrulayici_bahis_dili_link_ve_siteleri_yakalar():
         assert direktor.kurala_uygun(iyi, "maclar", b), iyi
 
 
-def test_denetim_mukerrer_kontrolu_buyuk_maclar_postunu_kupon_sanmaz():
-    from bot import __main__ as m
-    x = SimpleNamespace(son_tweetler=lambda adet, yanitsiz: [
-        {"id": "e1", "text": "TODAY'S BIG GAMES | 1 Oct\n\n⚽ A v B"},
-        {"id": "k1", "text": "TODAY'S COUPON | 30 Sep\n\nWhich leg?"}])
-    assert m.zaten_paylasildi(x, "2026-10-01") is None
-    x2 = SimpleNamespace(son_tweetler=lambda adet, yanitsiz: [{"id": "k2", "text": "TODAY'S 2 COUPONS | 1 Oct\n\n..."}])
-    assert m.zaten_paylasildi(x2, "2026-10-01") == "k2"
-
-
-def test_denetim_onay_bekleyen_kupon_stake_hesabinda_dusulur():
-    bekleyen = {"id": "b", "tarih": "2026-10-01", "tweet_id": None, "sonuc": None, "onay": {"durum": "bekliyor"},
-                "secimler": [{"durum": "bekliyor", "oran": 1.5}], "kuponlar": [{"ayaklar": [0], "stake": 100.0}]}
-    assert kayit.acik_stake([bekleyen]) == 100.0
-    assert kayit.stakeler([bekleyen], 10000, 1.0, 1) == [(9900.0, 99.0)]
-
-
-def test_denetim_kasa_duzelt_baslamis_kupona_dokunmaz_onay_bekleyene_yeni_onizleme(monkeypatch):
-    from bot import __main__ as m
-    simdi = datetime(2026, 10, 3, 17, tzinfo=timezone.utc)
-    basladi = _gun("2026-10-03", [_secim(1, 1.5, 0.7, baslama="2026-10-03T16:00:00+00:00")], kuponlar=[[0]])
-    basladi.update(yayin="2026-10-03T07:00:00+00:00")
-    bekleyen = {**_gun("2026-10-03", [_secim(2, 1.5, 0.7, baslama="2026-10-03T19:00:00+00:00")], tweet_id=None,
-                       kuponlar=[[0]]), "id": "2026-10-03-2", "onay": {"durum": "bekliyor", "metinler": ["eski"]}}
-    for g in (basladi, bekleyen):
-        g["kuponlar"][0]["stake"] = 100.0
-    yeni_onay = []
-    monkeypatch.setattr(m.onay, "onay_iste", lambda g, *a, **k: yeni_onay.append(g["id"]))
-    monkeypatch.setattr(m.onay, "onizlemeleri_sil", lambda i: None)
-    monkeypatch.setattr(m, "duzelt", lambda *a: pytest.fail("başlamış kupon yeniden paylaşılmamalı"))
-    m.kasa_duzelt(AYAR, [basladi, bekleyen], "2026-10-03", simdi, None)
-    assert basladi["kuponlar"][0]["stake"] == 100.0  # başlamış: değişmez
-    assert bekleyen["kuponlar"][0]["stake"] == 99.0 and yeni_onay == ["2026-10-03-2"]
-
-
-def test_denetim_istatistik_gec_olsa_da_anket_kacmaz():
-    from bot import etkilesim
-    gun = _vitrin_gunu()
-    for v in gun["vitrin"]:
-        if v is etkilesim.istatistik_maci(gun["vitrin"]):
-            v["baslama"] = "2026-10-01T21:00:00+00:00"  # istatistik maçı daha geç
-    gun["etkilesim"] = {"maclar": {"durum": "paylasildi", "zaman": "2026-10-01T13:50:00+00:00"}, "bilgi": {"durum": "atlandi"}}
-    x = tweets.KonsolClient()
-    assert etkilesim.paylas(gun, AYAR, x, datetime(2026, 10, 1, 15, 50, tzinfo=timezone.utc)) == "anket"
-
-
-def test_denetim_kasa_duzelt_durdurulan_kuponu_canlandirmaz(monkeypatch):
-    from bot import __main__ as m
-    simdi = datetime(2026, 10, 3, 8, tzinfo=timezone.utc)
-    durdu = {**_gun("2026-10-03", [_secim(2, 1.5, 0.7)], tweet_id=None, kuponlar=[[0]]),
-             "onay": {"durum": "durduruldu", "metinler": ["eski"]}}
-    durdu["kuponlar"][0]["stake"] = 50.0
-    monkeypatch.setattr(m.onay, "onay_iste", lambda *a, **k: pytest.fail("durdurulan kupon yeniden onaya girmemeli"))
-    m.kasa_duzelt(AYAR, [durdu], "2026-10-03", simdi, None)
-    assert durdu["onay"]["durum"] == "durduruldu" and "metinler" not in durdu["onay"]
-    assert durdu["kuponlar"][0]["stake"] == 100.0
-
-
-def test_en_olasi_skor_secimle_celisirse_beklenen_gol_yazilir():
-    ust = _secim(1, 1.3, 0.76, pazar="UST15", olasi_skor="0-1", beklenen_gol=[1.0, 2.0], etiket="Over 1.5 goals")
-    x2 = _secim(2, 1.34, 0.72, pazar="CSX2", olasi_skor="1-1", beklenen_gol=[1.1, 1.4], etiket="Double chance X2")
-    g = _gun("2026-10-01", [x2, ust], kuponlar=[[0, 1]])
-    metinler = tweets.analiz_tweetleri(g)
-    assert "Most likely score: 1–1" in metinler[0]
-    assert "Most likely score" not in metinler[1] and "Expected goals: 1.0 – 2.0" in metinler[1]
-
-
-def test_skor_duzelt_yalniz_celiskili_yaniti_yeniden_atar():
-    from bot import __main__ as m
-    ust = _secim(3, 1.3, 0.76, pazar="UST15", olasi_skor="0-1", beklenen_gol=[1.0, 2.0],
-                 baslama="2026-10-01T18:45:00+00:00")
-    tamam = _secim(2, 1.34, 0.72, pazar="CSX2", olasi_skor="1-1", baslama="2026-10-01T18:45:00+00:00")
-    g = _gun("2026-10-01", [tamam, ust], kuponlar=[[0, 1]])
-    g["analiz_tweet_idleri"] = ["r1", "r2"]
-    x = tweets.KonsolClient()
-    silinen = []
-    x.sil = silinen.append
-    assert m.skor_duzelt([g], "2026-10-01", datetime(2026, 10, 1, 15, tzinfo=timezone.utc), x) == 1
-    assert silinen == ["r2"] and g["analiz_tweet_idleri"][0] == "r1" and len(g["analiz_tweet_idleri"]) == 2
-
-
-def test_gerekcede_secimle_celisen_skor_tahmini_atilir_gecmis_skorlar_kalir():
-    y = ("Israel let in 3 goals in each game. The model expects about 3 goals. Most likely 0-1 though. "
-         "Recent meetings ended 2-0, 1-2 and 2-1.")
-    temiz = editor.celiskisiz_yorum(y, ["UST15"])
-    assert "0-1" not in temiz and "2-0, 1-2 and 2-1" in temiz and "about 3 goals" in temiz
-    assert editor.celiskisiz_yorum("Most likely 2-1 tonight.", ["UST15"]) == "Most likely 2-1 tonight."
-    assert editor.celiskisiz_yorum("We expect a 0-0.", ["ALT25"]) == "We expect a 0-0."
-
-
-def test_denetci_kural_denetimi_celiskileri_yakalar():
-    from bot import denetci
-    ust = _secim(1, 1.3, 0.76, pazar="UST15", beklenen_gol=[1.0, 2.0],
-                 yorum="Israel let in 3 a game. Model expects about 3 goals. Most likely 0-1 tonight. About a 5 in 10 chance.")
-    ters = _secim(2, 1.6, 0.66, pazar="UST25", beklenen_gol=[0.7, 0.8], yorum="Both teams score freely.")
-    temiz = _secim(3, 1.3, 0.72, pazar="CSX2", beklenen_gol=[1.1, 1.4],
-                   yorum="Portugal won both games. Draw or Portugal comes out at about 72%. They met 2-0 and 1-2.")
-    sorunlar = denetci.kural_denetimi([ust, ters, temiz])
-    assert {(x["secim"], x["tur"]) for x in sorunlar} == {(0, "cumle"), (1, "secim")}
-    assert sum(1 for x in sorunlar if x["secim"] == 0) == 2  # skor tahmini + yanlış ihtimal
-
-
-def test_denetci_uygula_cumle_atar_celiskili_kuponu_ve_ayaklarini_cikarir():
-    from bot import denetci
-    a = _secim(1, 1.3, 0.76, yorum="Good form. Most likely 0-1.")
-    b = _secim(2, 1.3, 0.76)
-    c = _secim(3, 1.3, 0.76)
-    gun = {"secimler": [a, b, c], "kuponlar": [{"ayaklar": [0, 1]}, {"ayaklar": [2]}]}
-    denetci.uygula(gun, [{"secim": 0, "tur": "cumle", "cumle": "Most likely 0-1.", "neden": "x"},
-                         {"secim": 2, "tur": "secim", "cumle": "", "neden": "y"}], yaz=lambda m: None)
-    assert a["yorum"] == "Good form."
-    assert gun["kuponlar"] == [{"ayaklar": [0, 1]}] and gun["secimler"] == [a, b]
-    gun2 = {"secimler": [a, b, c], "kuponlar": [{"ayaklar": [0]}, {"ayaklar": [1, 2]}]}
-    denetci.uygula(gun2, [{"secim": 0, "tur": "secim", "cumle": "", "neden": "y"}], yaz=lambda m: None)
-    assert gun2["secimler"] == [b, c] and gun2["kuponlar"] == [{"ayaklar": [0, 1]}]
-
-
-def test_denetci_yz_cagrisi_hizli_modelle_ve_bozulursa_kural_denetimi_kalir():
-    from bot import denetci
-    s = _secim(1, 1.3, 0.76, yorum="Fine.", beklenen_gol=[1.5, 1.2])
-    cagri = []
-
-    class Model:
-        def __init__(self, cevap):
-            self.cevap, self.messages = cevap, self
-
-        def stream(self, **k):
-            cagri.append(k["model"])
-            cevap = self.cevap
-            class S:
-                def __enter__(s_):
-                    return s_
-                def __exit__(s_, *a):
-                    return False
-                def get_final_message(s_):
-                    if cevap is None:
-                        raise RuntimeError("ağ")
-                    return SimpleNamespace(stop_reason="end_turn",
-                                           content=[SimpleNamespace(type="text", text=json.dumps(cevap))])
-            return S()
-    gun = {"secimler": [s], "kuponlar": [{"ayaklar": [0]}]}
-    denetci.denetle(gun, AYAR, Model({"sorunlar": [{"secim": 0, "tur": "secim", "cumle": "", "neden": "z"}]}),
-                    yaz=lambda m: None)
-    assert gun["kuponlar"] == [] and cagri == [AYAR.direktor_model]
-    gun = {"secimler": [s], "kuponlar": [{"ayaklar": [0]}]}
-    denetci.denetle(gun, AYAR, Model(None), yaz=lambda m: None)  # model hatası: kupon kalır
-    assert gun["kuponlar"] == [{"ayaklar": [0]}]
-
-
-def test_baslik_postu_tek_basina_anlasilir():
-    g = _gun("2026-10-01", [_secim(1, 1.46, 0.66, ev="Wales", dep="Norway", kisa="Norway to win")], kuponlar=[[0]])
-    metin = tweets.gorselli_gun_tweeti(g)
-    assert "Wales v Norway: Norway to win · 66% chance" in metin and metin.endswith(tweets.ANSVAR)
-    assert tweets.uzunluk(metin) <= 280
-
-
-def test_radar_kupondaki_maclari_almaz_ve_direktor_atlayabilir():
-    from bot import direktor, etkilesim
-    gun = _vitrin_gunu()
-    metin = etkilesim.radar_tweeti(gun, AYAR, {"wales", "norway"})
-    assert "Wales" not in metin and "Germany v Serbia" in metin and metin.endswith(tweets.ANSVAR)
-    assert tweets.uzunluk(metin) <= 280
-    assert etkilesim.radar_tweeti(gun, AYAR, {"wales", "germany"}) is None  # 2'den az maç kaldı
-
-    class Atla:
-        def __init__(self):
-            self.messages = self
-
-        def stream(self, **k):
-            class S:
-                def __enter__(s):
-                    return s
-                def __exit__(s, *a):
-                    return False
-                def get_final_message(s):
-                    return SimpleNamespace(stop_reason="end_turn", content=[SimpleNamespace(
-                        type="text", text=json.dumps({"paylas": False, "metin": ""}))])
-            return S()
-    gun["etkilesim"] = {"maclar": {"durum": "paylasildi", "zaman": "2026-10-01T13:00:00+00:00"}, "bilgi": {"durum": "atlandi"},
-                        "istatistik": {"durum": "atlandi"}, "anket": {"durum": "atlandi"}}
-    x = tweets.KonsolClient()
-    sonuc = etkilesim.paylas(gun, AYAR, x, datetime(2026, 10, 1, 16, 40, tzinfo=timezone.utc),
-                             yazar=direktor.yazar(AYAR, Atla(), yaz=lambda m: None), yaz=lambda m: None)
-    assert sonuc is None and gun["etkilesim"]["radar"]["neden"] == "direktör" and x.sayac == 0
-
-
-def test_yayin_denetimi_dogru_postu_gecirir_hatali_postu_durdurur(monkeypatch, tmp_path):
-    from bot import denetci, gorsel, onay
-    simdi = datetime(2026, 10, 3, 8, tzinfo=timezone.utc)
-    g = _gun("2026-10-03", [_secim(1, 1.5, 0.8), _secim(2, 1.4, 0.7)], tweet_id=None, kuponlar=[[0, 1]])
-    g["kuponlar"][0].update(kasa=10000.0, stake=100.0)
-    ozet = kayit.ozet([g], 10000)
-    metinler = tweets.gun_floodu(g, ozet, gorselli=True)
-    png = [gorsel.kupon_gorseli(g, g["kuponlar"][0], 10000)]
-    assert denetci.yayin_kontrolu(g, metinler, [g], AYAR, simdi, png) == []
-    bozuk = list(metinler)
-    bozuk[1] = bozuk[1].replace("Odds 1.50", "Odds 1.65") + " Bet365 @kalkylerat lock"
-    hatalar = denetci.yayin_kontrolu(g, bozuk, [g], AYAR, simdi, png)
-    assert any("link ya da @" in h for h in hatalar) and any("bahis sitesi" in h for h in hatalar)
-    assert any("kesinlik" in h for h in hatalar) and any("Odds 1.50" in h for h in hatalar)
-    g["kuponlar"][0]["stake"] = 150.0
-    assert any("kasanın" in h for h in denetci.yayin_kontrolu(g, metinler, [g], AYAR, simdi, png))
-    g["kuponlar"][0]["stake"] = 100.0
-    diger = {**_gun("2026-10-03", [_secim(1, 1.5, 0.8)], kuponlar=[[0]]), "id": "2026-10-03-2"}
-    assert any("başka bir kuponda" in h for h in denetci.yayin_kontrolu(g, metinler, [g, diger], AYAR, simdi, png))
-    assert any("başlamış" in h for h in denetci.yayin_kontrolu(g, metinler, [g], AYAR,
-                                                               datetime(2026, 10, 3, 14, tzinfo=timezone.utc), png))
-    # onay isteğinde: engel varsa kupon durdurulur ve issue en üstte nedenini yazar
-    monkeypatch.setattr(onay, "ONIZLEME_KLASORU", tmp_path)
-    monkeypatch.setattr(onay, "ISTEK_DOSYASI", tmp_path / "istek.md")
-    g["kuponlar"][0]["stake"] = 150.0
-    onay.onay_iste(g, [g], AYAR, simdi)
-    assert g["onay"]["durum"] == "durduruldu" and g["onay"]["denetim"]["engel"]
-    assert "Denetçi durdurdu" in (tmp_path / "istek.md").read_text()
-
-
-def test_gorsel_denetimi_gorselleri_ve_beklenen_rakamlari_gonderir():
-    from bot import denetci, gorsel
-    g = _gun("2026-10-03", [_secim(1, 1.5, 0.8)], kuponlar=[[0]])
-    g["kuponlar"][0].update(kasa=10000.0, stake=100.0)
-    gonderilen = {}
-
-    class Model:
-        def __init__(self):
-            self.messages = self
-
-        def stream(self, **k):
-            gonderilen.update(k)
-            class S:
-                def __enter__(s):
-                    return s
-                def __exit__(s, *a):
-                    return False
-                def get_final_message(s):
-                    return SimpleNamespace(stop_reason="end_turn", content=[SimpleNamespace(
-                        type="text", text=json.dumps({"sorunlar": ["Bank shows 10,100 instead of 10,000."]}))])
-            return S()
-    sonuc = denetci.gorsel_denetimi(g, [gorsel.kupon_gorseli(g, g["kuponlar"][0], 10000)], AYAR, Model())
-    assert sonuc == ["Bank shows 10,100 instead of 10,000."]
-    icerik = gonderilen["messages"][0]["content"]
-    assert icerik[0]["type"] == "image" and '"bank": 10000.0' in icerik[1]["text"] and gonderilen["model"] == AYAR.direktor_model
-
-
 def test_hashtag_yalniz_gercek_turnuvalar_ulkeye_gore():
     assert tweets.hashtag("UEFA Nations League") == "#NationsLeague"
     assert tweets.hashtag("UEFA Champions League Women") == "#UWCL"
@@ -1736,147 +514,6 @@ def test_takim_ve_mac_etiketleri_yaygin_olanlar():
     assert not direktor.kurala_uygun("Big one #Azzurri", "maclar", b, {"#NationsLeague", "#BizimÇocuklar"})  # şablonda yok
 
 
-def test_ayni_anda_sonuclanan_kuponlarda_her_post_kendi_kasasini_gosterir():
-    def kayit_(i, yayin, stake, durum):
-        g = _gun("2026-10-01", [_secim(i, 1.5, 0.7, durum=durum)], kuponlar=[[0]])
-        g.update(id=f"2026-10-01-{i}", yayin=yayin, sonuc="tamam")
-        g["kuponlar"][0]["stake"] = stake
-        return g
-    a = kayit_(1, "2026-10-01T12:00:00+00:00", 100.0, "kaybetti")
-    b = kayit_(2, "2026-10-01T15:00:00+00:00", 99.0, "kaybetti")
-    gunler = [b, a]
-    assert kayit.duyuru_sirasi(gunler) == [a, b]  # önce paylaşılan önce duyurulur
-    assert kayit.sonuc_ozeti(gunler, a, 10000)["kasa"] == pytest.approx(9900)  # b'nin kaybı a'nın postuna karışmaz
-    a["sonuc_tweet_id"] = "s1"
-    assert kayit.sonuc_ozeti(gunler, b, 10000)["kasa"] == pytest.approx(9801)  # a duyurulduktan sonra
-    # Zaman akışı: b önce duyurulduysa a'nın sonraki postu b'nin kaybını da içerir (kasa geri gitmez)
-    a.pop("sonuc_tweet_id"); b["sonuc_tweet_id"] = "s2"
-    assert kayit.sonuc_ozeti(gunler, a, 10000)["kasa"] == pytest.approx(9801)
-
-
-def test_dogru_tahmin_kotu_fiyat_paylasimi():
-    from bot import direktor, etkilesim
-    bahisci = AYAR.oran_bahiscileri[0]
-    oran = lambda m1, x, m2, u15: {"Pinnacle": {"MS1": m1, "MSX": x, "MS2": m2, "UST15": u15, "ALT15": 4.0},
-                                   bahisci: {"MS1": m1 - 0.03, "MSX": x, "MS2": m2, "UST15": u15 - 0.02, "ALT15": 3.8}}
-    maclar = [
-        {"fixture_id": 2, "lig_id": AYAR.ligler[0], "lig": "UNL", "ev": "Germany", "dep": "Serbia", "baslama": "2026-10-01T18:45:00+00:00"},
-        {"fixture_id": 3, "lig_id": AYAR.ligler[0], "lig": "UNL", "ev": "Greece", "dep": "Netherlands", "baslama": "2026-10-01T18:45:00+00:00"},
-        {"fixture_id": 4, "lig_id": AYAR.ligler[0], "lig": "UNL", "ev": "Wales", "dep": "Norway", "baslama": "2026-10-01T18:45:00+00:00"},
-    ]
-    oranlar = {2: oran(1.22, 6.5, 13.0, 1.18), 3: oran(3.4, 3.4, 2.2, 1.28), 4: oran(5.0, 4.2, 1.6, 1.25)}
-    vit = etkilesim.vitrin(maclar, oranlar, AYAR, datetime(2026, 10, 1, 8, tzinfo=timezone.utc))
-    alm = next(v for v in vit if v["ev"] == "Germany")
-    assert alm["kisa"]["ad"] in ("Germany to win", "Over 1.5 goals") and alm["kisa"]["p"] * alm["kisa"]["oran"] < 1
-    gun = {"tarih": "2026-10-01", "vitrin": vit}
-    metin = etkilesim.deger_tweeti(gun, AYAR, {"wales", "norway"})
-    assert "GOOD CALL, POOR PRICE" in metin and "Germany v Serbia" in metin and "Wales" not in metin
-    assert "fair" in metin and metin.endswith(tweets.ANSVAR) and tweets.uzunluk(metin) <= 280
-    assert direktor.kurala_uygun(metin, "deger", AYAR.oran_bahiscileri, set(__import__("re").findall(r"#\w+", metin)))
-    assert not direktor.kurala_uygun(metin.replace(tweets.ANSVAR, ""), "deger", AYAR.oran_bahiscileri)
-    # radar aynı maçları tekrar etmez
-    assert all(not v.get("kisa") for v in etkilesim.radar_maclari(vit))
-    o = etkilesim.olgular("deger", {**gun, "_haric": {"wales", "norway"}}, AYAR)
-    assert o["games"] and all(g["best_odds"] < g["fair_odds"] for g in o["games"])
-    tek = etkilesim.deger_tweeti({"tarih": "2026-10-01", "vitrin": [alm]}, AYAR)
-    assert "Germany v Serbia" in tek and "no coupon" in tek
-
-
-def test_kasa_kurusu_kurusuna_ve_denetim():
-    """1 Ekim vakası: kasa 9,972.41, kupon 99.72 × 2.016 = 201.04 döner, kâr 101.32 → 10,073.73. Ekranda önce → sonra
-    kuruşlu yazar (yuvarlanmış 9,972 + 101 ≠ 10,074 karışıklığı olmaz); bağımsız defter her kuruşu doğrular."""
-    from bot import denetci, gorsel
-    once = _gun("2026-10-01", [_secim(1, 1.46, 0.66)], kuponlar=[[0]])
-    once["kuponlar"][0].update(stake=100.0, kasa=10000.0)
-    kayit.sonuclandir([once], {1: {"durum": "bitti", "skor": (2, 1)}}, SIMDI)  # MS1 kazandı: +46
-    once["sonuc_tweet_id"] = "s1"
-    g = _gun("2026-10-01", [_secim(2, 1.4, 0.8, "UST15"), _secim(3, 1.44, 0.8, "UST25")], kuponlar=[[0, 1]])
-    g["kuponlar"][0].update(stake=100.46, kasa=10046.0)
-    g["id"], g["yayin"] = "2026-10-01-3", "2026-10-01T15:00:00+00:00"
-    kayit.sonuclandir([g], {2: {"durum": "bitti", "skor": (1, 1)}, 3: {"durum": "bitti", "skor": (0, 5)}}, SIMDI)
-    gunler = [once, g]
-    oz = kayit.sonuc_ozeti(gunler, g, 10000)
-    assert oz["onceki_kasa"] == 10046.0 and oz["kar"] == round(100.46 * 1.4 * 1.44 - 100.46, 2)
-    assert round(oz["onceki_kasa"] + oz["kar"], 2) == oz["kasa"]
-    metin = tweets.gorselli_sonuc_tweeti(g, oz)
-    assert "✅ Coupon won: +€202.53 back" in metin
-    assert "💰 Balance: €10,148.07" in metin and tweets.uzunluk(metin) <= 280
-    assert all(tweets.uzunluk(t) <= 280 for t in tweets.sonuc_tweetleri(g, oz))
-    assert gorsel.sonuc_gorseli(g, oz)[:4] == b"\x89PNG"
-    assert denetci.kasa_denetimi(gunler, 10000) == []
-    assert "her kuruş tutuyor" in denetci.kasa_defteri(gunler, 10000)
-    # bozulan kayıtlar yakalanır: yanlış ayak sonucu, %1 olmayan stake
-    g["secimler"][0]["durum"] = "kaybetti"
-    assert any("skora göre kazandi" in h for h in denetci.kasa_denetimi(gunler, 10000))
-    g["secimler"][0]["durum"] = "kazandi"
-    g["kuponlar"][0]["stake"] = 150.0
-    assert any("%1" in h for h in denetci.kasa_denetimi(gunler, 10000))
-
-
-def test_deger_postu_maclar_bitince_alintilanir():
-    from bot import direktor, etkilesim
-    vit = [{"fixture_id": 2, "ev": "Germany", "dep": "Serbia", "lig": "UEFA Nations League", "ulke": "World",
-            "baslama": "2026-10-01T18:45:00+00:00", "kisa": {"pazar": "MS1", "ad": "Germany to win", "p": 0.8, "oran": 1.2},
-            "p": {"MS1": 0.8, "MSX": 0.13, "MS2": 0.07}, "beklenen_gol": [2.9, 0.8], "olasi_skor": "2-0"},
-           {"fixture_id": 3, "odds_id": "abc", "odds_spor": "soccer_x", "ev": "Greece", "dep": "Netherlands",
-            "lig": "UEFA Nations League", "ulke": "World", "baslama": "2026-10-01T18:45:00+00:00",
-            "kisa": {"pazar": "UST15", "ad": "Over 1.5 goals", "p": 0.74, "oran": 1.3},
-            "p": {"MS1": 0.28, "MSX": 0.27, "MS2": 0.45}, "beklenen_gol": [1.3, 1.7], "olasi_skor": "1-1"}]
-    gun = {"tarih": "2026-10-01", "vitrin": vit, "secimler": [], "sonuc": None}
-    x = tweets.KonsolClient()
-    t = lambda s, d: datetime(2026, 10, 1, s, d, tzinfo=timezone.utc)
-    gun["etkilesim"] = {k: {"durum": "atlandi"} for k in ("maclar", "istatistik", "bilgi")}
-    assert etkilesim.paylas(gun, AYAR, x, t(15, 30), yaz=lambda m: None) == "deger"
-    e = gun["etkilesim"]["deger"]
-    assert [m["ev"] for m in e["maclar"]] == ["Germany", "Greece"] and e["maclar"][1]["odds_id"] == "abc"
-    istenen = []
-    def getir(maclar):
-        istenen.append(len(maclar))
-        return {2: {"durum": "bitti", "skor": (3, 0)}, 3: {"durum": "bitti", "skor": (1, 0)}}
-    assert not etkilesim.deger_takibi(gun, AYAR, x, t(20, 25), getir, yaz=lambda m: None) and not istenen  # erken
-    once = x.sayac
-    assert etkilesim.deger_takibi(gun, AYAR, x, t(21, 15), getir, yaz=lambda m: None)
-    assert x.sayac == once + 1 and e["takip"]["durum"] == "paylasildi"
-    metin = etkilesim.deger_takip_tweeti(gun, e["maclar"], "€")
-    assert "✅ Germany 3–0 Serbia · Germany to win" in metin and "❌ Greece 1–0 Netherlands · Over 1.5 goals" in metin
-    assert "1 of 2 came in" in metin and "-€80" in metin and metin.endswith(tweets.ANSVAR)
-    assert tweets.uzunluk(metin) <= 280 and direktor.kurala_uygun(metin, "deger_sonuc", AYAR.oran_bahiscileri)
-    assert not etkilesim.deger_takibi(gun, AYAR, x, t(22, 0), getir, yaz=lambda m: None)  # bir kez
-    tek = etkilesim.deger_takip_tweeti(gun, e["maclar"][:1], "€")
-    assert "HOW IT ENDED" in tek and "Our read was right, but €100 on it made just +€20." in tek and "skip it?" in tek
-
-
-def test_bakiye_cuzdan_gibi_stake_duser_kazanc_eklenir():
-    """3 kupon sırayla kalan bakiyenin %1'iyle oynanır; kupon kartı stake düşmüş bakiyeyi, sonuç kartı kazançta dönen
-    paranın eklendiği bakiyeyi gösterir; kayıpta bakiye aynı kalır."""
-    from bot import denetci
-    bas = 10174.89
-    gunler, bakiye_ = [], bas
-    for i, (oran, skor) in enumerate([(1.46, (2, 1)), (1.5, (0, 1)), (2.016, (3, 0))], 1):
-        g = _gun("2026-10-01", [_secim(i, oran, 0.7)], kuponlar=[[0]])
-        g["id"], g["yayin"] = f"2026-10-01-{i}", f"2026-10-01T1{i}:00:00+00:00"
-        stake = round(bakiye_ / 100, 2)
-        g["kuponlar"][0].update(stake=stake, kasa=bakiye_)
-        assert kayit.kupon_bakiyesi(g["kuponlar"][0], 0) == round(bakiye_ - stake, 2)  # kupon kartı
-        bakiye_ = round(bakiye_ - stake, 2)
-        gunler.append(g)
-    assert bakiye_ == 9872.69
-    for g, i in zip(gunler, (1, 2, 3)):
-        kayit.sonuclandir([g], {i: {"durum": "bitti", "skor": [(2, 1), (0, 1), (3, 0)][i - 1]}}, SIMDI)
-    # 1. kaybetti (MS1, skor 2-1 → aslında kazanır; testte kaybı 2. kupon sağlar)
-    sonuclar = []
-    for g in kayit.duyuru_sirasi(gunler):
-        assert denetci.kasa_denetimi(gunler, bas) == []
-        oz = kayit.sonuc_ozeti(gunler, g, bas)
-        sonuclar.append((kayit.kupon_durumu(g, g["kuponlar"][0]), oz["bakiye"], tweets.gorselli_sonuc_tweeti(g, oz)))
-        g["sonuc_tweet_id"] = "s"
-    (d1, b1, t1), (d2, b2, t2), (d3, b3, t3) = sonuclar
-    assert d1 == "tuttu" and b1 == round(9872.69 + tweets.donen(gunler[0], gunler[0]["kuponlar"][0]), 2)
-    assert d2 == "yatti" and b2 == b1 and "back" not in t2 and f"💰 Balance: €{b1:,.2f}" in t2  # kayıpta aynı
-    assert d3 == "tuttu" and b3 == round(b2 + tweets.donen(gunler[2], gunler[2]["kuponlar"][0]), 2)
-    assert b3 == kayit.kasa(gunler, bas)  # hepsi kapanınca bakiye = kasa
-
-
 def test_bilgi_postu_gunluk_dogru_ve_sayi_uydurulamaz():
     import math
     from bot import bilgi, direktor, etkilesim
@@ -1894,12 +531,11 @@ def test_bilgi_postu_gunluk_dogru_ve_sayi_uydurulamaz():
     # 20 konu her gün sırayla döner
     gunler_ = {bilgi.gunun_konusu(f"2026-10-{g:02d}")["id"] for g in range(1, 21)}
     assert len(gunler_) == len(bilgi.KONULAR) == 20
-    # günlük plan: kupon paylaşıldıktan 45 dk sonra, gün içinde bir kez (vitrin olmasa da)
-    gun = {"id": "2026-10-02", "tarih": "2026-10-02", "secimler": [], "sonuc": None, "tweet_id": None,
-           "yayin": "2026-10-02T10:50:00+00:00"}
+    # günlük plan: 09:00 UTC'den sonra, gün içinde bir kez (vitrin olmasa da)
+    gun = {"id": "2026-10-02", "tarih": "2026-10-02"}
     x = tweets.KonsolClient()
     t = lambda s, d: datetime(2026, 10, 2, s, d, tzinfo=timezone.utc)
-    assert etkilesim.paylas(gun, AYAR, x, t(11, 0)) is None
+    assert etkilesim.paylas(gun, AYAR, x, t(8, 50)) is None
     assert etkilesim.paylas(gun, AYAR, x, t(11, 40)) == "bilgi" and x.sayac == 1
     assert etkilesim.paylas(gun, AYAR, x, t(14, 0)) is None  # günde bir kez
     # direktör olgularda olmayan sayı yazarsa şablon gider
@@ -1918,13 +554,10 @@ def test_analiz_konsepti_kupon_hazirlamaz_ve_temizlik_partilerle_siler(monkeypat
     monkeypatch.setattr(temizlik, "DOSYA", tmp_path / "temizlik.json")
     monkeypatch.setattr(ana, "HATALAR", [])
     cagrilar = []
-    monkeypatch.setattr(ana, "tahmin", lambda *a, **k: cagrilar.append("tahmin"))
-    monkeypatch.setattr(ana, "sonuc", lambda *a: None)
     monkeypatch.setattr(ana, "_api", lambda ayar: None)
     monkeypatch.setattr(ana, "analiz_gunu", lambda *a: cagrilar.append("analiz"))
-    assert config.yukle().konsept == "analiz"
     ana.main(["otomatik"])
-    assert cagrilar == ["analiz"]  # kupon akışı çalışmadı
+    assert cagrilar == ["analiz"]  # sabah çalışması günün analizini hazırlar
 
     class X:
         def __init__(self):
@@ -1955,7 +588,7 @@ def test_analiz_konsepti_kupon_hazirlamaz_ve_temizlik_partilerle_siler(monkeypat
 
 def test_analiz_gunu_kartlar_ve_mac_sonu_takibi(monkeypatch, tmp_path):
     import bot.__main__ as ana
-    from bot import analiz, direktor, etkilesim, football, gorsel, panel
+    from bot import direktor, etkilesim, football, gorsel, panel
     monkeypatch.setattr(config, "DATA_FILE", tmp_path / "spel.json")
     pin = lambda m1, x, m2, u: {"Pinnacle": {"MS1": m1, "MSX": x, "MS2": m2, "UST25": u, "ALT25": 1 / (1 - 1 / u) + 0.05}}
     lig = AYAR.ligler[0]
@@ -2502,3 +1135,5 @@ def test_yeni_issue_eski_ayni_etiketlileri_kapatir():
     gh.s.kapanan.clear()
     gh.issue_ac("Onay", "govde", "onay")
     assert gh.s.kapanan == []  # listede olmayan etiketlere dokunulmaz
+
+

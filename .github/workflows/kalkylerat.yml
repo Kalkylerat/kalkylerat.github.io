@@ -5,20 +5,20 @@ on:
     # Günün analizi her gün sabah erken: Asya/Okyanusya'daki öğle maçları (ör. Japonya) da kart alsın.
     # Tam saat yerine :17 = GitHub'ın yoğun saatinde gecikme azalır. Atlanırsa nabız gün içinde tamamlar.
     - cron: "17 5 * * *"   # 07:17 İsveç yaz saati (kışın 06:17); config.SABAH_YEREL_DK ile aynı
-    # Nabız, 15 dakikada bir: süresi dolan onaylı kuponu paylaşır, biten maçların sonucunu (son maçtan ~15 dk
-    # sonra) paylaşır, Pazar akşamı haftalık özeti atar. API isteği yalnızca bitmiş olması gereken maçlar için.
+    # Nabız, 15 dakikada bir (nöbetçi ayrıca 7 dakikada bir başlatır): sıradaki analiz postu, maç sonu postları,
+    # Mr. Likely ve Tiny Fixes işleri. API isteği yalnızca bitmiş olması gereken maçlar için.
     - cron: "7,22,37,52 * * * *"  # çeyrek başları GitHub'ın en yoğun anı, gecikmesin
   issue_comment:
-    types: [created]  # onay isteğine "ok" / "iptal" cevabı; Mr. Likely paketine kupon seçimi
+    types: [created]  # Mr. Likely paketine sahibinin cevabı (kupon seçimi, "iptal")
   workflow_dispatch:
     inputs:
       komut:
         description: "Ne yapılsın?"
         type: choice
-        default: yayinla
-        options: [yayinla, profil, sonuc_yeniden, demo, nabiz, onay_yenile, onay_testi, onay_kontrol, onizleme, duzelt, yenile, sabit, hafta, oran_testi, otomatik, tahmin, sonuc, panel, tani, odds_tani, odds_pazar, vitrin, ek_kupon, af_pazar, ayir, kasa_duzelt, direktor, skor_duzelt, sonuc_duzelt, kasa_defteri, temizle, liste, kiyas, takip_yenile, metrik, hesap_kontrol, likely, likely_paket, likely_yetki, likely_ek, likely_yenile, likely_iptal, flood, flood_yetki, flood_ig, flood_tani, flood_paket, flood_site]
+        default: nabiz
+        options: [nabiz, otomatik, panel, tani, profil, oran_testi, onay_kontrol, odds_tani, odds_pazar, vitrin, af_pazar, direktor, temizle, liste, kiyas, takip_yenile, metrik, hesap_kontrol, likely, likely_paket, likely_yetki, likely_ek, likely_yenile, likely_iptal, flood, flood_yetki, flood_ig, flood_tani, flood_paket, flood_site]
       ek:
-        description: "Tek çalışmalık istisna (ör. guvenli_min_deger=-0.03 api_yedek=8) ya da likely_yetki için dönülen adres; boş bırakın"
+        description: "Tek çalışmalık istisna (ör. deger_min_deger=0.02), likely_iptal için kupon adı ya da likely_yetki için dönülen adres; boş bırakın"
         type: string
         default: ""
 
@@ -29,11 +29,11 @@ permissions:
 
 jobs:
   calistir:
-    # Yorumlarda yalnızca onay isteklerine ve Mr. Likely paketlerine tepki verilir.
-    # Yalnızca onay isteklerine, sahibinin/üyenin/ortağın yorumlarında (yabancı yorumlar sıradaki işleri iptal edemesin).
+    # Yorumlarda yalnızca Mr. Likely paketlerine, sahibinin/üyenin/ortağın yorumlarında tepki verilir
+    # (yabancı yorumlar sıradaki işleri iptal edemesin).
     if: >-
       github.event_name != 'issue_comment' ||
-      ((contains(github.event.issue.labels.*.name, 'onay') || contains(github.event.issue.labels.*.name, 'mr-likely')) &&
+      (contains(github.event.issue.labels.*.name, 'mr-likely') &&
        contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association))
     runs-on: ubuntu-24.04  # sabit sürüm: ubuntu-latest havuzu 5 Ekim akşamı iş almadı
     # İş düzeyinde: atlanan işler (yabancı yorumlar) sıradaki çalışmayı iptal edemez.
@@ -52,9 +52,9 @@ jobs:
       # Sırada bekleyen çalışma, tetiklendiği andaki değil en güncel kayıtla başlamalı.
       - run: git pull --ff-only origin "$GITHUB_REF_NAME"
       - run: pip install -r requirements.txt
-      # Testler hiçbir zaman gerçek onay isteği/önizleme bırakmasın.
+      # Testler çalışma alanında iz bırakmasın.
       - run: python -m pytest -q
-      - run: rm -f onay_istegi.md; git checkout -- docs ornek; git clean -fdq docs/onizleme
+      - run: git checkout -- docs
       - name: Botu çalıştır
         env:
           OLAY: ${{ github.event_name }}
@@ -117,28 +117,6 @@ jobs:
           name: tiny-fixes-paketler
           path: urun/*.pdf
           retention-days: 1
-      - name: Onay isteği aç
-        if: always() && hashFiles('onay_istegi.md') != ''
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          gh label create onay --color 19c37d --description "Paylaşım onayı" --force
-          # Dosyada birden fazla istek olabilir (kupon başına bir issue): ayraçla bölünür.
-          python - <<'PY'
-          import pathlib, subprocess, sys
-          hatali = []
-          for parca in pathlib.Path("onay_istegi.md").read_text(encoding="utf-8").split("<<<SONRAKI_ISTEK>>>\n"):
-              if not parca.strip():
-                  continue
-              baslik, _, govde = parca.partition("\n")
-              pathlib.Path("govde.md").write_text(govde, encoding="utf-8")
-              # Biri açılamazsa diğerleri yine açılsın; hata sonunda bildirilir.
-              if subprocess.run(["gh", "issue", "create", "--title", baslik, "--label", "onay", "--body-file", "govde.md"]).returncode:
-                  hatali.append(baslik)
-          if hatali:
-              print("::error::Onay isteği açılamadı: " + ", ".join(hatali))
-              sys.exit(1)
-          PY
       - name: Kayıt yedeği (push başarısız olursa)
         if: failure()
         uses: actions/upload-artifact@v4

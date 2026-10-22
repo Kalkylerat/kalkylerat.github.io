@@ -1,10 +1,8 @@
 """API-Football (api-sports.io) üzerinden maç, oran, istatistik ve sonuç toplama."""
 
-import json
 import re
 import time
 from datetime import datetime, timedelta, timezone
-from pathlib import Path
 
 import requests
 
@@ -85,41 +83,6 @@ class ApiFootball:
         raise ApiHatasi(f"API-Football: {path} için istek sınırı aşıldı")
 
 
-class DemoApi:
-    """Örnek veriyle çalışır; anahtar gerektirmez."""
-
-    def __init__(self, path: Path):
-        self.data = json.loads(path.read_text(encoding="utf-8"))
-        self.istek_sayisi = 0
-
-    def get_body(self, path: str, **params) -> dict:
-        self.istek_sayisi += 1
-        if path == "odds" and "date" in params:
-            kayitlar = [{**k[0], "fixture": {"id": int(ad.split(":")[1])}}
-                        for ad, k in self.data.items() if ad.startswith("odds:") and k]
-            return {"response": kayitlar, "paging": {"current": 1, "total": 1}}
-        return {"response": self.get(path, **params, _sayma=True)}
-
-    def get(self, path: str, _sayma: bool = False, **params) -> list:
-        if not _sayma:
-            self.istek_sayisi += 1
-        if path == "fixtures" and "id" in params:
-            return [f for f in self.data["sonuclar"] if f["fixture"]["id"] == int(params["id"])]
-        if path == "fixtures":
-            return self.data["fixtures"]
-        return self.data.get(f"{path}:{params.get('fixture')}", [])
-
-
-def kalan_istek(api) -> int | None:
-    """Bugün kalan API-Football isteği (/status hakka sayılmaz). Okunamazsa None."""
-    try:
-        durum = api.session.get(f"{BASE_URL}/status", timeout=30).json().get("response") or {}
-        istek = durum.get("requests") or {}
-        return int(istek["limit_day"]) - int(istek["current"])
-    except Exception:
-        return None
-
-
 def _f(x) -> float:
     try:
         return float(str(x).rstrip("%"))
@@ -176,40 +139,6 @@ def _bahisci_oranlari(kayitlar: list[dict]) -> dict[str, dict[str, float]]:
 def oranlari_al(api, fixture_id: int) -> dict[str, dict[str, float]]:
     """bahisçi adı -> {pazar kodu -> oran}. Tek istekte tüm bahisçiler gelir."""
     return _bahisci_oranlari(api.get("odds", fixture=fixture_id))
-
-
-def lig_lig_oranlar(api, maclar: list[dict], tarih: str, saat_dilimi: str, max_istek: int,
-                    oncelikli: list[int]) -> dict[int, dict[str, dict[str, float]]]:
-    """Ücretsiz plan toplu taramada en fazla 3 sayfa (30 maç) veriyor. Bunun yerine lig lig: her lig için
-    o günün oranları tek istekte (lig başına genelde tek sayfa). Önce izinli ligler, sonra maçı çok olanlar."""
-    from collections import Counter
-    sayim = Counter((m["lig_id"], m.get("sezon")) for m in maclar)
-    sira = {lig: i for i, lig in enumerate(oncelikli)}
-    ligler = sorted(sayim, key=lambda k: (sira.get(k[0], len(sira)), -sayim[k]))
-    sonuc: dict[int, dict[str, dict[str, float]]] = {}
-    istek = 0
-    for lig, sezon in ligler:
-        sayfa, toplam = 1, 1
-        while sayfa <= min(toplam, 3) and istek < max_istek:
-            try:
-                body = api.get_body("odds", league=lig, season=sezon, date=tarih, timezone=saat_dilimi, page=sayfa)
-            except ApiHatasi as e:
-                if "limit" in str(e).lower() and "page" not in str(e).lower():
-                    print(f"Lig lig tarama durdu (hak): {e}")
-                    return sonuc
-                print(f"Lig {lig} atlandı: {e}")
-                break
-            istek += 1
-            toplam = int((body.get("paging") or {}).get("total") or 1)
-            for kayit in body.get("response", []):
-                oranlar = _bahisci_oranlari([kayit])
-                if oranlar:
-                    sonuc[kayit["fixture"]["id"]] = oranlar
-            sayfa += 1
-        if istek >= max_istek:
-            break
-    print(f"Lig lig oran taraması: {istek} istek, {len(ligler)} ligden {len(sonuc)} maç")
-    return sonuc
 
 
 def toplu_oranlar(api, tarih: str, saat_dilimi: str, max_sayfa: int) -> dict[int, dict[str, dict[str, float]]]:
@@ -281,13 +210,6 @@ def istatistik_al(api, fixture_id: int) -> dict | None:
         "h2h_son5": h2h,
         "api_tavsiye": tahmin.get("advice"),
     }
-
-
-def sakatlari_al(api, fixture_id: int) -> list[str]:
-    return [
-        f'{i["team"]["name"]}: {i["player"]["name"]} ({i["player"].get("reason") or i["player"].get("type")})'
-        for i in api.get("injuries", fixture=fixture_id)
-    ]
 
 
 def mac_xg(api, fixture_id: int, ev: str | None = None) -> tuple[float, float] | None:

@@ -8,6 +8,8 @@
   yazma, Claude, API-Football) eklemeden önce günlük maliyetini hesapla; aynı veriyi iki kez okuma (önbellek, ortak
   arama), boş dönen sorguları tercih et, Claude sistem metnini önbellekte tut. Ucuzlatmak için kaliteden ödün verme.
 - X kuralları (SOZLESME.md D bölümü) her öneride önce kontrol edilir: otomatik takip/beğeni/başkalarına yanıt yok.
+- Projelerin güncel durumu, açık işler ve ana dala alınmamış dallar: `projeler/README.md`. Bir iş bitince ilgili
+  dosyanın Durum satırını güncelle.
 - Büyüme ve içerik soruları için `.claude/skills/sosyal-medya/SKILL.md`.
 - Saatlik sağlık kontrolü, alarmlar, workflow'lar ve paylaşım zamanlaması için `.claude/skills/nobet/SKILL.md`
   (hızlı durum: `python -m bot.durum`).

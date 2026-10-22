@@ -25,8 +25,9 @@
 - Sağlık kontrolü her nabızda: sorun olursa GitHub'da `alarm` etiketli issue açılır, sahibine bildirim gelir.
 - Saatlik Claude rutini ("Kalkylerat saatlik nöbet", Sonnet): `python -m bot.durum` ile kontrol eder, sorun varsa
   düzeltir ve telefona bildirim gönderir.
-- GitHub'da her gün `💬 Yanıt kiti` (elle yanıtlar için taslak) ve `🎩 Mr. Likely` issue'su, her Pazartesi X Direktörü
-  raporu açılır; yenisi açılınca eskisi kendiliğinden kapanır.
+- GitHub'da her gün `🚀 Yorum fırsatları` (büyük hesaplara elle cevap taslakları; fırsatlar kapalıyken yerine eski
+  `💬 Yanıt kiti`), `💬 Yorumlar` (postlarımıza gelen yorumlara taslak) ve `🎩 Mr. Likely` issue'su, her Pazartesi
+  X Direktörü raporu açılır; yenisi açılınca eskisi kendiliğinden kapanır.
 
 ## Anahtarlar (Settings → Secrets and variables → Actions)
 | İsim | Değer |

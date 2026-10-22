@@ -30070,7 +30070,8 @@
      "istatistik": 0.759,
      "uyum": true,
      "buyuk": false,
-     "no": 43
+     "no": 43,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1597945-CS1X",
@@ -31313,7 +31314,7 @@
    "oto": true,
    "issue": 117,
    "tazeleme": "2026-10-22T09:03:25+00:00",
-   "olcum_sorgu": "2026-10-22T19:36:17+00:00"
+   "olcum_sorgu": "2026-10-22T20:32:59+00:00"
   }
  ]
 }

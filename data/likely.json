@@ -30292,7 +30292,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 55
+     "no": 55,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1603065-IYA15",
@@ -30312,7 +30313,8 @@
      "istatistik": 0.789,
      "uyum": true,
      "buyuk": false,
-     "no": 56
+     "no": 56,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1636280-IYA15",
@@ -31184,7 +31186,7 @@
    "oto": true,
    "issue": 117,
    "tazeleme": "2026-10-22T09:03:25+00:00",
-   "olcum_sorgu": "2026-10-22T14:43:09+00:00"
+   "olcum_sorgu": "2026-10-22T15:43:25+00:00"
   }
  ]
 }

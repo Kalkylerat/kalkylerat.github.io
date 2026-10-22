@@ -122607,7 +122607,47 @@
               6
             ],
             "zaman": "2026-10-22T20:54:43+00:00"
+          },
+          "1636234": {
+            "durum": "paylasildi",
+            "tweet_id": "2113375217493958812",
+            "skor": [
+              2,
+              2
+            ],
+            "zaman": "2026-10-22T21:01:28+00:00"
+          },
+          "1636235": {
+            "durum": "paylasildi",
+            "tweet_id": "2113375218718642371",
+            "skor": [
+              3,
+              0
+            ],
+            "zaman": "2026-10-22T21:01:28+00:00"
+          },
+          "1636241": {
+            "durum": "paylasildi",
+            "tweet_id": "2113375220010529061",
+            "skor": [
+              2,
+              2
+            ],
+            "zaman": "2026-10-22T21:01:28+00:00"
+          },
+          "1636267": {
+            "durum": "paylasildi",
+            "tweet_id": "2113375221252083808",
+            "skor": [
+              3,
+              0
+            ],
+            "zaman": "2026-10-22T21:01:28+00:00"
           }
+        },
+        "takip": {
+          "durum": "tamam",
+          "zaman": "2026-10-22T21:01:28+00:00"
         }
       },
       "analiz_0": {
@@ -122995,13 +123035,43 @@
         "durum": "paylasildi",
         "tweet_id": "2113272867534012786",
         "zaman": "2026-10-22T14:14:44+00:00",
-        "metin": "4+ goals: 40%.\n\n🆚 Beşiktaş v Crystal Palace\n🏆 Beşiktaş 45% · Draw 23% · Crystal Palace 32%\n⚽ Over 2.5 goals 62% · Under 38%\n🥅 Both teams score 63% · Not both 37%\n📈 Team stats: too few games\n\n💬 Chances, not picks. Can Crystal Palace beat 32%? 👇\n#UEL\n18+ | Play responsibly"
+        "metin": "4+ goals: 40%.\n\n🆚 Beşiktaş v Crystal Palace\n🏆 Beşiktaş 45% · Draw 23% · Crystal Palace 32%\n⚽ Over 2.5 goals 62% · Under 38%\n🥅 Both teams score 63% · Not both 37%\n📈 Team stats: too few games\n\n💬 Chances, not picks. Can Crystal Palace beat 32%? 👇\n#UEL\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113375282719600944",
+          "skor": "2-2",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "xg": [
+            0.71,
+            0.42
+          ],
+          "zaman": "2026-10-22T21:01:28+00:00"
+        }
       },
       "analiz_19": {
         "durum": "paylasildi",
         "tweet_id": "2113278232619315627",
         "zaman": "2026-10-22T14:36:04+00:00",
-        "metin": "Most likely score: 1-1.\nEven that is only 11%.\n\n🆚 Bournemouth v AC Milan\n🏆 Bournemouth 49% · Draw 24% · AC Milan 27%\n⚽ Over 2.5 goals 55% · Under 45%\n🥅 Both teams score 57% · Not both 43%\n📈 Team stats: too few games\n\n💬 Not picks. What's your score? 👇\n18+ | Play responsibly"
+        "metin": "Most likely score: 1-1.\nEven that is only 11%.\n\n🆚 Bournemouth v AC Milan\n🏆 Bournemouth 49% · Draw 24% · AC Milan 27%\n⚽ Over 2.5 goals 55% · Under 45%\n🥅 Both teams score 57% · Not both 43%\n📈 Team stats: too few games\n\n💬 Not picks. What's your score? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113375319881031783",
+          "skor": "3-0",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "xg": [
+            3.18,
+            0.17
+          ],
+          "zaman": "2026-10-22T21:01:28+00:00"
+        }
       },
       "analiz_20": {
         "durum": "paylasildi",
@@ -123049,7 +123119,22 @@
         "durum": "paylasildi",
         "tweet_id": "2113295181168730244",
         "zaman": "2026-10-22T15:43:25+00:00",
-        "metin": "4+ goals: 42%.\n\n🆚 1899 Hoffenheim v Lyon\n🏆 1899 Hoffenheim 49% · Draw 22% · Lyon 28%\n⚽ Over 2.5 goals 64% · Under 36%\n🥅 Both teams score 64% · Not both 36%\n📈 Team stats: not enough games to compare with the odds\n\n💬 Not picks. What's your score? 👇\n18+ | Play responsibly"
+        "metin": "4+ goals: 42%.\n\n🆚 1899 Hoffenheim v Lyon\n🏆 1899 Hoffenheim 49% · Draw 22% · Lyon 28%\n⚽ Over 2.5 goals 64% · Under 36%\n🥅 Both teams score 64% · Not both 36%\n📈 Team stats: not enough games to compare with the odds\n\n💬 Not picks. What's your score? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113375365783523490",
+          "skor": "3-0",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "xg": [
+            2.12,
+            0.68
+          ],
+          "zaman": "2026-10-22T21:01:28+00:00"
+        }
       },
       "analiz_23": {
         "durum": "paylasildi",
@@ -123122,7 +123207,26 @@
         "durum": "paylasildi",
         "tweet_id": "2113314243642839113",
         "zaman": "2026-10-22T16:59:09+00:00",
-        "metin": "📈 The odds lean Benfica (72%).\nTeam stats lean Omonia Nicosia (43%).\n\n🆚 Omonia Nicosia v Benfica\n🏆 Omonia Nicosia 11% · Draw 17% · Benfica 72%\n⚽ Over 2.5 goals 61% · Under 39%\n🥅 Both teams score 50% · Not both 50%\n\n💬 Not picks. Odds or stats? 👇\n#UEL\n18+ | Play responsibly"
+        "metin": "📈 The odds lean Benfica (72%).\nTeam stats lean Omonia Nicosia (43%).\n\n🆚 Omonia Nicosia v Benfica\n🏆 Omonia Nicosia 11% · Draw 17% · Benfica 72%\n⚽ Over 2.5 goals 61% · Under 39%\n🥅 Both teams score 50% · Not both 50%\n\n💬 Not picks. Odds or stats? 👇\n#UEL\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113375382795649453",
+          "skor": "1-4",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "xg": [
+            0.91,
+            3.25
+          ],
+          "zaman": "2026-10-22T21:01:28+00:00",
+          "brier": {
+            "piyasa": 0.5243,
+            "istatistik": 1.147
+          }
+        }
       },
       "analiz_27": {
         "durum": "paylasildi",
@@ -123223,6 +123327,15 @@
               2
             ],
             "zaman": "2026-10-22T20:54:43+00:00"
+          },
+          "1636311": {
+            "durum": "paylasildi",
+            "tweet_id": "2113375239358849124",
+            "skor": [
+              1,
+              4
+            ],
+            "zaman": "2026-10-22T21:01:28+00:00"
           }
         }
       },

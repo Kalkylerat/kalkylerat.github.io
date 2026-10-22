@@ -17,9 +17,9 @@
 - Türkçe hesap avukat görüşüne kadar beklemede: `marka/TURKCE_HESAP_PLANI.md`.
 
 ## Açık işler
-- [ ] `claude/email-notification-cleanup-314g6n` dalını ana dala al (16 Ekim): X 5xx ya da "aynı metin" dönerse hesabın
-      son postlarına bakılır; bot alarmı yazdıysa çalışma başarısız sayılmaz; nöbetçi hata dizisi başına tek alarm açar;
-      tablo sonuçları nabız başına 5. SOZLESME C2'ye "tek kanal" eklenir.
+- [x] Bildirim düzeltmesi canlıda (22 Ekim): X 5xx ya da "aynı metin" dönerse hesabın son postlarına bakılır, aynı
+      hata için tek bildirim, tablo sonuçları nabız başına 5 (SOZLESME B2, C2).
+- [ ] Profildeki sabit tweet hâlâ "€10,000 challenge" ise `marka/PROFIL.md`'deki yeni metinle elle değiştir.
 - [ ] `MALIYET.md` (`ccr-53dc4a08-tzpiit`) ana dala alınsın mı?
 - [ ] Sahibine sorulacak (16 Ekim'den açık): kartı paylaşılmış ama başlamış maçların postları da yorum fırsatı olsun mu?
       Ek okuma maliyeti yok.

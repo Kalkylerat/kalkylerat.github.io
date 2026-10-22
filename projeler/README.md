@@ -6,7 +6,7 @@ güncelle.
 
 | Proje | Dosya | Durum | Sıradaki adım |
 |---|---|---|---|
-| Kalkylerat (analiz, X) | [kalkylerat.md](kalkylerat.md) | çalışıyor | e-posta yağmuru düzeltmesini ana dala al |
+| Kalkylerat (analiz, X) | [kalkylerat.md](kalkylerat.md) | çalışıyor | sabit tweeti elle yenile (`marka/PROFIL.md`) |
 | Mr. Likely (kupon, X) | [mr-likely.md](mr-likely.md) | çalışıyor, otomatik | sabah duyuru postunu ana dala al |
 | Tiny Fixes (yapay zekâ, X + Instagram) | [tiny-fixes.md](tiny-fixes.md) | kod hazır, `mod = "kapali"` | sahibinin kurulum adımları |
 | YouTube kanalı (Tiny Fixes) | [youtube.md](youtube.md) | tasarım | yüz düzeni kararı |
@@ -28,7 +28,6 @@ Bot `claude/twitter-football-predictions-ywwfxw` dalından çalışır. Aşağı
 
 | Dal | Tarih | İçerik |
 |---|---|---|
-| `claude/email-notification-cleanup-314g6n` | 16 Ekim | Bildirimler tek kanal (C2): X 503/kopya döngüsü, nöbetçi alarm yağmuru, tablo sonuç gecikmesi |
 | `claude/daily-coupon-teaser-2bolvm` | 21 Ekim | Mr. Likely sabah duyuru postu ("bugün N kupon"), testleriyle |
 | `ccr-53dc4a08-tzpiit` | 12 Ekim | `MALIYET.md` (aylık maliyet ve işletme devir notu) |
 | `claude/x-page-automation-monetization-7mjcki` | 8 Ekim | `marka/B2B_TEKLIF.md` (fikir, bot dışı) |
@@ -37,7 +36,8 @@ Bot `claude/twitter-football-predictions-ywwfxw` dalından çalışır. Aşağı
 | `claude/x-viral-content-system-97j6jh` | 15 Ekim | "Prompt Proof" ilk sürümü; yerini Tiny Fixes (PR #71) aldı, birleştirilmeyecek |
 | `ccr-a04ad725-brbtyt` | 16 Ekim | reverse-engineer-anything skill'i (morluto/rea), bot dışı |
 
-İlk ikisi doğrudan botu etkiler. Birleştirmeden önce ana dalla çakışmasına bakılmalı ve `python -m pytest -q` yeşil olmalı.
+22 Ekim: bildirim düzeltmesi (`claude/email-notification-cleanup-314g6n`) ve eski kupon/kasa temizliği canlıya alındı.
+Duyuru postu dalı doğrudan botu etkiler; sahibi şimdilik almamayı seçti (22 Ekim). Birleştirmeden önce ana dalla çakışmasına bakılmalı ve `python -m pytest -q` yeşil olmalı.
 
 ## Silinmeyecekler
 

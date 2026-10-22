@@ -192,6 +192,11 @@ def onemli(a: dict) -> bool:
         t.lower().strip() in MILLI_ETIKETLER or t.lower().strip() in KULUP_ETIKETLERI for t in (a["ev"], a["dep"]))
 
 
+def ayrisiyor(a: dict) -> bool:
+    """Oranla takım istatistiği ayrışıyor (kartın en güçlü hikâyesi): günlük kart sınırı dolarken önce bunlar (B6)."""
+    return hikaye(a)[0] in ("ayri", "fark")
+
+
 def one_cikanlar(analizler: list[dict], izinli: list[int], adet: int = 5) -> list[dict]:
     """X'te paylaşılacak maçlar: önce günün önemli maçları (Türkiye, büyük milli takımlar ve kulüpler), sonra izinli
     (büyük) ligler ve veri güveni yüksek olanlar; aynı saate yığılmasın diye farklı başlama saatleri tercih edilir."""
@@ -199,7 +204,8 @@ def one_cikanlar(analizler: list[dict], izinli: list[int], adet: int = 5) -> lis
     puan = {"yuksek": 0, "orta": 1, "dusuk": 2}
     aday = sorted((a for a in analizler if (a.get("lig_id") in sira or onemli(a)) and a["guven"] != "dusuk"
                    and _gecerli(a)),
-                  key=lambda a: (not onemli(a), puan[a["guven"]], sira.get(a.get("lig_id"), 99), a["baslama"]))
+                  key=lambda a: (not onemli(a), not ayrisiyor(a), puan[a["guven"]], sira.get(a.get("lig_id"), 99),
+                                 a["baslama"]))
     secilen: list[dict] = [a for a in aday if onemli(a)][:adet]  # önemli maçlar saat çakışsa da girer
     for a in aday:  # sonra farklı saatler
         if len(secilen) < adet and all(abs((datetime.fromisoformat(a["baslama"]) -
@@ -221,7 +227,7 @@ def ek_kart_secimi(analizler: list[dict], izinli: list[int], ek_ligler, haric: s
     aday = [a for a in analizler if a["fixture_id"] not in haric and _gecerli(a) and a["guven"] != "dusuk"
             and (a.get("lig_id") in sira or onemli(a))
             and datetime.fromisoformat(a["baslama"]) > datetime.fromisoformat(en_erken)]
-    aday.sort(key=lambda a: (not onemli(a), sira.get(a.get("lig_id"), 999), a["baslama"]))
+    aday.sort(key=lambda a: (not onemli(a), not ayrisiyor(a), sira.get(a.get("lig_id"), 999), a["baslama"]))
     secilen, sayac = [], {}
     for a in aday:  # büyük ve izinli liglerde lig sınırı yok (SÖZLEŞME B6); ek liglerde en fazla 2
         if len(secilen) < adet and (onemli(a) or a.get("lig_id") in izinli or sayac.get(a["lig"], 0) < 2):

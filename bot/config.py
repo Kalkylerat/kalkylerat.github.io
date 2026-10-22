@@ -34,7 +34,7 @@ class Ayarlar:
     # Yoğun gün (ör. maç dolu Cumartesi): postlar arası daha kısa, öne çıkan kart sayısı akşam maçlarıyla genişler.
     yogun_gunler: tuple = ()
     yogun_aralik_dk: int = 15
-    yogun_kart: int = 20
+    yogun_kart: int = 10
     yogun_ek_ligler: tuple = ()
     yogun_hafta_sonu: bool = False  # Cumartesi ve Pazar her zaman yoğun gün
     alarm_kime: str = ""
@@ -94,7 +94,7 @@ def _yukle(path: Path) -> Ayarlar:
         claude_model=t["claude"]["model"],
         yogun_gunler=tuple(str(g) for g in t.get("yogun", {}).get("gunler", [])),
         yogun_aralik_dk=int(t.get("yogun", {}).get("aralik_dk", 15)),
-        yogun_kart=int(t.get("yogun", {}).get("kart", 20)),
+        yogun_kart=int(t.get("yogun", {}).get("kart", 10)),
         yogun_ek_ligler=tuple(t.get("yogun", {}).get("ek_ligler", [])),
         yogun_hafta_sonu=bool(t.get("yogun", {}).get("hafta_sonu", False)),
         alarm_kime=str(t.get("alarm", {}).get("kime", "")),

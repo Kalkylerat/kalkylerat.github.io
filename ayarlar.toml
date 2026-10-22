@@ -62,7 +62,7 @@ hafta_sonu = true  # Cumartesi ve Pazar bütün gün maç var: her zaman yoğun
 # Her post farklı bir maç: aynı metin iki kez gitmez (X spam kuralı).
 aralik_dk = 13
 gunluk_sinir = 40
-kart = 30
+kart = 10  # günde en fazla 10 kart (SÖZLEŞME B4, sahibinin kararı 22 Ekim 2026)
 ek_ligler = [128, 71, 239, 253, 262, 479]  # Arjantin, Brezilya Serie A, Kolombiya, MLS, Liga MX, Kanada
 
 [alarm]

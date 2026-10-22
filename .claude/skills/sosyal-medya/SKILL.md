@@ -7,7 +7,7 @@ description: X (Twitter) büyüme ve içerik uzmanı — Kalkylerat hesabının 
 
 Hesap: @kalkylerat. İngilizce, geniş futbol kitlesi. **Konsept: analiz** (Ekim 2026'dan beri; kupon, stake,
 kasa yok). Her gün bütün maçlar analiz edilir (`bot/analiz.py`, data/analiz/<tarih>.json); X'te sabah tablosu, analiz
-kartları (`gorsel.analiz_karti`; yoğun günde 30'a kadar), maç bitince kartın alıntısıyla maç sonu postu
+kartları (`gorsel.analiz_karti`; günde en fazla 10, 22 Ekim 2026'dan beri; önce oranla istatistiğin ayrıştığı büyük maçlar), maç bitince kartın alıntısıyla maç sonu postu
 (`etkilesim.analiz_takibi`), tablo altına sonuç yanıtları, anket, günün maçları, iki bilgi postu. Kurallar SOZLESME.md.
 Plan: Türkçe hesap (@kalkyleratTR, altın palet) ve bütün analizler için ücretli kanal. Kupon yalnızca Mr. Likely'de.
 Bot: `bot/etkilesim.py` (paylaşım akışı), `bot/tweets.py` (metinler), `bot/gorsel.py` (görseller),

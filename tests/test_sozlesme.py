@@ -270,7 +270,7 @@ def test_B4_hafta_sonu_yogun_gun():
     assert config.yogun_mu(AYAR, "2026-10-03") and config.yogun_mu(AYAR, "2026-10-04")  # Cumartesi, Pazar
     assert not config.yogun_mu(AYAR, "2026-10-05")
     assert config.yogun_mu(AYAR, "2026-10-05", {"yogun": True})  # hafta içi maç çoksa da yoğun
-    assert 13 <= AYAR.yogun_aralik_dk <= 15 and AYAR.gunluk_post_siniri <= 40 and AYAR.yogun_kart >= 20
+    assert 13 <= AYAR.yogun_aralik_dk <= 15 and AYAR.gunluk_post_siniri <= 40 and AYAR.yogun_kart == 10
     # kart penceresi 8 saat: öğle boşluğunda akşam maçının kartı paylaşılabilir
     gun = {"tarih": "2026-10-03", "konsept": "analiz", "analizler": [mac(1, "France", "Italy", saat="18:45")]}
     erken, gec = next((e, l) for t, e, l in etkilesim._plan(gun) if t == "analiz_0")
@@ -304,6 +304,18 @@ def test_B6_buyuk_maclar_kart_ve_tabloda():
     assert {a["fixture_id"] for a in uluslar} <= kartlar
     ek = analiz.ek_kart_secimi(uluslar, AYAR.ligler, [], set(), "2026-10-03T08:00:00+00:00", adet=20)
     assert len(ek) == 8  # yoğun günde lig sınırı büyük maçı dışarıda bırakmaz
+    # 22 Ekim 2026: günde en fazla 10 kart; büyük maç fazlaysa önce oranla istatistiğin ayrıştığı maçlar
+    sakin = [dict(mac(70 + i, f"Calm{i}", f"Quiet{i}", saat="19:00", kars=False), lig_id=2) for i in range(12)]
+    ayrisan = dict(mac(90, "Split", "Read", saat="20:00"), lig_id=2)
+    ayrisan["karsilastirma"] = [{"pazar": "UST25", "ad": "Over 2.5 goals", "piyasa": ayrisan["p"]["UST25"],
+                                 "istatistik": round(ayrisan["p"]["UST25"] - 0.2, 3)}]
+    assert analiz.ayrisiyor(ayrisan) and not analiz.ayrisiyor(sakin[0])
+    assert 90 in {a["fixture_id"] for a in analiz.one_cikanlar(sakin + [ayrisan], AYAR.ligler)}  # sabah 5 kartında
+    assert analiz.ek_kart_secimi(sakin + [ayrisan], AYAR.ligler, [], set(), "2026-10-03T08:00:00+00:00", adet=1)[0]["fixture_id"] == 90
+    gun10 = {"tarih": "2026-10-03", "konsept": "analiz", "analizler": analiz.one_cikanlar(sakin + [ayrisan], AYAR.ligler)}
+    etkilesim.yogun_kartlari_ekle(gun10, sakin + [ayrisan] + uluslar, AYAR, datetime(2026, 10, 3, 8, 0, tzinfo=UTC))
+    assert len(gun10["analizler"]) == 10  # yoğun gün (Cumartesi): 21 büyük maçtan 10 kart
+    assert len(analiz.tablo_secimi(sakin + uluslar, AYAR.ligler)) == 15  # kartı olmayan büyük maçlar tabloda
     pl = [dict(mac(50 + i, f"Club{i}", f"Other{i}", saat="16:00", lig="Premier League"), lig_id=39) for i in range(6)]
     assert len(analiz.tablo_secimi(pl, AYAR.ligler)) == 6  # büyük ligde "lig başına 2" sınırı yok
     assert len(analiz.tablo_secimi(pl + uluslar + [dict(a, fixture_id=a["fixture_id"] + 100) for a in uluslar],

@@ -1,6 +1,6 @@
 # Kalkylerat (analiz hesabı, X)
 
-**Durum (22 Ekim 2026):** çalışıyor. `python -m bot.durum` → `SORUN YOK`; günde ~30 kart, hepsi zamanında.
+**Durum (22 Ekim 2026):** çalışıyor. `python -m bot.durum` → `SORUN YOK`; günde en fazla 10 kart (22 Ekim'den beri).
 
 ## Ne yapıyor
 - @kalkylerat, İngilizce. Sabah 05:17 UTC analizi; sabah tablosu, analiz kartları (oran ve takım istatistiği yan yana),
@@ -19,6 +19,9 @@
   (`analiz.hikaye`: oranla istatistik ayrışıyor / güçlü favori / açık maç / gollü maç / en olası skor). Kartta oran ve
   istatistik çubukları alt alta, kaç gol sütunları, en olası skorlar; renk tek anlam (ev mavi, deplasman turuncu, yeşil
   yalnızca "en olası"). Çifte şans ve takım golleri karttan çıktı. Direktör postu hikâyeyle açmazsa şablon gider.
+- Günde en fazla 10 kart (22 Ekim, sahibinin kararı; önceden yoğun günde 30): benzer postlar benzerlik cezası
+  alıyordu. Büyük maç fazlaysa önce oranla istatistiğin ayrıştığı maçlar; kartsız büyük maçlar tabloda (SOZLESME B4, B6).
+  Kart ve maç sonu postu azaldığı için günde ~40 post ve direktör çağrısı daha az.
 
 ## Açık işler
 - [ ] Yeni kartın etkisini ölç (22 Ekim'den): bir hafta sonra `metrik` (tek seferde ~100 post okuma, ~$0,50) ve

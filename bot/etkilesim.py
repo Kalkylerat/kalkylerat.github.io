@@ -220,7 +220,7 @@ def aksam_tablosu_ekle(gun: dict, tum: list[dict], ayar, simdi: datetime) -> int
 
 def yogun_kartlari_ekle(gun: dict, tum: list[dict], ayar, simdi: datetime) -> int:
     """Kart listesi ek liglerin maçlarıyla genişler (kart penceresi kapanmamış olanlar): yoğun günde
-    ayar.yogun_kart'a, sakin günde SAKIN_KART'a kadar (SÖZLEŞME B4, B7: hesap sessiz kalmaz). Var olan
+    ayar.yogun_kart'a (günde en fazla 10), sakin günde SAKIN_KART'a kadar (SÖZLEŞME B4, B7: hesap sessiz kalmaz). Var olan
     kartların sırası değişmez (etkileşim kayıtları analiz_<sıra> ile tutulur); yeniler sona eklenir."""
     if gun.get("konsept") != "analiz":
         return 0

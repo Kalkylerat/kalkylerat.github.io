@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><title>Yorum fırsatları Mr. Likely · 10:00 UTC</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{overflow-wrap:anywhere;margin:0;background:#000;color:#e7e9ea;font:16px/1.45 -apple-system,system-ui,Roboto,sans-serif}
+main{max-width:640px;margin:0 auto;padding:16px}h1{font-size:18px;margin:4px 0 4px}.not{color:#ffd166;margin:0 0 12px}
+.oge{border:1px solid #2f3336;border-radius:14px;padding:14px;margin:0 0 18px}.kim{color:#71767b;font-size:14px}
+.post{color:#c4c9cc;font-size:14px;margin:6px 0 10px;white-space:pre-wrap}.ac{color:#1d9bf0;font-size:14px}
+.taslak{background:#16181c;border-radius:12px;padding:12px;margin:10px 0 0}.metin{white-space:pre-wrap;margin:0 0 10px}
+button{width:100%;border:0;border-radius:999px;padding:13px;font-size:16px;font-weight:700;background:#1d9bf0;color:#fff}
+button.ikinci{background:#2f3336;margin-top:8px;font-weight:600}
+</style></head><body><main>
+<h1>Yorum fırsatları Mr. Likely · 10:00 UTC</h1><p class="not">⚠️ Önce X&#x27;te Mr. Likely hesabına geç: post X&#x27;te açık olan hesapla açılır.</p>
+<p class="kim">Düğme metni panoya kopyalar ve postu X'te açar. X'te <b>Yanıtla</b>'ya dokun, kutuya uzun basıp
+<b>Yapıştır</b>, sonra gönder.</p>
+<section class="oge"><div class="kim">1. @Ligue1_ENG · 1899 Hoffenheim v Lyon</div><p class="post">Lyon looking for a 3rd UEL win in their 3rd match tonight 🔥🦁 https://t.co/a852JiHgsV</p><a class="ac" href="https://x.com/Ligue1_ENG/status/2113208694263681298">Postu X'te gör</a><div class="taslak"><div class="kim">1. taslak</div><p class="metin">Three from three would be tidy. I&#x27;ve got Lyon at 28% tonight, so they&#x27;ve got a bit of work to do.</p><button onclick="kopyala(0,true,this)">📋 Kopyala ve postu aç</button><button class="ikinci" onclick="kopyala(0,false,this)">Sadece kopyala</button></div></section>
+<section class="oge"><div class="kim">2. @ChampionsLeague</div><p class="post">Rayan Cherki is box office 🤤
+
+#UCL https://t.co/aFshQCDKVE</p><a class="ac" href="https://x.com/ChampionsLeague/status/2113193983577088115">Postu X'te gör</a><div class="taslak"><div class="kim">1. taslak</div><p class="metin">Can&#x27;t argue with that. Dull coupon builder here, so watching him is basically my only thrill.</p><button onclick="kopyala(1,true,this)">📋 Kopyala ve postu aç</button><button class="ikinci" onclick="kopyala(1,false,this)">Sadece kopyala</button></div><div class="taslak"><div class="kim">2. taslak</div><p class="metin">Proper entertainer. What&#x27;s the one bit of skill from him you&#x27;d happily watch on a loop?</p><button onclick="kopyala(2,true,this)">📋 Kopyala ve postu aç</button><button class="ikinci" onclick="kopyala(2,false,this)">Sadece kopyala</button></div></section>
+</main><script>
+const V = [{"metin": "Three from three would be tidy. I've got Lyon at 28% tonight, so they've got a bit of work to do.", "url": "https://x.com/Ligue1_ENG/status/2113208694263681298"}, {"metin": "Can't argue with that. Dull coupon builder here, so watching him is basically my only thrill.", "url": "https://x.com/ChampionsLeague/status/2113193983577088115"}, {"metin": "Proper entertainer. What's the one bit of skill from him you'd happily watch on a loop?", "url": "https://x.com/ChampionsLeague/status/2113193983577088115"}];
+function kopyala(i, ac, btn) {
+  const t = V[i].metin, git = () => { if (ac) setTimeout(() => location.href = V[i].url, 350); };
+  const tamam = () => { btn.textContent = "✅ Kopyalandı" + (ac ? ", post açılıyor…" : ""); git(); };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(t).then(tamam, () => yedek(t, tamam));
+  } else { yedek(t, tamam); }
+}
+function yedek(t, tamam) {
+  const a = document.createElement("textarea"); a.value = t; document.body.appendChild(a); a.select();
+  try { document.execCommand("copy"); } catch (e) {} a.remove(); tamam();
+}
+</script></body></html>

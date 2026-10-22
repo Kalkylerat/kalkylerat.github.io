@@ -122464,6 +122464,67 @@
         "istatistik_kaynak": "lig"
       }
     ],
-    "etkilesim": {}
+    "etkilesim": {
+      "analiz_5": {
+        "durum": "paylasildi",
+        "tweet_id": "2113165911955829130",
+        "zaman": "2026-10-22T07:09:44+00:00",
+        "metin": "🆚 Kairat Almaty v Panathinaikos\n\n🏆 Kairat Almaty 20% · Draw 23% · Panathinaikos 57%\n⚽ Over 2.5 goals 52% · Under 48%\n🥅 Both teams score 51% · Not both 49%\n🎯 Most likely score: 0-1 (12%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+      },
+      "tablo": {
+        "durum": "paylasildi",
+        "tweet_id": "2113180272644497886",
+        "zaman": "2026-10-22T08:06:42+00:00",
+        "metin": "15 Europa League games on the board, every % in the image\n\n🆚 Juventus v Rennes\n🏆 Juventus 64% · Draw 20% · Rennes 16%\n\n🆚 Beşiktaş v Crystal Palace\n🏆 Beşiktaş 45% · Draw 23% · Crystal Palace 32%\n\n💬 Palace 32% away: too high or too low?\n\n#UEL #Juventus\n18+ | Play responsibly",
+        "maclar": [
+          1636215,
+          1636258,
+          1636262,
+          1636276,
+          1636280,
+          1636303,
+          1636330,
+          1636340,
+          1636234,
+          1636235,
+          1636241,
+          1636249,
+          1636267,
+          1636273,
+          1636288
+        ],
+        "sonuclar": {}
+      },
+      "analiz_0": {
+        "durum": "paylasildi",
+        "tweet_id": "2113190945877315910",
+        "zaman": "2026-10-22T08:49:12+00:00",
+        "metin": "🆚 Ararat-Armenia v AZ Alkmaar\n\n🏆 Ararat-Armenia 16% · Draw 19% · AZ Alkmaar 66%\n⚽ Over 2.5 goals 63% · Under 37%\n🥅 Both teams score 56% · Not both 43%\n🎯 Most likely score: 0-2 (10%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n#UEL\n18+ | Play responsibly"
+      },
+      "analiz_1": {
+        "durum": "paylasildi",
+        "tweet_id": "2113194522813337993",
+        "zaman": "2026-10-22T09:03:25+00:00",
+        "metin": "🆚 Dinamo Zagreb v NEC Nijmegen\n\n🏆 Dinamo Zagreb 59% · Draw 21% · NEC Nijmegen 20%\n⚽ Over 2.5 goals 61% · Under 39%\n🥅 Both teams score 58% · Not both 42%\n🎯 Most likely score: 2-1 (10%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+      },
+      "analiz_2": {
+        "durum": "paylasildi",
+        "tweet_id": "2113198193483960736",
+        "zaman": "2026-10-22T09:18:00+00:00",
+        "metin": "🆚 Ferencvarosi TC v Torreense\n\n🏆 Ferencvarosi TC 71% · Draw 18% · Torreense 11%\n⚽ Over 2.5 goals 60% · Under 40%\n🥅 Both teams score 50% · Not both 50%\n🎯 Most likely score: 2-0 (12%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n#UEL\n18+ | Play responsibly"
+      },
+      "analiz_3": {
+        "durum": "paylasildi",
+        "tweet_id": "2113201708968948004",
+        "zaman": "2026-10-22T09:31:58+00:00",
+        "metin": "🆚 Juventus v Rennes\n\n🏆 Juventus 64% · Draw 20% · Rennes 16%\n⚽ Over 2.5 goals 59% · Under 41%\n🥅 Both teams score 54% · Not both 46%\n🎯 Most likely score: 2-0 (10%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Juventus 64%: too high? 👇\n#UEL\n18+ | Play responsibly"
+      },
+      "analiz_4": {
+        "durum": "paylasildi",
+        "tweet_id": "2113205362727833805",
+        "zaman": "2026-10-22T09:46:30+00:00",
+        "metin": "🆚 Lech Poznan v Sunderland\n\n🏆 Lech Poznan 21% · Draw 23% · Sunderland 56%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 53% · Not both 47%\n🎯 Most likely score: 0-1 (11%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n#UEL\n18+ | Play responsibly"
+      }
+    }
   }
 ]

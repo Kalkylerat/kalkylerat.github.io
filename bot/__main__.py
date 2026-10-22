@@ -8,7 +8,7 @@ from collections import Counter
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-from . import analiz, config, denetci, direktor, etkilesim, flood, flood_ig, flood_yetki, football, gorsel, kayit, kit, likely, likely_gorsel, likely_yetki, oddsapi, onay, panel, saglik, temizlik, tweets, yorum, firsat
+from . import analiz, config, denetci, direktor, etkilesim, flood, flood_ig, flood_yetki, football, gorsel, kayit, kit, likely, likely_gorsel, likely_yetki, oddsapi, onay, panel, saglik, temizlik, tweets, yorum, firsat, sabit
 
 # Çalışma sırasında yakalanan hatalar: alarm issue'suna yazılır (SÖZLEŞME C2). Alarm iletilemediyse iş "başarısız"
 # işaretlenir; iletildiyse işaretlenmez: GitHub'ın "Run failed" e-postası ve nöbetçi alarmı aynı hatayı tekrarlamasın.
@@ -785,6 +785,11 @@ def main(argv=None) -> int:
                                  yazar=_direktor_yazar(ayar))
             except Exception as e:
                 _hata("Etkileşim paylaşımı", e)
+        if args.komut == "nabiz":  # profilin sabit tweeti: bir kez (sahibi elle sabitler; X API'de sabitleme yok)
+            try:
+                sabit.gonder(_x_client(), ayar, config.DATA_FILE.parent / "sabit_tweet.json", simdi, yaz=_ozet_yaz)
+            except Exception as e:
+                _hata("Sabit tweet", e)
         if args.komut in ("nabiz", "otomatik") and os.environ.get("GH_TOKEN") and kayit.bul(gunler, bugun) \
                 and simdi.hour >= 7 and not (firsat.ayar_yukle().aktif and firsat.ayar_yukle().gunluk_yorum > 0):
             # Yorum fırsatları açıkken eski yanıt kiti (arama bağlantıları) gönderilmez: fırsatlar postun kendisini getirir

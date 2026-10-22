@@ -12,30 +12,33 @@ Bu dosyadaki metinleri olduğu gibi kopyalayın. Görseller bu klasörde: `logo.
 | Web sitesi | `https://kalkylerat.github.io/` (taşıma adımlarından sonra) |
 | Dil | English |
 
-## Biyografi (Bio)
+## Biyografi (Bio) — 22 Ekim 2026, yeni konum
 
 ```
-Data-driven football analysis: probabilities for every market and the most likely scores, every day. Every call checked at full time. Not betting advice. 18+
+Football chances from the odds, in plain numbers. A fair price for every result. Every result shown after full time. Chances, not picks. 18+
 ```
 
-## Sabitlenmiş tweet (elle atıp profilde sabitleyin)
+## Sabitlenmiş tweet
 
-Eski "€10,000 challenge" sabit tweeti kupon döneminden kaldı (1 Ekim 2026'ya kadar); profilde hâlâ duruyorsa bununla
-değiştirin:
+Bot bunu nabızla bir kez paylaşır (`bot/sabit.py`, kayıt `data/sabit_tweet.json`); X API'de sabitleme olmadığı için
+profilde elle sabitleyin (postta ••• → "Profiline sabitle"). Eski sabit tweeti kaldırın.
 
 ```
-Every match, analysed every day 📊
+How likely is it, really?
 
-• Chances for every market and the most likely scores
-• The odds and the team stats side by side
-• Checked at full time, misses included
-• Every Monday: how close the numbers came
+Big games in plain numbers:
+– chances from the odds, no margin
+– a fair price for each result
+– the bookmakers' cut
+– at full time: what happened and its chance
 
-Probabilities, not picks. Not betting advice.
-18+
+Mondays: what we said vs what happened.
+
+Chances, not picks.
+18+ | Play responsibly
 ```
 
-270/280 karakter (`tweets.uzunluk`).
+272/280 karakter (`tweets.uzunluk`).
 
 ## Zorunlu ayar
 

@@ -1195,3 +1195,15 @@ def test_takim_ulkeleri_onbellekli_ve_sinirli(tmp_path):
     assert football.ulkeleri_doldur(api, a, dosya, hak=2) == 1 and api.n == 3  # önbellekteki tekrar sorulmaz
     assert etkilesim.mac_satiri(a[0]) == "🇵🇱 Jagiellonia v Anderlecht 🇧🇪"
     assert etkilesim.mac_satiri(a[1]) == "🆚 X v Y"  # bilinmeyen ülke: yanlış bayrak yerine hiç
+
+
+def test_sabit_tweet_bir_kez_ve_kurala_uygun(tmp_path):
+    """22 Ekim 2026: yeni konumun sabit tweeti nabızla bir kez gider; kurala uymayan metin gitmez."""
+    from bot import sabit
+    x = tweets.KonsolClient()
+    dosya = tmp_path / "sabit_tweet.json"
+    simdi = datetime(2026, 10, 22, 18, 0, tzinfo=timezone.utc)
+    assert sabit.kurala_uygun(sabit.METIN, AYAR) and tweets.uzunluk(sabit.METIN) <= 280
+    assert sabit.gonder(x, AYAR, dosya, simdi, yaz=lambda m: None) and x.sayac == 1
+    assert sabit.gonder(x, AYAR, dosya, simdi, yaz=lambda m: None) is None and x.sayac == 1  # ikinci kez gitmez
+    assert not sabit.kurala_uygun("A lock tonight, bet now!\n" + tweets.ANSVAR, AYAR)

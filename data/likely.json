@@ -30486,8 +30486,20 @@
        "oran": 1.17,
        "olasilik": 0.831,
        "deger": -0.028,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-1",
+       "goller": [
+        [
+         67,
+         0,
+         "dep"
+        ],
+        [
+         76,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1636385-CS1X",
@@ -30824,8 +30836,30 @@
        "oran": 1.14,
        "olasilik": 0.857,
        "deger": -0.023,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "2-2",
+       "goller": [
+        [
+         5,
+         0,
+         "ev"
+        ],
+        [
+         15,
+         0,
+         "dep"
+        ],
+        [
+         43,
+         0,
+         "dep"
+        ],
+        [
+         67,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1636308-CS1X",

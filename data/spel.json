@@ -122553,6 +122553,33 @@
               2
             ],
             "zaman": "2026-10-22T18:38:52+00:00"
+          },
+          "1636276": {
+            "durum": "paylasildi",
+            "tweet_id": "2113341152955134156",
+            "skor": [
+              2,
+              2
+            ],
+            "zaman": "2026-10-22T18:46:07+00:00"
+          },
+          "1636330": {
+            "durum": "paylasildi",
+            "tweet_id": "2113341154175648210",
+            "skor": [
+              4,
+              0
+            ],
+            "zaman": "2026-10-22T18:46:07+00:00"
+          },
+          "1636340": {
+            "durum": "paylasildi",
+            "tweet_id": "2113341155643740394",
+            "skor": [
+              1,
+              0
+            ],
+            "zaman": "2026-10-22T18:46:07+00:00"
           }
         }
       },
@@ -122623,7 +122650,22 @@
         "durum": "paylasildi",
         "tweet_id": "2113201708968948004",
         "zaman": "2026-10-22T09:31:58+00:00",
-        "metin": "🆚 Juventus v Rennes\n\n🏆 Juventus 64% · Draw 20% · Rennes 16%\n⚽ Over 2.5 goals 59% · Under 41%\n🥅 Both teams score 54% · Not both 46%\n🎯 Most likely score: 2-0 (10%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Juventus 64%: too high? 👇\n#UEL\n18+ | Play responsibly"
+        "metin": "🆚 Juventus v Rennes\n\n🏆 Juventus 64% · Draw 20% · Rennes 16%\n⚽ Over 2.5 goals 59% · Under 41%\n🥅 Both teams score 54% · Not both 46%\n🎯 Most likely score: 2-0 (10%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Juventus 64%: too high? 👇\n#UEL\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113341195741213114",
+          "skor": "2-2",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "xg": [
+            2.25,
+            1.75
+          ],
+          "zaman": "2026-10-22T18:46:07+00:00"
+        }
       },
       "analiz_4": {
         "durum": "paylasildi",
@@ -122677,7 +122719,22 @@
         "durum": "paylasildi",
         "tweet_id": "2113217233220702460",
         "zaman": "2026-10-22T10:33:26+00:00",
-        "metin": "🆚 Union SG v Hapoel Beer Sheva\n\n🏆 Union SG 71% · Draw 17% · Beer Sheva 12%\n⚽ Over 2.5 goals 64% · Under 36%\n🥅 Both teams score 54% · Not both 46%\n🎯 Top score 2-0 (11%)\n\n📈 Stats: too few games\n\n💬 Is 54% for both to score too high?\n18+ | Play responsibly"
+        "metin": "🆚 Union SG v Hapoel Beer Sheva\n\n🏆 Union SG 71% · Draw 17% · Beer Sheva 12%\n⚽ Over 2.5 goals 64% · Under 36%\n🥅 Both teams score 54% · Not both 46%\n🎯 Top score 2-0 (11%)\n\n📈 Stats: too few games\n\n💬 Is 54% for both to score too high?\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113341211851567444",
+          "skor": "4-0",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "xg": [
+            2.76,
+            0.65
+          ],
+          "zaman": "2026-10-22T18:46:07+00:00"
+        }
       },
       "analiz_8": {
         "durum": "paylasildi",
@@ -122704,7 +122761,22 @@
         "durum": "paylasildi",
         "tweet_id": "2113224281530499402",
         "zaman": "2026-10-22T11:01:40+00:00",
-        "metin": "🆚 FK Crvena Zvezda v FC Copenhagen\n\n🏆 FK Crvena Zvezda 43% · Draw 24% · FC Copenhagen 32%\n⚽ Over 2.5 goals 57% · Under 43%\n🥅 Both teams score 59% · Not both 41%\n\n📈 Team stats: too few recent games\n\n💬 Not picks. More or fewer than 2.5 goals? 👇\n#UECL\n18+ | Play responsibly"
+        "metin": "🆚 FK Crvena Zvezda v FC Copenhagen\n\n🏆 FK Crvena Zvezda 43% · Draw 24% · FC Copenhagen 32%\n⚽ Over 2.5 goals 57% · Under 43%\n🥅 Both teams score 59% · Not both 41%\n\n📈 Team stats: too few recent games\n\n💬 Not picks. More or fewer than 2.5 goals? 👇\n#UECL\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113341224791019631",
+          "skor": "2-2",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "xg": [
+            0.41,
+            0.25
+          ],
+          "zaman": "2026-10-22T18:46:07+00:00"
+        }
       },
       "analiz_10": {
         "durum": "paylasildi",
@@ -122827,19 +122899,64 @@
         "durum": "paylasildi",
         "tweet_id": "2113253167504687246",
         "zaman": "2026-10-22T12:56:27+00:00",
-        "metin": "🆚 FC Nordsjaelland v CSKA Sofia\n\n🏆 FC Nordsjaelland 66% · Draw 19% · CSKA Sofia 15%\n⚽ Over 2.5 goals 61% · Under 39%\n🥅 Both teams score 55% · Not both 46%\n🎯 Most likely score: 2-0 (10%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "🆚 FC Nordsjaelland v CSKA Sofia\n\n🏆 FC Nordsjaelland 66% · Draw 19% · CSKA Sofia 15%\n⚽ Over 2.5 goals 61% · Under 39%\n🥅 Both teams score 55% · Not both 46%\n🎯 Most likely score: 2-0 (10%)\n\n📈 Team stats: too few recent games\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113341267660959979",
+          "skor": "2-2",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "xg": [
+            1.18,
+            1.02
+          ],
+          "zaman": "2026-10-22T18:46:07+00:00"
+        }
       },
       "analiz_16": {
         "durum": "paylasildi",
         "tweet_id": "2113256748794703889",
         "zaman": "2026-10-22T13:10:42+00:00",
-        "metin": "🆚 Pafos v Riga\n\n🏆 Pafos 61% · Draw 22% · Riga 18%\n⚽ Over 2.5 goals 55% · Under 45%\n🥅 Both teams score 53% · Not both 47%\n🎯 Most likely score: 1-0 (11%)\n\n📈 Team stats: not enough recent games to compare with the odds\n\n💬 Not picks. Your read? 👇\n#UECL\n18+ | Play responsibly"
+        "metin": "🆚 Pafos v Riga\n\n🏆 Pafos 61% · Draw 22% · Riga 18%\n⚽ Over 2.5 goals 55% · Under 45%\n🥅 Both teams score 53% · Not both 47%\n🎯 Most likely score: 1-0 (11%)\n\n📈 Team stats: not enough recent games to compare with the odds\n\n💬 Not picks. Your read? 👇\n#UECL\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113341329610862956",
+          "skor": "1-1",
+          "isabet": [
+            false,
+            false,
+            true
+          ],
+          "xg": [
+            1.2,
+            1.59
+          ],
+          "zaman": "2026-10-22T18:46:07+00:00"
+        }
       },
       "analiz_17": {
         "durum": "paylasildi",
         "tweet_id": "2113262129482465470",
         "zaman": "2026-10-22T13:32:05+00:00",
-        "metin": "🆚 Trabzonspor v Heart Of Midlothian\n\n🏆 Trabzonspor 73% · Draw 16% · Heart Of Midlothian 11%\n⚽ Over 2.5 goals 67% · Under 33%\n🥅 Both teams score 55% · Not both 45%\n\n📈 Team stats: too few recent games\n\n💬 Chances, not picks. What's your score? 👇\n#UECL\n18+ | Play responsibly"
+        "metin": "🆚 Trabzonspor v Heart Of Midlothian\n\n🏆 Trabzonspor 73% · Draw 16% · Heart Of Midlothian 11%\n⚽ Over 2.5 goals 67% · Under 33%\n🥅 Both teams score 55% · Not both 45%\n\n📈 Team stats: too few recent games\n\n💬 Chances, not picks. What's your score? 👇\n#UECL\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113341345796653071",
+          "skor": "2-0",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "xg": [
+            1.49,
+            0.64
+          ],
+          "zaman": "2026-10-22T18:46:07+00:00"
+        }
       },
       "anket": {
         "durum": "paylasildi",

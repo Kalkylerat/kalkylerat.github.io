@@ -10,6 +10,7 @@ import json
 import math
 import re
 import tomllib
+import unicodedata
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 
@@ -79,10 +80,32 @@ MAC_DILI = re.compile(r"\b(tonight|today|v|vs|versus|against|clash|fixture|kick-
                       r"preview|team news|matchday|travel to|host|face)\b", re.IGNORECASE)
 
 
+def _sade(ad: str) -> str:
+    """Harf ve rakamlar, aksansız, küçük harf ("Bayern München" → "bayernmunchen")."""
+    return re.sub(r"[^a-z0-9]", "", unicodedata.normalize("NFKD", ad.lower()).encode("ascii", "ignore").decode())
+
+
+# Kulüp hesap adlarındaki ekler (@SunderlandAFC, @AS_Monaco_EN, @ChelseaFC, @FCBayernEN)
+HESAP_ON = ("", "fc", "afc", "as", "ac", "ss", "ssc", "sc", "cf")
+HESAP_SON = ("", "fc", "afc", "cf", "en", "eng", "official", "hq")
+
+
+def _hesap_adlari(h: str) -> set[str]:
+    """@hesabın ekleri atılmış olası kulüp adları."""
+    return {h[len(o):len(h) - len(s)] for o in HESAP_ON for s in HESAP_SON
+            if h.startswith(o) and h.endswith(s) and len(h) - len(o) - len(s) >= 3}
+
+
 def _konum(takim: str, metin: str) -> int | None:
-    """Takımın postta ilk geçtiği yer (resmi ad ya da bilinen kısa adı, tam kelime); geçmiyorsa None."""
-    yerler = [m.start() for ad in [takim.lower(), *TAKMA_ADLAR.get(takim.lower(), [])]
-              for m in [re.search(rf"(?<!\w){re.escape(ad)}(?!\w)", metin.lower())] if m]
+    """Takımın postta ilk geçtiği yer: resmi ad ya da bilinen kısa adı (tam kelime) ya da kulübün @hesabı
+    (15 Ekim: "@SunderlandAFC" etiketli post Sunderland maçına eşleşmiyordu); geçmiyorsa None."""
+    adlar = [takim.lower(), *TAKMA_ADLAR.get(takim.lower(), [])]
+    yerler = [m.start() for ad in adlar for m in [re.search(rf"(?<!\w){re.escape(ad)}(?!\w)", metin.lower())] if m]
+    anahtarlar = {_sade(ad) for ad in adlar} - {""}
+    for m in re.finditer(r"@(\w+)", metin):
+        h = _sade(m.group(1))
+        if _hesap_adlari(h) & anahtarlar:
+            yerler.append(m.start())
     return min(yerler) if yerler else None
 
 

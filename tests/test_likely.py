@@ -1000,3 +1000,23 @@ def test_E5_veri_hatasi_iptal_mac_baslamadan_siler_karneye_girmez(oto):
     idler = {a["fixture_id"] for s in gun["iptal_edilen"] for a in s["ayaklar"]}
     likely.sonuclar(AYAR, bitir({f: (2, 0) for f in idler}), oto, ilk + timedelta(hours=14))
     assert likely.karne(likely.yukle())["kupon"] == 0  # iptal edilen kupon sayılmaz
+
+
+def test_bilgi_postu_x_kopya_reddinde_dongu_ve_alarm_yok(oto):
+    """15 Ekim 19:05: X bilgi postunu atıp 503 döndü; sonraki her nabız 403 "duplicate content" aldı ve 2 saatte 18 alarm
+    açıldı. X aynı metni reddederse post atlanır (tekrar denenmez, hata yükselmez)."""
+    from bot.tweets import KopyaPost
+
+    class KopyaX(SahteX):
+        def gonder(self, metin, **k):
+            self.denemeler = getattr(self, "denemeler", 0) + 1
+            raise KopyaPost('X API hatası 403: {"detail":"You are not allowed to create a Tweet with duplicate content."}')
+    x = KopyaX()
+    gun = likely.yukle()["gunler"][0]
+    zamanlar = [datetime.fromisoformat(k["paylas"]) for k in gun["secilen"]]
+    uzak = next(t for t in (SIMDI.replace(hour=8) + timedelta(minutes=10 * i) for i in range(60))
+                if all(abs((t - z).total_seconds()) >= 60 * OTO.oto_bilgi_aralik_dk for z in zamanlar))
+    assert likely.oto_bilgi(AYAR, x, uzak) is False and x.denemeler == 1
+    assert likely.yukle()["gunler"][0]["bilgi"][0]["tweet_id"] == "tekrar"
+    likely.oto_bilgi(AYAR, x, uzak + timedelta(minutes=7))
+    assert x.denemeler == 1  # aynı post bir daha denenmez

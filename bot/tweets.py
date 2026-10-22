@@ -1,5 +1,10 @@
 """Tweet metni yardımcıları (uzunluk, etiket, sorumluluk satırı) ve X API v2 istemcisi."""
 
+import html
+import re
+import time
+from datetime import datetime, timedelta, timezone
+
 from requests_oauthlib import OAuth1Session
 
 
@@ -128,8 +133,22 @@ def yuzde(p: float) -> str:
     return f"{100 * p:.0f}%"
 
 
+class KopyaPost(RuntimeError):
+    """X aynı metni reddetti (403 "duplicate content") ve post son bir günde bu hesapta yok: yeniden denemek boşuna."""
+
+
+def _ayni_metin(a: str, b: str) -> bool:
+    """X'in döndürdüğü metin (HTML kaçışlı, görsel/alıntı bağlantısı eklenmiş) gönderdiğimizle aynı mı?"""
+    def sade(m: str) -> str:
+        return " ".join(re.sub(r"https?://\S+", "", html.unescape(m)).split())
+    return sade(a) == sade(b)
+
+
 class XClient:
     URL = "https://api.x.com/2/tweets"
+    # X bazen postu atıp 5xx döndürüyor (15 Ekim 19:05: Mr. Likely bilgi postu 503 aldı ama paylaşılmıştı; sonraki her
+    # nabız 403 "duplicate content" aldı, 2 saatte 18 alarm). Hata kodunda önce hesabın son postlarına bakılır.
+    BEKLE_SN = (5, 15)
 
     def __init__(self, api_key: str, api_secret: str, access_token: str, access_secret: str):
         self.session = OAuth1Session(api_key, api_secret, access_token, access_secret)
@@ -160,8 +179,34 @@ class XClient:
             body["media"] = {"media_ids": list(medya)[:4]}
         r = self.session.post(self.URL, json=body, timeout=30)
         if r.status_code >= 400:
-            raise RuntimeError(f"X API hatası {r.status_code}: {r.text}")
+            kopya = r.status_code == 403 and "duplicate content" in r.text
+            if kopya or r.status_code >= 500:  # post belki X'te: yalnızca hata anında okunur (~10 post, nadir)
+                onceki = self.zaten_atilmis(metin, timedelta(days=1) if kopya else timedelta(minutes=10),
+                                            bekle=() if kopya else self.BEKLE_SN)
+                if onceki:
+                    return onceki
+            raise (KopyaPost if kopya else RuntimeError)(f"X API hatası {r.status_code}: {r.text}")
         return r.json()["data"]["id"]
+
+    def zaten_atilmis(self, metin: str, sure: timedelta, bekle: tuple = ()) -> str | None:
+        """Bu metin son `sure` içinde hesapta paylaşılmışsa kimliği. 5xx sonrası X postu birkaç saniye geç
+        gösterebilir: `bekle` saniyelerinde tekrar bakılır. Okunamazsa None (asıl hata bildirilir)."""
+        simdi = datetime.now(timezone.utc)
+        for sn in (0, *bekle):
+            time.sleep(sn)
+            try:
+                if not getattr(self, "_kimlik", None):
+                    self._kimlik = self.session.get("https://api.x.com/2/users/me", timeout=30).json()["data"]["id"]
+                r = self.session.get(f"https://api.x.com/2/users/{self._kimlik}/tweets", timeout=30,
+                                     params={"max_results": 10, "tweet.fields": "created_at"})
+                postlar = r.json().get("data", []) if r.status_code < 400 else []
+            except Exception:
+                postlar = []
+            for t in postlar:
+                zaman = datetime.fromisoformat(t["created_at"].replace("Z", "+00:00"))
+                if simdi - zaman <= sure and _ayni_metin(t.get("text", ""), metin):
+                    return t["id"]
+        return None
 
     def tum_tweet_idleri(self, adet: int = 100) -> list[str]:
         """Hesabın en yeni postları (yanıtlar dahil), en fazla `adet` kadar kimlik."""

@@ -10,7 +10,8 @@ from zoneinfo import ZoneInfo
 
 from . import analiz, config, denetci, direktor, etkilesim, flood, flood_ig, flood_yetki, football, gorsel, kayit, kit, likely, likely_gorsel, likely_yetki, oddsapi, onay, panel, saglik, temizlik, tweets, yorum, firsat
 
-# Çalışma sırasında yakalanan hatalar: iş sonunda "başarısız" işaretlenir, GitHub sahibine e-posta atar.
+# Çalışma sırasında yakalanan hatalar: alarm issue'suna yazılır (SÖZLEŞME C2). Alarm iletilemediyse iş "başarısız"
+# işaretlenir; iletildiyse işaretlenmez: GitHub'ın "Run failed" e-postası ve nöbetçi alarmı aynı hatayı tekrarlamasın.
 HATALAR: list[str] = []
 
 
@@ -912,6 +913,7 @@ def main(argv=None) -> int:
         if args.komut in ("onay_kontrol", "nabiz", "flood") and os.environ.get("GH_TOKEN"):
             flood_nabiz(ayar, simdi)
     finally:
+        alarm_iletildi = False
         # Tweet atıldıktan sonra hata olsa bile kimlikler kaydedilir; tekrar paylaşım olmaz.
         kayit.kaydet(config.DATA_FILE, gunler)
         panel.olustur(gunler, config.PANEL_FILE, ayar)
@@ -920,9 +922,16 @@ def main(argv=None) -> int:
             try:
                 saglik.bildir(saglik.sorunlar(gunler, simdi, ayar, HATALAR), onay.GitHub(), ayar.alarm_kime, simdi,
                               yaz=_ozet_yaz)
+                alarm_iletildi = True
             except Exception as e:
                 _ozet_yaz(f"⚠️ Alarm bildirilemedi: {e}")
-    return 1 if HATALAR else 0
+    return cikis_kodu(HATALAR, alarm_iletildi)
+
+
+def cikis_kodu(hatalar: list[str], alarm_iletildi: bool) -> int:
+    """Hata alarm issue'suna yazıldıysa 0: sahibine tek kanaldan, bir kez (SÖZLEŞME C2). Yazılamadıysa 1: iş
+    "başarısız" görünür, nöbetçi alarm açar (C1)."""
+    return 1 if hatalar and not alarm_iletildi else 0
 
 
 if __name__ == "__main__":

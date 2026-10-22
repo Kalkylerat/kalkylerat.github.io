@@ -32,7 +32,14 @@ jobs:
           DAL: ${{ github.ref_name }}
         run: |
           bitis=$(( $(date +%s) + 330 * 60 ))
-          bildirilen=""
+          # Hata alarmı üst üste hata veren çalışmalar için BİR KEZ açılır; başarılı bir çalışma görülünce sıfırlanır
+          # (15 Ekim 19:06–20:58: her başarısız nabız ayrı issue açtı, 18 alarm + e-posta). Botun kendi yakaladığı
+          # hatalar zaten alarm issue'suna yazılır ve çalışma başarısız sayılmaz; buraya yalnızca çökme düşer.
+          # Nöbetçi başlarken süren bir hata dizisi varsa onu önceki nöbetçi bildirdi: yeniden açılmaz.
+          ilk=$(gh api "repos/$REPO/actions/workflows/kalkylerat.yml/runs?status=completed&per_page=1" \
+                --jq '.workflow_runs[0].conclusion' || true)
+          hata_bildirildi=""
+          [ "$ilk" = "failure" ] && hata_bildirildi=1
           durgun_bildirildi=""
           alarm() {  # botun kendisi çalışamıyorsa (çökme, kurulum hatası) Python'daki alarm devreye giremez
             gh label create alarm --repo "$REPO" --color d73a4a --force >/dev/null 2>&1 || true
@@ -60,9 +67,11 @@ jobs:
             sonuc=$(gh api "repos/$REPO/actions/workflows/kalkylerat.yml/runs?status=completed&per_page=1" \
                     --jq '.workflow_runs[0] | "\(.id) \(.conclusion) \(.html_url)"' || true)
             set -- $sonuc
-            if [ "${2:-}" = "failure" ] && ! echo "$bildirilen" | grep -q "$1"; then
-              alarm "Bot çalışması hata verdi: $3"
-              bildirilen="$bildirilen $1"
+            if [ "${2:-}" = "success" ]; then
+              hata_bildirildi=""  # bot düzeldi; bir sonraki hata yine bildirilir
+            elif [ "${2:-}" = "failure" ] && [ -z "$hata_bildirildi" ]; then
+              alarm "Bot çalışması hata verdi: $3 (bot düzelene kadar bu hata için yeni alarm açılmaz)"
+              hata_bildirildi=1
             fi
             sleep 60
           done

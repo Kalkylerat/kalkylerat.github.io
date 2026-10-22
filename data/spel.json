@@ -122580,6 +122580,33 @@
               0
             ],
             "zaman": "2026-10-22T18:46:07+00:00"
+          },
+          "1636249": {
+            "durum": "paylasildi",
+            "tweet_id": "2113373523972403632",
+            "skor": [
+              1,
+              2
+            ],
+            "zaman": "2026-10-22T20:54:43+00:00"
+          },
+          "1636273": {
+            "durum": "paylasildi",
+            "tweet_id": "2113373525356474587",
+            "skor": [
+              0,
+              3
+            ],
+            "zaman": "2026-10-22T20:54:43+00:00"
+          },
+          "1636288": {
+            "durum": "paylasildi",
+            "tweet_id": "2113373526535156034",
+            "skor": [
+              0,
+              6
+            ],
+            "zaman": "2026-10-22T20:54:43+00:00"
           }
         }
       },
@@ -122980,13 +123007,43 @@
         "durum": "paylasildi",
         "tweet_id": "2113283623688303089",
         "zaman": "2026-10-22T14:57:29+00:00",
-        "metin": "Red Bull Salzburg 63% to win.\n\n🆚 Celje v Red Bull Salzburg\n🏆 Celje 17% · Draw 20% · Red Bull Salzburg 63%\n⚽ Over 2.5 goals 60% · Under 40%\n🥅 Both teams score 56% · Not both 44%\n📈 Team stats: too few games\n\n💬 Not picks. More or fewer than 2.5 goals? 👇\n18+ | Play responsibly"
+        "metin": "Red Bull Salzburg 63% to win.\n\n🆚 Celje v Red Bull Salzburg\n🏆 Celje 17% · Draw 20% · Red Bull Salzburg 63%\n⚽ Over 2.5 goals 60% · Under 40%\n🥅 Both teams score 56% · Not both 44%\n📈 Team stats: too few games\n\n💬 Not picks. More or fewer than 2.5 goals? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113373597372645882",
+          "skor": "2-2",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "xg": [
+            1.68,
+            1.61
+          ],
+          "zaman": "2026-10-22T20:54:43+00:00"
+        }
       },
       "analiz_21": {
         "durum": "paylasildi",
         "tweet_id": "2113289030074790170",
         "zaman": "2026-10-22T15:18:58+00:00",
-        "metin": "No result above 39%.\nWide open on paper.\n\n🆚 Celtic v Celta Vigo\n🏆 Celtic 36% · Draw 25% · Celta Vigo 39%\n⚽ Over 2.5 goals 54% · Under 46%\n🥅 Both teams score 58% · Not both 42%\n📈 Team stats: too few games\n\n💬 Not picks. More or fewer than 2.5 goals? 👇\n18+ | Play responsibly"
+        "metin": "No result above 39%.\nWide open on paper.\n\n🆚 Celtic v Celta Vigo\n🏆 Celtic 36% · Draw 25% · Celta Vigo 39%\n⚽ Over 2.5 goals 54% · Under 46%\n🥅 Both teams score 58% · Not both 42%\n📈 Team stats: too few games\n\n💬 Not picks. More or fewer than 2.5 goals? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113373612388372648",
+          "skor": "1-2",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            0.59,
+            1.27
+          ],
+          "zaman": "2026-10-22T20:54:43+00:00"
+        }
       },
       "analiz_22": {
         "durum": "paylasildi",
@@ -122998,19 +123055,68 @@
         "durum": "paylasildi",
         "tweet_id": "2113298828296397275",
         "zaman": "2026-10-22T15:57:54+00:00",
-        "metin": "📈 The odds lean Anderlecht (43%).\nTeam stats lean Jagiellonia (55%).\n\n🆚 Jagiellonia v Anderlecht\n🏆 Jagiellonia 32% · Draw 25% · Anderlecht 43%\n⚽ Over 2.5 goals 54% · Under 46%\n🥅 Both teams score 57% · Not both 43%\n\n💬 Not picks. Which read is right? 👇\n18+ | Play responsibly"
+        "metin": "📈 The odds lean Anderlecht (43%).\nTeam stats lean Jagiellonia (55%).\n\n🆚 Jagiellonia v Anderlecht\n🏆 Jagiellonia 32% · Draw 25% · Anderlecht 43%\n⚽ Over 2.5 goals 54% · Under 46%\n🥅 Both teams score 57% · Not both 43%\n\n💬 Not picks. Which read is right? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113373628163101117",
+          "skor": "0-3",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "xg": [
+            0.29,
+            1.0
+          ],
+          "zaman": "2026-10-22T20:54:43+00:00",
+          "brier": {
+            "piyasa": 1.0246,
+            "istatistik": 1.4778
+          }
+        }
       },
       "analiz_24": {
         "durum": "paylasildi",
         "tweet_id": "2113303445751070966",
         "zaman": "2026-10-22T16:16:15+00:00",
-        "metin": "Real Sociedad 64% to win.\n\n🆚 Lillestrom v Real Sociedad\n🏆 Lillestrom 16% · Draw 20% · Real Sociedad 64%\n⚽ Over 2.5 goals 59% · Under 41%\n🥅 Both teams score 54% · Not both 46%\n📈 Team stats: too few games\n\n💬 Not picks. Real Sociedad 64%: too high? 👇\n18+ | Play responsibly"
+        "metin": "Real Sociedad 64% to win.\n\n🆚 Lillestrom v Real Sociedad\n🏆 Lillestrom 16% · Draw 20% · Real Sociedad 64%\n⚽ Over 2.5 goals 59% · Under 41%\n🥅 Both teams score 54% · Not both 46%\n📈 Team stats: too few games\n\n💬 Not picks. Real Sociedad 64%: too high? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113373641530315031",
+          "skor": "0-6",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "xg": [
+            1.9,
+            2.25
+          ],
+          "zaman": "2026-10-22T20:54:43+00:00"
+        }
       },
       "analiz_25": {
         "durum": "paylasildi",
         "tweet_id": "2113308857376145523",
         "zaman": "2026-10-22T16:37:44+00:00",
-        "metin": "Olympiakos Piraeus 63% to win.\n\n🆚 Olympiakos Piraeus v Sparta Praha\n🏆 Olympiakos Piraeus 63% · Draw 21% · Sparta Praha 16%\n⚽ Over 2.5 goals 55% · Under 45%\n🥅 Both teams score 51% · Not both 49%\n📈 Team stats: too few games\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "Olympiakos Piraeus 63% to win.\n\n🆚 Olympiakos Piraeus v Sparta Praha\n🏆 Olympiakos Piraeus 63% · Draw 21% · Sparta Praha 16%\n⚽ Over 2.5 goals 55% · Under 45%\n🥅 Both teams score 51% · Not both 49%\n📈 Team stats: too few games\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113373654113214944",
+          "skor": "1-0",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "xg": [
+            2.26,
+            0.82
+          ],
+          "zaman": "2026-10-22T20:54:43+00:00"
+        }
       },
       "analiz_26": {
         "durum": "paylasildi",
@@ -123022,19 +123128,64 @@
         "durum": "paylasildi",
         "tweet_id": "2113319662523937013",
         "zaman": "2026-10-22T17:20:40+00:00",
-        "metin": "Most likely score: 1-1.\n\n🆚 Plzen v Levski Sofia\n🏆 Plzen 55% · Draw 23% · Levski Sofia 22%\n⚽ Over 2.5 goals 54% · Under 46%\n🥅 Both teams score 54% · Not both 46%\n📈 Team stats: too few games\n\n💬 Chances, not picks. Can Levski Sofia beat 22%? 👇\n#UEL\n18+ | Play responsibly"
+        "metin": "Most likely score: 1-1.\n\n🆚 Plzen v Levski Sofia\n🏆 Plzen 55% · Draw 23% · Levski Sofia 22%\n⚽ Over 2.5 goals 54% · Under 46%\n🥅 Both teams score 54% · Not both 46%\n📈 Team stats: too few games\n\n💬 Chances, not picks. Can Levski Sofia beat 22%? 👇\n#UEL\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113373704759447611",
+          "skor": "1-2",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "xg": [
+            0.97,
+            1.17
+          ],
+          "zaman": "2026-10-22T20:54:43+00:00"
+        }
       },
       "analiz_28": {
         "durum": "paylasildi",
         "tweet_id": "2113323233160131070",
         "zaman": "2026-10-22T17:34:53+00:00",
-        "metin": "Aarhus 64% to win.\n\n🆚 Aarhus v Egnatia Rrogozhinë\n🏆 Aarhus 64% · Draw 21% · Egnatia Rrogozhinë 15%\n⚽ Over 2.5 goals 54% · Under 46%\n🥅 Both teams score 50% · Not both 50%\n📈 Team stats: too few games\n\n💬 Not picks. Can Egnatia Rrogozhinë beat 15%? 👇\n18+ | Play responsibly"
+        "metin": "Aarhus 64% to win.\n\n🆚 Aarhus v Egnatia Rrogozhinë\n🏆 Aarhus 64% · Draw 21% · Egnatia Rrogozhinë 15%\n⚽ Over 2.5 goals 54% · Under 46%\n🥅 Both teams score 50% · Not both 50%\n📈 Team stats: too few games\n\n💬 Not picks. Can Egnatia Rrogozhinë beat 15%? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113373720580325665",
+          "skor": "1-1",
+          "isabet": [
+            false,
+            false,
+            false
+          ],
+          "xg": [
+            1.02,
+            0.66
+          ],
+          "zaman": "2026-10-22T20:54:43+00:00"
+        }
       },
       "analiz_29": {
         "durum": "paylasildi",
         "tweet_id": "2113326863737299288",
         "zaman": "2026-10-22T17:49:18+00:00",
-        "metin": "4+ goals: 40%.\n\n🆚 Ajax v Atalanta\n🏆 Ajax 45% · Draw 23% · Atalanta 32%\n⚽ Over 2.5 goals 62% · Under 38%\n🥅 Both teams score 63% · Not both 37%\n📈 Team stats: not enough games to compare with the odds\n\n💬 Chances, not picks. What's your score? 👇\n#UECL\n18+ | Play responsibly"
+        "metin": "4+ goals: 40%.\n\n🆚 Ajax v Atalanta\n🏆 Ajax 45% · Draw 23% · Atalanta 32%\n⚽ Over 2.5 goals 62% · Under 38%\n🥅 Both teams score 63% · Not both 37%\n📈 Team stats: not enough games to compare with the odds\n\n💬 Chances, not picks. What's your score? 👇\n#UECL\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113373731938529664",
+          "skor": "2-0",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "xg": [
+            1.74,
+            0.74
+          ],
+          "zaman": "2026-10-22T20:54:43+00:00"
+        }
       },
       "tablo_aksam": {
         "durum": "paylasildi",
@@ -123054,7 +123205,26 @@
           1636454,
           1636474
         ],
-        "sonuclar": {}
+        "sonuclar": {
+          "1636308": {
+            "durum": "paylasildi",
+            "tweet_id": "2113373555580698954",
+            "skor": [
+              1,
+              0
+            ],
+            "zaman": "2026-10-22T20:54:43+00:00"
+          },
+          "1636318": {
+            "durum": "paylasildi",
+            "tweet_id": "2113373556813750655",
+            "skor": [
+              1,
+              2
+            ],
+            "zaman": "2026-10-22T20:54:43+00:00"
+          }
+        }
       },
       "bilgi_aksam": {
         "durum": "paylasildi",

@@ -30519,8 +30519,20 @@
        "oran": 1.22,
        "olasilik": 0.793,
        "deger": -0.033,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "2-0",
+       "goller": [
+        [
+         29,
+         0,
+         "ev"
+        ],
+        [
+         50,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1641326-CSX2",
@@ -30553,13 +30565,16 @@
      "oran": 2.0,
      "olasilik": 0.461,
      "deger": -0.078,
-     "durum": "bekliyor",
+     "durum": "tuttu",
      "secim": "2026-10-22T05:43:06+00:00",
      "oto": true,
      "paylas": "2026-10-22T11:00:00+02:00",
      "tweet_id": "2113194603968917693",
      "metin": "🎩 A treble today. One leg more than I like.\n\n⚽ Pafos v Riga\n⚽ Borac Banja Luka v KuPS\n⚽ Awassa Kenema v Ethiopia Nigd Bank\n\n📊 Combined 2.00. I make it about 46% to land, so more often than not it doesn't.\n\n💬 Which leg lets me down?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-22T09:03:25+00:00"
+     "yayin": "2026-10-22T09:03:25+00:00",
+     "son_oran": 2.0,
+     "sonuc_metni": "✅ Awassa Kenema v Ethiopia Nigd Bank. 84': 1-1. Double chance X2 in, just. Not great for the heart. In at 2.00.\n\nRecord: 17 of 37 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2113373811437338800"
     },
     {
      "ad": "gunun-kuponu-2",
@@ -30613,8 +30628,20 @@
        "oran": 1.25,
        "olasilik": 0.773,
        "deger": -0.034,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "2-0",
+       "goller": [
+        [
+         3,
+         0,
+         "ev"
+        ],
+        [
+         76,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1641329-CSX2",
@@ -30657,13 +30684,16 @@
      "oran": 2.05,
      "olasilik": 0.449,
      "deger": -0.08,
-     "durum": "bekliyor",
+     "durum": "tuttu",
      "secim": "2026-10-22T05:43:06+00:00",
      "oto": true,
      "paylas": "2026-10-22T11:40:00+02:00",
      "tweet_id": "2113205378674487596",
      "metin": "🎩 Three legs. All of them dull, which is the point.\n\n⚽ Ararat-Armenia v AZ Alkmaar\n⚽ SC Braga v Gent\n⚽ Welayta Dicha v Bahardar\n\n📊 Combined 2.05. I make it about 45% to land.\n\n💬 Too cautious or about right?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-22T09:46:30+00:00"
+     "yayin": "2026-10-22T09:46:30+00:00",
+     "son_oran": 2.05,
+     "sonuc_metni": "✅ Landed at 2.05. Pleased, quietly. I'll try not to be smug.\n\n✅ Ararat-Armenia 0-4 AZ Alkmaar: Double chance X2\n✅ SC Braga 2-0 Gent: Double chance 1X\n✅ Welayta Dicha 1-3 Bahardar: Double chance X2\n\nRecord: 18 of 38 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2113373815862362405"
     },
     {
      "ad": "gunun-kuponu-3",
@@ -30680,8 +30710,20 @@
        "oran": 1.14,
        "olasilik": 0.859,
        "deger": -0.02,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-1",
+       "goller": [
+        [
+         13,
+         0,
+         "dep"
+        ],
+        [
+         49,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1636288-CSX2",
@@ -30695,8 +30737,40 @@
        "oran": 1.14,
        "olasilik": 0.858,
        "deger": -0.022,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "0-6",
+       "goller": [
+        [
+         25,
+         0,
+         "dep"
+        ],
+        [
+         27,
+         0,
+         "dep"
+        ],
+        [
+         33,
+         0,
+         "dep"
+        ],
+        [
+         64,
+         0,
+         "dep"
+        ],
+        [
+         72,
+         0,
+         "dep"
+        ],
+        [
+         80,
+         0,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1636318-CS1X",
@@ -30710,8 +30784,25 @@
        "oran": 1.24,
        "olasilik": 0.795,
        "deger": -0.014,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "1-2",
+       "goller": [
+        [
+         44,
+         0,
+         "dep"
+        ],
+        [
+         62,
+         0,
+         "ev"
+        ],
+        [
+         65,
+         0,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1636249-UST15",
@@ -30725,20 +30816,40 @@
        "oran": 1.24,
        "olasilik": 0.791,
        "deger": -0.019,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-2",
+       "goller": [
+        [
+         47,
+         0,
+         "ev"
+        ],
+        [
+         68,
+         0,
+         "dep"
+        ],
+        [
+         71,
+         0,
+         "dep"
+        ]
+       ]
       }
      ],
      "oran": 2.0,
      "olasilik": 0.463,
      "deger": -0.074,
-     "durum": "bekliyor",
+     "durum": "yatti",
      "secim": "2026-10-22T09:03:25+00:00",
      "oto": true,
      "paylas": "2026-10-22T18:00:00+02:00",
      "tweet_id": "2113299810979577986",
      "metin": "🎩 Today's four-fold.\n\n⚽ Aarhus v Egnatia Rrogozhinë\n⚽ Lillestrom v Real Sociedad\n⚽ Plzen v Levski Sofia\n⚽ Celtic v Celta Vigo\n\n📊 Combined 2.00. I make it about 46% to land.\n\n💬 Which leg lets me down?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-22T16:01:28+00:00"
+     "yayin": "2026-10-22T16:01:28+00:00",
+     "son_oran": 1.61,
+     "sonuc_metni": "❌ So close it hurts a bit.\n\n✅ Aarhus 1-1 Egnatia Rrogozhinë: Double chance 1X\n✅ Lillestrom 0-6 Real Sociedad: Double chance X2\n❌ Plzen 1-2 Levski Sofia: Double chance 1X\n✅ Celtic 1-2 Celta Vigo: Over 1.5 goals\n\nRecord: 18 of 39 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2113373820438323219"
     },
     {
      "ad": "long-shot",
@@ -30755,8 +30866,25 @@
        "oran": 1.37,
        "olasilik": 0.706,
        "deger": -0.032,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "3-0",
+       "goller": [
+        [
+         45,
+         2,
+         "ev"
+        ],
+        [
+         83,
+         0,
+         "ev"
+        ],
+        [
+         90,
+         1,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1636234-CS1X",
@@ -30886,8 +31014,15 @@
        "oran": 1.16,
        "olasilik": 0.849,
        "deger": -0.016,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-0",
+       "goller": [
+        [
+         78,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1636474-UST15",
@@ -30901,8 +31036,15 @@
        "oran": 1.2,
        "olasilik": 0.81,
        "deger": -0.028,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "0-1",
+       "goller": [
+        [
+         17,
+         0,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1597947-UST25",
@@ -30945,13 +31087,16 @@
      "oran": 2.0,
      "olasilik": 0.463,
      "deger": -0.074,
-     "durum": "bekliyor",
+     "durum": "yatti",
      "secim": "2026-10-22T09:03:25+00:00",
      "oto": true,
      "paylas": "2026-10-22T13:30:00+02:00",
      "tweet_id": "2113231425172541747",
      "metin": "🎩 Four legs today.\n\n⚽ Juventus v Rennes\n⚽ Olympiakos Piraeus v Sparta Praha\n⚽ FC Thun v HNK Hajduk Split\n⚽ Al Shahaniya v Al Sadd\n\n📊 Combined 2.00. I make it about 46% to land.\n\n💬 Which one would you drop?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-22T11:30:00+00:00"
+     "yayin": "2026-10-22T11:30:00+00:00",
+     "son_oran": 1.67,
+     "sonuc_metni": "❌ One out.\n\n✅ Juventus 2-2 Rennes: Double chance 1X\n✅ Olympiakos Piraeus 1-0 Sparta Praha: Double chance 1X\n❌ FC Thun 0-1 HNK Hajduk Split: Over 1.5 goals\n✅ Al Shahaniya 0-4 Al Sadd: Over 2.5 goals\n\nRecord: 18 of 40 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2113373825450598642"
     }
    ],
    "islenen": [],

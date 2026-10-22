@@ -25,7 +25,9 @@
 
 ## Açık işler
 - [ ] Yeni kartın etkisini ölç (22 Ekim'den): bir hafta sonra `metrik` (tek seferde ~100 post okuma, ~$0,50) ve
-      eski haftayla görüntülenme/yanıt karşılaştırması. Son ölçüm 3 Ekim'den.
+      eski haftayla görüntülenme/yanıt karşılaştırması. Başlangıç (eski kart, 20–22 Ekim, son 100 post): 30 takipçi;
+      kart ort. 47 görüntülenme (medyan 38), 17 yanıt, 4 kayıt; maç sonu ort. 25, 1 yanıt; bilgi postu ort. 7.
+      En çok görülenler büyük kulüp maçları (Betis–Feyenoord 141, Lille–Galatasaray 119, Real Madrid–Leipzig 108).
 - [x] Bildirim düzeltmesi canlıda (22 Ekim): X 5xx ya da "aynı metin" dönerse hesabın son postlarına bakılır, aynı
       hata için tek bildirim, tablo sonuçları nabız başına 5 (SOZLESME B2, C2).
 - [ ] Profildeki sabit tweet hâlâ "€10,000 challenge" ise `marka/PROFIL.md`'deki yeni metinle elle değiştir.

@@ -10,6 +10,15 @@ güncelle.
 | Mr. Likely (kupon, X) | [mr-likely.md](mr-likely.md) | çalışıyor, otomatik | sabah duyuru postunu ana dala al |
 | Tiny Fixes (yapay zekâ, X + Instagram) | [tiny-fixes.md](tiny-fixes.md) | kod hazır, `mod = "kapali"` | sahibinin kurulum adımları |
 | YouTube kanalı (Tiny Fixes) | [youtube.md](youtube.md) | tasarım | yüz düzeni kararı |
+| Vezir (kişisel asistan, özel depo) | [vezir.md](vezir.md) | çalışıyor | aktif modeli kontrol et |
+| Flow Event (DJ hizmeti ve kursu) | [flow-event.md](flow-event.md) | beklemede | alan adı, pilot öğrenci |
+| E-ticaret (Shopify) | [e-ticaret.md](e-ticaret.md) | başlamadı | ilk ürün kararı |
+| Suno müzik | [suno.md](suno.md) | skill hazır | test şarkısı |
+| Fikir rafı | [fikir-rafi.md](fikir-rafi.md) | karar bekliyor | "Sezon hazır" (1 Kasım öncesi) |
+| Genel: Claude kullanımı ve maliyet | [genel.md](genel.md) | not | — |
+
+claude.ai sohbetleri (normal sohbetler, Projects) bulut oturumlarından görünmez; onları eklemek için
+[claude-ai-aktarim.md](claude-ai-aktarim.md). Daha ayrıntılı özel sürüm: claude.ai'deki "Proje Haritası" belgesi.
 
 Değişmez kurallar her zaman `SOZLESME.md`'de; bu klasör yalnızca durum özetidir, kural koymaz.
 

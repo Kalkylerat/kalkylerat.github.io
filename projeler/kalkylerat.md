@@ -25,6 +25,14 @@
       Ek okuma maliyeti yok.
 - [ ] Alarm #73 (15 Ekim, tek seferlik) kapatılabilir.
 
+## Geçmiş (commit geçmişinden)
+- 27 Eylül: İsveççe "value single" botu olarak başladı. 28 Eylül: €10.000 sanal kasa.
+- 1 Ekim: analiz konseptine geçildi; kupon ve kasa durdu, eski postlar silindi. 2 Ekim: Türkçe hesap rafa kalktı.
+- 3 Ekim: `SOZLESME.md` doğdu. 5–6 Ekim: Mr. Likely doğdu (önce elle, sonra otomatik).
+- 9 Ekim: CEST/UTC hatası, 6–7 kart kaçtı ve düzeltildi. 11 Ekim: "hesap 10 saattir post atmamış" → nöbet ve alarm.
+- 12 Ekim: nöbet rehberi + `python -m bot.durum`; 4 eski sohbet arşivlendi, 18 issue kapandı, README yenilendi.
+- Temizlik işi (acil değil): kodda ~400 satır eski kupon/kasa kodu duruyor. Öneri: nöbet saatlerini maç saatlerine daralt.
+
 ## İlk mesaj
 > Kalkylerat üzerinde çalışacağız. Önce CLAUDE.md, SOZLESME.md ve projeler/kalkylerat.md dosyalarını oku, sonra
 > `python -m bot.durum` çalıştır. Bana durumu ve açık işler listesini 5 satırda özetle, ilk işe geçmeden onayımı bekle.

@@ -20,6 +20,11 @@
 - [ ] Sahibine sorulacak: "Tiny Fix #12" seri numarası eklensin mi? (öneri: evet, ek maliyet yok)
 - Not: RSS/Trends kaynakları ve gerçek X/Instagram çağrıları canlı denenmedi; ilk çalışmada `flood_tani` ile bak.
 
+## Kökeni
+- 3 Ekim X otonom oturumu: "prompt karnesi" → "kilitli prompt" (12 denemede 12 aynı sonuç) → "Promptproof" önerisi.
+  Ayrıntı: [fikir-rafi.md](fikir-rafi.md).
+- 15 Ekim: telefon/pil ifadeleri için F5 istisnası; PR #71 sahibi tarafından birleştirildi.
+
 ## İlk mesaj
 > Tiny Fixes kurulumuna devam edeceğiz. CLAUDE.md, SOZLESME.md F bölümü, marka/TINY_FIXES_KURULUM.md ve
 > projeler/tiny-fixes.md dosyalarını oku. Sıradaki kurulum adımını söyle ve beni adım adım yönlendir. Kuralları bana

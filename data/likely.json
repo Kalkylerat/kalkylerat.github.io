@@ -29867,7 +29867,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 34
+     "no": 34,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1636235-CS12",
@@ -29907,7 +29908,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 36
+     "no": 36,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1636397-CS12",
@@ -29987,7 +29989,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 40
+     "no": 40,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1636273-CS12",
@@ -31135,7 +31138,7 @@
    "oto": true,
    "issue": 117,
    "tazeleme": "2026-10-22T09:03:25+00:00",
-   "olcum_sorgu": "2026-10-22T10:26:17+00:00"
+   "olcum_sorgu": "2026-10-22T11:22:46+00:00"
   }
  ]
 }

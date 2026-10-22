@@ -296,6 +296,18 @@ SORULAR = ["Which leg lets me down?", "Which one would you drop?", "Would you ta
            "Which of these do you trust least?", "Too cautious or about right?"]
 KAPANIS = ["Probably.", "No promises.", "We'll see.", "That's the maths, not a promise.", "Likely. Not certain.",
            "As ever: likely, not certain."]
+# Sabah duyuru postu (E1, sahibinin isteği 21 Ekim 2026): kuponlardan önce, bugün kaç kupon geleceği. {n} sayı, {N} büyük harfle.
+DUYURU = ["I'll drop {n} coupons today. Went through the whole card and kept the ones I'd actually back.",
+          "{N} coupons coming today. Did the homework, binned most of it, kept these.",
+          "Today's plan: {n} coupons. Picked from everything on the card, nothing forced.",
+          "{N} coupons on the way today. Plenty of games looked at, not many made the cut.",
+          "Got {n} coupons for you today. Analysed the lot and these are the best of it.",
+          "{N} coupons today, spread through the day. The rest of the card didn't convince me."]
+DUYURU_TEK = ["Just the one coupon today. Looked at everything, only one was worth it.",
+              "One coupon today. The rest of the card didn't convince me.",
+              "Only one coupon today. Quiet card, I'm not forcing it."]
+DUYURU_EK = ["Might add one later if the odds move my way.", "Could be one more after the midday odds check."]
+SAYILAR = {2: "two", 3: "three", 4: "four", 5: "five"}
 TUTTU = ["That'll do.", "Landed. I'll try not to be smug about it.", "In. Nice when the maths behaves.",
          "Home. On to the next one.", "Done. Probably deserved it too.", "Lovely. Quietly lovely.",
          "No drama, which is exactly how I like them."]
@@ -720,8 +732,11 @@ def paket_metni(gun: dict, veri: dict, ayar, cfg: LikelyAyar) -> str:
             s += [f'**{KUPON_ADI.get(kp["ad"], kp["ad"])}** · oran {kp["oran"]:.2f} · tutma %{round(100 * kp["olasilik"])} · '
                   f'değer {round(100 * kp["deger"]):+d}% · paylaşım **{_saat(kp["paylas"], ayar)}**']
             s += [f"- {_ayak_satiri(a, ayar)}" for a in kp["ayaklar"]] + [""]
-        if not gun["secilen"]:
-            s += ["Bugün kurallara uyan kupon çıkmadı; kupon paylaşılmayacak (günün dersi yine çıkar).", ""]
+        if gun["secilen"]:
+            s += ["İlk kupondan önce duyuru postu gider (kupon sayısı paylaşım anındaki sayıdır):", "```",
+                  duyuru_metni(len(gun["secilen"]), gun["tarih"], len(gun["secilen"]) < cfg.oto_max_kupon), "```", ""]
+        else:
+            s += ["Bugün kurallara uyan kupon çıkmadı; kupon ve duyuru postu paylaşılmayacak (günün dersi yine çıkar).", ""]
         s += ["Bugünün paylaşılmamış kuponlarını durdurmak için bu issue'ya `iptal` yaz.", ""]
         t = gun.get("tani")
         if t:
@@ -1177,6 +1192,47 @@ def oto_paylas(ayar, x, simdi: datetime, yazici=None, kart=None, yaz=print) -> i
     return paylasilan
 
 
+def duyuru_metni(n: int, tohum: str, ek_olabilir: bool = False) -> str:
+    """Sabah duyuru postu: bugün kaç kupon geleceği, Mr. Likely'nin sesiyle. Öğlen tazeleme henüz yapılmadıysa ve yer
+    varsa sayı kesin söylenmez, "bir tane daha gelebilir" eklenir (sayı sonradan artarsa post yalan söylemiş olmasın)."""
+    if n == 1:
+        metin = _sec(DUYURU_TEK, tohum)
+    else:
+        sayi = SAYILAR.get(n, str(n))
+        metin = _sec(DUYURU, tohum).format(n=sayi, N=sayi.capitalize())
+    if ek_olabilir:
+        metin += " " + _sec(DUYURU_EK, tohum + "e")
+    return f"🎩 {metin}"
+
+
+def oto_duyuru(ayar, x, simdi: datetime, yaz=print) -> bool:
+    """Günün seçimi bitince, ilk kupon postundan önce bir kez "bugün N kupon" postu atar (E1). Kupon yoksa, bugün zaten
+    bir kupon paylaşıldıysa ya da saat 23:00'ü geçtiyse atılmaz. Post atıldıysa True (aynı turda kupon atılmaz)."""
+    cfg = ayar_yukle()
+    if not cfg.aktif or cfg.mod != "otomatik":
+        return False
+    veri = yukle()
+    yerel = simdi.astimezone(ZoneInfo(ayar.saat_dilimi))
+    gun = next((g for g in veri["gunler"][-2:] if g["tarih"] == yerel.date().isoformat()), None)
+    if not gun or not gun.get("oto") or gun.get("duyuru") or yerel.hour >= 23:
+        return False
+    bekleyen = [k for k in gun.get("secilen", []) if k.get("oto") and k["durum"] == "bekliyor" and not k.get("tweet_id")]
+    if any(k.get("tweet_id") for k in gun.get("secilen", [])):
+        gun["duyuru"] = {"tweet_id": "gecti"}  # gün başladı: duyuru artık anlamsız
+        kaydet(veri)
+        return False
+    if not bekleyen:
+        return False  # bugün kupon yok: duyuru da yok (iptal edilen gün de buraya düşer)
+    ek_olabilir = (len(gun["secilen"]) < cfg.oto_max_kupon and not gun.get("tazeleme")
+                   and yerel.hour < cfg.oto_tazele_saati)
+    metin = duyuru_metni(len(bekleyen), gun["tarih"], ek_olabilir)
+    gun["duyuru"] = {"metin": metin, "sayi": len(bekleyen), "zaman": simdi.isoformat(timespec="seconds")}
+    gun["duyuru"]["tweet_id"] = x.gonder(metin)
+    kaydet(veri)
+    yaz(f"Mr. Likely: duyuru postu paylaşıldı ({len(bekleyen)} kupon).")
+    return True
+
+
 def oto_sonuc_paylas(ayar, x, simdi: datetime, kart=None, yaz=print) -> int:
     """Sonuçlanan, paylaşılmış kuponun sonuç postunu atar (bir kez): kupon postunu ALINTILAR, sonuç kartı eklenir.
     Yanıt olarak değil: yanıtlar takipçilerin akışında görünmez, alıntı ayrı bir post olarak görünür (SOZLESME E1)."""
@@ -1202,8 +1258,9 @@ def oto_sonuc_paylas(ayar, x, simdi: datetime, kart=None, yaz=print) -> int:
 
 
 def _post_zamanlari(gun: dict) -> list[datetime]:
-    """Günün atılmış ve planlı post zamanları (kupon postları ve bilgi postları)."""
+    """Günün atılmış ve planlı post zamanları (kupon postları, duyuru postu ve bilgi postları)."""
     z = [datetime.fromisoformat(k.get("yayin") or k["paylas"]) for k in gun.get("secilen", []) if k.get("oto") and (k.get("yayin") or k.get("paylas"))]
+    z += [datetime.fromisoformat(gun["duyuru"]["zaman"])] if gun.get("duyuru", {}).get("zaman") else []
     return z + [datetime.fromisoformat(b["zaman"]) for b in gun.get("bilgi", []) if b.get("zaman")]
 
 

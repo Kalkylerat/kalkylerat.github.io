@@ -1,6 +1,7 @@
 """Mr. Likely (elle paylaşılan ikinci hesap) testleri. SOZLESME.md E bölümündeki her madde burada denetlenir."""
 
 import ast
+import re
 import math
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -1000,3 +1001,43 @@ def test_E5_veri_hatasi_iptal_mac_baslamadan_siler_karneye_girmez(oto):
     idler = {a["fixture_id"] for s in gun["iptal_edilen"] for a in s["ayaklar"]}
     likely.sonuclar(AYAR, bitir({f: (2, 0) for f in idler}), oto, ilk + timedelta(hours=14))
     assert likely.karne(likely.yukle())["kupon"] == 0  # iptal edilen kupon sayılmaz
+
+
+def test_E1_duyuru_postu(oto):
+    """Sabah duyurusu: ilk kupondan önce bir kez, sayı paylaşılacak kupon sayısı; kupon yoksa ya da gün başladıysa yok."""
+    x = SahteX()
+    gun = likely.yukle()["gunler"][0]
+    n = len(gun["secilen"])
+    assert likely.oto_duyuru(AYAR, x, SIMDI) is True and len(x.postlar) == 1
+    metin = x.postlar[0]["metin"]
+    sayi = "one" if n == 1 else likely.SAYILAR[n]
+    assert sayi in metin.lower() and "http" not in metin and uzunluk(metin) <= LIMIT
+    assert not re.search(r"guarantee|lock|sure thing|can't lose|—", metin, re.I)
+    assert likely.oto_duyuru(AYAR, x, SIMDI + timedelta(minutes=15)) is False and len(x.postlar) == 1  # günde bir kez
+    assert likely.yukle()["gunler"][0]["duyuru"]["sayi"] == n
+    # Bilgi postu duyurudan en az 40 dakika uzak durur
+    assert SIMDI in likely._post_zamanlari(likely.yukle()["gunler"][0])
+
+
+def test_E1_duyuru_kupon_yoksa_ya_da_gun_basladiysa_atilmaz(oto):
+    x = SahteX()
+    veri = likely.yukle()
+    secilen = veri["gunler"][0]["secilen"]
+    veri["gunler"][0]["secilen"] = []
+    likely.kaydet(veri)
+    assert likely.oto_duyuru(AYAR, x, SIMDI) is False and not x.postlar
+    veri["gunler"][0]["secilen"] = secilen
+    secilen[0]["tweet_id"] = "t0"  # bugün bir kupon zaten paylaşılmış: duyuru geç kalmıştır
+    likely.kaydet(veri)
+    assert likely.oto_duyuru(AYAR, x, SIMDI) is False and not x.postlar
+
+
+def test_duyuru_metni_sesi():
+    assert likely.duyuru_metni(4, "2026-10-21").startswith("🎩 ")
+    assert "four" in likely.duyuru_metni(4, "2026-10-21").lower()
+    assert "one coupon" in likely.duyuru_metni(1, "x").lower()
+    tum = {likely.duyuru_metni(3, f"2026-10-{g:02d}") for g in range(1, 31)}
+    assert len(tum) >= 4  # günden güne değişir
+    assert any(e in likely.duyuru_metni(3, "t", ek_olabilir=True) for e in likely.DUYURU_EK)
+    for t in likely.DUYURU + likely.DUYURU_TEK + likely.DUYURU_EK:
+        assert "—" not in t and "http" not in t

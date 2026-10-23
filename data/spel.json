@@ -128782,6 +128782,15 @@
               1
             ],
             "zaman": "2026-10-23T20:00:49+00:00"
+          },
+          "1601567": {
+            "durum": "paylasildi",
+            "tweet_id": "2113728656501592207",
+            "skor": [
+              0,
+              2
+            ],
+            "zaman": "2026-10-23T20:25:56+00:00"
           }
         }
       },
@@ -129044,7 +129053,26 @@
         "durum": "paylasildi",
         "tweet_id": "2113675713626960098",
         "zaman": "2026-10-23T16:55:31+00:00",
-        "metin": "Empoli are favourites.\nThey still fail to win 58% of the time.\n\n🇮🇹 Empoli v Vicenza Virtus 🇮🇹\n🏆 Empoli 42% · Draw 26% · Vicenza Virtus 33%\n⚽ Over 2.5 goals 51% · Under 49%\n🥅 Both teams score 55% · Not both 45%\n\n💬 Not picks. What's your score? 👇\n18+ | Play responsibly"
+        "metin": "Empoli are favourites.\nThey still fail to win 58% of the time.\n\n🇮🇹 Empoli v Vicenza Virtus 🇮🇹\n🏆 Empoli 42% · Draw 26% · Vicenza Virtus 33%\n⚽ Over 2.5 goals 51% · Under 49%\n🥅 Both teams score 55% · Not both 45%\n\n💬 Not picks. What's your score? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113728699459670376",
+          "skor": "0-2",
+          "isabet": [
+            false,
+            false,
+            false
+          ],
+          "xg": [
+            0.57,
+            2.01
+          ],
+          "zaman": "2026-10-23T20:25:56+00:00",
+          "brier": {
+            "piyasa": 1.2492,
+            "istatistik": 1.4161
+          }
+        }
       },
       "analiz_9": {
         "durum": "paylasildi",

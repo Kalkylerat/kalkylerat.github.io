@@ -29720,7 +29720,7 @@
   {
    "tarih": "2026-10-23",
    "olusturma": "2026-10-23T05:37:27+00:00",
-   "durum": "secildi",
+   "durum": "bitti",
    "havuz": [
     {
      "aday_id": "1632230-CS1X",
@@ -30454,7 +30454,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 35
+     "no": 35,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1639798-CS1X",
@@ -30474,7 +30475,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 36
+     "no": 36,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1492786-CS1X",
@@ -31813,8 +31815,25 @@
        "oran": 1.19,
        "olasilik": 0.817,
        "deger": -0.028,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-2",
+       "goller": [
+        [
+         10,
+         0,
+         "ev"
+        ],
+        [
+         79,
+         0,
+         "dep"
+        ],
+        [
+         90,
+         3,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1584439-ALT35",
@@ -31889,13 +31908,16 @@
      "oran": 2.01,
      "olasilik": 0.459,
      "deger": -0.077,
-     "durum": "bekliyor",
+     "durum": "tuttu",
      "secim": "2026-10-23T05:37:27+00:00",
      "oto": true,
      "paylas": "2026-10-23T16:00:00+02:00",
      "tweet_id": "2113631746864349460",
      "metin": "🎩 Three legs today. Dull ones, on purpose.\n\n⚽ Gimnasia M. v Platense\n⚽ Alanyaspor v Kocaelispor\n⚽ FC Winterthur v Stade Nyonnais\n\n📊 Combined 2.01. I make it about 46% to land, so probably not.\n\n💬 Which leg lets me down?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-23T14:00:48+00:00"
+     "yayin": "2026-10-23T14:00:48+00:00",
+     "son_oran": 2.01,
+     "sonuc_metni": "✅ Landed at 2.01. Quiet one, just how I like them.\n\n✅ Gimnasia M. 1-2 Platense: Under 3.5 goals\n✅ Alanyaspor 1-2 Kocaelispor: Under 3.5 goals\n✅ FC Winterthur 4-0 Stade Nyonnais: Over 2.5 goals\n\nRecord: 22 of 46 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2113774273223418096"
     },
     {
      "ad": "gunun-kuponu-3",
@@ -32255,7 +32277,8 @@
    "oto": true,
    "issue": 121,
    "tazeleme": "2026-10-23T09:04:11+00:00",
-   "olcum_sorgu": "2026-10-23T22:27:11+00:00"
+   "olcum_sorgu": "2026-10-23T23:27:06+00:00",
+   "olcum_bitti": true
   }
  ]
 }

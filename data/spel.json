@@ -128809,6 +128809,24 @@
               1
             ],
             "zaman": "2026-10-23T20:33:30+00:00"
+          },
+          "1550165": {
+            "durum": "paylasildi",
+            "tweet_id": "2113734116474494991",
+            "skor": [
+              3,
+              2
+            ],
+            "zaman": "2026-10-23T20:47:38+00:00"
+          },
+          "1552794": {
+            "durum": "paylasildi",
+            "tweet_id": "2113734117728616641",
+            "skor": [
+              1,
+              2
+            ],
+            "zaman": "2026-10-23T20:47:38+00:00"
           }
         }
       },
@@ -128893,13 +128911,51 @@
         "durum": "paylasildi",
         "tweet_id": "2113593929585299724",
         "zaman": "2026-10-23T11:30:32+00:00",
-        "metin": "Torino are favourites.\nThey still fail to win 55% of the time.\n\n🇮🇹 Torino v Monza 🇮🇹 · 20:45 CEST\n🏆 Torino 45% · Draw 26% · Monza 29%\n⚽ Over 2.5 goals 49% · Under 51%\n🥅 Both teams score 53% · Not both 47%\n\n💬 Not picks. More or fewer than 2.5 goals? 👇\n18+ | Play responsibly"
+        "metin": "Torino are favourites.\nThey still fail to win 55% of the time.\n\n🇮🇹 Torino v Monza 🇮🇹 · 20:45 CEST\n🏆 Torino 45% · Draw 26% · Monza 29%\n⚽ Over 2.5 goals 49% · Under 51%\n🥅 Both teams score 53% · Not both 47%\n\n💬 Not picks. More or fewer than 2.5 goals? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113734132710691124",
+          "skor": "3-2",
+          "isabet": [
+            true,
+            false,
+            true
+          ],
+          "xg": [
+            1.26,
+            0.6
+          ],
+          "zaman": "2026-10-23T20:47:38+00:00",
+          "brier": {
+            "piyasa": 0.9254,
+            "istatistik": 0.6522
+          }
+        }
       },
       "analiz_2": {
         "durum": "paylasildi",
         "tweet_id": "2113604820774896039",
         "zaman": "2026-10-23T12:13:49+00:00",
-        "metin": "Stade Brestois 29 are favourites, yet fail to win 56% of the time.\n\n🇫🇷 Stade Brestois 29 v Nice 🇫🇷\n🏆 Stade Brestois 29 44% · Draw 24% · Nice 31%\n⚽ Over 2.5 goals 55% · Under 45%\n🥅 Both teams score 58% · Not both 42%\n\n💬 Not picks. Can Nice beat 31%? 👇\n18+ | Play responsibly"
+        "metin": "Stade Brestois 29 are favourites, yet fail to win 56% of the time.\n\n🇫🇷 Stade Brestois 29 v Nice 🇫🇷\n🏆 Stade Brestois 29 44% · Draw 24% · Nice 31%\n⚽ Over 2.5 goals 55% · Under 45%\n🥅 Both teams score 58% · Not both 42%\n\n💬 Not picks. Can Nice beat 31%? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113734171910676639",
+          "skor": "1-2",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "xg": [
+            2.54,
+            0.53
+          ],
+          "zaman": "2026-10-23T20:47:38+00:00",
+          "brier": {
+            "piyasa": 1.1064,
+            "istatistik": 1.7181
+          }
+        }
       },
       "analiz_6": {
         "durum": "paylasildi",

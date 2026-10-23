@@ -31655,8 +31655,35 @@
        "oran": 1.33,
        "olasilik": 0.728,
        "deger": -0.031,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "3-2",
+       "goller": [
+        [
+         39,
+         0,
+         "ev"
+        ],
+        [
+         47,
+         0,
+         "dep"
+        ],
+        [
+         61,
+         0,
+         "ev"
+        ],
+        [
+         72,
+         0,
+         "ev"
+        ],
+        [
+         90,
+         4,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1569988-CS1X",
@@ -31718,8 +31745,25 @@
        "oran": 1.38,
        "olasilik": 0.709,
        "deger": -0.022,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "1-2",
+       "goller": [
+        [
+         15,
+         0,
+         "ev"
+        ],
+        [
+         61,
+         0,
+         "dep"
+        ],
+        [
+         83,
+         0,
+         "dep"
+        ]
+       ]
       }
      ],
      "oran": 3.42,
@@ -31732,7 +31776,9 @@
      "tweet_id": "2113654979865043062",
      "metin": "🎩 The ambitious one. Treat it like a lottery ticket with better manners.\n\n⚽ Torino v Monza\n⚽ Granada CF v Valladolid\n⚽ Galway United v St Patrick's Athl.\n⚽ Stade Brestois 29 v Nice\n\n📊 Combined 3.42. I make it about 26% to land.\n\n18+ | Play responsibly",
      "yayin": "2026-10-23T15:33:07+00:00",
-     "son_oran": 1.36
+     "son_oran": 1.81,
+     "sonuc_metni": "❌ Stade Brestois 29 v Nice sat at 1-1 until 83'. Then 1-2. Double chance 1X gone, coupon with it. Not the only leg to go, mind.\n\nRecord: 20 of 44 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2113734203942592999"
     },
     {
      "ad": "gunun-kuponu-2",

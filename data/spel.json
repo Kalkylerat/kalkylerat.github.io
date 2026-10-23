@@ -128827,6 +128827,24 @@
               2
             ],
             "zaman": "2026-10-23T20:47:38+00:00"
+          },
+          "1570423": {
+            "durum": "paylasildi",
+            "tweet_id": "2113735913993912521",
+            "skor": [
+              1,
+              1
+            ],
+            "zaman": "2026-10-23T20:54:46+00:00"
+          },
+          "1563216": {
+            "durum": "paylasildi",
+            "tweet_id": "2113735915109511460",
+            "skor": [
+              1,
+              5
+            ],
+            "zaman": "2026-10-23T20:54:46+00:00"
           }
         }
       },
@@ -128998,7 +129016,26 @@
         "durum": "paylasildi",
         "tweet_id": "2113649706484002943",
         "zaman": "2026-10-23T15:12:08+00:00",
-        "metin": "Most likely score: 1-0.\nEven that is only 14%.\n\n🇪🇸 Alaves v Malaga 🇪🇸 · 21:00 CEST\n🏆 Alaves 59% · Draw 24% · Malaga 17%\n⚽ Over 2.5 goals 46% · Under 54%\n🥅 Both teams score 45% · Not both 55%\n\n💬 Chances, not picks. What's your score? 👇\n#LaLiga\n18+ | Play responsibly"
+        "metin": "Most likely score: 1-0.\nEven that is only 14%.\n\n🇪🇸 Alaves v Malaga 🇪🇸 · 21:00 CEST\n🏆 Alaves 59% · Draw 24% · Malaga 17%\n⚽ Over 2.5 goals 46% · Under 54%\n🥅 Both teams score 45% · Not both 55%\n\n💬 Chances, not picks. What's your score? 👇\n#LaLiga\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113735931983274346",
+          "skor": "1-1",
+          "isabet": [
+            false,
+            true,
+            false
+          ],
+          "xg": [
+            1.88,
+            0.63
+          ],
+          "zaman": "2026-10-23T20:54:46+00:00",
+          "brier": {
+            "piyasa": 1.4671,
+            "istatistik": 1.7246
+          }
+        }
       },
       "tablo_aksam": {
         "durum": "paylasildi",
@@ -129171,7 +129208,26 @@
         "durum": "paylasildi",
         "tweet_id": "2113684679274402160",
         "zaman": "2026-10-23T17:31:03+00:00",
-        "metin": "4+ goals: 40%.\nExpected goals 1.1 – 2.1.\n\n🏴󠁧󠁢󠁥󠁮󠁧󠁿 Bolton v Middlesbrough 🏴󠁧󠁢󠁥󠁮󠁧󠁿 · 21:00 CEST\n🏆 Bolton 19% · Draw 20% · Middlesbrough 60%\n⚽ Over 2.5 goals 62% · Under 38%\n🥅 Both teams score 58% · Not both 42%\n\n💬 Chances, not picks. Middlesbrough 60%: too high? 👇\n18+ | Play responsibly"
+        "metin": "4+ goals: 40%.\nExpected goals 1.1 – 2.1.\n\n🏴󠁧󠁢󠁥󠁮󠁧󠁿 Bolton v Middlesbrough 🏴󠁧󠁢󠁥󠁮󠁧󠁿 · 21:00 CEST\n🏆 Bolton 19% · Draw 20% · Middlesbrough 60%\n⚽ Over 2.5 goals 62% · Under 38%\n🥅 Both teams score 58% · Not both 42%\n\n💬 Chances, not picks. Middlesbrough 60%: too high? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113735968515579914",
+          "skor": "1-5",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            0.91,
+            4.16
+          ],
+          "zaman": "2026-10-23T20:54:46+00:00",
+          "brier": {
+            "piyasa": 0.5527,
+            "istatistik": 0.9168
+          }
+        }
       },
       "bilgi_aksam": {
         "durum": "paylasildi",

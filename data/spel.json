@@ -128737,6 +128737,15 @@
               0
             ],
             "zaman": "2026-10-23T18:28:16+00:00"
+          },
+          "1584439": {
+            "durum": "paylasildi",
+            "tweet_id": "2113706139288297536",
+            "skor": [
+              1,
+              2
+            ],
+            "zaman": "2026-10-23T18:56:28+00:00"
           }
         }
       },
@@ -128775,7 +128784,26 @@
         "durum": "paylasildi",
         "tweet_id": "2113573247518216618",
         "zaman": "2026-10-23T10:08:21+00:00",
-        "metin": "Alanyaspor are favourites.\nThey still fail to win 51% of the time.\n\n🇹🇷 Alanyaspor v Kocaelispor 🇹🇷\n🏆 Alanyaspor 49% · Draw 27% · Kocaelispor 24%\n⚽ Over 2.5 goals 40% · Under 60%\n🥅 Both teams score 45% · Not both 55%\n\n💬 Not picks. What's your score? 👇\n18+ | Play responsibly"
+        "metin": "Alanyaspor are favourites.\nThey still fail to win 51% of the time.\n\n🇹🇷 Alanyaspor v Kocaelispor 🇹🇷\n🏆 Alanyaspor 49% · Draw 27% · Kocaelispor 24%\n⚽ Over 2.5 goals 40% · Under 60%\n🥅 Both teams score 45% · Not both 55%\n\n💬 Not picks. What's your score? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113706186730000384",
+          "skor": "1-2",
+          "isabet": [
+            false,
+            false,
+            false
+          ],
+          "xg": [
+            0.27,
+            1.54
+          ],
+          "zaman": "2026-10-23T18:56:28+00:00",
+          "brier": {
+            "piyasa": 1.5458,
+            "istatistik": 1.7708
+          }
+        }
       },
       "analiz_0": {
         "durum": "paylasildi",

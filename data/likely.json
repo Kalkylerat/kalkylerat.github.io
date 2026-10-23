@@ -31476,8 +31476,45 @@
        "oran": 1.1,
        "olasilik": 0.878,
        "deger": -0.034,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "7-0",
+       "goller": [
+        [
+         8,
+         0,
+         "ev"
+        ],
+        [
+         56,
+         0,
+         "ev"
+        ],
+        [
+         66,
+         0,
+         "ev"
+        ],
+        [
+         69,
+         0,
+         "ev"
+        ],
+        [
+         77,
+         0,
+         "ev"
+        ],
+        [
+         89,
+         0,
+         "ev"
+        ],
+        [
+         90,
+         2,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1575196-CS1X",
@@ -31643,8 +31680,25 @@
        "oran": 1.24,
        "olasilik": 0.786,
        "deger": -0.026,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-2",
+       "goller": [
+        [
+         27,
+         0,
+         "dep"
+        ],
+        [
+         42,
+         0,
+         "dep"
+        ],
+        [
+         52,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1555070-UST25",

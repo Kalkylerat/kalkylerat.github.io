@@ -31740,20 +31740,35 @@
        "oran": 2.08,
        "olasilik": 0.522,
        "deger": 0.085,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-1",
+       "goller": [
+        [
+         81,
+         0,
+         "ev"
+        ],
+        [
+         83,
+         0,
+         "dep"
+        ]
+       ]
       }
      ],
      "oran": 2.08,
      "olasilik": 0.522,
      "deger": 0.086,
-     "durum": "bekliyor",
+     "durum": "tuttu",
      "secim": "2026-10-23T09:04:11+00:00",
      "oto": true,
      "paylas": "2026-10-23T14:40:00+02:00",
      "tweet_id": "2113612066812543065",
      "metin": "🎩 Just the one today. Nothing else earned a place.\n\n⚽ Triglav v Nafta\n\n📊 2.08. I make it about 52% to land, so slightly better than a coin flip.\n\n💬 Would you take it at this price?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-23T12:42:34+00:00"
+     "yayin": "2026-10-23T12:42:34+00:00",
+     "son_oran": 2.08,
+     "sonuc_metni": "✅ In at 2.08. Landed. Trying very hard not to be smug.\n\n✅ Triglav 1-1 Nafta: Under 2.5 goals\n\nRecord: 20 of 42 landed. Still more dull than clever.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2113695663091261885"
     }
    ],
    "islenen": [],

@@ -31912,8 +31912,9 @@
        "oran": 1.19,
        "olasilik": 0.815,
        "deger": -0.03,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "0-0",
+       "goller": []
       },
       {
        "aday_id": "1551851-CS1X",
@@ -31992,13 +31993,16 @@
      "oran": 2.01,
      "olasilik": 0.459,
      "deger": -0.077,
-     "durum": "bekliyor",
+     "durum": "tuttu",
      "secim": "2026-10-23T05:37:27+00:00",
      "oto": true,
      "paylas": "2026-10-23T13:00:00+02:00",
      "tweet_id": "2113586771904942524",
      "metin": "🎩 Three legs today. One more than I like.\n\n⚽ Independiente del Valle v Universidad Catolica\n⚽ FC Volendam v Jong Utrecht\n⚽ Al Salt v Al Ramtha\n\n📊 Combined 2.01. I make it about 46% to land, so it probably doesn't.\n\n💬 Which leg would you drop?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-23T11:02:06+00:00"
+     "yayin": "2026-10-23T11:02:06+00:00",
+     "son_oran": 2.01,
+     "sonuc_metni": "✅ Treble in at 2.01. Pleased with that, quietly.\n\n✅ Independiente del Valle 0-0 Universidad Catolica: Double chance 1X\n✅ FC Volendam 6-2 Jong Utrecht: Double chance 1X\n✅ Al Salt 0-0 Al Ramtha: 1st half Under 1.5 goals\n\nRecord: 21 of 45 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2113769918755639702"
     },
     {
      "ad": "gunun-kuponu-4",

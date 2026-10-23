@@ -29713,7 +29713,7 @@
    "oto": true,
    "issue": 117,
    "tazeleme": "2026-10-22T09:03:25+00:00",
-   "olcum_sorgu": "2026-10-23T13:46:31+00:00"
+   "olcum_sorgu": "2026-10-23T14:43:33+00:00"
   },
   {
    "tarih": "2026-10-23",
@@ -29979,7 +29979,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 13
+     "no": 13,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1597946-UST15",
@@ -31262,7 +31263,8 @@
      "istatistik": 0.681,
      "uyum": true,
      "buyuk": false,
-     "no": 77
+     "no": 77,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1553898-IYA15",
@@ -31895,7 +31897,9 @@
        "Upset incoming"
       ],
       "bitis": "2026-10-23T20:30:00+02:00"
-     }
+     },
+     "tweet_id": "2113642492960690263",
+     "zaman": "2026-10-23T14:43:33+00:00"
     },
     {
      "tur": "denk",
@@ -31920,7 +31924,7 @@
    "oto": true,
    "issue": 121,
    "tazeleme": "2026-10-23T09:04:11+00:00",
-   "olcum_sorgu": "2026-10-23T13:46:31+00:00"
+   "olcum_sorgu": "2026-10-23T14:43:33+00:00"
   }
  ]
 }

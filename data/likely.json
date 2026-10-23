@@ -29713,7 +29713,7 @@
    "oto": true,
    "issue": 117,
    "tazeleme": "2026-10-22T09:03:25+00:00",
-   "olcum_sorgu": "2026-10-23T14:43:33+00:00"
+   "olcum_sorgu": "2026-10-23T15:40:32+00:00"
   },
   {
    "tarih": "2026-10-23",
@@ -30101,7 +30101,8 @@
      "istatistik": 0.895,
      "uyum": true,
      "buyuk": false,
-     "no": 19
+     "no": 19,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1551848-UST15",
@@ -30762,7 +30763,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 52
+     "no": 52,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1550165-EVA25",
@@ -31022,7 +31024,8 @@
      "istatistik": 0.707,
      "uyum": true,
      "buyuk": false,
-     "no": 65
+     "no": 65,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1617054-CS1X",
@@ -31927,7 +31930,7 @@
    "oto": true,
    "issue": 121,
    "tazeleme": "2026-10-23T09:04:11+00:00",
-   "olcum_sorgu": "2026-10-23T14:43:33+00:00"
+   "olcum_sorgu": "2026-10-23T15:40:32+00:00"
   }
  ]
 }

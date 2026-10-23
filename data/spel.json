@@ -128845,7 +128845,20 @@
               5
             ],
             "zaman": "2026-10-23T20:54:46+00:00"
+          },
+          "1557443": {
+            "durum": "paylasildi",
+            "tweet_id": "2113737696191693256",
+            "skor": [
+              1,
+              1
+            ],
+            "zaman": "2026-10-23T21:01:52+00:00"
           }
+        },
+        "takip": {
+          "durum": "tamam",
+          "zaman": "2026-10-23T21:01:52+00:00"
         }
       },
       "analiz_5": {
@@ -129010,7 +129023,26 @@
         "durum": "paylasildi",
         "tweet_id": "2113637069767463073",
         "zaman": "2026-10-23T14:21:57+00:00",
-        "metin": "Nottingham Forest are favourites, yet fail to win 56% of the time.\n\n🏴󠁧󠁢󠁥󠁮󠁧󠁿 Ipswich v Nottingham Forest 🏴󠁧󠁢󠁥󠁮󠁧󠁿\n🏆 Ipswich 31% · Draw 25% · Nottingham Forest 44%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 56% · Not both 44%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "Nottingham Forest are favourites, yet fail to win 56% of the time.\n\n🏴󠁧󠁢󠁥󠁮󠁧󠁿 Ipswich v Nottingham Forest 🏴󠁧󠁢󠁥󠁮󠁧󠁿\n🏆 Ipswich 31% · Draw 25% · Nottingham Forest 44%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 56% · Not both 44%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113737749765533739",
+          "skor": "1-1",
+          "isabet": [
+            false,
+            false,
+            true
+          ],
+          "xg": [
+            0.49,
+            2.33
+          ],
+          "zaman": "2026-10-23T21:01:52+00:00",
+          "brier": {
+            "piyasa": 1.3268,
+            "istatistik": 1.3881
+          }
+        }
       },
       "analiz_4": {
         "durum": "paylasildi",

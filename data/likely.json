@@ -31721,8 +31721,30 @@
        "oran": 1.36,
        "olasilik": 0.714,
        "deger": -0.029,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "4-0",
+       "goller": [
+        [
+         10,
+         0,
+         "ev"
+        ],
+        [
+         29,
+         0,
+         "ev"
+        ],
+        [
+         38,
+         0,
+         "ev"
+        ],
+        [
+         75,
+         0,
+         "ev"
+        ]
+       ]
       }
      ],
      "oran": 2.01,

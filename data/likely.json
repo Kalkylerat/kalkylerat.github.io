@@ -29713,7 +29713,7 @@
    "oto": true,
    "issue": 117,
    "tazeleme": "2026-10-22T09:03:25+00:00",
-   "olcum_sorgu": "2026-10-23T17:38:30+00:00"
+   "olcum_sorgu": "2026-10-23T18:35:04+00:00"
   },
   {
    "tarih": "2026-10-23",
@@ -29820,7 +29820,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 5
+     "no": 5,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1581546-CS12",
@@ -29921,7 +29922,8 @@
      "istatistik": 0.835,
      "uyum": true,
      "buyuk": false,
-     "no": 10
+     "no": 10,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1555069-UST15",
@@ -30022,7 +30024,8 @@
      "istatistik": 0.826,
      "uyum": true,
      "buyuk": false,
-     "no": 15
+     "no": 15,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1551852-UST15",
@@ -30245,7 +30248,8 @@
      "istatistik": 0.77,
      "uyum": true,
      "buyuk": false,
-     "no": 26
+     "no": 26,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1565510-CS12",
@@ -30586,7 +30590,8 @@
      "istatistik": 0.705,
      "uyum": false,
      "buyuk": false,
-     "no": 43
+     "no": 43,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1603066-UST15",
@@ -30688,7 +30693,8 @@
      "istatistik": 0.86,
      "uyum": true,
      "buyuk": false,
-     "no": 48
+     "no": 48,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1567938-CSX2",
@@ -30708,7 +30714,8 @@
      "istatistik": 0.701,
      "uyum": false,
      "buyuk": false,
-     "no": 49
+     "no": 49,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1611432-CS1X",
@@ -31172,7 +31179,8 @@
      "istatistik": 0.732,
      "uyum": true,
      "buyuk": false,
-     "no": 72
+     "no": 72,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1576505-CS12",
@@ -31295,7 +31303,8 @@
      "istatistik": 0.673,
      "uyum": true,
      "buyuk": false,
-     "no": 78
+     "no": 78,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1557443-CSX2",
@@ -31974,7 +31983,7 @@
    "oto": true,
    "issue": 121,
    "tazeleme": "2026-10-23T09:04:11+00:00",
-   "olcum_sorgu": "2026-10-23T17:38:30+00:00"
+   "olcum_sorgu": "2026-10-23T18:35:04+00:00"
   }
  ]
 }

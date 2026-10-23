@@ -128719,13 +128719,51 @@
           1570423,
           1563216
         ],
-        "sonuclar": {}
+        "sonuclar": {
+          "1576206": {
+            "durum": "paylasildi",
+            "tweet_id": "2113699042911818191",
+            "skor": [
+              1,
+              1
+            ],
+            "zaman": "2026-10-23T18:28:16+00:00"
+          },
+          "1576208": {
+            "durum": "paylasildi",
+            "tweet_id": "2113699044090343884",
+            "skor": [
+              0,
+              0
+            ],
+            "zaman": "2026-10-23T18:28:16+00:00"
+          }
+        }
       },
       "analiz_5": {
         "durum": "paylasildi",
         "tweet_id": "2113551706420088866",
         "zaman": "2026-10-23T08:42:45+00:00",
-        "metin": "VfL Wolfsburg are favourites.\nThey still fail to win 52% of the time.\n\n🇩🇪 VfL Bochum v VfL Wolfsburg 🇩🇪\n🏆 VfL Bochum 30% · Draw 22% · VfL Wolfsburg 48%\n⚽ Over 2.5 goals 67% · Under 33%\n🥅 Both teams score 67% · Not both 33%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "VfL Wolfsburg are favourites.\nThey still fail to win 52% of the time.\n\n🇩🇪 VfL Bochum v VfL Wolfsburg 🇩🇪\n🏆 VfL Bochum 30% · Draw 22% · VfL Wolfsburg 48%\n⚽ Over 2.5 goals 67% · Under 33%\n🥅 Both teams score 67% · Not both 33%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113699058166497381",
+          "skor": "1-1",
+          "isabet": [
+            false,
+            false,
+            true
+          ],
+          "xg": [
+            1.66,
+            0.78
+          ],
+          "zaman": "2026-10-23T18:28:16+00:00",
+          "brier": {
+            "piyasa": 1.4925,
+            "istatistik": 1.421
+          }
+        }
       },
       "bilgi": {
         "durum": "paylasildi",
@@ -128761,7 +128799,26 @@
         "durum": "paylasildi",
         "tweet_id": "2113615536915353921",
         "zaman": "2026-10-23T12:56:24+00:00",
-        "metin": "FC St. Pauli are favourites, yet fail to win 56% of the time.\n\n🇩🇪 SV Darmstadt 98 v FC St. Pauli 🇩🇪\n🏆 SV Darmstadt 98 31% · Draw 24% · FC St. Pauli 44%\n⚽ Over 2.5 goals 55% · Under 45%\n🥅 Both teams score 58% · Not both 42%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "FC St. Pauli are favourites, yet fail to win 56% of the time.\n\n🇩🇪 SV Darmstadt 98 v FC St. Pauli 🇩🇪\n🏆 SV Darmstadt 98 31% · Draw 24% · FC St. Pauli 44%\n⚽ Over 2.5 goals 55% · Under 45%\n🥅 Both teams score 58% · Not both 42%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113699071332388936",
+          "skor": "0-0",
+          "isabet": [
+            false,
+            false,
+            false
+          ],
+          "xg": [
+            0.81,
+            1.91
+          ],
+          "zaman": "2026-10-23T18:28:16+00:00",
+          "brier": {
+            "piyasa": 1.5084,
+            "istatistik": 1.5912
+          }
+        }
       },
       "maclar": {
         "durum": "paylasildi",

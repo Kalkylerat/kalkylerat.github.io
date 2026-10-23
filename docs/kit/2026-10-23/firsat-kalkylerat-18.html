@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><title>Yorum fırsatları @kalkylerat · 18:00 UTC</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{overflow-wrap:anywhere;margin:0;background:#000;color:#e7e9ea;font:16px/1.45 -apple-system,system-ui,Roboto,sans-serif}
+main{max-width:640px;margin:0 auto;padding:16px}h1{font-size:18px;margin:4px 0 4px}.not{color:#ffd166;margin:0 0 12px}
+.oge{border:1px solid #2f3336;border-radius:14px;padding:14px;margin:0 0 18px}.kim{color:#71767b;font-size:14px}
+.post{color:#c4c9cc;font-size:14px;margin:6px 0 10px;white-space:pre-wrap}.ac{color:#1d9bf0;font-size:14px}
+.taslak{background:#16181c;border-radius:12px;padding:12px;margin:10px 0 0}.metin{white-space:pre-wrap;margin:0 0 10px}
+button{width:100%;border:0;border-radius:999px;padding:13px;font-size:16px;font-weight:700;background:#1d9bf0;color:#fff}
+button.ikinci{background:#2f3336;margin-top:8px;font-weight:600}
+</style></head><body><main>
+<h1>Yorum fırsatları @kalkylerat · 18:00 UTC</h1>
+<p class="kim">Düğme metni panoya kopyalar ve postu X'te açar. X'te <b>Yanıtla</b>'ya dokun, kutuya uzun basıp
+<b>Yapıştır</b>, sonra gönder.</p>
+<section class="oge"><div class="kim">1. @WhoScored · Ipswich v Nottingham Forest</div><p class="post">Nottingham Forest have won 5 of the last 6 meetings against Ipswich (83% win rate). 🌳
+
+#IPSNFO https://t.co/HY6Ecf2NhZ</p><a class="ac" href="https://x.com/WhoScored/status/2113691926100636003">Postu X'te gör</a><div class="taslak"><div class="kim">1. taslak</div><p class="metin">5 from 6 is a proper run. We had Forest around 44% for this one, so the history and the numbers kind of agree 🌳
+
+https://x.com/kalkylerat/status/2113637069767463073</p><button onclick="kopyala(0,true,this)">📋 Kopyala ve postu aç</button><button class="ikinci" onclick="kopyala(0,false,this)">Sadece kopyala</button></div><div class="taslak"><div class="kim">2. taslak</div><p class="metin">Forest have had the edge in this fixture lately. Do you think Ipswich can finally break that run this time?
+
+https://x.com/kalkylerat/status/2113637069767463073</p><button onclick="kopyala(1,true,this)">📋 Kopyala ve postu aç</button><button class="ikinci" onclick="kopyala(1,false,this)">Sadece kopyala</button></div></section>
+</main><script>
+const V = [{"metin": "5 from 6 is a proper run. We had Forest around 44% for this one, so the history and the numbers kind of agree 🌳\n\nhttps://x.com/kalkylerat/status/2113637069767463073", "url": "https://x.com/WhoScored/status/2113691926100636003"}, {"metin": "Forest have had the edge in this fixture lately. Do you think Ipswich can finally break that run this time?\n\nhttps://x.com/kalkylerat/status/2113637069767463073", "url": "https://x.com/WhoScored/status/2113691926100636003"}];
+function kopyala(i, ac, btn) {
+  const t = V[i].metin, git = () => { if (ac) setTimeout(() => location.href = V[i].url, 350); };
+  const tamam = () => { btn.textContent = "✅ Kopyalandı" + (ac ? ", post açılıyor…" : ""); git(); };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(t).then(tamam, () => yedek(t, tamam));
+  } else { yedek(t, tamam); }
+}
+function yedek(t, tamam) {
+  const a = document.createElement("textarea"); a.value = t; document.body.appendChild(a); a.select();
+  try { document.execCommand("copy"); } catch (e) {} a.remove(); tamam();
+}
+</script></body></html>

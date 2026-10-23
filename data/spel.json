@@ -128696,6 +128696,31 @@
         "istatistik_kaynak": "lig"
       }
     ],
-    "etkilesim": {}
+    "etkilesim": {
+      "tablo": {
+        "durum": "paylasildi",
+        "tweet_id": "2113541025348157895",
+        "zaman": "2026-10-23T08:00:10+00:00",
+        "metin": "Today's board: 15 games, all in the image.\n\n🆚 Alanyaspor v Kocaelispor\n🏆 Alanyaspor 49% · Draw 27% · Kocaelispor 24%\n⚽ Over 2.5 goals 40% · Under 60%\n🎯 Likeliest score 1-0 (14%)\n\n💬 Does 14% for 1-0 look low to you?\n\n#SuperLig\n18+ | Play responsibly",
+        "maclar": [
+          1576206,
+          1576208,
+          1584439,
+          1552505,
+          1552507,
+          1552509,
+          1552510,
+          1575196,
+          1601567,
+          1569988,
+          1550165,
+          1552794,
+          1557443,
+          1570423,
+          1563216
+        ],
+        "sonuclar": {}
+      }
+    }
   }
 ]

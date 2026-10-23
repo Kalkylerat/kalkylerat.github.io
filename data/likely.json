@@ -29713,7 +29713,7 @@
    "oto": true,
    "issue": 117,
    "tazeleme": "2026-10-22T09:03:25+00:00",
-   "olcum_sorgu": "2026-10-23T07:02:53+00:00"
+   "olcum_sorgu": "2026-10-23T08:00:10+00:00"
   },
   {
    "tarih": "2026-10-23",
@@ -31837,7 +31837,9 @@
     {
      "tur": "ders",
      "metin": "💡 The draw is the result nobody fancies, and it keeps turning up anyway. If your coupons keep dying 1-1, that's not a curse, it's football.\n\n18+ | Play responsibly",
-     "saat": 10.0
+     "saat": 10.0,
+     "tweet_id": "2113541032918778324",
+     "zaman": "2026-10-23T08:00:10+00:00"
     },
     {
      "tur": "favori",

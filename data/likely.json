@@ -27581,7 +27581,8 @@
      "istatistik": 0.87,
      "uyum": true,
      "buyuk": false,
-     "no": 9
+     "no": 9,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1645511-CS1X",
@@ -29713,7 +29714,8 @@
    "oto": true,
    "issue": 117,
    "tazeleme": "2026-10-22T09:03:25+00:00",
-   "olcum_sorgu": "2026-10-23T19:32:26+00:00"
+   "olcum_sorgu": "2026-10-23T20:33:30+00:00",
+   "olcum_bitti": true
   },
   {
    "tarih": "2026-10-23",
@@ -29883,7 +29885,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 8
+     "no": 8,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1575196-CS1X",
@@ -29903,7 +29906,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 9
+     "no": 9,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1567933-UST15",
@@ -30048,7 +30052,8 @@
      "istatistik": 0.801,
      "uyum": true,
      "buyuk": false,
-     "no": 16
+     "no": 16,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1621653-CS1X",
@@ -30131,7 +30136,8 @@
      "istatistik": 0.801,
      "uyum": true,
      "buyuk": false,
-     "no": 20
+     "no": 20,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1492790-UST15",
@@ -30171,7 +30177,8 @@
      "istatistik": 0.769,
      "uyum": true,
      "buyuk": false,
-     "no": 22
+     "no": 22,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1597946-CS12",
@@ -30212,7 +30219,8 @@
      "istatistik": 0.874,
      "uyum": true,
      "buyuk": false,
-     "no": 24
+     "no": 24,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1551854-UST15",
@@ -30232,7 +30240,8 @@
      "istatistik": 0.874,
      "uyum": true,
      "buyuk": false,
-     "no": 25
+     "no": 25,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1576208-EVA25",
@@ -30294,7 +30303,8 @@
      "istatistik": 0.912,
      "uyum": true,
      "buyuk": false,
-     "no": 28
+     "no": 28,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1551853-UST15",
@@ -30314,7 +30324,8 @@
      "istatistik": 0.928,
      "uyum": true,
      "buyuk": false,
-     "no": 29
+     "no": 29,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1552509-CS1X",
@@ -30334,7 +30345,8 @@
      "istatistik": 0.75,
      "uyum": false,
      "buyuk": false,
-     "no": 30
+     "no": 30,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1552198-CS1X",
@@ -30354,7 +30366,8 @@
      "istatistik": 0.792,
      "uyum": true,
      "buyuk": false,
-     "no": 31
+     "no": 31,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1570423-CS1X",
@@ -30556,7 +30569,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 41
+     "no": 41,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1575991-CS1X",
@@ -30763,7 +30777,8 @@
      "istatistik": 0.877,
      "uyum": true,
      "buyuk": false,
-     "no": 51
+     "no": 51,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1607459-CS1X",
@@ -30864,7 +30879,8 @@
      "istatistik": 0.702,
      "uyum": false,
      "buyuk": false,
-     "no": 56
+     "no": 56,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1552510-CS1X",
@@ -30884,7 +30900,8 @@
      "istatistik": 0.738,
      "uyum": true,
      "buyuk": false,
-     "no": 57
+     "no": 57,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1584439-ALT35",
@@ -30966,7 +30983,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 61
+     "no": 61,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1550165-CS1X",
@@ -31006,7 +31024,8 @@
      "istatistik": 0.552,
      "uyum": false,
      "buyuk": false,
-     "no": 63
+     "no": 63,
+     "sonuc": "iade"
     },
     {
      "aday_id": "1601567-CS12",
@@ -31026,7 +31045,8 @@
      "istatistik": 0.764,
      "uyum": true,
      "buyuk": false,
-     "no": 64
+     "no": 64,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1558541-CS12",
@@ -31067,7 +31087,8 @@
      "istatistik": 0.605,
      "uyum": false,
      "buyuk": false,
-     "no": 66
+     "no": 66,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1569988-CS1X",
@@ -31087,7 +31108,8 @@
      "istatistik": 0.788,
      "uyum": true,
      "buyuk": false,
-     "no": 67
+     "no": 67,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1555070-UST25",
@@ -31107,7 +31129,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 68
+     "no": 68,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1492788-IYU05",
@@ -31127,7 +31150,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 69
+     "no": 69,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1601915-CS12",
@@ -31209,7 +31233,8 @@
      "istatistik": 0.773,
      "uyum": true,
      "buyuk": false,
-     "no": 73
+     "no": 73,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1609092-UST15",
@@ -31229,7 +31254,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 74
+     "no": 74,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1643367-IYA15",
@@ -31537,8 +31563,35 @@
        "oran": 1.13,
        "olasilik": 0.865,
        "deger": -0.023,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "2-3",
+       "goller": [
+        [
+         5,
+         0,
+         "ev"
+        ],
+        [
+         38,
+         0,
+         "dep"
+        ],
+        [
+         51,
+         0,
+         "dep"
+        ],
+        [
+         66,
+         0,
+         "dep"
+        ],
+        [
+         83,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1632230-UST25",
@@ -31576,13 +31629,16 @@
      "oran": 2.01,
      "olasilik": 0.494,
      "deger": -0.007,
-     "durum": "bekliyor",
+     "durum": "yatti",
      "secim": "2026-10-23T05:37:27+00:00",
      "oto": true,
      "paylas": "2026-10-23T14:00:00+02:00",
      "tweet_id": "2113603097188778098",
      "metin": "🎩 A treble. One leg more than I'd like, as usual.\n\n⚽ Oddevold v GIF Sundsvall\n⚽ VfB Stuttgart v Borussia Mönchengladbach\n⚽ Al Ittihad v Paro\n\n📊 Combined 2.01. I make it about 49% to land.\n\n💬 Which one would you drop?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-23T12:06:57+00:00"
+     "yayin": "2026-10-23T12:06:57+00:00",
+     "son_oran": 1.78,
+     "sonuc_metni": "❌ One out. Always one. Coupon down. I had it at 49%, which was never 100.\n\n✅ Oddevold 7-0 GIF Sundsvall: Double chance 1X\n❌ VfB Stuttgart 2-3 Borussia Mönchengladbach: Double chance 1X\n✅ Al Ittihad 2-1 Paro: Over 2.5 goals\n\nRecord: 20 of 43 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2113730618072985653"
     },
     {
      "ad": "long-shot",
@@ -31614,8 +31670,25 @@
        "oran": 1.36,
        "olasilik": 0.715,
        "deger": -0.028,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "2-1",
+       "goller": [
+        [
+         14,
+         0,
+         "ev"
+        ],
+        [
+         57,
+         0,
+         "dep"
+        ],
+        [
+         67,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1492788-IYU05",
@@ -31629,8 +31702,9 @@
        "oran": 1.37,
        "olasilik": 0.714,
        "deger": -0.022,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "0-0",
+       "goller": []
       },
       {
        "aday_id": "1552794-CS1X",
@@ -31651,13 +31725,14 @@
      "oran": 3.42,
      "olasilik": 0.264,
      "deger": -0.097,
-     "durum": "bekliyor",
+     "durum": "yatti",
      "secim": "2026-10-23T05:37:27+00:00",
      "oto": true,
      "paylas": "2026-10-23T17:30:00+02:00",
      "tweet_id": "2113654979865043062",
      "metin": "🎩 The ambitious one. Treat it like a lottery ticket with better manners.\n\n⚽ Torino v Monza\n⚽ Granada CF v Valladolid\n⚽ Galway United v St Patrick's Athl.\n⚽ Stade Brestois 29 v Nice\n\n📊 Combined 3.42. I make it about 26% to land.\n\n18+ | Play responsibly",
-     "yayin": "2026-10-23T15:33:07+00:00"
+     "yayin": "2026-10-23T15:33:07+00:00",
+     "son_oran": 1.36
     },
     {
      "ad": "gunun-kuponu-2",
@@ -32112,7 +32187,7 @@
    "oto": true,
    "issue": 121,
    "tazeleme": "2026-10-23T09:04:11+00:00",
-   "olcum_sorgu": "2026-10-23T19:32:26+00:00"
+   "olcum_sorgu": "2026-10-23T20:33:30+00:00"
   }
  ]
 }

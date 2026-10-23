@@ -128791,6 +128791,24 @@
               2
             ],
             "zaman": "2026-10-23T20:25:56+00:00"
+          },
+          "1575196": {
+            "durum": "paylasildi",
+            "tweet_id": "2113730563404398736",
+            "skor": [
+              2,
+              3
+            ],
+            "zaman": "2026-10-23T20:33:30+00:00"
+          },
+          "1569988": {
+            "durum": "paylasildi",
+            "tweet_id": "2113730564553662881",
+            "skor": [
+              2,
+              1
+            ],
+            "zaman": "2026-10-23T20:33:30+00:00"
           }
         }
       },
@@ -128854,7 +128872,22 @@
         "durum": "paylasildi",
         "tweet_id": "2113583174437466575",
         "zaman": "2026-10-23T10:47:47+00:00",
-        "metin": "VfB Stuttgart win 70%: about 2 in 3.\n\n🇩🇪 VfB Stuttgart v Borussia Mönchengladbach 🇩🇪\n🏆 VfB Stuttgart 70% · Draw 16% · Borussia Mönchengladbach 14%\n⚽ Over 2.5 goals 74% · Under 26%\n🥅 Both teams score 64% · Not both 36%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "VfB Stuttgart win 70%: about 2 in 3.\n\n🇩🇪 VfB Stuttgart v Borussia Mönchengladbach 🇩🇪\n🏆 VfB Stuttgart 70% · Draw 16% · Borussia Mönchengladbach 14%\n⚽ Over 2.5 goals 74% · Under 26%\n🥅 Both teams score 64% · Not both 36%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113730580563304707",
+          "skor": "2-3",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "xg": [
+            1.62,
+            2.66
+          ],
+          "zaman": "2026-10-23T20:33:30+00:00"
+        }
       },
       "analiz_1": {
         "durum": "paylasildi",

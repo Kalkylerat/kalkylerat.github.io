@@ -128887,7 +128887,17 @@
           1558657,
           1575526
         ],
-        "sonuclar": {}
+        "sonuclar": {
+          "1561948": {
+            "durum": "paylasildi",
+            "tweet_id": "2113713396642087300",
+            "skor": [
+              2,
+              1
+            ],
+            "zaman": "2026-10-23T19:25:18+00:00"
+          }
+        }
       },
       "anket": {
         "durum": "paylasildi",

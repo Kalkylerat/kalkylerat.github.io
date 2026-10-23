@@ -31676,6 +31676,33 @@
      "secim": "2026-10-23T05:37:27+00:00",
      "oto": true,
      "paylas": "2026-10-23T13:00:00+02:00"
+    },
+    {
+     "ad": "gunun-kuponu-4",
+     "ayaklar": [
+      {
+       "aday_id": "1641646-ALT25",
+       "fixture_id": 1641646,
+       "pazar": "ALT25",
+       "ev": "Triglav",
+       "dep": "Nafta",
+       "lig": "Cup",
+       "baslama": "2026-10-23T17:30:00+02:00",
+       "etiket": "Under 2.5 goals",
+       "oran": 2.08,
+       "olasilik": 0.522,
+       "deger": 0.085,
+       "durum": "bekliyor",
+       "skor": null
+      }
+     ],
+     "oran": 2.08,
+     "olasilik": 0.522,
+     "deger": 0.086,
+     "durum": "bekliyor",
+     "secim": "2026-10-23T09:04:11+00:00",
+     "oto": true,
+     "paylas": "2026-10-23T14:40:00+02:00"
     }
    ],
    "islenen": [],
@@ -31875,7 +31902,8 @@
     }
    ],
    "oto": true,
-   "issue": 121
+   "issue": 121,
+   "tazeleme": "2026-10-23T09:04:11+00:00"
   }
  ]
 }

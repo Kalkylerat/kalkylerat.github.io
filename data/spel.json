@@ -129202,7 +129202,20 @@
           "1558657": {
             "durum": "atlandi",
             "neden": "maç oynanmadı"
+          },
+          "1575526": {
+            "durum": "paylasildi",
+            "tweet_id": "2113748431348834502",
+            "skor": [
+              5,
+              0
+            ],
+            "zaman": "2026-10-23T21:44:31+00:00"
           }
+        },
+        "takip": {
+          "durum": "tamam",
+          "zaman": "2026-10-23T21:44:31+00:00"
         }
       },
       "anket": {

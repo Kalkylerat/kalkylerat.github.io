@@ -1044,3 +1044,17 @@ def test_E6_ayak_orani_yalniz_bet365ten():
     assert not any(a["pazar"] == "MS1" for a in likely.havuz(MACLAR[:1], {1: b3}, AYAR, CFG, SIMDI))
     # ayarlar.toml canlı ayarı da Bet365
     assert likely.ayar_yukle().oran_sitesi == "Bet365"
+
+
+def test_E2_kupon_gorselinde_her_ayagin_ihtimali(monkeypatch):
+    """24 Ekim 2026 (sahibinin isteği): kupon kartında her ayağın yanında kendi ihtimali (%)."""
+    from PIL import ImageDraw
+    from bot import likely_gorsel
+    yazilar = []
+    asil = ImageDraw.ImageDraw.text
+    monkeypatch.setattr(ImageDraw.ImageDraw, "text", lambda self, xy, metin, *a, **k: (yazilar.append(metin), asil(self, xy, metin, *a, **k))[1])
+    k = {"oran": 2.04, "olasilik": 0.512, "ayaklar": [
+        {"ev": "Arsenal", "dep": "Burnley", "etiket": "Arsenal win", "oran": 1.36, "olasilik": 0.712},
+        {"ev": "Inter", "dep": "Lecce", "etiket": "Over 1.5 goals", "oran": 1.5, "olasilik": 0.719}]}
+    assert likely_gorsel.kupon_karti(k, "2026-10-25")[:4] == b"\x89PNG"
+    assert "Arsenal win · 71% likely" in yazilar and "Over 1.5 goals · 72% likely" in yazilar

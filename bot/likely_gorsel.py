@@ -68,7 +68,8 @@ def kupon_karti(kupon: dict, tarih: str) -> bytes:
         y = ust + i * satir
         mac = f'{a["ev"]} v {a["dep"]}'
         d.text((150, y + 58 * k), mac, font=_sigdir(d, mac, "kalin", round(46 * k), 700), fill=MUREKKEP, anchor="ls")
-        d.text((150, y + 108 * k), a["etiket"], font=_sigdir(d, a["etiket"], "orta", round(34 * k), 700), fill=SOLUK, anchor="ls")
+        oyun = a["etiket"] + (f' · {round(100 * a["olasilik"])}% likely' if a.get("olasilik") else "")  # E2
+        d.text((150, y + 108 * k), oyun, font=_sigdir(d, oyun, "orta", round(34 * k), 700), fill=SOLUK, anchor="ls")
         d.text((1050, y + 92 * k), f'{a["oran"]:.2f}', font=_font("anton", round(72 * k)), fill=MUREKKEP, anchor="rs")
         for x in range(150, 1050, 14):  # noktalı ayraç
             d.ellipse((x, y + satir - 8, x + 3, y + satir - 5), fill="#B9B29C")

@@ -12,7 +12,9 @@
 - Yanlış oranlı kupon maç başlamadan `likely_iptal` ile silinebilir (E5'e tek istisna, 14 Ekim).
 
 ## Açık işler
-- [ ] Sanal kasa (E8): kod ana dalda, `oto_kasa = false`. Sahibi paleti ve duyuru metnini onaylayınca açılır.
+- [x] Sanal kasa (E8) açıldı (24 Ekim): 10.000 €, palet fiş, 4 postluk duyuru; sahibi 1. postu sabitler.
+  Geçmiş (6–24 Ekim) en iyi fiyatla paylaşılan oranlardan; 25 Ekim'den itibaren yalnızca Bet365 fiyatı.
+- Kupon kartında her ayağın yanında ihtimali (% likely), 24 Ekim.
 - [ ] `claude/daily-coupon-teaser-2bolvm` dalını ana dala al (21 Ekim): ilk kupondan önce "bugün N kupon" duyuru postu.
 - [ ] Gölge test kararı: DC12 çıkarılsın mı, fiyat sınırı gevşesin mi? 13 Ekim'de 1–2 hafta beklenmesi kararlaştırıldı;
       rapor sabah bildiriminin sonunda. Kural gevşetmek sahibinin onayıyla (CLAUDE.md).

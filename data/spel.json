@@ -135559,7 +135559,17 @@
           1558661,
           1552201
         ],
-        "sonuclar": {}
+        "sonuclar": {
+          "1561951": {
+            "durum": "paylasildi",
+            "tweet_id": "2114075792669900802",
+            "skor": [
+              5,
+              1
+            ],
+            "zaman": "2026-10-24T19:25:20+00:00"
+          }
+        }
       },
       "bilgi": {
         "durum": "paylasildi",

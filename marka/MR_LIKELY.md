@@ -18,8 +18,10 @@ Görseller bu klasörde: `mr_likely_logo.png` (profil fotoğrafı, 800×800) ve 
 
 ### Biyografi (Bio)
 
+Sahibi 24 Ekim 2026'da güncelledi (sanal kasa ve günlük grafikle).
+
 ```
-Football coupons picked by a numbers model on strict rules: odds 2 to 4, four legs max, counted win or lose. Plus how to bet smarter. Likely, never certain. 18+
+Football coupons from a numbers model on strict rules. Every coupon counted, losers too. Virtual €10k bank, charted daily. Likely, never certain. 18+
 ```
 
 ### Sabitlenecek post (elle at, profilde sabitle)

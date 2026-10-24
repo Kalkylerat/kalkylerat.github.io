@@ -135345,6 +135345,15 @@
               3
             ],
             "zaman": "2026-10-24T18:00:10+00:00"
+          },
+          "1557439": {
+            "durum": "paylasildi",
+            "tweet_id": "2114061490013548835",
+            "skor": [
+              0,
+              2
+            ],
+            "zaman": "2026-10-24T18:28:30+00:00"
           }
         }
       },
@@ -135504,7 +135513,26 @@
         "durum": "paylasildi",
         "tweet_id": "2113997241996247313",
         "zaman": "2026-10-24T14:13:09+00:00",
-        "metin": "4+ goals: 40%.\nExpected goals 1.9 – 1.2.\n\n🏴󠁧󠁢󠁥󠁮󠁧󠁿 Chelsea v Tottenham 🏴󠁧󠁢󠁥󠁮󠁧󠁿 · 18:30 CEST\n🏆 Chelsea 54% · Draw 22% · Tottenham 24%\n⚽ Over 2.5 goals 62% · Under 38%\n🥅 Both teams score 61% · Not both 39%\n\n💬 Chances, not picks. What's your score? 👇\n#PremierLeague\n18+ | Play responsibly"
+        "metin": "4+ goals: 40%.\nExpected goals 1.9 – 1.2.\n\n🏴󠁧󠁢󠁥󠁮󠁧󠁿 Chelsea v Tottenham 🏴󠁧󠁢󠁥󠁮󠁧󠁿 · 18:30 CEST\n🏆 Chelsea 54% · Draw 22% · Tottenham 24%\n⚽ Over 2.5 goals 62% · Under 38%\n🥅 Both teams score 61% · Not both 39%\n\n💬 Chances, not picks. What's your score? 👇\n#PremierLeague\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2114061506862035029",
+          "skor": "0-2",
+          "isabet": [
+            false,
+            false,
+            false
+          ],
+          "xg": [
+            0.51,
+            0.8
+          ],
+          "zaman": "2026-10-24T18:28:30+00:00",
+          "brier": {
+            "piyasa": 1.6688,
+            "istatistik": 2.0791
+          }
+        }
       },
       "analiz_8": {
         "durum": "paylasildi",

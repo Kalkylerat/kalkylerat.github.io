@@ -467,10 +467,16 @@ def likely_nabiz(ayar, simdi: datetime, sonuclar: bool = True) -> None:
     if x is None:
         print("Mr. Likely otomatik modda ama hesap henüz paylaşım izni vermemiş; paylaşım yapılmadı.")
         return
-    for ad, adim in (("kupon paylaşımı", lambda: likely.oto_paylas(ayar, x, simdi, yazici=_likely_yazici(ayar),
+    try:  # sabah duyurusu ("bugün N kupon"): atıldıysa bu turda kupon atılmaz, ilk kupon bir sonraki turda gelir
+        duyuru = likely.oto_duyuru(ayar, x, simdi, yaz=_ozet_yaz)
+    except Exception as e:
+        duyuru = False
+        _hata("Mr. Likely duyuru postu", e)
+    for ad, adim in (("kupon paylaşımı", lambda: 0 if duyuru else likely.oto_paylas(ayar, x, simdi, yazici=_likely_yazici(ayar),
                                                                      kart=likely_gorsel.kupon_karti, yaz=_ozet_yaz)),
                      ("sonuç paylaşımı", lambda: likely.oto_sonuc_paylas(ayar, x, simdi, kart=likely_gorsel.sonuc_karti, yaz=_ozet_yaz)),
                      ("bilgi postu", lambda: likely.oto_bilgi(ayar, x, simdi, yaz=_ozet_yaz)),
+                     ("maç postu", lambda: likely.oto_mac(ayar, x, simdi, yaz=_ozet_yaz)),
                      ("kasa grafiği", lambda: likely_kasa.oto_kasa(ayar, x, simdi, yaz=_ozet_yaz))):
         try:
             adim()

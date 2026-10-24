@@ -143,6 +143,10 @@ oto_son_dk = 20
 # en az kaç dakika uzakta. Saatleri: 10:00 not, 13:00 günün favorisi, 16:00 gol/denk maç, 21:00 not (İsveç saati).
 oto_bilgi_sayisi = 4
 oto_bilgi_aralik_dk = 40
+# Günün maçı postları (SOZLESME E1, 24 Ekim 2026): günde en fazla bu kadar maç (önce büyük maçlar), 1X2, gol yüzdeleri ve
+# havuzun en yüksek ihtimalli oyunu ("safest angle"). Maçtan ~2,5 saat önce. 0 = kapalı (eski favori/gol/denk postları).
+# Maliyet: maç başına 1 X yazma (en fazla 10/gün), ek API isteği yok (analiz kaydı ve havuzdan).
+oto_mac_sayisi = 10
 # Sanal kasa grafiği (SOZLESME E8): 10.000 € (6 Ekim'den), her kupona boştaki bakiyenin %3'ü. true olunca önce bir kez
 # duyuru, sonra her gün kuponlar sonuçlanınca grafik (Pazar haftalık, ay sonu aylık). Duyuru sahibinin onayıyla açılır.
 # Maliyet: günde 1 X yazma (görsel yerel). Palet: fis, hardal, murekkep, orman, gece (bot/likely_kasa.py).

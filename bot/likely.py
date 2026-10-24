@@ -82,6 +82,7 @@ class LikelyAyar:
     oto_ders_saati: int = 14       # (eski kayıtlar için) günün dersi bu saatten sonra
     oto_bilgi_sayisi: int = 4      # günde en fazla kaç bilgi postu (strateji notu, günün rakamları)
     oto_bilgi_aralik_dk: int = 40  # bilgi postu, başka bir posttan en az bu kadar dakika uzakta
+    oto_mac_sayisi: int = 10       # günün maçı postları (E1, 24 Ekim 2026); 0 = kapalı (eski favori/gol/denk postları)
     oto_haftalik_karne: bool = False  # Pazartesi 10:00 dersinin yerine haftalık karne postu (SOZLESME E1)
     # Sanal kasa grafiği (SOZLESME E8): açılınca önce bir kez duyuru, sonra her gün kuponlar sonuçlanınca grafik.
     oto_kasa: bool = False
@@ -306,6 +307,23 @@ SORULAR = ["Which leg lets me down?", "Which one would you drop?", "Would you ta
            "Which of these do you trust least?", "Too cautious or about right?"]
 KAPANIS = ["Probably.", "No promises.", "We'll see.", "That's the maths, not a promise.", "Likely. Not certain.",
            "As ever: likely, not certain."]
+# Sabah duyuru postu (E1, sahibinin isteği 21 Ekim 2026): kuponlardan önce, bugün kaç kupon geleceği. {n} sayı, {N} büyük harfle.
+DUYURU = ["I'll drop {n} coupons today. Went through the whole card and kept the ones I'd actually back.",
+          "{N} coupons coming today. Did the homework, binned most of it, kept these.",
+          "Today's plan: {n} coupons. Picked from everything on the card, nothing forced.",
+          "{N} coupons on the way today. Plenty of games looked at, not many made the cut.",
+          "Got {n} coupons for you today. Analysed the lot and these are the best of it.",
+          "{N} coupons today, spread through the day. The rest of the card didn't convince me."]
+DUYURU_TEK = ["Just the one coupon today. Looked at everything, only one was worth it.",
+              "One coupon today. The rest of the card didn't convince me.",
+              "Only one coupon today. Quiet card, I'm not forcing it."]
+DUYURU_EK = ["Might add one later if the odds move my way.", "Could be one more after the midday odds check."]
+# Duyurunun sonundaki soru (sahibinin isteği 24 Ekim 2026): yanıt çağırır; gelen yanıta yorum kiti bizim yüzdemizi verir.
+DUYURU_SORU = ["Which game today do you fancy? Tell me and I'll give you my number for it.",
+               "Which pick do you trust most today?",
+               "Which game are you watching today? I'll tell you my number for it.",
+               "What's the one result you'd trust today?"]
+SAYILAR = {2: "two", 3: "three", 4: "four", 5: "five"}
 TUTTU = ["That'll do.", "Landed. I'll try not to be smug about it.", "In. Nice when the maths behaves.",
          "Home. On to the next one.", "Done. Probably deserved it too.", "Lovely. Quietly lovely.",
          "No drama, which is exactly how I like them."]
@@ -570,6 +588,8 @@ def bilgi_hazirla(analizler: list[dict], tarih: str, simdi: datetime, cfg: Likel
     Her biri {"tur", "metin", "saat"} (+ "anket"). Sayı sabit: ek post, ek maliyet yok."""
     buyuk = [a for a in analizler if analiz.onemli(a) and a.get("kaynak") == "piyasa" and a.get("guven") == "yuksek"
              and datetime.fromisoformat(a["baslama"]) >= simdi + timedelta(hours=2)]
+    if cfg.oto_mac_sayisi:  # büyük maçlar günün maçı postlarında (E1): rakam postu tekrar etmesin
+        buyuk = []
     son = f"\n\n{ANSVAR}"
     postlar = [{"tur": "hafta", "metin": hafta_metni(hafta), "saat": 10.0} if hafta
                else {"tur": "ders", "metin": ders_metni(tarih), "saat": 10.0}]
@@ -730,8 +750,11 @@ def paket_metni(gun: dict, veri: dict, ayar, cfg: LikelyAyar) -> str:
             s += [f'**{KUPON_ADI.get(kp["ad"], kp["ad"])}** · oran {kp["oran"]:.2f} · tutma %{round(100 * kp["olasilik"])} · '
                   f'değer {round(100 * kp["deger"]):+d}% · paylaşım **{_saat(kp["paylas"], ayar)}**']
             s += [f"- {_ayak_satiri(a, ayar)}" for a in kp["ayaklar"]] + [""]
-        if not gun["secilen"]:
-            s += ["Bugün kurallara uyan kupon çıkmadı; kupon paylaşılmayacak (günün dersi yine çıkar).", ""]
+        if gun["secilen"]:
+            s += ["İlk kupondan önce duyuru postu gider (kupon sayısı paylaşım anındaki sayıdır):", "```",
+                  duyuru_metni(len(gun["secilen"]), gun["tarih"], len(gun["secilen"]) < cfg.oto_max_kupon), "```", ""]
+        else:
+            s += ["Bugün kurallara uyan kupon çıkmadı; kupon ve duyuru postu paylaşılmayacak (günün dersi yine çıkar).", ""]
         s += ["Bugünün paylaşılmamış kuponlarını durdurmak için bu issue'ya `iptal` yaz.", ""]
         t = gun.get("tani")
         if t:
@@ -849,6 +872,7 @@ def sabah(ayar, analizler: list[dict], oranlar: dict, simdi: datetime, gh, yaz=p
             gun["secilen"].append(d)
         gun["durum"] = "secildi" if gun["secilen"] else "bekliyor"
         gun["oto"] = True
+        gun["maclar"] = mac_planla(analizler, adaylar, gun["secilen"], simdi, cfg, ayar)
     govde = (f"@{ayar.alarm_kime} " if ayar.alarm_kime else "") + paket_metni(gun, veri, ayar, cfg)
     baslik = ((f"🎩 Mr. Likely {tarih}: otomatik, {len(gun['secilen'])} kupon paylaşılacak" if gun["secilen"]
                else f"⚠️ Mr. Likely {tarih}: otomatik, BUGÜN KUPON ÇIKMADI (kural sağlanmadı)") if oto
@@ -1187,6 +1211,47 @@ def oto_paylas(ayar, x, simdi: datetime, yazici=None, kart=None, yaz=print) -> i
     return paylasilan
 
 
+def duyuru_metni(n: int, tohum: str, ek_olabilir: bool = False) -> str:
+    """Sabah duyuru postu: bugün kaç kupon geleceği, Mr. Likely'nin sesiyle. Öğlen tazeleme henüz yapılmadıysa ve yer
+    varsa sayı kesin söylenmez, "bir tane daha gelebilir" eklenir (sayı sonradan artarsa post yalan söylemiş olmasın)."""
+    if n == 1:
+        metin = _sec(DUYURU_TEK, tohum)
+    else:
+        sayi = SAYILAR.get(n, str(n))
+        metin = _sec(DUYURU, tohum).format(n=sayi, N=sayi.capitalize())
+    if ek_olabilir:
+        metin += " " + _sec(DUYURU_EK, tohum + "e")
+    return f"🎩 {metin}\n\n💬 {_sec(DUYURU_SORU, tohum + 's')}\n\n{ANSVAR}"
+
+
+def oto_duyuru(ayar, x, simdi: datetime, yaz=print) -> bool:
+    """Günün seçimi bitince, ilk kupon postundan önce bir kez "bugün N kupon" postu atar (E1). Kupon yoksa, bugün zaten
+    bir kupon paylaşıldıysa ya da saat 23:00'ü geçtiyse atılmaz. Post atıldıysa True (aynı turda kupon atılmaz)."""
+    cfg = ayar_yukle()
+    if not cfg.aktif or cfg.mod != "otomatik":
+        return False
+    veri = yukle()
+    yerel = simdi.astimezone(ZoneInfo(ayar.saat_dilimi))
+    gun = next((g for g in veri["gunler"][-2:] if g["tarih"] == yerel.date().isoformat()), None)
+    if not gun or not gun.get("oto") or gun.get("duyuru") or yerel.hour >= 23:
+        return False
+    bekleyen = [k for k in gun.get("secilen", []) if k.get("oto") and k["durum"] == "bekliyor" and not k.get("tweet_id")]
+    if any(k.get("tweet_id") for k in gun.get("secilen", [])):
+        gun["duyuru"] = {"tweet_id": "gecti"}  # gün başladı: duyuru artık anlamsız
+        kaydet(veri)
+        return False
+    if not bekleyen:
+        return False  # bugün kupon yok: duyuru da yok (iptal edilen gün de buraya düşer)
+    ek_olabilir = (len(gun["secilen"]) < cfg.oto_max_kupon and not gun.get("tazeleme")
+                   and yerel.hour < cfg.oto_tazele_saati)
+    metin = duyuru_metni(len(bekleyen), gun["tarih"], ek_olabilir)
+    gun["duyuru"] = {"metin": metin, "sayi": len(bekleyen), "zaman": simdi.isoformat(timespec="seconds")}
+    gun["duyuru"]["tweet_id"] = x.gonder(metin)
+    kaydet(veri)
+    yaz(f"Mr. Likely: duyuru postu paylaşıldı ({len(bekleyen)} kupon).")
+    return True
+
+
 def oto_sonuc_paylas(ayar, x, simdi: datetime, kart=None, yaz=print) -> int:
     """Sonuçlanan, paylaşılmış kuponun sonuç postunu atar (bir kez): kupon postunu ALINTILAR, sonuç kartı eklenir.
     Yanıt olarak değil: yanıtlar takipçilerin akışında görünmez, alıntı ayrı bir post olarak görünür (SOZLESME E1)."""
@@ -1213,9 +1278,138 @@ def oto_sonuc_paylas(ayar, x, simdi: datetime, kart=None, yaz=print) -> int:
 
 
 def _post_zamanlari(gun: dict) -> list[datetime]:
-    """Günün atılmış ve planlı post zamanları (kupon postları ve bilgi postları)."""
+    """Günün atılmış ve planlı post zamanları (kupon postları, duyuru postu ve bilgi postları)."""
     z = [datetime.fromisoformat(k.get("yayin") or k["paylas"]) for k in gun.get("secilen", []) if k.get("oto") and (k.get("yayin") or k.get("paylas"))]
+    z += [datetime.fromisoformat(gun["duyuru"]["zaman"])] if gun.get("duyuru", {}).get("zaman") else []
     return z + [datetime.fromisoformat(b["zaman"]) for b in gun.get("bilgi", []) if b.get("zaman")]
+
+
+# ---------- Günün maçı postları (E1, sahibinin isteği 24 Ekim 2026) ----------
+
+MAC_ARALIK_DK = 15   # maç postları birbirinden ve kupon postlarından en az bu kadar uzakta
+MAC_ONCE_DK = 150    # maçtan yaklaşık bu kadar önce
+MAC_SON_DK = 30      # en geç maçtan bu kadar önce
+MAC_ERKEN = (9, 30)  # yerel saat: bundan önce maç postu yok
+
+
+def mac_planla(analizler: list[dict], adaylar: list[dict], secilen: list[dict], simdi: datetime, cfg: LikelyAyar,
+               ayar) -> list[dict]:
+    """Günün maçı postları: önce büyük maçlar, sonra verisi en güvenilir maçlar; yalnızca havuzda sağlam adayı olan
+    (kupona girebilecek pazar) maçlar. Rakamlar analiz kaydından, "safest angle" havuzdan (Bet365 fiyatı)."""
+    if not cfg.oto_mac_sayisi:
+        return []
+    en_iyi: dict = {}
+    for c in adaylar:
+        if c["tur"] == "guvenli" and c["pazar"] not in cfg.oto_yasak_pazarlar and c.get("uyum", True):
+            if c["fixture_id"] not in en_iyi or c["olasilik"] > en_iyi[c["fixture_id"]]["olasilik"]:
+                en_iyi[c["fixture_id"]] = c
+    tz = ZoneInfo(ayar.saat_dilimi)
+    uygun = [a for a in analizler if a["fixture_id"] in en_iyi and a.get("kaynak") == "piyasa"
+             and a.get("guven") == "yuksek" and datetime.fromisoformat(a["baslama"]) >= simdi + timedelta(minutes=60)
+             and all(k in a.get("p", {}) for k in ("MS1", "MSX", "MS2", "UST25", "KGVAR"))]
+    uygun.sort(key=lambda a: (not analiz.onemli(a), -en_iyi[a["fixture_id"]].get("site_sayisi", 0), a["baslama"]))
+    dolu = [datetime.fromisoformat(k["paylas"]) for k in secilen if k.get("paylas")]
+    plan = []
+    for a in uygun[:cfg.oto_mac_sayisi * 2]:
+        if len(plan) >= cfg.oto_mac_sayisi:
+            break
+        bas = datetime.fromisoformat(a["baslama"])
+        yerel = bas.astimezone(tz)
+        erken = yerel.replace(hour=MAC_ERKEN[0], minute=MAC_ERKEN[1], second=0, microsecond=0)
+        t = max(bas - timedelta(minutes=MAC_ONCE_DK), erken, simdi + timedelta(minutes=10))
+        son = bas - timedelta(minutes=MAC_SON_DK)
+        while t <= son and any(abs((t - z).total_seconds()) < 60 * MAC_ARALIK_DK
+                               for z in dolu + [datetime.fromisoformat(m["saat"]) for m in plan]):
+            t += timedelta(minutes=5)
+        if t > son:
+            continue
+        c = en_iyi[a["fixture_id"]]
+        plan.append({"fixture_id": a["fixture_id"], "ev": a["ev"], "dep": a["dep"], "lig": a.get("lig", ""),
+                     "baslama": a["baslama"], "buyuk": analiz.onemli(a),
+                     "p": {k: a["p"][k] for k in ("MS1", "MSX", "MS2", "UST25", "KGVAR")},
+                     "aci": {k: c[k] for k in ("aday_id", "etiket", "olasilik", "oran")},
+                     "saat": t.isoformat(timespec="seconds")})
+    if plan:  # günün maçı: öncelikte ilk (büyük maç varsa en büyüğü); "Match of the day" başlığı ve 1X2 anketi onda
+        plan[0]["gunun_maci"] = True
+    return sorted(plan, key=lambda m: m["saat"])
+
+
+def mac_metni(m: dict, gun: dict, ayar) -> str:
+    """Günün maçı postu; bütün rakamlar kayıttan. Kupon durumu paylaşım anında bakılır."""
+    bas = datetime.fromisoformat(m["baslama"]).astimezone(ZoneInfo(ayar.saat_dilimi))
+    saat = f'{bas.strftime("%H:%M")} {bas.tzname()}'
+    p, c = m["p"], m["aci"]
+    kuponlar = [k for k in gun.get("secilen", []) if any(a["aday_id"] == c["aday_id"] for a in k["ayaklar"])]
+    if any(k.get("tweet_id") for k in kuponlar):
+        not_ = "It's a leg in today's coupon."
+    elif any(k["durum"] == "bekliyor" for k in kuponlar):
+        not_ = "It's in a coupon later today."
+    else:
+        not_ = "Not in today's coupons."
+    baslik = f"Match of the day: {m['ev']} v {m['dep']}" if m.get("gunun_maci") else f"{m['lig']}: {m['ev']} v {m['dep']}"
+    satirlar = [f"🎩 {baslik}, {saat}.", "",
+                f"📊 {m['ev']} {_pct(p['MS1'])} · Draw {_pct(p['MSX'])} · {m['dep']} {_pct(p['MS2'])}",
+                f"⚽ Over 2.5 goals {_pct(p['UST25'])} · Both teams score {_pct(p['KGVAR'])}", "",
+                f"🛡️ Safest angle: {c['etiket']}, {_pct(c['olasilik'])} at {c['oran']:.2f}. {not_}"]
+    if m.get("gunun_maci"):
+        satirlar += ["", "💬 Who takes it? Vote below."]
+    metin = "\n".join(satirlar + ["", ANSVAR])
+    if uzunluk(metin) > LIMIT:  # uzun adlar: önce gol satırı düşer, sonra başlıktaki lig; 1X2 ve oyun hep kalır
+        satirlar.pop(3)
+        metin = "\n".join(satirlar + ["", ANSVAR])
+    if uzunluk(metin) > LIMIT:
+        satirlar[0] = f"🎩 {m['ev']} v {m['dep']}, {saat}."
+        metin = "\n".join(satirlar + ["", ANSVAR])
+    return metin
+
+
+def oto_mac(ayar, x, simdi: datetime, yaz=print) -> bool:
+    """Saati gelen günün maçı postunu atar (çalışma başına bir post). Maç başlamak üzereyse atlanır; başka bir post
+    10 dakikadan yakınsa bir sonraki çalışmayı bekler. Kesinlik dili, link, site adı varsa gitmez."""
+    cfg = ayar_yukle()
+    if not cfg.aktif or cfg.mod != "otomatik" or not cfg.oto_mac_sayisi:
+        return False
+    veri = yukle()
+    yerel = simdi.astimezone(ZoneInfo(ayar.saat_dilimi))
+    gun = next((g for g in veri["gunler"][-2:] if g["tarih"] == yerel.date().isoformat()), None)
+    if not gun or not gun.get("maclar"):
+        return False
+    for m in gun["maclar"]:
+        if m.get("tweet_id") or simdi < datetime.fromisoformat(m["saat"]):
+            continue
+        if simdi >= datetime.fromisoformat(m["baslama"]) - timedelta(minutes=MAC_SON_DK - 10):
+            m["tweet_id"] = "gecti"
+            kaydet(veri)
+            continue
+        if any(abs((simdi - z).total_seconds()) < 600 for z in _post_zamanlari(gun)
+               + [datetime.fromisoformat(n["zaman"]) for n in gun["maclar"] if n.get("zaman")]):
+            return False
+        metin = mac_metni(m, gun, ayar)
+        if (uzunluk(metin) > LIMIT or denetci._KESINLIK.search(metin) or denetci._LINK.search(metin)
+                or denetci._SITE.search(metin) or "#" in metin):
+            m["tweet_id"] = "denetci"
+            kaydet(veri)
+            yaz(f"⚠️ Mr. Likely: {m['ev']} v {m['dep']} maç postu denetimden geçmedi, atılmadı.")
+            continue
+        anket = None
+        if m.get("gunun_maci"):
+            secenek = _anket([m["ev"], "Draw", m["dep"]], m["baslama"])
+            if secenek:
+                kalan = (datetime.fromisoformat(m["baslama"]) - simdi).total_seconds() // 60
+                anket = {"options": secenek["options"], "duration_minutes": int(max(5, min(kalan, 24 * 60)))}
+            else:
+                metin = metin.replace("\n\n💬 Who takes it? Vote below.", "")
+        try:
+            m["tweet_id"] = x.gonder(metin, anket=anket) if anket else x.gonder(metin)
+        except KopyaPost:
+            m["tweet_id"] = "tekrar"
+            kaydet(veri)
+            return False
+        m["metin"], m["zaman"] = metin, simdi.isoformat(timespec="seconds")
+        kaydet(veri)
+        yaz(f"Mr. Likely: maç postu paylaşıldı ({m['ev']} v {m['dep']}).")
+        return True
+    return False
 
 
 def oto_bilgi(ayar, x, simdi: datetime, yaz=print) -> bool:

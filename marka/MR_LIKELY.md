@@ -107,6 +107,10 @@ Example lines in his voice:
   Strateji notları sade ve günlük dilde (90. dakika golü, son ayak, cash out, kendi takımına oynamak); marj/fiyat dili az.
 - Haftalık karne postu: Pazartesi 10:00, dersin yerine; geçen haftanın paylaşılmış kuponları, kaybedenler dahil, ve
   ihtimallere göre kaçının tutması gerektiği (SOZLESME E1; kapatmak: `oto_haftalik_karne = false`).
+- **Sabah duyurusu:** ilk kupondan önce "bugün N kupon" ve yanıt çağıran bir soru ("Which pick do you trust most today?").
+- **Günün maçı postları (E1):** günde en fazla 10 maç, önce büyük maçlar; 1X2, "Over 2.5 goals", "Both teams score"
+  yüzdeleri ve havuzun en yüksek ihtimalli oyunu ("Safest angle: Double chance 1X, 88% at 1.11"), kuponda mı. Maçtan
+  ~2,5 saat önce. En büyük maç "Match of the day" başlığı ve 1X2 anketiyle. Kalkylerat postları otomatik alıntılanmaz.
 - **Sanal kasa (SOZLESME E8):** 10.000 € (6 Ekim'den), her kupon paylaşılınca boştaki bakiyenin %3'ü. Günün bütün
   kuponları sonuçlanınca borsa grafiği gibi mum grafiği (`bot/likely_kasa.py`); Pazar haftalık, ay sonu aylık. Günde en
   fazla 1 grafik postu, kupon postunda tutar yok. `[likely] oto_kasa = true` olunca önce bir kez 4 postluk duyuru flood'u gider; her kasa postu denetçiden geçer.

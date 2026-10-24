@@ -1,6 +1,7 @@
 """Mr. Likely (elle paylaşılan ikinci hesap) testleri. SOZLESME.md E bölümündeki her madde burada denetlenir."""
 
 import ast
+import re
 import math
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -320,6 +321,7 @@ def test_E1_elle_modda_paylasmaz_ve_modul_x_anahtari_okumaz(ortam):
 # ---------- Otomatik mod ----------
 
 OTO = likely.LikelyAyar(aktif=True, mod="otomatik")
+ESKI_BILGI = replace(OTO, oto_mac_sayisi=0)  # maç postları kapalıyken büyük maç rakam postları (favori, gol, denk)
 
 
 class SahteX:
@@ -572,7 +574,7 @@ def test_bilgi_postlari_rakamlari_kayittan_sinirda_ve_kurala_uygun():
     """Bilgi postları: iki ders + günün büyük maçlarından rakamlar. Rakam analiz kaydından; kesinlik dili, link, tavsiye yok."""
     analizler = [buyuk_analiz(1, "France", "Malta", 8, 0.86, 0.10, 0.55), buyuk_analiz(2, "Germany", "Spain", 9, 0.38, 0.28, 0.63),
                  buyuk_analiz(3, "Wales", "Norway", 9, 0.36, 0.30, 0.44)]
-    bilgi = likely.bilgi_hazirla(analizler, "2026-10-10", SIMDI, OTO)
+    bilgi = likely.bilgi_hazirla(analizler, "2026-10-10", SIMDI, ESKI_BILGI)
     assert [b["tur"] for b in bilgi] == ["ders", "favori", "gol", "ders"] and len(bilgi) <= OTO.oto_bilgi_sayisi
     assert [b["saat"] for b in bilgi] == sorted(b["saat"] for b in bilgi) and len({b["metin"] for b in bilgi}) == len(bilgi)
     favori, gol = bilgi[1]["metin"], bilgi[2]["metin"]
@@ -584,11 +586,11 @@ def test_bilgi_postlari_rakamlari_kayittan_sinirda_ve_kurala_uygun():
         assert not denetci._KESINLIK.search(m) and not denetci._LINK.search(m) and "#" not in m and "@" not in m
         assert not likely._TUZAK.search(m) if hasattr(likely, "_TUZAK") else True
     # Gol beklentisi düşükse en dengeli maç; büyük maç yoksa yalnızca dersler
-    denk = likely.bilgi_hazirla([dict(a, p=dict(a["p"], UST25=0.45)) for a in analizler], "2026-10-10", SIMDI, OTO)
+    denk = likely.bilgi_hazirla([dict(a, p=dict(a["p"], UST25=0.45)) for a in analizler], "2026-10-10", SIMDI, ESKI_BILGI)
     assert [b["tur"] for b in denk] == ["ders", "favori", "denk", "ders"] and "Wales v Norway" in denk[2]["metin"]
-    assert [b["tur"] for b in likely.bilgi_hazirla([], "2026-10-10", SIMDI, OTO)] == ["ders", "ders"]
+    assert [b["tur"] for b in likely.bilgi_hazirla([], "2026-10-10", SIMDI, ESKI_BILGI)] == ["ders", "ders"]
     # Başlamış ya da başlamak üzere olan maçtan rakam yazılmaz
-    gec = likely.bilgi_hazirla([dict(a, baslama=(SIMDI + timedelta(minutes=30)).isoformat()) for a in analizler], "2026-10-10", SIMDI, OTO)
+    gec = likely.bilgi_hazirla([dict(a, baslama=(SIMDI + timedelta(minutes=30)).isoformat()) for a in analizler], "2026-10-10", SIMDI, ESKI_BILGI)
     assert [b["tur"] for b in gec] == ["ders", "ders"]
 
 
@@ -762,15 +764,15 @@ class AnketliX(SahteX):
 def test_E1_buyuk_mac_bilgi_postu_anketli_ve_anket_mac_baslayinca_kapanir():
     analizler = [buyuk_analiz(1, "France", "Malta", 8, 0.86, 0.10, 0.55), buyuk_analiz(2, "Germany", "Spain", 9, 0.38, 0.28, 0.63),
                  buyuk_analiz(3, "Wales", "Norway", 9, 0.36, 0.30, 0.44)]
-    bilgi = likely.bilgi_hazirla(analizler, "2026-10-10", SIMDI, OTO)
+    bilgi = likely.bilgi_hazirla(analizler, "2026-10-10", SIMDI, ESKI_BILGI)
     anketli = [b for b in bilgi if b.get("anket")]
     assert [b["tur"] for b in anketli] == ["favori", "gol"] and all("Vote below" in b["metin"] for b in anketli)
     assert all(len(o) <= 25 for b in anketli for o in b["anket"]["options"]) and anketli[1]["anket"]["bitis"] == analizler[1]["baslama"]
     assert not any(b.get("anket") for b in bilgi if b["tur"] == "ders")
-    denk = likely.bilgi_hazirla([dict(a, p=dict(a["p"], UST25=0.45)) for a in analizler], "2026-10-10", SIMDI, OTO)
+    denk = likely.bilgi_hazirla([dict(a, p=dict(a["p"], UST25=0.45)) for a in analizler], "2026-10-10", SIMDI, ESKI_BILGI)
     assert denk[2]["anket"]["options"] == ["Wales", "Draw", "Norway"]
     uzun = likely.bilgi_hazirla([dict(a, p=dict(a["p"], UST25=0.45), dep="Borussia Mönchengladbach Reserves") for a in analizler],
-                                "2026-10-10", SIMDI, OTO)
+                                "2026-10-10", SIMDI, ESKI_BILGI)
     assert "anket" not in uzun[2] and uzun[2]["tur"] == "denk"  # seçenek 25 karakteri aşarsa anket yok, post yine gider
     # Paylaşımda anket süresi maç başlangıcına kadar
     x = AnketliX()
@@ -1058,3 +1060,106 @@ def test_E2_kupon_gorselinde_her_ayagin_ihtimali(monkeypatch):
         {"ev": "Inter", "dep": "Lecce", "etiket": "Over 1.5 goals", "oran": 1.5, "olasilik": 0.719}]}
     assert likely_gorsel.kupon_karti(k, "2026-10-25")[:4] == b"\x89PNG"
     assert "Arsenal win · 71% likely" in yazilar and "Over 1.5 goals · 72% likely" in yazilar
+def test_E1_duyuru_postu(oto):
+    """Sabah duyurusu: ilk kupondan önce bir kez, sayı paylaşılacak kupon sayısı; kupon yoksa ya da gün başladıysa yok."""
+    x = SahteX()
+    gun = likely.yukle()["gunler"][0]
+    n = len(gun["secilen"])
+    assert likely.oto_duyuru(AYAR, x, SIMDI) is True and len(x.postlar) == 1
+    metin = x.postlar[0]["metin"]
+    sayi = "one" if n == 1 else likely.SAYILAR[n]
+    assert sayi in metin.lower() and "http" not in metin and uzunluk(metin) <= LIMIT
+    assert not re.search(r"guarantee|lock|sure thing|can't lose|—", metin, re.I)
+    assert likely.oto_duyuru(AYAR, x, SIMDI + timedelta(minutes=15)) is False and len(x.postlar) == 1  # günde bir kez
+    assert likely.yukle()["gunler"][0]["duyuru"]["sayi"] == n
+    # Bilgi postu duyurudan en az 40 dakika uzak durur
+    assert SIMDI in likely._post_zamanlari(likely.yukle()["gunler"][0])
+
+
+def test_E1_duyuru_kupon_yoksa_ya_da_gun_basladiysa_atilmaz(oto):
+    x = SahteX()
+    veri = likely.yukle()
+    secilen = veri["gunler"][0]["secilen"]
+    veri["gunler"][0]["secilen"] = []
+    likely.kaydet(veri)
+    assert likely.oto_duyuru(AYAR, x, SIMDI) is False and not x.postlar
+    veri["gunler"][0]["secilen"] = secilen
+    secilen[0]["tweet_id"] = "t0"  # bugün bir kupon zaten paylaşılmış: duyuru geç kalmıştır
+    likely.kaydet(veri)
+    assert likely.oto_duyuru(AYAR, x, SIMDI) is False and not x.postlar
+
+
+def test_duyuru_metni_sesi():
+    assert likely.duyuru_metni(4, "2026-10-21").startswith("🎩 ")
+    assert "four" in likely.duyuru_metni(4, "2026-10-21").lower()
+    assert "one coupon" in likely.duyuru_metni(1, "x").lower()
+    tum = {likely.duyuru_metni(3, f"2026-10-{g:02d}") for g in range(1, 31)}
+    assert len(tum) >= 4  # günden güne değişir
+    assert any(e in likely.duyuru_metni(3, "t", ek_olabilir=True) for e in likely.DUYURU_EK)
+    for t in likely.DUYURU + likely.DUYURU_TEK + likely.DUYURU_EK:
+        assert "—" not in t and "http" not in t
+
+
+def _analizli(maclar=MACLAR):
+    """Testteki maçlara analiz kaydının alanları (piyasa ihtimalleri) eklenir."""
+    p = {1: (0.78, 0.14), 2: (0.81, 0.12), 3: (0.80, 0.13), 4: (0.72, 0.18), 5: (0.42, 0.30), 6: (0.76, 0.15)}
+    return [{**m, "kaynak": "piyasa", "guven": "yuksek",
+             "p": {"MS1": p[m["fixture_id"]][0], "MSX": p[m["fixture_id"]][1], "MS2": 1 - sum(p[m["fixture_id"]]),
+                   "UST25": 0.61, "KGVAR": 0.52}} for m in maclar]
+
+
+def test_E1_mac_postlari(monkeypatch, tmp_path):
+    """24 Ekim 2026 (sahibinin isteği): günde en fazla 10 günün maçı postu; önce büyük maçlar; rakamlar kayıttan;
+    "safest angle" havuzun en yüksek ihtimalli oyunu; maçtan önce, birbirinden 15 dk uzak; maç başladıysa yok."""
+    analizler = _analizli()
+    adaylar = likely.havuz(analizler, ORANLAR, AYAR, OTO, SIMDI)
+    plan = likely.mac_planla(analizler, adaylar, [], SIMDI, OTO, AYAR)
+    assert 1 <= len(plan) <= OTO.oto_mac_sayisi == 10
+    assert all(m["fixture_id"] != 6 for m in plan)  # 1 saat sonra başlayan maç (Lens) için vakit yok
+    zamanlar = [datetime.fromisoformat(m["saat"]) for m in plan]
+    assert all(b - a >= timedelta(minutes=likely.MAC_ARALIK_DK) for a, b in zip(zamanlar, zamanlar[1:]))
+    for m, z in zip(plan, zamanlar):
+        assert z <= datetime.fromisoformat(m["baslama"]) - timedelta(minutes=likely.MAC_SON_DK)
+        enyi = max((c for c in adaylar if c["fixture_id"] == m["fixture_id"] and c["tur"] == "guvenli"
+                    and c["pazar"] not in OTO.oto_yasak_pazarlar), key=lambda c: c["olasilik"])
+        assert m["aci"]["aday_id"] == enyi["aday_id"]
+    gunun = [m for m in plan if m.get("gunun_maci")]
+    assert len(gunun) == 1 and gunun[0]["buyuk"]  # "Match of the day" büyük maç, en erken maç değil
+    gun = {"tarih": "2026-10-10", "secilen": []}
+    m = gunun[0]
+    metin = likely.mac_metni(m, gun, AYAR)
+    assert "Vote below" in metin and not any("Vote below" in likely.mac_metni(n, gun, AYAR) for n in plan if n is not m)
+    assert metin.startswith(f"🎩 Match of the day: {m['ev']} v {m['dep']}") and metin.endswith(ANSVAR)
+    assert uzunluk(metin) <= LIMIT and "Over 2.5 goals 61%" in metin and "Both teams score 52%" in metin
+    assert f"{round(100 * m['aci']['olasilik'])}% at {m['aci']['oran']:.2f}" in metin
+    assert "Not in today's coupons." in metin
+    gun["secilen"] = [{"durum": "bekliyor", "ayaklar": [{"aday_id": m["aci"]["aday_id"]}]}]
+    assert "coupon later today" in likely.mac_metni(m, gun, AYAR)
+    gun["secilen"][0]["tweet_id"] = "t1"
+    assert "leg in today's coupon" in likely.mac_metni(m, gun, AYAR)
+    # Paylaşım: saati gelince bir kez, ilki anketli; maç başlamak üzereyse atlanır
+    monkeypatch.setattr(likely, "DOSYA", tmp_path / "likely.json")
+    monkeypatch.setattr(likely, "ayar_yukle", lambda *a, **k: OTO)
+    likely.kaydet({"gunler": [{"tarih": "2026-10-10", "oto": True, "secilen": [], "maclar": plan}]})
+    x = SahteX()
+    an = datetime.fromisoformat(plan[0]["saat"])
+    assert likely.oto_mac(AYAR, x, an) and len(x.postlar) == 1 and x.postlar[0]["metin"] == likely.mac_metni(plan[0], {"secilen": []}, AYAR)
+    assert not likely.oto_mac(AYAR, x, an + timedelta(minutes=5))  # 10 dakikadan yakın: bekler
+    gec = datetime.fromisoformat(plan[-1]["baslama"])
+    likely.oto_mac(AYAR, x, gec)
+    kayit = likely.yukle()["gunler"][0]["maclar"]
+    assert all(n.get("tweet_id") for n in kayit)  # hepsi ya atıldı ya da "gecti"
+    assert len(x.postlar) == sum(n["tweet_id"] not in ("gecti", "denetci", "tekrar") for n in kayit)
+    assert kayit[-1]["tweet_id"] == "gecti"  # başlamak üzere olan maçın postu atılmaz
+
+
+def test_E1_mac_postlari_acikken_buyuk_mac_rakam_postu_yok():
+    bilgi = likely.bilgi_hazirla(_analizli(), "2026-10-10", SIMDI, OTO)
+    assert not [b for b in bilgi if b["tur"] in ("favori", "gol", "denk")]
+
+
+def test_E1_duyuru_sorusu_ve_18():
+    tum = {likely.duyuru_metni(3, f"2026-10-{g:02d}") for g in range(1, 31)}
+    for t in tum:
+        assert "💬 " in t and t.endswith(ANSVAR) and uzunluk(t) <= LIMIT
+    assert len({t.split("💬 ")[1].split("\n")[0] for t in tum}) >= 3  # soru günden güne değişir

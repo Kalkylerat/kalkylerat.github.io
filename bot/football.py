@@ -55,6 +55,7 @@ class ApiFootball:
         self.session.headers["x-apisports-key"] = key
         self.istek_sayisi = 0
         self._son = 0.0
+        self.sinirda_bekle = True  # False: 429'da 60 sn beklemek yerine hata (iş zaman aşımına düşmesin)
 
     def get(self, path: str, **params) -> list:
         return self.get_body(path, **params).get("response", [])
@@ -69,6 +70,8 @@ class ApiFootball:
             self._son = time.monotonic()
             self.istek_sayisi += 1
             if r.status_code == 429 and deneme < 3:
+                if not self.sinirda_bekle:
+                    raise ApiHatasi(f"API-Football: {path} istek sınırı (429)")
                 time.sleep(60)
                 continue
             r.raise_for_status()

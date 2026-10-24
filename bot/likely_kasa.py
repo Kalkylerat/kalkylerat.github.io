@@ -43,8 +43,8 @@ def _donus(k: dict, pay: float) -> float:
 
 
 def hesapla(veri: dict, baslangic: float = BASLANGIC, oran: float = PAY) -> dict:
-    """Bütün paylaşılmış kuponlar zaman sırasıyla. Döner: boştaki bakiye, açık kuponlar, kasa noktaları
-    (zaman, günün tarihi, kasa) ve her kuponun payı."""
+    """Bütün paylaşılmış kuponlar zaman sırasıyla (pay, paylaşım anındaki boştaki bakiyeden). Döner: boştaki bakiye,
+    açık kuponlar, sonuç noktaları (zaman, kuponun günü, kuponun kasaya etkisi = dönüş − pay) ve her kuponun payı."""
     olaylar = []
     for gun in veri["gunler"]:
         for k in gun.get("secilen", []):
@@ -64,23 +64,28 @@ def hesapla(veri: dict, baslangic: float = BASLANGIC, oran: float = PAY) -> dict
             acik[anahtar] = pay
             paylar[anahtar] = pay
             continue
-        bos = round(bos + _donus(k, acik.pop(anahtar)), 2)
-        noktalar.append((zaman, tarih, round(bos + sum(acik.values()), 2)))
+        pay = acik.pop(anahtar)
+        donus = _donus(k, pay)
+        bos = round(bos + donus, 2)
+        noktalar.append((zaman, tarih, round(donus - pay, 2)))
     return {"bos": bos, "acik": acik, "kasa": round(bos + sum(acik.values()), 2), "noktalar": noktalar,
             "paylar": paylar, "baslangic": baslangic}
 
 
 def gunluk_mumlar(h: dict) -> list[dict]:
-    """Her kupon günü bir mum: açılış önceki günün kapanışı, kapanış günün son sonucundan sonraki kasa."""
-    gunler: dict[str, list[float]] = {}
-    for _, tarih, kasa in h["noktalar"]:
-        gunler.setdefault(tarih, []).append(kasa)
-    mumlar, acilis = [], h["baslangic"]
+    """Her kupon günü bir mum. Kapanış = başlangıç + o güne kadarki günlerin (kuponun kendi günü) sonuçlanmış
+    kuponlarının etkisi; gün içi iniş çıkış o günün kuponlarının sonuç sırasıyla. Geç sonuçlanan kupon (ör. 30 saat
+    bekleyen ayak) kendi gününe yazılır, ertesi günün rakamını bozmaz (25 Ekim 2026 denetimi)."""
+    gunler: dict[str, list[tuple]] = {}
+    for zaman, tarih, etki in h["noktalar"]:
+        gunler.setdefault(tarih, []).append((zaman, etki))
+    mumlar, kasa = [], h["baslangic"]
     for tarih in sorted(gunler):
-        v = gunler[tarih]
-        mumlar.append({"tarih": tarih, "acilis": acilis, "yuksek": max(acilis, *v), "dusuk": min(acilis, *v),
-                       "kapanis": v[-1]})
-        acilis = v[-1]
+        acilis, yol = kasa, [kasa]
+        for _, etki in sorted(gunler[tarih], key=lambda x: x[0]):
+            kasa = round(kasa + etki, 2)
+            yol.append(kasa)
+        mumlar.append({"tarih": tarih, "acilis": acilis, "yuksek": max(yol), "dusuk": min(yol), "kapanis": kasa})
     return mumlar
 
 
@@ -145,7 +150,8 @@ def grafik(mumlar: list[dict], baslik: str, etiket, palet: str = VARSAYILAN_PALE
     pay = max((hi - lo) * 0.1, 10)
     lo, hi = lo - pay, hi + pay
     y = lambda v: B - (v - lo) / (hi - lo) * (B - T)
-    adim = next(a for a in (10, 20, 25, 50, 100, 200, 250, 500, 1000, 2000) if (hi - lo) / a <= 7)
+    adim = next((a for a in (10, 20, 25, 50, 100, 200, 250, 500, 1000, 2000, 2500, 5000, 10000) if (hi - lo) / a <= 7),
+                10 ** len(str(int((hi - lo) / 7))))
     v = (int(lo // adim) + 1) * adim
     while v < hi:
         d.line([(L, y(v)), (R, y(v))], fill=p["izgara"], width=2)
@@ -294,8 +300,8 @@ def post_hazirla(veri: dict, tarih: str, palet: str = VARSAYILAN_PALET) -> tuple
         bas = (f"{'📈' if kasa >= baz else '📉'} {kanca + ' ' if kanca else ''}Virtual bank, {_gun_adi(tarih)}: "
                f"{_euro(kasa)} ({_euro(kasa - baz, True)} today).")
         sayi = f"{len(paylasilan)} coupon{'s' * (len(paylasilan) != 1)}, {tutan} landed."
-    if acik:
-        sayi += f" {acik} still open."
+    if acik:  # sonuç postu henüz çıkmamış kupon (bir ayağı yatmış olsa bile kayıt bütün ayakları bekler)
+        sayi += f" {acik} awaiting results."
     metin = (f"{bas}\n\n🎟️ {sayi}\n🏁 Started at {_euro(BASLANGIC)} on 6 Oct, 3% of the free balance per coupon, "
              f"losers counted.\n\n⚠️ Virtual bank, not real money.\n{ANSVAR}")
     return metin, png, {_euro(abs(x)) for x in (kasa, kasa - baz, baz, BASLANGIC)}

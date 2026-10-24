@@ -488,9 +488,12 @@ def _likely_hikaye(ayar, simdi: datetime):
     """Büyük maç hikayesi (SOZLESME E1): olgular API-Football'dan, maç postu atılırken (~8 istek/maç). Anahtar yoksa yok."""
     if not os.environ.get("API_FOOTBALL_KEY"):
         return None
-    onbellek: dict = {}
-    return lambda m: likely_hikaye.postlar(likely_hikaye.veri_topla(_api(ayar), m, onbellek), m, simdi,
-                                           tohum=f"{m['fixture_id']}")
+    def hikaye(m):
+        api = _api(ayar)
+        api.sinirda_bekle = False  # 429'da beklemez: hikaye düşer, maç postu tek gider (iş zaman aşımı yok)
+        ham = likely_hikaye.veri_topla(api, m, dosya=config.ROOT / "data" / "puan_onbellek.json")
+        return likely_hikaye.postlar(ham, m, simdi, tohum=f"{m['fixture_id']}")
+    return hikaye
 
 
 def _api(ayar):

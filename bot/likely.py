@@ -1247,7 +1247,13 @@ def oto_duyuru(ayar, x, simdi: datetime, yaz=print) -> bool:
                    and yerel.hour < cfg.oto_tazele_saati)
     metin = duyuru_metni(len(bekleyen), gun["tarih"], ek_olabilir)
     gun["duyuru"] = {"metin": metin, "sayi": len(bekleyen), "zaman": simdi.isoformat(timespec="seconds")}
-    gun["duyuru"]["tweet_id"] = x.gonder(metin)
+    try:
+        gun["duyuru"]["tweet_id"] = x.gonder(metin)
+    except KopyaPost:  # X bu metni eski bir duyurudan tanıyor: yeniden denenmez, kuponlar beklemez
+        gun["duyuru"]["tweet_id"] = "tekrar"
+        kaydet(veri)
+        yaz("Mr. Likely: duyuru postu atlandı; X aynı metni daha önce görmüş.")
+        return False
     kaydet(veri)
     yaz(f"Mr. Likely: duyuru postu paylaşıldı ({len(bekleyen)} kupon).")
     return True
@@ -1282,6 +1288,7 @@ def _post_zamanlari(gun: dict) -> list[datetime]:
     """Günün atılmış ve planlı post zamanları (kupon postları, duyuru postu ve bilgi postları)."""
     z = [datetime.fromisoformat(k.get("yayin") or k["paylas"]) for k in gun.get("secilen", []) if k.get("oto") and (k.get("yayin") or k.get("paylas"))]
     z += [datetime.fromisoformat(gun["duyuru"]["zaman"])] if gun.get("duyuru", {}).get("zaman") else []
+    z += [datetime.fromisoformat(m["zaman"]) for m in gun.get("maclar", []) if m.get("zaman")]  # maç postları da
     return z + [datetime.fromisoformat(b["zaman"]) for b in gun.get("bilgi", []) if b.get("zaman")]
 
 
@@ -1383,12 +1390,11 @@ def oto_mac(ayar, x, simdi: datetime, yaz=print, hikaye=None) -> bool:
     for m in gun["maclar"]:
         if m.get("tweet_id") or simdi < datetime.fromisoformat(m["saat"]):
             continue
-        if simdi >= datetime.fromisoformat(m["baslama"]) - timedelta(minutes=MAC_SON_DK - 10):
+        if simdi > datetime.fromisoformat(m["baslama"]) - timedelta(minutes=MAC_SON_DK):  # E1: en geç 30 dk önce
             m["tweet_id"] = "gecti"
             kaydet(veri)
             continue
-        if any(abs((simdi - z).total_seconds()) < 600 for z in _post_zamanlari(gun)
-               + [datetime.fromisoformat(n["zaman"]) for n in gun["maclar"] if n.get("zaman")]):
+        if any(abs((simdi - z).total_seconds()) < 60 * MAC_ARALIK_DK for z in _post_zamanlari(gun)):
             return False
         ekler = []
         if m.get("hikaye") and hikaye:

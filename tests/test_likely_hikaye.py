@@ -24,12 +24,13 @@ def ham():
     h2h = [mac(160, 157, 2, 1, 900)] + [mac(157, 160, 3, 1, 30 * i) for i in range(1, 17)] + \
           [mac(160, 157, 1, 1, 40 * i + 5) for i in range(1, 5)]  # 21 maç: Freiburg 1 galibiyet
     return {
-        "mac": {"league": {"id": 78, "season": 2026}},
+        "mac": {"league": {"id": 78, "season": 2026, "round": "Regular Season - 8"}},
         "h2h": h2h,
         "ev_son": [mac(91, 160, 3, 0, 4, lig=2)],
         "dep_son": [mac(157, 42, 2, 2, 4, lig=2)],
         "puan": [[{"rank": 1, "points": 22, "team": {"id": 157}, "group": "Bundesliga"},
-                  {"rank": 3, "points": 21, "team": {"id": 160}, "group": "Bundesliga"}]],
+                  {"rank": 3, "points": 21, "team": {"id": 160}, "group": "Bundesliga"}]
+                 + [{"rank": r, "points": 20 - r, "team": {"id": 900 + r}, "group": "Bundesliga"} for r in range(4, 19)]],
         "ev_ist": {"fixtures": {"played": {"home": 3}, "wins": {"home": 3}, "draws": {"home": 0}, "loses": {"home": 0}},
                    "form": "WWLW", "goals": {"for": {"total": {"total": 12},
                                                      "minute": {"76-90": {"total": 4}, "91-105": {"total": None}}}}},
@@ -47,10 +48,11 @@ def test_E1_buyuk_mac_hikayesi_olgular_kayittan():
     assert len({x["emoji"] for x in hk.olgular(ham(), M, SIMDI)}) == len(o)
     assert "A top-four clash: Freiburg 3rd on 21 pts, Bayern Munich top on 22 pts." in o
     assert "Both played midweek: Freiburg lost 3-0 at Monaco, Bayern Munich drew 2-2 v Arsenal." in o
-    assert "Freiburg have won all 3 home games this season." in o
-    assert "Bayern Munich are unbeaten away this season (W1 D2)." in o
+    assert "Freiburg have won all 3 home league games this season." in o
     assert "Bayern Munich have won their last 5 league games." in o
     assert "Freiburg have scored 4 of their 12 league goals after the 75th minute." in o
+    tum = [x["metin"] for x in sorted(hk._h2h(ham(), M) + hk._sezon(ham(), M), key=lambda x: -x["puan"])]
+    assert "Bayern Munich are unbeaten away in the league this season (W1 D2)." in tum
     assert hk.sakatlar(ham(), M) == "🩹 Out: J. Musiala (Bayern Munich)."  # "Questionable" yazılmaz
 
 
@@ -151,3 +153,34 @@ def test_E1_buyuk_mac_hikayesi_yogun_gunde_10_buyuk_macta_gece_maci_dahil():
     gece = [m for m in plan if datetime.fromisoformat(m["baslama"]).astimezone(likely.ZoneInfo("Europe/Stockholm")).day == 26]
     assert gece  # 26 Ekim'e sarkan (gece yarısından sonra) maçlar da planda
     assert all(m["ev_id"] and m["dep_id"] for m in plan if m.get("hikaye"))
+
+
+def test_E1_hikaye_denetim_duzeltmeleri():
+    """25 Ekim 2026 denetimi: Avrupa gecesinde "midweek" yok; küçük grupta "top-four" yok; kazanan skordan; kupa
+    maçında sezon (lig) karnesi yok; seri sorusu yalnızca seri olgusu varsa."""
+    h = ham()
+    h["mac"]["league"]["round"] = "League Stage - 3"  # Avrupa maçı: önceki maçlar hafta sonu lig maçı
+    h["ev_son"] = [mac(160, 165, 1, 0, 3)]
+    h["dep_son"] = [mac(173, 157, 1, 6, 3)]
+    o = [x["metin"] for x in hk.olgular(h, M, SIMDI)]
+    assert not any("midweek" in x for x in o) and not any("league games this season" in x for x in o)
+    h["puan"] = [[{"rank": 1, "points": 6, "team": {"id": 157}, "group": "A"},
+                  {"rank": 2, "points": 1, "team": {"id": 160}, "group": "A"},
+                  {"rank": 3, "points": 0, "team": {"id": 1}, "group": "A"}]]
+    p = [x["metin"] for x in hk._puan(h, M)]
+    assert p == ["Freiburg 2nd on 1 pt, Bayern Munich top on 6 pts."]
+    garip = mac(160, 157, 1, 1, 10)
+    garip["teams"]["home"]["winner"] = True  # API winner alanı skorla çelişirse skor esas
+    assert hk._kazanan(garip) is None and hk._son_mac(garip, 160) == "drew 1-1 v Bayern Munich"
+    sakin = {"mac": {"league": {"id": 78, "round": "Regular Season - 8"}},
+             "h2h": [mac(160, 157, 2, 1, 30 * i) for i in range(1, 4)] + [mac(157, 160, 2, 1, 30 * i + 5) for i in range(1, 4)]}
+    assert "Does the run" not in "".join(hk.postlar(sakin, M, SIMDI, "x"))
+    assert "Does the run go on today?" in "".join(hk.postlar(ham(), M, SIMDI, "x"))
+
+
+def test_E1_hikaye_puan_durumu_dosyada_gunluk_onbellek(tmp_path):
+    dosya = tmp_path / "puan.json"
+    api = SahteApi()
+    hk.veri_topla(api, M, dosya=dosya)
+    hk.veri_topla(api, M, dosya=dosya)  # ayrı çalışma (yeni süreç) gibi: önbellek dosyadan
+    assert api.yollar.count("standings") == 1

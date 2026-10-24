@@ -5,14 +5,19 @@ sezonun iç saha/deplasman karnesi, seriler, geç goller, sakat ve cezalılar. H
 ilginç olanlar seçilir. Haber sitesi metni, yorum, Opta'ya özel veri yok; kayıtta olmayan bir sayı yazılmaz.
 Maliyet: büyük maç başına ~8 API-Football isteği (puan durumu lig başına bir kez), günde en fazla 4 maç."""
 
-from datetime import datetime, timedelta
+import json
+from datetime import date, datetime, timedelta
+from zoneinfo import ZoneInfo
+
+import requests
 
 from . import denetci
 from .tweets import ANSVAR, LIMIT, uzunluk
 
 BITTI = {"FT", "AET", "PEN"}
-SORULAR = ["How do you see this one going?", "Does the run go on tonight?", "Who takes this one?",
-           "Anyone fancy the upset here?"]
+SORULAR = ["How do you see this one going?", "Who takes this one?", "Anyone fancy the upset here?"]
+SERI_SORU = "Does the run go on today?"
+TZ = ZoneInfo("Europe/Stockholm")
 
 
 def _sira(n: int) -> str:
@@ -21,16 +26,24 @@ def _sira(n: int) -> str:
 
 # ---------- Veri (API-Football) ----------
 
-def veri_topla(api, m: dict, onbellek: dict | None = None) -> dict:
-    """Maçın ham verisi; bir parça alınamazsa o parça boş kalır (o olgu çıkmaz). onbellek: lig puan durumu."""
+def veri_topla(api, m: dict, onbellek: dict | None = None, dosya=None) -> dict:
+    """Maçın ham verisi; bir parça alınamazsa o parça boş kalır (o olgu çıkmaz). onbellek: lig puan durumu; dosya
+    verilirse günlük olarak orada saklanır (her çalışma ayrı süreç: lig başına günde bir istek)."""
     from .football import ApiHatasi
-    onbellek = {} if onbellek is None else onbellek
+    if onbellek is None:
+        onbellek = {}
+        if dosya is not None:
+            try:
+                kayit = json.loads(dosya.read_text(encoding="utf-8"))
+                onbellek = kayit["ligler"] if kayit.get("tarih") == date.today().isoformat() else {}
+            except (OSError, ValueError, KeyError):
+                onbellek = {}
     ham: dict = {}
 
     def al(ad, fn):
         try:
             ham[ad] = fn()
-        except (ApiHatasi, KeyError, IndexError, TypeError, ValueError):
+        except (ApiHatasi, requests.RequestException, KeyError, IndexError, TypeError, ValueError):
             ham[ad] = None
 
     al("mac", lambda: api.get("fixtures", id=m["fixture_id"])[0])
@@ -45,6 +58,9 @@ def veri_topla(api, m: dict, onbellek: dict | None = None) -> dict:
         if anahtar not in onbellek:
             al("puan", lambda: api.get("standings", league=lig_id, season=sezon)[0]["league"]["standings"])
             onbellek[anahtar] = ham["puan"]
+            if dosya is not None and ham["puan"] is not None:
+                dosya.write_text(json.dumps({"tarih": date.today().isoformat(), "ligler": onbellek}) + "\n",
+                                 encoding="utf-8")
         ham["puan"] = onbellek[anahtar]
         al("ev_ist", lambda: api.get_body("teams/statistics", league=lig_id, season=sezon, team=m["ev_id"])["response"])
         al("dep_ist", lambda: api.get_body("teams/statistics", league=lig_id, season=sezon, team=m["dep_id"])["response"])
@@ -54,11 +70,19 @@ def veri_topla(api, m: dict, onbellek: dict | None = None) -> dict:
 # ---------- Olgular ----------
 
 def _kazanan(f: dict) -> int | None:
-    """Biten maçın kazananının takım kimliği; berabere (ya da penaltı) None."""
+    """Biten maçın kazananının takım kimliği, skordan (API'nin winner alanından değil: hükmen ya da iki maçlı turda
+    skorla çelişebilir); berabere ya da penaltılar None."""
     if (f.get("fixture") or {}).get("status", {}).get("short") not in ("FT", "AET"):
         return None
-    t = f["teams"]
-    return t["home"]["id"] if t["home"].get("winner") else t["away"]["id"] if t["away"].get("winner") else None
+    g, t = f.get("goals") or {}, f["teams"]
+    if g.get("home") is None or g.get("away") is None or g["home"] == g["away"]:
+        return None
+    return t["home"]["id"] if g["home"] > g["away"] else t["away"]["id"]
+
+
+def _lig_maci(ham: dict) -> bool:
+    """Maç bir lig maçı mı (kupa, Avrupa, milli takım değil): API'de turu "Regular Season - 9" gibi yazar."""
+    return str(((ham.get("mac") or {}).get("league") or {}).get("round") or "").startswith("Regular Season")
 
 
 def _h2h(ham: dict, m: dict) -> list[dict]:
@@ -89,9 +113,11 @@ def _puan(ham: dict, m: dict) -> list[dict]:
     e, d = satirlar.get(m["ev_id"]), satirlar.get(m["dep_id"])
     if not e or not d or e.get("group") != d.get("group"):
         return []
-    yazi = lambda r, ad: f"{ad} {'top' if r['rank'] == 1 else _sira(r['rank'])} on {r['points']} pts"
+    yazi = lambda r, ad: (f"{ad} {'top' if r['rank'] == 1 else _sira(r['rank'])} on {r['points']} "
+                          f"pt{'s' * (r['points'] != 1)}")
     metin = f"{yazi(e, m['ev'])}, {yazi(d, m['dep'])}."
-    zirve = e["rank"] <= 4 and d["rank"] <= 4
+    boy = sum(1 for r in satirlar.values() if r.get("group") == e.get("group"))
+    zirve = boy >= 10 and e["rank"] <= 4 and d["rank"] <= 4  # küçük grup tablosunda (Uluslar Ligi) "top four" anlamsız
     if zirve:
         metin = "A top-four clash: " + metin
     return [{"metin": metin, "puan": 74 if zirve else 50 if min(e["rank"], d["rank"]) <= 6 else 35, "emoji": "🏆"}]
@@ -115,6 +141,7 @@ def _son_mac(f: dict, tid: int) -> str | None:
 def _son(ham: dict, m: dict, simdi: datetime) -> list[dict]:
     parcalar, avrupa = [], 0
     lig_id = ((ham.get("mac") or {}).get("league") or {}).get("id") or m.get("lig_id")
+    lig_maci = _lig_maci(ham)
     for anahtar, tid, ad in (("ev_son", m["ev_id"], m["ev"]), ("dep_son", m["dep_id"], m["dep"])):
         bitenler = sorted((f for f in ham.get(anahtar) or [] if f["fixture"]["status"]["short"] in BITTI),
                           key=lambda f: f["fixture"]["date"], reverse=True)
@@ -124,8 +151,11 @@ def _son(ham: dict, m: dict, simdi: datetime) -> list[dict]:
         yazi = _son_mac(f, tid)
         if not yazi:
             continue
-        yakin = simdi - datetime.fromisoformat(f["fixture"]["date"]) <= timedelta(days=5)
-        if yakin and (f.get("league") or {}).get("id") != lig_id:
+        oynandi = datetime.fromisoformat(f["fixture"]["date"])
+        # "hafta içi" yalnızca bu maç bir lig maçıysa ve önceki maç Salı–Perşembe başka bir turnuvadaysa (Avrupa
+        # gecesinde önceki maç hafta sonu lig maçıdır: "midweek" yanlış olur; 25 Ekim 2026 denetimi)
+        if (lig_maci and simdi - oynandi <= timedelta(days=5) and oynandi.astimezone(TZ).weekday() in (1, 2, 3)
+                and (f.get("league") or {}).get("id") != lig_id):
             avrupa += 1
         parcalar.append(f"{ad} {yazi}")
     if not parcalar:
@@ -136,19 +166,23 @@ def _son(ham: dict, m: dict, simdi: datetime) -> list[dict]:
 
 
 def _sezon(ham: dict, m: dict) -> list[dict]:
+    """Sezon karnesi yalnızca lig maçında: teams/statistics yalnızca istenen turnuvayı sayar (Avrupa maçında Avrupa
+    rakamları "this season" diye yazılmasın; 25 Ekim 2026 denetimi)."""
+    if not _lig_maci(ham):
+        return []
     sonuc = []
     e, d = ham.get("ev_ist") or {}, ham.get("dep_ist") or {}
     fx = lambda s, k, y: int((((s.get("fixtures") or {}).get(k) or {}).get(y)) or 0)
     oyn, kaz, ber, yen = (fx(e, k, "home") for k in ("played", "wins", "draws", "loses"))
     if oyn >= 3 and kaz == oyn:
-        sonuc.append({"metin": f"{m['ev']} have won all {oyn} home games this season.", "puan": 76, "emoji": "🏠"})
+        sonuc.append({"metin": f"{m['ev']} have won all {oyn} home league games this season.", "puan": 76, "emoji": "🏠"})
     elif oyn >= 3 and kaz == 0:
-        sonuc.append({"metin": f"{m['ev']} are still waiting for a home win this season ({oyn} played).", "puan": 70, "emoji": "🏠"})
+        sonuc.append({"metin": f"{m['ev']} are still waiting for a home league win this season ({oyn} played).", "puan": 70, "emoji": "🏠"})
     oyn, kaz, ber, yen = (fx(d, k, "away") for k in ("played", "wins", "draws", "loses"))
     if oyn >= 3 and yen == 0:
-        sonuc.append({"metin": f"{m['dep']} are unbeaten away this season (W{kaz} D{ber}).", "puan": 66, "emoji": "✈️"})
+        sonuc.append({"metin": f"{m['dep']} are unbeaten away in the league this season (W{kaz} D{ber}).", "puan": 66, "emoji": "✈️"})
     elif oyn >= 3 and kaz <= 1:
-        sonuc.append({"metin": f"{m['dep']} have won {kaz} of {oyn} away games this season.", "puan": 62, "emoji": "✈️"})
+        sonuc.append({"metin": f"{m['dep']} have won {kaz} of {oyn} away league games this season.", "puan": 62, "emoji": "✈️"})
     for s, ad in ((e, m["ev"]), (d, m["dep"])):
         form = (s.get("form") or "")
         seri = len(form) - len(form.rstrip(form[-1:])) if form else 0
@@ -190,7 +224,8 @@ def postlar(ham: dict, m: dict, simdi: datetime, tohum: str = "") -> list[str]:
     hepsi = olgular(ham, m, simdi)
     if not hepsi:
         return []
-    soru = SORULAR[sum(map(ord, tohum)) % len(SORULAR)]
+    seri = any(o["emoji"] in ("🔥", "📉") or "unbeaten" in o["metin"] for o in hepsi[:4])
+    soru = SERI_SORU if seri else SORULAR[sum(map(ord, tohum)) % len(SORULAR)]
     satir = lambda o: f"{o['emoji']} {o['metin']}"
     ikinci, kalan = ["📋 The story"], []
     for o in hepsi:  # en ilginç en fazla 3 olgu, her biri kendi satırında

@@ -32,7 +32,9 @@ def test_E8_pay_bostaki_bakiyeden_acik_kupon_dusulur():
     assert h["paylar"] == {"1": 3.0, "2": 2.91}
     assert h["bos"] == round(100 - 3 - 2.91 + 6, 2) == h["kasa"]
     # kupon paylaşılınca kasa düşmüş görünmez: grafikteki kasa = boştaki + açık paylar
-    assert [n[2] for n in h["noktalar"]] == [round(100 + 3, 2), 100.09]
+    assert [n[2] for n in h["noktalar"]] == [3.0, -2.91]  # her kuponun kasaya etkisi (dönüş − pay)
+    m = kasa.gunluk_mumlar(h)
+    assert m == [{"tarih": "2026-10-26", "acilis": 100, "yuksek": 103.0, "dusuk": 100, "kapanis": 100.09}]
 
 
 def test_E8_sonuc_sonrasi_kupon_guncel_bakiyeden():
@@ -232,3 +234,25 @@ def test_E8_gunluk_ilk_satir_kayittan_degisir():
     assert kasa.ilk_satir(_gunler(100, -50, -20)) == "Second red day in a row."
     assert kasa.ilk_satir(_gunler(-300, 50, 20, 10, 5, 1)) == "Fifth green day in a row."
     assert kasa.ilk_satir(_gunler(100, 30, -50, 20)) == ""
+
+
+def test_E8_gec_sonuclanan_kupon_kendi_gunune_yazilir():
+    """25 Ekim 2026 denetimi: 24 Ekim'in kuponu 25 Ekim'in kuponlarından sonra sonuçlanırsa (30 saat bekleyen ayak)
+    kaybı ertesi güne yazılıyordu. Her kupon kendi gününün mumunda."""
+    g24, g25 = T0 + timedelta(days=1), T0 + timedelta(days=2)  # Salı, Çarşamba (günlük post)
+    v = veri(("2026-10-27", [kupon(1, g24, "tuttu", 2.0, sonuc=g24 + timedelta(hours=4)),
+                             kupon(2, g24 + timedelta(hours=1), "yatti", 2.0, sonuc=g25 + timedelta(hours=12))]),
+             ("2026-10-28", [kupon(3, g25, "tuttu", 2.0, sonuc=g25 + timedelta(hours=8))]))
+    h = kasa.hesapla(v)
+    m = {x["tarih"]: x for x in kasa.gunluk_mumlar(h)}
+    p1, p2 = h["paylar"]["1"], h["paylar"]["2"]
+    assert m["2026-10-27"]["kapanis"] == round(10000 + p1 - p2, 2)  # B'nin kaybı 24 Ekim'de
+    assert m["2026-10-28"]["acilis"] == m["2026-10-27"]["kapanis"]
+    assert m["2026-10-28"]["kapanis"] == round(m["2026-10-27"]["kapanis"] + h["paylar"]["3"], 2) == h["kasa"]
+    metin, _, _ = kasa.post_hazirla(v, "2026-10-28")
+    assert f"+{kasa._euro(h['paylar']['3'])} today" in metin
+
+
+def test_E8_buyuk_aralikta_grafik_cokmez():
+    m = [{"tarih": "2026-10-24", "acilis": 10000, "yuksek": 60000, "dusuk": 9000, "kapanis": 55000}]
+    assert kasa.grafik(m, "x", kasa.gun_etiketi)[:4] == b"\x89PNG"

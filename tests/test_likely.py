@@ -1020,3 +1020,27 @@ def test_bilgi_postu_x_kopya_reddinde_dongu_ve_alarm_yok(oto):
     assert likely.yukle()["gunler"][0]["bilgi"][0]["tweet_id"] == "tekrar"
     likely.oto_bilgi(AYAR, x, uzak + timedelta(minutes=7))
     assert x.denemeler == 1  # aynı post bir daha denenmez
+
+
+def test_E6_ayak_orani_yalniz_bet365ten():
+    """24 Ekim 2026 (sahibinin kararı): kombinede ayakların en iyi fiyatı farklı sitelerden geliyordu, toplam oran tek
+    sitede bulunamıyordu. Ayak oranı Bet365'in fiyatıdır; Bet365'te olmayan ya da aykırı fiyatlı pazar düşer."""
+    b = oran_seti(0.80, 0.12, 0.60, 0.80)
+    b["Unibet"] = {k: round(v * 1.05, 3) for k, v in b["Unibet"].items()}  # başka sitede daha iyi fiyat
+    oranlar = {1: b}
+    adaylar = likely.havuz(MACLAR[:1], oranlar, AYAR, CFG, SIMDI)
+    assert adaylar and all(a["oran_kaynagi"] == "Bet365" for a in adaylar)
+    for a in adaylar:
+        assert a["oran"] == round(b["Bet365"][a["pazar"]], 2)
+    kupon = likely._dondur(adaylar[:1], "gunun-kuponu", SIMDI)
+    assert kupon["ayaklar"][0]["oran_kaynagi"] == "Bet365"
+    # Bet365'te olmayan pazar kupona girmez
+    b2 = {ad: dict(o) for ad, o in b.items()}
+    del b2["Bet365"]["MS1"]
+    assert not any(a["pazar"] == "MS1" for a in likely.havuz(MACLAR[:1], {1: b2}, AYAR, CFG, SIMDI))
+    # Bet365 fiyatı aykırıysa (ortancadan %8'den yüksek) pazar düşer
+    b3 = {ad: dict(o) for ad, o in b.items()}
+    b3["Bet365"]["MS1"] = round(b3["Pinnacle"]["MS1"] * 1.3, 3)
+    assert not any(a["pazar"] == "MS1" for a in likely.havuz(MACLAR[:1], {1: b3}, AYAR, CFG, SIMDI))
+    # ayarlar.toml canlı ayarı da Bet365
+    assert likely.ayar_yukle().oran_sitesi == "Bet365"

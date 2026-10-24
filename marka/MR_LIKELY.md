@@ -81,6 +81,7 @@ Example lines in his voice:
 - Kupon kuralları sabit (SOZLESME E6): günde en fazla 5 kupon (üç türden sonra günün kuponuyla aynı sınırlarda ek kuponlar), kuponda en fazla 4 maç. **Günün kuponu** 2.00–4.00
   oran, en olası seçenek (genelde 2.00 civarı, yaklaşık %47). **Long shot** 3.00–4.00 oran, tutma en az %22. **Büyük maçlar** yalnızca
   büyük maçlardan, günün kuponuyla aynı sınırlar. Hepsinde en olası kupona 3 puan yakın olanlar içinde büyük maçı en çok olan seçilir. Kural sağlanmazsa o kupon çıkmaz.
+  Ayak oranları yalnızca **Bet365**'ten (24 Ekim 2026): toplam oran Bet365'te bulunan fiyattır; Bet365'te olmayan pazar girmez.
 - Post düzeni: 🎩 açılış, ⚽ maçlar, 📊 toplam oran ve tutma ihtimali, 💬 yanıt çağıran tek soru, 18+ satırı. Oyunlar ve
   oranlar görseldeki kupon fişinde.
 - İlk maça 20 dakikadan az kaldıysa kupon paylaşılmaz. Paylaşılan kupon silinmez; kaybeden de karnede kalır.

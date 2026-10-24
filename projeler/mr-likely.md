@@ -1,6 +1,7 @@
 # Mr. Likely (kupon hesabı, X)
 
-**Durum (22 Ekim 2026):** çalışıyor, otomatik mod. 21 Ekim: 5 kupon, 2 tuttu, 3 yattı, hepsinin sonuç postu çıktı.
+**Durum (24 Ekim 2026):** çalışıyor, otomatik mod. 6–23 Ekim: 46 kupon, 22 tuttu. Ayak oranları yalnızca Bet365'ten
+(`claude/mr-likely-bet365` dalı, ana dala alınınca canlı).
 
 ## Ne yapıyor
 - Kuponu sabit kurallar seçer (SOZLESME E6): toplam oran 2–4, en fazla 4 ayak, günde en fazla 5 kupon, öğlen oran
@@ -18,6 +19,8 @@
   token da çözülür.
 
 ## Karar geçmişi
+- 24 Ekim: ayak oranları yalnızca Bet365'ten (E6, sınırlar aynı; bazı günler daha az kupon çıkabilir). Önceden her
+  ayağın en iyi fiyatı farklı sitelerden gelebiliyordu. Kupon kaydında ayak başına `oran_kaynagi` tutuluyor.
 - 13 Ekim: 6–12 Ekim sonuçları günün kuponu 5'te 2, long shot 6'da 1; DC12 7'de 3. Gölge test kuruldu, karar kuralı
   z>2. "Gala günü" reddedildi. X API 402 (kredi bitti) çözüldü.
 - 14 Ekim: DC12 yasağı (E6), E7 zamanlaması (maçtan ≥45 dk önce), 2,05'lik aykırı oran → `AYKIRI_FIYAT` %8 ve +%15

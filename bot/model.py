@@ -157,7 +157,7 @@ AYKIRI_FIYAT = 0.08  # en iyi fiyat, sitelerin ortancasından en fazla bu kadar 
 def piyasa_oranlari(bahisciler: dict[str, dict[str, float]], izinli: list[str],
                     yontem: str = "medyan") -> dict[str, tuple[float, str, dict[str, float]]]:
     """Listedeki büyük bahisçilerin oranı: "en_iyi" = içlerindeki en yüksek fiyat (takipçi o sitede gerçekten
-    bulabilir; değer bahsinde standart yöntem), "medyan" = ortanca. Bahisçi bahisçi oranlar da döner."""
+    bulabilir; değer bahsinde standart yöntem), "medyan" = ortanca, "site:Bet365" = yalnızca o sitenin fiyatı. Bahisçi bahisçi oranlar da döner."""
     izin = {ad.lower() for ad in izinli}
     oranlar: dict[str, dict[str, float]] = {}
     for ad, o in bahisciler.items():
@@ -172,6 +172,16 @@ def piyasa_oranlari(bahisciler: dict[str, dict[str, float]], izinli: list[str],
             sinir = statistics.median(d.values()) * (1 + AYKIRI_FIYAT)
             temiz = {ad: o for ad, o in d.items() if o <= sinir}
             sonuc[pazar] = (round(max(temiz.values()), 2), f"best of {len(temiz)}", temiz)
+        return sonuc
+    if yontem.startswith("site:"):
+        # Tek sitenin fiyatı (Mr. Likely: kombinenin toplam oranı tek sitede bulunabilsin, SÖZLEŞME E6). O sitede
+        # olmayan ya da o sitenin fiyatı aykırı olan pazar düşer; diğer siteler yalnızca site sayısı ve aykırılık için.
+        site = yontem[5:].lower()
+        sonuc = {}
+        for pazar, d in oranlar.items():
+            fiyat = next((o for ad, o in d.items() if ad.lower() == site), None)
+            if fiyat is not None and fiyat <= statistics.median(d.values()) * (1 + AYKIRI_FIYAT):
+                sonuc[pazar] = (round(fiyat, 2), yontem[5:], d)
         return sonuc
     return {pazar: (round(statistics.median(d.values()), 2), f"median of {len(d)}", d) for pazar, d in oranlar.items()}
 

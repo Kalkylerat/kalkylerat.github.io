@@ -62,6 +62,9 @@ class LikelyAyar:
     # Otomatik kupona hiç girmeyen pazarlar (E6). "Double chance 12" (ev ya da deplasman kazanır): gölge testte
     # 12'siz günün kuponu 8'de 6, 12'li 9'da 4 tuttu; sahibinin kararıyla çıkarıldı (14 Ekim 2026).
     oto_yasak_pazarlar: tuple = ("CS12",)
+    # Ayak oranı yalnızca bu siteden (E6, sahibinin kararı 24 Ekim 2026): kombinenin toplam oranı tek sitede bulunur.
+    # Boş: listedeki sitelerin en iyi fiyatı (eski davranış).
+    oran_sitesi: str = "Bet365"
     # Keskin piyasaya göre bundan fazla "değer" gerçek dışıdır (hatalı/bayat fiyat): ayak kupona girmez (14 Ekim:
     # +%35 görünen 2.05, Bet365'te 1.50'ydi).
     oto_max_ayak_deger: float = 0.15
@@ -114,11 +117,15 @@ BANTLAR = ((1.19, 1.35, 20), (1.35, 9.99, 15))
 ARAMA_BANTLARI = ((0.0, 1.19, 8), (1.19, 1.35, 12), (1.35, 9.99, 10))
 
 
+def _oran_yontemi(ayar, cfg: LikelyAyar) -> str:
+    return f"site:{cfg.oran_sitesi}" if cfg.oran_sitesi else ayar.oran_yontemi
+
+
 def havuz(analizler: list[dict], oranlar: dict, ayar, cfg: LikelyAyar, simdi: datetime) -> list[dict]:
     """Günün maçlarından yüksek ihtimalli (ve değerli) adaylar; en yüksek ihtimal önce, numaralı (1..N).
-    İhtimal: keskin piyasanın marjsız fiyatı. Oran: takipçinin büyük sitelerde bulabileceği fiyat."""
+    İhtimal: keskin piyasanın marjsız fiyatı. Oran: cfg.oran_sitesi'nin fiyatı (boşsa büyük sitelerin en iyisi)."""
     ayar2 = replace(ayar, guvenli_min_olasilik=cfg.min_olasilik, guvenli_min_deger=cfg.min_deger,
-                    oran_min=cfg.oran_min, oran_max=cfg.oran_max)
+                    oran_min=cfg.oran_min, oran_max=cfg.oran_max, oran_yontemi=_oran_yontemi(ayar, cfg))
     en_erken = simdi + timedelta(minutes=cfg.min_dakika_once)
     hepsi = []
     for a in analizler:
@@ -127,14 +134,14 @@ def havuz(analizler: list[dict], oranlar: dict, ayar, cfg: LikelyAyar, simdi: da
             continue
         ist = model.model_olasiliklari(*a["istatistik_gol"]) if a.get("istatistik_gol") else {}
         maclik = []
-        for pazar, oran, _, bahisci_oranlari, p, deger, tur, kaynak in model._piyasa_adaylari(
+        for pazar, oran, bolag, bahisci_oranlari, p, deger, tur, kaynak in model._piyasa_adaylari(
                 b, ayar2, a.get("lig_id") in ayar.ligler):
             etiket, _ = model.etiketler(pazar, a["ev"], a["dep"])
             ist_p = ist.get(pazar)
             maclik.append({
                 "aday_id": f'{a["fixture_id"]}-{pazar}', "fixture_id": a["fixture_id"], "pazar": pazar, "tur": tur,
                 "ev": a["ev"], "dep": a["dep"], "lig": a.get("lig", ""), "baslama": a["baslama"],
-                "etiket": etiket, "oran": oran, "site_sayisi": len(bahisci_oranlari),
+                "etiket": etiket, "oran": oran, "oran_kaynagi": bolag, "site_sayisi": len(bahisci_oranlari),
                 "olasilik": round(p, 3), "deger": round(deger, 3), "kaynak": kaynak,
                 "istatistik": round(ist_p, 3) if ist_p is not None else None,
                 # Takım istatistiği modeli piyasadan belirgin düşükse aday işaretlenir; hazır kuponlara girmez.
@@ -777,7 +784,7 @@ def _buyuk_tani(a: dict, b: dict, ayar, cfg: LikelyAyar) -> dict:
     """Büyük maçın adayı neden çıktı/çıkmadı: kaç bahisçi var, keskin ve zorunlu bahisçi var mı, en yüksek ihtimalli
     oyunun fiyatı nasıl. Günlük bildirimde görünür (büyük maç kaçıyorsa nedeni belli olsun)."""
     adil, _ = model.adil_olasiliklar(b, ayar.keskin_bahisci) if b else ({}, {})
-    fiyat = model.piyasa_oranlari(b, ayar.oran_bahiscileri, ayar.oran_yontemi) if b else {}
+    fiyat = model.piyasa_oranlari(b, ayar.oran_bahiscileri, _oran_yontemi(ayar, cfg)) if b else {}
     en_iyi = max(((p, pz) for pz, p in adil.items() if pz in fiyat and cfg.oran_min <= fiyat[pz][0] <= cfg.oran_max),
                  default=None)
     kayit = {"mac": f'{a["ev"]} v {a["dep"]}', "bahisci": len(b), "bahisciler": sorted(b),
@@ -965,7 +972,7 @@ def _dondur(ayaklar: list[dict], ad: str, simdi: datetime) -> dict:
     """Kuponun, ayak ayrıntılarıyla dondurulmuş kaydı (havuz sonradan silinse de sonuçlandırılabilsin)."""
     k = kupon_kur(ayaklar, ad)
     k.update(ayaklar=[{**{x: a[x] for x in ("aday_id", "fixture_id", "pazar", "ev", "dep", "lig", "baslama", "etiket",
-                                             "oran", "olasilik", "deger") if x in a},
+                                             "oran", "oran_kaynagi", "olasilik", "deger") if x in a},
                        **{x: a[x] for x in ("odds_id", "odds_spor") if x in a},
                        "durum": "bekliyor", "skor": None} for a in ayaklar],
              durum="bekliyor", secim=simdi.isoformat(timespec="seconds"))

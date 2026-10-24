@@ -32466,6 +32466,63 @@
      "secim": "2026-10-24T05:42:06+00:00",
      "oto": true,
      "paylas": "2026-10-24T11:10:00+02:00"
+    },
+    {
+     "ad": "gunun-kuponu-4",
+     "ayaklar": [
+      {
+       "aday_id": "1555531-CSX2",
+       "fixture_id": 1555531,
+       "pazar": "CSX2",
+       "ev": "Ironi Tiberias",
+       "dep": "Maccabi Netanya",
+       "lig": "Ligat Ha'al",
+       "baslama": "2026-10-24T18:00:00+02:00",
+       "etiket": "Double chance X2",
+       "oran": 1.19,
+       "olasilik": 0.823,
+       "deger": -0.021,
+       "durum": "bekliyor",
+       "skor": null
+      },
+      {
+       "aday_id": "1557440-DPU05",
+       "fixture_id": 1557440,
+       "pazar": "DPU05",
+       "ev": "Coventry",
+       "dep": "Fulham",
+       "lig": "Premier League",
+       "baslama": "2026-10-24T16:00:00+02:00",
+       "etiket": "Fulham Over 0.5 goals",
+       "oran": 1.22,
+       "olasilik": 0.789,
+       "deger": -0.037,
+       "durum": "bekliyor",
+       "skor": null
+      },
+      {
+       "aday_id": "1558661-CS1X",
+       "fixture_id": 1558661,
+       "pazar": "CS1X",
+       "ev": "KVC Westerlo",
+       "dep": "SK Beveren",
+       "lig": "Jupiler Pro League",
+       "baslama": "2026-10-24T20:45:00+02:00",
+       "etiket": "Double chance 1X",
+       "oran": 1.38,
+       "olasilik": 0.721,
+       "deger": -0.005,
+       "durum": "bekliyor",
+       "skor": null
+      }
+     ],
+     "oran": 2.0,
+     "olasilik": 0.468,
+     "deger": -0.064,
+     "durum": "bekliyor",
+     "secim": "2026-10-24T09:01:44+00:00",
+     "oto": true,
+     "paylas": "2026-10-24T13:00:00+02:00"
     }
    ],
    "islenen": [],
@@ -32863,7 +32920,8 @@
     }
    ],
    "oto": true,
-   "issue": 124
+   "issue": 124,
+   "tazeleme": "2026-10-24T09:01:44+00:00"
   }
  ]
 }

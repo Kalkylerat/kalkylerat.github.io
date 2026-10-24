@@ -32030,7 +32030,8 @@
      "istatistik": 0.641,
      "uyum": true,
      "buyuk": false,
-     "no": 75
+     "no": 75,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1551124-IYA15",
@@ -33137,7 +33138,7 @@
    "oto": true,
    "issue": 124,
    "tazeleme": "2026-10-24T09:01:44+00:00",
-   "olcum_sorgu": "2026-10-24T16:34:50+00:00"
+   "olcum_sorgu": "2026-10-24T17:31:58+00:00"
   }
  ]
 }

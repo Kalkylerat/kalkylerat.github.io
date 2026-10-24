@@ -43,7 +43,8 @@ def ham():
 def test_E1_buyuk_mac_hikayesi_olgular_kayittan():
     o = [x["metin"] for x in hk.olgular(ham(), M, SIMDI)]
     assert o[0] == "Freiburg have won 1 of the last 21 meetings with Bayern Munich."  # en ilginç önce
-    assert "Bayern Munich are unbeaten in the last 20 meetings with Freiburg." in o
+    assert "Bayern Munich are unbeaten in the last 20 meetings with Freiburg." not in o  # aynı tür ikinci kez yok
+    assert len({x["emoji"] for x in hk.olgular(ham(), M, SIMDI)}) == len(o)
     assert "A top-four clash: Freiburg 3rd on 21 pts, Bayern Munich top on 22 pts." in o
     assert "Both played midweek: Freiburg lost 3-0 at Monaco, Bayern Munich drew 2-2 v Arsenal." in o
     assert "Freiburg have won all 3 home games this season." in o
@@ -55,8 +56,10 @@ def test_E1_buyuk_mac_hikayesi_olgular_kayittan():
 
 def test_E1_buyuk_mac_hikayesi_postlari():
     p = hk.postlar(ham(), M, SIMDI, "t")
-    assert len(p) == 2 and p[0].startswith("📋 The story: Freiburg have won 1 of the last 21")
-    assert p[0].count("meetings") <= 2 and "Musiala" in p[1] and "💬 " in p[1] and p[1].endswith(ANSVAR)
+    assert len(p) == 2 and p[0].startswith("📋 The story\n🆚 Freiburg have won 1 of the last 21")
+    satirlar = p[0].split("\n\n")[0].splitlines()[1:]
+    assert 1 <= len(satirlar) <= 3 and all(s_[0] in "🆚🏆🌍🗓🏠✈🔥📉⏱" for s_ in satirlar)  # her olgu emojili satır
+    assert p[1].startswith("🩹 Out: J. Musiala") and "💬 " in p[1] and p[1].endswith(ANSVAR)
     for x in p:
         assert uzunluk(x) <= LIMIT and x.rstrip().splitlines()[-1].startswith("18+") and not hk.denetle(x)
 
@@ -127,13 +130,15 @@ def test_E1_buyuk_mac_hikayesi_flood_zinciri(monkeypatch, tmp_path):
     assert len(x2.postlar) == 1 and "🧵" not in x2.postlar[0][0]
 
 
-def test_E1_buyuk_mac_hikayesi_en_fazla_4_buyuk_macta():
+def test_E1_buyuk_mac_hikayesi_yogun_gunde_10_buyuk_macta_gece_maci_dahil():
+    """Sahibinin isteği (25 Ekim 2026): yoğun günde bütün büyük maçlar (en fazla 10). Gece yarısından sonra başlayan
+    maç da planlanır (önceden kendi gününün 09:30'una itilip düşüyordu)."""
     from bot import analiz
     analizler, adaylar = [], []
-    for i in range(7):
+    for i in range(12):
         a = {"fixture_id": i, "ev": f"E{i}", "dep": f"D{i}", "ev_id": 10 + i, "dep_id": 50 + i, "lig_id": 39,
              "lig": "Premier League", "kaynak": "piyasa", "guven": "yuksek",
-             "baslama": (SIMDI + timedelta(hours=4 + i)).isoformat(),
+             "baslama": (SIMDI + timedelta(hours=3, minutes=40 * i)).isoformat(),
              "p": {"MS1": 0.6, "MSX": 0.2, "MS2": 0.2, "UST25": 0.5, "KGVAR": 0.5}}
         analizler.append(a)
         adaylar.append({"aday_id": f"{i}-CS1X", "fixture_id": i, "tur": "guvenli", "pazar": "CS1X", "uyum": True,
@@ -141,5 +146,8 @@ def test_E1_buyuk_mac_hikayesi_en_fazla_4_buyuk_macta():
     assert all(analiz.onemli(a) for a in analizler)
     cfg = likely.LikelyAyar(aktif=True, mod="otomatik")
     plan = likely.mac_planla(analizler, adaylar, [], SIMDI, cfg, config.yukle())
-    assert sum(bool(m.get("hikaye")) for m in plan) == cfg.oto_hikaye_sayisi == 4
+    assert len(plan) == cfg.oto_mac_sayisi == 10
+    assert sum(bool(m.get("hikaye")) for m in plan) == cfg.oto_hikaye_sayisi == 10
+    gece = [m for m in plan if datetime.fromisoformat(m["baslama"]).astimezone(likely.ZoneInfo("Europe/Stockholm")).day == 26]
+    assert gece  # 26 Ekim'e sarkan (gece yarısından sonra) maçlar da planda
     assert all(m["ev_id"] and m["dep_id"] for m in plan if m.get("hikaye"))

@@ -147,9 +147,10 @@ oto_bilgi_aralik_dk = 40
 # havuzun en yüksek ihtimalli oyunu ("safest angle"). Maçtan ~2,5 saat önce. 0 = kapalı (eski favori/gol/denk postları).
 # Maliyet: maç başına 1 X yazma (en fazla 10/gün), ek API isteği yok (analiz kaydı ve havuzdan).
 oto_mac_sayisi = 10
-# Bunlardan kaçı büyük maç hikayesi flood'u olur (E1, 25 Ekim 2026): puan durumu, eşleşme geçmişi, son maçlar,
+# Bunlardan kaçı büyük maç hikayesi flood'u olur (E1, 25 Ekim 2026; sahibinin isteği: yoğun günde, hafta sonu ya da
+# Şampiyonlar Ligi gecesi, bütün büyük maçlar): puan durumu, eşleşme geçmişi, son maçlar,
 # sezon karnesi, seriler, sakat/cezalılar; yalnızca API-Football verisinden (~8 istek/maç), olgu yoksa tek post.
-oto_hikaye_sayisi = 4
+oto_hikaye_sayisi = 10
 # Sanal kasa grafiği (SOZLESME E8): 10.000 € (6 Ekim'den), her kupona boştaki bakiyenin %3'ü. true olunca önce bir kez
 # duyuru, sonra her gün kuponlar sonuçlanınca grafik (Pazar haftalık, ay sonu aylık). Duyuru sahibinin onayıyla açılır.
 # Maliyet: günde 1 X yazma (görsel yerel). Palet: fis, hardal, murekkep, orman, gece (bot/likely_kasa.py).

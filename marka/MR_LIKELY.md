@@ -18,10 +18,13 @@ Görseller bu klasörde: `mr_likely_logo.png` (profil fotoğrafı, 800×800) ve 
 
 ### Biyografi (Bio)
 
-Sahibi 24 Ekim 2026'da güncelledi (sanal kasa ve günlük grafikle).
+Sahibi 25 Ekim 2026'da güncelledi (emojili, satırlara bölünmüş; sanal kasa ve günlük grafikle).
 
 ```
-Football coupons from a numbers model on strict rules. Every coupon counted, losers too. Virtual €10k bank, charted daily. Likely, never certain. 18+
+🎩 Football coupons from a numbers model on strict rules
+📊 Every coupon counted, losers too
+📈 Virtual €10k bank, charted daily
+Likely, never certain. 18+
 ```
 
 ### Sabitlenecek post (elle at, profilde sabitle)
@@ -113,7 +116,7 @@ Example lines in his voice:
 - **Günün maçı postları (E1):** günde en fazla 10 maç, önce büyük maçlar; 1X2, "Over 2.5 goals", "Both teams score"
   yüzdeleri ve havuzun en yüksek ihtimalli oyunu ("Safest angle: Double chance 1X, 88% at 1.11"), kuponda mı. Maçtan
   ~2,5 saat önce. En büyük maç "Match of the day" başlığı ve 1X2 anketiyle. Kalkylerat postları otomatik alıntılanmaz.
-- **Büyük maç hikayesi (E1):** günde en fazla 4 büyük maçta maç postu flood olur: "📋 The story" (eşleşme geçmişi, puan
+- **Büyük maç hikayesi (E1):** günde en fazla 10 büyük maçta (yoğun günlerde hepsi) maç postu flood olur: "📋 The story" (eşleşme geçmişi, puan
   durumu, Avrupa'dan dönüş, iç saha/deplasman karnesi, seriler, geç goller) ve "🩹 Out" (sakat/cezalı) + soru. Yalnızca
   API-Football verisinden, kodla (`bot/likely_hikaye.py`); Flashscore/haber metni yok.
 - **Sanal kasa (SOZLESME E8):** 10.000 € (6 Ekim'den), her kupon paylaşılınca boştaki bakiyenin %3'ü. Günün bütün

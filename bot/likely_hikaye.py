@@ -73,14 +73,14 @@ def _h2h(ham: dict, m: dict) -> list[dict]:
     for tid, ad, rakip in ((ev, m["ev"], m["dep"]), (dep, m["dep"], m["ev"])):
         w = kaz.count(tid)
         if n >= 8 and w <= 1:
-            sonuc.append({"metin": f"{ad} have won {w} of the last {n} meetings with {rakip}.", "puan": 92})
+            sonuc.append({"metin": f"{ad} have won {w} of the last {n} meetings with {rakip}.", "puan": 92, "emoji": "🆚"})
         yenilmez = next((i for i, k in enumerate(kaz) if k not in (tid, None)), n)
         if yenilmez >= 5:
-            sonuc.append({"metin": f"{ad} are unbeaten in the last {yenilmez} meetings with {rakip}.", "puan": 82})
+            sonuc.append({"metin": f"{ad} are unbeaten in the last {yenilmez} meetings with {rakip}.", "puan": 82, "emoji": "🆚"})
     if not sonuc:
         d = kaz.count(None)
         sonuc.append({"metin": f"Last {n} meetings: {m['ev']} {kaz.count(ev)} wins, {m['dep']} {kaz.count(dep)}, "
-                               f"{d} draw{'s' * (d != 1)}.", "puan": 40})
+                               f"{d} draw{'s' * (d != 1)}.", "puan": 40, "emoji": "🆚"})
     return sonuc
 
 
@@ -94,7 +94,7 @@ def _puan(ham: dict, m: dict) -> list[dict]:
     zirve = e["rank"] <= 4 and d["rank"] <= 4
     if zirve:
         metin = "A top-four clash: " + metin
-    return [{"metin": metin, "puan": 74 if zirve else 50 if min(e["rank"], d["rank"]) <= 6 else 35}]
+    return [{"metin": metin, "puan": 74 if zirve else 50 if min(e["rank"], d["rank"]) <= 6 else 35, "emoji": "🏆"}]
 
 
 def _son_mac(f: dict, tid: int) -> str | None:
@@ -131,8 +131,8 @@ def _son(ham: dict, m: dict, simdi: datetime) -> list[dict]:
     if not parcalar:
         return []
     if avrupa == 2:
-        return [{"metin": f"Both played midweek: {parcalar[0]}, {parcalar[1]}.", "puan": 66}]
-    return [{"metin": f"Last time out: {'; '.join(parcalar)}.", "puan": 58 if avrupa else 42}]
+        return [{"metin": f"Both played midweek: {parcalar[0]}, {parcalar[1]}.", "puan": 66, "emoji": "🌍"}]
+    return [{"metin": f"Last time out: {'; '.join(parcalar)}.", "puan": 58 if avrupa else 42, "emoji": "🌍" if avrupa else "🗓️"}]
 
 
 def _sezon(ham: dict, m: dict) -> list[dict]:
@@ -141,27 +141,27 @@ def _sezon(ham: dict, m: dict) -> list[dict]:
     fx = lambda s, k, y: int((((s.get("fixtures") or {}).get(k) or {}).get(y)) or 0)
     oyn, kaz, ber, yen = (fx(e, k, "home") for k in ("played", "wins", "draws", "loses"))
     if oyn >= 3 and kaz == oyn:
-        sonuc.append({"metin": f"{m['ev']} have won all {oyn} home games this season.", "puan": 76})
+        sonuc.append({"metin": f"{m['ev']} have won all {oyn} home games this season.", "puan": 76, "emoji": "🏠"})
     elif oyn >= 3 and kaz == 0:
-        sonuc.append({"metin": f"{m['ev']} are still waiting for a home win this season ({oyn} played).", "puan": 70})
+        sonuc.append({"metin": f"{m['ev']} are still waiting for a home win this season ({oyn} played).", "puan": 70, "emoji": "🏠"})
     oyn, kaz, ber, yen = (fx(d, k, "away") for k in ("played", "wins", "draws", "loses"))
     if oyn >= 3 and yen == 0:
-        sonuc.append({"metin": f"{m['dep']} are unbeaten away this season (W{kaz} D{ber}).", "puan": 66})
+        sonuc.append({"metin": f"{m['dep']} are unbeaten away this season (W{kaz} D{ber}).", "puan": 66, "emoji": "✈️"})
     elif oyn >= 3 and kaz <= 1:
-        sonuc.append({"metin": f"{m['dep']} have won {kaz} of {oyn} away games this season.", "puan": 62})
+        sonuc.append({"metin": f"{m['dep']} have won {kaz} of {oyn} away games this season.", "puan": 62, "emoji": "✈️"})
     for s, ad in ((e, m["ev"]), (d, m["dep"])):
         form = (s.get("form") or "")
         seri = len(form) - len(form.rstrip(form[-1:])) if form else 0
         if form and form[-1] == "W" and seri >= 4:
-            sonuc.append({"metin": f"{ad} have won their last {seri} league games.", "puan": 68})
+            sonuc.append({"metin": f"{ad} have won their last {seri} league games.", "puan": 68, "emoji": "🔥"})
         elif form and form[-1] == "L" and seri >= 3:
-            sonuc.append({"metin": f"{ad} have lost their last {seri} league games.", "puan": 64})
+            sonuc.append({"metin": f"{ad} have lost their last {seri} league games.", "puan": 64, "emoji": "📉"})
         dk = ((s.get("goals") or {}).get("for") or {}).get("minute") or {}
         gec = sum(int((dk.get(k) or {}).get("total") or 0) for k in ("76-90", "91-105"))
         toplam = int((((s.get("goals") or {}).get("for") or {}).get("total") or {}).get("total") or 0)
         if gec >= 4 and toplam and gec / toplam >= 0.3:
             sonuc.append({"metin": f"{ad} have scored {gec} of their {toplam} league goals after the 75th minute.",
-                          "puan": 56})
+                          "puan": 56, "emoji": "⏱️"})
     return sonuc
 
 
@@ -178,8 +178,11 @@ def sakatlar(ham: dict, m: dict) -> str:
 
 
 def olgular(ham: dict, m: dict, simdi: datetime) -> list[dict]:
-    """Bütün olgular, ilginçliğe göre sıralı (en ilginç önce)."""
-    return sorted(_h2h(ham, m) + _puan(ham, m) + _son(ham, m, simdi) + _sezon(ham, m), key=lambda o: -o["puan"])
+    """Olgular, ilginçliğe göre sıralı (en ilginç önce); aynı türden (aynı emoji) yalnızca en ilginci: aynı şeyi iki
+    kez söylemesin ("1 of the last 21" ve "unbeaten in the last 20" aynı eşleşme geçmişi)."""
+    hepsi = sorted(_h2h(ham, m) + _puan(ham, m) + _son(ham, m, simdi) + _sezon(ham, m), key=lambda o: -o["puan"])
+    goruldu: set = set()
+    return [o for o in hepsi if not (o["emoji"] in goruldu or goruldu.add(o["emoji"]))]
 
 
 def postlar(ham: dict, m: dict, simdi: datetime, tohum: str = "") -> list[str]:
@@ -188,24 +191,24 @@ def postlar(ham: dict, m: dict, simdi: datetime, tohum: str = "") -> list[str]:
     if not hepsi:
         return []
     soru = SORULAR[sum(map(ord, tohum)) % len(SORULAR)]
-    ikinci, kalan, n = "📋 The story:", [], 0
-    for o in hepsi:  # en ilginç en fazla 3 olgu
-        aday = f"{ikinci} {o['metin']}"
-        if n < 3 and uzunluk(f"{aday}\n\n18+") <= LIMIT:
-            ikinci, n = aday, n + 1
+    satir = lambda o: f"{o['emoji']} {o['metin']}"
+    ikinci, kalan = ["📋 The story"], []
+    for o in hepsi:  # en ilginç en fazla 3 olgu, her biri kendi satırında
+        if len(ikinci) < 4 and uzunluk("\n".join(ikinci + [satir(o)]) + "\n\n18+") <= LIMIT:
+            ikinci.append(satir(o))
         else:
             kalan.append(o)
-    sonuc = [f"{ikinci}\n\n18+"]
-    ucuncu = [s for s in (sakatlar(ham, m), kalan[0]["metin"] if kalan else "") if s]
-    if ucuncu:
-        metin = "\n".join(ucuncu) + f"\n\n💬 {soru}\n\n{ANSVAR}"
-        while uzunluk(metin) > LIMIT and len(ucuncu) > 1:
-            ucuncu.pop()
-            metin = "\n".join(ucuncu) + f"\n\n💬 {soru}\n\n{ANSVAR}"
-        if uzunluk(metin) <= LIMIT:
-            sonuc.append(metin)
+    ucuncu = [x for x in (sakatlar(ham, m), satir(kalan[0]) if kalan else "") if x]
+    son = f"\n\n💬 {soru}\n\n{ANSVAR}"
+    if not ucuncu:  # sakat ve kalan olgu yoksa soru ikinci postta
+        metin = "\n".join(ikinci) + son
+        sonuc = [metin if uzunluk(metin) <= LIMIT else "\n".join(ikinci) + "\n\n18+"]
     else:
-        sonuc[0] = f"{ikinci}\n\n💬 {soru}\n\n{ANSVAR}" if uzunluk(f"{ikinci}\n\n💬 {soru}\n\n{ANSVAR}") <= LIMIT else sonuc[0]
+        sonuc = ["\n".join(ikinci) + "\n\n18+"]
+        while len(ucuncu) > 1 and uzunluk("\n".join(ucuncu) + son) > LIMIT:
+            ucuncu.pop()
+        if uzunluk("\n".join(ucuncu) + son) <= LIMIT:
+            sonuc.append("\n".join(ucuncu) + son)
     return [p for p in sonuc if not denetle(p)]
 
 

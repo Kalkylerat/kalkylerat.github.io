@@ -18,7 +18,7 @@
 - [x] Sabah duyuru postu (eski `claude/daily-coupon-teaser-2bolvm` dalı) ana dala alındı, sonunda soru (24 Ekim).
 - [x] Günün maçı postları: günde en fazla 10, "safest angle" ve kupon bağı (24 Ekim). Kalkylerat'ı otomatik alıntılama
   sahibinin kararıyla yapılmadı (X koordineli hesap riski).
-- [x] Büyük maç hikayesi flood'u (25 Ekim): günde en fazla 4 büyük maç, olgular API-Football'dan kodla
+- [x] Büyük maç hikayesi flood'u (25 Ekim): günde en fazla 10 büyük maç (sahibi 4'ten 10'a çıkardı), olgular API-Football'dan kodla
   (`bot/likely_hikaye.py`). Canlı API yanıtıyla henüz denenmedi: ilk gün çıktısı kontrol edilmeli.
 - [ ] `claude/daily-coupon-teaser-2bolvm` dalını ana dala al (21 Ekim): ilk kupondan önce "bugün N kupon" duyuru postu.
 - [ ] Gölge test kararı: DC12 çıkarılsın mı, fiyat sınırı gevşesin mi? 13 Ekim'de 1–2 hafta beklenmesi kararlaştırıldı;

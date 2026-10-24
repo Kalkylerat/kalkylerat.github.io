@@ -83,7 +83,7 @@ class LikelyAyar:
     oto_bilgi_sayisi: int = 4      # günde en fazla kaç bilgi postu (strateji notu, günün rakamları)
     oto_bilgi_aralik_dk: int = 40  # bilgi postu, başka bir posttan en az bu kadar dakika uzakta
     oto_mac_sayisi: int = 10       # günün maçı postları (E1, 24 Ekim 2026); 0 = kapalı (eski favori/gol/denk postları)
-    oto_hikaye_sayisi: int = 4     # bunlardan kaçı büyük maç hikayesi flood'u olur (E1, 25 Ekim 2026; likely_hikaye)
+    oto_hikaye_sayisi: int = 10    # bunlardan kaçı büyük maç hikayesi flood'u olur (E1, 25 Ekim 2026; likely_hikaye)
     oto_haftalik_karne: bool = False  # Pazartesi 10:00 dersinin yerine haftalık karne postu (SOZLESME E1)
     # Sanal kasa grafiği (SOZLESME E8): açılınca önce bir kez duyuru, sonra her gün kuponlar sonuçlanınca grafik.
     oto_kasa: bool = False
@@ -1315,8 +1315,9 @@ def mac_planla(analizler: list[dict], adaylar: list[dict], secilen: list[dict], 
         if len(plan) >= cfg.oto_mac_sayisi:
             break
         bas = datetime.fromisoformat(a["baslama"])
-        yerel = bas.astimezone(tz)
-        erken = yerel.replace(hour=MAC_ERKEN[0], minute=MAC_ERKEN[1], second=0, microsecond=0)
+        # En erken saat bugünün (paylaşım gününün) 09:30'u; maçın günü değil: gece yarısından sonraki maç (ör. 01:00)
+        # kendi gününün 09:30'una itilip düşmesin (25 Ekim 2026, testte bulundu).
+        erken = simdi.astimezone(tz).replace(hour=MAC_ERKEN[0], minute=MAC_ERKEN[1], second=0, microsecond=0)
         t = max(bas - timedelta(minutes=MAC_ONCE_DK), erken, simdi + timedelta(minutes=10))
         son = bas - timedelta(minutes=MAC_SON_DK)
         while t <= son and any(abs((t - z).total_seconds()) < 60 * MAC_ARALIK_DK

@@ -296,8 +296,8 @@ def post_hazirla(veri: dict, tarih: str, palet: str = VARSAYILAN_PALET) -> tuple
         sayi = f"{len(paylasilan)} coupon{'s' * (len(paylasilan) != 1)}, {tutan} landed."
     if acik:
         sayi += f" {acik} still open."
-    metin = (f"{bas}\n\n{sayi} Started at {_euro(BASLANGIC)} on 6 Oct, 3% of the free balance on every coupon, "
-             f"losers counted.\n\nVirtual bank, not real money.\n{ANSVAR}")
+    metin = (f"{bas}\n\n🎟️ {sayi}\n🏁 Started at {_euro(BASLANGIC)} on 6 Oct, 3% of the free balance per coupon, "
+             f"losers counted.\n\n⚠️ Virtual bank, not real money.\n{ANSVAR}")
     return metin, png, {_euro(abs(x)) for x in (kasa, kasa - baz, baz, BASLANGIC)}
 
 

@@ -32296,8 +32296,20 @@
        "oran": 1.38,
        "olasilik": 0.715,
        "deger": -0.014,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "0-2",
+       "goller": [
+        [
+         57,
+         0,
+         "dep"
+        ],
+        [
+         80,
+         0,
+         "dep"
+        ]
+       ]
       }
      ],
      "oran": 2.08,
@@ -32310,7 +32322,7 @@
      "tweet_id": "2113911723765735519",
      "metin": "🎩 Four picks, one coupon.\n\n⚽ Arsenal v Everton\n⚽ Lazio v Parma\n⚽ Aston Villa v Manchester City\n⚽ Cagliari v Bologna\n\n📊 Combined 2.08. I make it about 44% to land.\n\n💬 Would you take it at this price?\n\n18+ | Play responsibly",
      "yayin": "2026-10-24T08:33:19+00:00",
-     "son_oran": 1
+     "son_oran": 1.38
     },
     {
      "ad": "long-shot",
@@ -32327,8 +32339,30 @@
        "oran": 1.37,
        "olasilik": 0.729,
        "deger": -0.001,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "2-2",
+       "goller": [
+        [
+         2,
+         0,
+         "ev"
+        ],
+        [
+         48,
+         0,
+         "dep"
+        ],
+        [
+         74,
+         0,
+         "ev"
+        ],
+        [
+         82,
+         0,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1552201-CSX2",
@@ -32403,7 +32437,7 @@
      "tweet_id": "2113931647959585185",
      "metin": "🎩 Long shot. I'd be surprised, pleasantly.\n\n⚽ Zbrojovka Brno v Bohemians 1905\n⚽ ADO Den Haag v Heerenveen\n⚽ Dijon v Rodez\n⚽ 1. FC Köln v FC Schalke 04\n\n📊 Combined 3.40. I make it about 28% to land.\n\n💬 Which one would you drop?\n\n18+ | Play responsibly",
      "yayin": "2026-10-24T09:52:30+00:00",
-     "son_oran": 1
+     "son_oran": 1.37
     },
     {
      "ad": "gunun-kuponu-2",

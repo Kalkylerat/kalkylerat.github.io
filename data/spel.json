@@ -135273,6 +135273,24 @@
               1
             ],
             "zaman": "2026-10-24T13:30:37+00:00"
+          },
+          "1550158": {
+            "durum": "paylasildi",
+            "tweet_id": "2114007727051526192",
+            "skor": [
+              0,
+              2
+            ],
+            "zaman": "2026-10-24T14:54:52+00:00"
+          },
+          "1550159": {
+            "durum": "paylasildi",
+            "tweet_id": "2114007728297271783",
+            "skor": [
+              2,
+              0
+            ],
+            "zaman": "2026-10-24T14:54:52+00:00"
           }
         }
       },
@@ -135280,7 +135298,26 @@
         "durum": "paylasildi",
         "tweet_id": "2113924213392527481",
         "zaman": "2026-10-24T09:22:56+00:00",
-        "metin": "No result above 37%.\nWide open on paper.\n\n🇮🇹 Cagliari v Bologna 🇮🇹 · 15:00 CEST\n🏆 Cagliari 34% · Draw 29% · Bologna 37%\n⚽ Over 2.5 goals 39% · Under 61%\n🥅 Both teams score 46% · Not both 54%\n\n💬 Chances, not picks. Can Cagliari beat 34%? 👇\n#SerieA\n18+ | Play responsibly"
+        "metin": "No result above 37%.\nWide open on paper.\n\n🇮🇹 Cagliari v Bologna 🇮🇹 · 15:00 CEST\n🏆 Cagliari 34% · Draw 29% · Bologna 37%\n⚽ Over 2.5 goals 39% · Under 61%\n🥅 Both teams score 46% · Not both 54%\n\n💬 Chances, not picks. Can Cagliari beat 34%? 👇\n#SerieA\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2114007740519457239",
+          "skor": "0-2",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            0.32,
+            1.61
+          ],
+          "zaman": "2026-10-24T14:54:52+00:00",
+          "brier": {
+            "piyasa": 0.9597,
+            "istatistik": 0.9087
+          }
+        }
       },
       "analiz_5": {
         "durum": "paylasildi",
@@ -135311,7 +135348,22 @@
         "durum": "paylasildi",
         "tweet_id": "2113944215214264369",
         "zaman": "2026-10-24T10:42:27+00:00",
-        "metin": "Como win 65%: about 2 in 3.\nSassuolo win it about 1 time in 6 (16%).\n\n🇮🇹 Como v Sassuolo 🇮🇹 · 15:00 CEST\n🏆 Como 65% · Draw 18% · Sassuolo 16%\n⚽ Over 2.5 goals 67% · Under 33%\n🥅 Both teams score 60% · Not both 40%\n\n💬 Not picks. What's your score? 👇\n18+ | Play responsibly"
+        "metin": "Como win 65%: about 2 in 3.\nSassuolo win it about 1 time in 6 (16%).\n\n🇮🇹 Como v Sassuolo 🇮🇹 · 15:00 CEST\n🏆 Como 65% · Draw 18% · Sassuolo 16%\n⚽ Over 2.5 goals 67% · Under 33%\n🥅 Both teams score 60% · Not both 40%\n\n💬 Not picks. What's your score? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2114007754423587215",
+          "skor": "2-0",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "xg": [
+            1.69,
+            0.26
+          ],
+          "zaman": "2026-10-24T14:54:52+00:00"
+        }
       },
       "analiz_1": {
         "durum": "paylasildi",

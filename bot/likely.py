@@ -83,6 +83,9 @@ class LikelyAyar:
     oto_bilgi_sayisi: int = 4      # günde en fazla kaç bilgi postu (strateji notu, günün rakamları)
     oto_bilgi_aralik_dk: int = 40  # bilgi postu, başka bir posttan en az bu kadar dakika uzakta
     oto_haftalik_karne: bool = False  # Pazartesi 10:00 dersinin yerine haftalık karne postu (SOZLESME E1)
+    # Sanal kasa grafiği (SOZLESME E8): açılınca önce bir kez duyuru, sonra her gün kuponlar sonuçlanınca grafik.
+    oto_kasa: bool = False
+    kasa_paleti: str = "fis"
 
 
 def ayar_yukle(path=config.ROOT / "ayarlar.toml") -> LikelyAyar:
@@ -1202,6 +1205,7 @@ def oto_sonuc_paylas(ayar, x, simdi: datetime, kart=None, yaz=print) -> int:
                     except Exception as e:  # görsel yüklenemezse sonuç yine de gider (kaybeden de yazılır, E5)
                         yaz(f"⚠️ Mr. Likely: sonuç kartı eklenemedi ({e}); post görselsiz atılıyor.")
                 k["sonuc_tweet_id"] = x.gonder(k["sonuc_metni"], alinti=k["tweet_id"], medya=medya)
+                k["sonuc_zamani"] = simdi.isoformat(timespec="seconds")  # sanal kasanın sırası (E8)
                 adet += 1
                 kaydet(veri)
                 yaz(f"Mr. Likely: {gun['tarih']} {k['ad']} sonucu paylaşıldı.")

@@ -143,6 +143,11 @@ oto_son_dk = 20
 # en az kaç dakika uzakta. Saatleri: 10:00 not, 13:00 günün favorisi, 16:00 gol/denk maç, 21:00 not (İsveç saati).
 oto_bilgi_sayisi = 4
 oto_bilgi_aralik_dk = 40
+# Sanal kasa grafiği (SOZLESME E8): 1.000 € (6 Ekim'den), her kupona boştaki bakiyenin %3'ü. true olunca önce bir kez
+# duyuru, sonra her gün kuponlar sonuçlanınca grafik (Pazar haftalık, ay sonu aylık). Duyuru sahibinin onayıyla açılır.
+# Maliyet: günde 1 X yazma (görsel yerel). Palet: fis, hardal, murekkep, orman, gece (bot/likely_kasa.py).
+oto_kasa = false
+kasa_paleti = "fis"
 # Pazartesi 10:00 dersinin yerine haftalık karne postu: geçen haftanın paylaşılmış kuponları, kaybedenler dahil (SOZLESME E1).
 oto_haftalik_karne = true
 # Havuza girmek için en düşük kazanma ihtimali (keskin piyasanın marjsız fiyatı) ve "80+" etiketinin sınırı.

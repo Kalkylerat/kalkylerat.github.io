@@ -12,6 +12,7 @@
 - Yanlış oranlı kupon maç başlamadan `likely_iptal` ile silinebilir (E5'e tek istisna, 14 Ekim).
 
 ## Açık işler
+- [ ] Sanal kasa (E8): kod ana dalda, `oto_kasa = false`. Sahibi paleti ve duyuru metnini onaylayınca açılır.
 - [ ] `claude/daily-coupon-teaser-2bolvm` dalını ana dala al (21 Ekim): ilk kupondan önce "bugün N kupon" duyuru postu.
 - [ ] Gölge test kararı: DC12 çıkarılsın mı, fiyat sınırı gevşesin mi? 13 Ekim'de 1–2 hafta beklenmesi kararlaştırıldı;
       rapor sabah bildiriminin sonunda. Kural gevşetmek sahibinin onayıyla (CLAUDE.md).
@@ -19,6 +20,7 @@
   token da çözülür.
 
 ## Karar geçmişi
+- 24 Ekim: sanal kasa ve günlük/haftalık/aylık mum grafiği (E8): 1.000 €, boştaki bakiyenin %3'ü, kaybedenler dahil.
 - 24 Ekim: ayak oranları yalnızca Bet365'ten (E6, sınırlar aynı; bazı günler daha az kupon çıkabilir). Önceden her
   ayağın en iyi fiyatı farklı sitelerden gelebiliyordu. Kupon kaydında ayak başına `oran_kaynagi` tutuluyor.
 - 13 Ekim: 6–12 Ekim sonuçları günün kuponu 5'te 2, long shot 6'da 1; DC12 7'de 3. Gölge test kuruldu, karar kuralı

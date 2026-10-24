@@ -8,7 +8,7 @@ from collections import Counter
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-from . import analiz, config, denetci, direktor, etkilesim, flood, flood_ig, flood_yetki, football, gorsel, kayit, kit, likely, likely_gorsel, likely_kasa, likely_yetki, oddsapi, onay, panel, saglik, temizlik, tweets, yorum, firsat, sabit
+from . import analiz, config, denetci, direktor, etkilesim, flood, flood_ig, flood_yetki, football, gorsel, kayit, kit, likely, likely_gorsel, likely_hikaye, likely_kasa, likely_yetki, oddsapi, onay, panel, saglik, temizlik, tweets, yorum, firsat, sabit
 
 # Çalışma sırasında yakalanan hatalar: alarm issue'suna yazılır (SÖZLEŞME C2). Alarm iletilemediyse iş "başarısız"
 # işaretlenir; iletildiyse işaretlenmez: GitHub'ın "Run failed" e-postası ve nöbetçi alarmı aynı hatayı tekrarlamasın.
@@ -476,12 +476,21 @@ def likely_nabiz(ayar, simdi: datetime, sonuclar: bool = True) -> None:
                                                                      kart=likely_gorsel.kupon_karti, yaz=_ozet_yaz)),
                      ("sonuç paylaşımı", lambda: likely.oto_sonuc_paylas(ayar, x, simdi, kart=likely_gorsel.sonuc_karti, yaz=_ozet_yaz)),
                      ("bilgi postu", lambda: likely.oto_bilgi(ayar, x, simdi, yaz=_ozet_yaz)),
-                     ("maç postu", lambda: likely.oto_mac(ayar, x, simdi, yaz=_ozet_yaz)),
+                     ("maç postu", lambda: likely.oto_mac(ayar, x, simdi, yaz=_ozet_yaz, hikaye=_likely_hikaye(ayar, simdi))),
                      ("kasa grafiği", lambda: likely_kasa.oto_kasa(ayar, x, simdi, yaz=_ozet_yaz))):
         try:
             adim()
         except Exception as e:
             _hata(f"Mr. Likely {ad}", e)
+
+
+def _likely_hikaye(ayar, simdi: datetime):
+    """Büyük maç hikayesi (SOZLESME E1): olgular API-Football'dan, maç postu atılırken (~8 istek/maç). Anahtar yoksa yok."""
+    if not os.environ.get("API_FOOTBALL_KEY"):
+        return None
+    onbellek: dict = {}
+    return lambda m: likely_hikaye.postlar(likely_hikaye.veri_topla(_api(ayar), m, onbellek), m, simdi,
+                                           tohum=f"{m['fixture_id']}")
 
 
 def _api(ayar):

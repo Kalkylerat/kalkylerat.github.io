@@ -83,6 +83,7 @@ class LikelyAyar:
     oto_bilgi_sayisi: int = 4      # günde en fazla kaç bilgi postu (strateji notu, günün rakamları)
     oto_bilgi_aralik_dk: int = 40  # bilgi postu, başka bir posttan en az bu kadar dakika uzakta
     oto_mac_sayisi: int = 10       # günün maçı postları (E1, 24 Ekim 2026); 0 = kapalı (eski favori/gol/denk postları)
+    oto_hikaye_sayisi: int = 4     # bunlardan kaçı büyük maç hikayesi flood'u olur (E1, 25 Ekim 2026; likely_hikaye)
     oto_haftalik_karne: bool = False  # Pazartesi 10:00 dersinin yerine haftalık karne postu (SOZLESME E1)
     # Sanal kasa grafiği (SOZLESME E8): açılınca önce bir kez duyuru, sonra her gün kuponlar sonuçlanınca grafik.
     oto_kasa: bool = False
@@ -1325,16 +1326,19 @@ def mac_planla(analizler: list[dict], adaylar: list[dict], secilen: list[dict], 
             continue
         c = en_iyi[a["fixture_id"]]
         plan.append({"fixture_id": a["fixture_id"], "ev": a["ev"], "dep": a["dep"], "lig": a.get("lig", ""),
+                     **{k: a[k] for k in ("ev_id", "dep_id", "lig_id") if a.get(k)},
                      "baslama": a["baslama"], "buyuk": analiz.onemli(a),
                      "p": {k: a["p"][k] for k in ("MS1", "MSX", "MS2", "UST25", "KGVAR")},
                      "aci": {k: c[k] for k in ("aday_id", "etiket", "olasilik", "oran")},
                      "saat": t.isoformat(timespec="seconds")})
     if plan:  # günün maçı: öncelikte ilk (büyük maç varsa en büyüğü); "Match of the day" başlığı ve 1X2 anketi onda
         plan[0]["gunun_maci"] = True
+    for m in [m for m in plan if m["buyuk"] and m.get("ev_id") and m.get("dep_id")][:cfg.oto_hikaye_sayisi]:
+        m["hikaye"] = True  # büyük ve verisi iyi maç: hikaye flood'u (olgular paylaşım anında API'den)
     return sorted(plan, key=lambda m: m["saat"])
 
 
-def mac_metni(m: dict, gun: dict, ayar) -> str:
+def mac_metni(m: dict, gun: dict, ayar, flood: bool = False) -> str:
     """Günün maçı postu; bütün rakamlar kayıttan. Kupon durumu paylaşım anında bakılır."""
     bas = datetime.fromisoformat(m["baslama"]).astimezone(ZoneInfo(ayar.saat_dilimi))
     saat = f'{bas.strftime("%H:%M")} {bas.tzname()}'
@@ -1350,7 +1354,7 @@ def mac_metni(m: dict, gun: dict, ayar) -> str:
     satirlar = [f"🎩 {baslik}, {saat}.", "",
                 f"📊 {m['ev']} {_pct(p['MS1'])} · Draw {_pct(p['MSX'])} · {m['dep']} {_pct(p['MS2'])}",
                 f"⚽ Over 2.5 goals {_pct(p['UST25'])} · Both teams score {_pct(p['KGVAR'])}", "",
-                f"🛡️ Safest angle: {c['etiket']}, {_pct(c['olasilik'])} at {c['oran']:.2f}. {not_}"]
+                f"🛡️ Safest angle: {c['etiket']}, {_pct(c['olasilik'])} at {c['oran']:.2f}. {not_}" + " 🧵" * flood]
     if m.get("gunun_maci"):
         satirlar += ["", "💬 Who takes it? Vote below."]
     metin = "\n".join(satirlar + ["", ANSVAR])
@@ -1363,9 +1367,10 @@ def mac_metni(m: dict, gun: dict, ayar) -> str:
     return metin
 
 
-def oto_mac(ayar, x, simdi: datetime, yaz=print) -> bool:
+def oto_mac(ayar, x, simdi: datetime, yaz=print, hikaye=None) -> bool:
     """Saati gelen günün maçı postunu atar (çalışma başına bir post). Maç başlamak üzereyse atlanır; başka bir post
-    10 dakikadan yakınsa bir sonraki çalışmayı bekler. Kesinlik dili, link, site adı varsa gitmez."""
+    10 dakikadan yakınsa bir sonraki çalışmayı bekler. Kesinlik dili, link, site adı varsa gitmez. Büyük maçta
+    (m["hikaye"]) hikaye(m) olgu postlarını verirse ana post flood olur: olgular ana postun altına yanıt zinciri."""
     cfg = ayar_yukle()
     if not cfg.aktif or cfg.mod != "otomatik" or not cfg.oto_mac_sayisi:
         return False
@@ -1384,7 +1389,13 @@ def oto_mac(ayar, x, simdi: datetime, yaz=print) -> bool:
         if any(abs((simdi - z).total_seconds()) < 600 for z in _post_zamanlari(gun)
                + [datetime.fromisoformat(n["zaman"]) for n in gun["maclar"] if n.get("zaman")]):
             return False
-        metin = mac_metni(m, gun, ayar)
+        ekler = []
+        if m.get("hikaye") and hikaye:
+            try:
+                ekler = hikaye(m) or []
+            except Exception as e:  # veri alınamazsa maç postu yine tek başına gider
+                yaz(f"⚠️ Mr. Likely: {m['ev']} v {m['dep']} hikaye verisi alınamadı ({e}); tek post gidiyor.")
+        metin = mac_metni(m, gun, ayar, flood=bool(ekler))
         if (uzunluk(metin) > LIMIT or denetci._KESINLIK.search(metin) or denetci._LINK.search(metin)
                 or denetci._SITE.search(metin) or "#" in metin):
             m["tweet_id"] = "denetci"
@@ -1407,7 +1418,17 @@ def oto_mac(ayar, x, simdi: datetime, yaz=print) -> bool:
             return False
         m["metin"], m["zaman"] = metin, simdi.isoformat(timespec="seconds")
         kaydet(veri)
-        yaz(f"Mr. Likely: maç postu paylaşıldı ({m['ev']} v {m['dep']}).")
+        onceki = m["tweet_id"]
+        for ek in ekler:  # flood: her post bir öncekine yanıt; biri hata verirse zincir orada kalır
+            try:
+                onceki = x.gonder(ek, yanit=onceki)
+            except Exception as e:
+                yaz(f"⚠️ Mr. Likely: {m['ev']} v {m['dep']} hikaye postu atılamadı ({e}).")
+                break
+            m.setdefault("hikaye_ids", []).append(onceki)
+            m.setdefault("hikaye_metin", []).append(ek)
+            kaydet(veri)
+        yaz(f"Mr. Likely: maç postu paylaşıldı ({m['ev']} v {m['dep']}" + (f", +{len(ekler)} hikaye" if ekler else "") + ").")
         return True
     return False
 

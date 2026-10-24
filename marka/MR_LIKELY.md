@@ -113,6 +113,9 @@ Example lines in his voice:
 - **Günün maçı postları (E1):** günde en fazla 10 maç, önce büyük maçlar; 1X2, "Over 2.5 goals", "Both teams score"
   yüzdeleri ve havuzun en yüksek ihtimalli oyunu ("Safest angle: Double chance 1X, 88% at 1.11"), kuponda mı. Maçtan
   ~2,5 saat önce. En büyük maç "Match of the day" başlığı ve 1X2 anketiyle. Kalkylerat postları otomatik alıntılanmaz.
+- **Büyük maç hikayesi (E1):** günde en fazla 4 büyük maçta maç postu flood olur: "📋 The story" (eşleşme geçmişi, puan
+  durumu, Avrupa'dan dönüş, iç saha/deplasman karnesi, seriler, geç goller) ve "🩹 Out" (sakat/cezalı) + soru. Yalnızca
+  API-Football verisinden, kodla (`bot/likely_hikaye.py`); Flashscore/haber metni yok.
 - **Sanal kasa (SOZLESME E8):** 10.000 € (6 Ekim'den), her kupon paylaşılınca boştaki bakiyenin %3'ü. Günün bütün
   kuponları sonuçlanınca borsa grafiği gibi mum grafiği (`bot/likely_kasa.py`); Pazar haftalık, ay sonu aylık. Günde en
   fazla 1 grafik postu, kupon postunda tutar yok. `[likely] oto_kasa = true` olunca önce bir kez 4 postluk duyuru flood'u gider; her kasa postu denetçiden geçer.

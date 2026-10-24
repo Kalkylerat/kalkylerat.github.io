@@ -32253,8 +32253,25 @@
        "oran": 1.21,
        "olasilik": 0.808,
        "deger": -0.022,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "2-1",
+       "goller": [
+        [
+         6,
+         0,
+         "ev"
+        ],
+        [
+         52,
+         0,
+         "dep"
+        ],
+        [
+         60,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1550158-IYA15",
@@ -32275,13 +32292,14 @@
      "oran": 2.08,
      "olasilik": 0.445,
      "deger": -0.074,
-     "durum": "bekliyor",
+     "durum": "yatti",
      "secim": "2026-10-24T05:42:06+00:00",
      "oto": true,
      "paylas": "2026-10-24T10:30:00+02:00",
      "tweet_id": "2113911723765735519",
      "metin": "🎩 Four picks, one coupon.\n\n⚽ Arsenal v Everton\n⚽ Lazio v Parma\n⚽ Aston Villa v Manchester City\n⚽ Cagliari v Bologna\n\n📊 Combined 2.08. I make it about 44% to land.\n\n💬 Would you take it at this price?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-24T08:33:19+00:00"
+     "yayin": "2026-10-24T08:33:19+00:00",
+     "son_oran": 1
     },
     {
      "ad": "long-shot",
@@ -32433,8 +32451,25 @@
        "oran": 1.19,
        "olasilik": 0.825,
        "deger": -0.019,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "2-1",
+       "goller": [
+        [
+         57,
+         0,
+         "dep"
+        ],
+        [
+         64,
+         0,
+         "ev"
+        ],
+        [
+         67,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1555532-CS1X",
@@ -32470,13 +32505,14 @@
      "oran": 2.18,
      "olasilik": 0.422,
      "deger": -0.08,
-     "durum": "bekliyor",
+     "durum": "yatti",
      "secim": "2026-10-24T05:42:06+00:00",
      "oto": true,
      "paylas": "2026-10-24T11:10:00+02:00",
      "tweet_id": "2113922353570656517",
      "metin": "🎩 Three legs today.\n\n⚽ Esbjerg v FC Fredericia\n⚽ Ironi Kiryat Shmona v Bnei Sakhnin\n⚽ Arda Kardzhali v Levski Sofia\n\n📊 Combined 2.18. I make it about 42% to land.\n\n💬 Would you take it at this price?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-24T09:15:34+00:00"
+     "yayin": "2026-10-24T09:15:34+00:00",
+     "son_oran": 1
     },
     {
      "ad": "gunun-kuponu-4",

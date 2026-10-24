@@ -135194,7 +135194,26 @@
         "durum": "paylasildi",
         "tweet_id": "2113904551959159044",
         "zaman": "2026-10-24T08:04:50+00:00",
-        "metin": "4+ goals: 42%.\nExpected goals 1.1 – 2.1.\n\n🏴󠁧󠁢󠁥󠁮󠁧󠁿 Aston Villa v Manchester City 🏴󠁧󠁢󠁥󠁮󠁧󠁿\n🏆 Aston Villa 20% · Draw 20% · Manchester City 60%\n⚽ Over 2.5 goals 64% · Under 36%\n🥅 Both teams score 60% · Not both 40%\n\n💬 Chances, not picks. Can Aston Villa beat 20%? 👇\n18+ | Play responsibly"
+        "metin": "4+ goals: 42%.\nExpected goals 1.1 – 2.1.\n\n🏴󠁧󠁢󠁥󠁮󠁧󠁿 Aston Villa v Manchester City 🏴󠁧󠁢󠁥󠁮󠁧󠁿\n🏆 Aston Villa 20% · Draw 20% · Manchester City 60%\n⚽ Over 2.5 goals 64% · Under 36%\n🥅 Both teams score 60% · Not both 40%\n\n💬 Chances, not picks. Can Aston Villa beat 20%? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2113984746552267220",
+          "skor": "2-1",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "xg": [
+            0.6,
+            1.53
+          ],
+          "zaman": "2026-10-24T13:23:17+00:00",
+          "brier": {
+            "piyasa": 1.3357,
+            "istatistik": 1.9215
+          }
+        }
       },
       "tablo": {
         "durum": "paylasildi",
@@ -135218,7 +135237,26 @@
           1550162,
           1552795
         ],
-        "sonuclar": {}
+        "sonuclar": {
+          "1557438": {
+            "durum": "paylasildi",
+            "tweet_id": "2113984700507115840",
+            "skor": [
+              2,
+              1
+            ],
+            "zaman": "2026-10-24T13:23:17+00:00"
+          },
+          "1563220": {
+            "durum": "paylasildi",
+            "tweet_id": "2113984701664809052",
+            "skor": [
+              2,
+              1
+            ],
+            "zaman": "2026-10-24T13:23:17+00:00"
+          }
+        }
       },
       "analiz_6": {
         "durum": "paylasildi",
@@ -135255,6 +135293,12 @@
         "tweet_id": "2113972120522822050",
         "zaman": "2026-10-24T12:33:16+00:00",
         "metin": "Expected goals: Coventry 1.3, Fulham 1.55.\n\n🆚 Coventry v Fulham\n🕗 16:00 CEST\n\n🏆 Coventry 30%\n🏆 Draw 27%\n🏆 Fulham 42%\n\n🎯 Most likely score: 1-1\n\nVote in the poll. 18+\n\n💬 With the goals this close, does a 27% draw look too low to you?"
+      },
+      "analiz_3": {
+        "durum": "paylasildi",
+        "tweet_id": "2113984692395405395",
+        "zaman": "2026-10-24T13:23:17+00:00",
+        "metin": "No result above 37%.\nWide open on paper.\n\n🇮🇹 Napoli v AS Roma 🇮🇹 · 18:00 CEST\n🏆 Napoli 37% · Draw 25% · AS Roma 37%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 57% · Not both 43%\n\n💬 Chances, not picks. Napoli 37%: too high? 👇\n#SerieA\n18+ | Play responsibly"
       }
     }
   }

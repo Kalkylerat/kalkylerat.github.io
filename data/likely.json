@@ -32637,8 +32637,15 @@
        "oran": 1.35,
        "olasilik": 0.72,
        "deger": -0.028,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "0-1",
+       "goller": [
+        [
+         40,
+         0,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1551124-IYA15",

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><title>Yorum fırsatları @kalkylerat · 10:00 UTC</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{overflow-wrap:anywhere;margin:0;background:#000;color:#e7e9ea;font:16px/1.45 -apple-system,system-ui,Roboto,sans-serif}
+main{max-width:640px;margin:0 auto;padding:16px}h1{font-size:18px;margin:4px 0 4px}.not{color:#ffd166;margin:0 0 12px}
+.oge{border:1px solid #2f3336;border-radius:14px;padding:14px;margin:0 0 18px}.kim{color:#71767b;font-size:14px}
+.post{color:#c4c9cc;font-size:14px;margin:6px 0 10px;white-space:pre-wrap}.ac{color:#1d9bf0;font-size:14px}
+.taslak{background:#16181c;border-radius:12px;padding:12px;margin:10px 0 0}.metin{white-space:pre-wrap;margin:0 0 10px}
+button{width:100%;border:0;border-radius:999px;padding:13px;font-size:16px;font-weight:700;background:#1d9bf0;color:#fff}
+button.ikinci{background:#2f3336;margin-top:8px;font-weight:600}
+</style></head><body><main>
+<h1>Yorum fırsatları @kalkylerat · 10:00 UTC</h1>
+<p class="kim">Düğme metni panoya kopyalar ve postu X'te açar. X'te <b>Yanıtla</b>'ya dokun, kutuya uzun basıp
+<b>Yapıştır</b>, sonra gönder.</p>
+<section class="oge"><div class="kim">1. @WhoScored · Aston Villa v Manchester City</div><p class="post">Aston Villa have won 4 of the last 6 Premier League meetings (67% win rate) against Manchester City. 🦁
+
+None of the last 6 fixtures between these two teams ended in a draw. 🧐
+
+#AVLMCI https://t.co/q60QC7tgY9</p><a class="ac" href="https://x.com/WhoScored/status/2113918670443290993">Postu X'te gör</a><div class="taslak"><div class="kim">1. taslak</div><p class="metin">Villa have had City&#x27;s number lately, fair play. We still had City around 60% for this one, but that record makes it a proper contest.
+
+https://x.com/kalkylerat/status/2113904551959159044</p><button onclick="kopyala(0,true,this)">📋 Kopyala ve postu aç</button><button class="ikinci" onclick="kopyala(0,false,this)">Sadece kopyala</button></div><div class="taslak"><div class="kim">2. taslak</div><p class="metin">No draws in six is wild 😅 Do you think that run carries on here, or is it finally time for a 1-1?
+
+https://x.com/kalkylerat/status/2113904551959159044</p><button onclick="kopyala(1,true,this)">📋 Kopyala ve postu aç</button><button class="ikinci" onclick="kopyala(1,false,this)">Sadece kopyala</button></div></section>
+</main><script>
+const V = [{"metin": "Villa have had City's number lately, fair play. We still had City around 60% for this one, but that record makes it a proper contest.\n\nhttps://x.com/kalkylerat/status/2113904551959159044", "url": "https://x.com/WhoScored/status/2113918670443290993"}, {"metin": "No draws in six is wild 😅 Do you think that run carries on here, or is it finally time for a 1-1?\n\nhttps://x.com/kalkylerat/status/2113904551959159044", "url": "https://x.com/WhoScored/status/2113918670443290993"}];
+function kopyala(i, ac, btn) {
+  const t = V[i].metin, git = () => { if (ac) setTimeout(() => location.href = V[i].url, 350); };
+  const tamam = () => { btn.textContent = "✅ Kopyalandı" + (ac ? ", post açılıyor…" : ""); git(); };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(t).then(tamam, () => yedek(t, tamam));
+  } else { yedek(t, tamam); }
+}
+function yedek(t, tamam) {
+  const a = document.createElement("textarea"); a.value = t; document.body.appendChild(a); a.select();
+  try { document.execCommand("copy"); } catch (e) {} a.remove(); tamam();
+}
+</script></body></html>

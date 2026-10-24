@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><title>Yorum fırsatları Mr. Likely · 10:00 UTC</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{overflow-wrap:anywhere;margin:0;background:#000;color:#e7e9ea;font:16px/1.45 -apple-system,system-ui,Roboto,sans-serif}
+main{max-width:640px;margin:0 auto;padding:16px}h1{font-size:18px;margin:4px 0 4px}.not{color:#ffd166;margin:0 0 12px}
+.oge{border:1px solid #2f3336;border-radius:14px;padding:14px;margin:0 0 18px}.kim{color:#71767b;font-size:14px}
+.post{color:#c4c9cc;font-size:14px;margin:6px 0 10px;white-space:pre-wrap}.ac{color:#1d9bf0;font-size:14px}
+.taslak{background:#16181c;border-radius:12px;padding:12px;margin:10px 0 0}.metin{white-space:pre-wrap;margin:0 0 10px}
+button{width:100%;border:0;border-radius:999px;padding:13px;font-size:16px;font-weight:700;background:#1d9bf0;color:#fff}
+button.ikinci{background:#2f3336;margin-top:8px;font-weight:600}
+</style></head><body><main>
+<h1>Yorum fırsatları Mr. Likely · 10:00 UTC</h1><p class="not">⚠️ Önce X&#x27;te Mr. Likely hesabına geç: post X&#x27;te açık olan hesapla açılır.</p>
+<p class="kim">Düğme metni panoya kopyalar ve postu X'te açar. X'te <b>Yanıtla</b>'ya dokun, kutuya uzun basıp
+<b>Yapıştır</b>, sonra gönder.</p>
+<section class="oge"><div class="kim">1. @premierleague · Chelsea v Tottenham</div><p class="post">One of the Bridge&#x27;s best 🌟
+
+Eden Hazard talks through his iconic goal against Tottenham in 2015/16 🍿 https://t.co/JBB5JYVxwe</p><a class="ac" href="https://x.com/premierleague/status/2113933519177031696">Postu X'te gör</a><div class="taslak"><div class="kim">1. taslak</div><p class="metin">Still gets me every time. My model can&#x27;t price a goal like that, it just gives up and watches 😅</p><button onclick="kopyala(0,true,this)">📋 Kopyala ve postu aç</button><button class="ikinci" onclick="kopyala(0,false,this)">Sadece kopyala</button></div></section>
+<section class="oge"><div class="kim">2. @WhoScored · Chelsea v Tottenham</div><p class="post">Cole Palmer vs Spurs in the Premier League:
+
+🏟️ 5 Games 
+⚽️ 3 Goals 
+🅰️ 2 Assists 
+
+5 goal involvements in 5 matches against Tottenham.
+
+#CHETOT https://t.co/46LS6aMPjm</p><a class="ac" href="https://x.com/WhoScored/status/2113903325414326279">Postu X'te gör</a><div class="taslak"><div class="kim">1. taslak</div><p class="metin">5 involvements in 5 against Spurs, that&#x27;s some record. I&#x27;ve got Chelsea at 54% for this one, so he&#x27;s got a bit of help.</p><button onclick="kopyala(1,true,this)">📋 Kopyala ve postu aç</button><button class="ikinci" onclick="kopyala(1,false,this)">Sadece kopyala</button></div><div class="taslak"><div class="kim">2. taslak</div><p class="metin">Palmer against Spurs is the one thing I&#x27;d call reliable. Does he get another one this time?</p><button onclick="kopyala(2,true,this)">📋 Kopyala ve postu aç</button><button class="ikinci" onclick="kopyala(2,false,this)">Sadece kopyala</button></div></section>
+</main><script>
+const V = [{"metin": "Still gets me every time. My model can't price a goal like that, it just gives up and watches 😅", "url": "https://x.com/premierleague/status/2113933519177031696"}, {"metin": "5 involvements in 5 against Spurs, that's some record. I've got Chelsea at 54% for this one, so he's got a bit of help.", "url": "https://x.com/WhoScored/status/2113903325414326279"}, {"metin": "Palmer against Spurs is the one thing I'd call reliable. Does he get another one this time?", "url": "https://x.com/WhoScored/status/2113903325414326279"}];
+function kopyala(i, ac, btn) {
+  const t = V[i].metin, git = () => { if (ac) setTimeout(() => location.href = V[i].url, 350); };
+  const tamam = () => { btn.textContent = "✅ Kopyalandı" + (ac ? ", post açılıyor…" : ""); git(); };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(t).then(tamam, () => yedek(t, tamam));
+  } else { yedek(t, tamam); }
+}
+function yedek(t, tamam) {
+  const a = document.createElement("textarea"); a.value = t; document.body.appendChild(a); a.select();
+  try { document.execCommand("copy"); } catch (e) {} a.remove(); tamam();
+}
+</script></body></html>

@@ -31290,7 +31290,8 @@
      "istatistik": 0.795,
      "uyum": true,
      "buyuk": true,
-     "no": 40
+     "no": 40,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1551360-CSX2",
@@ -32898,7 +32899,9 @@
     {
      "tur": "ders",
      "metin": "💡 One leg at a time: would you back each one on its own? If not, why is it holding up the other three?\n\n18+ | Play responsibly",
-     "saat": 10.0
+     "saat": 10.0,
+     "tweet_id": "2113975767168368641",
+     "zaman": "2026-10-24T12:47:52+00:00"
     },
     {
      "tur": "favori",
@@ -32935,7 +32938,7 @@
    "oto": true,
    "issue": 124,
    "tazeleme": "2026-10-24T09:01:44+00:00",
-   "olcum_sorgu": "2026-10-24T11:50:24+00:00"
+   "olcum_sorgu": "2026-10-24T12:47:52+00:00"
   }
  ]
 }

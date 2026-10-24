@@ -32313,8 +32313,25 @@
        "oran": 1.12,
        "olasilik": 0.876,
        "deger": -0.019,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "2-1",
+       "goller": [
+        [
+         50,
+         0,
+         "ev"
+        ],
+        [
+         58,
+         0,
+         "ev"
+        ],
+        [
+         90,
+         5,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1557438-CSX2",
@@ -32386,7 +32403,10 @@
      "tweet_id": "2113911723765735519",
      "metin": "🎩 Four picks, one coupon.\n\n⚽ Arsenal v Everton\n⚽ Lazio v Parma\n⚽ Aston Villa v Manchester City\n⚽ Cagliari v Bologna\n\n📊 Combined 2.08. I make it about 44% to land.\n\n💬 Would you take it at this price?\n\n18+ | Play responsibly",
      "yayin": "2026-10-24T08:33:19+00:00",
-     "son_oran": 1.53
+     "son_oran": 1.72,
+     "sonuc_metni": "❌ Everything landed bar one.\n\n✅ Arsenal 2-0 Everton: Double chance 1X\n✅ Lazio 2-1 Parma: Double chance 1X\n❌ Aston Villa 2-1 Manchester City: Double chance X2\n✅ Cagliari 0-2 Bologna: 1st half Under 1.5 goals\n\nRecord: 22 of 50 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2114096817252020680",
+     "sonuc_zamani": "2026-10-24T20:48:38+00:00"
     },
     {
      "ad": "long-shot",
@@ -33195,5 +33215,15 @@
    "tazeleme": "2026-10-24T09:01:44+00:00",
    "olcum_sorgu": "2026-10-24T20:27:16+00:00"
   }
- ]
+ ],
+ "kasa_duyuru": {
+  "tarih": "2026-10-24",
+  "zaman": "2026-10-24T20:48:38+00:00",
+  "ids": [
+   "2114096822054514979",
+   "2114096824008991202",
+   "2114096825485435214",
+   "2114096826827600049"
+  ]
+ }
 }

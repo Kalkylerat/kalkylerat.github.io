@@ -135354,7 +135354,29 @@
               2
             ],
             "zaman": "2026-10-24T18:28:30+00:00"
+          },
+          "1550162": {
+            "durum": "paylasildi",
+            "tweet_id": "2114096756736590193",
+            "skor": [
+              2,
+              1
+            ],
+            "zaman": "2026-10-24T20:48:38+00:00"
+          },
+          "1552795": {
+            "durum": "paylasildi",
+            "tweet_id": "2114096757965496714",
+            "skor": [
+              2,
+              1
+            ],
+            "zaman": "2026-10-24T20:48:38+00:00"
           }
+        },
+        "takip": {
+          "durum": "tamam",
+          "zaman": "2026-10-24T20:48:38+00:00"
         }
       },
       "analiz_6": {
@@ -135538,13 +135560,51 @@
         "durum": "paylasildi",
         "tweet_id": "2114009601612095699",
         "zaman": "2026-10-24T15:02:07+00:00",
-        "metin": "Lazio win 66%: about 2 in 3.\nParma win it about 1 time in 8 (13%).\n\n🇮🇹 Lazio v Parma 🇮🇹 · 20:45 CEST\n🏆 Lazio 66% · Draw 21% · Parma 13%\n⚽ Over 2.5 goals 48% · Under 52%\n🥅 Both teams score 43% · Not both 57%\n\n💬 Chances, not picks. Can Parma beat 13%? 👇\n18+ | Play responsibly"
+        "metin": "Lazio win 66%: about 2 in 3.\nParma win it about 1 time in 8 (13%).\n\n🇮🇹 Lazio v Parma 🇮🇹 · 20:45 CEST\n🏆 Lazio 66% · Draw 21% · Parma 13%\n⚽ Over 2.5 goals 48% · Under 52%\n🥅 Both teams score 43% · Not both 57%\n\n💬 Chances, not picks. Can Parma beat 13%? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2114096777099985182",
+          "skor": "2-1",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "xg": [
+            1.82,
+            0.87
+          ],
+          "zaman": "2026-10-24T20:48:38+00:00",
+          "brier": {
+            "piyasa": 0.7732,
+            "istatistik": 0.675
+          }
+        }
       },
       "analiz_9": {
         "durum": "paylasildi",
         "tweet_id": "2114022077422354817",
         "zaman": "2026-10-24T15:51:50+00:00",
-        "metin": "No result above 39%.\nWide open on paper.\n\n🇫🇷 Lens v Paris FC 🇫🇷 · 20:45 CEST\n🏆 Lens 39% · Draw 24% · Paris FC 37%\n⚽ Over 2.5 goals 57% · Under 43%\n🥅 Both teams score 60% · Not both 40%\n\n💬 Chances, not picks. What's your score? 👇\n#Ligue1\n18+ | Play responsibly"
+        "metin": "No result above 39%.\nWide open on paper.\n\n🇫🇷 Lens v Paris FC 🇫🇷 · 20:45 CEST\n🏆 Lens 39% · Draw 24% · Paris FC 37%\n⚽ Over 2.5 goals 57% · Under 43%\n🥅 Both teams score 60% · Not both 40%\n\n💬 Chances, not picks. What's your score? 👇\n#Ligue1\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2114096791293411601",
+          "skor": "2-1",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            0.93,
+            0.43
+          ],
+          "zaman": "2026-10-24T20:48:38+00:00",
+          "brier": {
+            "piyasa": 0.9209,
+            "istatistik": 0.8111
+          }
+        }
       },
       "tablo_aksam": {
         "durum": "paylasildi",
@@ -135586,6 +135646,15 @@
               0
             ],
             "zaman": "2026-10-24T20:41:10+00:00"
+          },
+          "1552512": {
+            "durum": "paylasildi",
+            "tweet_id": "2114096761807487431",
+            "skor": [
+              1,
+              0
+            ],
+            "zaman": "2026-10-24T20:48:38+00:00"
           }
         }
       },

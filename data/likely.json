@@ -32690,8 +32690,20 @@
        "oran": 1.19,
        "olasilik": 0.823,
        "deger": -0.021,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-1",
+       "goller": [
+        [
+         45,
+         1,
+         "dep"
+        ],
+        [
+         90,
+         2,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1557440-DPU05",

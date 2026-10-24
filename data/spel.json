@@ -135300,6 +135300,42 @@
               0
             ],
             "zaman": "2026-10-24T15:51:50+00:00"
+          },
+          "1557437": {
+            "durum": "paylasildi",
+            "tweet_id": "2114023911843041467",
+            "skor": [
+              2,
+              0
+            ],
+            "zaman": "2026-10-24T15:59:09+00:00"
+          },
+          "1557440": {
+            "durum": "paylasildi",
+            "tweet_id": "2114023913067872583",
+            "skor": [
+              0,
+              1
+            ],
+            "zaman": "2026-10-24T15:59:09+00:00"
+          },
+          "1563217": {
+            "durum": "paylasildi",
+            "tweet_id": "2114023914279952536",
+            "skor": [
+              1,
+              0
+            ],
+            "zaman": "2026-10-24T15:59:09+00:00"
+          },
+          "1563219": {
+            "durum": "paylasildi",
+            "tweet_id": "2114023915555061980",
+            "skor": [
+              4,
+              1
+            ],
+            "zaman": "2026-10-24T15:59:09+00:00"
           }
         }
       },
@@ -135378,13 +135414,51 @@
         "durum": "paylasildi",
         "tweet_id": "2113954897582289090",
         "zaman": "2026-10-24T11:24:54+00:00",
-        "metin": "Arsenal win 66%: about 2 in 3.\nEverton win it about 1 time in 7 (14%).\n\n🏴󠁧󠁢󠁥󠁮󠁧󠁿 Arsenal v Everton 🏴󠁧󠁢󠁥󠁮󠁧󠁿\n🏆 Arsenal 66% · Draw 21% · Everton 14%\n⚽ Over 2.5 goals 51% · Under 49%\n🥅 Both teams score 45% · Not both 55%\n\n💬 Not picks. More or fewer than 2.5 goals? 👇\n18+ | Play responsibly"
+        "metin": "Arsenal win 66%: about 2 in 3.\nEverton win it about 1 time in 7 (14%).\n\n🏴󠁧󠁢󠁥󠁮󠁧󠁿 Arsenal v Everton 🏴󠁧󠁢󠁥󠁮󠁧󠁿\n🏆 Arsenal 66% · Draw 21% · Everton 14%\n⚽ Over 2.5 goals 51% · Under 49%\n🥅 Both teams score 45% · Not both 55%\n\n💬 Not picks. More or fewer than 2.5 goals? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2114023958819315764",
+          "skor": "2-0",
+          "isabet": [
+            true,
+            false,
+            true
+          ],
+          "xg": [
+            1.82,
+            0.47
+          ],
+          "zaman": "2026-10-24T15:59:09+00:00",
+          "brier": {
+            "piyasa": 0.6404,
+            "istatistik": 0.7097
+          }
+        }
       },
       "analiz_2": {
         "durum": "paylasildi",
         "tweet_id": "2113965013287444667",
         "zaman": "2026-10-24T12:05:05+00:00",
-        "metin": "Fulham are favourites.\nThey still fail to win 57% of the time.\n\n🏴󠁧󠁢󠁥󠁮󠁧󠁿 Coventry v Fulham 🏴󠁧󠁢󠁥󠁮󠁧󠁿 · 16:00 CEST\n🏆 Coventry 32% · Draw 25% · Fulham 43%\n⚽ Over 2.5 goals 54% · Under 46%\n🥅 Both teams score 57% · Not both 43%\n\n💬 Not picks. Fulham 43%: too high? 👇\n18+ | Play responsibly"
+        "metin": "Fulham are favourites.\nThey still fail to win 57% of the time.\n\n🏴󠁧󠁢󠁥󠁮󠁧󠁿 Coventry v Fulham 🏴󠁧󠁢󠁥󠁮󠁧󠁿 · 16:00 CEST\n🏆 Coventry 32% · Draw 25% · Fulham 43%\n⚽ Over 2.5 goals 54% · Under 46%\n🥅 Both teams score 57% · Not both 43%\n\n💬 Not picks. Fulham 43%: too high? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2114023970605297725",
+          "skor": "0-1",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "xg": [
+            0.58,
+            0.61
+          ],
+          "zaman": "2026-10-24T15:59:09+00:00",
+          "brier": {
+            "piyasa": 1.1086,
+            "istatistik": 0.9848
+          }
+        }
       },
       "anket": {
         "durum": "paylasildi",

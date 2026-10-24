@@ -32245,8 +32245,20 @@
        "oran": 1.11,
        "olasilik": 0.879,
        "deger": -0.024,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "2-0",
+       "goller": [
+        [
+         7,
+         0,
+         "ev"
+        ],
+        [
+         68,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1550162-CS1X",
@@ -32333,7 +32345,7 @@
      "tweet_id": "2113911723765735519",
      "metin": "🎩 Four picks, one coupon.\n\n⚽ Arsenal v Everton\n⚽ Lazio v Parma\n⚽ Aston Villa v Manchester City\n⚽ Cagliari v Bologna\n\n📊 Combined 2.08. I make it about 44% to land.\n\n💬 Would you take it at this price?\n\n18+ | Play responsibly",
      "yayin": "2026-10-24T08:33:19+00:00",
-     "son_oran": 1.38
+     "son_oran": 1.53
     },
     {
      "ad": "long-shot",
@@ -32619,8 +32631,15 @@
        "oran": 1.22,
        "olasilik": 0.789,
        "deger": -0.037,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "0-1",
+       "goller": [
+        [
+         80,
+         0,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1558661-CS1X",

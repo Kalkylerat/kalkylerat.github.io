@@ -107,9 +107,9 @@ Example lines in his voice:
   Strateji notları sade ve günlük dilde (90. dakika golü, son ayak, cash out, kendi takımına oynamak); marj/fiyat dili az.
 - Haftalık karne postu: Pazartesi 10:00, dersin yerine; geçen haftanın paylaşılmış kuponları, kaybedenler dahil, ve
   ihtimallere göre kaçının tutması gerektiği (SOZLESME E1; kapatmak: `oto_haftalik_karne = false`).
-- **Sanal kasa (SOZLESME E8):** 1.000 € (6 Ekim'den), her kupon paylaşılınca boştaki bakiyenin %3'ü. Günün bütün
+- **Sanal kasa (SOZLESME E8):** 10.000 € (6 Ekim'den), her kupon paylaşılınca boştaki bakiyenin %3'ü. Günün bütün
   kuponları sonuçlanınca borsa grafiği gibi mum grafiği (`bot/likely_kasa.py`); Pazar haftalık, ay sonu aylık. Günde en
-  fazla 1 grafik postu, kupon postunda tutar yok. `[likely] oto_kasa = true` olunca önce bir kez duyuru gider.
+  fazla 1 grafik postu, kupon postunda tutar yok. `[likely] oto_kasa = true` olunca önce bir kez 4 postluk duyuru flood'u gider; her kasa postu denetçiden geçer.
 - Sonuç postu, kuponun kaderini 80. dakikadan sonra bir gol belirlediyse o anı anlatır ("88': 2-0. 90+3': 3-0."). Gol
   dakikaları sonuç isteğiyle gelen maç olaylarından (ek istek yok); olaylar skorla tutmuyorsa, maç The Odds API'den
   geliyorsa ya da pazar ilk yarı/korner ise anlatı yok, düz metin gider (SOZLESME E2).

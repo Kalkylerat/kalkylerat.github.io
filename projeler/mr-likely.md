@@ -20,7 +20,7 @@
   token da çözülür.
 
 ## Karar geçmişi
-- 24 Ekim: sanal kasa ve günlük/haftalık/aylık mum grafiği (E8): 1.000 €, boştaki bakiyenin %3'ü, kaybedenler dahil.
+- 24 Ekim: sanal kasa ve günlük/haftalık/aylık mum grafiği (E8): 10.000 €, boştaki bakiyenin %3'ü, kaybedenler dahil.
 - 24 Ekim: ayak oranları yalnızca Bet365'ten (E6, sınırlar aynı; bazı günler daha az kupon çıkabilir). Önceden her
   ayağın en iyi fiyatı farklı sitelerden gelebiliyordu. Kupon kaydında ayak başına `oran_kaynagi` tutuluyor.
 - 13 Ekim: 6–12 Ekim sonuçları günün kuponu 5'te 2, long shot 6'da 1; DC12 7'de 3. Gölge test kuruldu, karar kuralı

@@ -1,23 +1,23 @@
-"""Mr. Likely sanal kasası (SOZLESME E8): 6 Ekim 2026'dan beri paylaşılan her kupon, sanal 1.000 € ile.
+"""Mr. Likely sanal kasası (SOZLESME E8): 6 Ekim 2026'dan beri paylaşılan her kupon, sanal 10.000 € ile.
 
 Kural (sahibinin kararı, 24 Ekim 2026): kupon paylaşıldığı an, boştaki bakiyenin %3'ü o kupona ayrılır ve bakiyeden
-düşer; kupon açık kalır. Sonraki kuponun payı, o anda kalan boştaki bakiyeden hesaplanır (100 € → 3 €, sonra 97 €'nun
-%3'ü = 2,91 €). Tutan kupon pay × oranı, iade payı geri getirir; yatan hiçbir şey getirmez. Grafikteki kasa = boştaki
+düşer; kupon açık kalır. Sonraki kuponun payı, o anda kalan boştaki bakiyeden hesaplanır (10.000 € → 300 €, sonra
+9.700 €'nun %3'ü = 291 €). Tutan kupon pay × oranı, iade payı geri getirir; yatan hiçbir şey getirmez. Grafikteki kasa = boştaki
 bakiye + açık kuponların payları (kupon paylaşılınca kasa düşmüş görünmesin). Gerçek para yok; rakamlar yalnızca
 kayıttan (paylaşılmış kuponlar, kaybedenler dahil; veri hatasıyla iptal edilenler hariç, E5)."""
 
-import io
 import calendar
+import io
+import re
 from datetime import date, datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 
 from PIL import Image, ImageDraw
 
-from zoneinfo import ZoneInfo
-
-from . import likely, likely_gorsel as g
+from . import denetci, likely, likely_gorsel as g
 from .tweets import ANSVAR, LIMIT, uzunluk
 
-BASLANGIC = 1000.0
+BASLANGIC = 10000.0
 PAY = 0.03
 _X_EPOK_MS = 1288834974657
 
@@ -116,7 +116,7 @@ VARSAYILAN_PALET = "fis"
 
 
 def _euro(x: float, isaret: bool = False) -> str:
-    s = f"€{abs(x):,.2f}"
+    s = f"€{abs(x):,.2f}".removesuffix(".00")
     return ("+" if x >= 0 else "−") + s if isaret else ("−" if x < 0 else "") + s
 
 
@@ -153,7 +153,7 @@ def grafik(mumlar: list[dict], baslik: str, etiket, palet: str = VARSAYILAN_PALE
         v += adim
     for x in range(L, R, 18):  # başlangıç kasası: kesik çizgi
         d.line([(x, y(baslangic)), (x + 9, y(baslangic))], fill=p["soluk"], width=2)
-    d.text((L + 6, y(baslangic) - 8), "start €1,000", font=g._font("orta", 22), fill=p["soluk"], anchor="ls")
+    d.text((L + 6, y(baslangic) - 8), f"start €{baslangic:,.0f}", font=g._font("orta", 22), fill=p["soluk"], anchor="ls")
     n = len(mumlar)
     w = (R - L) / max(n, 8)
     for i, m in enumerate(mumlar):
@@ -228,11 +228,38 @@ def _gun_adi(tarih: str) -> str:
     return f"{d.strftime('%a')} {d.day} {d.strftime('%b')}"
 
 
-def post_hazirla(veri: dict, tarih: str, palet: str = VARSAYILAN_PALET) -> tuple[str, bytes]:
-    """Günün grafik postu: metin ve görsel. Rakamlar yalnızca kayıttan (hesapla)."""
+SIRA = {2: "Second", 3: "Third", 4: "Fourth", 5: "Fifth", 6: "Sixth", 7: "Seventh"}
+
+
+def ilk_satir(gunluk: list[dict]) -> str:
+    """Günlük postun kancası, yalnızca kayıttaki mumlardan (aynı kalıp her gün gitmesin, X benzerlik cezası):
+    en iyi/en kötü gün, yeni zirve, art arda kırmızı ya da yeşil gün. Söylenecek bir şey yoksa boş."""
+    if len(gunluk) < 2:
+        return ""
+    son = gunluk[-1]
+    fark = son["kapanis"] - son["acilis"]
+    onceki = [m["kapanis"] - m["acilis"] for m in gunluk[:-1]]
+    if len(gunluk) >= 5 and fark > 0 and fark > max(onceki):
+        return "Best day so far."
+    if len(gunluk) >= 5 and fark < 0 and fark < min(onceki):
+        return "Worst day so far."
+    if fark > 0 and son["kapanis"] > max(BASLANGIC, *(m["kapanis"] for m in gunluk[:-1])):
+        return "New high."
+    seri = 0
+    for m in reversed(gunluk):
+        f = m["kapanis"] - m["acilis"]
+        if f == 0 or (f < 0) != (fark < 0):
+            break
+        seri += 1
+    if fark and seri >= (2 if fark < 0 else 3):
+        return f"{SIRA.get(seri, f'{seri}th')} {'red' if fark < 0 else 'green'} day in a row."
+    return ""
+
+
+def post_hazirla(veri: dict, tarih: str, palet: str = VARSAYILAN_PALET) -> tuple[str, bytes, set[str]]:
+    """Günün grafik postu: metin, görsel ve metinde geçebilecek tutarlar (denetçi için). Rakamlar yalnızca kayıttan."""
     h = hesapla(veri)
-    gunluk = gunluk_mumlar(h)
-    gunluk = [m for m in gunluk if m["tarih"] <= tarih]
+    gunluk = [m for m in gunluk_mumlar(h) if m["tarih"] <= tarih]
     if not gunluk or gunluk[-1]["tarih"] != tarih:  # günün hiçbir kuponu sonuçlanmadı (sabah son saati): düz mum
         k_ = gunluk[-1]["kapanis"] if gunluk else h["baslangic"]
         gunluk.append({"tarih": tarih, "acilis": k_, "yuksek": k_, "dusuk": k_, "kapanis": k_})
@@ -263,51 +290,112 @@ def post_hazirla(veri: dict, tarih: str, palet: str = VARSAYILAN_PALET) -> tuple
         mumlar = gunluk[-30:]
         baz = mumlar[-1]["acilis"]
         png = grafik(mumlar, "Virtual bank · daily", gun_etiketi, palet, degisim_etiketi="today", fark_baz=baz)
-        bas = f"📈 Virtual bank, {_gun_adi(tarih)}: {_euro(kasa)} ({_euro(kasa - baz, True)} today)."
+        kanca = ilk_satir(gunluk)
+        bas = (f"{'📈' if kasa >= baz else '📉'} {kanca + ' ' if kanca else ''}Virtual bank, {_gun_adi(tarih)}: "
+               f"{_euro(kasa)} ({_euro(kasa - baz, True)} today).")
         sayi = f"{len(paylasilan)} coupon{'s' * (len(paylasilan) != 1)}, {tutan} landed."
     if acik:
         sayi += f" {acik} still open."
-    metin = (f"{bas}\n\n{sayi} Started at €1,000 on 6 Oct, 3% of the free balance on every coupon, "
+    metin = (f"{bas}\n\n{sayi} Started at {_euro(BASLANGIC)} on 6 Oct, 3% of the free balance on every coupon, "
              f"losers counted.\n\nVirtual bank, not real money.\n{ANSVAR}")
-    return metin, png
+    return metin, png, {_euro(abs(x)) for x in (kasa, kasa - baz, baz, BASLANGIC)}
 
 
-DUYURU = ("📈 New: a virtual bank. €1,000 from 6 Oct, 3% of the free balance on every coupon I post. "
-          "Losers counted, nothing deleted.\n\n"
-          "A chart after each day's coupons settle, red days too. Weekly on Sundays, monthly at month end.\n\n"
-          "Virtual bank, not real money.\n" + ANSVAR)
+def _ay_sonu(d: date) -> date:
+    """Bir sonraki ayın son günü (duyurudaki soru: "where is the bank on 30 Nov?")."""
+    y, m = (d.year + 1, 1) if d.month == 12 else (d.year, d.month + 1)
+    return date(y, m, calendar.monthrange(y, m)[1])
 
 
-def duyuru_hazirla(veri: dict, palet: str = VARSAYILAN_PALET) -> tuple[str, bytes]:
+def duyuru_hazirla(veri: dict, palet: str = VARSAYILAN_PALET, bugun: date | None = None) -> tuple[list[str], bytes, set[str]]:
+    """4 postluk duyuru flood'u (E8): ilk post grafikle. Rakamlar kayıttan; örnek, sanal kasanın kendi başlangıcıyla."""
     mumlar = gunluk_mumlar(hesapla(veri))[-30:]
-    return DUYURU, grafik(mumlar, "Virtual bank · since 6 Oct", gun_etiketi, palet,
-                          degisim_etiketi="so far", fark_baz=BASLANGIC)
+    kasa = mumlar[-1]["kapanis"] if mumlar else BASLANGIC
+    ilk_pay = round(BASLANGIC * PAY, 2)
+    kalan = BASLANGIC - ilk_pay
+    ikinci = round(kalan * PAY, 2)
+    son = _ay_sonu(bugun or date.today())
+    metinler = [
+        f"I put a virtual {_euro(BASLANGIC)} behind every coupon I've posted since 6 Oct. It's at {_euro(kasa)} now.\n\n"
+        f"Here's how the bank works 🧵\n\nVirtual bank, not real money.\n18+",
+        f"The rule doesn't bend. Each coupon takes 3% of the free balance when it goes up.\n\n"
+        f"Bank at {_euro(BASLANGIC)}? The first coupon takes {_euro(ilk_pay)}. If that one's still open when the next "
+        f"goes up, the next takes 3% of {_euro(kalan)}: {_euro(ikinci)}.\n\n18+",
+        "Every posted coupon counts. Losers stay in and red days get posted. Only a coupon pulled before kick-off for a "
+        "data error is left out.\n\nNo real money anywhere. It's a scoreboard.\n\n18+",
+        f"From tonight: a chart once each day's coupons settle. Weekly on Sundays, monthly at month end.\n\n"
+        f"Where do you reckon the bank is on {son.day} {son.strftime('%b')}?\n\n{ANSVAR}",
+    ]
+    png = grafik(mumlar or [{"tarih": "2026-10-06", "acilis": kasa, "yuksek": kasa, "dusuk": kasa, "kapanis": kasa}],
+                 "Virtual bank · since 6 Oct", gun_etiketi, palet, degisim_etiketi="so far", fark_baz=BASLANGIC)
+    return metinler, png, {_euro(x) for x in (BASLANGIC, kasa, ilk_pay, kalan, ikinci, abs(kasa - BASLANGIC))}
+
+
+# ---------- Denetçi (E8) ----------
+
+_TUTAR = re.compile(r"€[\d,]+(?:\.\d+)?")
+
+
+def denetle(metin: str, izinli_tutarlar: set[str]) -> list[str]:
+    """Kasa postunun yayın öncesi kod denetimi; dönen her madde engelleyicidir."""
+    hata = []
+    if uzunluk(metin) > LIMIT:
+        hata.append(f"280 karakteri aşıyor ({uzunluk(metin)}).")
+    if denetci._LINK.search(metin):
+        hata.append("Link ya da @ içeriyor.")
+    if "#" in metin:
+        hata.append("Etiket içeriyor.")
+    if denetci._SITE.search(metin):
+        hata.append("Bahis sitesi adı içeriyor.")
+    if denetci._KESINLIK.search(metin) or re.search(r"\beasy (win|money)\b|\bsafe bet\b", metin, re.IGNORECASE):
+        hata.append("Kesinlik dili içeriyor.")
+    if re.search(r"\bstakes?\b|\btail\b", metin, re.IGNORECASE):
+        hata.append("Bahis çağrısı ya da pay dili içeriyor ('stake', 'tail').")
+    if "—" in metin or "–" in metin:
+        hata.append("Uzun tire içeriyor (yapay zekâ izi).")
+    if not metin.rstrip().splitlines()[-1].startswith("18+"):
+        hata.append("Son satır '18+' değil.")
+    yabanci = [t for t in _TUTAR.findall(metin) if t not in izinli_tutarlar]
+    if yabanci:
+        hata.append(f"Kayıtta olmayan tutar: {', '.join(yabanci)}.")
+    return hata
 
 
 def oto_kasa(ayar, x, simdi: datetime, yaz=print) -> bool:
-    """E8: önce bir kez duyuru (sahibinin onayıyla açılan oto_kasa), sonra günde en fazla bir grafik postu.
-    Duyurudan önceki günler için grafik atılmaz. Çalışma başına en fazla bir post."""
+    """E8: önce bir kez 4 postluk duyuru (sahibinin onayıyla açılan oto_kasa), sonra günde en fazla bir grafik postu.
+    Duyurudan önceki günler için grafik atılmaz. Her post denetçiden geçer; geçmezse gitmez ve sahibine yazılır."""
     cfg = likely.ayar_yukle()
     if not cfg.aktif or cfg.mod != "otomatik" or not cfg.oto_kasa:
         return False
     veri = likely.yukle()
     tz = ZoneInfo(ayar.saat_dilimi)
-    if not veri.get("kasa_duyuru"):
-        metin, png = duyuru_hazirla(veri, cfg.kasa_paleti)
-        tweet = x.gonder(metin, medya=[x.medya_yukle(png)])
-        veri["kasa_duyuru"] = {"tweet_id": tweet, "zaman": simdi.isoformat(timespec="seconds"),
-                               "tarih": simdi.astimezone(tz).date().isoformat()}
-        likely.kaydet(veri)
-        yaz("Mr. Likely: sanal kasa duyurusu paylaşıldı.")
+    duyuru = veri.get("kasa_duyuru") or {}
+    ids = duyuru.get("ids", [])
+    if len(ids) < 4:
+        metinler, png, izinli = duyuru_hazirla(veri, cfg.kasa_paleti, simdi.astimezone(tz).date())
+        hatalar = [f"{i + 1}/4: {h}" for i, m in enumerate(metinler) for h in denetle(m, izinli)]
+        if hatalar:
+            yaz("⚠️ Mr. Likely: kasa duyurusu denetçiden geçmedi, atılmadı: " + " ".join(hatalar))
+            return False
+        if not ids:
+            duyuru.update(tarih=simdi.astimezone(tz).date().isoformat(), zaman=simdi.isoformat(timespec="seconds"))
+        veri["kasa_duyuru"] = duyuru
+        for i in range(len(ids), 4):  # yarıda kalırsa bir sonraki çalışma kaldığı yerden sürdürür
+            ids.append(x.gonder(metinler[i], yanit=ids[-1] if ids else None,
+                                medya=[x.medya_yukle(png)] if i == 0 else None))
+            duyuru["ids"] = ids
+            likely.kaydet(veri)
+        yaz("Mr. Likely: sanal kasa duyurusu (4 post) paylaşıldı.")
         return True
     for gun in veri["gunler"][-3:]:
-        if gun["tarih"] < veri["kasa_duyuru"]["tarih"] or gun.get("kasa") or not hazir_mi(gun, simdi, tz):
+        if gun["tarih"] < duyuru["tarih"] or gun.get("kasa") or not hazir_mi(gun, simdi, tz):
             continue
-        metin, png = post_hazirla(veri, gun["tarih"], cfg.kasa_paleti)
-        if uzunluk(metin) > LIMIT:
-            yaz(f"⚠️ Mr. Likely: {gun['tarih']} kasa postu {uzunluk(metin)} karakter; atılmadı.")
-            gun["kasa"] = {"tweet_id": "uzun", "zaman": simdi.isoformat(timespec="seconds")}
+        metin, png, izinli = post_hazirla(veri, gun["tarih"], cfg.kasa_paleti)
+        hatalar = denetle(metin, izinli)
+        if hatalar:
+            gun["kasa"] = {"tweet_id": "denetci", "hata": hatalar, "zaman": simdi.isoformat(timespec="seconds")}
             likely.kaydet(veri)
+            yaz(f"⚠️ Mr. Likely: {gun['tarih']} kasa postu denetçiden geçmedi, atılmadı: {' '.join(hatalar)}")
             return False
         tweet = x.gonder(metin, medya=[x.medya_yukle(png)])
         gun["kasa"] = {"tweet_id": tweet, "tur": tur(gun["tarih"]), "zaman": simdi.isoformat(timespec="seconds"),

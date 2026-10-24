@@ -32581,8 +32581,35 @@
        "oran": 1.2,
        "olasilik": 0.809,
        "deger": -0.029,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "3-2",
+       "goller": [
+        [
+         35,
+         0,
+         "ev"
+        ],
+        [
+         50,
+         0,
+         "dep"
+        ],
+        [
+         57,
+         0,
+         "dep"
+        ],
+        [
+         88,
+         0,
+         "ev"
+        ],
+        [
+         90,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1553893-CSX2",
@@ -32684,7 +32711,10 @@
      "tweet_id": "2113965028504424734",
      "metin": "🎩 Treble day. One leg more than I like.\n\n⚽ Vasco DA Gama v Corinthians\n⚽ Mladost Lucani v Vojvodina\n⚽ IK brage v Osters IF\n\n📊 Combined 2.01. I make it about 46% to land, so probably not.\n\n💬 Which leg would you drop?\n\n18+ | Play responsibly",
      "yayin": "2026-10-24T12:05:05+00:00",
-     "son_oran": 1.22
+     "son_oran": 1.46,
+     "sonuc_metni": "❌ One leg out again. Coupon down. I had it at 46%, which was never 100.\n\n✅ Vasco DA Gama 3-2 Corinthians: Double chance 1X\n✅ Mladost Lucani 1-1 Vojvodina: Double chance X2\n❌ IK brage 4-5 Osters IF: Double chance 1X\n\nRecord: 23 of 51 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2114138080420700484",
+     "sonuc_zamani": "2026-10-24T23:32:46+00:00"
     },
     {
      "ad": "gunun-kuponu-3",

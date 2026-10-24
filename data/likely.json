@@ -30530,7 +30530,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 2
+     "no": 2,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1556478-CS1X",
@@ -30613,7 +30614,8 @@
      "istatistik": 0.901,
      "uyum": true,
      "buyuk": true,
-     "no": 6
+     "no": 6,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1551586-CS1X",
@@ -30822,7 +30824,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 16
+     "no": 16,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1549525-CS1X",
@@ -30989,7 +30992,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 24
+     "no": 24,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1562100-CS12",
@@ -31156,7 +31160,8 @@
      "istatistik": 0.794,
      "uyum": true,
      "buyuk": true,
-     "no": 32
+     "no": 32,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1492426-CS1X",
@@ -31196,7 +31201,8 @@
      "istatistik": 0.928,
      "uyum": true,
      "buyuk": false,
-     "no": 34
+     "no": 34,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1551586-UST15",
@@ -31885,7 +31891,8 @@
      "istatistik": 0.732,
      "uyum": true,
      "buyuk": false,
-     "no": 67
+     "no": 67,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1552506-CS1X",
@@ -32113,7 +32120,8 @@
      "istatistik": 0.84,
      "uyum": true,
      "buyuk": false,
-     "no": 78
+     "no": 78,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1493209-CS12",
@@ -33289,7 +33297,7 @@
    "oto": true,
    "issue": 124,
    "tazeleme": "2026-10-24T09:01:44+00:00",
-   "olcum_sorgu": "2026-10-24T20:27:16+00:00"
+   "olcum_sorgu": "2026-10-24T21:24:00+00:00"
   }
  ],
  "kasa_duyuru": {

@@ -30630,7 +30630,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 7
+     "no": 7,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1497735-CS1X",
@@ -30691,7 +30692,8 @@
      "istatistik": 0.75,
      "uyum": false,
      "buyuk": false,
-     "no": 10
+     "no": 10,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1555412-UST15",
@@ -30851,7 +30853,8 @@
      "istatistik": 0.948,
      "uyum": true,
      "buyuk": true,
-     "no": 18
+     "no": 18,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1556686-CS12",
@@ -31012,7 +31015,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 26
+     "no": 26,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1555408-UST15",
@@ -31193,7 +31197,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 35
+     "no": 35,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1490556-UST15",
@@ -31476,7 +31481,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 49
+     "no": 49,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1561175-CSX2",
@@ -31577,7 +31583,8 @@
      "istatistik": 0.677,
      "uyum": false,
      "buyuk": false,
-     "no": 54
+     "no": 54,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1552199-CS1X",
@@ -31800,7 +31807,8 @@
      "istatistik": 0.61,
      "uyum": false,
      "buyuk": true,
-     "no": 65
+     "no": 65,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1560049-CS1X",
@@ -31820,7 +31828,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 66
+     "no": 66,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1552201-CSX2",
@@ -31901,7 +31910,8 @@
      "istatistik": 0.753,
      "uyum": true,
      "buyuk": true,
-     "no": 70
+     "no": 70,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1550158-IYA15",
@@ -31921,7 +31931,8 @@
      "istatistik": 0.845,
      "uyum": true,
      "buyuk": true,
-     "no": 71
+     "no": 71,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1492425-CS12",
@@ -33041,7 +33052,7 @@
    "oto": true,
    "issue": 124,
    "tazeleme": "2026-10-24T09:01:44+00:00",
-   "olcum_sorgu": "2026-10-24T14:41:30+00:00"
+   "olcum_sorgu": "2026-10-24T15:37:24+00:00"
   }
  ]
 }

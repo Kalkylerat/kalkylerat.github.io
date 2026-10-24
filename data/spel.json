@@ -135336,6 +135336,15 @@
               1
             ],
             "zaman": "2026-10-24T15:59:09+00:00"
+          },
+          "1550164": {
+            "durum": "paylasildi",
+            "tweet_id": "2114054381234446522",
+            "skor": [
+              3,
+              3
+            ],
+            "zaman": "2026-10-24T18:00:10+00:00"
           }
         }
       },
@@ -135470,7 +135479,26 @@
         "durum": "paylasildi",
         "tweet_id": "2113984692395405395",
         "zaman": "2026-10-24T13:23:17+00:00",
-        "metin": "No result above 37%.\nWide open on paper.\n\n🇮🇹 Napoli v AS Roma 🇮🇹 · 18:00 CEST\n🏆 Napoli 37% · Draw 25% · AS Roma 37%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 57% · Not both 43%\n\n💬 Chances, not picks. Napoli 37%: too high? 👇\n#SerieA\n18+ | Play responsibly"
+        "metin": "No result above 37%.\nWide open on paper.\n\n🇮🇹 Napoli v AS Roma 🇮🇹 · 18:00 CEST\n🏆 Napoli 37% · Draw 25% · AS Roma 37%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 57% · Not both 43%\n\n💬 Chances, not picks. Napoli 37%: too high? 👇\n#SerieA\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2114054437819879589",
+          "skor": "3-3",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "xg": [
+            2.42,
+            1.92
+          ],
+          "zaman": "2026-10-24T18:00:10+00:00",
+          "brier": {
+            "piyasa": 1.2443,
+            "istatistik": 1.5307
+          }
+        }
       },
       "analiz_4": {
         "durum": "paylasildi",
@@ -135510,6 +135538,12 @@
         "tweet_id": "2114041875585806845",
         "zaman": "2026-10-24T17:10:32+00:00",
         "metin": "💡 Both teams to score, by the numbers\n\nIf the home side expects 1.4 goals and the away side 1.1, and you treat them as independent, both scoring comes out at 50.3%: basically a coin flip.\n\nBoth teams to score: more or less often than you'd think? 👇\n\n18+ | Play responsibly"
+      },
+      "bilgi_aksam": {
+        "durum": "paylasildi",
+        "tweet_id": "2114054356110598153",
+        "zaman": "2026-10-24T18:00:10+00:00",
+        "metin": "💡 Several likely things rarely all happen\n\nChances multiply. Three 70% events together: 34.3%. Five 80% events: 32.8%. Each looks safe alone; together they're closer to a coin flip.\n\nDid you expect it to drop that fast? 👇\n\n18+ | Play responsibly"
       }
     },
     "tablo_aksam": [

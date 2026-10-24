@@ -111,7 +111,8 @@
   "2113976281691808186",
   "2113963722188484818",
   "2114015415173325202",
-  "2114023752157536507"
+  "2114023752157536507",
+  "2114033633124057536"
  ],
  "kalkylerat": {
   "tarih": "2026-10-24",
@@ -119,7 +120,8 @@
   "aramalar": [
    10,
    13,
-   16
+   16,
+   18
   ],
   "issue": {
    "tarih": "2026-10-24",
@@ -128,11 +130,12 @@
  },
  "likely": {
   "tarih": "2026-10-24",
-  "gonderilen": 4,
+  "gonderilen": 5,
   "aramalar": [
    10,
    13,
-   16
+   16,
+   18
   ],
   "issue": {
    "tarih": "2026-10-24",
@@ -141,566 +144,566 @@
  },
  "onbellek": {
   "tarih": "2026-10-24",
-  "saat": 16,
+  "saat": 18,
   "postlar": [
    {
-    "id": "2114025463647543521",
-    "metin": "🇧🇷 Gabriel Magalhães | MOTM vs Everton:\n\n⚽️ 1 goal \n🥅 2 shots \n🎯 2 shots on target (most)\n⛔️ 7 clearances (most)\n⚔️ 2 tackles \n🛡️ 2 interceptions (=most)\n🆘 1 last man tackle\n📊 88% pass accuracy \n⭐️ 8.53 WhoScored rating \n\n#ARSEVE https://t.co/89JWpWhFZn",
-    "kullanici": "WhoScored",
-    "zaman": "2026-10-24T16:05:21.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 1799,
-     "like_count": 7,
-     "quote_count": 0,
-     "reply_count": 1,
-     "retweet_count": 1
-    }
-   },
-   {
-    "id": "2114025256524329087",
-    "metin": "Coventry 0-1 Fulham\n\nAn excellent late goal from Oscar Bobb secures all three points for Fulham in a tight game at the Coventry Building Society Arena. https://t.co/PF0sb5Fy9r",
-    "kullanici": "OptaAnalyst",
-    "zaman": "2026-10-24T16:04:32.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 1471,
-     "like_count": 6,
-     "quote_count": 0,
-     "reply_count": 1,
-     "retweet_count": 1
-    }
-   },
-   {
-    "id": "2114025037946651071",
-    "metin": "Ben White's game by numbers vs. Everton:\n\n100% duels won (5/5)\n6 touches in opp. box \n4x possession won \n3 chances created \n1 tackles \n1 assist \n0 fouls conceded \n\nHis third PL assist of the season. 🅰️ https://t.co/uucygEHnWY",
-    "kullanici": "Squawka",
-    "zaman": "2026-10-24T16:03:40.000Z",
+    "id": "2114053901162885301",
+    "metin": "The rain is continuing to fall at Stamford Bridge 🌧️\n\nStill goalless between @ChelseaFC and @SpursOfficial as we enter the final 20 minutes https://t.co/JShzO3HTjT",
+    "kullanici": "premierleague",
+    "zaman": "2026-10-24T17:58:21.000Z",
     "metrik": {
      "bookmark_count": 2,
-     "impression_count": 4015,
-     "like_count": 52,
+     "impression_count": 34111,
+     "like_count": 179,
      "quote_count": 1,
-     "reply_count": 2,
-     "retweet_count": 14
+     "reply_count": 7,
+     "retweet_count": 19
     }
    },
    {
-    "id": "2114024991851270293",
-    "metin": "Arsenal 2-0 Everton\n\nGoals from central defensive pair Gabriel Magalhães and Ezri Konsa give Arsenal the win &amp; take them level on points with Manchester City at the top of the Premier League table. https://t.co/pAHOfjIawk",
-    "kullanici": "OptaAnalyst",
-    "zaman": "2026-10-24T16:03:29.000Z",
+    "id": "2114053621566566526",
+    "metin": "What a game! 😮‍💨\n\n#NapoliRoma https://t.co/VMonr7Hp6W",
+    "kullanici": "SerieA_EN",
+    "zaman": "2026-10-24T17:57:15.000Z",
     "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 1921,
-     "like_count": 14,
+     "bookmark_count": 2,
+     "impression_count": 1426,
+     "like_count": 16,
+     "quote_count": 3,
+     "reply_count": 2,
+     "retweet_count": 3
+    }
+   },
+   {
+    "id": "2114052016435519953",
+    "metin": "THREE. THREE 🫨🫨🫨\n\nBalerdi gets his second of the game! 🔥\n\n#NapoliRoma 3-3 https://t.co/pPXDnc89yI",
+    "kullanici": "SerieA_EN",
+    "zaman": "2026-10-24T17:50:52.000Z",
+    "metrik": {
+     "bookmark_count": 1,
+     "impression_count": 2840,
+     "like_count": 30,
      "quote_count": 0,
      "reply_count": 1,
      "retweet_count": 4
     }
    },
    {
-    "id": "2114023752157536507",
-    "metin": "A 2-0 win against Everton puts @Arsenal level on points with Man City at the top of the table 👊 https://t.co/vyPMpiyOHz",
-    "kullanici": "premierleague",
-    "zaman": "2026-10-24T15:58:33.000Z",
+    "id": "2114050503139013037",
+    "metin": "Whatever the question...\n\nScott McTominay is the answer‼️😤\n\n#NapoliRoma 3-2 https://t.co/5OsbUR73hK",
+    "kullanici": "SerieA_EN",
+    "zaman": "2026-10-24T17:44:51.000Z",
     "metrik": {
-     "bookmark_count": 12,
-     "impression_count": 58997,
-     "like_count": 1740,
-     "quote_count": 21,
-     "reply_count": 53,
-     "retweet_count": 307
+     "bookmark_count": 3,
+     "impression_count": 5634,
+     "like_count": 79,
+     "quote_count": 8,
+     "reply_count": 1,
+     "retweet_count": 17
     }
    },
    {
-    "id": "2114023609975058932",
-    "metin": "FULL-TIME: Oscar Bobb's strike gave Fulham back-to-back wins in the Premier League ✅ https://t.co/GkdJgSsTTH",
-    "kullanici": "SkySportsPL",
-    "zaman": "2026-10-24T15:57:59.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 34043,
-     "like_count": 190,
-     "quote_count": 1,
-     "reply_count": 4,
-     "retweet_count": 11
-    }
-   },
-   {
-    "id": "2114023439811920219",
-    "metin": "Goals from centre-halves Ezri Konsa and Gabriel gave Arsenal a routine 2-0 win over Everton at the Emirates Stadium.\n\nMikel Arteta's side are now unbeaten in their last eight Premier League matches against Everton and move level on points with Manchester City at the top of the https://t.co/jo1J24qImn",
+    "id": "2114049824702292259",
+    "metin": "The sight that no Tottenham Hotspur fan wanted to see.\n\nIn just his second start after a long injury lay-off, James Maddison goes down.\n\nHe gets up and limps off but there seems to be some concern among the Spurs staff.\n\nConor Gallagher comes on against his former club.\n\n📝 https://t.co/MxV9Z7TymW",
     "kullanici": "TheAthleticFC",
-    "zaman": "2026-10-24T15:57:19.000Z",
+    "zaman": "2026-10-24T17:42:10.000Z",
     "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 17332,
+     "bookmark_count": 4,
+     "impression_count": 24810,
      "like_count": 117,
-     "quote_count": 1,
-     "reply_count": 5,
-     "retweet_count": 12
-    }
-   },
-   {
-    "id": "2114023372048986290",
-    "metin": "FULL-TIME: Goals from Konsa and Gabriel secure the three points for the Champions against Everton 💪🔴 https://t.co/i1Htw2nTAr",
-    "kullanici": "SkySportsPL",
-    "zaman": "2026-10-24T15:57:03.000Z",
-    "metrik": {
-     "bookmark_count": 4,
-     "impression_count": 37967,
-     "like_count": 449,
-     "quote_count": 6,
-     "reply_count": 12,
-     "retweet_count": 54
-    }
-   },
-   {
-    "id": "2114022913384780110",
-    "metin": "Oscar Bobb's second-half strike leaves @FulhamFC in 12th spot after back-to-back wins 👊 https://t.co/lQ6TkgQziT",
-    "kullanici": "premierleague",
-    "zaman": "2026-10-24T15:55:13.000Z",
-    "metrik": {
-     "bookmark_count": 3,
-     "impression_count": 69920,
-     "like_count": 761,
-     "quote_count": 4,
-     "reply_count": 19,
-     "retweet_count": 51
-    }
-   },
-   {
-    "id": "2114022867964968995",
-    "metin": "ONE GOAL EACH. GAME ON! 👀🔥 https://t.co/J3YO0ieeRZ",
-    "kullanici": "LaLigaEN",
-    "zaman": "2026-10-24T15:55:03.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 4243,
-     "like_count": 17,
-     "quote_count": 0,
-     "reply_count": 0,
-     "retweet_count": 1
-    }
-   },
-   {
-    "id": "2114021511711596701",
-    "metin": "The best defensive partnership in world football right now. \n\nEzri Konsa and Gabriel Magalhães. https://t.co/weXojiMEdQ https://t.co/qtSeLCpDPU",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-24T15:49:39.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 9448,
-     "like_count": 120,
-     "quote_count": 2,
-     "reply_count": 0,
-     "retweet_count": 9
-    }
-   },
-   {
-    "id": "2114021439875563890",
-    "metin": "Luis Enrique showing his full support and confidence in Kvara! 🫂❤️‍🩹 https://t.co/vU00yEV45C",
-    "kullanici": "Ligue1_ENG",
-    "zaman": "2026-10-24T15:49:22.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 2267,
-     "like_count": 21,
-     "quote_count": 0,
-     "reply_count": 0,
-     "retweet_count": 1
-    }
-   },
-   {
-    "id": "2114020665195937871",
-    "metin": "Oscar Bobb's strike gives @fulhamfc a late lead! 😮‍💨\n\nLess than five minutes of the 90 remain in Coventry... 👀 https://t.co/8a01Zg3RE8",
-    "kullanici": "premierleague",
-    "zaman": "2026-10-24T15:46:17.000Z",
-    "metrik": {
-     "bookmark_count": 3,
-     "impression_count": 93552,
-     "like_count": 1079,
-     "quote_count": 2,
-     "reply_count": 20,
-     "retweet_count": 62
-    }
-   },
-   {
-    "id": "2114020616135188709",
-    "metin": "It was always going to be a mistake or a moment of quality that decided the game in the West Midlands and Oscar Bobb has provided the latter.\n\nThe Norwegian opens his Fulham account with a wonderful goal against Coventry City with his last kick of the game.\n\nWhat a way to depart https://t.co/J5ZKbuYOC2",
-    "kullanici": "TheAthleticFC",
-    "zaman": "2026-10-24T15:46:06.000Z",
-    "metrik": {
-     "bookmark_count": 2,
-     "impression_count": 18898,
-     "like_count": 78,
-     "quote_count": 0,
-     "reply_count": 1,
-     "retweet_count": 4
-    }
-   },
-   {
-    "id": "2114020378662068347",
-    "metin": "It was always going to be a mistake or a moment of quality that decided the game in the East Midlands and Oscar Bobb has provided the latter.\n\nThe Norwegian opens his Fulham account with a wonderful goal against Coventry City with his last kick of the game.\n\nWhat a way to depart https://t.co/UqYFqhIzDS",
-    "kullanici": "TheAthleticFC",
-    "zaman": "2026-10-24T15:45:09.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 14596,
-     "like_count": 13,
-     "quote_count": 0,
-     "reply_count": 1,
-     "retweet_count": 3
-    }
-   },
-   {
-    "id": "2114019999660601635",
-    "metin": "Glasner was right. https://t.co/3BeN8GkXRU",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-24T15:43:39.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 9053,
-     "like_count": 34,
-     "quote_count": 0,
-     "reply_count": 2,
-     "retweet_count": 3
-    }
-   },
-   {
-    "id": "2114019772249596009",
-    "metin": "🗣️ Sir Alex Ferguson once said: \"Attack wins you games, defence wins you titles.\"\n\nMikel Arteta took that 𝗩𝗘𝗥𝗬 seriously and assembled a defence that gets clean sheets 𝗔𝗡𝗗 can win games at the other end.\n\n🇳🇱 Jurrien Timber — £34M\n🇫🇷 William Saliba — £27M\n🇧🇷 Gabriel — £27M https://t.co/cdT8Vguv1X",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-24T15:42:44.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 13636,
-     "like_count": 85,
-     "quote_count": 1,
+     "quote_count": 7,
      "reply_count": 3,
      "retweet_count": 11
     }
    },
    {
-    "id": "2114018662151496073",
-    "metin": "Gabriel Magalhães has now scored 21 goals in 200 Premier League appearances for Arsenal. \n\nThat's at least three more than any other defender since he made his debut the competition in September 2020. ⚽ https://t.co/BUjyCQeUEF",
-    "kullanici": "Squawka",
-    "zaman": "2026-10-24T15:38:20.000Z",
+    "id": "2114049539154002339",
+    "metin": "Blink and you miss it ⚡\n\nRoma get two within five minutes to draw level! ⏱️\n\n#NapoliRoma https://t.co/yJ9aQQPLSh",
+    "kullanici": "SerieA_EN",
+    "zaman": "2026-10-24T17:41:01.000Z",
     "metrik": {
-     "bookmark_count": 12,
-     "impression_count": 15859,
-     "like_count": 496,
-     "quote_count": 4,
-     "reply_count": 3,
-     "retweet_count": 99
-    }
-   },
-   {
-    "id": "2114018447965249846",
-    "metin": "Gabriel doubles Arsenal's lead against Everton on his 200th Premier League appearance for the club.\n\nArsenal have won 65% of their games when the Brazilian plays compared to just 44% when he doesn’t.\n\nAmong players to have played more than 150 Premier League games, only Lauren https://t.co/qxzuU2Y7pk",
-    "kullanici": "TheAthleticFC",
-    "zaman": "2026-10-24T15:37:29.000Z",
-    "metrik": {
-     "bookmark_count": 4,
-     "impression_count": 28780,
-     "like_count": 222,
-     "quote_count": 1,
-     "reply_count": 5,
-     "retweet_count": 16
-    }
-   },
-   {
-    "id": "2114018387924021632",
-    "metin": "🇧🇷 Gabriel scores his first goal of the 2026/27 season on his 200th Premier league appearance for Arsenal.\n\n🗣️🎵 \"You'll fall in love, I know you will,\nOur number 6 is the king of Brazil.\nOur centre half, he'll give you hell,\nOur wall at the back is Gabriel.\" https://t.co/O3YuFzmgxe",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-24T15:37:14.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 8589,
-     "like_count": 41,
+     "bookmark_count": 0,
+     "impression_count": 2797,
+     "like_count": 19,
      "quote_count": 0,
-     "reply_count": 2,
+     "reply_count": 1,
      "retweet_count": 2
     }
    },
    {
-    "id": "2114017539164381578",
-    "metin": "Gabriel scores his first goal of the season on his 200th PL appearance for Arsenal.\n\nAnd with a header, of course 😉 https://t.co/cAWAUfPTDn",
-    "kullanici": "brfootball",
-    "zaman": "2026-10-24T15:33:52.000Z",
-    "metrik": {
-     "bookmark_count": 33,
-     "impression_count": 53580,
-     "like_count": 3423,
-     "quote_count": 11,
-     "reply_count": 29,
-     "retweet_count": 407
-    }
-   },
-   {
-    "id": "2114017343609188688",
-    "metin": "Two goals to the good for @arsenal 👏\n\nGabriel nets the Gunners' second on his 200th appearance for the club 🔴 https://t.co/IRO6YKZr7l",
-    "kullanici": "premierleague",
-    "zaman": "2026-10-24T15:33:05.000Z",
+    "id": "2114049443565547953",
+    "metin": "James Maddison is forced off with an injury and is replaced by Conor Gallagher, who receives a mixed reception from his former fans 🔃 https://t.co/GSeXQQ3eoa",
+    "kullanici": "SkySportsPL",
+    "zaman": "2026-10-24T17:40:39.000Z",
     "metrik": {
      "bookmark_count": 16,
-     "impression_count": 114295,
-     "like_count": 2913,
-     "quote_count": 3,
-     "reply_count": 43,
-     "retweet_count": 359
+     "impression_count": 130348,
+     "like_count": 200,
+     "quote_count": 6,
+     "reply_count": 25,
+     "retweet_count": 17
     }
    },
    {
-    "id": "2114017173907935439",
-    "metin": "#NapoliRoma team news 🤩 https://t.co/LcFsbRGDWU",
-    "kullanici": "SerieA_EN",
-    "zaman": "2026-10-24T15:32:25.000Z",
+    "id": "2114049092846244102",
+    "metin": "A fine couple of Saturdays for Daniel Dubois 🥊💙 https://t.co/ndEvDTl0NK",
+    "kullanici": "premierleague",
+    "zaman": "2026-10-24T17:39:15.000Z",
     "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 3017,
-     "like_count": 31,
-     "quote_count": 1,
-     "reply_count": 0,
+     "bookmark_count": 5,
+     "impression_count": 85425,
+     "like_count": 776,
+     "quote_count": 3,
+     "reply_count": 15,
+     "retweet_count": 71
+    }
+   },
+   {
+    "id": "2114048389264310761",
+    "metin": "Balerdi smashes home! WE'RE LEVEL! 🤯🤯🤯\n\n#NapoliRoma 2-2 https://t.co/5khwHBW7iz",
+    "kullanici": "SerieA_EN",
+    "zaman": "2026-10-24T17:36:27.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 3767,
+     "like_count": 50,
+     "quote_count": 2,
+     "reply_count": 1,
      "retweet_count": 8
     }
    },
    {
-    "id": "2114016772839874631",
-    "metin": "🧠 I believe Jamie Carragher might be the best pundit out there. https://t.co/La0a8UVFdt",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-24T15:30:49.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 13668,
-     "like_count": 43,
-     "quote_count": 0,
-     "reply_count": 0,
-     "retweet_count": 0
-    }
-   },
-   {
-    "id": "2114016605378429245",
-    "metin": "Anastosios Douvikas is the Panini Player of the Match 🏆 \n\n#ComoSassuolo https://t.co/nDcQRlqlFL",
-    "kullanici": "SerieA_EN",
-    "zaman": "2026-10-24T15:30:09.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 2624,
-     "like_count": 16,
-     "quote_count": 0,
-     "reply_count": 1,
-     "retweet_count": 5
-    }
-   },
-   {
-    "id": "2114015415173325202",
-    "metin": "A London derby beckons for @ChelseaFC and @SpursOfficial 👀\n\nTake a look at some BIG team news from Stamford Bridge ➡️ https://t.co/o1ncNQ0fYE https://t.co/4y3yNQXGc3",
-    "kullanici": "premierleague",
-    "zaman": "2026-10-24T15:25:26.000Z",
-    "metrik": {
-     "bookmark_count": 6,
-     "impression_count": 120384,
-     "like_count": 2081,
-     "quote_count": 2,
-     "reply_count": 21,
-     "retweet_count": 125
-    }
-   },
-   {
-    "id": "2114014473757344242",
-    "metin": "🥇 2025 Ballon d'Or\n\n#ballondor https://t.co/BhrcWIy085",
-    "kullanici": "ChampionsLeague",
-    "zaman": "2026-10-24T15:21:41.000Z",
-    "metrik": {
-     "bookmark_count": 54,
-     "impression_count": 205383,
-     "like_count": 5734,
-     "quote_count": 19,
-     "reply_count": 52,
-     "retweet_count": 272
-    }
-   },
-   {
-    "id": "2114011233531867308",
-    "metin": "ITK who genuinely knows things... https://t.co/tteBgxmDAA",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-24T15:08:49.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 11195,
-     "like_count": 50,
-     "quote_count": 0,
-     "reply_count": 2,
-     "retweet_count": 3
-    }
-   },
-   {
-    "id": "2114008046368096563",
-    "metin": "Myles Lewis-Skelly for Arsenal in the first half vs. Everton:\n\n◉= Most duels won (4) \n◉ Most possessions won (4)\n◉ Most tackles (2) \n◉= Most fouls won (2) \n\nAnd he won 100% of his duels. 💯 https://t.co/EEeDaCZIZT",
-    "kullanici": "Squawka",
-    "zaman": "2026-10-24T14:56:09.000Z",
-    "metrik": {
-     "bookmark_count": 8,
-     "impression_count": 22327,
-     "like_count": 963,
-     "quote_count": 7,
-     "reply_count": 12,
-     "retweet_count": 135
-    }
-   },
-   {
-    "id": "2114007728297287695",
-    "metin": "Wolves are the first team to have had 15+ more shots than their opponents in the first half of a league game across England's top four tiers this season.\n\nWolves lead 1-0 against Watford, despite having 17 shots and the Hornets attempting 0. https://t.co/QD9m1uHXPC",
-    "kullanici": "OptaAnalyst",
-    "zaman": "2026-10-24T14:54:53.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 8659,
-     "like_count": 24,
-     "quote_count": 2,
-     "reply_count": 1,
-     "retweet_count": 4
-    }
-   },
-   {
-    "id": "2114007681346224325",
-    "metin": "Douvikas' brace gives Como all three points ⚪🔵\n\n#ComoSassuolo https://t.co/q4FYNsqPAx",
-    "kullanici": "SerieA_EN",
-    "zaman": "2026-10-24T14:54:42.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 3057,
-     "like_count": 20,
-     "quote_count": 0,
-     "reply_count": 0,
-     "retweet_count": 2
-    }
-   },
-   {
-    "id": "2114007655895408749",
-    "metin": "Arsenal vs Everton | Half-time player ratings:\n\n7.59 - Ezri Konsa\n7.14 - David Raya\n7.10 - Declan Rice\n6.87 - Thierno Barry\n6.77 - Myles Lewis-Skelly\n\n#ARSEVE https://t.co/bM6MQMTsan",
-    "kullanici": "WhoScored",
-    "zaman": "2026-10-24T14:54:36.000Z",
+    "id": "2114047223260762407",
+    "metin": "DERBY DAY. VALENCIA STRIKE FIRST! 🦇\n\nValenciaVillarreal I LALIGAHighlights https://t.co/yO60RTxwfY",
+    "kullanici": "LaLigaEN",
+    "zaman": "2026-10-24T17:31:49.000Z",
     "metrik": {
      "bookmark_count": 1,
-     "impression_count": 11298,
-     "like_count": 54,
+     "impression_count": 3928,
+     "like_count": 13,
      "quote_count": 0,
-     "reply_count": 0,
-     "retweet_count": 2
-    }
-   },
-   {
-    "id": "2114007276273217597",
-    "metin": "Bologna get the win on the road 👏\n\n#CagliariBologna https://t.co/IxkbtD1SuJ",
-    "kullanici": "SerieA_EN",
-    "zaman": "2026-10-24T14:53:05.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 2796,
-     "like_count": 12,
-     "quote_count": 0,
-     "reply_count": 0,
-     "retweet_count": 0
-    }
-   },
-   {
-    "id": "2114007256845242382",
-    "metin": "Como's Anastasios Douvikas has had an incredible week:\n\n⚽️ vs. Man Utd in the Champions League\n⚽️⚽️ vs. Sassuolo in Serie A https://t.co/64Qm7UKg0O",
-    "kullanici": "brfootball",
-    "zaman": "2026-10-24T14:53:01.000Z",
-    "metrik": {
-     "bookmark_count": 16,
-     "impression_count": 68609,
-     "like_count": 3763,
-     "quote_count": 4,
-     "reply_count": 21,
-     "retweet_count": 120
-    }
-   },
-   {
-    "id": "2114007031317430286",
-    "metin": "Declan Rice created TWICE as many chances (4) as the ENTIRE Everton team combined (2) in the first half. 🤯🪄 https://t.co/Z2j7kvRr5H",
-    "kullanici": "WhoScored",
-    "zaman": "2026-10-24T14:52:07.000Z",
-    "metrik": {
-     "bookmark_count": 4,
-     "impression_count": 12124,
-     "like_count": 476,
-     "quote_count": 3,
-     "reply_count": 3,
-     "retweet_count": 44
-    }
-   },
-   {
-    "id": "2114006750181646650",
-    "metin": "When Jamie met Xabi. \n\n🗣️ Alonso: \"I wanted Carradona on the back, but they printed it wrong.\" https://t.co/42lyT9illY",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-24T14:51:00.000Z",
-    "metrik": {
-     "bookmark_count": 8,
-     "impression_count": 15904,
-     "like_count": 84,
-     "quote_count": 0,
-     "reply_count": 0,
-     "retweet_count": 4
-    }
-   },
-   {
-    "id": "2114006529137410269",
-    "metin": "Declan Rice created more chances (3) than the ENTIRE Everton team combined (2) in the first half. 🪄 https://t.co/tbc6Mit4Tm",
-    "kullanici": "WhoScored",
-    "zaman": "2026-10-24T14:50:07.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 5534,
-     "like_count": 16,
-     "quote_count": 0,
-     "reply_count": 2,
-     "retweet_count": 2
-    }
-   },
-   {
-    "id": "2114006113788285244",
-    "metin": "The scores at half-time ⏸️\n\n@Arsenal 1-0 @Everton\n@CoventryCityFC 0-0 @FulhamFC https://t.co/LrF2UOLrR4",
-    "kullanici": "premierleague",
-    "zaman": "2026-10-24T14:48:28.000Z",
-    "metrik": {
-     "bookmark_count": 9,
-     "impression_count": 188159,
-     "like_count": 2876,
-     "quote_count": 6,
-     "reply_count": 42,
-     "retweet_count": 200
-    }
-   },
-   {
-    "id": "2114004136765124667",
-    "metin": "Bernardeschi from the spot 🥶\n\n#CagliariBologna 0-2 https://t.co/mzIGmZtpmm",
-    "kullanici": "SerieA_EN",
-    "zaman": "2026-10-24T14:40:37.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 2987,
-     "like_count": 8,
-     "quote_count": 0,
-     "reply_count": 0,
+     "reply_count": 1,
      "retweet_count": 1
     }
    },
    {
-    "id": "2114002773096505614",
-    "metin": "14:50 – Richard Kone’s hat-trick against Swansea City is the earliest scored in an EFL match (15th minute) since the rebrand in 2004-05.\n\nBrisk.\n\nhttps://t.co/9JUQ85I6EQ",
-    "kullanici": "OptaJoe",
-    "zaman": "2026-10-24T14:35:12.000Z",
+    "id": "2114047062450786689",
+    "metin": "Jan Paul van Hecke won more duels (5) than any other player in the first half vs Chelsea. ⚔️ https://t.co/OwyiNMt4bh",
+    "kullanici": "WhoScored",
+    "zaman": "2026-10-24T17:31:11.000Z",
     "metrik": {
-     "bookmark_count": 7,
-     "impression_count": 35869,
-     "like_count": 193,
+     "bookmark_count": 0,
+     "impression_count": 8448,
+     "like_count": 43,
+     "quote_count": 0,
+     "reply_count": 1,
+     "retweet_count": 6
+    }
+   },
+   {
+    "id": "2114046870897279248",
+    "metin": "It's wet out there. https://t.co/nFlq8IAZ6D",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-24T17:30:25.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 8258,
+     "like_count": 50,
+     "quote_count": 0,
+     "reply_count": 2,
+     "retweet_count": 4
+    }
+   },
+   {
+    "id": "2114046767801016532",
+    "metin": "DERBY DAY. VALENCIA STRIKE FIRST! 🦇\n\nValenciaVillarreal I LALIGAEASPORTS https://t.co/lWQIXjPsfE",
+    "kullanici": "LaLigaEN",
+    "zaman": "2026-10-24T17:30:01.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 746,
+     "like_count": 2,
+     "quote_count": 0,
+     "reply_count": 0,
+     "retweet_count": 0
+    }
+   },
+   {
+    "id": "2114046690374058030",
+    "metin": "Mike Penders is something special! 🧤 https://t.co/B6veLgmdKh",
+    "kullanici": "Ligue1_ENG",
+    "zaman": "2026-10-24T17:29:42.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 2581,
+     "like_count": 35,
+     "quote_count": 0,
+     "reply_count": 2,
+     "retweet_count": 5
+    }
+   },
+   {
+    "id": "2114046469439172930",
+    "metin": "Chelsea registered just 29.5% possession in the first half against Tottenham, completing only 97 accurate passes compared to Spurs’ 296.\n\nTottenham completed over three times as many passes in the opening 45 minutes. 🤯📊\n\n#CHETOT https://t.co/pfjxUcwww5",
+    "kullanici": "WhoScored",
+    "zaman": "2026-10-24T17:28:50.000Z",
+    "metrik": {
+     "bookmark_count": 1,
+     "impression_count": 8199,
+     "like_count": 31,
+     "quote_count": 0,
+     "reply_count": 0,
+     "retweet_count": 11
+    }
+   },
+   {
+    "id": "2114044891294769607",
+    "metin": "There have been two games that Chelsea have completed fewer than 100 passes in the first half of a Premier League game since 2016/17:\n\n◉ 97 vs. Tottenham (2026/27) 🆕\n◎ 98 vs. Brighton (2026/27)\n\nThey've both come this season. 👀 https://t.co/ouUvncsdEC",
+    "kullanici": "Squawka",
+    "zaman": "2026-10-24T17:22:33.000Z",
+    "metrik": {
+     "bookmark_count": 4,
+     "impression_count": 15127,
+     "like_count": 72,
      "quote_count": 1,
-     "reply_count": 10,
-     "retweet_count": 23
+     "reply_count": 5,
+     "retweet_count": 14
+    }
+   },
+   {
+    "id": "2114044758364479880",
+    "metin": "Fanzone reacts to Arsenal manager Mikel Arteta admitting he has clipped up footage of other Premier League bosses leaving their technical area @Fanalysisapp  ⤵️ https://t.co/aRdihDcVnk",
+    "kullanici": "SkySportsNews",
+    "zaman": "2026-10-24T17:22:02.000Z",
+    "metrik": {
+     "bookmark_count": 32,
+     "impression_count": 57880,
+     "like_count": 368,
+     "quote_count": 0,
+     "reply_count": 9,
+     "retweet_count": 18
+    }
+   },
+   {
+    "id": "2114044580358148125",
+    "metin": "Fanzone reacts to Arsenal manager Mikel Arteta admitting he has clipped up footage of other Premier League bosses leaving their technical area Fanalysis-app ⤵️ https://t.co/qPALV3UsYR",
+    "kullanici": "SkySportsNews",
+    "zaman": "2026-10-24T17:21:19.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 28109,
+     "like_count": 12,
+     "quote_count": 0,
+     "reply_count": 0,
+     "retweet_count": 2
+    }
+   },
+   {
+    "id": "2114044253882241299",
+    "metin": "Chelsea vs Tottenham | Half-time player ratings:\n\n◉ 7.05 - Antonín Kinsky\n◎ 6.91 - Mike Penders\n◎ 6.76 - Levi Colwill\n◎ 6.69 - Maxence Lacroix\n◎ 6.69 - Jan Paul van Hecke\n\n#CHETOT https://t.co/mRRnnI4A3r",
+    "kullanici": "WhoScored",
+    "zaman": "2026-10-24T17:20:01.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 9820,
+     "like_count": 52,
+     "quote_count": 1,
+     "reply_count": 2,
+     "retweet_count": 1
+    }
+   },
+   {
+    "id": "2114044071870378034",
+    "metin": "Heading further in front 😏\n\n#NapoliRoma 2-0 https://t.co/lVtWHumvAo",
+    "kullanici": "SerieA_EN",
+    "zaman": "2026-10-24T17:19:18.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 3271,
+     "like_count": 37,
+     "quote_count": 1,
+     "reply_count": 0,
+     "retweet_count": 6
+    }
+   },
+   {
+    "id": "2114043614716219895",
+    "metin": "No player completed more dribbles (3) or created more chances (2) than Mathys Tel in the first half. ⚡️\n\n#CHETOT https://t.co/TCxXYPFZQZ",
+    "kullanici": "WhoScored",
+    "zaman": "2026-10-24T17:17:29.000Z",
+    "metrik": {
+     "bookmark_count": 2,
+     "impression_count": 17436,
+     "like_count": 132,
+     "quote_count": 6,
+     "reply_count": 3,
+     "retweet_count": 9
+    }
+   },
+   {
+    "id": "2114043286255984893",
+    "metin": "HALF-TIME: @chelseafc 0-0 @spursofficial ⏸️\n\nChances aplenty at Stamford Bridge, but it's all square at the break 🤝 https://t.co/BuzWgwW3Np",
+    "kullanici": "premierleague",
+    "zaman": "2026-10-24T17:16:11.000Z",
+    "metrik": {
+     "bookmark_count": 3,
+     "impression_count": 144838,
+     "like_count": 1886,
+     "quote_count": 19,
+     "reply_count": 91,
+     "retweet_count": 111
+    }
+   },
+   {
+    "id": "2114041782476349840",
+    "metin": "SCOTT MCTOMINAY! Napoli double up! ✌️\n\n#NapoliRoma 2-0 https://t.co/wUzcarOsOq",
+    "kullanici": "SerieA_EN",
+    "zaman": "2026-10-24T17:10:12.000Z",
+    "metrik": {
+     "bookmark_count": 1,
+     "impression_count": 7119,
+     "like_count": 74,
+     "quote_count": 0,
+     "reply_count": 1,
+     "retweet_count": 10
+    }
+   },
+   {
+    "id": "2114040575875825671",
+    "metin": "🗣️ \"Back to joint-top, game on!\"\n\nPaul Merson reacts to Arsenal's 2-0 victory against Everton at the Emirates 🔴 https://t.co/ytdvWbMlw7",
+    "kullanici": "SkySportsNews",
+    "zaman": "2026-10-24T17:05:24.000Z",
+    "metrik": {
+     "bookmark_count": 38,
+     "impression_count": 111798,
+     "like_count": 1157,
+     "quote_count": 5,
+     "reply_count": 17,
+     "retweet_count": 66
+    }
+   },
+   {
+    "id": "2114038489314693495",
+    "metin": "Gordon knows a thing or two about Lamine Yamal 🤣\n\nWatch ElClásico on Sunday for the first time ever on ABC and on the ESPN app 🍿 https://t.co/T7xXHqlhf1",
+    "kullanici": "ESPNFC",
+    "zaman": "2026-10-24T16:57:07.000Z",
+    "metrik": {
+     "bookmark_count": 17,
+     "impression_count": 40448,
+     "like_count": 438,
+     "quote_count": 0,
+     "reply_count": 15,
+     "retweet_count": 7
+    }
+   },
+   {
+    "id": "2114038461078630687",
+    "metin": "The Ballon d'Or and the European Cup/Champions League in the same year 😤\n\n#ballondor https://t.co/GCw5RjtANg",
+    "kullanici": "ChampionsLeague",
+    "zaman": "2026-10-24T16:57:00.000Z",
+    "metrik": {
+     "bookmark_count": 58,
+     "impression_count": 155042,
+     "like_count": 3342,
+     "quote_count": 15,
+     "reply_count": 29,
+     "retweet_count": 179
+    }
+   },
+   {
+    "id": "2114034664436380086",
+    "metin": "@Pedri doing his celly on the controller is tuff 😮‍💨🔥\n@devincaherly https://t.co/msMlDIh6aA",
+    "kullanici": "ESPNFC",
+    "zaman": "2026-10-24T16:41:55.000Z",
+    "metrik": {
+     "bookmark_count": 16,
+     "impression_count": 42191,
+     "like_count": 1026,
+     "quote_count": 1,
+     "reply_count": 7,
+     "retweet_count": 31
+    }
+   },
+   {
+    "id": "2114033633124057536",
+    "metin": "In the house for derby day 👋\n\nThree years after his last appearance for the club, former @ChelseaFC captain Cesar Azpilicueta is back at Stamford Bridge 🔵 https://t.co/nsiR4UOQwr",
+    "kullanici": "premierleague",
+    "zaman": "2026-10-24T16:37:49.000Z",
+    "metrik": {
+     "bookmark_count": 43,
+     "impression_count": 144147,
+     "like_count": 10257,
+     "quote_count": 34,
+     "reply_count": 54,
+     "retweet_count": 817
+    }
+   },
+   {
+    "id": "2114032477463248923",
+    "metin": "In the house for derby day 👋\n\nThree years after his last appearance for the club, former Chelsea defender Cesar Azpilicueta is back at Stamford Bridge 🔵 https://t.co/Qx3SpG33nu",
+    "kullanici": "premierleague",
+    "zaman": "2026-10-24T16:33:14.000Z",
+    "metrik": {
+     "bookmark_count": 3,
+     "impression_count": 73236,
+     "like_count": 384,
+     "quote_count": 3,
+     "reply_count": 13,
+     "retweet_count": 45
+    }
+   },
+   {
+    "id": "2114032281232826444",
+    "metin": "ZANGO ANGUISSA, WHAT DID YOU JUST DO? 🤩\n\n#NapoliRoma 1-0 https://t.co/pcqGGaUWmd",
+    "kullanici": "SerieA_EN",
+    "zaman": "2026-10-24T16:32:27.000Z",
+    "metrik": {
+     "bookmark_count": 2,
+     "impression_count": 11144,
+     "like_count": 221,
+     "quote_count": 3,
+     "reply_count": 5,
+     "retweet_count": 19
+    }
+   },
+   {
+    "id": "2114031465876931037",
+    "metin": "Gasp 😤 \n\n#NapoliRoma https://t.co/heYOLuZVZO",
+    "kullanici": "SerieA_EN",
+    "zaman": "2026-10-24T16:29:12.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 3242,
+     "like_count": 12,
+     "quote_count": 1,
+     "reply_count": 1,
+     "retweet_count": 2
+    }
+   },
+   {
+    "id": "2114031402278658136",
+    "metin": "🥊 WBO heavyweight world champion Daniel Dubois is at Stamford Bridge today. https://t.co/ZMLGSFLjyY",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-24T16:28:57.000Z",
+    "metrik": {
+     "bookmark_count": 1,
+     "impression_count": 9763,
+     "like_count": 58,
+     "quote_count": 0,
+     "reply_count": 1,
+     "retweet_count": 3
+    }
+   },
+   {
+    "id": "2114031230387737005",
+    "metin": "Chelsea vs Tottenham at Stamford Bridge?\n\nAny excuse to re-post this.\n\nhttps://t.co/pOTo6VZbXK",
+    "kullanici": "OptaAnalyst",
+    "zaman": "2026-10-24T16:28:16.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 7052,
+     "like_count": 12,
+     "quote_count": 0,
+     "reply_count": 1,
+     "retweet_count": 1
+    }
+   },
+   {
+    "id": "2114030984756899906",
+    "metin": "Rayan Cherki is one of the good guys. https://t.co/KtFqbBmTXm",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-24T16:27:18.000Z",
+    "metrik": {
+     "bookmark_count": 2,
+     "impression_count": 11539,
+     "like_count": 388,
+     "quote_count": 0,
+     "reply_count": 3,
+     "retweet_count": 14
+    }
+   },
+   {
+    "id": "2114030955782349249",
+    "metin": "Can Spurs get their second win at Stamford Bridge, or will Chelsea's dominance continue? 👀📊 https://t.co/dNYgN2SKYA",
+    "kullanici": "SkySportsPL",
+    "zaman": "2026-10-24T16:27:11.000Z",
+    "metrik": {
+     "bookmark_count": 4,
+     "impression_count": 83451,
+     "like_count": 293,
+     "quote_count": 3,
+     "reply_count": 21,
+     "retweet_count": 21
+    }
+   },
+   {
+    "id": "2114030539246113196",
+    "metin": "Ready for this one? 👀\n\n@ChelseaFC host @SpursOfficial in the final match of an action-packed Saturday 👊\n\nFollow all the updates 👉 https://t.co/o1ncNPZI96 https://t.co/uQEQ4yyNVg",
+    "kullanici": "premierleague",
+    "zaman": "2026-10-24T16:25:32.000Z",
+    "metrik": {
+     "bookmark_count": 3,
+     "impression_count": 120047,
+     "like_count": 872,
+     "quote_count": 5,
+     "reply_count": 23,
+     "retweet_count": 75
+    }
+   },
+   {
+    "id": "2114030409659089076",
+    "metin": "Martin Ødegaard had 115 touches vs Everton, the most by any Arsenal player in a single Premier League match this season. 🪄 https://t.co/3stbfNU2wW",
+    "kullanici": "WhoScored",
+    "zaman": "2026-10-24T16:25:01.000Z",
+    "metrik": {
+     "bookmark_count": 11,
+     "impression_count": 17049,
+     "like_count": 951,
+     "quote_count": 34,
+     "reply_count": 8,
+     "retweet_count": 143
+    }
+   },
+   {
+    "id": "2114030370048151993",
+    "metin": "Martin Ødegaard has 115 touches vs Everton, the most by any Arsenal player in a single Premier League match this season. 🪄 https://t.co/zfvIe3QOm9",
+    "kullanici": "WhoScored",
+    "zaman": "2026-10-24T16:24:51.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 3329,
+     "like_count": 1,
+     "quote_count": 0,
+     "reply_count": 0,
+     "retweet_count": 0
+    }
+   },
+   {
+    "id": "2114029949493424508",
+    "metin": "Under Mikel Arteta, Arsenal have developed a reputation for being the masters of the set piece — scoring 25 goals via that route last season (discounting penalties) as they won the title.\n\nHowever, it had been a different story this campaign, as Arsenal came into the Everton https://t.co/yMljk9gInT",
+    "kullanici": "TheAthleticFC",
+    "zaman": "2026-10-24T16:23:11.000Z",
+    "metrik": {
+     "bookmark_count": 17,
+     "impression_count": 46561,
+     "like_count": 615,
+     "quote_count": 4,
+     "reply_count": 8,
+     "retweet_count": 55
+    }
+   },
+   {
+    "id": "2114029237069914257",
+    "metin": "\"Everything I hear about him, top goalkeeper\"\n\nJamie Redknapp on Mike Penders' first Premier League start 🧤 https://t.co/4OalV7zlFU",
+    "kullanici": "SkySportsPL",
+    "zaman": "2026-10-24T16:20:21.000Z",
+    "metrik": {
+     "bookmark_count": 69,
+     "impression_count": 127948,
+     "like_count": 4632,
+     "quote_count": 0,
+     "reply_count": 9,
+     "retweet_count": 184
     }
    }
   ]

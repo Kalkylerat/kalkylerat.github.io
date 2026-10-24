@@ -32512,8 +32512,20 @@
        "oran": 1.22,
        "olasilik": 0.806,
        "deger": -0.017,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-1",
+       "goller": [
+        [
+         50,
+         0,
+         "ev"
+        ],
+        [
+         76,
+         0,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1497729-CS1X",
@@ -32588,7 +32600,7 @@
      "tweet_id": "2113965028504424734",
      "metin": "🎩 Treble day. One leg more than I like.\n\n⚽ Vasco DA Gama v Corinthians\n⚽ Mladost Lucani v Vojvodina\n⚽ IK brage v Osters IF\n\n📊 Combined 2.01. I make it about 46% to land, so probably not.\n\n💬 Which leg would you drop?\n\n18+ | Play responsibly",
      "yayin": "2026-10-24T12:05:05+00:00",
-     "son_oran": 1
+     "son_oran": 1.22
     },
     {
      "ad": "gunun-kuponu-3",

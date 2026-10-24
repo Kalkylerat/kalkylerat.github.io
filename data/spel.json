@@ -135490,6 +135490,662 @@
         "zaman": "2026-10-24T15:51:50+00:00",
         "metin": "No result above 39%.\nWide open on paper.\n\n🇫🇷 Lens v Paris FC 🇫🇷 · 20:45 CEST\n🏆 Lens 39% · Draw 24% · Paris FC 37%\n⚽ Over 2.5 goals 57% · Under 43%\n🥅 Both teams score 60% · Not both 40%\n\n💬 Chances, not picks. What's your score? 👇\n#Ligue1\n18+ | Play responsibly"
       }
-    }
+    },
+    "tablo_aksam": [
+      {
+        "fixture_id": 1561951,
+        "lig": "Bundesliga",
+        "ulke": "Austria",
+        "lig_id": 218,
+        "ev": "Rapid Vienna",
+        "dep": "Austria Lustenau",
+        "baslama": "2026-10-24T19:30:00+02:00",
+        "p": {
+          "MS1": 0.778,
+          "MSX": 0.132,
+          "MS2": 0.09,
+          "CS1X": 0.909,
+          "CSX2": 0.222,
+          "CS12": 0.868,
+          "KGVAR": 0.581,
+          "KGYOK": 0.419,
+          "UST15": 0.9,
+          "ALT15": 0.099,
+          "UST25": 0.747,
+          "ALT25": 0.253,
+          "UST35": 0.546,
+          "ALT35": 0.453,
+          "IY1": 0.595,
+          "IYX": 0.286,
+          "IY2": 0.119,
+          "IYU05": 0.827,
+          "IYA05": 0.173,
+          "IYU15": 0.523,
+          "IYA15": 0.476,
+          "EVU05": 0.947,
+          "EVA05": 0.052,
+          "EVU15": 0.793,
+          "EVA15": 0.207,
+          "EVU25": 0.565,
+          "EVA25": 0.434,
+          "DPU05": 0.613,
+          "DPA05": 0.387,
+          "DPU15": 0.246,
+          "DPA15": 0.754,
+          "DPU25": 0.071,
+          "DPA25": 0.928,
+          "YYU05": 0.883,
+          "YYA05": 0.117,
+          "YYU15": 0.631,
+          "YYA15": 0.368
+        },
+        "skorlar": [
+          [
+            "2-0",
+            0.0881
+          ],
+          [
+            "3-0",
+            0.0866
+          ],
+          [
+            "2-1",
+            0.0837
+          ],
+          [
+            "3-1",
+            0.0823
+          ],
+          [
+            "4-0",
+            0.0639
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Rapid Vienna win",
+            "piyasa": 0.778,
+            "istatistik": 0.778
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.132,
+            "istatistik": 0.132
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Austria Lustenau win",
+            "piyasa": 0.09,
+            "istatistik": 0.09
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.747,
+            "istatistik": 0.747
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.581,
+            "istatistik": 0.581
+          }
+        ],
+        "beklenen_gol": [
+          2.95,
+          0.95
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1555411,
+        "lig": "Super League",
+        "ulke": "Switzerland",
+        "lig_id": 207,
+        "ev": "BSC Young Boys",
+        "dep": "FC ST. Gallen",
+        "baslama": "2026-10-24T20:30:00+02:00",
+        "p": {
+          "MS1": 0.545,
+          "MSX": 0.196,
+          "MS2": 0.259,
+          "CS1X": 0.741,
+          "CSX2": 0.455,
+          "CS12": 0.804,
+          "KGVAR": 0.722,
+          "KGYOK": 0.278,
+          "UST15": 0.905,
+          "ALT15": 0.095,
+          "UST25": 0.754,
+          "ALT25": 0.246,
+          "UST35": 0.557,
+          "ALT35": 0.443,
+          "IY1": 0.43,
+          "IYX": 0.324,
+          "IY2": 0.246,
+          "IYU05": 0.831,
+          "IYA05": 0.169,
+          "IYU15": 0.53,
+          "IYA15": 0.47,
+          "EVU05": 0.905,
+          "EVA05": 0.095,
+          "EVU15": 0.68,
+          "EVA15": 0.319,
+          "EVU25": 0.417,
+          "EVA25": 0.583,
+          "DPU05": 0.798,
+          "DPA05": 0.202,
+          "DPU15": 0.475,
+          "DPA15": 0.525,
+          "DPU25": 0.217,
+          "DPA25": 0.783,
+          "YYU05": 0.886,
+          "YYA05": 0.114,
+          "YYU15": 0.639,
+          "YYA15": 0.361
+        },
+        "skorlar": [
+          [
+            "2-1",
+            0.0851
+          ],
+          [
+            "1-1",
+            0.0724
+          ],
+          [
+            "2-2",
+            0.0681
+          ],
+          [
+            "3-1",
+            0.0666
+          ],
+          [
+            "1-2",
+            0.0579
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.754,
+            "istatistik": 0.848
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.722,
+            "istatistik": 0.812
+          },
+          {
+            "pazar": "MS2",
+            "ad": "FC ST. Gallen win",
+            "piyasa": 0.259,
+            "istatistik": 0.319
+          },
+          {
+            "pazar": "MS1",
+            "ad": "BSC Young Boys win",
+            "piyasa": 0.545,
+            "istatistik": 0.496
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.196,
+            "istatistik": 0.185
+          }
+        ],
+        "beklenen_gol": [
+          2.35,
+          1.6
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1552512,
+        "lig": "Ligue 2",
+        "ulke": "France",
+        "lig_id": 62,
+        "ev": "Saint Etienne",
+        "dep": "Nantes",
+        "baslama": "2026-10-24T20:45:00+02:00",
+        "p": {
+          "MS1": 0.55,
+          "MSX": 0.235,
+          "MS2": 0.215,
+          "CS1X": 0.785,
+          "CSX2": 0.45,
+          "CS12": 0.765,
+          "KGVAR": 0.522,
+          "KGYOK": 0.478,
+          "UST15": 0.76,
+          "ALT15": 0.24,
+          "UST25": 0.519,
+          "ALT25": 0.481,
+          "UST35": 0.297,
+          "ALT35": 0.703,
+          "IY1": 0.404,
+          "IYX": 0.402,
+          "IY2": 0.193,
+          "IYU05": 0.71,
+          "IYA05": 0.29,
+          "IYU15": 0.351,
+          "IYA15": 0.649,
+          "EVU05": 0.826,
+          "EVA05": 0.174,
+          "EVU15": 0.522,
+          "EVA15": 0.478,
+          "EVU25": 0.256,
+          "EVA25": 0.744,
+          "DPU05": 0.632,
+          "DPA05": 0.368,
+          "DPU15": 0.264,
+          "DPA15": 0.736,
+          "DPU25": 0.08,
+          "DPA25": 0.92,
+          "YYU05": 0.78,
+          "YYA05": 0.22,
+          "YYU15": 0.446,
+          "YYA15": 0.554
+        },
+        "skorlar": [
+          [
+            "1-0",
+            0.1119
+          ],
+          [
+            "1-1",
+            0.1119
+          ],
+          [
+            "2-1",
+            0.0979
+          ],
+          [
+            "2-0",
+            0.0979
+          ],
+          [
+            "0-0",
+            0.0639
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.519,
+            "istatistik": 0.66
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Saint Etienne win",
+            "piyasa": 0.55,
+            "istatistik": 0.683
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Nantes win",
+            "piyasa": 0.215,
+            "istatistik": 0.14
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.235,
+            "istatistik": 0.176
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.522,
+            "istatistik": 0.575
+          }
+        ],
+        "beklenen_gol": [
+          1.75,
+          1.0
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1558659,
+        "lig": "Jupiler Pro League",
+        "ulke": "Belgium",
+        "lig_id": 144,
+        "ev": "RAAL La Louvière",
+        "dep": "Zulte Waregem",
+        "baslama": "2026-10-24T20:45:00+02:00",
+        "p": {
+          "MS1": 0.313,
+          "MSX": 0.259,
+          "MS2": 0.429,
+          "CS1X": 0.571,
+          "CSX2": 0.687,
+          "CS12": 0.741,
+          "KGVAR": 0.535,
+          "KGYOK": 0.465,
+          "UST15": 0.742,
+          "ALT15": 0.258,
+          "UST25": 0.494,
+          "ALT25": 0.506,
+          "UST35": 0.275,
+          "ALT35": 0.725,
+          "IY1": 0.254,
+          "IYX": 0.42,
+          "IY2": 0.326,
+          "IYU05": 0.697,
+          "IYA05": 0.303,
+          "IYU15": 0.335,
+          "IYA15": 0.665,
+          "EVU05": 0.699,
+          "EVA05": 0.301,
+          "EVU15": 0.337,
+          "EVA15": 0.663,
+          "EVU25": 0.121,
+          "EVA25": 0.879,
+          "DPU05": 0.765,
+          "DPA05": 0.235,
+          "DPU15": 0.425,
+          "DPA15": 0.575,
+          "DPU25": 0.179,
+          "DPA25": 0.821,
+          "YYU05": 0.767,
+          "YYA05": 0.233,
+          "YYU15": 0.428,
+          "YYA15": 0.572
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1229
+          ],
+          [
+            "0-1",
+            0.1024
+          ],
+          [
+            "1-2",
+            0.0891
+          ],
+          [
+            "1-0",
+            0.0848
+          ],
+          [
+            "0-2",
+            0.0743
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.494,
+            "istatistik": 0.588
+          },
+          {
+            "pazar": "MS1",
+            "ad": "RAAL La Louvière win",
+            "piyasa": 0.313,
+            "istatistik": 0.391
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.535,
+            "istatistik": 0.612
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Zulte Waregem win",
+            "piyasa": 0.429,
+            "istatistik": 0.369
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.259,
+            "istatistik": 0.241
+          }
+        ],
+        "beklenen_gol": [
+          1.2,
+          1.45
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1558661,
+        "lig": "Jupiler Pro League",
+        "ulke": "Belgium",
+        "lig_id": 144,
+        "ev": "KVC Westerlo",
+        "dep": "SK Beveren",
+        "baslama": "2026-10-24T20:45:00+02:00",
+        "p": {
+          "MS1": 0.46,
+          "MSX": 0.229,
+          "MS2": 0.312,
+          "CS1X": 0.688,
+          "CSX2": 0.54,
+          "CS12": 0.771,
+          "KGVAR": 0.639,
+          "KGYOK": 0.361,
+          "UST15": 0.835,
+          "ALT15": 0.165,
+          "UST25": 0.63,
+          "ALT25": 0.37,
+          "UST35": 0.409,
+          "ALT35": 0.591,
+          "IY1": 0.361,
+          "IYX": 0.371,
+          "IY2": 0.268,
+          "IYU05": 0.768,
+          "IYA05": 0.232,
+          "IYU15": 0.43,
+          "IYA15": 0.57,
+          "EVU05": 0.835,
+          "EVA05": 0.165,
+          "EVU15": 0.537,
+          "EVA15": 0.463,
+          "EVU25": 0.269,
+          "EVA25": 0.731,
+          "DPU05": 0.765,
+          "DPA05": 0.235,
+          "DPU15": 0.425,
+          "DPA15": 0.575,
+          "DPU25": 0.179,
+          "DPA25": 0.821,
+          "YYU05": 0.833,
+          "YYA05": 0.167,
+          "YYU15": 0.533,
+          "YYA15": 0.467
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1012
+          ],
+          [
+            "2-1",
+            0.0911
+          ],
+          [
+            "1-2",
+            0.0734
+          ],
+          [
+            "1-0",
+            0.0698
+          ],
+          [
+            "2-2",
+            0.066
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "KVC Westerlo win",
+            "piyasa": 0.46,
+            "istatistik": 0.683
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.63,
+            "istatistik": 0.802
+          },
+          {
+            "pazar": "MS2",
+            "ad": "SK Beveren win",
+            "piyasa": 0.312,
+            "istatistik": 0.16
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.229,
+            "istatistik": 0.157
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.639,
+            "istatistik": 0.712
+          }
+        ],
+        "beklenen_gol": [
+          1.8,
+          1.45
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1552201,
+        "lig": "Eredivisie",
+        "ulke": "Netherlands",
+        "lig_id": 88,
+        "ev": "ADO Den Haag",
+        "dep": "Heerenveen",
+        "baslama": "2026-10-24T21:00:00+02:00",
+        "p": {
+          "MS1": 0.284,
+          "MSX": 0.223,
+          "MS2": 0.493,
+          "CS1X": 0.507,
+          "CSX2": 0.716,
+          "CS12": 0.777,
+          "KGVAR": 0.641,
+          "KGYOK": 0.359,
+          "UST15": 0.841,
+          "ALT15": 0.159,
+          "UST25": 0.641,
+          "ALT25": 0.359,
+          "UST35": 0.42,
+          "ALT35": 0.58,
+          "IY1": 0.251,
+          "IYX": 0.366,
+          "IY2": 0.383,
+          "IYU05": 0.773,
+          "IYA05": 0.226,
+          "IYU15": 0.437,
+          "IYA15": 0.563,
+          "EVU05": 0.753,
+          "EVA05": 0.247,
+          "EVU15": 0.408,
+          "EVA15": 0.592,
+          "EVU25": 0.166,
+          "EVA25": 0.833,
+          "DPU05": 0.85,
+          "DPA05": 0.15,
+          "DPU15": 0.566,
+          "DPA15": 0.434,
+          "DPU25": 0.296,
+          "DPA25": 0.704,
+          "YYU05": 0.837,
+          "YYA05": 0.163,
+          "YYU15": 0.542,
+          "YYA15": 0.458
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.0981
+          ],
+          [
+            "1-2",
+            0.0932
+          ],
+          [
+            "0-1",
+            0.0701
+          ],
+          [
+            "2-1",
+            0.0687
+          ],
+          [
+            "0-2",
+            0.0666
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.641,
+            "istatistik": 0.706
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.641,
+            "istatistik": 0.686
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Heerenveen win",
+            "piyasa": 0.493,
+            "istatistik": 0.525
+          },
+          {
+            "pazar": "MS1",
+            "ad": "ADO Den Haag win",
+            "piyasa": 0.284,
+            "istatistik": 0.267
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.223,
+            "istatistik": 0.207
+          }
+        ],
+        "beklenen_gol": [
+          1.4,
+          1.9
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      }
+    ]
   }
 ]

@@ -109,14 +109,17 @@
   "2113903325414326279",
   "2113975972173160902",
   "2113976281691808186",
-  "2113963722188484818"
+  "2113963722188484818",
+  "2114015415173325202",
+  "2114023752157536507"
  ],
  "kalkylerat": {
   "tarih": "2026-10-24",
-  "gonderilen": 3,
+  "gonderilen": 4,
   "aramalar": [
    10,
-   13
+   13,
+   16
   ],
   "issue": {
    "tarih": "2026-10-24",
@@ -125,10 +128,11 @@
  },
  "likely": {
   "tarih": "2026-10-24",
-  "gonderilen": 3,
+  "gonderilen": 4,
   "aramalar": [
    10,
-   13
+   13,
+   16
   ],
   "issue": {
    "tarih": "2026-10-24",
@@ -137,566 +141,566 @@
  },
  "onbellek": {
   "tarih": "2026-10-24",
-  "saat": 13,
+  "saat": 16,
   "postlar": [
    {
-    "id": "2113978969351401616",
-    "metin": "Two goals, Elche are cooking!🟢⚪️ https://t.co/LZ9XSBRGNE",
-    "kullanici": "LaLigaEN",
-    "zaman": "2026-10-24T13:00:36.000Z",
+    "id": "2114025463647543521",
+    "metin": "🇧🇷 Gabriel Magalhães | MOTM vs Everton:\n\n⚽️ 1 goal \n🥅 2 shots \n🎯 2 shots on target (most)\n⛔️ 7 clearances (most)\n⚔️ 2 tackles \n🛡️ 2 interceptions (=most)\n🆘 1 last man tackle\n📊 88% pass accuracy \n⭐️ 8.53 WhoScored rating \n\n#ARSEVE https://t.co/89JWpWhFZn",
+    "kullanici": "WhoScored",
+    "zaman": "2026-10-24T16:05:21.000Z",
     "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 542,
-     "like_count": 3,
+     "bookmark_count": 1,
+     "impression_count": 1799,
+     "like_count": 7,
      "quote_count": 0,
-     "reply_count": 0,
-     "retweet_count": 0
+     "reply_count": 1,
+     "retweet_count": 1
     }
    },
    {
-    "id": "2113978858898620500",
-    "metin": "Two goals, double the trouble! 🟢⚪️ https://t.co/sP2OMzDFtN",
-    "kullanici": "LaLigaEN",
-    "zaman": "2026-10-24T13:00:10.000Z",
+    "id": "2114025256524329087",
+    "metin": "Coventry 0-1 Fulham\n\nAn excellent late goal from Oscar Bobb secures all three points for Fulham in a tight game at the Coventry Building Society Arena. https://t.co/PF0sb5Fy9r",
+    "kullanici": "OptaAnalyst",
+    "zaman": "2026-10-24T16:04:32.000Z",
     "metrik": {
      "bookmark_count": 0,
-     "impression_count": 2219,
-     "like_count": 3,
+     "impression_count": 1471,
+     "like_count": 6,
      "quote_count": 0,
-     "reply_count": 0,
-     "retweet_count": 0
+     "reply_count": 1,
+     "retweet_count": 1
     }
    },
    {
-    "id": "2113978821997432901",
-    "metin": "Rivals collide at Stamford Bridge! ⚔️ \n\nMore than 90% of @Super6 players are expecting Chelsea to win at Stamford Bridge! \n\nBut by what score? Over 250,000 players are backing a 3-1 win for Alonso’s men 🔵 \n\nPredict 6 scorelines for FREE by 3pm and you could walk away a https://t.co/jXcEPIMi86",
-    "kullanici": "SkySportsPL",
-    "zaman": "2026-10-24T13:00:01.000Z",
+    "id": "2114025037946651071",
+    "metin": "Ben White's game by numbers vs. Everton:\n\n100% duels won (5/5)\n6 touches in opp. box \n4x possession won \n3 chances created \n1 tackles \n1 assist \n0 fouls conceded \n\nHis third PL assist of the season. 🅰️ https://t.co/uucygEHnWY",
+    "kullanici": "Squawka",
+    "zaman": "2026-10-24T16:03:40.000Z",
+    "metrik": {
+     "bookmark_count": 2,
+     "impression_count": 4015,
+     "like_count": 52,
+     "quote_count": 1,
+     "reply_count": 2,
+     "retweet_count": 14
+    }
+   },
+   {
+    "id": "2114024991851270293",
+    "metin": "Arsenal 2-0 Everton\n\nGoals from central defensive pair Gabriel Magalhães and Ezri Konsa give Arsenal the win &amp; take them level on points with Manchester City at the top of the Premier League table. https://t.co/pAHOfjIawk",
+    "kullanici": "OptaAnalyst",
+    "zaman": "2026-10-24T16:03:29.000Z",
     "metrik": {
      "bookmark_count": 0,
-     "impression_count": 16975,
-     "like_count": 19,
+     "impression_count": 1921,
+     "like_count": 14,
      "quote_count": 0,
      "reply_count": 1,
      "retweet_count": 4
     }
    },
    {
-    "id": "2113977804278694359",
-    "metin": "Erling Haaland scored in his seventh consecutive Premier League game, but Manchester City were level for just eight minutes against Aston Villa.\n\nNicolas Jackson's effort squirmed underneath the grasp of Gianluigi Donnarumma.\n\nShould the Italian goalkeeper have done better?\n\n🔗 https://t.co/CvzOEHBZAW",
+    "id": "2114023752157536507",
+    "metin": "A 2-0 win against Everton puts @Arsenal level on points with Man City at the top of the table 👊 https://t.co/vyPMpiyOHz",
+    "kullanici": "premierleague",
+    "zaman": "2026-10-24T15:58:33.000Z",
+    "metrik": {
+     "bookmark_count": 12,
+     "impression_count": 58997,
+     "like_count": 1740,
+     "quote_count": 21,
+     "reply_count": 53,
+     "retweet_count": 307
+    }
+   },
+   {
+    "id": "2114023609975058932",
+    "metin": "FULL-TIME: Oscar Bobb's strike gave Fulham back-to-back wins in the Premier League ✅ https://t.co/GkdJgSsTTH",
+    "kullanici": "SkySportsPL",
+    "zaman": "2026-10-24T15:57:59.000Z",
+    "metrik": {
+     "bookmark_count": 1,
+     "impression_count": 34043,
+     "like_count": 190,
+     "quote_count": 1,
+     "reply_count": 4,
+     "retweet_count": 11
+    }
+   },
+   {
+    "id": "2114023439811920219",
+    "metin": "Goals from centre-halves Ezri Konsa and Gabriel gave Arsenal a routine 2-0 win over Everton at the Emirates Stadium.\n\nMikel Arteta's side are now unbeaten in their last eight Premier League matches against Everton and move level on points with Manchester City at the top of the https://t.co/jo1J24qImn",
     "kullanici": "TheAthleticFC",
-    "zaman": "2026-10-24T12:55:59.000Z",
+    "zaman": "2026-10-24T15:57:19.000Z",
     "metrik": {
      "bookmark_count": 0,
-     "impression_count": 15561,
-     "like_count": 48,
-     "quote_count": 0,
-     "reply_count": 6,
-     "retweet_count": 7
-    }
-   },
-   {
-    "id": "2113977728492044333",
-    "metin": "Gianluigi Donnarumma. Just shave it off mate.  https://t.co/aqLIzUAMJF",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-24T12:55:40.000Z",
-    "metrik": {
-     "bookmark_count": 2,
-     "impression_count": 6574,
-     "like_count": 23,
+     "impression_count": 17332,
+     "like_count": 117,
      "quote_count": 1,
+     "reply_count": 5,
+     "retweet_count": 12
+    }
+   },
+   {
+    "id": "2114023372048986290",
+    "metin": "FULL-TIME: Goals from Konsa and Gabriel secure the three points for the Champions against Everton 💪🔴 https://t.co/i1Htw2nTAr",
+    "kullanici": "SkySportsPL",
+    "zaman": "2026-10-24T15:57:03.000Z",
+    "metrik": {
+     "bookmark_count": 4,
+     "impression_count": 37967,
+     "like_count": 449,
+     "quote_count": 6,
+     "reply_count": 12,
+     "retweet_count": 54
+    }
+   },
+   {
+    "id": "2114022913384780110",
+    "metin": "Oscar Bobb's second-half strike leaves @FulhamFC in 12th spot after back-to-back wins 👊 https://t.co/lQ6TkgQziT",
+    "kullanici": "premierleague",
+    "zaman": "2026-10-24T15:55:13.000Z",
+    "metrik": {
+     "bookmark_count": 3,
+     "impression_count": 69920,
+     "like_count": 761,
+     "quote_count": 4,
+     "reply_count": 19,
+     "retweet_count": 51
+    }
+   },
+   {
+    "id": "2114022867964968995",
+    "metin": "ONE GOAL EACH. GAME ON! 👀🔥 https://t.co/J3YO0ieeRZ",
+    "kullanici": "LaLigaEN",
+    "zaman": "2026-10-24T15:55:03.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 4243,
+     "like_count": 17,
+     "quote_count": 0,
      "reply_count": 0,
-     "retweet_count": 0
+     "retweet_count": 1
     }
    },
    {
-    "id": "2113977448249606492",
-    "metin": "Of the 35 players to have scored 20+ non-penalty goals since the start of 2023-24, only four have a higher non-pen goals-per-game rate than Nicolas Jackson.\n\nErling Haaland (0.69)\nAlexander Isak (0.51)\nOllie Watkins (0.44)\nMohamed Salah (0.40) \nNicolas Jackson (0.39)",
-    "kullanici": "OptaAnalyst",
-    "zaman": "2026-10-24T12:54:34.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 3543,
-     "like_count": 15,
-     "quote_count": 0,
-     "reply_count": 1,
-     "retweet_count": 3
-    }
-   },
-   {
-    "id": "2113977338711187923",
-    "metin": "🇳🇴 Erling Haaland has now scored in 9 consecutive appearances for Manchester City.\n\n⚽️⚽️ Crystal Palace\n⚽️ Coventry City\n⚽️⚽️ Porto\n⚽️ Manchester United\n⚽️ Sunderland\n⚽️ Liverpool\n⚽️⚽️ Paris Saint-Germain\n⚽️⚽️ Ipswich Town\n⚽️ Aston Villa \n\n𝗠𝗥. 𝗜𝗡𝗘𝗩𝗜𝗧𝗔𝗕𝗟𝗘. https://t.co/ADkiq0Vu3q",
+    "id": "2114021511711596701",
+    "metin": "The best defensive partnership in world football right now. \n\nEzri Konsa and Gabriel Magalhães. https://t.co/weXojiMEdQ https://t.co/qtSeLCpDPU",
     "kullanici": "Footballtweet",
-    "zaman": "2026-10-24T12:54:08.000Z",
+    "zaman": "2026-10-24T15:49:39.000Z",
     "metrik": {
      "bookmark_count": 1,
-     "impression_count": 4220,
-     "like_count": 21,
-     "quote_count": 0,
-     "reply_count": 2,
-     "retweet_count": 2
-    }
-   },
-   {
-    "id": "2113977167428112452",
-    "metin": "Nicolas Jackson has now scored 6 goals in his last 6 appearances across all competitions for Aston Villa:\n\n⚽ vs Tottenham\n⚽ vs Brentford\n⚽⚽ vs Fenerbahçe\n➖ vs Newcastle\n➖ vs Viking\n⚽⚽ vs Manchester City \n\nA brace against City at Villa Park. On fire. 🔥 https://t.co/EWAnCaWwsz https://t.co/RG0IelE0Sm",
-    "kullanici": "WhoScored",
-    "zaman": "2026-10-24T12:53:27.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 5864,
-     "like_count": 33,
+     "impression_count": 9448,
+     "like_count": 120,
      "quote_count": 2,
      "reply_count": 0,
-     "retweet_count": 5
+     "retweet_count": 9
     }
    },
    {
-    "id": "2113976992777277869",
-    "metin": "🇳🇴 Erling Haaland has now scored in 9 consecutive appearances games for Manchester City.\n\n⚽️⚽️ Crystal Palace\n⚽️ Coventry City\n⚽️⚽️ Porto\n⚽️ Manchester United\n⚽️ Sunderland\n⚽️ Liverpool\n⚽️⚽️ Paris Saint-Germain\n⚽️⚽️ Ipswich Town\n⚽️ Aston Villa \n\n𝗠𝗥. 𝗜𝗡𝗘𝗩𝗜𝗧𝗔𝗕𝗟𝗘. https://t.co/MOYaFV676w",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-24T12:52:45.000Z",
+    "id": "2114021439875563890",
+    "metin": "Luis Enrique showing his full support and confidence in Kvara! 🫂❤️‍🩹 https://t.co/vU00yEV45C",
+    "kullanici": "Ligue1_ENG",
+    "zaman": "2026-10-24T15:49:22.000Z",
     "metrik": {
      "bookmark_count": 0,
-     "impression_count": 4240,
-     "like_count": 10,
+     "impression_count": 2267,
+     "like_count": 21,
      "quote_count": 0,
-     "reply_count": 2,
+     "reply_count": 0,
      "retweet_count": 1
     }
    },
    {
-    "id": "2113976872119783697",
-    "metin": "Nicolas Jackson scores AGAIN!\n\n@AstonVilla are back into the lead! https://t.co/Qn3ildCWfV",
+    "id": "2114020665195937871",
+    "metin": "Oscar Bobb's strike gives @fulhamfc a late lead! 😮‍💨\n\nLess than five minutes of the 90 remain in Coventry... 👀 https://t.co/8a01Zg3RE8",
     "kullanici": "premierleague",
-    "zaman": "2026-10-24T12:52:16.000Z",
+    "zaman": "2026-10-24T15:46:17.000Z",
     "metrik": {
-     "bookmark_count": 11,
-     "impression_count": 71750,
-     "like_count": 1380,
-     "quote_count": 35,
-     "reply_count": 52,
-     "retweet_count": 160
+     "bookmark_count": 3,
+     "impression_count": 93552,
+     "like_count": 1079,
+     "quote_count": 2,
+     "reply_count": 20,
+     "retweet_count": 62
     }
    },
    {
-    "id": "2113976294337630697",
-    "metin": "Nicolas Jackson has now scored six goals in his last six games for Aston Villa. 😀 https://t.co/2Byr3Ur6UY",
-    "kullanici": "Squawka",
-    "zaman": "2026-10-24T12:49:59.000Z",
+    "id": "2114020616135188709",
+    "metin": "It was always going to be a mistake or a moment of quality that decided the game in the West Midlands and Oscar Bobb has provided the latter.\n\nThe Norwegian opens his Fulham account with a wonderful goal against Coventry City with his last kick of the game.\n\nWhat a way to depart https://t.co/J5ZKbuYOC2",
+    "kullanici": "TheAthleticFC",
+    "zaman": "2026-10-24T15:46:06.000Z",
     "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 9544,
-     "like_count": 47,
-     "quote_count": 0,
-     "reply_count": 2,
-     "retweet_count": 3
-    }
-   },
-   {
-    "id": "2113976281691808186",
-    "metin": "Erling Haaland has only failed to score in ONE Premier League match this season:\n\n➖ vs Bournemouth\n⚽️⚽️ vs Crystal Palace\n⚽️ vs Coventry\n⚽️ vs Manchester United\n⚽️ vs Sunderland\n⚽️ vs Liverpool\n⚽️⚽️ vs Ipswich\n⚽️ vs Aston Villa\n\n9 goals across 8 appearances. 🤖 https://t.co/nHhCdeOmvs",
-    "kullanici": "WhoScored",
-    "zaman": "2026-10-24T12:49:55.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 5991,
-     "like_count": 28,
-     "quote_count": 0,
-     "reply_count": 1,
-     "retweet_count": 2
-    }
-   },
-   {
-    "id": "2113975972173160902",
-    "metin": "Erling Haaland has now scored in each of his last SEVEN Premier League away games. \n\n⚽️ vs. Burnley \n⚽ vs. Everton \n⚽ vs. Bournemouth\n⚽⚽ vs. Crystal Palace \n⚽ vs. Man Utd \n⚽ vs. Liverpool\n⚽ vs. Aston Villa \n\nOnly Robin van Persie (9) has a longer streak in the https://t.co/CQMOJ4v2D1",
-    "kullanici": "Squawka",
-    "zaman": "2026-10-24T12:48:42.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 9643,
-     "like_count": 38,
+     "bookmark_count": 2,
+     "impression_count": 18898,
+     "like_count": 78,
      "quote_count": 0,
      "reply_count": 1,
      "retweet_count": 4
     }
    },
    {
-    "id": "2113975402888646731",
-    "metin": "Six goals in his last four games for Erling Haaland 🤖 https://t.co/aIGU68MenQ",
-    "kullanici": "brfootball",
-    "zaman": "2026-10-24T12:46:26.000Z",
-    "metrik": {
-     "bookmark_count": 4,
-     "impression_count": 28996,
-     "like_count": 518,
-     "quote_count": 0,
-     "reply_count": 3,
-     "retweet_count": 21
-    }
-   },
-   {
-    "id": "2113975271581790568",
-    "metin": "Erling Haaland scores for the seventh match in a row!\n\n@ManCity are now level with Aston Villa ⚖️ https://t.co/f09TFTEwb1",
-    "kullanici": "premierleague",
-    "zaman": "2026-10-24T12:45:55.000Z",
-    "metrik": {
-     "bookmark_count": 2,
-     "impression_count": 79478,
-     "like_count": 799,
-     "quote_count": 6,
-     "reply_count": 37,
-     "retweet_count": 69
-    }
-   },
-   {
-    "id": "2113974397350625747",
-    "metin": "It took just seven minutes of the second half for him to make it 9 in a row.\n\nHe's only had a longer scoring streak than this once across his City career: 10 games in a row between 21 August and 8 October 2022. https://t.co/felYw7O1rX",
-    "kullanici": "OptaAnalyst",
-    "zaman": "2026-10-24T12:42:26.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 5722,
-     "like_count": 17,
-     "quote_count": 1,
-     "reply_count": 0,
-     "retweet_count": 1
-    }
-   },
-   {
-    "id": "2113973622859813043",
-    "metin": "Ahead of his El Clasico debut, Rodri has warned his Barcelona teammates to expect a fierce response from Real Madrid ⚠\n\nRead the full quotes 🔗 https://t.co/v5lUe48PhX https://t.co/TThdWEnUWC",
-    "kullanici": "goal",
-    "zaman": "2026-10-24T12:39:22.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 17593,
-     "like_count": 46,
-     "quote_count": 0,
-     "reply_count": 3,
-     "retweet_count": 6
-    }
-   },
-   {
-    "id": "2113971885839192301",
-    "metin": "🤔 What's happened to Marc Guéhi this season? \n\nThe last three goal that Manchester City have conceded were his mistake. https://t.co/UJHwNCddrT https://t.co/BKGk0MMsAK",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-24T12:32:27.000Z",
+    "id": "2114020378662068347",
+    "metin": "It was always going to be a mistake or a moment of quality that decided the game in the East Midlands and Oscar Bobb has provided the latter.\n\nThe Norwegian opens his Fulham account with a wonderful goal against Coventry City with his last kick of the game.\n\nWhat a way to depart https://t.co/UqYFqhIzDS",
+    "kullanici": "TheAthleticFC",
+    "zaman": "2026-10-24T15:45:09.000Z",
     "metrik": {
      "bookmark_count": 0,
-     "impression_count": 9129,
-     "like_count": 19,
-     "quote_count": 1,
-     "reply_count": 4,
-     "retweet_count": 0
-    }
-   },
-   {
-    "id": "2113971185977311637",
-    "metin": "Manchester City have scored in 23 successive Premier League matches before today.\n\nThe last time they failed to score in a Premier League game was back in January vs rivals Man Utd. https://t.co/Q2tFG8aLZf",
-    "kullanici": "OptaAnalyst",
-    "zaman": "2026-10-24T12:29:41.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 5982,
-     "like_count": 17,
-     "quote_count": 1,
+     "impression_count": 14596,
+     "like_count": 13,
+     "quote_count": 0,
      "reply_count": 1,
-     "retweet_count": 1
+     "retweet_count": 3
     }
    },
    {
-    "id": "2113970939490898038",
-    "metin": "🗣️ \"Remember the name...\" https://t.co/nVlvnaGV6Z https://t.co/fJ3Rs4CJph",
+    "id": "2114019999660601635",
+    "metin": "Glasner was right. https://t.co/3BeN8GkXRU",
     "kullanici": "Footballtweet",
-    "zaman": "2026-10-24T12:28:42.000Z",
+    "zaman": "2026-10-24T15:43:39.000Z",
     "metrik": {
      "bookmark_count": 0,
-     "impression_count": 8955,
+     "impression_count": 9053,
      "like_count": 34,
      "quote_count": 0,
-     "reply_count": 3,
-     "retweet_count": 4
-    }
-   },
-   {
-    "id": "2113970866094834102",
-    "metin": "Joga Bonito is back! 🔙\n\nBrazilian maestro Ronaldinho readies himself for a professional comeback in Italy next month 👀\n\nRead the full story 🔗 https://t.co/VJfrroeByo https://t.co/AeZiBEYzUS",
-    "kullanici": "goal",
-    "zaman": "2026-10-24T12:28:24.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 19944,
-     "like_count": 64,
-     "quote_count": 0,
-     "reply_count": 4,
-     "retweet_count": 10
-    }
-   },
-   {
-    "id": "2113970557750493359",
-    "metin": "Marc Guéhi’s first half vs Aston Villa:\n\n⏱️ 45 Minutes \n🤕 1 error leading to a goal\n🟨 1 Yellow Card \n❌ 0 Tackles Won \n📉 5.12 WhoScored rating (lowest on pitch)\n\nA tough afternoon so far at Villa Park. 😬 https://t.co/A8kAOQ4IPh",
-    "kullanici": "WhoScored",
-    "zaman": "2026-10-24T12:27:11.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 9662,
-     "like_count": 55,
-     "quote_count": 5,
      "reply_count": 2,
-     "retweet_count": 11
-    }
-   },
-   {
-    "id": "2113970171496849554",
-    "metin": "Nicolas Jackson's first half by numbers vs. Man City:\n\n5 duels won \n3x possession won \n2 fouls won \n2 touches in opp. box \n2 shots\n1 shot on target \n1 goal \n\nHis 5th goal in his last six games for Villa. ⚽ https://t.co/OvKK3KsO04 https://t.co/2Byr3Ur6UY",
-    "kullanici": "Squawka",
-    "zaman": "2026-10-24T12:25:39.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 13272,
-     "like_count": 68,
-     "quote_count": 0,
-     "reply_count": 0,
-     "retweet_count": 11
-    }
-   },
-   {
-    "id": "2113969771175670125",
-    "metin": "Aston Villa vs Manchester City | Half-time player ratings:\n\n◉ 7.50 - Zion Suzuki \n◎ 7.30 - Nicolas Jackson\n◎ 7.26 - John McGinn\n◎ 6.94 - Abdukodir Khusanov\n◎ 6.93 - Matty Cash\n\n#AVLMCI https://t.co/zgBAXMPoU1",
-    "kullanici": "WhoScored",
-    "zaman": "2026-10-24T12:24:03.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 11159,
-     "like_count": 65,
-     "quote_count": 0,
-     "reply_count": 2,
-     "retweet_count": 6
-    }
-   },
-   {
-    "id": "2113969637738062146",
-    "metin": "Erling Haaland's scored in each of his last eight appearances for Man City (12 goals), but he didn't attempt a single shot in the first half versus Aston Villa today. https://t.co/8kfd2nbubi",
-    "kullanici": "OptaAnalyst",
-    "zaman": "2026-10-24T12:23:31.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 10770,
-     "like_count": 37,
-     "quote_count": 3,
-     "reply_count": 0,
-     "retweet_count": 4
-    }
-   },
-   {
-    "id": "2113969413124698325",
-    "metin": "Man City's 29 touches in the Villa box is the most by a side in the first half of a Premier League game this season. \n\nBut they have nothing to show for it. ❌ https://t.co/doaUtrWiKw",
-    "kullanici": "Squawka",
-    "zaman": "2026-10-24T12:22:38.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 13095,
-     "like_count": 26,
-     "quote_count": 1,
-     "reply_count": 0,
      "retweet_count": 3
     }
    },
    {
-    "id": "2113969331000553595",
-    "metin": "John McGinn created more chances (3) than any other player in the first half. 🪄\n\n#AVLMCI https://t.co/XofP7Vab72",
-    "kullanici": "WhoScored",
-    "zaman": "2026-10-24T12:22:18.000Z",
+    "id": "2114019772249596009",
+    "metin": "🗣️ Sir Alex Ferguson once said: \"Attack wins you games, defence wins you titles.\"\n\nMikel Arteta took that 𝗩𝗘𝗥𝗬 seriously and assembled a defence that gets clean sheets 𝗔𝗡𝗗 can win games at the other end.\n\n🇳🇱 Jurrien Timber — £34M\n🇫🇷 William Saliba — £27M\n🇧🇷 Gabriel — £27M https://t.co/cdT8Vguv1X",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-24T15:42:44.000Z",
     "metrik": {
      "bookmark_count": 0,
-     "impression_count": 8485,
-     "like_count": 60,
+     "impression_count": 13636,
+     "like_count": 85,
+     "quote_count": 1,
+     "reply_count": 3,
+     "retweet_count": 11
+    }
+   },
+   {
+    "id": "2114018662151496073",
+    "metin": "Gabriel Magalhães has now scored 21 goals in 200 Premier League appearances for Arsenal. \n\nThat's at least three more than any other defender since he made his debut the competition in September 2020. ⚽ https://t.co/BUjyCQeUEF",
+    "kullanici": "Squawka",
+    "zaman": "2026-10-24T15:38:20.000Z",
+    "metrik": {
+     "bookmark_count": 12,
+     "impression_count": 15859,
+     "like_count": 496,
+     "quote_count": 4,
+     "reply_count": 3,
+     "retweet_count": 99
+    }
+   },
+   {
+    "id": "2114018447965249846",
+    "metin": "Gabriel doubles Arsenal's lead against Everton on his 200th Premier League appearance for the club.\n\nArsenal have won 65% of their games when the Brazilian plays compared to just 44% when he doesn’t.\n\nAmong players to have played more than 150 Premier League games, only Lauren https://t.co/qxzuU2Y7pk",
+    "kullanici": "TheAthleticFC",
+    "zaman": "2026-10-24T15:37:29.000Z",
+    "metrik": {
+     "bookmark_count": 4,
+     "impression_count": 28780,
+     "like_count": 222,
+     "quote_count": 1,
+     "reply_count": 5,
+     "retweet_count": 16
+    }
+   },
+   {
+    "id": "2114018387924021632",
+    "metin": "🇧🇷 Gabriel scores his first goal of the 2026/27 season on his 200th Premier league appearance for Arsenal.\n\n🗣️🎵 \"You'll fall in love, I know you will,\nOur number 6 is the king of Brazil.\nOur centre half, he'll give you hell,\nOur wall at the back is Gabriel.\" https://t.co/O3YuFzmgxe",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-24T15:37:14.000Z",
+    "metrik": {
+     "bookmark_count": 1,
+     "impression_count": 8589,
+     "like_count": 41,
      "quote_count": 0,
-     "reply_count": 1,
+     "reply_count": 2,
      "retweet_count": 2
     }
    },
    {
-    "id": "2113969210409750644",
-    "metin": "Nicolas Jackson’s sixth goal of the season in all competitions gives @AstonVilla a half-time lead over Man City ⚽️ https://t.co/B7axfCUpir",
-    "kullanici": "premierleague",
-    "zaman": "2026-10-24T12:21:50.000Z",
+    "id": "2114017539164381578",
+    "metin": "Gabriel scores his first goal of the season on his 200th PL appearance for Arsenal.\n\nAnd with a header, of course 😉 https://t.co/cAWAUfPTDn",
+    "kullanici": "brfootball",
+    "zaman": "2026-10-24T15:33:52.000Z",
     "metrik": {
-     "bookmark_count": 9,
-     "impression_count": 139012,
-     "like_count": 2327,
-     "quote_count": 9,
-     "reply_count": 70,
-     "retweet_count": 137
+     "bookmark_count": 33,
+     "impression_count": 53580,
+     "like_count": 3423,
+     "quote_count": 11,
+     "reply_count": 29,
+     "retweet_count": 407
     }
    },
    {
-    "id": "2113967594697077106",
-    "metin": "No boot, no problem 👟\n\nJohan Manzambi putting it all in for @AstonVilla, even after his shoe came off in a tackle! 💪 https://t.co/aJaXSbYqVA",
+    "id": "2114017343609188688",
+    "metin": "Two goals to the good for @arsenal 👏\n\nGabriel nets the Gunners' second on his 200th appearance for the club 🔴 https://t.co/IRO6YKZr7l",
     "kullanici": "premierleague",
-    "zaman": "2026-10-24T12:15:24.000Z",
+    "zaman": "2026-10-24T15:33:05.000Z",
     "metrik": {
-     "bookmark_count": 17,
-     "impression_count": 138383,
-     "like_count": 3080,
-     "quote_count": 10,
-     "reply_count": 42,
-     "retweet_count": 168
+     "bookmark_count": 16,
+     "impression_count": 114295,
+     "like_count": 2913,
+     "quote_count": 3,
+     "reply_count": 43,
+     "retweet_count": 359
     }
    },
    {
-    "id": "2113964975882707075",
-    "metin": "Ahmetcan Kaplan with an unreal clearance 🤯\n\n#UEL | @necnijmegen https://t.co/WVFsr4WEOD",
-    "kullanici": "EuropaLeague",
-    "zaman": "2026-10-24T12:05:00.000Z",
+    "id": "2114017173907935439",
+    "metin": "#NapoliRoma team news 🤩 https://t.co/LcFsbRGDWU",
+    "kullanici": "SerieA_EN",
+    "zaman": "2026-10-24T15:32:25.000Z",
     "metrik": {
      "bookmark_count": 1,
-     "impression_count": 28447,
-     "like_count": 169,
-     "quote_count": 4,
-     "reply_count": 5,
-     "retweet_count": 10
-    }
-   },
-   {
-    "id": "2113964483701809432",
-    "metin": "Nicolas Jackson across his last 6 matches in all competitions:\n\n👕 6 Games \n⚽️ 5 Goals \n\nElite run of form right now. 📈🇸🇳 https://t.co/phhPHx3kS1",
-    "kullanici": "WhoScored",
-    "zaman": "2026-10-24T12:03:03.000Z",
-    "metrik": {
-     "bookmark_count": 2,
-     "impression_count": 16708,
-     "like_count": 360,
-     "quote_count": 7,
-     "reply_count": 9,
-     "retweet_count": 35
-    }
-   },
-   {
-    "id": "2113963811979882600",
-    "metin": "Lassine Sinayoko is delivering week after week 🇲🇱🔥 https://t.co/WEaf4Co2Ny",
-    "kullanici": "Ligue1_ENG",
-    "zaman": "2026-10-24T12:00:22.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 2992,
-     "like_count": 30,
-     "quote_count": 0,
-     "reply_count": 0,
-     "retweet_count": 1
-    }
-   },
-   {
-    "id": "2113963722188484818",
-    "metin": "A massive London derby on Saturday Night Football! 🤩\n\nWatch Chelsea take on Spurs with NOW: https://t.co/0AejI4BG3d https://t.co/rzAsevP2h1",
-    "kullanici": "SkySportsPL",
-    "zaman": "2026-10-24T12:00:01.000Z",
-    "metrik": {
-     "bookmark_count": 4,
-     "impression_count": 66248,
-     "like_count": 706,
-     "quote_count": 3,
-     "reply_count": 9,
-     "retweet_count": 30
-    }
-   },
-   {
-    "id": "2113963009282584715",
-    "metin": "Side note away from the actual football.\n\n👕 Manchester City's third kit is a 10/10. https://t.co/qoezccl9A4",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-24T11:57:11.000Z",
-    "metrik": {
-     "bookmark_count": 2,
-     "impression_count": 13547,
-     "like_count": 199,
+     "impression_count": 3017,
+     "like_count": 31,
      "quote_count": 1,
-     "reply_count": 2,
+     "reply_count": 0,
      "retweet_count": 8
     }
    },
    {
-    "id": "2113961917949870455",
-    "metin": "If you rate Nicolas Jackson, you know ball. https://t.co/wiy06EAl1y https://t.co/jYhG0lsSGJ",
+    "id": "2114016772839874631",
+    "metin": "🧠 I believe Jamie Carragher might be the best pundit out there. https://t.co/La0a8UVFdt",
     "kullanici": "Footballtweet",
-    "zaman": "2026-10-24T11:52:51.000Z",
+    "zaman": "2026-10-24T15:30:49.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 13668,
+     "like_count": 43,
+     "quote_count": 0,
+     "reply_count": 0,
+     "retweet_count": 0
+    }
+   },
+   {
+    "id": "2114016605378429245",
+    "metin": "Anastosios Douvikas is the Panini Player of the Match 🏆 \n\n#ComoSassuolo https://t.co/nDcQRlqlFL",
+    "kullanici": "SerieA_EN",
+    "zaman": "2026-10-24T15:30:09.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 2624,
+     "like_count": 16,
+     "quote_count": 0,
+     "reply_count": 1,
+     "retweet_count": 5
+    }
+   },
+   {
+    "id": "2114015415173325202",
+    "metin": "A London derby beckons for @ChelseaFC and @SpursOfficial 👀\n\nTake a look at some BIG team news from Stamford Bridge ➡️ https://t.co/o1ncNQ0fYE https://t.co/4y3yNQXGc3",
+    "kullanici": "premierleague",
+    "zaman": "2026-10-24T15:25:26.000Z",
+    "metrik": {
+     "bookmark_count": 6,
+     "impression_count": 120384,
+     "like_count": 2081,
+     "quote_count": 2,
+     "reply_count": 21,
+     "retweet_count": 125
+    }
+   },
+   {
+    "id": "2114014473757344242",
+    "metin": "🥇 2025 Ballon d'Or\n\n#ballondor https://t.co/BhrcWIy085",
+    "kullanici": "ChampionsLeague",
+    "zaman": "2026-10-24T15:21:41.000Z",
+    "metrik": {
+     "bookmark_count": 54,
+     "impression_count": 205383,
+     "like_count": 5734,
+     "quote_count": 19,
+     "reply_count": 52,
+     "retweet_count": 272
+    }
+   },
+   {
+    "id": "2114011233531867308",
+    "metin": "ITK who genuinely knows things... https://t.co/tteBgxmDAA",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-24T15:08:49.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 11195,
+     "like_count": 50,
+     "quote_count": 0,
+     "reply_count": 2,
+     "retweet_count": 3
+    }
+   },
+   {
+    "id": "2114008046368096563",
+    "metin": "Myles Lewis-Skelly for Arsenal in the first half vs. Everton:\n\n◉= Most duels won (4) \n◉ Most possessions won (4)\n◉ Most tackles (2) \n◉= Most fouls won (2) \n\nAnd he won 100% of his duels. 💯 https://t.co/EEeDaCZIZT",
+    "kullanici": "Squawka",
+    "zaman": "2026-10-24T14:56:09.000Z",
+    "metrik": {
+     "bookmark_count": 8,
+     "impression_count": 22327,
+     "like_count": 963,
+     "quote_count": 7,
+     "reply_count": 12,
+     "retweet_count": 135
+    }
+   },
+   {
+    "id": "2114007728297287695",
+    "metin": "Wolves are the first team to have had 15+ more shots than their opponents in the first half of a league game across England's top four tiers this season.\n\nWolves lead 1-0 against Watford, despite having 17 shots and the Hornets attempting 0. https://t.co/QD9m1uHXPC",
+    "kullanici": "OptaAnalyst",
+    "zaman": "2026-10-24T14:54:53.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 8659,
+     "like_count": 24,
+     "quote_count": 2,
+     "reply_count": 1,
+     "retweet_count": 4
+    }
+   },
+   {
+    "id": "2114007681346224325",
+    "metin": "Douvikas' brace gives Como all three points ⚪🔵\n\n#ComoSassuolo https://t.co/q4FYNsqPAx",
+    "kullanici": "SerieA_EN",
+    "zaman": "2026-10-24T14:54:42.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 3057,
+     "like_count": 20,
+     "quote_count": 0,
+     "reply_count": 0,
+     "retweet_count": 2
+    }
+   },
+   {
+    "id": "2114007655895408749",
+    "metin": "Arsenal vs Everton | Half-time player ratings:\n\n7.59 - Ezri Konsa\n7.14 - David Raya\n7.10 - Declan Rice\n6.87 - Thierno Barry\n6.77 - Myles Lewis-Skelly\n\n#ARSEVE https://t.co/bM6MQMTsan",
+    "kullanici": "WhoScored",
+    "zaman": "2026-10-24T14:54:36.000Z",
     "metrik": {
      "bookmark_count": 1,
-     "impression_count": 22572,
-     "like_count": 122,
-     "quote_count": 2,
-     "reply_count": 5,
-     "retweet_count": 10
+     "impression_count": 11298,
+     "like_count": 54,
+     "quote_count": 0,
+     "reply_count": 0,
+     "retweet_count": 2
     }
    },
    {
-    "id": "2113961535538385268",
-    "metin": "🇸🇳 Nicolas Jackson's celebration is becoming iconic. https://t.co/jN7QS4ZSmY",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-24T11:51:20.000Z",
+    "id": "2114007276273217597",
+    "metin": "Bologna get the win on the road 👏\n\n#CagliariBologna https://t.co/IxkbtD1SuJ",
+    "kullanici": "SerieA_EN",
+    "zaman": "2026-10-24T14:53:05.000Z",
     "metrik": {
-     "bookmark_count": 3,
-     "impression_count": 24189,
-     "like_count": 325,
-     "quote_count": 2,
-     "reply_count": 4,
-     "retweet_count": 17
+     "bookmark_count": 0,
+     "impression_count": 2796,
+     "like_count": 12,
+     "quote_count": 0,
+     "reply_count": 0,
+     "retweet_count": 0
     }
    },
    {
-    "id": "2113960889732993244",
-    "metin": "It took only six minutes for Nico Jackson to score for Aston Villa vs. Man City ⏱️ https://t.co/NAHGyItMUE",
+    "id": "2114007256845242382",
+    "metin": "Como's Anastasios Douvikas has had an incredible week:\n\n⚽️ vs. Man Utd in the Champions League\n⚽️⚽️ vs. Sassuolo in Serie A https://t.co/64Qm7UKg0O",
     "kullanici": "brfootball",
-    "zaman": "2026-10-24T11:48:46.000Z",
+    "zaman": "2026-10-24T14:53:01.000Z",
     "metrik": {
-     "bookmark_count": 18,
-     "impression_count": 67646,
-     "like_count": 4550,
-     "quote_count": 5,
-     "reply_count": 37,
-     "retweet_count": 180
+     "bookmark_count": 16,
+     "impression_count": 68609,
+     "like_count": 3763,
+     "quote_count": 4,
+     "reply_count": 21,
+     "retweet_count": 120
     }
    },
    {
-    "id": "2113960653241139394",
-    "metin": "It's been a breathless start at Villa Park and the home side have an early lead against Manchester City.\n\nMarc Guehi makes a mistake and Nicolas Jackson punishes him with an emphatic finish past Gianluigi Donnarumma.\n\nAston Villa had 92 per cent possession in the opening five https://t.co/2guz6mqPP3",
-    "kullanici": "TheAthleticFC",
-    "zaman": "2026-10-24T11:47:49.000Z",
+    "id": "2114007031317430286",
+    "metin": "Declan Rice created TWICE as many chances (4) as the ENTIRE Everton team combined (2) in the first half. 🤯🪄 https://t.co/Z2j7kvRr5H",
+    "kullanici": "WhoScored",
+    "zaman": "2026-10-24T14:52:07.000Z",
     "metrik": {
-     "bookmark_count": 3,
-     "impression_count": 35703,
-     "like_count": 214,
-     "quote_count": 1,
-     "reply_count": 6,
-     "retweet_count": 11
+     "bookmark_count": 4,
+     "impression_count": 12124,
+     "like_count": 476,
+     "quote_count": 3,
+     "reply_count": 3,
+     "retweet_count": 44
     }
    },
    {
-    "id": "2113960096917254440",
-    "metin": "Nicolas Jackson has now scored five goals in his last six games for Aston Villa:\n\n⚽️ vs. Tottenham \n⚽️ vs. Brentford\n⚽️⚽️ vs. Fenerbahce\n❌ vs. Newcastle \n❌ vs. Viking \n⚽️ vs. Man City \n\nFinding his feet at Villa Park. https://t.co/AaXEEjoiEA",
-    "kullanici": "Squawka",
-    "zaman": "2026-10-24T11:45:37.000Z",
+    "id": "2114006750181646650",
+    "metin": "When Jamie met Xabi. \n\n🗣️ Alonso: \"I wanted Carradona on the back, but they printed it wrong.\" https://t.co/42lyT9illY",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-24T14:51:00.000Z",
     "metrik": {
-     "bookmark_count": 5,
-     "impression_count": 32561,
-     "like_count": 201,
-     "quote_count": 2,
-     "reply_count": 7,
-     "retweet_count": 21
+     "bookmark_count": 8,
+     "impression_count": 15904,
+     "like_count": 84,
+     "quote_count": 0,
+     "reply_count": 0,
+     "retweet_count": 4
     }
    },
    {
-    "id": "2113959710650941685",
-    "metin": "Nicolas Jackson.\n\nThe @AstonVilla striker scores early to put his side ahead against Man City! https://t.co/Sfulbcf1qO",
+    "id": "2114006529137410269",
+    "metin": "Declan Rice created more chances (3) than the ENTIRE Everton team combined (2) in the first half. 🪄 https://t.co/tbc6Mit4Tm",
+    "kullanici": "WhoScored",
+    "zaman": "2026-10-24T14:50:07.000Z",
+    "metrik": {
+     "bookmark_count": 1,
+     "impression_count": 5534,
+     "like_count": 16,
+     "quote_count": 0,
+     "reply_count": 2,
+     "retweet_count": 2
+    }
+   },
+   {
+    "id": "2114006113788285244",
+    "metin": "The scores at half-time ⏸️\n\n@Arsenal 1-0 @Everton\n@CoventryCityFC 0-0 @FulhamFC https://t.co/LrF2UOLrR4",
     "kullanici": "premierleague",
-    "zaman": "2026-10-24T11:44:05.000Z",
+    "zaman": "2026-10-24T14:48:28.000Z",
     "metrik": {
-     "bookmark_count": 36,
-     "impression_count": 202130,
-     "like_count": 10955,
-     "quote_count": 41,
-     "reply_count": 117,
-     "retweet_count": 562
+     "bookmark_count": 9,
+     "impression_count": 188159,
+     "like_count": 2876,
+     "quote_count": 6,
+     "reply_count": 42,
+     "retweet_count": 200
+    }
+   },
+   {
+    "id": "2114004136765124667",
+    "metin": "Bernardeschi from the spot 🥶\n\n#CagliariBologna 0-2 https://t.co/mzIGmZtpmm",
+    "kullanici": "SerieA_EN",
+    "zaman": "2026-10-24T14:40:37.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 2987,
+     "like_count": 8,
+     "quote_count": 0,
+     "reply_count": 0,
+     "retweet_count": 1
+    }
+   },
+   {
+    "id": "2114002773096505614",
+    "metin": "14:50 – Richard Kone’s hat-trick against Swansea City is the earliest scored in an EFL match (15th minute) since the rebrand in 2004-05.\n\nBrisk.\n\nhttps://t.co/9JUQ85I6EQ",
+    "kullanici": "OptaJoe",
+    "zaman": "2026-10-24T14:35:12.000Z",
+    "metrik": {
+     "bookmark_count": 7,
+     "impression_count": 35869,
+     "like_count": 193,
+     "quote_count": 1,
+     "reply_count": 10,
+     "retweet_count": 23
     }
    }
   ]

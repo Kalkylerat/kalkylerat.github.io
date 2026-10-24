@@ -114,6 +114,9 @@ oto_max_kupon = 5
 # Maliyet: günde bir kez en fazla ~55 API-Football isteği (toplu oran sayfaları + eksik büyük maçlar).
 oto_tazele_saati = 11
 oto_max_ayak = 4
+# Ayak oranı yalnızca bu siteden (E6, sahibinin kararı 24 Ekim 2026): kombinenin toplam oranı tek sitede bulunur.
+# Bu sitede olmayan ya da fiyatı aykırı pazar kupona girmez. Boş bırakılırsa listedeki sitelerin en iyi fiyatı.
+oran_sitesi = "Bet365"
 # Kuponun toplam oranı bu aralıkta olur (sahibinin kararı): daha riskli, daha yüksek oranlı kuponlar.
 oto_oran_min = 2.0
 oto_oran_max = 4.0

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><title>Yorum fırsatları Mr. Likely · 13:00 UTC</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{overflow-wrap:anywhere;margin:0;background:#000;color:#e7e9ea;font:16px/1.45 -apple-system,system-ui,Roboto,sans-serif}
+main{max-width:640px;margin:0 auto;padding:16px}h1{font-size:18px;margin:4px 0 4px}.not{color:#ffd166;margin:0 0 12px}
+.oge{border:1px solid #2f3336;border-radius:14px;padding:14px;margin:0 0 18px}.kim{color:#71767b;font-size:14px}
+.post{color:#c4c9cc;font-size:14px;margin:6px 0 10px;white-space:pre-wrap}.ac{color:#1d9bf0;font-size:14px}
+.taslak{background:#16181c;border-radius:12px;padding:12px;margin:10px 0 0}.metin{white-space:pre-wrap;margin:0 0 10px}
+button{width:100%;border:0;border-radius:999px;padding:13px;font-size:16px;font-weight:700;background:#1d9bf0;color:#fff}
+button.ikinci{background:#2f3336;margin-top:8px;font-weight:600}
+</style></head><body><main>
+<h1>Yorum fırsatları Mr. Likely · 13:00 UTC</h1><p class="not">⚠️ Önce X&#x27;te Mr. Likely hesabına geç: post X&#x27;te açık olan hesapla açılır.</p>
+<p class="kim">Düğme metni panoya kopyalar ve postu X'te açar. X'te <b>Yanıtla</b>'ya dokun, kutuya uzun basıp
+<b>Yapıştır</b>, sonra gönder.</p>
+<section class="oge"><div class="kim">3. @SkySportsPL · Chelsea v Tottenham</div><p class="post">A massive London derby on Saturday Night Football! 🤩
+
+Watch Chelsea take on Spurs with NOW: https://t.co/0AejI4BG3d https://t.co/rzAsevP2h1</p><a class="ac" href="https://x.com/SkySportsPL/status/2113963722188484818">Postu X'te gör</a><div class="taslak"><div class="kim">1. taslak</div><p class="metin">London derbies never read the script. I&#x27;ve got Chelsea at 54%, so Spurs fans can enjoy that one in peace 😅</p><button onclick="kopyala(0,true,this)">📋 Kopyala ve postu aç</button><button class="ikinci" onclick="kopyala(0,false,this)">Sadece kopyala</button></div><div class="taslak"><div class="kim">2. taslak</div><p class="metin">Both teams score is 61% in my model. Dull answer, I know. Are you going for a 1-1 or a bit more chaos?</p><button onclick="kopyala(1,true,this)">📋 Kopyala ve postu aç</button><button class="ikinci" onclick="kopyala(1,false,this)">Sadece kopyala</button></div></section>
+</main><script>
+const V = [{"metin": "London derbies never read the script. I've got Chelsea at 54%, so Spurs fans can enjoy that one in peace 😅", "url": "https://x.com/SkySportsPL/status/2113963722188484818"}, {"metin": "Both teams score is 61% in my model. Dull answer, I know. Are you going for a 1-1 or a bit more chaos?", "url": "https://x.com/SkySportsPL/status/2113963722188484818"}];
+function kopyala(i, ac, btn) {
+  const t = V[i].metin, git = () => { if (ac) setTimeout(() => location.href = V[i].url, 350); };
+  const tamam = () => { btn.textContent = "✅ Kopyalandı" + (ac ? ", post açılıyor…" : ""); git(); };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(t).then(tamam, () => yedek(t, tamam));
+  } else { yedek(t, tamam); }
+}
+function yedek(t, tamam) {
+  const a = document.createElement("textarea"); a.value = t; document.body.appendChild(a); a.select();
+  try { document.execCommand("copy"); } catch (e) {} a.remove(); tamam();
+}
+</script></body></html>

@@ -106,13 +106,17 @@
   "2113918670443290993",
   "2113896272448942272",
   "2113933519177031696",
-  "2113903325414326279"
+  "2113903325414326279",
+  "2113975972173160902",
+  "2113976281691808186",
+  "2113963722188484818"
  ],
  "kalkylerat": {
   "tarih": "2026-10-24",
-  "gonderilen": 1,
+  "gonderilen": 3,
   "aramalar": [
-   10
+   10,
+   13
   ],
   "issue": {
    "tarih": "2026-10-24",
@@ -121,9 +125,10 @@
  },
  "likely": {
   "tarih": "2026-10-24",
-  "gonderilen": 2,
+  "gonderilen": 3,
   "aramalar": [
-   10
+   10,
+   13
   ],
   "issue": {
    "tarih": "2026-10-24",
@@ -132,510 +137,566 @@
  },
  "onbellek": {
   "tarih": "2026-10-24",
-  "saat": 10,
+  "saat": 13,
   "postlar": [
    {
-    "id": "2113934776407077305",
-    "metin": "📆 On this day, in 2002, Wayne Rooney scored his first Premier League goal for Manchester United, helping to end Arsenal’s long 49-game unbeaten run. \n\nThey just don't make rivalries like this anymore.  https://t.co/4yLXnGocWE",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-24T10:05:00.000Z",
+    "id": "2113978969351401616",
+    "metin": "Two goals, Elche are cooking!🟢⚪️ https://t.co/LZ9XSBRGNE",
+    "kullanici": "LaLigaEN",
+    "zaman": "2026-10-24T13:00:36.000Z",
     "metrik": {
      "bookmark_count": 0,
-     "impression_count": 2479,
+     "impression_count": 542,
      "like_count": 3,
      "quote_count": 0,
-     "reply_count": 1,
-     "retweet_count": 2
+     "reply_count": 0,
+     "retweet_count": 0
     }
    },
    {
-    "id": "2113933770264846500",
-    "metin": "Recast as a No 9, Raphinha started the season in sensational form — with 14 goals in his first eight games.\n\nHansi Flick made him captain. His relentless pressing leads from the front. Fans adore him.\n\nBut where does he stand among Barcelona's Brazilian greats, like Ronaldinho, https://t.co/4sfPziwjDt",
-    "kullanici": "TheAthleticFC",
-    "zaman": "2026-10-24T10:01:00.000Z",
+    "id": "2113978858898620500",
+    "metin": "Two goals, double the trouble! 🟢⚪️ https://t.co/sP2OMzDFtN",
+    "kullanici": "LaLigaEN",
+    "zaman": "2026-10-24T13:00:10.000Z",
     "metrik": {
      "bookmark_count": 0,
-     "impression_count": 10565,
-     "like_count": 26,
+     "impression_count": 2219,
+     "like_count": 3,
+     "quote_count": 0,
+     "reply_count": 0,
+     "retweet_count": 0
+    }
+   },
+   {
+    "id": "2113978821997432901",
+    "metin": "Rivals collide at Stamford Bridge! ⚔️ \n\nMore than 90% of @Super6 players are expecting Chelsea to win at Stamford Bridge! \n\nBut by what score? Over 250,000 players are backing a 3-1 win for Alonso’s men 🔵 \n\nPredict 6 scorelines for FREE by 3pm and you could walk away a https://t.co/jXcEPIMi86",
+    "kullanici": "SkySportsPL",
+    "zaman": "2026-10-24T13:00:01.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 16975,
+     "like_count": 19,
+     "quote_count": 0,
+     "reply_count": 1,
+     "retweet_count": 4
+    }
+   },
+   {
+    "id": "2113977804278694359",
+    "metin": "Erling Haaland scored in his seventh consecutive Premier League game, but Manchester City were level for just eight minutes against Aston Villa.\n\nNicolas Jackson's effort squirmed underneath the grasp of Gianluigi Donnarumma.\n\nShould the Italian goalkeeper have done better?\n\n🔗 https://t.co/CvzOEHBZAW",
+    "kullanici": "TheAthleticFC",
+    "zaman": "2026-10-24T12:55:59.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 15561,
+     "like_count": 48,
+     "quote_count": 0,
+     "reply_count": 6,
+     "retweet_count": 7
+    }
+   },
+   {
+    "id": "2113977728492044333",
+    "metin": "Gianluigi Donnarumma. Just shave it off mate.  https://t.co/aqLIzUAMJF",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-24T12:55:40.000Z",
+    "metrik": {
+     "bookmark_count": 2,
+     "impression_count": 6574,
+     "like_count": 23,
+     "quote_count": 1,
+     "reply_count": 0,
+     "retweet_count": 0
+    }
+   },
+   {
+    "id": "2113977448249606492",
+    "metin": "Of the 35 players to have scored 20+ non-penalty goals since the start of 2023-24, only four have a higher non-pen goals-per-game rate than Nicolas Jackson.\n\nErling Haaland (0.69)\nAlexander Isak (0.51)\nOllie Watkins (0.44)\nMohamed Salah (0.40) \nNicolas Jackson (0.39)",
+    "kullanici": "OptaAnalyst",
+    "zaman": "2026-10-24T12:54:34.000Z",
+    "metrik": {
+     "bookmark_count": 1,
+     "impression_count": 3543,
+     "like_count": 15,
      "quote_count": 0,
      "reply_count": 1,
      "retweet_count": 3
     }
    },
    {
-    "id": "2113933769845645816",
-    "metin": "⚽️ 2026/27 top scorers\n\n#UCL https://t.co/Yc0aIIYjvE",
-    "kullanici": "ChampionsLeague",
-    "zaman": "2026-10-24T10:01:00.000Z",
+    "id": "2113977338711187923",
+    "metin": "🇳🇴 Erling Haaland has now scored in 9 consecutive appearances for Manchester City.\n\n⚽️⚽️ Crystal Palace\n⚽️ Coventry City\n⚽️⚽️ Porto\n⚽️ Manchester United\n⚽️ Sunderland\n⚽️ Liverpool\n⚽️⚽️ Paris Saint-Germain\n⚽️⚽️ Ipswich Town\n⚽️ Aston Villa \n\n𝗠𝗥. 𝗜𝗡𝗘𝗩𝗜𝗧𝗔𝗕𝗟𝗘. https://t.co/ADkiq0Vu3q",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-24T12:54:08.000Z",
     "metrik": {
-     "bookmark_count": 2,
-     "impression_count": 36857,
-     "like_count": 143,
-     "quote_count": 1,
-     "reply_count": 13,
-     "retweet_count": 28
+     "bookmark_count": 1,
+     "impression_count": 4220,
+     "like_count": 21,
+     "quote_count": 0,
+     "reply_count": 2,
+     "retweet_count": 2
     }
    },
    {
-    "id": "2113933530866581774",
-    "metin": "Another shot at £1,000,000 with @Super6 this Saturday! 💰 \n\nOn Tuesday, 60 players joined the Super 6 100 Club after they predicted the scoreline in the Liverpool game, but no one could get all 6! \n\nCould you be the one to nail all 6 scorelines? ⚽ \n\nEnter for FREE by 3pm. 😆 https://t.co/hm5IDhLekw",
-    "kullanici": "SkySportsPL",
-    "zaman": "2026-10-24T10:00:03.000Z",
+    "id": "2113977167428112452",
+    "metin": "Nicolas Jackson has now scored 6 goals in his last 6 appearances across all competitions for Aston Villa:\n\n⚽ vs Tottenham\n⚽ vs Brentford\n⚽⚽ vs Fenerbahçe\n➖ vs Newcastle\n➖ vs Viking\n⚽⚽ vs Manchester City \n\nA brace against City at Villa Park. On fire. 🔥 https://t.co/EWAnCaWwsz https://t.co/RG0IelE0Sm",
+    "kullanici": "WhoScored",
+    "zaman": "2026-10-24T12:53:27.000Z",
+    "metrik": {
+     "bookmark_count": 1,
+     "impression_count": 5864,
+     "like_count": 33,
+     "quote_count": 2,
+     "reply_count": 0,
+     "retweet_count": 5
+    }
+   },
+   {
+    "id": "2113976992777277869",
+    "metin": "🇳🇴 Erling Haaland has now scored in 9 consecutive appearances games for Manchester City.\n\n⚽️⚽️ Crystal Palace\n⚽️ Coventry City\n⚽️⚽️ Porto\n⚽️ Manchester United\n⚽️ Sunderland\n⚽️ Liverpool\n⚽️⚽️ Paris Saint-Germain\n⚽️⚽️ Ipswich Town\n⚽️ Aston Villa \n\n𝗠𝗥. 𝗜𝗡𝗘𝗩𝗜𝗧𝗔𝗕𝗟𝗘. https://t.co/MOYaFV676w",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-24T12:52:45.000Z",
     "metrik": {
      "bookmark_count": 0,
-     "impression_count": 20542,
-     "like_count": 17,
+     "impression_count": 4240,
+     "like_count": 10,
      "quote_count": 0,
      "reply_count": 2,
+     "retweet_count": 1
+    }
+   },
+   {
+    "id": "2113976872119783697",
+    "metin": "Nicolas Jackson scores AGAIN!\n\n@AstonVilla are back into the lead! https://t.co/Qn3ildCWfV",
+    "kullanici": "premierleague",
+    "zaman": "2026-10-24T12:52:16.000Z",
+    "metrik": {
+     "bookmark_count": 11,
+     "impression_count": 71750,
+     "like_count": 1380,
+     "quote_count": 35,
+     "reply_count": 52,
+     "retweet_count": 160
+    }
+   },
+   {
+    "id": "2113976294337630697",
+    "metin": "Nicolas Jackson has now scored six goals in his last six games for Aston Villa. 😀 https://t.co/2Byr3Ur6UY",
+    "kullanici": "Squawka",
+    "zaman": "2026-10-24T12:49:59.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 9544,
+     "like_count": 47,
+     "quote_count": 0,
+     "reply_count": 2,
+     "retweet_count": 3
+    }
+   },
+   {
+    "id": "2113976281691808186",
+    "metin": "Erling Haaland has only failed to score in ONE Premier League match this season:\n\n➖ vs Bournemouth\n⚽️⚽️ vs Crystal Palace\n⚽️ vs Coventry\n⚽️ vs Manchester United\n⚽️ vs Sunderland\n⚽️ vs Liverpool\n⚽️⚽️ vs Ipswich\n⚽️ vs Aston Villa\n\n9 goals across 8 appearances. 🤖 https://t.co/nHhCdeOmvs",
+    "kullanici": "WhoScored",
+    "zaman": "2026-10-24T12:49:55.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 5991,
+     "like_count": 28,
+     "quote_count": 0,
+     "reply_count": 1,
+     "retweet_count": 2
+    }
+   },
+   {
+    "id": "2113975972173160902",
+    "metin": "Erling Haaland has now scored in each of his last SEVEN Premier League away games. \n\n⚽️ vs. Burnley \n⚽ vs. Everton \n⚽ vs. Bournemouth\n⚽⚽ vs. Crystal Palace \n⚽ vs. Man Utd \n⚽ vs. Liverpool\n⚽ vs. Aston Villa \n\nOnly Robin van Persie (9) has a longer streak in the https://t.co/CQMOJ4v2D1",
+    "kullanici": "Squawka",
+    "zaman": "2026-10-24T12:48:42.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 9643,
+     "like_count": 38,
+     "quote_count": 0,
+     "reply_count": 1,
+     "retweet_count": 4
+    }
+   },
+   {
+    "id": "2113975402888646731",
+    "metin": "Six goals in his last four games for Erling Haaland 🤖 https://t.co/aIGU68MenQ",
+    "kullanici": "brfootball",
+    "zaman": "2026-10-24T12:46:26.000Z",
+    "metrik": {
+     "bookmark_count": 4,
+     "impression_count": 28996,
+     "like_count": 518,
+     "quote_count": 0,
+     "reply_count": 3,
+     "retweet_count": 21
+    }
+   },
+   {
+    "id": "2113975271581790568",
+    "metin": "Erling Haaland scores for the seventh match in a row!\n\n@ManCity are now level with Aston Villa ⚖️ https://t.co/f09TFTEwb1",
+    "kullanici": "premierleague",
+    "zaman": "2026-10-24T12:45:55.000Z",
+    "metrik": {
+     "bookmark_count": 2,
+     "impression_count": 79478,
+     "like_count": 799,
+     "quote_count": 6,
+     "reply_count": 37,
+     "retweet_count": 69
+    }
+   },
+   {
+    "id": "2113974397350625747",
+    "metin": "It took just seven minutes of the second half for him to make it 9 in a row.\n\nHe's only had a longer scoring streak than this once across his City career: 10 games in a row between 21 August and 8 October 2022. https://t.co/felYw7O1rX",
+    "kullanici": "OptaAnalyst",
+    "zaman": "2026-10-24T12:42:26.000Z",
+    "metrik": {
+     "bookmark_count": 1,
+     "impression_count": 5722,
+     "like_count": 17,
+     "quote_count": 1,
+     "reply_count": 0,
+     "retweet_count": 1
+    }
+   },
+   {
+    "id": "2113973622859813043",
+    "metin": "Ahead of his El Clasico debut, Rodri has warned his Barcelona teammates to expect a fierce response from Real Madrid ⚠\n\nRead the full quotes 🔗 https://t.co/v5lUe48PhX https://t.co/TThdWEnUWC",
+    "kullanici": "goal",
+    "zaman": "2026-10-24T12:39:22.000Z",
+    "metrik": {
+     "bookmark_count": 1,
+     "impression_count": 17593,
+     "like_count": 46,
+     "quote_count": 0,
+     "reply_count": 3,
+     "retweet_count": 6
+    }
+   },
+   {
+    "id": "2113971885839192301",
+    "metin": "🤔 What's happened to Marc Guéhi this season? \n\nThe last three goal that Manchester City have conceded were his mistake. https://t.co/UJHwNCddrT https://t.co/BKGk0MMsAK",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-24T12:32:27.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 9129,
+     "like_count": 19,
+     "quote_count": 1,
+     "reply_count": 4,
      "retweet_count": 0
     }
    },
    {
-    "id": "2113933522389889098",
-    "metin": "Biggest matchup in football. \n\n#ELCLÁSICO https://t.co/7AlY27fBcO",
-    "kullanici": "LaLigaEN",
-    "zaman": "2026-10-24T10:00:01.000Z",
+    "id": "2113971185977311637",
+    "metin": "Manchester City have scored in 23 successive Premier League matches before today.\n\nThe last time they failed to score in a Premier League game was back in January vs rivals Man Utd. https://t.co/Q2tFG8aLZf",
+    "kullanici": "OptaAnalyst",
+    "zaman": "2026-10-24T12:29:41.000Z",
+    "metrik": {
+     "bookmark_count": 1,
+     "impression_count": 5982,
+     "like_count": 17,
+     "quote_count": 1,
+     "reply_count": 1,
+     "retweet_count": 1
+    }
+   },
+   {
+    "id": "2113970939490898038",
+    "metin": "🗣️ \"Remember the name...\" https://t.co/nVlvnaGV6Z https://t.co/fJ3Rs4CJph",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-24T12:28:42.000Z",
     "metrik": {
      "bookmark_count": 0,
-     "impression_count": 2718,
-     "like_count": 10,
+     "impression_count": 8955,
+     "like_count": 34,
      "quote_count": 0,
+     "reply_count": 3,
+     "retweet_count": 4
+    }
+   },
+   {
+    "id": "2113970866094834102",
+    "metin": "Joga Bonito is back! 🔙\n\nBrazilian maestro Ronaldinho readies himself for a professional comeback in Italy next month 👀\n\nRead the full story 🔗 https://t.co/VJfrroeByo https://t.co/AeZiBEYzUS",
+    "kullanici": "goal",
+    "zaman": "2026-10-24T12:28:24.000Z",
+    "metrik": {
+     "bookmark_count": 1,
+     "impression_count": 19944,
+     "like_count": 64,
+     "quote_count": 0,
+     "reply_count": 4,
+     "retweet_count": 10
+    }
+   },
+   {
+    "id": "2113970557750493359",
+    "metin": "Marc Guéhi’s first half vs Aston Villa:\n\n⏱️ 45 Minutes \n🤕 1 error leading to a goal\n🟨 1 Yellow Card \n❌ 0 Tackles Won \n📉 5.12 WhoScored rating (lowest on pitch)\n\nA tough afternoon so far at Villa Park. 😬 https://t.co/A8kAOQ4IPh",
+    "kullanici": "WhoScored",
+    "zaman": "2026-10-24T12:27:11.000Z",
+    "metrik": {
+     "bookmark_count": 1,
+     "impression_count": 9662,
+     "like_count": 55,
+     "quote_count": 5,
+     "reply_count": 2,
+     "retweet_count": 11
+    }
+   },
+   {
+    "id": "2113970171496849554",
+    "metin": "Nicolas Jackson's first half by numbers vs. Man City:\n\n5 duels won \n3x possession won \n2 fouls won \n2 touches in opp. box \n2 shots\n1 shot on target \n1 goal \n\nHis 5th goal in his last six games for Villa. ⚽ https://t.co/OvKK3KsO04 https://t.co/2Byr3Ur6UY",
+    "kullanici": "Squawka",
+    "zaman": "2026-10-24T12:25:39.000Z",
+    "metrik": {
+     "bookmark_count": 1,
+     "impression_count": 13272,
+     "like_count": 68,
+     "quote_count": 0,
+     "reply_count": 0,
+     "retweet_count": 11
+    }
+   },
+   {
+    "id": "2113969771175670125",
+    "metin": "Aston Villa vs Manchester City | Half-time player ratings:\n\n◉ 7.50 - Zion Suzuki \n◎ 7.30 - Nicolas Jackson\n◎ 7.26 - John McGinn\n◎ 6.94 - Abdukodir Khusanov\n◎ 6.93 - Matty Cash\n\n#AVLMCI https://t.co/zgBAXMPoU1",
+    "kullanici": "WhoScored",
+    "zaman": "2026-10-24T12:24:03.000Z",
+    "metrik": {
+     "bookmark_count": 1,
+     "impression_count": 11159,
+     "like_count": 65,
+     "quote_count": 0,
+     "reply_count": 2,
+     "retweet_count": 6
+    }
+   },
+   {
+    "id": "2113969637738062146",
+    "metin": "Erling Haaland's scored in each of his last eight appearances for Man City (12 goals), but he didn't attempt a single shot in the first half versus Aston Villa today. https://t.co/8kfd2nbubi",
+    "kullanici": "OptaAnalyst",
+    "zaman": "2026-10-24T12:23:31.000Z",
+    "metrik": {
+     "bookmark_count": 1,
+     "impression_count": 10770,
+     "like_count": 37,
+     "quote_count": 3,
      "reply_count": 0,
      "retweet_count": 4
     }
    },
    {
-    "id": "2113933520829886685",
-    "metin": "Chelsea have won 5 of the last 6 meetings (including 5 consecutive Premier League victories) against Tottenham. 🔵📈\n\n#CHETOT https://t.co/nlzOrKmUaz",
-    "kullanici": "WhoScored",
-    "zaman": "2026-10-24T10:00:01.000Z",
+    "id": "2113969413124698325",
+    "metin": "Man City's 29 touches in the Villa box is the most by a side in the first half of a Premier League game this season. \n\nBut they have nothing to show for it. ❌ https://t.co/doaUtrWiKw",
+    "kullanici": "Squawka",
+    "zaman": "2026-10-24T12:22:38.000Z",
     "metrik": {
      "bookmark_count": 0,
-     "impression_count": 2646,
-     "like_count": 7,
+     "impression_count": 13095,
+     "like_count": 26,
+     "quote_count": 1,
+     "reply_count": 0,
+     "retweet_count": 3
+    }
+   },
+   {
+    "id": "2113969331000553595",
+    "metin": "John McGinn created more chances (3) than any other player in the first half. 🪄\n\n#AVLMCI https://t.co/XofP7Vab72",
+    "kullanici": "WhoScored",
+    "zaman": "2026-10-24T12:22:18.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 8485,
+     "like_count": 60,
      "quote_count": 0,
      "reply_count": 1,
      "retweet_count": 2
     }
    },
    {
-    "id": "2113933519177031696",
-    "metin": "One of the Bridge's best 🌟\n\nEden Hazard talks through his iconic goal against Tottenham in 2015/16 🍿 https://t.co/JBB5JYVxwe",
+    "id": "2113969210409750644",
+    "metin": "Nicolas Jackson’s sixth goal of the season in all competitions gives @AstonVilla a half-time lead over Man City ⚽️ https://t.co/B7axfCUpir",
     "kullanici": "premierleague",
-    "zaman": "2026-10-24T10:00:00.000Z",
+    "zaman": "2026-10-24T12:21:50.000Z",
     "metrik": {
-     "bookmark_count": 4,
-     "impression_count": 37384,
-     "like_count": 124,
-     "quote_count": 2,
-     "reply_count": 12,
-     "retweet_count": 30
+     "bookmark_count": 9,
+     "impression_count": 139012,
+     "like_count": 2327,
+     "quote_count": 9,
+     "reply_count": 70,
+     "retweet_count": 137
     }
    },
    {
-    "id": "2113929239439581554",
-    "metin": "👟 If a player with Xabi Alonso’s technical quality becomes your Head Coach - and he’s still turning up to training in these boots - you’d be ready to run through brick walls for him every week.\n\nI know I would. https://t.co/NqOvFw7MnQ",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-24T09:43:00.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 6791,
-     "like_count": 42,
-     "quote_count": 1,
-     "reply_count": 2,
-     "retweet_count": 5
-    }
-   },
-   {
-    "id": "2113926345549918613",
-    "metin": "Real Madrid turned to Jose Mourinho this summer in response to a crisis.\n\nThey had again failed to claim a major trophy, and the season ended in literal in-fighting.\n\nMany expected Mourinho to bring an iron fist. Evidence suggests the opposite.\n\n📝 @MarioCortegana \n\n🔗 https://t.co/DXvvLjl1jW",
-    "kullanici": "TheAthleticFC",
-    "zaman": "2026-10-24T09:31:30.000Z",
-    "metrik": {
-     "bookmark_count": 2,
-     "impression_count": 24670,
-     "like_count": 57,
-     "quote_count": 0,
-     "reply_count": 8,
-     "retweet_count": 7
-    }
-   },
-   {
-    "id": "2113925970507784535",
-    "metin": "Max Dowman's historic moment, spoken around the world 🎙\n\n🔴 @Arsenal https://t.co/U5fjjc6Yfy",
+    "id": "2113967594697077106",
+    "metin": "No boot, no problem 👟\n\nJohan Manzambi putting it all in for @AstonVilla, even after his shoe came off in a tackle! 💪 https://t.co/aJaXSbYqVA",
     "kullanici": "premierleague",
-    "zaman": "2026-10-24T09:30:00.000Z",
+    "zaman": "2026-10-24T12:15:24.000Z",
     "metrik": {
-     "bookmark_count": 61,
-     "impression_count": 92419,
-     "like_count": 1814,
+     "bookmark_count": 17,
+     "impression_count": 138383,
+     "like_count": 3080,
      "quote_count": 10,
-     "reply_count": 37,
-     "retweet_count": 187
+     "reply_count": 42,
+     "retweet_count": 168
     }
    },
    {
-    "id": "2113925464360161640",
-    "metin": "👕✍️ The streets won't forget how Chelsea announced the signing of Antonio Rüdiger in 2017.  https://t.co/yoYXAuBFUP",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-24T09:28:00.000Z",
+    "id": "2113964975882707075",
+    "metin": "Ahmetcan Kaplan with an unreal clearance 🤯\n\n#UEL | @necnijmegen https://t.co/WVFsr4WEOD",
+    "kullanici": "EuropaLeague",
+    "zaman": "2026-10-24T12:05:00.000Z",
     "metrik": {
      "bookmark_count": 1,
-     "impression_count": 7357,
-     "like_count": 28,
-     "quote_count": 0,
-     "reply_count": 2,
-     "retweet_count": 3
-    }
-   },
-   {
-    "id": "2113919677097492851",
-    "metin": "Belghali opens his scoresheet in #SerieA 🎯\n\n#TorinoMonza https://t.co/vWroXfs5LR",
-    "kullanici": "SerieA_EN",
-    "zaman": "2026-10-24T09:05:00.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 2315,
-     "like_count": 17,
-     "quote_count": 0,
-     "reply_count": 0,
-     "retweet_count": 6
-    }
-   },
-   {
-    "id": "2113918796142612580",
-    "metin": "The family of Liverpool’s first European Cup-winning captain has decided it is time to sell his collection of memorabilia — which includes shirts and medals.\n\n“We thought, ‘Let’s get them out and share them with the world.’\n\nThe collection of Emlyn Hughes, who won four league",
-    "kullanici": "TheAthleticFC",
-    "zaman": "2026-10-24T09:01:30.000Z",
-    "metrik": {
-     "bookmark_count": 2,
-     "impression_count": 23582,
-     "like_count": 75,
-     "quote_count": 1,
-     "reply_count": 4,
-     "retweet_count": 6
-    }
-   },
-   {
-    "id": "2113918670443290993",
-    "metin": "Aston Villa have won 4 of the last 6 Premier League meetings (67% win rate) against Manchester City. 🦁\n\nNone of the last 6 fixtures between these two teams ended in a draw. 🧐\n\n#AVLMCI https://t.co/q60QC7tgY9",
-    "kullanici": "WhoScored",
-    "zaman": "2026-10-24T09:01:00.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 6545,
-     "like_count": 48,
-     "quote_count": 0,
-     "reply_count": 2,
-     "retweet_count": 0
-    }
-   },
-   {
-    "id": "2113918670195826952",
-    "metin": "Tottenham have won just one of their last 36 away league games against Chelsea (D11 L24). 🤯\n\nThat was a 3-1 victory in 2018 under Mauricio Pochettino. \n\n#TOTCHE | @bet365 | #Ad https://t.co/HtIblMUZPz",
-    "kullanici": "Squawka",
-    "zaman": "2026-10-24T09:01:00.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 8718,
-     "like_count": 12,
-     "quote_count": 0,
-     "reply_count": 3,
-     "retweet_count": 0
-    }
-   },
-   {
-    "id": "2113917162385555658",
-    "metin": "\"I don't think there's anyone else like him right now\"\n\nShould Harry Kane win the Ballon d'Or? 🏆\n#SaturdaySocial https://t.co/Gh0gDuY1GN",
-    "kullanici": "SkySportsPL",
-    "zaman": "2026-10-24T08:55:00.000Z",
-    "metrik": {
-     "bookmark_count": 8,
-     "impression_count": 55475,
-     "like_count": 250,
-     "quote_count": 2,
-     "reply_count": 10,
-     "retweet_count": 12
-    }
-   },
-   {
-    "id": "2113917160150179915",
-    "metin": "In the Premier League era, Chelsea have played Tottenham 34 times. \n\nThey've only lost once. It came in 2018 with Dele Alli scoring twice. \n\n✅ Chelsea 2-1 Tottenham (2026)\n✅ Chelsea 1-0 Tottenham (2025)\n✅ Chelsea 2-0 Tottenham (2024)\n🤝 Chelsea 2-2 Tottenham (2022)\n✅ Chelsea https://t.co/LrILTwJhCo",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-24T08:55:00.000Z",
-    "metrik": {
-     "bookmark_count": 3,
-     "impression_count": 9405,
-     "like_count": 63,
-     "quote_count": 2,
-     "reply_count": 3,
-     "retweet_count": 7
-    }
-   },
-   {
-    "id": "2113914178847264868",
-    "metin": "It's a big win for England at the Rugby League World Cup ✅\n\nThey score 14 tries against France to keep their hopes of reaching the semi-finals alive 🤞 https://t.co/EgoQMpA973",
-    "kullanici": "BBCSport",
-    "zaman": "2026-10-24T08:43:09.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 28287,
-     "like_count": 56,
-     "quote_count": 0,
-     "reply_count": 6,
-     "retweet_count": 5
-    }
-   },
-   {
-    "id": "2113913457447940540",
-    "metin": "🎥 These edits from the official Como account are world class.  https://t.co/ghM1iTAfH8",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-24T08:40:17.000Z",
-    "metrik": {
-     "bookmark_count": 2,
-     "impression_count": 9765,
-     "like_count": 128,
-     "quote_count": 0,
-     "reply_count": 2,
-     "retweet_count": 10
-    }
-   },
-   {
-    "id": "2113912410046185753",
-    "metin": "Pedri or Jude Bellingham? 💫\n\nWho is the best 23 year old in world football? \n#SaturdaySocial https://t.co/j3QqTi3ICe",
-    "kullanici": "SkySportsPL",
-    "zaman": "2026-10-24T08:36:07.000Z",
-    "metrik": {
-     "bookmark_count": 22,
-     "impression_count": 68411,
-     "like_count": 414,
-     "quote_count": 8,
-     "reply_count": 28,
-     "retweet_count": 17
-    }
-   },
-   {
-    "id": "2113911371666768278",
-    "metin": "📆 𝗧𝗛𝗥𝗢𝗪𝗕𝗔𝗖𝗞: When Alexander Isak folded Micky Van de Ven in half. https://t.co/rYw5QIylP9",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-24T08:32:00.000Z",
-    "metrik": {
-     "bookmark_count": 5,
-     "impression_count": 14018,
-     "like_count": 221,
-     "quote_count": 0,
+     "impression_count": 28447,
+     "like_count": 169,
+     "quote_count": 4,
      "reply_count": 5,
      "retweet_count": 10
     }
    },
    {
-    "id": "2113906086801490050",
-    "metin": "Zakharyan producing a beautiful finish ✨\n\n#UEL | @RealSociedad https://t.co/tvYXJ1VMAg",
-    "kullanici": "EuropaLeague",
-    "zaman": "2026-10-24T08:11:00.000Z",
+    "id": "2113964483701809432",
+    "metin": "Nicolas Jackson across his last 6 matches in all competitions:\n\n👕 6 Games \n⚽️ 5 Goals \n\nElite run of form right now. 📈🇸🇳 https://t.co/phhPHx3kS1",
+    "kullanici": "WhoScored",
+    "zaman": "2026-10-24T12:03:03.000Z",
     "metrik": {
      "bookmark_count": 2,
-     "impression_count": 23225,
-     "like_count": 149,
-     "quote_count": 2,
-     "reply_count": 3,
-     "retweet_count": 6
+     "impression_count": 16708,
+     "like_count": 360,
+     "quote_count": 7,
+     "reply_count": 9,
+     "retweet_count": 35
     }
    },
    {
-    "id": "2113905583522816180",
-    "metin": "Conte vs. Tuchel is football heritage. https://t.co/7zwuEdC7Tp https://t.co/UBxPoHGDxr",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-24T08:09:00.000Z",
+    "id": "2113963811979882600",
+    "metin": "Lassine Sinayoko is delivering week after week 🇲🇱🔥 https://t.co/WEaf4Co2Ny",
+    "kullanici": "Ligue1_ENG",
+    "zaman": "2026-10-24T12:00:22.000Z",
     "metrik": {
-     "bookmark_count": 3,
-     "impression_count": 9767,
-     "like_count": 25,
+     "bookmark_count": 0,
+     "impression_count": 2992,
+     "like_count": 30,
      "quote_count": 0,
-     "reply_count": 1,
-     "retweet_count": 3
+     "reply_count": 0,
+     "retweet_count": 1
     }
    },
    {
-    "id": "2113905438513147917",
-    "metin": "🏥 Bayern Munich manager Vincent Kompany was taken to hospital on Friday after collapsing while watching the club’s second team train.\n\nThe 40-year-old had been suffering from a virus and missed Tuesday’s press conference ahead of Bayern’s Champions League clash with Arsenal, https://t.co/295fl51XgC",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-24T08:08:25.000Z",
+    "id": "2113963722188484818",
+    "metin": "A massive London derby on Saturday Night Football! 🤩\n\nWatch Chelsea take on Spurs with NOW: https://t.co/0AejI4BG3d https://t.co/rzAsevP2h1",
+    "kullanici": "SkySportsPL",
+    "zaman": "2026-10-24T12:00:01.000Z",
     "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 9309,
-     "like_count": 47,
-     "quote_count": 1,
-     "reply_count": 3,
-     "retweet_count": 5
-    }
-   },
-   {
-    "id": "2113903696438333857",
-    "metin": "Michael Carrick's five-and-a-half-minute press conference monologue on Friday was admirable, heartfelt and will deeply resonate with Manchester United's core fanbase.\n\nIt also showed exactly why he is almost certainly not the right person for the job and why he is unlikely to be https://t.co/B014Qxd4vn",
-    "kullanici": "TheAthleticFC",
-    "zaman": "2026-10-24T08:01:30.000Z",
-    "metrik": {
-     "bookmark_count": 21,
-     "impression_count": 45475,
-     "like_count": 256,
-     "quote_count": 10,
-     "reply_count": 38,
+     "bookmark_count": 4,
+     "impression_count": 66248,
+     "like_count": 706,
+     "quote_count": 3,
+     "reply_count": 9,
      "retweet_count": 30
     }
    },
    {
-    "id": "2113903328270668265",
-    "metin": "An action-packed Saturday coming up 👊 https://t.co/0lKH62QEe6",
-    "kullanici": "premierleague",
-    "zaman": "2026-10-24T08:00:02.000Z",
-    "metrik": {
-     "bookmark_count": 18,
-     "impression_count": 156601,
-     "like_count": 5910,
-     "quote_count": 38,
-     "reply_count": 79,
-     "retweet_count": 447
-    }
-   },
-   {
-    "id": "2113903325414326279",
-    "metin": "Cole Palmer vs Spurs in the Premier League:\n\n🏟️ 5 Games \n⚽️ 3 Goals \n🅰️ 2 Assists \n\n5 goal involvements in 5 matches against Tottenham.\n\n#CHETOT https://t.co/46LS6aMPjm",
-    "kullanici": "WhoScored",
-    "zaman": "2026-10-24T08:00:01.000Z",
-    "metrik": {
-     "bookmark_count": 3,
-     "impression_count": 8712,
-     "like_count": 211,
-     "quote_count": 1,
-     "reply_count": 3,
-     "retweet_count": 20
-    }
-   },
-   {
-    "id": "2113903324210532820",
-    "metin": "The captain is reaching legendary status  at @RealSociedadEN  🫡 https://t.co/dIni9H0yzP",
-    "kullanici": "LaLigaEN",
-    "zaman": "2026-10-24T08:00:01.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 6493,
-     "like_count": 121,
-     "quote_count": 0,
-     "reply_count": 2,
-     "retweet_count": 4
-    }
-   },
-   {
-    "id": "2113902972421959786",
-    "metin": "We’re gearing up for a busy day of action! Get involved by sending us a voice note, video or message on WhatsApp or scan the QR code below 📱\n\nComment where you’re heading, who you’re going with and your score predictions! ⚽ https://t.co/BWpUEpuzYp",
-    "kullanici": "SkySportsNews",
-    "zaman": "2026-10-24T07:58:37.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 52751,
-     "like_count": 43,
-     "quote_count": 0,
-     "reply_count": 12,
-     "retweet_count": 6
-    }
-   },
-   {
-    "id": "2113901809148289417",
-    "metin": "📆 On this day, in 2004, the famous Battle of the Buffet occurred as Manchester United beat Arsenal 2-0, bringing to an end their 49-game unbeaten run.\n\nArsenal arrived as reigning champions, their Invincibles still unbeaten well into the new campaign and closing in on 50 league https://t.co/WLCViKacX6",
+    "id": "2113963009282584715",
+    "metin": "Side note away from the actual football.\n\n👕 Manchester City's third kit is a 10/10. https://t.co/qoezccl9A4",
     "kullanici": "Footballtweet",
-    "zaman": "2026-10-24T07:54:00.000Z",
+    "zaman": "2026-10-24T11:57:11.000Z",
     "metrik": {
-     "bookmark_count": 6,
-     "impression_count": 11203,
-     "like_count": 78,
-     "quote_count": 1,
-     "reply_count": 6,
-     "retweet_count": 6
-    }
-   },
-   {
-    "id": "2113899040316272844",
-    "metin": "📆 On this day, in 2010, Javier Hernández scored a truly unique effort against Stoke City in the Premier League. \n\nThe lesser seen, backwards header.  https://t.co/2av91AtTmw",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-24T07:43:00.000Z",
-    "metrik": {
-     "bookmark_count": 7,
-     "impression_count": 11469,
-     "like_count": 118,
+     "bookmark_count": 2,
+     "impression_count": 13547,
+     "like_count": 199,
      "quote_count": 1,
      "reply_count": 2,
+     "retweet_count": 8
+    }
+   },
+   {
+    "id": "2113961917949870455",
+    "metin": "If you rate Nicolas Jackson, you know ball. https://t.co/wiy06EAl1y https://t.co/jYhG0lsSGJ",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-24T11:52:51.000Z",
+    "metrik": {
+     "bookmark_count": 1,
+     "impression_count": 22572,
+     "like_count": 122,
+     "quote_count": 2,
+     "reply_count": 5,
      "retweet_count": 10
     }
    },
    {
-    "id": "2113896770115916239",
-    "metin": "It's back-to-back defeats for the Red Roses 🥀\n\nEngland lost 31-22 to Canada in the WXV Series to suffer back-to-back defeats for the first time in a decade, after the Canadians ended the world champions 41-match unbeaten streak last week ⛓️‍💥 https://t.co/TV6JSfvq2m",
-    "kullanici": "BBCSport",
-    "zaman": "2026-10-24T07:33:58.000Z",
-    "metrik": {
-     "bookmark_count": 2,
-     "impression_count": 36648,
-     "like_count": 42,
-     "quote_count": 1,
-     "reply_count": 6,
-     "retweet_count": 9
-    }
-   },
-   {
-    "id": "2113896272448942272",
-    "metin": "🔵 Kyle Walker on the rumours that he'll remove his Manchester City trophy tattoos: \n\n🗣️ Walker: \"Just to clear up the misleading headlines today: I've never had any intention of removing my Manchester City tattoos.\n\nI shared some unbelievable moments with some great teammates, https://t.co/fgo3xZSbo0",
+    "id": "2113961535538385268",
+    "metin": "🇸🇳 Nicolas Jackson's celebration is becoming iconic. https://t.co/jN7QS4ZSmY",
     "kullanici": "Footballtweet",
-    "zaman": "2026-10-24T07:32:00.000Z",
+    "zaman": "2026-10-24T11:51:20.000Z",
     "metrik": {
      "bookmark_count": 3,
-     "impression_count": 10282,
-     "like_count": 67,
+     "impression_count": 24189,
+     "like_count": 325,
+     "quote_count": 2,
+     "reply_count": 4,
+     "retweet_count": 17
+    }
+   },
+   {
+    "id": "2113960889732993244",
+    "metin": "It took only six minutes for Nico Jackson to score for Aston Villa vs. Man City ⏱️ https://t.co/NAHGyItMUE",
+    "kullanici": "brfootball",
+    "zaman": "2026-10-24T11:48:46.000Z",
+    "metrik": {
+     "bookmark_count": 18,
+     "impression_count": 67646,
+     "like_count": 4550,
+     "quote_count": 5,
+     "reply_count": 37,
+     "retweet_count": 180
+    }
+   },
+   {
+    "id": "2113960653241139394",
+    "metin": "It's been a breathless start at Villa Park and the home side have an early lead against Manchester City.\n\nMarc Guehi makes a mistake and Nicolas Jackson punishes him with an emphatic finish past Gianluigi Donnarumma.\n\nAston Villa had 92 per cent possession in the opening five https://t.co/2guz6mqPP3",
+    "kullanici": "TheAthleticFC",
+    "zaman": "2026-10-24T11:47:49.000Z",
+    "metrik": {
+     "bookmark_count": 3,
+     "impression_count": 35703,
+     "like_count": 214,
      "quote_count": 1,
      "reply_count": 6,
-     "retweet_count": 4
+     "retweet_count": 11
     }
    },
    {
-    "id": "2113892624088129747",
-    "metin": "We are gearing up for a busy day of action across the country, and we want you to get involved. Send us a voice note or a video on WhatsApp -  use the number 07514 917075 or scan the QR code on the screen now which will take you straight there 🗣️ Tell us where you're heading, who https://t.co/QIWo6jiNIR",
-    "kullanici": "SkySportsNews",
-    "zaman": "2026-10-24T07:17:30.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 52124,
-     "like_count": 37,
-     "quote_count": 1,
-     "reply_count": 9,
-     "retweet_count": 4
-    }
-   },
-   {
-    "id": "2113890735569129769",
-    "metin": "Today's Squawkle is live. 🔎\n\nHow many guesses will you need to crack the mystery team?\n\nPost your score in the replies. 👇\n\nhttps://t.co/0nGuCutE9c",
+    "id": "2113960096917254440",
+    "metin": "Nicolas Jackson has now scored five goals in his last six games for Aston Villa:\n\n⚽️ vs. Tottenham \n⚽️ vs. Brentford\n⚽️⚽️ vs. Fenerbahce\n❌ vs. Newcastle \n❌ vs. Viking \n⚽️ vs. Man City \n\nFinding his feet at Villa Park. https://t.co/AaXEEjoiEA",
     "kullanici": "Squawka",
-    "zaman": "2026-10-24T07:10:00.000Z",
+    "zaman": "2026-10-24T11:45:37.000Z",
     "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 11929,
-     "like_count": 9,
-     "quote_count": 0,
-     "reply_count": 2,
-     "retweet_count": 0
+     "bookmark_count": 5,
+     "impression_count": 32561,
+     "like_count": 201,
+     "quote_count": 2,
+     "reply_count": 7,
+     "retweet_count": 21
     }
    },
    {
-    "id": "2113890232353615882",
-    "metin": "🇫🇷 Paris Saint-Germain's Ligue 1 match against Lyon has been moved to Monday on the orders of the Paris Police Prefecture due to ongoing civil unrest in the city.  https://t.co/UPj3lhlWA4",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-24T07:08:00.000Z",
+    "id": "2113959710650941685",
+    "metin": "Nicolas Jackson.\n\nThe @AstonVilla striker scores early to put his side ahead against Man City! https://t.co/Sfulbcf1qO",
+    "kullanici": "premierleague",
+    "zaman": "2026-10-24T11:44:05.000Z",
     "metrik": {
-     "bookmark_count": 2,
-     "impression_count": 9920,
-     "like_count": 21,
-     "quote_count": 1,
-     "reply_count": 0,
-     "retweet_count": 6
+     "bookmark_count": 36,
+     "impression_count": 202130,
+     "like_count": 10955,
+     "quote_count": 41,
+     "reply_count": 117,
+     "retweet_count": 562
     }
    }
   ]

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><title>Yorum fırsatları @kalkylerat · 13:00 UTC</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{overflow-wrap:anywhere;margin:0;background:#000;color:#e7e9ea;font:16px/1.45 -apple-system,system-ui,Roboto,sans-serif}
+main{max-width:640px;margin:0 auto;padding:16px}h1{font-size:18px;margin:4px 0 4px}.not{color:#ffd166;margin:0 0 12px}
+.oge{border:1px solid #2f3336;border-radius:14px;padding:14px;margin:0 0 18px}.kim{color:#71767b;font-size:14px}
+.post{color:#c4c9cc;font-size:14px;margin:6px 0 10px;white-space:pre-wrap}.ac{color:#1d9bf0;font-size:14px}
+.taslak{background:#16181c;border-radius:12px;padding:12px;margin:10px 0 0}.metin{white-space:pre-wrap;margin:0 0 10px}
+button{width:100%;border:0;border-radius:999px;padding:13px;font-size:16px;font-weight:700;background:#1d9bf0;color:#fff}
+button.ikinci{background:#2f3336;margin-top:8px;font-weight:600}
+</style></head><body><main>
+<h1>Yorum fırsatları @kalkylerat · 13:00 UTC</h1>
+<p class="kim">Düğme metni panoya kopyalar ve postu X'te açar. X'te <b>Yanıtla</b>'ya dokun, kutuya uzun basıp
+<b>Yapıştır</b>, sonra gönder.</p>
+<section class="oge"><div class="kim">2. @Squawka · Arsenal v Everton</div><p class="post">Erling Haaland has now scored in each of his last SEVEN Premier League away games. 
+
+⚽️ vs. Burnley 
+⚽ vs. Everton 
+⚽ vs. Bournemouth
+⚽⚽ vs. Crystal Palace 
+⚽ vs. Man Utd 
+⚽ vs. Liverpool
+⚽ vs. Aston Villa 
+
+Only Robin van Persie (9) has a longer streak in the https://t.co/CQMOJ4v2D1</p><a class="ac" href="https://x.com/Squawka/status/2113975972173160902">Postu X'te gör</a><div class="taslak"><div class="kim">1. taslak</div><p class="metin">Seven away games in a row is mad. Van Persie&#x27;s 9 is still a fair way off, but he&#x27;s got a shout at it 😅
+
+https://x.com/kalkylerat/status/2113954897582289090</p><button onclick="kopyala(0,true,this)">📋 Kopyala ve postu aç</button><button class="ikinci" onclick="kopyala(0,false,this)">Sadece kopyala</button></div><div class="taslak"><div class="kim">2. taslak</div><p class="metin">Scoring away at Anfield and Old Trafford in the same run is proper hard. Which of those goals was your favourite?
+
+https://x.com/kalkylerat/status/2113954897582289090</p><button onclick="kopyala(1,true,this)">📋 Kopyala ve postu aç</button><button class="ikinci" onclick="kopyala(1,false,this)">Sadece kopyala</button></div></section>
+<section class="oge"><div class="kim">3. @WhoScored · Coventry v Fulham</div><p class="post">Erling Haaland has only failed to score in ONE Premier League match this season:
+
+➖ vs Bournemouth
+⚽️⚽️ vs Crystal Palace
+⚽️ vs Coventry
+⚽️ vs Manchester United
+⚽️ vs Sunderland
+⚽️ vs Liverpool
+⚽️⚽️ vs Ipswich
+⚽️ vs Aston Villa
+
+9 goals across 8 appearances. 🤖 https://t.co/nHhCdeOmvs</p><a class="ac" href="https://x.com/WhoScored/status/2113976281691808186">Postu X'te gör</a><div class="taslak"><div class="kim">1. taslak</div><p class="metin">9 in 8 is just ridiculous. Even the one blank was a quiet day by his standards 😅
+
+https://x.com/kalkylerat/status/2113965013287444667</p><button onclick="kopyala(2,true,this)">📋 Kopyala ve postu aç</button><button class="ikinci" onclick="kopyala(2,false,this)">Sadece kopyala</button></div></section>
+</main><script>
+const V = [{"metin": "Seven away games in a row is mad. Van Persie's 9 is still a fair way off, but he's got a shout at it 😅\n\nhttps://x.com/kalkylerat/status/2113954897582289090", "url": "https://x.com/Squawka/status/2113975972173160902"}, {"metin": "Scoring away at Anfield and Old Trafford in the same run is proper hard. Which of those goals was your favourite?\n\nhttps://x.com/kalkylerat/status/2113954897582289090", "url": "https://x.com/Squawka/status/2113975972173160902"}, {"metin": "9 in 8 is just ridiculous. Even the one blank was a quiet day by his standards 😅\n\nhttps://x.com/kalkylerat/status/2113965013287444667", "url": "https://x.com/WhoScored/status/2113976281691808186"}];
+function kopyala(i, ac, btn) {
+  const t = V[i].metin, git = () => { if (ac) setTimeout(() => location.href = V[i].url, 350); };
+  const tamam = () => { btn.textContent = "✅ Kopyalandı" + (ac ? ", post açılıyor…" : ""); git(); };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(t).then(tamam, () => yedek(t, tamam));
+  } else { yedek(t, tamam); }
+}
+function yedek(t, tamam) {
+  const a = document.createElement("textarea"); a.value = t; document.body.appendChild(a); a.select();
+  try { document.execCommand("copy"); } catch (e) {} a.remove(); tamam();
+}
+</script></body></html>

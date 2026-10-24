@@ -32353,8 +32353,25 @@
        "oran": 1.36,
        "olasilik": 0.724,
        "deger": -0.015,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "1-2",
+       "goller": [
+        [
+         2,
+         0,
+         "dep"
+        ],
+        [
+         23,
+         0,
+         "ev"
+        ],
+        [
+         90,
+         2,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1575201-CS1X",
@@ -32375,13 +32392,14 @@
      "oran": 3.4,
      "olasilik": 0.275,
      "deger": -0.065,
-     "durum": "bekliyor",
+     "durum": "yatti",
      "secim": "2026-10-24T05:42:06+00:00",
      "oto": true,
      "paylas": "2026-10-24T11:50:00+02:00",
      "tweet_id": "2113931647959585185",
      "metin": "🎩 Long shot. I'd be surprised, pleasantly.\n\n⚽ Zbrojovka Brno v Bohemians 1905\n⚽ ADO Den Haag v Heerenveen\n⚽ Dijon v Rodez\n⚽ 1. FC Köln v FC Schalke 04\n\n📊 Combined 3.40. I make it about 28% to land.\n\n💬 Which one would you drop?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-24T09:52:30+00:00"
+     "yayin": "2026-10-24T09:52:30+00:00",
+     "son_oran": 1
     },
     {
      "ad": "gunun-kuponu-2",

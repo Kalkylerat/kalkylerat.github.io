@@ -135183,6 +135183,13 @@
         "istatistik_kaynak": "lig"
       }
     ],
-    "etkilesim": {}
+    "etkilesim": {
+      "maclar": {
+        "durum": "paylasildi",
+        "tweet_id": "2113881076523585665",
+        "zaman": "2026-10-24T06:31:25+00:00",
+        "metin": "Premier League today, 24 Oct.\n\n🆚 Aston Villa v Manchester City, 13:30 CEST\n🏆 Villa 19% · Draw 21% · City 60%\n\n🆚 Arsenal v Everton, 16:00 CEST\n🏆 Arsenal 65% · Draw 23% · Everton 12%\n\n18+\n💬 City 60% away at Villa: too high or about right?\n#PremierLeague"
+      }
+    }
   }
 ]

@@ -123,6 +123,9 @@ oto_oran_max = 4.0
 # Ayak: sağlam adayın en düşük kazanma ihtimali; oranı adil fiyatın en fazla bu kadar altında.
 oto_min_ayak = 0.65
 oto_min_deger = -0.04
+# Büyük maç ayağında taban (sahibinin kararı 25 Ekim 2026): Bet365 fiyatıyla büyük maçların en olası oyunu çoğunlukla
+# adil fiyatın %4–6 altında kalıyor; büyük maçlar kuponlara giremiyordu. Diğer maçlarda oto_min_deger.
+oto_buyuk_min_deger = -0.06
 # Kuponun en düşük tutma ihtimali. Aralıktaki kuponlar içinde tutma ihtimali en yüksek olan seçilir.
 oto_min_tutma = 0.30
 # Kuponun toplam fiyatı adil fiyatın en fazla bu kadar altında olabilir (her maçta bahisçi payı birikir).

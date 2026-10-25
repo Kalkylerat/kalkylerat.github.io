@@ -920,7 +920,12 @@ def main(argv=None) -> int:
             try:
                 dosya = config.DATA_FILE.parent / "analiz" / f"{bugun}.json"
                 oranlar = football.toplu_oranlar(_api(ayar), bugun, ayar.saat_dilimi, ayar.max_oran_sayfasi)
-                likely.ek_kupon(ayar, json.loads(dosya.read_text(encoding="utf-8")), oranlar, simdi, onay.GitHub(), yaz=_ozet_yaz)
+                analizler_ = json.loads(dosya.read_text(encoding="utf-8"))
+                if os.environ.get("BOT_EK", "").strip() == "dev":  # tek seferlik dev maç kuponu (sahibinin onayıyla)
+                    _likely_buyuk_oranlar(_api(ayar), analizler_, oranlar)
+                    likely.dev_kupon(ayar, analizler_, oranlar, simdi, onay.GitHub(), yaz=_ozet_yaz)
+                else:
+                    likely.ek_kupon(ayar, analizler_, oranlar, simdi, onay.GitHub(), yaz=_ozet_yaz)
             except Exception as e:
                 _hata("Mr. Likely ek kupon", e)
         if args.komut == "likely_iptal":

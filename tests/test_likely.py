@@ -1260,3 +1260,42 @@ def test_E1_dev_mac_adayi_olmasa_da_gunun_maci_olur():
     assert OTO.oran_min <= m["aci"]["oran"] <= OTO.oran_max and m["aci"]["oran"] == round(oranlar[9]["Bet365"][m["aci"]["aday_id"].split("-")[1]], 2)
     metin = likely.mac_metni(m, {"secilen": []}, AYAR)
     assert metin.startswith("🎩 Match of the day: Barcelona v Real Madrid") and "Not in today's coupons." in metin
+
+
+def test_E6_buyuk_mac_ayagi_yuzde_6_taban():
+    """25 Ekim 2026 (sahibinin kararı): büyük maç ayağı adil fiyatın %6 altına kadar; diğerleri %4."""
+    aday = {"pazar": "UST25", "deger": -0.05, "uyum": True, "kaynak": "Pinnacle", "tur": "guvenli", "olasilik": 0.8}
+    assert likely.kupona_uygun({**aday, "buyuk": True}, OTO)
+    assert not likely.kupona_uygun({**aday, "buyuk": False}, OTO)
+    assert not likely.kupona_uygun({**aday, "buyuk": True, "deger": -0.065}, OTO)
+    assert not likely.kupona_uygun({**aday, "buyuk": True, "pazar": "CS12"}, OTO)  # Double chance 12 yine yok
+    # Havuz büyük maçta −%5'lik ayağı alır, küçük maçta almaz (aynı fiyatlar)
+    b = oran_seti(0.80, 0.12, 0.60, 0.80)
+    b["Bet365"] = {k: round(v * 0.975, 3) for k, v in b["Bet365"].items()}  # ~−%5 değer
+    buyuk_mac, kucuk_mac = mac(1, "Arsenal", "Burnley", 6), mac(2, "Sabadell", "Tenerife", 6, lig_id=141)
+    ha = likely.havuz([buyuk_mac, kucuk_mac], {1: b, 2: b}, AYAR, OTO, SIMDI)
+    assert any(c["fixture_id"] == 1 and -0.06 <= c["deger"] < -0.04 and likely.kupona_uygun(c, OTO) for c in ha)
+    assert not any(c["fixture_id"] == 2 and likely.kupona_uygun(c, OTO) for c in ha)
+
+
+def test_E6_dev_mac_kuponu(monkeypatch, tmp_path):
+    """Tek seferlik istisna (25 Ekim 2026): dev maç hiçbir kupona girmediyse sınır dolu olsa da onun ayağıyla kupon."""
+    monkeypatch.setattr(likely, "DOSYA", tmp_path / "likely.json")
+    monkeypatch.setattr(likely, "ayar_yukle", lambda *a, **k: OTO)
+    clasico = mac(9, "Barcelona", "Real Madrid", 9, 140)
+    analizler = _analizli(MACLAR) + [{**clasico, "kaynak": "piyasa", "guven": "yuksek",
+                                      "p": {"MS1": 0.57, "MSX": 0.18, "MS2": 0.25, "UST25": 0.81, "KGVAR": 0.77}}]
+    oranlar = {**ORANLAR, 9: oran_seti(0.57, 0.18, 0.81, 0.93)}
+    dolu = [{"ad": f"k{i}", "oto": True, "durum": "bekliyor", "paylas": (SIMDI + timedelta(hours=1, minutes=40 * i)).isoformat(),
+             "ayaklar": [{"fixture_id": 6}]} for i in range(5)]
+    plan = [{"fixture_id": 9, "ev": "Barcelona", "dep": "Real Madrid", "saat": (SIMDI + timedelta(hours=7)).isoformat(),
+             "aci": {"aday_id": "9-IYU05", "etiket": "x", "olasilik": 0.85, "oran": 1.11}}]
+    likely.kaydet({"gunler": [{"tarih": "2026-10-10", "oto": True, "secilen": dolu, "maclar": plan}]})
+    d = likely.dev_kupon(AYAR, analizler, oranlar, SIMDI, yaz=lambda *_: None)
+    gun = likely.yukle()["gunler"][0]
+    assert d and len(gun["secilen"]) == 6 and d["ad"] == "buyuk-maclar" and "istisna" in d
+    assert any(a["fixture_id"] == 9 for a in d["ayaklar"]) and all(a["fixture_id"] != 6 for a in d["ayaklar"])
+    assert OTO.oto_oran_min <= d["oran"] <= OTO.oto_oran_max and d["olasilik"] >= OTO.oto_min_tutma
+    ayak = next(a for a in d["ayaklar"] if a["fixture_id"] == 9)
+    assert gun["maclar"][0]["aci"]["aday_id"] == ayak["aday_id"]  # maç postu kupondaki ayağı gösterir
+    assert likely.dev_kupon(AYAR, analizler, oranlar, SIMDI, yaz=lambda *_: None) is None  # ikinci kez eklenmez

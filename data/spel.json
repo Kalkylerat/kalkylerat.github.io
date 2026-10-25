@@ -140942,7 +140942,20 @@
               2
             ],
             "zaman": "2026-10-25T21:43:20+00:00"
+          },
+          "1570426": {
+            "durum": "paylasildi",
+            "tweet_id": "2114478282464764154",
+            "skor": [
+              1,
+              2
+            ],
+            "zaman": "2026-10-25T22:04:41+00:00"
           }
+        },
+        "takip": {
+          "durum": "tamam",
+          "zaman": "2026-10-25T22:04:41+00:00"
         }
       },
       "analiz_5": {
@@ -141242,7 +141255,26 @@
         "durum": "paylasildi",
         "tweet_id": "2114404943197053032",
         "zaman": "2026-10-25T17:13:13+00:00",
-        "metin": "4+ goals: 64%.\nExpected goals 2.6 – 1.8.\n\n🇪🇸 Barcelona v Real Madrid 🇪🇸 · 21:00 CET\n🏆 Barcelona 57% · Draw 18% · Real Madrid 25%\n⚽ Over 2.5 goals 82% · Under 18%\n🥅 Both teams score 77% · Not both 23%\n\n💬 Chances, not picks. Can Real Madrid beat 25%? 👇\n18+ | Play responsibly"
+        "metin": "4+ goals: 64%.\nExpected goals 2.6 – 1.8.\n\n🇪🇸 Barcelona v Real Madrid 🇪🇸 · 21:00 CET\n🏆 Barcelona 57% · Draw 18% · Real Madrid 25%\n⚽ Over 2.5 goals 82% · Under 18%\n🥅 Both teams score 77% · Not both 23%\n\n💬 Chances, not picks. Can Real Madrid beat 25%? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2114478297379668169",
+          "skor": "1-2",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "xg": [
+            1.27,
+            2.01
+          ],
+          "zaman": "2026-10-25T22:04:41+00:00",
+          "brier": {
+            "piyasa": 1.0139,
+            "istatistik": 1.4279
+          }
+        }
       },
       "bilgi": {
         "durum": "paylasildi",

@@ -33366,8 +33366,25 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.825,
        "deger": -0.035,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-2",
+       "goller": [
+        [
+         3,
+         0,
+         "ev"
+        ],
+        [
+         5,
+         0,
+         "dep"
+        ],
+        [
+         43,
+         0,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1499702-EVA15",
@@ -33570,8 +33587,8 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.824,
        "deger": -0.028,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "0-4"
       },
       {
        "aday_id": "1495991-CS1X",

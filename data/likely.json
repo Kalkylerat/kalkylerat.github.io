@@ -31543,7 +31543,7 @@
    "oto": true,
    "issue": 124,
    "tazeleme": "2026-10-24T09:01:44+00:00",
-   "olcum_sorgu": "2026-10-25T18:31:57+00:00",
+   "olcum_sorgu": "2026-10-25T19:28:53+00:00",
    "kasa": {
     "tweet_id": "2114266126481821744",
     "tur": "gunluk",
@@ -33577,8 +33577,25 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.815,
        "deger": -0.038,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "2-1",
+       "goller": [
+        [
+         6,
+         0,
+         "ev"
+        ],
+        [
+         22,
+         0,
+         "dep"
+        ],
+        [
+         27,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1560050-CSX2",
@@ -33617,13 +33634,17 @@
      "oran": 2.01,
      "olasilik": 0.504,
      "deger": 0.013,
-     "durum": "bekliyor",
+     "durum": "tuttu",
      "secim": "2026-10-25T06:43:23+00:00",
      "oto": true,
      "paylas": "2026-10-25T10:40:00+01:00",
      "tweet_id": "2114291403228578162",
      "metin": "🎩 Just the two legs today. Keeping it dull on purpose.\n\n⚽ Real Sociedad v Levante\n⚽ Hradec Králové v FK Jablonec\n\n📊 Combined 2.01. I make it about 50% to land, so a coin flip with extra steps.\n\n💬 Would you take it at this price?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-25T09:42:02+00:00"
+     "yayin": "2026-10-25T09:42:02+00:00",
+     "son_oran": 2.01,
+     "sonuc_metni": "✅ Both legs in, 2.01 paid. Lovely. I'll try not to be smug.\n\n✅ Real Sociedad 2-1 Levante: Double chance 1X\n✅ Hradec Králové 1-2 FK Jablonec: Double chance X2\n\nRecord stands at 24 of 53 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2114439100983906678",
+     "sonuc_zamani": "2026-10-25T19:28:53+00:00"
     },
     {
      "ad": "gunun-kuponu-3",

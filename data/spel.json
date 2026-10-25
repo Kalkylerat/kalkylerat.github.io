@@ -141059,7 +141059,26 @@
         "durum": "paylasildi",
         "tweet_id": "2114358416584175994",
         "zaman": "2026-10-25T14:08:20+00:00",
-        "metin": "Bayern München win 68%: about 2 in 3.\n\n🇩🇪 SC Freiburg v Bayern München 🇩🇪\n🏆 SC Freiburg 15% · Draw 17% · Bayern München 68%\n⚽ Over 2.5 goals 74% · Under 26%\n🥅 Both teams score 65% · Not both 35%\n\n💬 Chances, not picks. Can SC Freiburg beat 15%? 👇\n18+ | Play responsibly"
+        "metin": "Bayern München win 68%: about 2 in 3.\n\n🇩🇪 SC Freiburg v Bayern München 🇩🇪\n🏆 SC Freiburg 15% · Draw 17% · Bayern München 68%\n⚽ Over 2.5 goals 74% · Under 26%\n🥅 Both teams score 65% · Not both 35%\n\n💬 Chances, not picks. Can SC Freiburg beat 15%? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2114424780510154760",
+          "skor": "1-3",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            1.07,
+            3.0
+          ],
+          "zaman": "2026-10-25T18:31:57+00:00",
+          "brier": {
+            "piyasa": 0.3422,
+            "istatistik": 1.5237
+          }
+        }
       },
       "analiz_8": {
         "durum": "paylasildi",

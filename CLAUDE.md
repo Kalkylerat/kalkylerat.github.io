@@ -3,6 +3,10 @@
 - **Değişiklikten önce `SOZLESME.md`'yi oku.** Oradaki kurallar sahibiyle anlaşılmış, değişmez davranıştır. Bir
   değişiklik bir maddeyi bozacaksa önce sahibine sor; onay gelirse sırayla SOZLESME.md, `tests/test_sozlesme.py`, kod.
 - Her değişiklikten sonra `python -m pytest -q` (sözleşme testleri dahil) yeşil olmalı; kırmızıysa gönderme.
+- **Yeni özellik / sahibinin yeni isteği (SOZLESME G5):** sözleşme → test → sahibinin ilkelerine (G1–G4) ve diğer
+  hesaba etkisi → canlı denetim (`bot/saglik.py`, Mr. Likely için `bot/likely_saglik.py`) → kayıtlı gerçek günle deneme
+  (`data/likely.json`, `data/analiz/`) → ilk gün çıktısını kontrol. Büyük değişiklikten sonra üst modelle bağımsız denetim.
+  Sahibinin bir hesap için söylediği ilke (ör. büyük maç kaçmaz) öbür hesabın yeni özelliğine de uygulanır.
 - Sahibiyle Türkçe konuş; postlar İngilizce.
 - **Maliyet kuralı (sahibinin isteği):** performansı ve doğruluğu düşürmeden en ucuz yöntem. Ücretli her çağrıyı (X okuma/
   yazma, Claude, API-Football) eklemeden önce günlük maliyetini hesapla; aynı veriyi iki kez okuma (önbellek, ortak

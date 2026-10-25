@@ -68,6 +68,11 @@ def main(simdi: datetime | None = None) -> None:
     else:
         print("Bugünün sabah analizi henüz yok (05:17 UTC'de yapılır).")
     sorunlar += likely_durumu(simdi)
+    try:  # Mr. Likely canlı denetimi (SOZLESME G6): alarm issue'sundakilerin aynısı
+        from . import likely_saglik
+        sorunlar += [m for _, m in likely_saglik.canli(config.yukle(), simdi)]
+    except Exception as e:
+        sorunlar.append(f"Mr. Likely canlı denetimi çalışmadı: {e}")
     sorunlar += firsat_durumu(simdi)
     print("SORUN: " + " | ".join(sorunlar) if sorunlar else "SORUN YOK")
 

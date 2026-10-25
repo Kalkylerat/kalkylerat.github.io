@@ -12,6 +12,9 @@
 - Yanlış oranlı kupon maç başlamadan `likely_iptal` ile silinebilir (E5'e tek istisna, 14 Ekim).
 
 ## Açık işler
+- [ ] Büyük maç fiyat sınırı kararı (25 Ekim): Bet365'e geçince büyük maçların en olası oyunu çoğunlukla adil fiyatın
+      %4–6 altında kalıyor (25 Ekim: 15 büyük maçın 1'i ≥−%4); sahibine −%6 önerildi, karar bekliyor.
+- [x] Canlı denetim (SOZLESME G, `bot/likely_saglik.py`) ve sabah "Büyük maçlar nerede" listesi (25 Ekim).
 - [x] Sanal kasa (E8) açıldı (24 Ekim): 10.000 €, palet fiş, 4 postluk duyuru; sahibi 1. postu sabitler.
   Geçmiş (6–24 Ekim) en iyi fiyatla paylaşılan oranlardan; 25 Ekim'den itibaren yalnızca Bet365 fiyatı.
 - Kupon kartında her ayağın yanında ihtimali (% likely), 24 Ekim.

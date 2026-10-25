@@ -251,10 +251,12 @@ def test_A10_durust_fiyat_her_sonuc_esit_secim_yok(monkeypatch):
     monkeypatch.setattr(gorsel.ImageDraw.ImageDraw, "text", lambda self, xy, t, *a, **k: (yazilan.append(t), asil(self, xy, t, *a, **k)))
     a = {**FRA, "marj": 0.052}
     gorsel.analiz_karti(a, "20:45")
-    for k in ("MS1", "MSX", "MS2"):  # üç sonuç aynı biçimde
-        assert f"fair {analiz.adil_oran(a['p'][k])}" in yazilan
-    assert any("Bookmakers keep about 5%" in t for t in yazilan)
+    for k in ("MS1", "MSX", "MS2"):  # üç sonuç aynı biçimde, okunur boyda kendi kutusunda (25 Ekim 2026)
+        assert analiz.adil_oran(a['p'][k]) in yazilan
+    assert "FAIR ODDS" in yazilan and "Bookmakers' cut on this game: 5%" in yazilan
+    yazilan.clear()
     gorsel.analiz_karti(FRA, "20:45")  # marj yoksa uydurulmaz
+    assert "Bookmakers' cut: not available" in yazilan and not any("cut on this game" in t for t in yazilan)
     assert any(t.startswith("Fair odds = 1 ÷ chance") for t in yazilan)
     assert any(t.startswith("Reality check:") for t in yazilan)
     yasak = re.compile(r"\b(value|back|bet|play)\b", re.IGNORECASE)

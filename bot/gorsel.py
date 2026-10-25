@@ -45,9 +45,9 @@ PALETLER = {
            "ev": (77, 166, 255), "dep": (240, 112, 92), "ber": (110, 118, 132)},
 }
 ETIKETLER = {
-    "en": {"baslik": "MATCH ANALYSIS", "kazanan": "WHO WINS?", "beraberlik": "Draw", "adil": "fair {o}",
-           "marj": "Bookmakers keep about {m} on this game. Fair odds = 1 ÷ chance, no margin.",
-           "marjsiz": "Fair odds = 1 ÷ chance, no bookmaker margin.",
+    "en": {"baslik": "MATCH ANALYSIS", "kazanan": "WHO WINS?", "beraberlik": "Draw", "fiyat": "FAIR ODDS",
+           "marj": "Bookmakers' cut on this game: {m}", "marjsiz": "Bookmakers' cut: not available",
+           "adil_not": "Fair odds = 1 ÷ chance, with no bookmaker margin. A lower price means paying for that margin.",
            "gol": "HOW MANY GOALS?", "gol_eksen": "total goals in the match",
            "ust": "Over 2.5 goals {p} · Under {q}", "kg": "Both teams score {p} · Not both {q}",
            "skor": "MOST LIKELY SCORES", "iy": "FIRST HALF", "iy_satir": "Goal in 1st half {p} · Level at half-time {q}",
@@ -55,9 +55,9 @@ ETIKETLER = {
            "not_skor": "Reality check: the likeliest score is only {p}. Think in ranges, not one score.",
            "bg": "Expected goals", "guven": "Data confidence", "g": {"yuksek": "High", "orta": "Medium", "dusuk": "Low"},
            "alt": "Chances, not picks · not betting advice · 18+"},
-    "tr": {"baslik": "MAÇ ANALİZİ", "kazanan": "KİM KAZANIR?", "beraberlik": "Beraberlik", "adil": "adil {o}",
-           "marj": "Bahisçilerin bu maçtaki payı yaklaşık {m}. Adil oran = 1 ÷ ihtimal, marjsız.",
-           "marjsiz": "Adil oran = 1 ÷ ihtimal, bahisçi payı olmadan.",
+    "tr": {"baslik": "MAÇ ANALİZİ", "kazanan": "KİM KAZANIR?", "beraberlik": "Beraberlik", "fiyat": "ADİL ORAN",
+           "marj": "Bahisçilerin bu maçtaki payı: {m}", "marjsiz": "Bahisçi payı: veri yok",
+           "adil_not": "Adil oran = 1 ÷ ihtimal, bahisçi payı olmadan. Daha düşük oran, o payı ödemek demek.",
            "gol": "KAÇ GOL?", "gol_eksen": "maçtaki toplam gol",
            "ust": "2.5 üst {p} · 2.5 alt {q}", "kg": "Karşılıklı gol {p} · Yok {q}",
            "skor": "EN OLASI SKORLAR", "iy": "İLK YARI", "iy_satir": "İlk yarıda gol {p} · İlk yarı berabere {q}",
@@ -135,29 +135,36 @@ def analiz_karti(a: dict, saat: str, dil: str = "en") -> bytes:
             f = _font(15, True)
             d.text((x + (w - d.textlength(t, font=f)) / 2, y - 18), t, font=f, fill=r["soluk"])
         x += w
-    y += 80
-    anahtar = ((a["ev"], r["ev"], p["MS1"]), (e["beraberlik"], r["ber"], p["MSX"]), (a["dep"], r["dep"], p["MS2"]))
-    boy = min(_sigdir(d, ad, cw // 3 - 34, 22, True, 14)[1].size for ad, _, _ in anahtar)
-    for i, (ad, renk, v) in enumerate(anahtar):
-        x = K + i * (cw // 3)
-        t, f = _sigdir(d, ad, cw // 3 - 34, boy, True, boy)
-        d.ellipse((x, y + 5, x + 14, y + 19), fill=renk)
-        d.text((x + 22, y), t, font=f, fill=r["yazi"])
-        d.text((x + 22, y + 32), e["adil"].format(o=adil_oran(v)), font=_font(24, True), fill=r["yazi"])
-    y += 76
+    # Fiyat kontrolü (A10): her sonucun adil oranı büyük ve aynı biçimde; bahisçi payı kutunun köşesinde, okunur boyda
+    y += 82
+    d.rounded_rectangle((K, y, W - K, y + 150), radius=18, fill=r["kart"])
+    d.text((K + 24, y + 18), e["fiyat"], font=_font(21, True), fill=r["soluk"])
     marj = a.get("marj")
     t = e["marj"].format(m=yuzde(marj)) if marj else e["marjsiz"]
-    t, f = _sigdir(d, t, W - 2 * K, 20, en_kucuk=15)
-    d.text((K, y), t, font=f, fill=r["soluk"])
+    fm_ = _font(22, True)
+    d.text((W - K - 24 - d.textlength(t, font=fm_), y + 17), t, font=fm_, fill=r["yazi"] if marj else r["soluk"])
+    anahtar = ((a["ev"], r["ev"], p["MS1"]), (e["beraberlik"], r["ber"], p["MSX"]), (a["dep"], r["dep"], p["MS2"]))
+    sw = (W - 2 * K - 48) // 3
+    boy = min(_sigdir(d, ad, sw - 34, 22, True, 14)[1].size for ad, _, _ in anahtar)
+    for i, (ad, renk, v) in enumerate(anahtar):
+        x = K + 24 + i * sw
+        t, f = _sigdir(d, ad, sw - 34, boy, True, boy)
+        d.ellipse((x, y + 62, x + 14, y + 76), fill=renk)
+        d.text((x + 22, y + 57), t, font=f, fill=r["yazi"])
+        d.text((x + 22, y + 92), adil_oran(v), font=_font(38, True), fill=r["yazi"])
+    t = e["adil_not"]
+    y += 166
+    t, f = _sigdir(d, t, W - 2 * K, 19, en_kucuk=14)
+    d.text((K, y - 4), t, font=f, fill=r["soluk"])
     # Kaç gol: toplam gol dağılımı (sütunlar), en olası sütun vurgulu
-    y += 46
-    d.rounded_rectangle((K, y, W - K, y + 330), radius=18, fill=r["kart"])
+    y += 30
+    d.rounded_rectangle((K, y, W - K, y + 300), radius=18, fill=r["kart"])
     d.text((K + 24, y + 18), e["gol"], font=_font(21, True), fill=r["soluk"])
     t = e["gol_eksen"]
     d.text((W - K - 24 - d.textlength(t, font=_font(19)), y + 20), t, font=_font(19), fill=r["soluk"])
     dag = toplam_gol_dagilimi(a, 6)
     en = max(dag[:-1])  # "6+" birden çok sayının toplamı: en olası işareti yalnızca tek bir gol sayısına
-    gx, gw, taban, boy = K + 30, (W - 2 * K - 60) / len(dag), y + 236, 150
+    gx, gw, taban, boy = K + 30, (W - 2 * K - 60) / len(dag), y + 216, 130
     for i, v in enumerate(dag):
         h = max(4, boy * v / max(dag))
         renk = r["vurgu"] if v == en else r["bar2"]
@@ -172,8 +179,8 @@ def analiz_karti(a: dict, saat: str, dil: str = "en") -> bytes:
     for i, satir in enumerate((e["ust"].format(p=yuzde(p["UST25"]), q=yuzde(p["ALT25"])),
                                e["kg"].format(p=yuzde(p["KGVAR"]), q=yuzde(p["KGYOK"])))):
         t, f = _sigdir(d, satir, (W - 2 * K - 72) // 2, 21)
-        d.text((K + 24 + i * ((W - 2 * K - 48) // 2), y + 290), t, font=f, fill=r["yazi"])
-    y += 356
+        d.text((K + 24 + i * ((W - 2 * K - 48) // 2), y + 262), t, font=f, fill=r["yazi"])
+    y += 322
     # En olası skorlar
     d.text((K, y), e["skor"], font=_font(21, True), fill=r["soluk"])
     cw = (W - 2 * K) / len(a["skorlar"])

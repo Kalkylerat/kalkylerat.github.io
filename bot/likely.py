@@ -648,8 +648,10 @@ Sound like a real fan typing on his phone at full-time, not like a brand or an a
 
 Hard rules:
 - Max 280 characters (emojis count double). Keep the last line exactly "18+ | Play responsibly".
-- Keep every match, every pick and every number from the draft exactly as written. Add no new numbers, stats, news,
-  injuries, quotes or backstory. Never invent a past win or a track record.
+- Keep every match, every pick and every number from the draft exactly as written. Add no new numbers, stats,
+  news, injuries, quotes or backstory. Never invent a past win or a track record.
+- Never abbreviate a pick: "Double chance X2" stays "Double chance X2" (not "X2"), "Both teams score" (not "BTTS"),
+  "Over 2.5 goals" (not "O2.5").
 - Never say or imply a pick is certain: no "lock", "banker", "sure", "guaranteed", "can't lose", "free money", "easy".
 - No links, no @ mentions, no hashtags, no bookmaker or site names, no "DM me", no "join", no selling.
 - Never tell people to bet more, chase losses or borrow. Never claim betting is a way to make a living.
@@ -688,6 +690,10 @@ def ses_uygun(metin: str, sablon: str, zorunlu: list[str]) -> list[str]:
         sorun.append("şablonda olmayan sayı")
     if any(z not in metin for z in zorunlu):
         sorun.append("eksik maç/oyun/oran")
+    # Oyun adı kısaltılmaz (25 Ekim 2026, sahibinin isteği): "X2", "1X", "BTTS", "O2.5" yerine tam ad
+    yalin = re.sub(r"Double chance (1X|X2|12)", "", metin)
+    if denetci.KISALTMA.search(metin) or re.search(r"(?<![\w.])(?:1X|X2|BTTS)(?![\w.])", yalin):
+        sorun.append("kısaltılmış oyun adı")
     if direktor.yz_izi(metin):
         sorun.append("yapay zekâ izi")
     if re.search(r"\b(RT|retweet|repost|like if|follow (me|us|for))\b", metin, re.IGNORECASE):
@@ -716,7 +722,7 @@ def ses_yaz(ayar, sablon: str, zorunlu: list[str], client=None, yaz=print) -> st
 
 
 def _zorunlu(ayaklar: list[dict]) -> list[str]:
-    return [x for a in ayaklar for x in (a["ev"], a["dep"], f'{a["oran"]:.2f}')]
+    return [x for a in ayaklar for x in (a["ev"], a["dep"], f'{a["oran"]:.2f}', a["etiket"])]
 
 
 # ---------- 4. Sabah paketi (issue) ----------
@@ -1077,7 +1083,7 @@ def kontrol(ayar, gh, simdi: datetime, yazici=None, yaz=print) -> int:
                         cevap.append(f"`{kupon['ad']}` zaten seçili.")
                         continue
                     sablon = kupon_metni(kupon, kupon["ayaklar"], gun["tarih"] + kupon["ad"])
-                    kupon["metin"] = yazici(sablon, _zorunlu(kupon["ayaklar"]))
+                    kupon["metin"] = yazici(sablon, [z for z in _zorunlu(kupon["ayaklar"]) if z in sablon])
                     gun["secilen"].append(kupon)
                     gun["durum"] = "secildi"
                     ilk = min(a["baslama"] for a in kupon["ayaklar"])
@@ -1155,7 +1161,8 @@ def sonuclar(ayar, sonuc_al, gh, simdi: datetime, yazici=None, yaz=print) -> int
                 biten += 1
                 sablon = sonuc_metni(k, karne(veri), gun["tarih"] + k["ad"])
                 # Sesli yazımda maç adları ve (anlatı varsa) belirleyici dakika korunur
-                k["sonuc_metni"] = yazici(sablon, [x for a in k["ayaklar"] for x in (a["ev"], a["dep"])]
+                k["sonuc_metni"] = yazici(sablon, [x for a in k["ayaklar"] for x in (a["ev"], a["dep"], a["etiket"])
+                                                   if x in sablon]
                                           + [x["dk"] for x in filter(None, map(an, k["ayaklar"])) if x["dk"] in sablon])
                 if gun.get("issue"):
                     gh.yorum(gun["issue"], f"### Sonuç: kupon `{k['ad']}` "

@@ -1199,3 +1199,16 @@ def test_E1_yatan_kupon_sonucu_gelmeyen_ayagi_beklemez(monkeypatch, tmp_path):
     likely.sonuclar(AYAR, al2, gh, SIMDI + timedelta(hours=10))
     k2 = likely.yukle()["gunler"][0]["secilen"][0]
     assert k2["durum"] == "bekliyor" and not k2.get("sonuc_metni")
+
+
+def test_E2_karakter_metni_oyun_adini_kisaltamaz():
+    """25 Ekim 2026: sesli yazım "Double chance X2"yi "X2" diye kısaltmıştı; artık metin reddedilir, şablon gider."""
+    sablon = ("❌ Coupon down.\n\n❌ Esbjerg 2-1 FC Fredericia: Double chance X2\n✅ A 2-0 B: Both teams score\n\n"
+              "Record: 23 of 51 landed.\n18+ | Play responsibly")
+    zorunlu = ["Esbjerg", "FC Fredericia", "Double chance X2", "A", "B", "Both teams score"]
+    assert likely.ses_uygun(sablon, sablon, zorunlu) == []
+    kisa = sablon.replace("Double chance X2", "X2")
+    assert "kısaltılmış oyun adı" in likely.ses_uygun(kisa, sablon, zorunlu)
+    assert "eksik maç/oyun/oran" in likely.ses_uygun(kisa, sablon, zorunlu)
+    assert likely.ses_uygun(sablon.replace("Both teams score", "BTTS"), sablon, []) != []
+    assert "Double chance X2" in likely._zorunlu([{"ev": "E", "dep": "D", "oran": 1.2, "etiket": "Double chance X2"}])

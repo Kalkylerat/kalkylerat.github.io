@@ -49,12 +49,16 @@ def test_G6_geciken_kupon_mac_sonuc_kasa_alarm():
                      "ayaklar": []},
                     {"ad": "b", "oto": True, "tweet_id": "2", "durum": "yatti",
                      "ayaklar": [{"fixture_id": 1, "ev": "E", "dep": "D", "baslama": bas, "oran_kaynagi": "Bet365"}]}],
-        "maclar": [{"fixture_id": 3, "ev": "X", "dep": "Y", "saat": (SIMDI - timedelta(hours=1)).isoformat()},
-                   {"fixture_id": 4, "ev": "Z", "dep": "W", "saat": bas, "tweet_id": "denetci"}]}]}
+        "maclar": [{"fixture_id": 3, "ev": "X", "dep": "Y", "saat": (SIMDI - timedelta(hours=1)).isoformat(),
+                    "baslama": (SIMDI + timedelta(minutes=20)).isoformat()},
+                   {"fixture_id": 5, "ev": "Q", "dep": "R", "saat": (SIMDI - timedelta(hours=1)).isoformat(),
+                    "baslama": (SIMDI + timedelta(hours=2)).isoformat()},
+                   {"fixture_id": 4, "ev": "Z", "dep": "W", "saat": bas, "baslama": bas, "tweet_id": "denetci"}]}]}
     m = " | ".join(mesajlar(v))
     assert "a: planlanan saatten 30 dk geçti, kupon paylaşılmadı" in m
     assert "b: son maç başlayalı 6 saat oldu, sonuç postu hâlâ yok" in m
-    assert "maç X v Y: planlanan saatten 30 dk geçti" in m and "maç Z v W: atılmadı (denetci)" in m
+    assert "maç X v Y: maç başlamak üzere, post paylaşılmadı (kaçtı)" in m and "maç Z v W: atılmadı (denetci)" in m
+    assert "Q v R" not in m  # kaymış ama vakti olan maç postu alarm değil
     assert "kasa grafiği ertesi sabah 09:30'a kadar çıkmadı" in m
     assert not mesajlar(v, cfg=likely.LikelyAyar(aktif=True, mod="elle"))  # elle modda denetim yok
 

@@ -141025,7 +141025,26 @@
         "durum": "paylasildi",
         "tweet_id": "2114346325357576237",
         "zaman": "2026-10-25T13:20:17+00:00",
-        "metin": "Ajax win 67%: about 2 in 3.\n\n🇳🇱 Sparta Rotterdam v Ajax 🇳🇱\n🏆 Sparta Rotterdam 16% · Draw 18% · Ajax 67%\n⚽ Over 2.5 goals 71% · Under 29%\n🥅 Both teams score 63% · Not both 37%\n\n💬 Chances, not picks. More or fewer than 2.5 goals? 👇\n#Eredivisie\n18+ | Play responsibly"
+        "metin": "Ajax win 67%: about 2 in 3.\n\n🇳🇱 Sparta Rotterdam v Ajax 🇳🇱\n🏆 Sparta Rotterdam 16% · Draw 18% · Ajax 67%\n⚽ Over 2.5 goals 71% · Under 29%\n🥅 Both teams score 63% · Not both 37%\n\n💬 Chances, not picks. More or fewer than 2.5 goals? 👇\n#Eredivisie\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2114412292620316688",
+          "skor": "1-2",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            0.93,
+            1.26
+          ],
+          "zaman": "2026-10-25T17:42:07+00:00",
+          "brier": {
+            "piyasa": 0.3911,
+            "istatistik": 0.2278
+          }
+        }
       },
       "analiz_7": {
         "durum": "paylasildi",

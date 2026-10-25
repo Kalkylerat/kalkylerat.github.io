@@ -1,6 +1,27 @@
 {
 "ogeler": [
 {
+"id": "likely:yorum:https://x.com/i/web/status/2114409601047069023",
+"hesap": "likely",
+"tur": "yorum",
+"zaman": "2026-10-25T17:42:07+00:00",
+"son": "2026-10-26T17:42:07+00:00",
+"kim": "@Lozlibpool → @Mrlikelyx",
+"post": "@Mrlikelyx @WhoScored Change your name to Ms Unlikely",
+"url": "https://x.com/i/web/status/2114409601047069023",
+"not": "Kullanıcı espri yapıp hesabın adını 'Ms Unlikely' olarak değiştirmemizi söylüyor; hafif ve dostane bir laf atma.",
+"taslaklar": [
+[
+"1. taslak",
+"Ms Unlikely, I'll think about it. I did have Liverpool at 46% though, so the name might be a bit harsh on me."
+],
+[
+"2. taslak",
+"Fair, I walked into that one. Did you have Liverpool higher than my 46%?"
+]
+]
+},
+{
 "id": "likely:firsat:https://x.com/ESPNFC/status/2114311809788162174",
 "hesap": "likely",
 "tur": "firsat",
@@ -106,5 +127,5 @@
 ]
 }
 ],
-"guncelleme": "2026-10-25T12:02:21+00:00"
+"guncelleme": "2026-10-25T17:42:07+00:00"
 }

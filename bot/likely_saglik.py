@@ -111,7 +111,7 @@ def sorunlar(veri: dict, analizler: list[dict], simdi: datetime, ayar, cfg) -> l
             ad = f'Mr. Likely {t} maç {m["ev"]} v {m["dep"]}'
             if m.get("tweet_id") in DOLU:
                 bulunan.append((f'{t}:likely:mac:{m["fixture_id"]}', f'🛑 {ad}: atılmadı ({m["tweet_id"]})'))
-            elif not m.get("tweet_id") and simdi > datetime.fromisoformat(m["baslama"]) - timedelta(minutes=25):
+            elif not m.get("tweet_id") and simdi > datetime.fromisoformat(m.get("baslama") or m["saat"]) - timedelta(minutes=25):
                 # maç postu başka bir posta yer açmak için kayabilir; alarm yalnızca kaçtıysa (son saat: maçtan 30 dk önce)
                 bulunan.append((f'{t}:likely:mac:{m["fixture_id"]}', f'⏰ {ad}: maç başlamak üzere, post paylaşılmadı (kaçtı)'))
             elif m.get("hikaye") and m.get("zaman") and not m.get("hikaye_ids"):

@@ -28695,7 +28695,7 @@
   {
    "tarih": "2026-10-24",
    "olusturma": "2026-10-24T05:42:06+00:00",
-   "durum": "secildi",
+   "durum": "bitti",
    "havuz": [
     {
      "aday_id": "1556881-CS1X",
@@ -30994,7 +30994,8 @@
        "olasilik": 0.71,
        "deger": -0.035,
        "durum": "bekliyor",
-       "skor": null
+       "skor": null,
+       "sonucsuz": true
       }
      ],
      "oran": 2.18,
@@ -31007,7 +31008,10 @@
      "tweet_id": "2113922353570656517",
      "metin": "🎩 Three legs today.\n\n⚽ Esbjerg v FC Fredericia\n⚽ Ironi Kiryat Shmona v Bnei Sakhnin\n⚽ Arda Kardzhali v Levski Sofia\n\n📊 Combined 2.18. I make it about 42% to land.\n\n💬 Would you take it at this price?\n\n18+ | Play responsibly",
      "yayin": "2026-10-24T09:15:34+00:00",
-     "son_oran": 1
+     "son_oran": 1,
+     "sonuc_metni": "❌ Coupon down. Two legs gone before the third has finished.\n\n❌ Esbjerg 2-1 FC Fredericia: X2\n❌ Ironi Kiryat Shmona 0-1 Bnei Sakhnin: 1X\n⏳ Arda Kardzhali v Levski Sofia: 1st half Under 1.5 goals, no result yet\n\nRecord: 23 of 51 landed. Mine to own.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2114262546718798121",
+     "sonuc_zamani": "2026-10-25T07:47:20+00:00"
     },
     {
      "ad": "gunun-kuponu-4",

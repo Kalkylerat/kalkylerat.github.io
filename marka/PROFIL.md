@@ -12,11 +12,16 @@ Bu dosyadaki metinleri olduğu gibi kopyalayın. Görseller bu klasörde: `logo.
 | Web sitesi | `https://kalkylerat.github.io/` (taşıma adımlarından sonra) |
 | Dil | English |
 
-## Biyografi (Bio) — 22 Ekim 2026, yeni konum
+## Biyografi (Bio) — 25 Ekim 2026, sahibinin seçimi (149/160)
 
 ```
-Football chances from the odds, in plain numbers. A fair price for every result. Every result shown after full time. Chances, not picks. 18+
+📊 Football chances from the odds, in plain numbers
+⚖️ A fair price for every result
+🔁 Every result shown after full time
+Chances, not picks · 18+
 ```
+
+İsim önerisi: `Kalkylerat 📊` · Konum alanı önerisi: `⚽ Every big game, every day`
 
 ## Sabitlenmiş tweet
 

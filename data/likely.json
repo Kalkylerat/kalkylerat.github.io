@@ -31554,7 +31554,7 @@
   {
    "tarih": "2026-10-25",
    "olusturma": "2026-10-25T06:43:23+00:00",
-   "durum": "secildi",
+   "durum": "bitti",
    "havuz": [
     {
      "aday_id": "1495992-CS12",
@@ -33738,8 +33738,25 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.808,
        "deger": -0.014,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "1-2",
+       "goller": [
+        [
+         51,
+         0,
+         "dep"
+        ],
+        [
+         61,
+         0,
+         "dep"
+        ],
+        [
+         66,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1576508-EVU05",
@@ -33783,13 +33800,17 @@
      "oran": 2.0,
      "olasilik": 0.483,
      "deger": -0.034,
-     "durum": "bekliyor",
+     "durum": "yatti",
      "secim": "2026-10-25T06:43:23+00:00",
      "oto": true,
      "paylas": "2026-10-25T12:00:00+01:00",
      "tweet_id": "2114312346902639089",
      "metin": "🎩 Three legs today. One more than I like, but here we are.\n\n⚽ Viking v Tromso\n⚽ Gimnasia Jujuy v Atlanta\n⚽ Felgueiras 1932 v Lusitânia Lourosa\n\n📊 Combined 2.00. I make it about 48% to land. So probably not, slightly.\n\n💬 Which leg worries you most?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-25T11:05:16+00:00"
+     "yayin": "2026-10-25T11:05:16+00:00",
+     "son_oran": 1.64,
+     "sonuc_metni": "❌ One leg short.\n\n✅ Viking 3-1 Tromso: Double chance 1X\n❌ Gimnasia Jujuy 1-2 Atlanta: Double chance 1X\n✅ Felgueiras 1932 2-2 Lusitânia Lourosa: Felgueiras 1932 Over 0.5 goals\n\nRecord: 25 of 56 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2114463874120314955",
+     "sonuc_zamani": "2026-10-25T21:07:20+00:00"
     },
     {
      "ad": "gunun-kuponu-4",

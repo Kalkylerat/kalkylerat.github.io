@@ -140915,6 +140915,15 @@
               0
             ],
             "zaman": "2026-10-25T18:24:45+00:00"
+          },
+          "1550163": {
+            "durum": "paylasildi",
+            "tweet_id": "2114433706689511452",
+            "skor": [
+              0,
+              2
+            ],
+            "zaman": "2026-10-25T19:07:34+00:00"
           }
         }
       },
@@ -141084,7 +141093,26 @@
         "durum": "paylasildi",
         "tweet_id": "2114370949671793110",
         "zaman": "2026-10-25T14:58:08+00:00",
-        "metin": "Juventus win 63%: about 2 in 3.\nLecce win it about 1 time in 7 (15%).\n\n🇮🇹 Lecce v Juventus 🇮🇹 · 18:00 CET\n🏆 Lecce 15% · Draw 22% · Juventus 63%\n⚽ Over 2.5 goals 51% · Under 49%\n🥅 Both teams score 47% · Not both 53%\n\n💬 Not picks. What's your score? 👇\n18+ | Play responsibly"
+        "metin": "Juventus win 63%: about 2 in 3.\nLecce win it about 1 time in 7 (15%).\n\n🇮🇹 Lecce v Juventus 🇮🇹 · 18:00 CET\n🏆 Lecce 15% · Draw 22% · Juventus 63%\n⚽ Over 2.5 goals 51% · Under 49%\n🥅 Both teams score 47% · Not both 53%\n\n💬 Not picks. What's your score? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2114433751467876644",
+          "skor": "0-2",
+          "isabet": [
+            true,
+            false,
+            true
+          ],
+          "xg": [
+            1.02,
+            1.13
+          ],
+          "zaman": "2026-10-25T19:07:34+00:00",
+          "brier": {
+            "piyasa": 0.6788,
+            "istatistik": 1.1286
+          }
+        }
       },
       "analiz_9": {
         "durum": "paylasildi",

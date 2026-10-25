@@ -76,12 +76,14 @@ kime = "Kalkylerat-desk"
 # bot hiçbir zaman kendisi cevap atmaz (X kuralı). gunluk_yorum: günde kaç fırsat gelsin (0 = kapalı).
 # saatler (UTC): aramaların yapıldığı saatler; fırsatlar bunlara bölünür. Maliyet: arama başına ~$0.13 (X okuma).
 aktif = true
-gunluk_yorum = 10
-saatler = [10, 13, 16, 18]
+# 25 Ekim 2026 (sahibinin isteği: daha çok etkileşim): 10→20 ve 5→15, 6 arama (akşam maçlarının öncesi dahil), her
+# aramada bugünkü büyük maçların kulüp hesapları da. Maliyet: arama başına ~$0.20 + kulüp araması ~$0.13 → günde ~$2.
+gunluk_yorum = 20
+saatler = [10, 12, 14, 16, 18, 20]
 # Mr. Likely hesabı için de (kendi sesiyle; cevapları Mr. Likely hesabından atarsın). Aynı saatlerde: o saatin tek
 # araması iki hesaba bölünür (ücret bir kez), aynı post iki hesaba hiç önerilmez (koordineli davranış gibi görünür).
-likely_gunluk_yorum = 5
-likely_saatler = [10, 13, 16, 18]
+likely_gunluk_yorum = 15
+likely_saatler = [10, 12, 14, 16, 18, 20]
 
 [topluluk]
 # X Topluluğu (Communities): küçük hesaplar için en etkili erişim yolu. Hesapla bir futbol/istatistik topluluğuna

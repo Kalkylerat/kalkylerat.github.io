@@ -42,7 +42,7 @@
   z>2. "Gala günü" reddedildi. X API 402 (kredi bitti) çözüldü.
 - 14 Ekim: DC12 yasağı (E6), E7 zamanlaması (maçtan ≥45 dk önce), 2,05'lik aykırı oran → `AYKIRI_FIYAT` %8 ve +%15
   değer tavanı, `likely_iptal` (E5 istisnası).
-- Yorum fırsatları günde 5 (10/13/16/18 UTC), "📋 Kopyala ve postu aç" sayfasıyla elle.
+- Yorum fırsatları günde 15 (10/12/14/16/18/20 UTC, 25 Ekim'den; önce 5), gelen kutusu sayfasıyla elle.
 - 15 Ekim: insan sesli cevap taslakları (PR #70). 18 Ekim: günde 5 kupon + öğlen tazeleme (PR #102).
 
 ## İlk mesaj
@@ -73,7 +73,7 @@
 - **Duyuru postu (21 Ekim, taslak PR #116, 352 test, SOZLESME E1'e eklendi):** ~07:50 UTC'de, 11:00 tazelemesini beklemeden;
   sayı o anda hazır kupon sayısı, 5'ten azsa "Might add one later if the odds move my way." gibi biter; 0 kuponda ya da
   ilk kupon paylaşıldıysa atılmaz; günlük farklı şablon; maliyet günde 1 X yazma.
-- **Yorum taslağı kodu:** `bot/firsat.py` (günde 5, 10/13/16/18 UTC) ve `bot/yorum.py` (30 dk); kupon/sonuç metni
+- **Yorum taslağı kodu:** `bot/firsat.py` (günde 15, 10/12/14/16/18/20 UTC) ve `bot/yorum.py` (30 dk); kupon/sonuç metni
   `bot/likely.py` (`ses_yaz`, `ses_uygun`, `SES_SISTEM`). 15 Ekim sesi üç kural: her taslak bizim yüzdemize bağlanır,
   hakaretsiz takılma serbest, uzun tire, "not X, it's Y" ve "Honestly," elenir. `.claude/skills/humanizer` eklendi.
 - **Ders (sahibi kızdı, 18 Ekim):** neden bulunmuş ama kod değişmemişken bunu açık söylemeden bırakma. Her cevapta

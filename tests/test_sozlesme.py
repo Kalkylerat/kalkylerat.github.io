@@ -748,8 +748,8 @@ def test_D6_yorum_firsati_sayilari_ve_saatleri_sozlesmedeki_gibi():
     """Sahibiyle anlaşılan sayılar (14 Ekim): değiştirmek için önce SOZLESME.md D6."""
     from bot import firsat
     cfg = firsat.ayar_yukle()
-    assert cfg.aktif and cfg.gunluk_yorum == 10 and cfg.likely_gunluk_yorum == 5
-    assert cfg.saatler == [10, 13, 16, 18] and cfg.likely_saatler == cfg.saatler  # tek arama iki hesaba
+    assert cfg.aktif and cfg.gunluk_yorum == 20 and cfg.likely_gunluk_yorum == 15  # sahibinin isteği 25 Ekim 2026
+    assert cfg.saatler == [10, 12, 14, 16, 18, 20] and cfg.likely_saatler == cfg.saatler  # tek arama iki hesaba
     assert firsat.TAZE_SAAT == 3
 
 
@@ -873,3 +873,33 @@ def test_D6_kulup_hesabi_takim_adi_sayilir():
     assert firsat.eslesen_mac("@ChelseaFC travel to face @Arsenal tonight", kartlar)["ev"] == "Arsenal"
     assert firsat.eslesen_mac("@InterMiamiCF win tonight", kartlar) is None
     assert firsat.eslesen_mac("@Arsenal_Women face City tonight", kartlar) is None
+
+
+def test_D6_kulup_hesaplari_ikinci_arama_ve_onbellek(tmp_path, monkeypatch):
+    """25 Ekim 2026 (sahibinin isteği): bugünkü büyük maçların resmi kulüp hesapları da aranır; aynı saatin araması
+    iki hesaba bir kez (ücret bir kez)."""
+    from bot import firsat
+    assert firsat.kulup_hesaplari([mac(1, "Barcelona", "Real Madrid", saat="20:00"), mac(2, "Sabadell", "Tenerife")]) \
+        == ["FCBarcelona", "realmadriden"]
+    monkeypatch.setattr(firsat, "DOSYA", tmp_path / "firsatlar.json")
+    monkeypatch.setattr(firsat, "ayar_yukle", lambda: firsat.BuyumeAyar(gunluk_yorum=4, likely_gunluk_yorum=4, saatler=[10], likely_saatler=[10]))
+    simdi = datetime(2026, 10, 3, 10, 5, tzinfo=UTC)
+    z = (simdi - timedelta(minutes=20)).isoformat().replace("+00:00", "Z")
+    gun = {"analizler": [mac(1, "Barcelona", "Real Madrid", saat="19:00")],
+           "etkilesim": {"analiz_0": {"durum": "paylasildi", "tweet_id": "777"}}}
+
+    class X:
+        sorgular = []
+        def ara(self, sorgu, *a, **k):
+            X.sorgular.append(sorgu)
+            return [{"id": "9", "metin": "Matchday. Barcelona v Real Madrid tonight", "kullanici": "FCBarcelona", "zaman": z,
+                     "metrik": {"like_count": 50}}] if "FCBarcelona" in sorgu else []
+
+    class GH:
+        def issue_ac(self, *a): return 1
+        def yorum(self, *a): pass
+    monkeypatch.setattr(firsat, "taslaklar", lambda *a, **k: ["Big one tonight"])
+    assert firsat.kontrol(X(), GH(), AYAR, gun, simdi, client=object(), hesap="likely") == 1
+    assert len(X.sorgular) == 2 and "from:realmadriden" in X.sorgular[1]
+    firsat.kontrol(X(), GH(), AYAR, gun, simdi, client=object(), hesap="kalkylerat")
+    assert len(X.sorgular) == 2  # aynı saatin araması öbür hesaba önbellekten

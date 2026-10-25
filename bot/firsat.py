@@ -22,15 +22,35 @@ DOSYA = config.ROOT / "data" / "firsatlar.json"
 ARAMA_ADET = 40  # bir aramada en fazla bu kadar post okunur (~$0.20); aynı saatteki arama iki hesaba yeter.
 # Yalnızca kartımız olan maçların postları seçildiği için 25 yetmiyordu (14 Ekim).
 TAZE_SAAT = 3  # yalnızca son bu kadar saatte atılmış postlar (eski posta yanıt görünmez)
+KULUP_ADET = 25  # bugünkü büyük maçların kulüp hesaplarından ikinci arama (25 Ekim 2026: daha çok, daha isabetli fırsat)
+
+# Büyük kulüplerin resmi (İngilizce) X hesapları: maç günü postları ("Matchday", kadro, ön izleme) en isabetli
+# fırsatlar; analizdeki takım adı → hesap. Yanlış ya da eksik hesap yalnızca boş sonuç verir (ücret post başına).
+KULUP_HESAPLARI = {
+    "arsenal": "Arsenal", "chelsea": "ChelseaFC", "liverpool": "LFC", "manchester united": "ManUtd",
+    "manchester city": "ManCity", "tottenham": "SpursOfficial", "newcastle": "NUFC", "aston villa": "AVFCOfficial",
+    "everton": "Everton", "west ham": "WestHam", "barcelona": "FCBarcelona", "real madrid": "realmadriden",
+    "atletico madrid": "atletienglish", "sevilla": "SevillaFC_ENG", "bayern münchen": "FCBayernEN",
+    "borussia dortmund": "BlackYellow", "bayer leverkusen": "bayer04_en", "juventus": "juventusfcen",
+    "inter": "Inter_en", "ac milan": "acmilan", "napoli": "en_sscnapoli", "as roma": "ASRomaEN",
+    "paris saint germain": "PSG_English", "marseille": "OM_English", "galatasaray": "GalatasaraySK",
+    "fenerbahce": "Fenerbahce", "besiktas": "Besiktas", "celtic": "CelticFC", "rangers": "RangersFC",
+    "ajax": "AFCAjax", "benfica": "SLBenfica", "porto": "FCPorto", "sporting cp": "SportingCP_en"}
+
+
+def kulup_hesaplari(maclar: list[dict]) -> list[str]:
+    """Bugünkü (başlamamış) maçlarda oynayan büyük kulüplerin hesapları, tekrarsız."""
+    return list(dict.fromkeys(KULUP_HESAPLARI[t.lower().strip()] for a in maclar for t in (a["ev"], a["dep"])
+                              if t.lower().strip() in KULUP_HESAPLARI))
 
 
 @dataclass
 class BuyumeAyar:
     aktif: bool = True
-    gunluk_yorum: int = 10
-    saatler: list = field(default_factory=lambda: [10, 13, 16, 18])  # UTC, aramaların yapıldığı saatler
-    likely_gunluk_yorum: int = 5  # Mr. Likely hesabı için (0 = kapalı)
-    likely_saatler: list = field(default_factory=lambda: [10, 13, 16, 18])  # aynı saatler: tek arama iki hesaba
+    gunluk_yorum: int = 20
+    saatler: list = field(default_factory=lambda: [10, 12, 14, 16, 18, 20])  # UTC, aramaların yapıldığı saatler
+    likely_gunluk_yorum: int = 15  # Mr. Likely hesabı için (0 = kapalı)
+    likely_saatler: list = field(default_factory=lambda: [10, 12, 14, 16, 18, 20])  # aynı saatler: tek arama iki hesaba
     hesaplar: list = field(default_factory=lambda: [
         "OptaJoe", "OptaAnalyst", "Squawka", "ESPNFC", "brfootball", "FootballTweet", "433",
         "goal", "SkySportsPL", "SkySportsNews", "BBCSport", "TheAthleticFC", "ChampionsLeague", "premierleague",
@@ -308,6 +328,10 @@ def kontrol(x, gh, ayar, gun: dict | None, simdi: datetime, client, yaz=print, h
         ham = onbellek["postlar"]  # bu saatin araması diğer hesap için yapıldı: tekrar ücret ödenmez
     else:
         ham = x.ara(sorgu(cfg.hesaplar), baslangic, ARAMA_ADET)
+        kulupler = kulup_hesaplari(maclar)
+        if kulupler:  # bugünkü büyük maçların kulüp hesapları (ayrı sorgu: X sorgu sınırı 512 karakter)
+            gorulmus = {p["id"] for p in ham}
+            ham += [p for p in x.ara(sorgu(kulupler), baslangic, KULUP_ADET) if p["id"] not in gorulmus]
         veri["onbellek"] = {"tarih": tarih, "saat": saat, "postlar": ham}
     # Sahibinin isteği (25 Ekim 2026, D6): videolu post yok (taslak videoyu göremez) ve yalnızca bizim rakamımızı
     # verebileceğimiz, bugünkü bir maçla eşleşen postlar

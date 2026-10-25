@@ -7,7 +7,7 @@
   maç sonu postu, tablo altına sonuçlar, anket ve bilgi postları. Kupon, kasa ya da bahis tavsiyesi yok.
 - GitHub Actions: nabız ~7 dakikada bir, nöbetçi nabız durursa yeniden başlatır. Saatlik Claude nöbeti Haiku 5.5 ile
   yalnızca kontrol eder (`.claude/skills/nobet/SKILL.md`).
-- Yorum fırsatları: 10, 13, 16, 18 UTC; yalnızca kartı paylaşılmış maçlardan söz eden büyük hesap postları, günde en
+- Yorum fırsatları: 10, 12, 14, 16, 18, 20 UTC (25 Ekim'den; günde 20, her aramada bugünkü büyük maçların kulüp hesapları da); yalnızca kartı paylaşılmış maçlardan söz eden büyük hesap postları, günde en
   fazla 10 (SOZLESME D6). Cevabı sahibi elle atar.
 - API-Football Pro (190 kr/ay) Mr. Likely ile ortak; Mr. Likely ek istek atmaz.
 

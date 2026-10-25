@@ -31543,7 +31543,7 @@
    "oto": true,
    "issue": 124,
    "tazeleme": "2026-10-24T09:01:44+00:00",
-   "olcum_sorgu": "2026-10-25T16:37:49+00:00",
+   "olcum_sorgu": "2026-10-25T17:34:25+00:00",
    "kasa": {
     "tweet_id": "2114266126481821744",
     "tur": "gunluk",
@@ -34445,7 +34445,18 @@
      },
      "saat": "2026-10-25T18:30:00+01:00",
      "gunun_maci": true,
-     "hikaye": true
+     "hikaye": true,
+     "tweet_id": "2114410282118459550",
+     "metin": "🎩 Match of the day: Barcelona v Real Madrid, 21:00 CET.\n\n📊 Barcelona 57% · Draw 18% · Real Madrid 25%\n\n🛡️ Safest angle: 1st half Over 0.5 goals, 86% at 1.11. Not in today's coupons.\n\n💬 Who takes it? Vote below.\n\n👇 More below: the story and team news",
+     "zaman": "2026-10-25T17:34:25+00:00",
+     "hikaye_ids": [
+      "2114410283418726743",
+      "2114410284693782735"
+     ],
+     "hikaye_metin": [
+      "📋 The story\n🏠 Barcelona have won all 4 home league games this season.\n🏆 A top-four clash: Barcelona top on 27 pts, Real Madrid 3rd on 21 pts.\n🔥 Barcelona have won their last 9 league games.",
+      "🩹 Out: R. Bardghji, A. Christensen, E. Garcia (Barcelona) · R. Asencio, F. Mendy, Rodrygo (Real Madrid).\n🌍 Both played midweek: Barcelona lost 4-2 at Paris Saint Germain, Real Madrid won 4-1 v RB Leipzig.\n\n💬 Does the run go on today?\n\n18+ | Play responsibly"
+     ]
     }
    ],
    "issue": 127,

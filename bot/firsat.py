@@ -383,11 +383,13 @@ def kontrol(x, gh, ayar, gun: dict | None, simdi: datetime, client, yaz=print, h
                 return sayfa_ogesi(kim, p["metin"], url, [f"{x}\n\n{ek}" for x in t])
             return sayfa_ogesi(kim, p["metin"], url, t, [(etiket_adi, f"{t[0]}\n\n{ek}")] if ek else [])
         ogeler = [ogesi(bas + i, p, mac, t, ek) for i, (p, mac, t, ek) in enumerate(gonderilen, 1)]
-        sayfa = kopya.sayfa_yaz(f"firsat-{hesap}-{saat}.html", f"Yorum fırsatları {ADLAR[hesap]} · {saat}:00 UTC",
+        etiket_saat = saat if isinstance(saat, str) else f"{saat}:00"  # "şimdi ara": "10:50"
+        sayfa = kopya.sayfa_yaz(f"firsat-{hesap}-{str(saat).replace(':', '')}.html",
+                                f"Yorum fırsatları {ADLAR[hesap]} · {etiket_saat} UTC",
                                 ogeler, simdi, uyari)
         kutu = kopya.kutu_ekle(ogeler, hesap, "firsat", simdi, KUTU_OMUR_DK)  # tek sayfa: gelen kutusu
         gh.yorum(h["issue"]["no"], (f"@{ayar.alarm_kime} " if getattr(ayar, "alarm_kime", "") else "")
-                 + f"**{saat}:00 UTC fırsatları ({ADLAR[hesap]})**\n\n"
+                 + f"**{etiket_saat} UTC fırsatları ({ADLAR[hesap]})**\n\n"
                  + (f"{uyari}\n\n" if uyari else "")
                  + f"📥 **[Gelen kutusu]({kutu})** (iki hesabın bütün fırsatları ve yorumları tek sayfada; 1–2 dakikada güncellenir) · "
                  + f"[yalnızca bu saatin sayfası]({sayfa})\n\n"

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><title>Yorum fırsatları Mr. Likely · 10:00 UTC</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{overflow-wrap:anywhere;margin:0;background:#000;color:#e7e9ea;font:16px/1.45 -apple-system,system-ui,Roboto,sans-serif}
+main{max-width:640px;margin:0 auto;padding:16px}h1{font-size:18px;margin:4px 0 4px}.not{color:#ffd166;margin:0 0 12px}
+.oge{border:1px solid #2f3336;border-radius:14px;padding:14px;margin:0 0 18px}.kim{color:#71767b;font-size:14px}
+.post{color:#c4c9cc;font-size:14px;margin:6px 0 10px;white-space:pre-wrap}.ac{color:#1d9bf0;font-size:14px}
+.taslak{background:#16181c;border-radius:12px;padding:12px;margin:10px 0 0}.metin{white-space:pre-wrap;margin:0 0 10px}
+button{width:100%;border:0;border-radius:999px;padding:13px;font-size:16px;font-weight:700;background:#1d9bf0;color:#fff}
+button.ikinci{background:#2f3336;margin-top:8px;font-weight:600}
+</style></head><body><main>
+<h1>Yorum fırsatları Mr. Likely · 10:00 UTC</h1><p class="not">⚠️ Önce X&#x27;te Mr. Likely hesabına geç: post X&#x27;te açık olan hesapla açılır.</p>
+<p class="kim">Düğme metni panoya kopyalar ve postu X'te açar. X'te <b>Yanıtla</b>'ya dokun, kutuya uzun basıp
+<b>Yapıştır</b>, sonra gönder.</p>
+<section class="oge"><div class="kim">1. @WhoScored · Liverpool v Brighton</div><p class="post">Liverpool 🆚 Brighton Combined XI (based on 2026/27 Premier League ratings) ⚔️
+
+🔵 9 - Brighton
+🔴 2 - Liverpool
+
+#LIVBRI https://t.co/T2tPVfLBNg</p><a class="ac" href="https://x.com/WhoScored/status/2114280810455212405">Postu X'te gör</a><div class="taslak"><div class="kim">1. taslak</div><p class="metin">9 from Brighton and 2 from Liverpool. Ratings are one thing, my model still has Liverpool at 46%, so I&#x27;m trusting nobody here</p><button onclick="kopyala(0,true,this)">📋 Kopyala ve postu aç</button><button class="ikinci" onclick="kopyala(0,false,this)">Sadece kopyala</button></div><div class="taslak"><div class="kim">2. taslak</div><p class="metin">Brighton fans will be happy with that. I&#x27;ve got them at 31% though, so a bit of calm. Which of the two Liverpool names would you swap out?</p><button onclick="kopyala(1,true,this)">📋 Kopyala ve postu aç</button><button class="ikinci" onclick="kopyala(1,false,this)">Sadece kopyala</button></div></section>
+<section class="oge"><div class="kim">2. @Footballtweet</div><p class="post">🔴⚪ James Ward-Prowse with a perfect response when asked about Nuno Espírito Santo and getting one over on him.
+
+Look at that twinkle in his eye.
+
+👏 Great questioning from Troy Deeney.  https://t.co/26CqobWrjA</p><a class="ac" href="https://x.com/Footballtweet/status/2114255388300419526">Postu X'te gör</a><div class="taslak"><div class="kim">1. taslak</div><p class="metin">Can&#x27;t see the clip&#x27;s answer from here but that twinkle sounds like a man who&#x27;s been waiting for this one. Good interview setup too.</p><button onclick="kopyala(2,true,this)">📋 Kopyala ve postu aç</button><button class="ikinci" onclick="kopyala(2,false,this)">Sadece kopyala</button></div><div class="taslak"><div class="kim">2. taslak</div><p class="metin">Proper mind games from Troy there. Did Ward-Prowse&#x27;s answer surprise you, or is that just him?</p><button onclick="kopyala(3,true,this)">📋 Kopyala ve postu aç</button><button class="ikinci" onclick="kopyala(3,false,this)">Sadece kopyala</button></div></section>
+</main><script>
+const V = [{"metin": "9 from Brighton and 2 from Liverpool. Ratings are one thing, my model still has Liverpool at 46%, so I'm trusting nobody here", "url": "https://x.com/WhoScored/status/2114280810455212405"}, {"metin": "Brighton fans will be happy with that. I've got them at 31% though, so a bit of calm. Which of the two Liverpool names would you swap out?", "url": "https://x.com/WhoScored/status/2114280810455212405"}, {"metin": "Can't see the clip's answer from here but that twinkle sounds like a man who's been waiting for this one. Good interview setup too.", "url": "https://x.com/Footballtweet/status/2114255388300419526"}, {"metin": "Proper mind games from Troy there. Did Ward-Prowse's answer surprise you, or is that just him?", "url": "https://x.com/Footballtweet/status/2114255388300419526"}];
+function kopyala(i, ac, btn) {
+  const t = V[i].metin, git = () => { if (ac) setTimeout(() => location.href = V[i].url, 350); };
+  const tamam = () => { btn.textContent = "✅ Kopyalandı" + (ac ? ", post açılıyor…" : ""); git(); };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(t).then(tamam, () => yedek(t, tamam));
+  } else { yedek(t, tamam); }
+}
+function yedek(t, tamam) {
+  const a = document.createElement("textarea"); a.value = t; document.body.appendChild(a); a.select();
+  try { document.execCommand("copy"); } catch (e) {} a.remove(); tamam();
+}
+</script></body></html>

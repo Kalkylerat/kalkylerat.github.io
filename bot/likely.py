@@ -33,6 +33,8 @@ KUPON_ADI = {"gunun-kuponu": "Günün kuponu", "long-shot": "Long shot (yüksek 
              **{f"gunun-kuponu-{n}": f"Günün kuponu {n}" for n in range(2, 6)}}
 MAC_SURESI = timedelta(minutes=105)   # sonuç bu kadar sonra sorulmaya başlanır
 VAZGEC = timedelta(hours=30)          # sonuç bu kadar sonra da yoksa ayak iade sayılır
+# Yatan kupon, sonucu gelmeyen ayağı beklemez: maçın beklenen bitişinden bu kadar sonra sonuç postu gider (E1, 25 Ekim 2026)
+YATAN_BEKLE = timedelta(hours=3)
 YETKILI = {"OWNER", "MEMBER", "COLLABORATOR"}
 PAS = {"pas", "pass", "yok", "bugün yok", "bugun yok"}
 IPTAL = {"iptal", "cancel", "sil"}
@@ -465,7 +467,8 @@ def sonuc_metni(kupon: dict, k: dict, tohum: str) -> str:
     """Sonuç postunun şablonu: tutan da yatan da aynı açıklıkla, güncel karneyle. Kuponun kaderi geç bir golle
     belirlendiyse o an (dakika, skor; yalnızca sonuç kaydındaki gollerden) insan diliyle anlatılır."""
     ayaklar = kupon["ayaklar"]
-    skorlar = [f'{"✅" if a["durum"] == "kazandi" else "↩️" if a["durum"] == "iade" else "❌"} '
+    skorlar = [f'⏳ {a["ev"]} v {a["dep"]}: {a["etiket"]} (no result yet)' if a["durum"] == "bekliyor" else
+               f'{"✅" if a["durum"] == "kazandi" else "↩️" if a["durum"] == "iade" else "❌"} '
                f'{a["ev"]} {a["skor"] or "void"} {a["dep"]}: {a["etiket"]}' for a in ayaklar]
     yatan = sum(a["durum"] == "kaybetti" for a in ayaklar)
     anlar = [x for x in (an(a) for a in ayaklar) if x]
@@ -1140,8 +1143,15 @@ def sonuclar(ayar, sonuc_al, gh, simdi: datetime, yazici=None, yaz=print) -> int
                 elif r["durum"] == "iptal" or gec:
                     a["durum"] = "iade"
             _kupon_sonucu(k)
-            # Yatan kupon da bütün maçları bitince duyurulur (sonuç postunda hepsinin skoru olsun).
-            if k["durum"] != "bekliyor" and all(a["durum"] != "bekliyor" for a in k["ayaklar"]) and not k.get("sonuc_metni"):
+            # Yatan kupon da bütün maçları bitince duyurulur (sonuç postunda hepsinin skoru olsun); ama sonucu gelmeyen
+            # ayak (ör. ilk yarı skoru yok) 30 saat beklenmez: yatan kupon için bitişten 3 saat sonra "no result yet".
+            sarkan = [a for a in k["ayaklar"] if a["durum"] == "bekliyor"]
+            if k["durum"] == "yatti" and sarkan and all(
+                    datetime.fromisoformat(a["baslama"]) + MAC_SURESI + YATAN_BEKLE <= simdi for a in sarkan):
+                for a in sarkan:
+                    a["sonucsuz"] = True
+                sarkan = []
+            if k["durum"] != "bekliyor" and not sarkan and not k.get("sonuc_metni"):
                 biten += 1
                 sablon = sonuc_metni(k, karne(veri), gun["tarih"] + k["ad"])
                 # Sesli yazımda maç adları ve (anlatı varsa) belirleyici dakika korunur

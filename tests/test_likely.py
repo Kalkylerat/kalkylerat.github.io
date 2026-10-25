@@ -1163,3 +1163,39 @@ def test_E1_duyuru_sorusu_ve_18():
     for t in tum:
         assert "💬 " in t and t.endswith(ANSVAR) and uzunluk(t) <= LIMIT
     assert len({t.split("💬 ")[1].split("\n")[0] for t in tum}) >= 3  # soru günden güne değişir
+
+
+def test_E1_yatan_kupon_sonucu_gelmeyen_ayagi_beklemez(monkeypatch, tmp_path):
+    """25 Ekim 2026: 24 Ekim kuponu iki ayakla yatmıştı ama üçüncü ayağın (ilk yarı skoru yok) sonucu gelmediği için
+    sonuç postu 30 saat bekleyecekti. Yatan kupon, bitişten 3 saat sonra "⏳ no result yet" ile sonuçlanır."""
+    from bot import likely_gorsel
+    monkeypatch.setattr(likely, "DOSYA", tmp_path / "likely.json")
+    monkeypatch.setattr(likely, "ayar_yukle", lambda *a, **k: OTO)
+    bas = SIMDI.isoformat()
+    ayak = lambda fid, ev, dep, pazar, etiket: {"aday_id": f"{fid}-{pazar}", "fixture_id": fid, "pazar": pazar, "ev": ev,
+                                                "dep": dep, "lig": "L", "baslama": bas, "etiket": etiket, "oran": 1.3,
+                                                "olasilik": 0.8, "deger": 0.0, "durum": "bekliyor", "skor": None}
+    kupon = {"ad": "gunun-kuponu", "oto": True, "oran": 2.2, "olasilik": 0.5, "deger": 0.0, "durum": "bekliyor",
+             "tweet_id": "t1", "yayin": bas,
+             "ayaklar": [ayak(1, "Esbjerg", "Fredericia", "CSX2", "Double chance X2"),
+                         ayak(2, "Arda", "Levski", "IYA15", "1st half Under 1.5 goals")]}
+    likely.kaydet({"gunler": [{"tarih": "2026-10-10", "durum": "secildi", "secilen": [kupon]}]})
+    al = lambda maclar, korner: {1: {"durum": "bitti", "skor": (2, 1), "iy": (1, 0), "korner": None},
+                                 2: {"durum": "bekliyor"}}
+    gh = SahteGH()
+    likely.sonuclar(AYAR, al, gh, SIMDI + timedelta(hours=3))
+    k = likely.yukle()["gunler"][0]["secilen"][0]
+    assert k["durum"] == "yatti" and not k.get("sonuc_metni")  # henüz 3 saat dolmadı
+    likely.sonuclar(AYAR, al, gh, SIMDI + likely.MAC_SURESI + likely.YATAN_BEKLE)
+    k = likely.yukle()["gunler"][0]["secilen"][0]
+    assert k["durum"] == "yatti" and "⏳ Arda v Levski: 1st half Under 1.5 goals (no result yet)" in k["sonuc_metni"]
+    assert "❌ Esbjerg 2-1 Fredericia" in k["sonuc_metni"] and uzunluk(k["sonuc_metni"]) <= LIMIT
+    assert k["ayaklar"][1]["sonucsuz"] and k["ayaklar"][1]["durum"] == "bekliyor"
+    assert likely_gorsel.sonuc_karti(k, "2026-10-10")[:4] == b"\x89PNG"
+    # Tutan ya da henüz yatmamış kupon sonucu gelmeyen ayağı bekler (yalnızca yatan kupon beklemez)
+    kupon2 = dict(kupon, ayaklar=[ayak(3, "A", "B", "CS1X", "Double chance 1X"), ayak(4, "C", "D", "IYA15", "x")])
+    likely.kaydet({"gunler": [{"tarih": "2026-10-10", "durum": "secildi", "secilen": [kupon2]}]})
+    al2 = lambda maclar, korner: {3: {"durum": "bitti", "skor": (1, 0), "iy": (0, 0), "korner": None}, 4: {"durum": "bekliyor"}}
+    likely.sonuclar(AYAR, al2, gh, SIMDI + timedelta(hours=10))
+    k2 = likely.yukle()["gunler"][0]["secilen"][0]
+    assert k2["durum"] == "bekliyor" and not k2.get("sonuc_metni")

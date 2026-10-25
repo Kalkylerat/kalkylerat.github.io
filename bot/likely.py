@@ -767,6 +767,8 @@ def paket_metni(gun: dict, veri: dict, ayar, cfg: LikelyAyar) -> str:
                   duyuru_metni(len(gun["secilen"]), gun["tarih"], len(gun["secilen"]) < cfg.oto_max_kupon), "```", ""]
         else:
             s += ["Bugün kurallara uyan kupon çıkmadı; kupon ve duyuru postu paylaşılmayacak (günün dersi yine çıkar).", ""]
+        if gun.get("plan_ozeti"):  # SOZLESME G1: büyük ve dev maçlar nerede, sahibi sabah görsün
+            s += ["## Büyük maçlar nerede", ""] + [f"- {x}" for x in gun["plan_ozeti"][:20]] + [""]
         s += ["Bugünün paylaşılmamış kuponlarını durdurmak için bu issue'ya `iptal` yaz.", ""]
         t = gun.get("tani")
         if t:
@@ -885,6 +887,12 @@ def sabah(ayar, analizler: list[dict], oranlar: dict, simdi: datetime, gh, yaz=p
         gun["durum"] = "secildi" if gun["secilen"] else "bekliyor"
         gun["oto"] = True
         gun["maclar"] = mac_planla(analizler, adaylar, gun["secilen"], simdi, cfg, ayar, oranlar)
+        from . import likely_saglik
+        gun["plan_ozeti"] = likely_saglik.plan_ozeti(gun, analizler, ayar)
+        # Büyük maçların keskin ve kupon sitesi fiyatları: sonradan gerçek günle yeniden oynatma/teşhis için (14 gün)
+        gun["buyuk_oranlar"] = {str(a["fixture_id"]): {b: o for b, o in (oranlar.get(a["fixture_id"]) or {}).items()
+                                                       if b.lower() in (ayar.keskin_bahisci.lower(), cfg.oran_sitesi.lower())}
+                                for a in analizler if analiz.onemli(a) and oranlar.get(a["fixture_id"])}
     govde = (f"@{ayar.alarm_kime} " if ayar.alarm_kime else "") + paket_metni(gun, veri, ayar, cfg)
     baslik = ((f"🎩 Mr. Likely {tarih}: otomatik, {len(gun['secilen'])} kupon paylaşılacak" if gun["secilen"]
                else f"⚠️ Mr. Likely {tarih}: otomatik, BUGÜN KUPON ÇIKMADI (kural sağlanmadı)") if oto
@@ -894,6 +902,7 @@ def sabah(ayar, analizler: list[dict], oranlar: dict, simdi: datetime, gh, yaz=p
     for eski in veri["gunler"][:-14]:  # eski günlerde yalnızca seçilen kuponlar (karne) kalır; dosya büyümesin
         eski.pop("havuz", None)
         eski.pop("kuponlar", None)
+        eski.pop("buyuk_oranlar", None)
     kaydet(veri)
     yaz(f"Mr. Likely paketi gönderildi (issue #{gun['issue']}): {len(adaylar)} aday, {len(gun['kuponlar'])} kupon.")
     return gun

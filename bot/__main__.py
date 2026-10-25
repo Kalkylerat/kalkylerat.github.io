@@ -8,7 +8,7 @@ from collections import Counter
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-from . import analiz, config, denetci, direktor, etkilesim, flood, flood_ig, flood_yetki, football, gorsel, kayit, kit, likely, likely_gorsel, likely_hikaye, likely_kasa, likely_yetki, oddsapi, onay, panel, saglik, temizlik, tweets, yorum, firsat, sabit
+from . import analiz, config, denetci, direktor, etkilesim, flood, flood_ig, flood_yetki, football, gorsel, kayit, kit, likely, likely_gorsel, likely_hikaye, likely_kasa, likely_saglik, likely_yetki, oddsapi, onay, panel, saglik, temizlik, tweets, yorum, firsat, sabit
 
 # Çalışma sırasında yakalanan hatalar: alarm issue'suna yazılır (SÖZLEŞME C2). Alarm iletilemediyse iş "başarısız"
 # işaretlenir; iletildiyse işaretlenmez: GitHub'ın "Run failed" e-postası ve nöbetçi alarmı aynı hatayı tekrarlamasın.
@@ -484,6 +484,10 @@ def likely_nabiz(ayar, simdi: datetime, sonuclar: bool = True) -> None:
             _hata(f"Mr. Likely {ad}", e)
 
 
+def _likely_sorunlar(ayar, simdi: datetime) -> list[tuple[str, str]]:
+    return likely_saglik.canli(ayar, simdi)
+
+
 def _likely_hikaye(ayar, simdi: datetime):
     """Büyük maç hikayesi (SOZLESME E1): olgular API-Football'dan, maç postu atılırken (~8 istek/maç). Anahtar yoksa yok."""
     if not os.environ.get("API_FOOTBALL_KEY"):
@@ -949,8 +953,8 @@ def main(argv=None) -> int:
         # Sağlık kontrolü: kaçan, duran, hata veren her şey sahibine alarm olarak bildirilir (GitHub bildirimi).
         if args.komut in ("nabiz", "otomatik") and os.environ.get("GH_TOKEN") and ayar.alarm_kime:
             try:
-                saglik.bildir(saglik.sorunlar(gunler, simdi, ayar, HATALAR), onay.GitHub(), ayar.alarm_kime, simdi,
-                              yaz=_ozet_yaz)
+                saglik.bildir(saglik.sorunlar(gunler, simdi, ayar, HATALAR) + _likely_sorunlar(ayar, simdi),
+                              onay.GitHub(), ayar.alarm_kime, simdi, yaz=_ozet_yaz)
                 alarm_iletildi = True
             except Exception as e:
                 _ozet_yaz(f"⚠️ Alarm bildirilemedi: {e}")

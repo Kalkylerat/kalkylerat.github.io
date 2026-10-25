@@ -31575,7 +31575,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 1
+     "no": 1,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1495998-CSX2",
@@ -31830,7 +31831,8 @@
      "istatistik": 0.915,
      "uyum": true,
      "buyuk": false,
-     "no": 13
+     "no": 13,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1555529-CSX2",
@@ -31978,7 +31980,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 20
+     "no": 20,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1552799-CS1X",
@@ -32041,7 +32044,8 @@
      "istatistik": 0.822,
      "uyum": true,
      "buyuk": false,
-     "no": 23
+     "no": 23,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1576214-DPA25",
@@ -32470,7 +32474,8 @@
      "istatistik": 0.822,
      "uyum": true,
      "buyuk": false,
-     "no": 43
+     "no": 43,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1558655-CS1X",
@@ -32578,7 +32583,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 48
+     "no": 48,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1494690-UST15",
@@ -32662,7 +32668,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 52
+     "no": 52,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1570427-DPU05",
@@ -32770,7 +32777,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 57
+     "no": 57,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1584445-EVA25",
@@ -32940,7 +32948,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 65
+     "no": 65,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1493197-CS12",
@@ -33131,7 +33140,8 @@
      "istatistik": 0.575,
      "uyum": false,
      "buyuk": false,
-     "no": 74
+     "no": 74,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1557446-UST15",
@@ -33620,8 +33630,30 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.714,
        "deger": 0.0,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "2-2",
+       "goller": [
+        [
+         21,
+         0,
+         "ev"
+        ],
+        [
+         43,
+         0,
+         "dep"
+        ],
+        [
+         45,
+         8,
+         "dep"
+        ],
+        [
+         47,
+         0,
+         "ev"
+        ]
+       ]
       }
      ],
      "oran": 2.0,
@@ -34402,7 +34434,7 @@
     "zaman": "2026-10-25T06:50:30+00:00",
     "tweet_id": "2114248222311071787"
    },
-   "olcum_sorgu": "2026-10-25T15:04:55+00:00"
+   "olcum_sorgu": "2026-10-25T16:02:14+00:00"
   }
  ],
  "kasa_duyuru": {

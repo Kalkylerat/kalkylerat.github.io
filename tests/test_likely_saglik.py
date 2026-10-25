@@ -73,3 +73,14 @@ def test_G6_canli_denetim_hata_verirse_sessiz_kalmaz(monkeypatch):
     monkeypatch.setattr(likely, "yukle", lambda: (_ for _ in ()).throw(ValueError("bozuk kayıt")))
     sonuc = ls.canli(AYAR, SIMDI)
     assert len(sonuc) == 1 and "canlı denetimi çalışmadı" in sonuc[0][1]
+
+
+def test_G2_flood_icinde_18_yalniz_son_postta_aranir():
+    ana = "🎩 Serie A: Inter v Fiorentina.\n\n👇 More below: the story and team news"
+    v = {"gunler": [{"tarih": "2026-10-25", "secilen": [], "maclar": [
+        {"fixture_id": 1, "ev": "Inter", "dep": "Fiorentina", "saat": SIMDI.isoformat(), "baslama": SIMDI.isoformat(),
+         "tweet_id": "1", "zaman": SIMDI.isoformat(), "metin": ana,
+         "hikaye_ids": ["2", "3"], "hikaye_metin": ["📋 The story\n🏠 x", "🩹 Out: y\n\n" + ANSVAR]}]}]}
+    assert not any("18+" in m for m in mesajlar(v))
+    v["gunler"][0]["maclar"][0]["hikaye_metin"][-1] = "🩹 Out: y"
+    assert any("hikaye Inter v Fiorentina: paylaşılan metin kural dışı: 18+ satırı yok" in m for m in mesajlar(v))

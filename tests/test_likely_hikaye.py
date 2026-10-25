@@ -62,8 +62,10 @@ def test_E1_buyuk_mac_hikayesi_postlari():
     satirlar = p[0].split("\n\n")[0].splitlines()[1:]
     assert 1 <= len(satirlar) <= 3 and all(s_[0] in "🆚🏆🌍🗓🏠✈🔥📉⏱" for s_ in satirlar)  # her olgu emojili satır
     assert p[1].startswith("🩹 Out: J. Musiala") and "💬 " in p[1] and p[1].endswith(ANSVAR)
-    for x in p:
-        assert uzunluk(x) <= LIMIT and x.rstrip().splitlines()[-1].startswith("18+") and not hk.denetle(x)
+    for i, x in enumerate(p):  # 18+ yalnızca zincirin son postunda (sahibinin isteği 25 Ekim 2026)
+        son = i == len(p) - 1
+        assert uzunluk(x) <= LIMIT and not hk.denetle(x, son=son)
+        assert x.rstrip().splitlines()[-1].startswith("18+") == son
 
 
 def test_E1_buyuk_mac_hikayesi_veri_yoksa_flood_yok():
@@ -117,7 +119,8 @@ def test_E1_buyuk_mac_hikayesi_flood_zinciri(monkeypatch, tmp_path):
     likely.kaydet({"gunler": [{"tarih": "2026-10-25", "oto": True, "secilen": [], "maclar": [m]}]})
     x = SahteX()
     assert likely.oto_mac(ayar, x, SIMDI, hikaye=lambda m_: hk.postlar(ham(), m_, SIMDI))
-    assert len(x.postlar) == 3 and "🧵" in x.postlar[0][0]
+    assert len(x.postlar) == 3 and x.postlar[0][0].endswith(likely.DEVAMI) and "18+" not in x.postlar[0][0]
+    assert "18+" not in x.postlar[1][0] and x.postlar[2][0].endswith(ANSVAR)  # 18+ zincirin sonunda
     assert [y for _, y in x.postlar] == [None, "t1", "t2"]  # her post bir öncekine yanıt
     kayit = likely.yukle()["gunler"][0]["maclar"][0]
     assert kayit["hikaye_ids"] == ["t2", "t3"]
@@ -129,7 +132,7 @@ def test_E1_buyuk_mac_hikayesi_flood_zinciri(monkeypatch, tmp_path):
     def bozuk(_):
         raise RuntimeError("API")
     assert likely.oto_mac(ayar, x2, SIMDI, hikaye=bozuk, yaz=lambda *_: None)
-    assert len(x2.postlar) == 1 and "🧵" not in x2.postlar[0][0]
+    assert len(x2.postlar) == 1 and x2.postlar[0][0].endswith(ANSVAR) and likely.DEVAMI not in x2.postlar[0][0]
 
 
 def test_E1_buyuk_mac_hikayesi_yogun_gunde_10_buyuk_macta_gece_maci_dahil():
@@ -184,3 +187,24 @@ def test_E1_hikaye_puan_durumu_dosyada_gunluk_onbellek(tmp_path):
     hk.veri_topla(api, M, dosya=dosya)
     hk.veri_topla(api, M, dosya=dosya)  # ayrı çalışma (yeni süreç) gibi: önbellek dosyadan
     assert api.yollar.count("standings") == 1
+
+
+def test_E1_hikaye_zinciri_yarida_kalirsa_18_yine_sonda(monkeypatch, tmp_path):
+    ayar = config.yukle()
+    cfg = likely.LikelyAyar(aktif=True, mod="otomatik")
+    monkeypatch.setattr(likely, "DOSYA", tmp_path / "likely.json")
+    monkeypatch.setattr(likely, "ayar_yukle", lambda *a, **k: cfg)
+    m = {**M, "buyuk": True, "hikaye": True, "saat": (SIMDI - timedelta(minutes=1)).isoformat(),
+         "baslama": (SIMDI + timedelta(hours=2)).isoformat(),
+         "p": {"MS1": 0.16, "MSX": 0.19, "MS2": 0.65, "UST25": 0.6, "KGVAR": 0.55},
+         "aci": {"aday_id": "99-CSX2", "etiket": "Double chance X2", "olasilik": 0.84, "oran": 1.18}}
+    likely.kaydet({"gunler": [{"tarih": "2026-10-25", "oto": True, "secilen": [], "maclar": [m]}]})
+
+    class YaridaX(SahteX):
+        def gonder(self, metin, yanit=None, **k):
+            if len(self.postlar) == 1 and metin != ANSVAR:
+                raise RuntimeError("X 503")
+            return super().gonder(metin, yanit=yanit, **k)
+    x = YaridaX()
+    likely.oto_mac(ayar, x, SIMDI, hikaye=lambda m_: hk.postlar(ham(), m_, SIMDI), yaz=lambda *_: None)
+    assert [p for p, _ in x.postlar][-1] == ANSVAR and x.postlar[-1][1] == "t1"

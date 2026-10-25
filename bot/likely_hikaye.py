@@ -220,7 +220,8 @@ def olgular(ham: dict, m: dict, simdi: datetime) -> list[dict]:
 
 
 def postlar(ham: dict, m: dict, simdi: datetime, tohum: str = "") -> list[str]:
-    """Flood'un 2. ve 3. postu (ana post likely.mac_metni). Olgu yoksa boş liste: flood yok, tek post gider."""
+    """Flood'un 2. ve 3. postu (ana post likely.mac_metni). Olgu yoksa boş liste: flood yok, tek post gider.
+    "18+" satırı yalnızca flood'un son postunda (sahibinin isteği 25 Ekim 2026: ilk post "devamı aşağıda" notuyla biter)."""
     hepsi = olgular(ham, m, simdi)
     if not hepsi:
         return []
@@ -229,25 +230,25 @@ def postlar(ham: dict, m: dict, simdi: datetime, tohum: str = "") -> list[str]:
     satir = lambda o: f"{o['emoji']} {o['metin']}"
     ikinci, kalan = ["📋 The story"], []
     for o in hepsi:  # en ilginç en fazla 3 olgu, her biri kendi satırında
-        if len(ikinci) < 4 and uzunluk("\n".join(ikinci + [satir(o)]) + "\n\n18+") <= LIMIT:
+        if len(ikinci) < 4 and uzunluk("\n".join(ikinci + [satir(o)]) + f"\n\n{ANSVAR}") <= LIMIT:
             ikinci.append(satir(o))
         else:
             kalan.append(o)
     ucuncu = [x for x in (sakatlar(ham, m), satir(kalan[0]) if kalan else "") if x]
     son = f"\n\n💬 {soru}\n\n{ANSVAR}"
-    if not ucuncu:  # sakat ve kalan olgu yoksa soru ikinci postta
+    while len(ucuncu) > 1 and uzunluk("\n".join(ucuncu) + son) > LIMIT:
+        ucuncu.pop()
+    if ucuncu and uzunluk("\n".join(ucuncu) + son) <= LIMIT:
+        sonuc = ["\n".join(ikinci), "\n".join(ucuncu) + son]
+    else:  # sakat ve kalan olgu yoksa soru (ve 18+) ikinci postta
         metin = "\n".join(ikinci) + son
-        sonuc = [metin if uzunluk(metin) <= LIMIT else "\n".join(ikinci) + "\n\n18+"]
-    else:
-        sonuc = ["\n".join(ikinci) + "\n\n18+"]
-        while len(ucuncu) > 1 and uzunluk("\n".join(ucuncu) + son) > LIMIT:
-            ucuncu.pop()
-        if uzunluk("\n".join(ucuncu) + son) <= LIMIT:
-            sonuc.append("\n".join(ucuncu) + son)
-    return [p for p in sonuc if not denetle(p)]
+        sonuc = [metin if uzunluk(metin) <= LIMIT else "\n".join(ikinci) + f"\n\n{ANSVAR}"]
+    # Bir post denetimden geçmezse flood hiç gitmez (yarım zincir 18+ satırsız kalmasın): maç postu tek gider
+    return sonuc if all(not denetle(p, son=(i == len(sonuc) - 1)) for i, p in enumerate(sonuc)) else []
 
 
-def denetle(metin: str) -> list[str]:
+def denetle(metin: str, son: bool = True) -> list[str]:
+    """son: flood'un son postu mu (yalnızca son post "18+" satırıyla biter)."""
     hata = []
     if uzunluk(metin) > LIMIT:
         hata.append("280 karakteri aşıyor")
@@ -257,6 +258,6 @@ def denetle(metin: str) -> list[str]:
         hata.append("bahis sitesi adı")
     if denetci._KESINLIK.search(metin):
         hata.append("kesinlik dili")
-    if not metin.rstrip().splitlines()[-1].startswith("18+"):
+    if son and not metin.rstrip().splitlines()[-1].startswith("18+"):
         hata.append("18+ satırı yok")
     return hata

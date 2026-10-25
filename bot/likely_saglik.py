@@ -24,7 +24,7 @@ def dev_mac(a: dict) -> bool:
     return all(t.lower().strip() in KULUP_ETIKETLERI or t.lower().strip() in MILLI_ETIKETLER for t in (a["ev"], a["dep"]))
 
 
-def metin_ihlalleri(metin: str) -> list[str]:
+def metin_ihlalleri(metin: str, onsekiz: bool = True) -> list[str]:
     """Paylaşılmış bir Mr. Likely metninin ortak kurallara aykırılıkları (G2–G4)."""
     ihlal = []
     if uzunluk(metin) > LIMIT:
@@ -37,29 +37,30 @@ def metin_ihlalleri(metin: str) -> list[str]:
         ihlal.append("kesinlik dili")
     if denetci.KISALTMA.search(metin) or KISA.search(re.sub(r"Double chance (1X|X2|12)", "", metin)):
         ihlal.append("kısaltılmış oyun adı")
-    if not metin.rstrip().splitlines()[-1].startswith("18+"):
+    if onsekiz and not metin.rstrip().splitlines()[-1].startswith("18+"):
         ihlal.append("18+ satırı yok")
     return ihlal
 
 
-def _paylasilan_metinler(g: dict) -> list[tuple[str, str]]:
+def _paylasilan_metinler(g: dict) -> list[tuple[str, str, bool]]:
     m = []
     for k in g.get("secilen", []):
         if k.get("tweet_id") and k.get("metin"):
-            m.append((f'kupon {k["ad"]}', k["metin"]))
+            m.append((f'kupon {k["ad"]}', k["metin"], True))
         if k.get("sonuc_tweet_id") and k.get("sonuc_metni"):
-            m.append((f'sonuç {k["ad"]}', k["sonuc_metni"]))
+            m.append((f'sonuç {k["ad"]}', k["sonuc_metni"], True))
     for x in g.get("maclar", []):
-        if x.get("zaman") and x.get("metin"):
-            m.append((f'maç {x["ev"]} v {x["dep"]}', x["metin"]))
-        m += [(f'hikaye {x["ev"]} v {x["dep"]}', t) for t in x.get("hikaye_metin") or []]
+        hikaye = x.get("hikaye_metin") or []
+        if x.get("zaman") and x.get("metin"):  # flood'da 18+ yalnızca zincirin son postunda (25 Ekim 2026)
+            m.append((f'maç {x["ev"]} v {x["dep"]}', x["metin"], not hikaye))
+        m += [(f'hikaye {x["ev"]} v {x["dep"]}', t, i == len(hikaye) - 1) for i, t in enumerate(hikaye)]
     for b in g.get("bilgi", []):
         if b.get("zaman") and b.get("metin"):
-            m.append((f'bilgi {b["tur"]}', b["metin"]))
+            m.append((f'bilgi {b["tur"]}', b["metin"], True))
     if (g.get("duyuru") or {}).get("zaman"):
-        m.append(("sabah duyurusu", g["duyuru"]["metin"]))
+        m.append(("sabah duyurusu", g["duyuru"]["metin"], True))
     if (g.get("kasa") or {}).get("metin"):
-        m.append(("kasa grafiği", g["kasa"]["metin"]))
+        m.append(("kasa grafiği", g["kasa"]["metin"], True))
     return m
 
 
@@ -126,8 +127,8 @@ def sorunlar(veri: dict, analizler: list[dict], simdi: datetime, ayar, cfg) -> l
             elif not kasa and simdi > son_an:
                 bulunan.append((f'{t}:likely:kasa', f'⏰ Mr. Likely {t}: kasa grafiği ertesi sabah 09:30\'a kadar çıkmadı'))
         # G2–G4: paylaşılmış her metin kurallara uyuyor mu
-        for ne, metin in _paylasilan_metinler(g):
-            ihlal = metin_ihlalleri(metin)
+        for ne, metin, onsekiz in _paylasilan_metinler(g):
+            ihlal = metin_ihlalleri(metin, onsekiz)
             if ihlal:
                 bulunan.append((f'{t}:likely:metin:{ne}', f'📏 Mr. Likely {t} {ne}: paylaşılan metin kural dışı: {", ".join(ihlal)}'))
     return bulunan

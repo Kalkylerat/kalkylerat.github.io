@@ -939,7 +939,8 @@ def test_saglik_alarmi_kacan_ve_duran_postu_bildirir(tmp_path, monkeypatch):
             self.yorumlar.append((no, govde))
     gh = GH()
     n = saglik.bildir(list(bulunan.items()), gh, "Kalkylerat-desk", simdi, yaz=lambda m: None)
-    assert n == len(bulunan) and gh.acilan[0][2] == "alarm" and gh.acilan[0][1].startswith("@Kalkylerat-desk")
+    assert n == len(bulunan) and gh.acilan[0][2] == "alarm" and gh.acilan[0][1].startswith("Bot alarmı")
+    assert "@" not in gh.acilan[0][1]  # sahibi etiketlenmez: nöbet + otomatik düzeltici (25 Ekim 2026)
     assert saglik.bildir(list(bulunan.items()), gh, "Kalkylerat-desk", simdi, yaz=lambda m: None) == 0  # tekrar yok
     saglik.bildir([("yeni", "🔇 yeni sorun")], gh, "Kalkylerat-desk", simdi, yaz=lambda m: None)
     assert len(gh.acilan) == 1 and gh.yorumlar == [(7, gh.yorumlar[0][1])] and "yeni sorun" in gh.yorumlar[0][1]

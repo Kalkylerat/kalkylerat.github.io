@@ -1467,6 +1467,9 @@ def mac_planla(analizler: list[dict], adaylar: list[dict], secilen: list[dict], 
     return sorted(plan, key=lambda m: m["saat"])
 
 
+DEVAMI = "👇 More below: the story and team news"
+
+
 def mac_metni(m: dict, gun: dict, ayar, flood: bool = False) -> str:
     """Günün maçı postu; bütün rakamlar kayıttan. Kupon durumu paylaşım anında bakılır."""
     bas = datetime.fromisoformat(m["baslama"]).astimezone(ZoneInfo(ayar.saat_dilimi))
@@ -1483,16 +1486,18 @@ def mac_metni(m: dict, gun: dict, ayar, flood: bool = False) -> str:
     satirlar = [f"🎩 {baslik}, {saat}.", "",
                 f"📊 {m['ev']} {_pct(p['MS1'])} · Draw {_pct(p['MSX'])} · {m['dep']} {_pct(p['MS2'])}",
                 f"⚽ Over 2.5 goals {_pct(p['UST25'])} · Both teams score {_pct(p['KGVAR'])}", "",
-                f"🛡️ Safest angle: {c['etiket']}, {_pct(c['olasilik'])} at {c['oran']:.2f}. {not_}" + " 🧵" * flood]
+                f"🛡️ Safest angle: {c['etiket']}, {_pct(c['olasilik'])} at {c['oran']:.2f}. {not_}"]
     if m.get("gunun_maci"):
         satirlar += ["", "💬 Who takes it? Vote below."]
-    metin = "\n".join(satirlar + ["", ANSVAR])
+    # Flood'da ilk post "devamı aşağıda" notuyla biter; 18+ satırı zincirin son postunda (sahibinin isteği 25 Ekim 2026)
+    kapanis = DEVAMI if flood else ANSVAR
+    metin = "\n".join(satirlar + ["", kapanis])
     if uzunluk(metin) > LIMIT:  # uzun adlar: önce gol satırı düşer, sonra başlıktaki lig; 1X2 ve oyun hep kalır
         satirlar.pop(3)
-        metin = "\n".join(satirlar + ["", ANSVAR])
+        metin = "\n".join(satirlar + ["", kapanis])
     if uzunluk(metin) > LIMIT:
         satirlar[0] = f"🎩 {m['ev']} v {m['dep']}, {saat}."
-        metin = "\n".join(satirlar + ["", ANSVAR])
+        metin = "\n".join(satirlar + ["", kapanis])
     return metin
 
 
@@ -1552,6 +1557,12 @@ def oto_mac(ayar, x, simdi: datetime, yaz=print, hikaye=None) -> bool:
                 onceki = x.gonder(ek, yanit=onceki)
             except Exception as e:
                 yaz(f"⚠️ Mr. Likely: {m['ev']} v {m['dep']} hikaye postu atılamadı ({e}).")
+                try:  # zincir yarıda kaldı: 18+ satırı yine de zincirin sonunda olsun
+                    m.setdefault("hikaye_ids", []).append(x.gonder(ANSVAR, yanit=onceki))
+                    m.setdefault("hikaye_metin", []).append(ANSVAR)
+                    kaydet(veri)
+                except Exception:
+                    pass
                 break
             m.setdefault("hikaye_ids", []).append(onceki)
             m.setdefault("hikaye_metin", []).append(ek)

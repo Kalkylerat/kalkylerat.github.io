@@ -149,7 +149,9 @@ def bildir(bulunan: list[tuple[str, str]], gh, kime: str, simdi: datetime, yaz=p
         return 0
     gun_adi = simdi.date().isoformat()
     saat = simdi.strftime("%H:%M UTC")
-    govde = f"@{kime} bot alarmı ({saat}):\n\n" + "\n".join(f"- {m}" for _, m in yeni)
+    # Sahibi etiketlenmez (25 Ekim 2026, sahibinin isteği: gereksiz bildirim yok): alarmı saatlik nöbet okur ve otomatik
+    # düzelticiyi başlatır; sahibine yalnızca karar ya da bilmesi gereken bir şey olursa bildirim gider (SOZLESME C2).
+    govde = f"Bot alarmı ({saat}):\n\n" + "\n".join(f"- {m}" for _, m in yeni)
     if kayit.get("tarih") == gun_adi and kayit.get("issue"):
         gh.yorum(kayit["issue"], govde)
     else:

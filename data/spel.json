@@ -140773,7 +140773,26 @@
         "durum": "paylasildi",
         "tweet_id": "2114266119586414707",
         "zaman": "2026-10-25T08:01:34+00:00",
-        "metin": "Inter win 71%: about 7 in 10.\n\n🇮🇹 Inter v Fiorentina 🇮🇹\n🏆 Inter 71% · Draw 17% · Fiorentina 12%\n⚽ Over 2.5 goals 67% · Under 33%\n🥅 Both teams score 56% · Not both 44%\n\n💬 Chances, not picks. More or fewer than 2.5 goals? 👇\n#SerieA\n18+ | Play responsibly"
+        "metin": "Inter win 71%: about 7 in 10.\n\n🇮🇹 Inter v Fiorentina 🇮🇹\n🏆 Inter 71% · Draw 17% · Fiorentina 12%\n⚽ Over 2.5 goals 67% · Under 33%\n🥅 Both teams score 56% · Not both 44%\n\n💬 Chances, not picks. More or fewer than 2.5 goals? 👇\n#SerieA\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2114349910422065522",
+          "skor": "2-1",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            3.44,
+            0.25
+          ],
+          "zaman": "2026-10-25T13:34:31+00:00",
+          "brier": {
+            "piyasa": 0.4261,
+            "istatistik": 0.2111
+          }
+        }
       },
       "tablo": {
         "durum": "paylasildi",
@@ -140797,7 +140816,17 @@
           1550166,
           1570426
         ],
-        "sonuclar": {}
+        "sonuclar": {
+          "1550161": {
+            "durum": "paylasildi",
+            "tweet_id": "2114349896669028655",
+            "skor": [
+              2,
+              1
+            ],
+            "zaman": "2026-10-25T13:34:31+00:00"
+          }
+        }
       },
       "analiz_5": {
         "durum": "paylasildi",

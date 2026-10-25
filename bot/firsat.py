@@ -144,6 +144,8 @@ def mac_olgulari(a: dict) -> dict:
     return olg
 
 
+KUTU_OMUR_DK = 120  # fırsat gelen kutusunda bu kadar kalır (büyük hesaba cevap ilk 1–2 saatte işe yarar)
+
 KURALLAR = """Hard rules:
 - Max 200 characters. No links, no "@", no hashtags, at most one emoji. Plain, natural English.
 - Add something to THEIR post: react to what it says, then (if match facts are given AND they are about the same
@@ -170,6 +172,9 @@ for this match) is attached under every reply automatically, so the text reacts 
 use at most one number; never mention the card, a link or our account.
 
 {KURALLAR}
+- Voice for @kalkylerat (X expert advice, 25 Oct 2026): the friendly numbers mate. Lead with the most surprising number
+  in plain words ("they still fail to win 57% of the time", "about a 1-in-7 upset"), add a short human reaction to
+  their post, and end one draft with a specific question about this match. Warm and curious, never teasing.
 
 {INSAN_SESI}""",
     "likely": f"""You draft replies that the owner of Mr. Likely (a football coupon account with a dry, self-aware
@@ -178,8 +183,10 @@ under a big football account's post on X. You never post anything. Write 2 diffe
 
 {KURALLAR}
 - Mr. Likely speaks as "I". Chances the way he says them: "I make it about 60%", "probably", "loses three times in ten".
-- Dry humour: at his own expense (dull legs, coupons one leg short) or a small friendly tease set against his
-  number. Never smug, never hype, never an insult. Understatement, no exclamation marks.
+- Personality (owner's wish, 25 Oct 2026): a little cocky but charming and funny. He backs his numbers with a wink
+  ("my model isn't nervous, I am"), playfully teases the hype, the bold XI or the fans' confidence against his number,
+  and opens with a line that makes people want to reply. Cheeky, never mean: no insults, no mocking a person, club,
+  player or fan, nothing that could sting; if a tease could hurt anyone, tease himself instead. No exclamation marks.
 - Never tell anyone to bet, stake, tail or copy a coupon; never mention odds as advice. He is a fan who likes numbers.
 - "in_my_coupon_today" in the facts means that match is a leg in today's coupon: he may say so once, plainly and
   with a little self-doubt ("it's one of my legs today, so naturally I'm nervous"). Never push the coupon.
@@ -302,7 +309,9 @@ def kontrol(x, gh, ayar, gun: dict | None, simdi: datetime, client, yaz=print, h
     else:
         ham = x.ara(sorgu(cfg.hesaplar), baslangic, ARAMA_ADET)
         veri["onbellek"] = {"tarih": tarih, "saat": saat, "postlar": ham}
-    postlar = [p for p in ham if p["id"] not in veri["gorulen"]]
+    # Sahibinin isteği (25 Ekim 2026, D6): videolu post yok (taslak videoyu göremez) ve yalnızca bizim rakamımızı
+    # verebileceğimiz, bugünkü bir maçla eşleşen postlar
+    postlar = [p for p in ham if p["id"] not in veri["gorulen"] and not p.get("video") and eslesen_mac(p["metin"], maclar)]
     if hesap == "kalkylerat":  # SÖZLEŞME D6: yalnızca kartı paylaşılmış maçların postları; cevap kartla gider
         postlar = [p for p in postlar if kart_postu(gun, eslesen_mac(p["metin"], maclar))]
     adaylar = sorted(postlar, key=lambda p: (eslesen_mac(p["metin"], maclar) is not None, puan(p, simdi)), reverse=True)
@@ -348,10 +357,12 @@ def kontrol(x, gh, ayar, gun: dict | None, simdi: datetime, client, yaz=print, h
         ogeler = [ogesi(bas + i, p, mac, t, ek) for i, (p, mac, t, ek) in enumerate(gonderilen, 1)]
         sayfa = kopya.sayfa_yaz(f"firsat-{hesap}-{saat}.html", f"Yorum fırsatları {ADLAR[hesap]} · {saat}:00 UTC",
                                 ogeler, simdi, uyari)
+        kutu = kopya.kutu_ekle(ogeler, hesap, "firsat", simdi, KUTU_OMUR_DK)  # tek sayfa: gelen kutusu
         gh.yorum(h["issue"]["no"], (f"@{ayar.alarm_kime} " if getattr(ayar, "alarm_kime", "") else "")
                  + f"**{saat}:00 UTC fırsatları ({ADLAR[hesap]})**\n\n"
                  + (f"{uyari}\n\n" if uyari else "")
-                 + f"📋 **[Kopyala ve postu aç]({sayfa})** (her taslağın düğmesi orada; sayfa 1–2 dakikada hazır olur)\n\n"
+                 + f"📥 **[Gelen kutusu]({kutu})** (iki hesabın bütün fırsatları ve yorumları tek sayfada; 1–2 dakikada güncellenir) · "
+                 + f"[yalnızca bu saatin sayfası]({sayfa})\n\n"
                  + "\n\n".join(bildirim(p, mac, t, bas + i, None if hesap == "kalkylerat" else ek, etiket_adi)
                                  + ("\n\n<sub>Her iki cevap da bu maçın kart postumuzla kopyalanır.</sub>" if hesap == "kalkylerat" and ek else "")
                                  for i, (p, mac, t, ek) in enumerate(gonderilen, 1)))

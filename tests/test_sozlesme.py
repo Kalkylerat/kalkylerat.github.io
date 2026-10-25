@@ -670,7 +670,11 @@ def test_D3_mr_likely_yorum_firsatlari(tmp_path, monkeypatch):
     z = (simdi - timedelta(minutes=20)).isoformat().replace("+00:00", "Z")
     postlar = [{"id": "1", "metin": "France v Italy team news", "kullanici": "OptaJoe", "zaman": z, "metrik": {"like_count": 900}},
                {"id": "2", "metin": "France look sharp in training before tonight", "kullanici": "goal", "zaman": z, "metrik": {"like_count": 50}},
-               {"id": "3", "metin": "Belgium fans arrive", "kullanici": "433", "zaman": z, "metrik": {"like_count": 40}}]
+               {"id": "3", "metin": "Belgium fans arrive for tonight's game", "kullanici": "433", "zaman": z, "metrik": {"like_count": 40}},
+               # 25 Ekim 2026 (sahibinin isteği): videolu post ve bugünkü maçımızla eşleşmeyen post fırsat olmaz
+               {"id": "4", "metin": "France v Italy: watch the training clip", "kullanici": "goal", "zaman": z,
+                "metrik": {"like_count": 5000}, "video": True},
+               {"id": "5", "metin": "Ballon d'Or shortlist is out", "kullanici": "goal", "zaman": z, "metrik": {"like_count": 9000}}]
 
     class X:
         def ara(self, *a, **k): return postlar
@@ -706,6 +710,10 @@ def test_D3_mr_likely_yorum_firsatlari(tmp_path, monkeypatch):
     assert all('Mr. Likely speaks as "I"' in s_ for s_ in sistemler)
     veri = firsat.yukle()
     assert veri["kalkylerat"]["issue"]["no"] == 63 and veri["likely"]["gonderilen"] == 2 and {"1", "2", "3"} <= set(veri["gorulen"])
+    assert "status/4" not in m and "status/5" not in m  # videolu ve maçımızla eşleşmeyen post yok
+    kutu = __import__("json").loads((kopya.KLASOR / "kutu.json").read_text(encoding="utf-8"))  # gelen kutusuna da düştü
+    assert {o["url"] for o in kutu["ogeler"]} >= {"https://x.com/goal/status/2", "https://x.com/433/status/3"}
+    assert all(o["hesap"] == "likely" and o["tur"] == "firsat" for o in kutu["ogeler"]) and "📥" in m
 
 
 def test_D3_ayni_saatin_aramasi_iki_hesaba_bir_kez(tmp_path, monkeypatch):

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<title>Gelen kutusu</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{overflow-wrap:anywhere;margin:0;background:#000;color:#e7e9ea;font:16px/1.45 -apple-system,system-ui,Roboto,sans-serif}
+main{max-width:640px;margin:0 auto;padding:12px 16px 40px}h1{font-size:19px;margin:6px 0 2px}.alt{color:#71767b;font-size:13px;margin:0 0 10px}
+.sekme{display:flex;gap:8px;margin:0 0 12px;flex-wrap:wrap}.sekme button{width:auto;padding:8px 14px;font-size:14px;background:#16181c;border:1px solid #2f3336;border-radius:999px;color:#e7e9ea;font-weight:600}
+.sekme button.aktif{background:#e7e9ea;color:#000}
+.oge{border:1px solid #2f3336;border-radius:14px;padding:14px;margin:0 0 14px}.ust{display:flex;justify-content:space-between;gap:8px;font-size:14px}
+.rozet{font-weight:700}.sure{color:#ffd166;white-space:nowrap}.sure.az{color:#ff6b6b}.kim{color:#71767b;font-size:14px;margin-top:2px}
+.post{color:#c4c9cc;font-size:14px;margin:8px 0;white-space:pre-wrap;max-height:9.5em;overflow:hidden}.not{color:#ffd166;font-size:14px;margin:6px 0}
+.taslak{background:#16181c;border-radius:12px;padding:12px;margin:10px 0 0}.metin{white-space:pre-wrap;margin:0 0 10px}
+button{width:100%;border:0;border-radius:999px;padding:13px;font-size:16px;font-weight:700;background:#1d9bf0;color:#fff}
+.alt-dug{display:flex;gap:8px;margin-top:10px}.alt-dug button{background:#2f3336;font-size:14px;padding:10px;font-weight:600}
+.bos{color:#71767b;text-align:center;margin:40px 0}.bitti{opacity:.45}
+</style></head><body><main>
+<h1>📥 Gelen kutusu</h1>
+<p class="alt" id="durum">Yükleniyor…</p>
+<div class="sekme" id="sekme"></div>
+<div id="liste"></div>
+<p class="alt">Taslağa dokun: metin kopyalanır, post X'te açılır. X'te <b>doğru hesapta</b> olduğundan emin ol, <b>Yanıtla</b>, yapıştır, gönder. Bot hiçbir şey göndermez.</p>
+</main><script>
+const AD = {kalkylerat: "🧮 @kalkylerat", likely: "🎩 Mr. Likely"}, TUR = {firsat: "🚀 Fırsat", yorum: "💬 Yorum"};
+let VERI = [], SEKME = "hepsi";
+const al = k => { try { return JSON.parse(localStorage.getItem(k) || "{}"); } catch (e) { return {}; } };
+const yaz = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+let YAPILDI = al("kutu-yapildi");
+const e = t => String(t || "").replace(/[&<>"']/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"}[c]));
+function sure(o) {
+  const dk = Math.round((new Date(o.son) - new Date()) / 60000);
+  if (dk <= 0) return null;
+  return dk >= 120 ? `⏳ ${Math.round(dk / 60)} sa` : `⏳ ${dk} dk`;
+}
+function ciz() {
+  const acik = VERI.filter(o => sure(o) && !YAPILDI[o.id]);
+  const say = h => acik.filter(o => h === "hepsi" || o.hesap === h).length;
+  document.getElementById("sekme").innerHTML = ["hepsi", "kalkylerat", "likely"].map(h =>
+    `<button class="${h === SEKME ? "aktif" : ""}" onclick="SEKME='${h}';ciz()">${h === "hepsi" ? "Hepsi" : AD[h]} (${say(h)})</button>`).join("");
+  const liste = acik.filter(o => SEKME === "hepsi" || o.hesap === SEKME)
+    .sort((a, b) => a.hesap.localeCompare(b.hesap) || a.son.localeCompare(b.son));  // hesap hesap, süresi en az kalan üstte
+  document.getElementById("liste").innerHTML = liste.length ? liste.map(o => {
+    const s = sure(o), az = (new Date(o.son) - new Date()) < 30 * 60000;
+    return `<section class="oge" id="o-${e(o.id)}"><div class="ust"><span class="rozet">${AD[o.hesap] || o.hesap} · ${TUR[o.tur] || o.tur}</span><span class="sure ${az ? "az" : ""}">${s}</span></div>
+      <div class="kim">${e(o.kim)}</div>${o.not ? `<p class="not">📝 ${e(o.not)}</p>` : ""}<p class="post">${e(o.post)}</p>
+      ${o.taslaklar.map((t, i) => `<div class="taslak"><div class="kim">${e(t[0])}</div><p class="metin">${e(t[1])}</p>
+        <button onclick="kopyala('${e(o.id)}',${i},true,this)">📋 Kopyala ve postu aç</button></div>`).join("")}
+      <div class="alt-dug"><button onclick="isaretle('${e(o.id)}')">✅ Gönderdim</button><button onclick="isaretle('${e(o.id)}')">Geç</button></div></section>`;
+  }).join("") : `<p class="bos">Şu an bekleyen bir şey yok 🎉</p>`;
+}
+function isaretle(id) { YAPILDI[id] = Date.now(); yaz("kutu-yapildi", YAPILDI); ciz(); }
+function kopyala(id, i, ac, btn) {
+  const o = VERI.find(x => x.id === id); if (!o) return;
+  const t = o.taslaklar[i][1];
+  const tamam = () => { btn.textContent = "✅ Kopyalandı, post açılıyor…"; YAPILDI[id] = Date.now(); yaz("kutu-yapildi", YAPILDI);
+    if (ac) setTimeout(() => location.href = o.url, 350); };
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(tamam, () => yedek(t, tamam));
+  else yedek(t, tamam);
+}
+function yedek(t, tamam) { const a = document.createElement("textarea"); a.value = t; document.body.appendChild(a); a.select();
+  try { document.execCommand("copy"); } catch (x) {} a.remove(); tamam(); }
+async function yukle() {
+  try {
+    const r = await fetch("kutu.json?t=" + Date.now(), {cache: "no-store"});
+    const j = await r.json(); VERI = j.ogeler || [];
+    document.getElementById("durum").textContent = "Son güncelleme: " + new Date(j.guncelleme).toLocaleTimeString([], {hour: "2-digit", minute: "2-digit"}) + " · açık kalırsa kendini yeniler";
+  } catch (x) { document.getElementById("durum").textContent = "Henüz öğe yok."; }
+  ciz();
+}
+document.addEventListener("visibilitychange", () => { if (!document.hidden) yukle(); });
+setInterval(yukle, 120000); setInterval(ciz, 30000); yukle();
+</script></body></html>

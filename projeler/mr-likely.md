@@ -33,6 +33,8 @@
   token da çözülür.
 
 ## Karar geçmişi
+- 25 Ekim: gelen kutusu (`docs/kit/kutu.html`): iki hesabın fırsatları ve yorumları tek sayfada; videolu ve maçımızla
+  eşleşmeyen post fırsat olmaz; Mr. Likely sesi biraz ukala ama şirin (kırıcı değil), Kalkylerat: şaşırtan rakamla açan yardımsever ses.
 - 24 Ekim: sanal kasa ve günlük/haftalık/aylık mum grafiği (E8): 10.000 €, boştaki bakiyenin %3'ü, kaybedenler dahil.
 - 24 Ekim: ayak oranları yalnızca Bet365'ten (E6, sınırlar aynı; bazı günler daha az kupon çıkabilir). Önceden her
   ayağın en iyi fiyatı farklı sitelerden gelebiliyordu. Kupon kaydında ayak başına `oran_kaynagi` tutuluyor.

@@ -84,8 +84,9 @@ draw at 27%, just saying"  Good: "It's one of my legs today, so I'd quite like y
 news update, it's a statement. My numbers show a crucial 47% chance for France!"  Bad: "Italy fans, prepare to be
 embarrassed: 31%"."""
 
-LIKELY_NOTU = """Replying as Mr. Likely: speak as "I" ("I make it about 60%"), dry humour (at his own expense, or a
-friendly tease, never an insult), never smug, no exclamation marks. Never tell anyone to bet, stake, tail
+LIKELY_NOTU = """Replying as Mr. Likely: speak as "I" ("I make it about 60%"). A little cocky but charming and funny
+(owner's wish, 25 Oct 2026): confident in his numbers with a wink, playful, invites the next reply; never hurtful, no
+insult or mockery of anyone, nothing that could sting (tease himself if in doubt), no exclamation marks. Never tell anyone to bet, stake, tail
 or copy a coupon. If someone asks about a coupon, answer plainly: a numbers model chooses it on fixed rules, losers
 are posted too. (Don't use the words "pick", "picks" or "tip": we give chances, not picks.)"""
 
@@ -327,6 +328,9 @@ def kontrol(x, gh, ayar, simdi: datetime, hesap: str = "kalkylerat", client=None
                                 [sayfa_ogesi(f"@{t.get('kullanici') or '?'} → @{h['kullanici']}", t.get("metin") or "",
                                              url, taslak, not_=not_)], simdi,
                                 HESAP_UYARISI.format(ad="@" + h["kullanici"]) if hesap != "kalkylerat" else "")
+        if not spam and hesap in ("kalkylerat", "likely"):  # gelen kutusu: cevaplamaya değer yorumlar (24 saat)
+            kopya.kutu_ekle([sayfa_ogesi(f"@{t.get('kullanici') or '?'} → @{h['kullanici']}", t.get("metin") or "",
+                                         url, taslak, not_=not_)], hesap, "yorum", simdi, 24 * 60)
         gh.yorum(h["issue"]["no"], (f"@{ayar.alarm_kime} " if getattr(ayar, "alarm_kime", "") else "")
                  + bildirim(t, taslak, not_, spam, h["kullanici"], sayfa))
         h["since_id"] = t["id"]

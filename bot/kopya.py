@@ -76,6 +76,40 @@ def sayfa_yaz(dosya_adi: str, baslik: str, ogeler: list[dict], simdi: datetime, 
     return f"{SITE}/{simdi.date().isoformat()}/{dosya_adi}"
 
 
+# ---------- Gelen kutusu (25 Ekim 2026, sahibinin isteği) ----------
+# Tek sabit sayfa (docs/kit/kutu.html, telefonda "Ana ekrana ekle"): iki hesabın yorum fırsatları ve postlarımıza gelen
+# yorumlar bir arada, en yenisi üstte, kalan süreyle. Sayfa ogeler.json'u okur; yapılanlar telefonda (localStorage)
+# işaretlenir. Bot hiçbir şey paylaşmaz: sayfa yalnızca kopyalar ve postu açar, cevabı sahibi gönderir (D3).
+KUTU_SAYFA = f"{SITE}/kutu.html"
+KUTU_EN_FAZLA = 200
+
+
+def kutu_ekle(ogeler: list[dict], hesap: str, tur: str, simdi: datetime, omur_dk: int) -> str:
+    """Öğeleri gelen kutusuna ekler (süresi dolanlar ve 2 günden eskiler atılır). Sayfanın adresini döner."""
+    kutu = KLASOR / "kutu.json"  # çağrı anında (testler KLASOR'u geçici klasöre alır)
+    try:
+        kayit = json.loads(kutu.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        kayit = {"ogeler": []}
+    sinir = (simdi - timedelta(days=2)).isoformat(timespec="seconds")
+    eski = [o for o in kayit.get("ogeler", []) if o.get("zaman", "") >= sinir]
+    var = {o["id"] for o in eski}
+    yeni = []
+    for o in ogeler:
+        kimlik = f'{hesap}:{tur}:{o["url"]}'
+        if kimlik in var:
+            continue
+        yeni.append({"id": kimlik, "hesap": hesap, "tur": tur, "zaman": simdi.isoformat(timespec="seconds"),
+                     "son": (simdi + timedelta(minutes=omur_dk)).isoformat(timespec="seconds"),
+                     "kim": o["kim"], "post": (o.get("post") or "")[:400], "url": o["url"], "not": o.get("not") or "",
+                     "taslaklar": [[e, m] for e, m in o["taslaklar"]]})
+    kayit["ogeler"] = (yeni + eski)[:KUTU_EN_FAZLA]
+    kayit["guncelleme"] = simdi.isoformat(timespec="seconds")
+    KLASOR.mkdir(parents=True, exist_ok=True)
+    kutu.write_text(json.dumps(kayit, ensure_ascii=False, indent=0) + "\n", encoding="utf-8")
+    return KUTU_SAYFA
+
+
 def _eskileri_sil(simdi: datetime) -> None:
     sinir = (simdi - timedelta(days=7)).date().isoformat()
     for eski in KLASOR.iterdir() if KLASOR.exists() else []:

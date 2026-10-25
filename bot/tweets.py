@@ -258,13 +258,17 @@ class XClient:
         kullanici, zaman, metrik (beğeni/yanıt/RT)."""
         r = self.session.get("https://api.x.com/2/tweets/search/recent", timeout=30, params={
             "query": sorgu, "max_results": max(10, min(100, adet)), "start_time": baslangic.replace("+00:00", "Z"),
-            "tweet.fields": "author_id,created_at,public_metrics", "expansions": "author_id", "user.fields": "username"})
+            "tweet.fields": "author_id,created_at,public_metrics,attachments",
+            "expansions": "author_id,attachments.media_keys", "user.fields": "username", "media.fields": "type"})
         if r.status_code >= 400:
             raise RuntimeError(f"X API arama hatası {r.status_code}: {r.text[:300]}")
         j = r.json()
         kullanicilar = {u["id"]: u["username"] for u in (j.get("includes") or {}).get("users", [])}
+        videolar = {m["media_key"] for m in (j.get("includes") or {}).get("media", []) if m.get("type") in ("video", "animated_gif")}
         return [{"id": t["id"], "metin": t.get("text", ""), "kullanici": kullanicilar.get(t.get("author_id")),
-                 "zaman": t.get("created_at") or baslangic, "metrik": t.get("public_metrics") or {}}
+                 "zaman": t.get("created_at") or baslangic, "metrik": t.get("public_metrics") or {},
+                 # videolu post: taslak videoyu göremez ("can't see the clip" gibi işe yaramaz cevap, 25 Ekim)
+                 "video": bool(set((t.get("attachments") or {}).get("media_keys") or []) & videolar)}
                 for t in j.get("data", [])]
 
     def bahsedenler(self, me: str, since_id: str | None = None, baslangic: str | None = None) -> list[dict]:

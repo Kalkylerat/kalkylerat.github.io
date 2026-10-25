@@ -31181,7 +31181,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 33
+     "no": 33,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1558661-UST15",
@@ -31474,7 +31475,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 47
+     "no": 47,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1557438-CSX2",
@@ -33331,7 +33333,7 @@
    "oto": true,
    "issue": 124,
    "tazeleme": "2026-10-24T09:01:44+00:00",
-   "olcum_sorgu": "2026-10-24T23:18:44+00:00"
+   "olcum_sorgu": "2026-10-25T00:18:48+00:00"
   }
  ],
  "kasa_duyuru": {

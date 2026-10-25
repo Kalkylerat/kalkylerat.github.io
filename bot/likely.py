@@ -62,6 +62,7 @@ class LikelyAyar:
     oto_oran_max: float = 4.0
     oto_min_ayak: float = 0.65     # sağlam ayağın en düşük kazanma ihtimali
     oto_min_deger: float = -0.04   # ayağın oranı adil fiyatın en fazla bu kadar altında
+    oto_buyuk_min_deger: float = -0.06  # büyük maç ayağında (sahibinin kararı 25 Ekim 2026: Bet365 fiyatıyla büyük maçlar giremiyordu)
     # Otomatik kupona hiç girmeyen pazarlar (E6). "Double chance 12" (ev ya da deplasman kazanır): gölge testte
     # 12'siz günün kuponu 8'de 6, 12'li 9'da 4 tuttu; sahibinin kararıyla çıkarıldı (14 Ekim 2026).
     oto_yasak_pazarlar: tuple = ("CS12",)
@@ -142,8 +143,11 @@ def havuz(analizler: list[dict], oranlar: dict, ayar, cfg: LikelyAyar, simdi: da
             continue
         ist = model.model_olasiliklari(*a["istatistik_gol"]) if a.get("istatistik_gol") else {}
         maclik = []
+        # Büyük maçta ayak tabanı daha aşağı (E6, 25 Ekim 2026): kupon seçimi kupona_uygun'da yine süzer
+        ayar_mac = (replace(ayar2, guvenli_min_deger=min(cfg.min_deger, cfg.oto_buyuk_min_deger))
+                    if analiz.onemli(a) else ayar2)
         for pazar, oran, bolag, bahisci_oranlari, p, deger, tur, kaynak in model._piyasa_adaylari(
-                b, ayar2, a.get("lig_id") in ayar.ligler):
+                b, ayar_mac, a.get("lig_id") in ayar.ligler):
             etiket, _ = model.etiketler(pazar, a["ev"], a["dep"])
             ist_p = ist.get(pazar)
             maclik.append({
@@ -970,6 +974,62 @@ def ek_kupon(ayar, analizler: list[dict], oranlar: dict, simdi: datetime, gh=Non
 
 # ---------- 5. Sahibinin seçimi (yorum) ----------
 
+def dev_kupon(ayar, analizler: list[dict], oranlar: dict, simdi: datetime, gh=None, yaz=print) -> dict | None:
+    """Tek seferlik istisna (sahibinin onayı, 25 Ekim 2026): bugünün dev maçı (iki takımı da büyük kulüp; Barcelona v
+    Real Madrid) hiçbir kupona girmediyse, günlük kupon sınırı dolu olsa da o maçın ayağını içeren bir kupon eklenir.
+    Kurallar günün kuponuyla aynı (oran 2.00–4.00, tutma ≥%30, fiyat ≥−%8, ayaklar E6; büyük maç ayağı −%6), maçlar
+    bugünkü kuponlarla paylaşılmaz. Elle tetiklenir: Actions → likely_ek, ek = "dev"."""
+    from . import likely_saglik
+    cfg = ayar_yukle()
+    if not cfg.aktif or cfg.mod != "otomatik":
+        return None
+    veri = yukle()
+    tarih = simdi.astimezone(ZoneInfo(ayar.saat_dilimi)).date().isoformat()
+    gun = next((g for g in veri["gunler"] if g["tarih"] == tarih and g.get("oto")), None)
+    if gun is None:
+        return None
+    dolu = {a["fixture_id"] for k in gun["secilen"] for a in k["ayaklar"]}
+    devler = {a["fixture_id"] for a in analizler if likely_saglik.dev_mac(a) and a["fixture_id"] not in dolu
+              and datetime.fromisoformat(a["baslama"]) >= simdi + timedelta(minutes=90)}
+    if not devler:
+        yaz("Mr. Likely: bugün kupona girmemiş, başlamasına vakit olan dev maç yok.")
+        return None
+    ayaklar = [a for a in havuz(analizler, oranlar, ayar, cfg, simdi) if a["fixture_id"] not in dolu and kupona_uygun(a, cfg)]
+    ayaklar = sorted(ayaklar, key=lambda a: -a["olasilik"])
+    bos = sorted((a for alt, ust, adet in ARAMA_BANTLARI for a in [b for b in ayaklar if alt <= b["oran"] < ust][:adet]),
+                 key=lambda a: -a["olasilik"])
+    bos += [a for a in ayaklar if a["fixture_id"] in devler and a not in bos]
+    uygun = [kupon_kur(list(k)) for n in range(1, cfg.oto_max_ayak + 1) for k in itertools.combinations(bos, n)
+             if _farkli_mac(k) and any(a["fixture_id"] in devler for a in k)]
+    uygun = [k for k in uygun if cfg.oto_oran_min <= k["oran"] <= cfg.oto_oran_max and k["olasilik"] >= cfg.oto_min_tutma
+             and k["deger"] >= cfg.oto_min_kupon_deger]
+    if not uygun:
+        yaz("Mr. Likely: dev maçlı kupon kurallara uymadı (oran 2.00–4.00, tutma ≥%30, fiyat ≥−%8); eklenmedi.")
+        return None
+    harita = {a["aday_id"]: a for a in bos}
+    esik = max(k["olasilik"] for k in uygun) - cfg.oto_buyuk_tolerans
+    en_iyi = max((k for k in uygun if k["olasilik"] >= esik),
+                 key=lambda k: (sum(bool(harita[i].get("buyuk")) for i in k["ayaklar"]), k["olasilik"], k["deger"]))
+    var = {k["ad"] for k in gun["secilen"]}
+    ad = "buyuk-maclar" if "buyuk-maclar" not in var else "dev-mac"
+    d = _dondur([harita[i] for i in en_iyi["ayaklar"]], ad, simdi)
+    mevcut = [datetime.fromisoformat(m.get("yayin") or m["paylas"]) for m in gun["secilen"] if m.get("yayin") or m.get("paylas")]
+    zaman = paylasim_zamanlari([d], simdi, cfg, mevcut)[0]
+    d.update(oto=True, paylas=zaman.isoformat(timespec="seconds"),
+             istisna="sahibinin onayı 25 Ekim 2026: dev maç için günlük sınır dışında kupon")
+    gun["secilen"].append(d)
+    for m in gun.get("maclar", []):  # dev maçın postu kupondaki ayağını göstersin ("It's in a coupon later today")
+        ayak = next((a for a in d["ayaklar"] if a["fixture_id"] == m["fixture_id"]), None)
+        if ayak and not m.get("tweet_id"):
+            m["aci"] = {k: ayak[k] for k in ("aday_id", "etiket", "olasilik", "oran")}
+    kaydet(veri)
+    if gh and gun.get("issue"):
+        gh.yorum(gun["issue"], f'Dev maç kuponu (tek seferlik istisna): **{ad}** · oran {d["oran"]:.2f} · tutma %{round(100 * d["olasilik"])} · '
+                               f'paylaşım **{_saat(d["paylas"], ayar)}**\n' + "\n".join(f"- {_ayak_satiri(a, ayar)}" for a in d["ayaklar"]))
+    yaz(f"Mr. Likely: dev maç kuponu eklendi ({ad}, oran {d['oran']:.2f}, tutma %{round(100 * d['olasilik'])}).")
+    return d
+
+
 def secim_coz(metin: str) -> list | str | None:
     """Yorumu komuta çevirir: "pas", "iptal", ya da kupon listesi (harf = hazır kupon, sayı listesi = kendi kuponu).
     Komut gibi görünmeyen yorum None döner (sohbet/not olabilir)."""
@@ -1667,8 +1727,9 @@ def _grup(pazar: str) -> str:
 
 def kupona_uygun(a: dict, cfg: LikelyAyar) -> bool:
     """otomatik_sec'in ayak süzgeci (E6): istatistikle uyumlu, keskin piyasa, oran adil fiyata yakın, sağlam ya da değerli."""
+    taban = min(cfg.oto_min_deger, cfg.oto_buyuk_min_deger) if a.get("buyuk") else cfg.oto_min_deger
     return (a["pazar"] not in cfg.oto_yasak_pazarlar and a["deger"] <= cfg.oto_max_ayak_deger
-            and a["uyum"] and a["deger"] >= cfg.oto_min_deger and not a["kaynak"].lower().startswith("average")
+            and a["uyum"] and a["deger"] >= taban and not a["kaynak"].lower().startswith("average")
             and (a["tur"] == "deger" or a["olasilik"] >= cfg.oto_min_ayak))
 
 

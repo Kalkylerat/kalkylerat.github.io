@@ -1001,10 +1001,16 @@ def dev_kupon(ayar, analizler: list[dict], oranlar: dict, simdi: datetime, gh=No
     bos += [a for a in ayaklar if a["fixture_id"] in devler and a not in bos]
     uygun = [kupon_kur(list(k)) for n in range(1, cfg.oto_max_ayak + 1) for k in itertools.combinations(bos, n)
              if _farkli_mac(k) and any(a["fixture_id"] in devler for a in k)]
-    uygun = [k for k in uygun if cfg.oto_oran_min <= k["oran"] <= cfg.oto_oran_max and k["olasilik"] >= cfg.oto_min_tutma
-             and k["deger"] >= cfg.oto_min_kupon_deger]
+    aralikta = [k for k in uygun if cfg.oto_oran_min <= k["oran"] <= cfg.oto_oran_max and k["olasilik"] >= cfg.oto_min_tutma]
+    uygun = [k for k in aralikta if k["deger"] >= cfg.oto_min_kupon_deger]
     if not uygun:
-        yaz("Mr. Likely: dev maçlı kupon kurallara uymadı (oran 2.00–4.00, tutma ≥%30, fiyat ≥−%8); eklenmedi.")
+        dev_ayak = [f'{a["etiket"]} %{round(100 * a["olasilik"])} @{a["oran"]:.2f} ({100 * a["deger"]:+.1f}%)'
+                    for a in ayaklar if a["fixture_id"] in devler]
+        yakin = max(aralikta, key=lambda k: k["deger"], default=None)
+        yaz("Mr. Likely: dev maçlı kupon kurallara uymadı (oran 2.00–4.00, tutma ≥%30, fiyat ≥−%8); eklenmedi. "
+            f"Dev maç ayakları: {', '.join(dev_ayak) or 'yok'}. En yakın kupon: "
+            + (f'oran {yakin["oran"]:.2f}, tutma %{round(100 * yakin["olasilik"])}, fiyat {100 * yakin["deger"]:+.1f}% '
+               f'({", ".join(i for i in yakin["ayaklar"])})' if yakin else "aralıkta kupon yok"))
         return None
     harita = {a["aday_id"]: a for a in bos}
     esik = max(k["olasilik"] for k in uygun) - cfg.oto_buyuk_tolerans

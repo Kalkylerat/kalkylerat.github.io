@@ -33866,20 +33866,31 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.719,
        "deger": -0.023,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-0",
+       "goller": [
+        [
+         9,
+         0,
+         "ev"
+        ]
+       ]
       }
      ],
      "oran": 2.01,
      "olasilik": 0.463,
      "deger": -0.069,
-     "durum": "bekliyor",
+     "durum": "tuttu",
      "secim": "2026-10-25T06:43:23+00:00",
      "oto": true,
      "paylas": "2026-10-25T11:20:00+01:00",
      "tweet_id": "2114302603504882038",
      "metin": "🎩 Three picks, one coupon.\n\n⚽ Norrby IF v IFK Norrkoping\n⚽ Bryne v Egersund\n⚽ Almirante Brown v Deportivo Moron\n\n📊 Combined 2.01. I make it about 46% to land.\n\n💬 Anyone on the other side of one of these?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-25T10:26:33+00:00"
+     "yayin": "2026-10-25T10:26:33+00:00",
+     "son_oran": 2.01,
+     "sonuc_metni": "✅ Landed at 2.01. Home, as they say. I'll try not to be smug.\n\n✅ Norrby IF 0-4 IFK Norrkoping: Over 1.5 goals\n✅ Bryne 3-3 Egersund: Double chance 1X\n✅ Almirante Brown 1-0 Deportivo Moron: Double chance 1X\n\nRecord: 25 of 55 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2114456727537983906",
+     "sonuc_zamani": "2026-10-25T20:38:58+00:00"
     }
    ],
    "islenen": [],

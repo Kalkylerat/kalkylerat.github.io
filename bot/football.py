@@ -311,7 +311,11 @@ def _sonuc(f: dict) -> dict:
         skor = (int(ft["home"]), int(ft["away"]))
         return {"durum": "bitti", "skor": skor, "goller": goller(f, skor),
                 "iy": (int(ht["home"]), int(ht["away"])) if ht.get("home") is not None else None, "korner": None}
-    return {"durum": "iptal", "skor": None} if kisa in IPTAL else {"durum": "bekliyor", "skor": None}
+    if kisa in IPTAL:
+        return {"durum": "iptal", "skor": None}
+    # Maçın güncel tarihi: ileri bir güne alınan maç çoğu zaman "PST" değil yeni tarihli "NS" görünür (25 Ekim 2026:
+    # Arda-Levski 24'ünden 27 Ekim'e alındı); çağıran taraf kendi kayıtlı başlama saatiyle karşılaştırır.
+    return {"durum": "bekliyor", "skor": None, "tarih": (f.get("fixture") or {}).get("date")}
 
 
 def sonuclari_al(api, fixture_ids: list[int], korner_idleri: set[int] = frozenset()) -> dict[int, dict]:

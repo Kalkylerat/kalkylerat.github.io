@@ -35,6 +35,7 @@ MAC_SURESI = timedelta(minutes=105)   # sonuç bu kadar sonra sorulmaya başlan�
 VAZGEC = timedelta(hours=30)          # sonuç bu kadar sonra da yoksa ayak iade sayılır
 # Yatan kupon, sonucu gelmeyen ayağı beklemez: maçın beklenen bitişinden bu kadar sonra sonuç postu gider (E1, 25 Ekim 2026)
 YATAN_BEKLE = timedelta(hours=3)
+ERTELEME = timedelta(hours=24)        # maç kayıtlı saatinden bu kadar ileri bir tarihe alındıysa ayak iade (ertelendi)
 YETKILI = {"OWNER", "MEMBER", "COLLABORATOR"}
 PAS = {"pas", "pass", "yok", "bugün yok", "bugun yok"}
 IPTAL = {"iptal", "cancel", "sil"}
@@ -468,6 +469,7 @@ def sonuc_metni(kupon: dict, k: dict, tohum: str) -> str:
     belirlendiyse o an (dakika, skor; yalnızca sonuç kaydındaki gollerden) insan diliyle anlatılır."""
     ayaklar = kupon["ayaklar"]
     skorlar = [f'⏳ {a["ev"]} v {a["dep"]}: {a["etiket"]} (no result yet)' if a["durum"] == "bekliyor" else
+               f'↩️ {a["ev"]} v {a["dep"]}: {a["etiket"]} (postponed, void)' if a.get("ertelendi") else
                f'{"✅" if a["durum"] == "kazandi" else "↩️" if a["durum"] == "iade" else "❌"} '
                f'{a["ev"]} {a["skor"] or "void"} {a["dep"]}: {a["etiket"]}' for a in ayaklar]
     yatan = sum(a["durum"] == "kaybetti" for a in ayaklar)
@@ -1148,6 +1150,8 @@ def sonuclar(ayar, sonuc_al, gh, simdi: datetime, yazici=None, yaz=print) -> int
                         a["goller"] = r["goller"]
                 elif r["durum"] == "iptal" or gec:
                     a["durum"] = "iade"
+                elif r.get("tarih") and datetime.fromisoformat(r["tarih"]) > datetime.fromisoformat(a["baslama"]) + ERTELEME:
+                    a["durum"], a["ertelendi"] = "iade", True  # başka güne alındı: bahis sitelerinde olduğu gibi iade
             _kupon_sonucu(k)
             # Yatan kupon da bütün maçları bitince duyurulur (sonuç postunda hepsinin skoru olsun); ama sonucu gelmeyen
             # ayak (ör. ilk yarı skoru yok) 30 saat beklenmez: yatan kupon için bitişten 3 saat sonra "no result yet".

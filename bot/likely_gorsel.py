@@ -135,7 +135,8 @@ def sonuc_karti(kupon: dict, tarih: str) -> bytes:
         y = ust + i * satir
         mac = f'{a["ev"]} {a.get("skor") or "v"} {a["dep"]}'
         d.text((150, y + 58 * k), mac, font=_sigdir(d, mac, "kalin", round(46 * k), 640), fill=MUREKKEP, anchor="ls")
-        etiket = f'{a["etiket"]} · {a["oran"]:.2f}' + (" · no result yet" if a.get("durum") == "bekliyor" else "")
+        etiket = f'{a["etiket"]} · {a["oran"]:.2f}' + (" · no result yet" if a.get("durum") == "bekliyor" else
+                                                       " · postponed, void" if a.get("ertelendi") else "")
         d.text((150, y + 108 * k), etiket, font=_sigdir(d, etiket, "orta", round(34 * k), 640), fill=SOLUK, anchor="ls")
         _isaret(d, 1002, round(y + 68 * k), round(46 * k), a.get("durum", "iade"))
         for x in range(150, 1050, 14):

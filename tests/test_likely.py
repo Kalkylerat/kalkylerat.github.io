@@ -1212,3 +1212,33 @@ def test_E2_karakter_metni_oyun_adini_kisaltamaz():
     assert "eksik maç/oyun/oran" in likely.ses_uygun(kisa, sablon, zorunlu)
     assert likely.ses_uygun(sablon.replace("Both teams score", "BTTS"), sablon, []) != []
     assert "Double chance X2" in likely._zorunlu([{"ev": "E", "dep": "D", "oran": 1.2, "etiket": "Double chance X2"}])
+
+
+def test_E1_baska_gune_alinan_mac_iade_ve_postponed_yazar(monkeypatch, tmp_path):
+    """25 Ekim 2026: Arda-Levski 24 Ekim'den 27 Ekim'e alındı; API "PST" değil yeni tarihli "NS" döndürdü ve ayak
+    sonuçsuz kaldı. Kayıtlı saatten 24 saatten fazla ileri alınan maç iade sayılır, postta "postponed, void" yazar."""
+    from bot import football
+    yeni = {"fixture": {"id": 2, "date": "2026-10-27T17:00:00+02:00", "status": {"short": "NS"}}, "score": {}}
+    assert football._sonuc(yeni) == {"durum": "bekliyor", "skor": None, "tarih": "2026-10-27T17:00:00+02:00"}
+    monkeypatch.setattr(likely, "DOSYA", tmp_path / "likely.json")
+    monkeypatch.setattr(likely, "ayar_yukle", lambda *a, **k: OTO)
+    bas = SIMDI.isoformat()
+    ayak = lambda fid, pazar, etiket: {"aday_id": f"{fid}-{pazar}", "fixture_id": fid, "pazar": pazar, "ev": f"E{fid}",
+                                       "dep": f"D{fid}", "lig": "L", "baslama": bas, "etiket": etiket, "oran": 1.4,
+                                       "olasilik": 0.8, "deger": 0.0, "durum": "bekliyor", "skor": None}
+    kupon = {"ad": "gunun-kuponu", "oto": True, "oran": 2.0, "olasilik": 0.6, "deger": 0.0, "durum": "bekliyor",
+             "tweet_id": "t1", "yayin": bas, "ayaklar": [ayak(1, "CS1X", "Double chance 1X"), ayak(2, "IYA15", "x")]}
+    likely.kaydet({"gunler": [{"tarih": "2026-10-10", "durum": "secildi", "secilen": [kupon]}]})
+    al = lambda maclar, korner: {1: {"durum": "bitti", "skor": (1, 0), "iy": (0, 0), "korner": None},
+                                 2: {"durum": "bekliyor", "skor": None, "tarih": (SIMDI + timedelta(days=3)).isoformat()}}
+    likely.sonuclar(AYAR, al, SahteGH(), SIMDI + timedelta(hours=3))
+    k = likely.yukle()["gunler"][0]["secilen"][0]
+    assert k["ayaklar"][1]["durum"] == "iade" and k["ayaklar"][1]["ertelendi"]
+    assert k["durum"] == "tuttu" and k["son_oran"] == 1.4  # iade ayak 1.00 sayılır
+    assert "↩️ E2 v D2: x (postponed, void)" in k["sonuc_metni"]
+    # Aynı gün içinde birkaç saat kayan maç ertelenmiş sayılmaz
+    kupon["ayaklar"][1].update(durum="bekliyor")
+    likely.kaydet({"gunler": [{"tarih": "2026-10-10", "durum": "secildi", "secilen": [dict(kupon, durum="bekliyor")]}]})
+    al2 = lambda maclar, korner: {2: {"durum": "bekliyor", "skor": None, "tarih": (SIMDI + timedelta(hours=4)).isoformat()}}
+    likely.sonuclar(AYAR, al2, SahteGH(), SIMDI + timedelta(hours=3))
+    assert likely.yukle()["gunler"][0]["secilen"][0]["ayaklar"][1]["durum"] == "bekliyor"

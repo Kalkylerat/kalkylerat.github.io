@@ -30290,7 +30290,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 76
+     "no": 76,
+     "sonuc": "yok"
     },
     {
      "aday_id": "1548551-DPA15",
@@ -31543,13 +31544,14 @@
    "oto": true,
    "issue": 124,
    "tazeleme": "2026-10-24T09:01:44+00:00",
-   "olcum_sorgu": "2026-10-25T20:24:52+00:00",
+   "olcum_sorgu": "2026-10-25T21:21:56+00:00",
    "kasa": {
     "tweet_id": "2114266126481821744",
     "tur": "gunluk",
     "zaman": "2026-10-25T08:01:34+00:00",
     "metin": "📉 Worst day so far. Virtual bank, Sat 24 Oct: €10,691.92 (−€1,012.50 today).\n\n🎟️ 5 coupons, 1 landed.\n🏁 Started at €10,000 on 6 Oct, 3% of the free balance per coupon, losers counted.\n\n⚠️ Virtual bank, not real money.\n18+ | Play responsibly"
-   }
+   },
+   "olcum_bitti": true
   },
   {
    "tarih": "2026-10-25",
@@ -34635,7 +34637,13 @@
     "zaman": "2026-10-25T06:50:30+00:00",
     "tweet_id": "2114248222311071787"
    },
-   "olcum_sorgu": "2026-10-25T20:45:53+00:00"
+   "olcum_sorgu": "2026-10-25T20:45:53+00:00",
+   "kasa": {
+    "tweet_id": "2114467526864146497",
+    "tur": "haftalik",
+    "zaman": "2026-10-25T21:21:56+00:00",
+    "metin": "📊 Week done. Virtual bank: €10,413.51 (−€540.42 this week).\n\n🎟️ 35 coupons this week, 15 landed.\n🏁 Started at €10,000 on 6 Oct, 3% of the free balance per coupon, losers counted.\n\n⚠️ Virtual bank, not real money.\n18+ | Play responsibly"
+   }
   }
  ],
  "kasa_duyuru": {

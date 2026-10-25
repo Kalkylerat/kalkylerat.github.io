@@ -34168,7 +34168,10 @@
       "olasilik": 0.871,
       "oran": 1.11
      },
-     "saat": "2026-10-25T13:30:00+01:00"
+     "saat": "2026-10-25T13:30:00+01:00",
+     "tweet_id": "2114342842093240738",
+     "metin": "🎩 Jupiler Pro League: Club Brugge KV v St. Truiden, 16:00 CET.\n\n📊 Club Brugge KV 71% · Draw 16% · St. Truiden 13%\n⚽ Over 2.5 goals 75% · Both teams score 64%\n\n🛡️ Safest angle: Double chance 1X, 87% at 1.11. Not in today's coupons.\n\n18+ | Play responsibly",
+     "zaman": "2026-10-25T13:06:29+00:00"
     },
     {
      "fixture_id": 1570427,
@@ -34282,7 +34285,8 @@
     "sayi": 5,
     "zaman": "2026-10-25T06:50:30+00:00",
     "tweet_id": "2114248222311071787"
-   }
+   },
+   "olcum_sorgu": "2026-10-25T13:06:29+00:00"
   }
  ],
  "kasa_duyuru": {

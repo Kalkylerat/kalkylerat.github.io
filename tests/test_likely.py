@@ -1242,3 +1242,21 @@ def test_E1_baska_gune_alinan_mac_iade_ve_postponed_yazar(monkeypatch, tmp_path)
     al2 = lambda maclar, korner: {2: {"durum": "bekliyor", "skor": None, "tarih": (SIMDI + timedelta(hours=4)).isoformat()}}
     likely.sonuclar(AYAR, al2, SahteGH(), SIMDI + timedelta(hours=3))
     assert likely.yukle()["gunler"][0]["secilen"][0]["ayaklar"][1]["durum"] == "bekliyor"
+
+
+def test_E1_dev_mac_adayi_olmasa_da_gunun_maci_olur():
+    """25 Ekim 2026: Barcelona v Real Madrid'in havuzdaki tek adayı kupona giremeyen "Double chance 12" olduğu için
+    maç postu planlanmamıştı. Büyük maç, kupon adayı yoksa piyasanın en olası oyunuyla girer; dev maç (iki takım da
+    taraftar etiketli) en önde ve "Match of the day"."""
+    clasico = mac(9, "Barcelona", "Real Madrid", 11, 140)
+    analizler = _analizli(MACLAR) + [{**clasico, "kaynak": "piyasa", "guven": "yuksek",
+                                      "p": {"MS1": 0.57, "MSX": 0.18, "MS2": 0.25, "UST25": 0.81, "KGVAR": 0.77}}]
+    oranlar = {**ORANLAR, 9: oran_seti(0.57, 0.18, 0.81, 0.93)}
+    adaylar = [c for c in likely.havuz(analizler, oranlar, AYAR, OTO, SIMDI) if c["fixture_id"] != 9]  # adayı yok
+    assert all(m["fixture_id"] != 9 for m in likely.mac_planla(analizler, adaylar, [], SIMDI, OTO, AYAR))  # eski hata
+    plan = likely.mac_planla(analizler, adaylar, [], SIMDI, OTO, AYAR, oranlar)
+    m = next(m for m in plan if m["fixture_id"] == 9)
+    assert m.get("gunun_maci")
+    assert OTO.oran_min <= m["aci"]["oran"] <= OTO.oran_max and m["aci"]["oran"] == round(oranlar[9]["Bet365"][m["aci"]["aday_id"].split("-")[1]], 2)
+    metin = likely.mac_metni(m, {"secilen": []}, AYAR)
+    assert metin.startswith("🎩 Match of the day: Barcelona v Real Madrid") and "Not in today's coupons." in metin

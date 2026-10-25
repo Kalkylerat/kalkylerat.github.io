@@ -884,7 +884,7 @@ def sabah(ayar, analizler: list[dict], oranlar: dict, simdi: datetime, gh, yaz=p
             gun["secilen"].append(d)
         gun["durum"] = "secildi" if gun["secilen"] else "bekliyor"
         gun["oto"] = True
-        gun["maclar"] = mac_planla(analizler, adaylar, gun["secilen"], simdi, cfg, ayar)
+        gun["maclar"] = mac_planla(analizler, adaylar, gun["secilen"], simdi, cfg, ayar, oranlar)
     govde = (f"@{ayar.alarm_kime} " if ayar.alarm_kime else "") + paket_metni(gun, veri, ayar, cfg)
     baslik = ((f"🎩 Mr. Likely {tarih}: otomatik, {len(gun['secilen'])} kupon paylaşılacak" if gun["secilen"]
                else f"⚠️ Mr. Likely {tarih}: otomatik, BUGÜN KUPON ÇIKMADI (kural sağlanmadı)") if oto
@@ -1321,10 +1321,30 @@ MAC_SON_DK = 30      # en geç maçtan bu kadar önce
 MAC_ERKEN = (9, 30)  # yerel saat: bundan önce maç postu yok
 
 
+def _dev(a: dict) -> int:
+    """Kaç takımı taraftar etiketli büyük kulüp/milli takım (2 = Barcelona v Real Madrid gibi dev maç)."""
+    from .tweets import KULUP_ETIKETLERI, MILLI_ETIKETLER
+    return sum(t.lower().strip() in KULUP_ETIKETLERI or t.lower().strip() in MILLI_ETIKETLER for t in (a["ev"], a["dep"]))
+
+
+def _piyasa_acisi(a: dict, b: dict, ayar, cfg: LikelyAyar) -> dict | None:
+    """Kupona girebilecek aday çıkmayan büyük maç için en yüksek ihtimalli oyun (keskin piyasa ihtimali, Bet365 fiyatı,
+    oran aralığında). Yalnızca maç postu içindir; kupona girmez ("Not in today's coupons")."""
+    adil, _ = model.adil_olasiliklar(b, ayar.keskin_bahisci)
+    fiyat = model.piyasa_oranlari(b, ayar.oran_bahiscileri, _oran_yontemi(ayar, cfg))
+    secenek = [(p, pz) for pz, p in adil.items() if pz in fiyat and cfg.oran_min <= fiyat[pz][0] <= cfg.oran_max]
+    if not secenek:
+        return None
+    p, pz = max(secenek)
+    return {"aday_id": f'{a["fixture_id"]}-{pz}', "etiket": model.etiketler(pz, a["ev"], a["dep"])[0],
+            "olasilik": round(p, 3), "oran": fiyat[pz][0], "site_sayisi": len(fiyat[pz][2])}
+
+
 def mac_planla(analizler: list[dict], adaylar: list[dict], secilen: list[dict], simdi: datetime, cfg: LikelyAyar,
-               ayar) -> list[dict]:
-    """Günün maçı postları: önce büyük maçlar, sonra verisi en güvenilir maçlar; yalnızca havuzda sağlam adayı olan
-    (kupona girebilecek pazar) maçlar. Rakamlar analiz kaydından, "safest angle" havuzdan (Bet365 fiyatı)."""
+               ayar, oranlar: dict | None = None) -> list[dict]:
+    """Günün maçı postları: önce büyük maçlar (dev maçlar en önde: iki takımı da taraftar etiketli), sonra verisi en
+    güvenilir maçlar. "Safest angle" havuzun kupona girebilecek en olası adayı; büyük maçta öyle bir aday yoksa
+    piyasanın en olası oyunu (Bet365 fiyatı): Barcelona v Real Madrid gibi maç adayı yok diye düşmez (25 Ekim 2026)."""
     if not cfg.oto_mac_sayisi:
         return []
     en_iyi: dict = {}
@@ -1332,11 +1352,16 @@ def mac_planla(analizler: list[dict], adaylar: list[dict], secilen: list[dict], 
         if c["tur"] == "guvenli" and c["pazar"] not in cfg.oto_yasak_pazarlar and c.get("uyum", True):
             if c["fixture_id"] not in en_iyi or c["olasilik"] > en_iyi[c["fixture_id"]]["olasilik"]:
                 en_iyi[c["fixture_id"]] = c
+    for a in analizler:
+        if a["fixture_id"] not in en_iyi and analiz.onemli(a) and (oranlar or {}).get(a["fixture_id"]):
+            aci = _piyasa_acisi(a, oranlar[a["fixture_id"]], ayar, cfg)
+            if aci:
+                en_iyi[a["fixture_id"]] = aci
     tz = ZoneInfo(ayar.saat_dilimi)
     uygun = [a for a in analizler if a["fixture_id"] in en_iyi and a.get("kaynak") == "piyasa"
              and a.get("guven") == "yuksek" and datetime.fromisoformat(a["baslama"]) >= simdi + timedelta(minutes=60)
              and all(k in a.get("p", {}) for k in ("MS1", "MSX", "MS2", "UST25", "KGVAR"))]
-    uygun.sort(key=lambda a: (not analiz.onemli(a), -en_iyi[a["fixture_id"]].get("site_sayisi", 0), a["baslama"]))
+    uygun.sort(key=lambda a: (not analiz.onemli(a), -_dev(a), -en_iyi[a["fixture_id"]].get("site_sayisi", 0), a["baslama"]))
     dolu = [datetime.fromisoformat(k["paylas"]) for k in secilen if k.get("paylas")]
     plan = []
     for a in uygun[:cfg.oto_mac_sayisi * 2]:

@@ -119,14 +119,20 @@
   "2114288607598944718",
   "2114255388300419526",
   "2114307284121891008",
-  "2114303833031442575"
+  "2114303833031442575",
+  "2114311007044505934",
+  "2114311760475787342",
+  "2114311809788162174",
+  "2114326333295562779",
+  "2114316500181893410"
  ],
  "kalkylerat": {
   "tarih": "2026-10-25",
-  "gonderilen": 1,
+  "gonderilen": 2,
   "aramalar": [
    10,
-   "10:50"
+   "10:50",
+   12
   ],
   "issue": {
    "tarih": "2026-10-25",
@@ -135,10 +141,11 @@
  },
  "likely": {
   "tarih": "2026-10-25",
-  "gonderilen": 2,
+  "gonderilen": 5,
   "aramalar": [
    10,
-   "10:50"
+   "10:50",
+   12
   ],
   "issue": {
    "tarih": "2026-10-25",
@@ -147,20 +154,290 @@
  },
  "onbellek": {
   "tarih": "2026-10-25",
-  "saat": "10:50",
+  "saat": 12,
   "postlar": [
+   {
+    "id": "2114326333295562779",
+    "metin": "Thibaut Courtois is hopeful of playing for Real Madrid in Sunday’s El Clasico against Barcelona and could travel for the match as he recovers from the flu.\n\nOn Sunday morning, Madrid released a statement that the Belgian goalkeeper was withdrawing from the showpiece fixture due https://t.co/NcmrNaiyXU",
+    "kullanici": "TheAthleticFC",
+    "zaman": "2026-10-25T12:00:54.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 8031,
+     "like_count": 14,
+     "quote_count": 0,
+     "reply_count": 2,
+     "retweet_count": 1
+    },
+    "video": false
+   },
+   {
+    "id": "2114325601175638395",
+    "metin": "🇲🇦 Abdellah Ouazane is still only 17-years-old by the way. \n\nAjax and Morocco have 𝗔𝗡𝗢𝗧𝗛𝗘𝗥 gem on their hands.  https://t.co/eMVWcnI8SZ",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-25T11:58:00.000Z",
+    "metrik": {
+     "bookmark_count": 1,
+     "impression_count": 3690,
+     "like_count": 8,
+     "quote_count": 0,
+     "reply_count": 0,
+     "retweet_count": 1
+    },
+    "video": true
+   },
+   {
+    "id": "2114318932483948735",
+    "metin": "Hansi Flick’s side will attack with pace and intensity, led by Raphinha and Lamine Yamal.\n\nJose Mourinho wants defensive solidity to launch Kylian Mbappe and Jude Bellingham.\n\nBarcelona and Real Madrid meet on Sunday. El Clasico is always compelling, and never short of sub-plots. https://t.co/Vlx3fIYWmW",
+    "kullanici": "TheAthleticFC",
+    "zaman": "2026-10-25T11:31:30.000Z",
+    "metrik": {
+     "bookmark_count": 2,
+     "impression_count": 23743,
+     "like_count": 51,
+     "quote_count": 0,
+     "reply_count": 4,
+     "retweet_count": 9
+    },
+    "video": true
+   },
+   {
+    "id": "2114317296546230406",
+    "metin": "🔵🔴 Ahead of El Clásico tonight, Anthony Gordon was asked about the defeat to PSG and the mood around the Barça camp:\n\n🗣️ Gordon: \"The defeat to Paris Saint-Germain was tough. I felt that they were able, physically, to maintain their level of performance for longer than us.\n\nI https://t.co/D9xdBnvOvV",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-25T11:25:00.000Z",
+    "metrik": {
+     "bookmark_count": 1,
+     "impression_count": 8133,
+     "like_count": 31,
+     "quote_count": 0,
+     "reply_count": 1,
+     "retweet_count": 5
+    },
+    "video": false
+   },
+   {
+    "id": "2114317117017235681",
+    "metin": "Warm-up challenge? 👀\n\n#InterFiorentina https://t.co/jeJXjaSFhU",
+    "kullanici": "SerieA_EN",
+    "zaman": "2026-10-25T11:24:17.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 2425,
+     "like_count": 6,
+     "quote_count": 0,
+     "reply_count": 2,
+     "retweet_count": 1
+    },
+    "video": false
+   },
+   {
+    "id": "2114316500181893410",
+    "metin": "COMPARED XI: Barcelona 6-5 Real Madrid. 👥\n\n#ElClásico https://t.co/dsypzSZfZf",
+    "kullanici": "Squawka",
+    "zaman": "2026-10-25T11:21:50.000Z",
+    "metrik": {
+     "bookmark_count": 1,
+     "impression_count": 11911,
+     "like_count": 31,
+     "quote_count": 3,
+     "reply_count": 2,
+     "retweet_count": 5
+    },
+    "video": false
+   },
+   {
+    "id": "2114316387242099053",
+    "metin": "Dialed in  3⃣2⃣ 🇦🇷\n\n#InterFiorentina https://t.co/8AYJRa4MRW",
+    "kullanici": "SerieA_EN",
+    "zaman": "2026-10-25T11:21:23.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 2511,
+     "like_count": 6,
+     "quote_count": 0,
+     "reply_count": 0,
+     "retweet_count": 2
+    },
+    "video": true
+   },
+   {
+    "id": "2114315516148060363",
+    "metin": "Real Madrid have announced that Thibaut Courtois will miss El Clásico due to the flu.\n\nBackup goalkeeper Andriy Lunin is in line to make his first appearance of the season in the derby. https://t.co/uMHwT47YaD",
+    "kullanici": "brfootball",
+    "zaman": "2026-10-25T11:17:55.000Z",
+    "metrik": {
+     "bookmark_count": 2,
+     "impression_count": 38844,
+     "like_count": 561,
+     "quote_count": 10,
+     "reply_count": 22,
+     "retweet_count": 64
+    },
+    "video": false
+   },
+   {
+    "id": "2114312564976873505",
+    "metin": "👋 @Inter_en are out! \n\n#InterFiorentina https://t.co/WZ2xJpD049",
+    "kullanici": "SerieA_EN",
+    "zaman": "2026-10-25T11:06:12.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 2243,
+     "like_count": 22,
+     "quote_count": 0,
+     "reply_count": 0,
+     "retweet_count": 2
+    },
+    "video": true
+   },
+   {
+    "id": "2114312445879890295",
+    "metin": "👋@Inter_en are out! \n\n#InterFiorentina https://t.co/qNkptxT4yM",
+    "kullanici": "SerieA_EN",
+    "zaman": "2026-10-25T11:05:43.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 1208,
+     "like_count": 0,
+     "quote_count": 0,
+     "reply_count": 0,
+     "retweet_count": 0
+    },
+    "video": true
+   },
+   {
+    "id": "2114311809788162174",
+    "metin": "Real Madrid goalkeeper Thibaut Courtois will miss the team's Clásico clash with Barcelona with flu, the club said on Sunday. He will be replaced in goal by Andriy Lunin. https://t.co/EEwvQ4hCAF",
+    "kullanici": "ESPNFC",
+    "zaman": "2026-10-25T11:03:12.000Z",
+    "metrik": {
+     "bookmark_count": 20,
+     "impression_count": 51665,
+     "like_count": 1981,
+     "quote_count": 35,
+     "reply_count": 42,
+     "retweet_count": 78
+    },
+    "video": false
+   },
+   {
+    "id": "2114311760475787342",
+    "metin": "📢 Manchester United v Bournemouth with BOYLE Sports\n\nBet £10 Get £30 in free bets &amp; 50% Bet Builder Boost offer\n\nClaim on BOYLE Sports HERE ➡️ https://t.co/jDHTxl8UB9\n\n#Ad | 18+ | New Customer Offer | T&amp;C’s Apply | https://t.co/Po0CPbUA3P | BET Responsibly https://t.co/rddvYlcSPi",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-25T11:03:00.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 8161,
+     "like_count": 6,
+     "quote_count": 0,
+     "reply_count": 0,
+     "retweet_count": 1
+    },
+    "video": false
+   },
+   {
+    "id": "2114311419055522166",
+    "metin": "San Siro getting ready to host #InterFiorentina 🏟️ https://t.co/ZuIwwrjKGc",
+    "kullanici": "SerieA_EN",
+    "zaman": "2026-10-25T11:01:38.000Z",
+    "metrik": {
+     "bookmark_count": 1,
+     "impression_count": 2586,
+     "like_count": 13,
+     "quote_count": 0,
+     "reply_count": 0,
+     "retweet_count": 2
+    },
+    "video": false
+   },
+   {
+    "id": "2114311257415168448",
+    "metin": "With Pep Guardiola gone, Unai Emery is now the best manager in the Premier League.\n\nHe’s a coach, pure and simple. He lifts the sum of the team’s parts. At his core, he’s someone who will maximise players’ talents if they are willing to give themselves to him.\n\nFour years into https://t.co/oBgdTO98fm",
+    "kullanici": "TheAthleticFC",
+    "zaman": "2026-10-25T11:01:00.000Z",
+    "metrik": {
+     "bookmark_count": 13,
+     "impression_count": 35327,
+     "like_count": 216,
+     "quote_count": 6,
+     "reply_count": 27,
+     "retweet_count": 17
+    },
+    "video": false
+   },
+   {
+    "id": "2114311021867438300",
+    "metin": "You never forget your first 🥹✨\n\n#ELCLÁSICO https://t.co/hBrbiJtuBU",
+    "kullanici": "LaLigaEN",
+    "zaman": "2026-10-25T11:00:04.000Z",
+    "metrik": {
+     "bookmark_count": 2,
+     "impression_count": 8116,
+     "like_count": 223,
+     "quote_count": 1,
+     "reply_count": 2,
+     "retweet_count": 16
+    },
+    "video": false
+   },
+   {
+    "id": "2114311021204578636",
+    "metin": "3 - Bournemouth have scored 3+ goals in each of their last three Premier League trips to Manchester United (W2 D1), only Liverpool (5), Manchester City (4) and Tottenham Hotspur (4) have scored 3+ goals in more different visits to Old Trafford in the competition.\n\nFond. https://t.co/AljHItQLC3",
+    "kullanici": "OptaJoe",
+    "zaman": "2026-10-25T11:00:04.000Z",
+    "metrik": {
+     "bookmark_count": 3,
+     "impression_count": 19418,
+     "like_count": 67,
+     "quote_count": 0,
+     "reply_count": 5,
+     "retweet_count": 9
+    },
+    "video": true
+   },
+   {
+    "id": "2114311007044505934",
+    "metin": "Man United 🆚 Bournemouth Combined XI (2026/27 Premier League ratings) ⚔️\n\n🔴 6 - Man United\n🍒 5 - Bournemouth\n\n#MUNBOU https://t.co/m3WY88elHg",
+    "kullanici": "WhoScored",
+    "zaman": "2026-10-25T11:00:00.000Z",
+    "metrik": {
+     "bookmark_count": 2,
+     "impression_count": 6961,
+     "like_count": 30,
+     "quote_count": 0,
+     "reply_count": 0,
+     "retweet_count": 4
+    },
+    "video": false
+   },
+   {
+    "id": "2114310066505470374",
+    "metin": "14 - Since the start of March, Chelsea have lost more games in all competitions than any other side in Europe's big-five leagues (14).\n\nStormy. https://t.co/sOjWHQt0lo",
+    "kullanici": "OptaJoe",
+    "zaman": "2026-10-25T10:56:16.000Z",
+    "metrik": {
+     "bookmark_count": 29,
+     "impression_count": 27381,
+     "like_count": 439,
+     "quote_count": 10,
+     "reply_count": 11,
+     "retweet_count": 79
+    },
+    "video": false
+   },
    {
     "id": "2114305885006667887",
     "metin": "15 - Since they were first introduced in 2019-20, no manager has received more cards in the Premier League than Roberto De Zerbi.\n\nFighter. https://t.co/PKnHo3DI26",
     "kullanici": "OptaJoe",
     "zaman": "2026-10-25T10:39:39.000Z",
     "metrik": {
-     "bookmark_count": 2,
-     "impression_count": 9911,
-     "like_count": 41,
+     "bookmark_count": 7,
+     "impression_count": 24136,
+     "like_count": 107,
      "quote_count": 1,
-     "reply_count": 3,
-     "retweet_count": 4
+     "reply_count": 7,
+     "retweet_count": 12
     },
     "video": false
    },
@@ -170,12 +447,12 @@
     "kullanici": "TheAthleticFC",
     "zaman": "2026-10-25T10:31:30.000Z",
     "metrik": {
-     "bookmark_count": 6,
-     "impression_count": 18051,
-     "like_count": 48,
+     "bookmark_count": 11,
+     "impression_count": 34878,
+     "like_count": 104,
      "quote_count": 0,
-     "reply_count": 1,
-     "retweet_count": 6
+     "reply_count": 7,
+     "retweet_count": 14
     },
     "video": false
    },
@@ -185,12 +462,12 @@
     "kullanici": "premierleague",
     "zaman": "2026-10-25T10:30:00.000Z",
     "metrik": {
-     "bookmark_count": 6,
-     "impression_count": 62438,
-     "like_count": 435,
-     "quote_count": 5,
-     "reply_count": 19,
-     "retweet_count": 66
+     "bookmark_count": 13,
+     "impression_count": 133290,
+     "like_count": 2498,
+     "quote_count": 14,
+     "reply_count": 54,
+     "retweet_count": 279
     },
     "video": false
    },
@@ -201,11 +478,11 @@
     "zaman": "2026-10-25T10:30:00.000Z",
     "metrik": {
      "bookmark_count": 0,
-     "impression_count": 4882,
-     "like_count": 20,
+     "impression_count": 8692,
+     "like_count": 80,
      "quote_count": 0,
-     "reply_count": 1,
-     "retweet_count": 3
+     "reply_count": 2,
+     "retweet_count": 6
     },
     "video": false
    },
@@ -215,12 +492,12 @@
     "kullanici": "Footballtweet",
     "zaman": "2026-10-25T10:27:00.000Z",
     "metrik": {
-     "bookmark_count": 3,
-     "impression_count": 6747,
-     "like_count": 41,
+     "bookmark_count": 5,
+     "impression_count": 12375,
+     "like_count": 143,
      "quote_count": 0,
      "reply_count": 1,
-     "retweet_count": 8
+     "retweet_count": 12
     },
     "video": true
    },
@@ -230,9 +507,9 @@
     "kullanici": "TheAthleticFC",
     "zaman": "2026-10-25T10:01:30.000Z",
     "metrik": {
-     "bookmark_count": 4,
-     "impression_count": 25220,
-     "like_count": 60,
+     "bookmark_count": 8,
+     "impression_count": 34319,
+     "like_count": 76,
      "quote_count": 0,
      "reply_count": 3,
      "retweet_count": 8
@@ -245,11 +522,11 @@
     "kullanici": "Squawka",
     "zaman": "2026-10-25T10:01:00.000Z",
     "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 10295,
-     "like_count": 40,
+     "bookmark_count": 1,
+     "impression_count": 13597,
+     "like_count": 60,
      "quote_count": 0,
-     "reply_count": 1,
+     "reply_count": 2,
      "retweet_count": 6
     },
     "video": false
@@ -260,12 +537,12 @@
     "kullanici": "SerieA_EN",
     "zaman": "2026-10-25T10:00:02.000Z",
     "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 2591,
-     "like_count": 44,
+     "bookmark_count": 1,
+     "impression_count": 4664,
+     "like_count": 118,
      "quote_count": 1,
      "reply_count": 0,
-     "retweet_count": 6
+     "retweet_count": 9
     },
     "video": true
    },
@@ -276,8 +553,8 @@
     "zaman": "2026-10-25T10:00:00.000Z",
     "metrik": {
      "bookmark_count": 1,
-     "impression_count": 6534,
-     "like_count": 35,
+     "impression_count": 9147,
+     "like_count": 64,
      "quote_count": 0,
      "reply_count": 0,
      "retweet_count": 1
@@ -290,12 +567,12 @@
     "kullanici": "Footballtweet",
     "zaman": "2026-10-25T09:58:00.000Z",
     "metrik": {
-     "bookmark_count": 11,
-     "impression_count": 17183,
-     "like_count": 257,
+     "bookmark_count": 34,
+     "impression_count": 37962,
+     "like_count": 742,
      "quote_count": 0,
-     "reply_count": 3,
-     "retweet_count": 13
+     "reply_count": 10,
+     "retweet_count": 33
     },
     "video": true
    },
@@ -305,12 +582,12 @@
     "kullanici": "Footballtweet",
     "zaman": "2026-10-25T09:43:00.000Z",
     "metrik": {
-     "bookmark_count": 3,
-     "impression_count": 11624,
-     "like_count": 59,
-     "quote_count": 1,
+     "bookmark_count": 4,
+     "impression_count": 16210,
+     "like_count": 87,
+     "quote_count": 2,
      "reply_count": 0,
-     "retweet_count": 4
+     "retweet_count": 7
     },
     "video": true
    },
@@ -320,12 +597,12 @@
     "kullanici": "TheAthleticFC",
     "zaman": "2026-10-25T09:31:00.000Z",
     "metrik": {
-     "bookmark_count": 4,
-     "impression_count": 34767,
-     "like_count": 145,
+     "bookmark_count": 5,
+     "impression_count": 42358,
+     "like_count": 198,
      "quote_count": 0,
-     "reply_count": 11,
-     "retweet_count": 16
+     "reply_count": 13,
+     "retweet_count": 21
     },
     "video": false
    },
@@ -336,11 +613,11 @@
     "zaman": "2026-10-25T09:30:00.000Z",
     "metrik": {
      "bookmark_count": 1,
-     "impression_count": 9873,
-     "like_count": 206,
+     "impression_count": 11884,
+     "like_count": 284,
      "quote_count": 0,
      "reply_count": 1,
-     "retweet_count": 10
+     "retweet_count": 11
     },
     "video": false
    },
@@ -351,8 +628,8 @@
     "zaman": "2026-10-25T09:27:00.000Z",
     "metrik": {
      "bookmark_count": 1,
-     "impression_count": 10881,
-     "like_count": 32,
+     "impression_count": 12511,
+     "like_count": 35,
      "quote_count": 1,
      "reply_count": 2,
      "retweet_count": 8
@@ -365,12 +642,12 @@
     "kullanici": "Footballtweet",
     "zaman": "2026-10-25T09:12:00.000Z",
     "metrik": {
-     "bookmark_count": 2,
-     "impression_count": 12094,
-     "like_count": 61,
+     "bookmark_count": 4,
+     "impression_count": 14288,
+     "like_count": 78,
      "quote_count": 1,
      "reply_count": 1,
-     "retweet_count": 7
+     "retweet_count": 9
     },
     "video": false
    },
@@ -381,206 +658,71 @@
     "zaman": "2026-10-25T09:09:00.000Z",
     "metrik": {
      "bookmark_count": 0,
-     "impression_count": 12176,
+     "impression_count": 13766,
+     "like_count": 4,
+     "quote_count": 0,
+     "reply_count": 0,
+     "retweet_count": 2
+    },
+    "video": false
+   },
+   {
+    "id": "2114326118404870240",
+    "metin": "A superb finish from Bernardeschi ☄️ \n\n#GoalOfTheDay https://t.co/zpIKvqlyEP",
+    "kullanici": "juventusfcen",
+    "zaman": "2026-10-25T12:00:03.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 1186,
      "like_count": 3,
      "quote_count": 0,
      "reply_count": 0,
-     "retweet_count": 2
+     "retweet_count": 0
     },
-    "video": false
+    "video": true
    },
    {
-    "id": "2114281058950885831",
-    "metin": "No goalkeeper has won the Ballon d'Or since Lev Yashin in 1963.\n\nA handful of shot-stoppers have come close in modern times, but were overlooked despite World Cup-winning heroics, or even helping redefine the entire role.\n\nAhead of the 2026 Ballon d'Or ceremony, where no https://t.co/FoicAzObdi",
-    "kullanici": "TheAthleticFC",
-    "zaman": "2026-10-25T09:01:00.000Z",
+    "id": "2114326116924297685",
+    "metin": "🛬 Touchdown in Barcelona! https://t.co/0nKQob6Q6p",
+    "kullanici": "realmadriden",
+    "zaman": "2026-10-25T12:00:03.000Z",
     "metrik": {
-     "bookmark_count": 2,
-     "impression_count": 33558,
-     "like_count": 102,
-     "quote_count": 1,
-     "reply_count": 4,
-     "retweet_count": 13
-    },
-    "video": false
-   },
-   {
-    "id": "2114281058422370453",
-    "metin": "Usually, it is Tottenham Hotspur that would concede a bizarre own goal and pick up a thoughtless red card at Stamford Bridge.\n\nInstead, they kept their heads when it mattered most.\n\nThis is how they ended their Chelsea curse — and launched their season in the process.\n\n📝 https://t.co/BBmAz6S7VL",
-    "kullanici": "TheAthleticFC",
-    "zaman": "2026-10-25T09:01:00.000Z",
-    "metrik": {
-     "bookmark_count": 3,
-     "impression_count": 29119,
-     "like_count": 102,
+     "bookmark_count": 0,
+     "impression_count": 8357,
+     "like_count": 45,
      "quote_count": 0,
      "reply_count": 1,
-     "retweet_count": 10
+     "retweet_count": 3
     },
-    "video": false
+    "video": true
    },
    {
-    "id": "2114280810455212405",
-    "metin": "Liverpool 🆚 Brighton Combined XI (based on 2026/27 Premier League ratings) ⚔️\n\n🔵 9 - Brighton\n🔴 2 - Liverpool\n\n#LIVBRI https://t.co/T2tPVfLBNg",
-    "kullanici": "WhoScored",
-    "zaman": "2026-10-25T09:00:01.000Z",
+    "id": "2114325708746993827",
+    "metin": "All set for a windy afternoon at Anfield 💨 https://t.co/Pg8k7TOIF1",
+    "kullanici": "LFC",
+    "zaman": "2026-10-25T11:58:25.000Z",
     "metrik": {
      "bookmark_count": 6,
-     "impression_count": 12528,
-     "like_count": 165,
-     "quote_count": 7,
-     "reply_count": 6,
-     "retweet_count": 13
+     "impression_count": 26264,
+     "like_count": 415,
+     "quote_count": 4,
+     "reply_count": 12,
+     "retweet_count": 48
     },
-    "video": false
+    "video": true
    },
    {
-    "id": "2114280807229747635",
-    "metin": "This is how they arrive...\n\n#ELCLÁSICO https://t.co/nIz7E9oF1j",
-    "kullanici": "LaLigaEN",
-    "zaman": "2026-10-25T09:00:00.000Z",
+    "id": "2114318284107784658",
+    "metin": "On location at Selhurst Park 📍 https://t.co/6rGqe9sxsk",
+    "kullanici": "NUFC",
+    "zaman": "2026-10-25T11:28:55.000Z",
     "metrik": {
      "bookmark_count": 3,
-     "impression_count": 12274,
-     "like_count": 383,
-     "quote_count": 0,
-     "reply_count": 1,
-     "retweet_count": 16
-    },
-    "video": false
-   },
-   {
-    "id": "2114279547558412548",
-    "metin": "😡🟥 Cole Palmer completely loses his head, doesn't he?\n\nNormally cold, calm, collected, composed. Not this time.  https://t.co/mk7h4dTJPL",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-25T08:55:00.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 13586,
-     "like_count": 35,
-     "quote_count": 1,
-     "reply_count": 8,
-     "retweet_count": 1
-    },
-    "video": true
-   },
-   {
-    "id": "2114275772756090884",
-    "metin": "Choose your museum, Frank Anguissa 😮‍💨\n\n#NapoliRoma https://t.co/7v48oEUJGQ",
-    "kullanici": "SerieA_EN",
-    "zaman": "2026-10-25T08:40:00.000Z",
-    "metrik": {
-     "bookmark_count": 2,
-     "impression_count": 8283,
-     "like_count": 87,
-     "quote_count": 0,
-     "reply_count": 0,
-     "retweet_count": 7
-    },
-    "video": true
-   },
-   {
-    "id": "2114273633665491359",
-    "metin": "When Kylian Mbappe was a child, he wanted to win the Ballon d’Or.\n\nPeople have long spoken about the fact that he could do it one day.\n\nSo, why hasn’t he?\n\n📝 @JamesHorncastle\n\n🔗 https://t.co/GKOmQJjUum https://t.co/NxNvb7PpCm",
-    "kullanici": "TheAthleticFC",
-    "zaman": "2026-10-25T08:31:30.000Z",
-    "metrik": {
-     "bookmark_count": 10,
-     "impression_count": 40495,
-     "like_count": 182,
-     "quote_count": 3,
-     "reply_count": 13,
-     "retweet_count": 16
-    },
-    "video": false
-   },
-   {
-    "id": "2114271746056688017",
-    "metin": "🤹‍♂️🇧🇷 Neymar keeping the ball off the waterlogged pitch in Santos vs. Bahia last night. \n\nhttps://t.co/OXb7Ngl1fD https://t.co/q2s875UVwb",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-25T08:24:00.000Z",
-    "metrik": {
-     "bookmark_count": 2,
-     "impression_count": 14501,
-     "like_count": 49,
-     "quote_count": 1,
-     "reply_count": 3,
-     "retweet_count": 4
-    },
-    "video": true
-   },
-   {
-    "id": "2114267720208572457",
-    "metin": "🇷🇸 A classic poacher, but who is this? https://t.co/GkG5tpfP1P",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-25T08:08:00.000Z",
-    "metrik": {
-     "bookmark_count": 2,
-     "impression_count": 14891,
-     "like_count": 43,
-     "quote_count": 1,
-     "reply_count": 13,
-     "retweet_count": 7
-    },
-    "video": false
-   },
-   {
-    "id": "2114266084174156161",
-    "metin": "Can we actually read anything into Manchester City and Arsenal topping the Premier League?\n\nAnd is it good given the judgment against City to have a title race on our hands?\n\n@TBurrows16, @jacklang and @Conor0Neill_  analyse this and the other biggest talking points from",
-    "kullanici": "TheAthleticFC",
-    "zaman": "2026-10-25T08:01:30.000Z",
-    "metrik": {
-     "bookmark_count": 7,
-     "impression_count": 35666,
-     "like_count": 84,
-     "quote_count": 1,
-     "reply_count": 3,
+     "impression_count": 13729,
+     "like_count": 361,
+     "quote_count": 2,
+     "reply_count": 9,
      "retweet_count": 9
-    },
-    "video": false
-   },
-   {
-    "id": "2114265713837822388",
-    "metin": "A Douvikas double gave Como all three points ✌️\n\n#ComoSassuolo https://t.co/yo0nfCpB8U",
-    "kullanici": "SerieA_EN",
-    "zaman": "2026-10-25T08:00:01.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 3181,
-     "like_count": 19,
-     "quote_count": 0,
-     "reply_count": 1,
-     "retweet_count": 2
-    },
-    "video": true
-   },
-   {
-    "id": "2114265706971750638",
-    "metin": "A busy Sunday of action awaits you! 😍\n\nWatch the action with NOW: https://t.co/0AejI4B8dF https://t.co/6od6Rv75A4",
-    "kullanici": "SkySportsPL",
-    "zaman": "2026-10-25T08:00:00.000Z",
-    "metrik": {
-     "bookmark_count": 17,
-     "impression_count": 125774,
-     "like_count": 1687,
-     "quote_count": 14,
-     "reply_count": 27,
-     "retweet_count": 94
-    },
-    "video": false
-   },
-   {
-    "id": "2114264699860885739",
-    "metin": "The full list of 16-year-olds who've played in the Premier League:\n\n▪️ Wayne Rooney\n▪️ Rio Ngumoha\n▪️ James Milner\n▪️ Francis Jeffers\n▪️ Jack Rodwell\n▪️ Jack Wilshere\n▪️ Aaron Lennon\n▪️ Harvey Elliott\n▪️ Jeremy Monga\n▪️ Ethan Nwaneri\n▪️ Matthew Briggs\n▪️ Dane Scarlett\n▪️ Jonathan https://t.co/sGk4qOBvFa",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-25T07:56:00.000Z",
-    "metrik": {
-     "bookmark_count": 10,
-     "impression_count": 24936,
-     "like_count": 74,
-     "quote_count": 0,
-     "reply_count": 4,
-     "retweet_count": 8
     },
     "video": false
    },
@@ -590,29 +732,14 @@
     "kullanici": "FCBayernEN",
     "zaman": "2026-10-25T10:49:50.000Z",
     "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 1618,
-     "like_count": 5,
+     "bookmark_count": 1,
+     "impression_count": 8326,
+     "like_count": 102,
      "quote_count": 0,
      "reply_count": 0,
-     "retweet_count": 0
+     "retweet_count": 7
     },
     "video": false
-   },
-   {
-    "id": "2114308441091322269",
-    "metin": "Arriving in style 🖤💙 https://t.co/gdgd2yuPyP",
-    "kullanici": "Inter_en",
-    "zaman": "2026-10-25T10:49:48.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 443,
-     "like_count": 1,
-     "quote_count": 0,
-     "reply_count": 0,
-     "retweet_count": 0
-    },
-    "video": true
    },
    {
     "id": "2114308050953597216",
@@ -620,44 +747,14 @@
     "kullanici": "realmadriden",
     "zaman": "2026-10-25T10:48:15.000Z",
     "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 8842,
-     "like_count": 55,
-     "quote_count": 3,
-     "reply_count": 6,
-     "retweet_count": 8
+     "bookmark_count": 20,
+     "impression_count": 60453,
+     "like_count": 2030,
+     "quote_count": 19,
+     "reply_count": 45,
+     "retweet_count": 124
     },
     "video": true
-   },
-   {
-    "id": "2114307284121891008",
-    "metin": "📋 Your Celtic team for today’s clash with Hibernian\n\n#HIBCEL | #CelticFC🍀 https://t.co/jlnILgR7U1",
-    "kullanici": "CelticFC",
-    "zaman": "2026-10-25T10:45:13.000Z",
-    "metrik": {
-     "bookmark_count": 9,
-     "impression_count": 18017,
-     "like_count": 329,
-     "quote_count": 28,
-     "reply_count": 75,
-     "retweet_count": 57
-    },
-    "video": false
-   },
-   {
-    "id": "2114305426669858849",
-    "metin": "The Bhoys check-in at Easter Road ✅\n\n#HIBCEL | #CelticFC🍀 https://t.co/Bm2u4pCQRF",
-    "kullanici": "CelticFC",
-    "zaman": "2026-10-25T10:37:50.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 14400,
-     "like_count": 162,
-     "quote_count": 0,
-     "reply_count": 12,
-     "retweet_count": 14
-    },
-    "video": false
    },
    {
     "id": "2114304582922764612",
@@ -665,12 +762,12 @@
     "kullanici": "LFC",
     "zaman": "2026-10-25T10:34:29.000Z",
     "metrik": {
-     "bookmark_count": 6,
-     "impression_count": 45070,
-     "like_count": 880,
-     "quote_count": 1,
-     "reply_count": 14,
-     "retweet_count": 62
+     "bookmark_count": 15,
+     "impression_count": 92118,
+     "like_count": 2120,
+     "quote_count": 6,
+     "reply_count": 28,
+     "retweet_count": 140
     },
     "video": false
    },
@@ -680,57 +777,12 @@
     "kullanici": "FCBarcelona",
     "zaman": "2026-10-25T10:30:00.000Z",
     "metrik": {
-     "bookmark_count": 8,
-     "impression_count": 57060,
-     "like_count": 1524,
-     "quote_count": 5,
-     "reply_count": 23,
-     "retweet_count": 74
-    },
-    "video": false
-   },
-   {
-    "id": "2114301290356318468",
-    "metin": "Matchday 🗓️🖤💙 https://t.co/tjctI56XcO",
-    "kullanici": "Inter_en",
-    "zaman": "2026-10-25T10:21:24.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 1673,
-     "like_count": 16,
-     "quote_count": 1,
-     "reply_count": 0,
-     "retweet_count": 3
-    },
-    "video": false
-   },
-   {
-    "id": "2114300901796016236",
-    "metin": "Behind the scenes 🖤💙 https://t.co/7jfp1aJWF3",
-    "kullanici": "Inter_en",
-    "zaman": "2026-10-25T10:19:51.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 1709,
-     "like_count": 45,
-     "quote_count": 0,
-     "reply_count": 0,
-     "retweet_count": 4
-    },
-    "video": true
-   },
-   {
-    "id": "2114300712071135296",
-    "metin": "🏟️ Easter Road\n\n#HIBCEL | #CelticFC🍀 https://t.co/ltopTfDMH7",
-    "kullanici": "CelticFC",
-    "zaman": "2026-10-25T10:19:06.000Z",
-    "metrik": {
-     "bookmark_count": 2,
-     "impression_count": 18666,
-     "like_count": 179,
-     "quote_count": 3,
-     "reply_count": 11,
-     "retweet_count": 18
+     "bookmark_count": 15,
+     "impression_count": 112465,
+     "like_count": 2833,
+     "quote_count": 8,
+     "reply_count": 38,
+     "retweet_count": 144
     },
     "video": false
    },
@@ -740,12 +792,12 @@
     "kullanici": "ManUtd",
     "zaman": "2026-10-25T10:00:24.000Z",
     "metrik": {
-     "bookmark_count": 6,
-     "impression_count": 96569,
-     "like_count": 1150,
-     "quote_count": 21,
-     "reply_count": 125,
-     "retweet_count": 143
+     "bookmark_count": 10,
+     "impression_count": 153697,
+     "like_count": 1709,
+     "quote_count": 28,
+     "reply_count": 167,
+     "retweet_count": 209
     },
     "video": false
    },
@@ -755,12 +807,12 @@
     "kullanici": "acmilan",
     "zaman": "2026-10-25T10:00:02.000Z",
     "metrik": {
-     "bookmark_count": 3,
-     "impression_count": 12113,
-     "like_count": 379,
-     "quote_count": 1,
-     "reply_count": 3,
-     "retweet_count": 25
+     "bookmark_count": 7,
+     "impression_count": 21329,
+     "like_count": 862,
+     "quote_count": 2,
+     "reply_count": 6,
+     "retweet_count": 43
     },
     "video": false
    },
@@ -770,87 +822,12 @@
     "kullanici": "LFC",
     "zaman": "2026-10-25T09:49:23.000Z",
     "metrik": {
-     "bookmark_count": 52,
-     "impression_count": 244406,
-     "like_count": 5002,
-     "quote_count": 220,
-     "reply_count": 85,
-     "retweet_count": 550
-    },
-    "video": false
-   },
-   {
-    "id": "2114291627111960892",
-    "metin": "Taking One for the Team 🖤💙 https://t.co/jq655fvae1",
-    "kullanici": "Inter_en",
-    "zaman": "2026-10-25T09:43:00.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 2171,
-     "like_count": 24,
-     "quote_count": 0,
-     "reply_count": 0,
-     "retweet_count": 4
-    },
-    "video": false
-   },
-   {
-    "id": "2114289614072734160",
-    "metin": "So many of you will be cheering us on 🖤💙\nLet us know in the comments where you'll be watching #InterFiorentina from 🔥📺\n\n@qatarairways https://t.co/2yFFDG497U",
-    "kullanici": "Inter_en",
-    "zaman": "2026-10-25T09:35:00.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 2245,
-     "like_count": 29,
-     "quote_count": 0,
-     "reply_count": 2,
-     "retweet_count": 2
-    },
-    "video": false
-   },
-   {
-    "id": "2114288359241654276",
-    "metin": "Did you know that Bonny and Sucic are twins? 😂 https://t.co/83FkdCu8kp",
-    "kullanici": "Inter_en",
-    "zaman": "2026-10-25T09:30:01.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 2258,
-     "like_count": 40,
-     "quote_count": 0,
-     "reply_count": 1,
-     "retweet_count": 3
-    },
-    "video": true
-   },
-   {
-    "id": "2114287097477472350",
-    "metin": "Happy birthday Ange-Yoan 🎂🎉🖤💙 https://t.co/piCr1NrfAd",
-    "kullanici": "Inter_en",
-    "zaman": "2026-10-25T09:25:00.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 2535,
-     "like_count": 121,
-     "quote_count": 0,
-     "reply_count": 2,
-     "retweet_count": 8
-    },
-    "video": false
-   },
-   {
-    "id": "2114286035702059401",
-    "metin": "Happy birthday Petar 🎂🎉🖤💙 https://t.co/ZdRVM3gmH5",
-    "kullanici": "Inter_en",
-    "zaman": "2026-10-25T09:20:47.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 2279,
-     "like_count": 108,
-     "quote_count": 0,
-     "reply_count": 0,
-     "retweet_count": 4
+     "bookmark_count": 59,
+     "impression_count": 372713,
+     "like_count": 6748,
+     "quote_count": 248,
+     "reply_count": 94,
+     "retweet_count": 704
     },
     "video": false
    },
@@ -860,102 +837,12 @@
     "kullanici": "ManUtd",
     "zaman": "2026-10-25T09:15:00.000Z",
     "metrik": {
-     "bookmark_count": 23,
-     "impression_count": 168325,
-     "like_count": 4417,
-     "quote_count": 255,
-     "reply_count": 405,
-     "retweet_count": 525
-    },
-    "video": false
-   },
-   {
-    "id": "2114281104198770882",
-    "metin": "We go again this evening 🫡 https://t.co/QVROo2hd3e",
-    "kullanici": "FCBayernEN",
-    "zaman": "2026-10-25T09:01:11.000Z",
-    "metrik": {
-     "bookmark_count": 3,
-     "impression_count": 8751,
-     "like_count": 201,
-     "quote_count": 2,
-     "reply_count": 1,
-     "retweet_count": 12
-    },
-    "video": false
-   },
-   {
-    "id": "2114280818168205768",
-    "metin": "⚔️ 𝗧𝗛𝗘 𝗚𝗔𝗠𝗘 𝗢𝗙 𝗔𝗟𝗟 𝗚𝗔𝗠𝗘𝗦 ⚔️ https://t.co/9Fa3V3UlIJ",
-    "kullanici": "FCBarcelona",
-    "zaman": "2026-10-25T09:00:03.000Z",
-    "metrik": {
-     "bookmark_count": 133,
-     "impression_count": 180430,
-     "like_count": 16220,
-     "quote_count": 237,
-     "reply_count": 205,
-     "retweet_count": 1919
-    },
-    "video": false
-   },
-   {
-    "id": "2114280814615675160",
-    "metin": "📅 𝙎𝙀𝙍𝙄𝙀 𝘼 𝙈𝘼𝙏𝘾𝙃𝘿𝘼𝙔𝙎 𝘼𝙍𝙀 𝘽𝘼𝘾𝙆!\n🇮🇹 @SerieA_EN \n🆚 @OfficialUSLecce \n🏟️ Ettore Giardiniero - Via Del Mare\n⏰ 18:00 CEST\n📲 #LecceJuve https://t.co/IDMsYriRPM",
-    "kullanici": "juventusfcen",
-    "zaman": "2026-10-25T09:00:02.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 4268,
-     "like_count": 61,
-     "quote_count": 2,
-     "reply_count": 2,
-     "retweet_count": 8
-    },
-    "video": false
-   },
-   {
-    "id": "2114280810220302721",
-    "metin": "UNITED 👊 https://t.co/HV1smyZGWD",
-    "kullanici": "NUFC",
-    "zaman": "2026-10-25T09:00:01.000Z",
-    "metrik": {
-     "bookmark_count": 4,
-     "impression_count": 22707,
-     "like_count": 826,
-     "quote_count": 23,
-     "reply_count": 42,
-     "retweet_count": 64
-    },
-    "video": false
-   },
-   {
-    "id": "2114273257700348323",
-    "metin": "Matchday in the Capital 🏰\n\n#HIBCEL | #CelticFC🍀 https://t.co/FzJH3l2iY6",
-    "kullanici": "CelticFC",
-    "zaman": "2026-10-25T08:30:00.000Z",
-    "metrik": {
-     "bookmark_count": 5,
-     "impression_count": 64430,
-     "like_count": 462,
-     "quote_count": 5,
-     "reply_count": 39,
-     "retweet_count": 47
-    },
-    "video": false
-   },
-   {
-    "id": "2114269481455296988",
-    "metin": "Have a great day, Fede! 🎂 https://t.co/rvqnDSPtRK",
-    "kullanici": "LFC",
-    "zaman": "2026-10-25T08:15:00.000Z",
-    "metrik": {
-     "bookmark_count": 35,
-     "impression_count": 143312,
-     "like_count": 8912,
-     "quote_count": 70,
-     "reply_count": 137,
-     "retweet_count": 681
+     "bookmark_count": 27,
+     "impression_count": 227068,
+     "like_count": 6090,
+     "quote_count": 335,
+     "reply_count": 494,
+     "retweet_count": 721
     },
     "video": false
    }

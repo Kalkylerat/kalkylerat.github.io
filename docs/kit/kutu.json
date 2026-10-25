@@ -1,6 +1,90 @@
 {
 "ogeler": [
 {
+"id": "likely:firsat:https://x.com/ESPNFC/status/2114311809788162174",
+"hesap": "likely",
+"tur": "firsat",
+"zaman": "2026-10-25T12:02:21+00:00",
+"son": "2026-10-25T14:02:21+00:00",
+"kim": "3. @ESPNFC · Barcelona v Real Madrid",
+"post": "Real Madrid goalkeeper Thibaut Courtois will miss the team's Clásico clash with Barcelona with flu, the club said on Sunday. He will be replaced in goal by Andriy Lunin. https://t.co/EEwvQ4hCAF",
+"url": "https://x.com/ESPNFC/status/2114311809788162174",
+"not": "",
+"taslaklar": [
+[
+"1. taslak",
+"Flu right before a Clásico, rotten timing. Hope he's better soon. I make Barcelona about 57% for this one."
+],
+[
+"2. taslak",
+"Big night for Lunin then. I've got both teams scoring at 77%, so he'll be busy. Do you see goals?"
+]
+]
+},
+{
+"id": "likely:firsat:https://x.com/TheAthleticFC/status/2114326333295562779",
+"hesap": "likely",
+"tur": "firsat",
+"zaman": "2026-10-25T12:02:21+00:00",
+"son": "2026-10-25T14:02:21+00:00",
+"kim": "4. @TheAthleticFC · Barcelona v Real Madrid",
+"post": "Thibaut Courtois is hopeful of playing for Real Madrid in Sunday’s El Clasico against Barcelona and could travel for the match as he recovers from the flu.\n\nOn Sunday morning, Madrid released a statement that the Belgian goalkeeper was withdrawing from the showpiece fixture due https://t.co/NcmrNaiyXU",
+"url": "https://x.com/TheAthleticFC/status/2114326333295562779",
+"not": "",
+"taslaklar": [
+[
+"1. taslak",
+"Flu before a Clasico, rotten timing. Hope he's right in time. I've got Madrid at 25% either way, my model doesn't do goalkeeper news"
+],
+[
+"2. taslak",
+"Fingers crossed he makes it. Either way I make both teams scoring about 77%. Who'd you want in goal if he's out?"
+]
+]
+},
+{
+"id": "likely:firsat:https://x.com/Squawka/status/2114316500181893410",
+"hesap": "likely",
+"tur": "firsat",
+"zaman": "2026-10-25T12:02:21+00:00",
+"son": "2026-10-25T14:02:21+00:00",
+"kim": "5. @Squawka · Barcelona v Real Madrid",
+"post": "COMPARED XI: Barcelona 6-5 Real Madrid. 👥\n\n#ElClásico https://t.co/dsypzSZfZf",
+"url": "https://x.com/Squawka/status/2114316500181893410",
+"not": "",
+"taslaklar": [
+[
+"1. taslak",
+"6-5 in a compared XI, so even the lineups can't settle it. I've got Barcelona at 57% for the real thing, my model is calm, I'm not"
+],
+[
+"2. taslak",
+"Dull answer from me: goals. I make both teams scoring about 77%. Which name in that XI would you hand the armband to?"
+]
+]
+},
+{
+"id": "kalkylerat:firsat:https://x.com/WhoScored/status/2114311007044505934",
+"hesap": "kalkylerat",
+"tur": "firsat",
+"zaman": "2026-10-25T12:02:21+00:00",
+"son": "2026-10-25T14:02:21+00:00",
+"kim": "2. @WhoScored · Manchester United v Bournemouth",
+"post": "Man United 🆚 Bournemouth Combined XI (2026/27 Premier League ratings) ⚔️\n\n🔴 6 - Man United\n🍒 5 - Bournemouth\n\n#MUNBOU https://t.co/m3WY88elHg",
+"url": "https://x.com/WhoScored/status/2114311007044505934",
+"not": "",
+"taslaklar": [
+[
+"1. taslak",
+"6-5 is a tight split, fair play Bournemouth. We had them around 34% to win this one, so that fits 🍒\n\nhttps://x.com/kalkylerat/status/2114326714629198168"
+],
+[
+"2. taslak",
+"Nearly even XI! We had a 1-1 as the single most likely score at 11%. Which Bournemouth name would you build around?\n\nhttps://x.com/kalkylerat/status/2114326714629198168"
+]
+]
+},
+{
 "id": "kalkylerat:firsat:https://x.com/CelticFC/status/2114307284121891008",
 "hesap": "kalkylerat",
 "tur": "firsat",
@@ -22,5 +106,5 @@
 ]
 }
 ],
-"guncelleme": "2026-10-25T10:50:26+00:00"
+"guncelleme": "2026-10-25T12:02:21+00:00"
 }

@@ -897,7 +897,7 @@ def sabah(ayar, analizler: list[dict], oranlar: dict, simdi: datetime, gh, yaz=p
         gun["buyuk_oranlar"] = {str(a["fixture_id"]): {b: o for b, o in (oranlar.get(a["fixture_id"]) or {}).items()
                                                        if b.lower() in (ayar.keskin_bahisci.lower(), cfg.oran_sitesi.lower())}
                                 for a in analizler if analiz.onemli(a) and oranlar.get(a["fixture_id"])}
-    govde = (f"@{ayar.alarm_kime} " if ayar.alarm_kime else "") + paket_metni(gun, veri, ayar, cfg)
+    govde = paket_metni(gun, veri, ayar, cfg)  # bilgi: sahibi etiketlenmez (25 Ekim 2026, tek bildirim)
     baslik = ((f"🎩 Mr. Likely {tarih}: otomatik, {len(gun['secilen'])} kupon paylaşılacak" if gun["secilen"]
                else f"⚠️ Mr. Likely {tarih}: otomatik, BUGÜN KUPON ÇIKMADI (kural sağlanmadı)") if oto
               else f"🎩 Mr. Likely {tarih}: {len(adaylar)} aday, {len(gun['kuponlar'])} kupon")

@@ -930,3 +930,37 @@ def test_D6_simdi_ara_saati_beklemez(tmp_path, monkeypatch):
     assert firsat.kontrol(X(), GH(), AYAR, gun, simdi, client=object(), hesap="likely") == 5 and X.aramalar == 1
     assert "11:05" in firsat.yukle()["likely"]["aramalar"]
     assert firsat.kontrol(X(), GH(), AYAR, gun, simdi, client=object(), hesap="likely") == 0  # aynı dakika iki kez değil
+
+
+def test_D3_tek_bildirim_kanali(tmp_path, monkeypatch):
+    """25 Ekim 2026 (sahibinin isteği: aynı bildirim e-posta ve GitHub'dan iki üç kez): anlık bildirim (ntfy) açıksa
+    GitHub etiketi yok; kapalıysa fırsat başına bir kez etiket. Konu adı yalnızca secret'ta."""
+    from bot import bildirim, firsat
+    monkeypatch.setattr(firsat, "DOSYA", tmp_path / "firsatlar.json")
+    monkeypatch.setattr(firsat, "ayar_yukle", lambda: firsat.BuyumeAyar(likely_gunluk_yorum=3, likely_saatler=[10]))
+    monkeypatch.setattr(firsat, "taslaklar", lambda *a, **k: ["Big one tonight"])
+    simdi = datetime(2026, 10, 3, 10, 5, tzinfo=UTC)
+    z = (simdi - timedelta(minutes=20)).isoformat().replace("+00:00", "Z")
+
+    class X:
+        def ara(self, *a, **k):
+            return [{"id": "1", "metin": "France v Italy tonight", "kullanici": "goal", "zaman": z, "metrik": {}}]
+
+    class GH:
+        def __init__(self): self.issue, self.yorumlar = [], []
+        def issue_ac(self, baslik, govde, etiket): self.issue.append(govde); return 1
+        def yorum(self, no, m): self.yorumlar.append(m)
+    gonderilen = []
+    monkeypatch.setattr(bildirim.requests, "post", lambda url, json, timeout: (gonderilen.append(json), type("R", (), {"ok": True})())[1])
+    gun = {"analizler": [mac(1, "France", "Italy", saat="19:00")]}
+    gh = GH()
+    monkeypatch.setenv("NTFY_KONU", "gizli-konu")
+    assert firsat.kontrol(X(), gh, AYAR, gun, simdi, client=object(), hesap="likely") == 1
+    assert gonderilen and gonderilen[0]["topic"] == "gizli-konu" and gonderilen[0]["click"].endswith("kutu.html")
+    assert "@" not in gh.issue[0] and not any(m.startswith("@") for m in gh.yorumlar)
+    monkeypatch.delenv("NTFY_KONU")
+    firsat.kaydet({"gorulen": []})
+    gh2 = GH()
+    firsat.kontrol(X(), gh2, AYAR, gun, simdi, client=object(), hesap="likely")
+    assert "@" not in gh2.issue[0] and sum(m.startswith("@") for m in gh2.yorumlar) == 1  # bir kez etiket
+    assert "gizli-konu" not in (ROOT / "ayarlar.toml").read_text()

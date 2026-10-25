@@ -9,7 +9,7 @@ import json
 import re
 from datetime import datetime, timedelta
 
-from . import config, kopya
+from . import bildirim as bildirim_kanali, config, kopya
 
 ETIKETLER = {"kalkylerat": "yorum-kiti", "likely": "yorum-kiti-likely", "flood": "yorum-kiti-flood"}  # hesap başına: günlük issue, eskisi kapanır
 DOSYA = config.ROOT / "data" / "yorumlar.json"
@@ -308,8 +308,7 @@ def kontrol(x, gh, ayar, simdi: datetime, hesap: str = "kalkylerat", client=None
     yeni = sorted(yeni, key=lambda t: int(t["id"]))[:EN_FAZLA]  # eskiden yeniye; fazlası sonraki kontrole
     tarih = simdi.date().isoformat()
     if (h.get("issue") or {}).get("tarih") != tarih:
-        govde = ((f"@{ayar.alarm_kime} " if getattr(ayar, "alarm_kime", "") else "")
-                 + f"Bugün @{h['kullanici']} postlarına gelen yorumlar ve etiketlemeler. Her biri için 2 hazır cevap: "
+        govde = (f"Bugün @{h['kullanici']} postlarına gelen yorumlar ve etiketlemeler. Her biri için 2 hazır cevap: "
                  "**📋 Kopyala ve yorumu aç**'a dokun: cevap panoya kopyalanır, yorum X'te açılır; Yanıtla, yapıştır, gönder. Bot hiçbir zaman "
                  "kendisi cevap atmaz (X kuralı). Aynı metni iki kişiye gönderme.")
         h["issue"] = {"tarih": tarih, "no": gh.issue_ac(f"💬 Yorumlar @{h['kullanici']} {tarih}", govde,
@@ -319,6 +318,7 @@ def kontrol(x, gh, ayar, simdi: datetime, hesap: str = "kalkylerat", client=None
     except Exception as e:
         yaz(f"Yorum kiti: üst postlar okunamadı ({e}); konuşmanın başı olmadan yazılıyor.")
         ustler = {}
+    bildirim_gitti = False
     for t in yeni:
         if t.get("ust_id") in ustler:
             t["ust"], t["ust_kullanici"] = ustler[t["ust_id"]]["metin"], ustler[t["ust_id"]]["kullanici"]
@@ -331,8 +331,15 @@ def kontrol(x, gh, ayar, simdi: datetime, hesap: str = "kalkylerat", client=None
         if not spam and hesap in ("kalkylerat", "likely"):  # gelen kutusu: cevaplamaya değer yorumlar (24 saat)
             kopya.kutu_ekle([sayfa_ogesi(f"@{t.get('kullanici') or '?'} → @{h['kullanici']}", t.get("metin") or "",
                                          url, taslak, not_=not_)], hesap, "yorum", simdi, 24 * 60)
-        gh.yorum(h["issue"]["no"], (f"@{ayar.alarm_kime} " if getattr(ayar, "alarm_kime", "") else "")
+        # Tek bildirim (25 Ekim 2026): kontrol başına bir kez; anlık bildirim açıksa GitHub etiketi yok
+        etiketle = not bildirim_gitti and not spam and getattr(ayar, "alarm_kime", "") and not bildirim_kanali.acik()
+        gh.yorum(h["issue"]["no"], (f"@{ayar.alarm_kime} " if etiketle else "")
                  + bildirim(t, taslak, not_, spam, h["kullanici"], sayfa))
+        if not spam and not bildirim_gitti:
+            bildirim_gitti = True
+            if bildirim_kanali.acik():
+                bildirim_kanali.gonder(f"💬 Yeni yorum · @{h['kullanici']}",
+                                       f"@{t.get('kullanici') or '?'}: {(t.get('metin') or '')[:200]}", kopya.KUTU_SAYFA)
         h["since_id"] = t["id"]
         kaydet(veri)  # bildirildi: tekrar gelmesin
     yaz(f"Yorum kiti (@{h['kullanici']}): {len(yeni)} yeni yorum bildirildi.")

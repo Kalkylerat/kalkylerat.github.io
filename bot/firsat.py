@@ -15,7 +15,7 @@ import unicodedata
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 
-from . import config, kopya
+from . import bildirim as bildirim_kanali, config, kopya
 from .yorum import INSAN_SESI, LIKELY_INSAN
 
 ETIKET = "yorum-firsatlari"
@@ -362,8 +362,7 @@ def kontrol(x, gh, ayar, gun: dict | None, simdi: datetime, client, yaz=print, h
         etiket_adi = ("🖼️ Kartımızla (1. taslak + bu maçın kart postumuz):" if hesap == "kalkylerat"
                       else "🎩 Kuponla (1. taslak + bugünkü kupon postu; bu maç kuponun bir ayağı):")
         if not h.get("issue"):  # h her gün sıfırlanır: bugünün issue'su yoksa açılır
-            govde = ((f"@{ayar.alarm_kime} " if getattr(ayar, "alarm_kime", "") else "")
-                     + f"Bugünün {ADLAR[hesap]} yorum fırsatları (günde {gunluk}, ayar: `ayarlar.toml` → `[buyume]`). "
+            govde = (f"Bugünün {ADLAR[hesap]} yorum fırsatları (günde {gunluk}, ayar: `ayarlar.toml` → `[buyume]`). "
                      f"**Bu cevapları {ADLAR[hesap]} hesabından at.** Büyük hesapların son saatlerdeki postları ve her "
                      "birine 2 taslak. **📋 Kopyala ve postu aç** sayfasında taslağın düğmesine dokun: metin panoya kopyalanır, "
                      "post X'te açılır; Yanıtla'ya dokun, yapıştır, gönder. "
@@ -388,7 +387,11 @@ def kontrol(x, gh, ayar, gun: dict | None, simdi: datetime, client, yaz=print, h
                                 f"Yorum fırsatları {ADLAR[hesap]} · {etiket_saat} UTC",
                                 ogeler, simdi, uyari)
         kutu = kopya.kutu_ekle(ogeler, hesap, "firsat", simdi, KUTU_OMUR_DK)  # tek sayfa: gelen kutusu
-        gh.yorum(h["issue"]["no"], (f"@{ayar.alarm_kime} " if getattr(ayar, "alarm_kime", "") else "")
+        # Tek bildirim (25 Ekim 2026): telefona/Chrome'a anlık bildirim; yoksa GitHub etiketi (yalnızca burada, bir kez)
+        bildirildi = bildirim_kanali.gonder(f"🚀 {len(gonderilen)} yorum fırsatı · {ADLAR[hesap]}",
+                                     "; ".join(f"@{p.get('kullanici') or '?'}" + (f" · {m['ev']} v {m['dep']}" if m else "")
+                                               for p, m, _, _ in gonderilen), kutu)
+        gh.yorum(h["issue"]["no"], ("" if bildirildi or not getattr(ayar, "alarm_kime", "") else f"@{ayar.alarm_kime} ")
                  + f"**{etiket_saat} UTC fırsatları ({ADLAR[hesap]})**\n\n"
                  + (f"{uyari}\n\n" if uyari else "")
                  + f"📥 **[Gelen kutusu]({kutu})** (iki hesabın bütün fırsatları ve yorumları tek sayfada; 1–2 dakikada güncellenir) · "

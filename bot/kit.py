@@ -80,7 +80,7 @@ def gonder(gun: dict, ayar, gh, saat, simdi: datetime, ham_url: str, yaz=print) 
             for f in eski.iterdir():
                 f.unlink()
             eski.rmdir()
-    govde = (f"@{ayar.alarm_kime} " if ayar.alarm_kime else "") + kit_metni(gun, maclar, [saat(a) for a in maclar], resimler)
+    govde = kit_metni(gun, maclar, [saat(a) for a in maclar], resimler)
     no = gh.issue_ac(f"💬 Yanıt kiti {gun['tarih']}", govde, ETIKET)
     gun["yanit_kiti"] = {"issue": no, "zaman": simdi.isoformat(timespec="seconds")}
     yaz(f"Yanıt kiti gönderildi (issue #{no}).")

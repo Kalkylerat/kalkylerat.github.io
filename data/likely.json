@@ -31948,7 +31948,8 @@
      "istatistik": 0.815,
      "uyum": true,
      "buyuk": false,
-     "no": 18
+     "no": 18,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1549524-CS1X",
@@ -32427,7 +32428,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 40
+     "no": 40,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1549045-CSX2",
@@ -34637,7 +34639,7 @@
     "zaman": "2026-10-25T06:50:30+00:00",
     "tweet_id": "2114248222311071787"
    },
-   "olcum_sorgu": "2026-10-25T20:45:53+00:00",
+   "olcum_sorgu": "2026-10-25T21:43:20+00:00",
    "kasa": {
     "tweet_id": "2114467526864146497",
     "tur": "haftalik",

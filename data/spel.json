@@ -140933,6 +140933,15 @@
               1
             ],
             "zaman": "2026-10-25T19:28:53+00:00"
+          },
+          "1550166": {
+            "durum": "paylasildi",
+            "tweet_id": "2114472906600190112",
+            "skor": [
+              0,
+              2
+            ],
+            "zaman": "2026-10-25T21:43:20+00:00"
           }
         }
       },
@@ -141127,7 +141136,26 @@
         "durum": "paylasildi",
         "tweet_id": "2114383519006761217",
         "zaman": "2026-10-25T15:48:05+00:00",
-        "metin": "Most likely score: 0-1.\nEven that is only 12%.\n\n🇮🇹 Udinese v AC Milan 🇮🇹 · 20:45 CET\n🏆 Udinese 23% · Draw 24% · AC Milan 53%\n⚽ Over 2.5 goals 49% · Under 51%\n🥅 Both teams score 51% · Not both 49%\n\n💬 Chances, not picks. Can Udinese beat 23%? 👇\n#SerieA\n18+ | Play responsibly"
+        "metin": "Most likely score: 0-1.\nEven that is only 12%.\n\n🇮🇹 Udinese v AC Milan 🇮🇹 · 20:45 CET\n🏆 Udinese 23% · Draw 24% · AC Milan 53%\n⚽ Over 2.5 goals 49% · Under 51%\n🥅 Both teams score 51% · Not both 49%\n\n💬 Chances, not picks. Can Udinese beat 23%? 👇\n#SerieA\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2114472920814662001",
+          "skor": "0-2",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "xg": [
+            0.46,
+            3.15
+          ],
+          "zaman": "2026-10-25T21:43:20+00:00",
+          "brier": {
+            "piyasa": 0.8423,
+            "istatistik": 0.7531
+          }
+        }
       },
       "tablo_aksam": {
         "durum": "paylasildi",

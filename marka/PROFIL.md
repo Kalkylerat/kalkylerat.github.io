@@ -8,7 +8,7 @@ Bu dosyadaki metinleri olduğu gibi kopyalayın. Görseller bu klasörde: `logo.
 |---|---|
 | İsim (Name) | `Kalkylerat` |
 | Kullanıcı adı (@) | `@Kalkylerat` — alınmışsa sırayla: `@KalkyleratSE`, `@Kalkylerat_`, `@KalkyleratSpel` |
-| Konum | `Europe` |
+| Konum | `Sweden` |
 | Web sitesi | `https://kalkylerat.github.io/` (taşıma adımlarından sonra) |
 | Dil | English |
 
@@ -21,7 +21,7 @@ Bu dosyadaki metinleri olduğu gibi kopyalayın. Görseller bu klasörde: `logo.
 Chances, not picks · 18+
 ```
 
-İsim önerisi: `Kalkylerat 📊` · Konum alanı önerisi: `⚽ Every big game, every day`
+İsim `Kalkylerat` ve konum `Sweden` olarak kalıyor (sahibinin kararı, 25 Ekim 2026).
 
 ## Sabitlenmiş tweet
 

@@ -903,3 +903,30 @@ def test_D6_kulup_hesaplari_ikinci_arama_ve_onbellek(tmp_path, monkeypatch):
     assert len(X.sorgular) == 2 and "from:realmadriden" in X.sorgular[1]
     firsat.kontrol(X(), GH(), AYAR, gun, simdi, client=object(), hesap="kalkylerat")
     assert len(X.sorgular) == 2  # aynı saatin araması öbür hesaba önbellekten
+
+
+def test_D6_simdi_ara_saati_beklemez(tmp_path, monkeypatch):
+    """25 Ekim 2026 (sahibinin isteği): elle çalıştırmada ek = "firsat=simdi" arama saatini beklemez; en fazla 5 fırsat."""
+    from bot import firsat
+    monkeypatch.setattr(firsat, "DOSYA", tmp_path / "firsatlar.json")
+    monkeypatch.setattr(firsat, "ayar_yukle", lambda: firsat.BuyumeAyar(gunluk_yorum=20, likely_gunluk_yorum=15, saatler=[10, 12], likely_saatler=[10, 12]))
+    simdi = datetime(2026, 10, 3, 11, 5, tzinfo=UTC)
+    z = (simdi - timedelta(minutes=20)).isoformat().replace("+00:00", "Z")
+    postlar = [{"id": str(i), "metin": f"France v Italy tonight, note {i}", "kullanici": "goal", "zaman": z,
+                "metrik": {"like_count": 100 - i}} for i in range(9)]
+
+    class X:
+        aramalar = 0
+        def ara(self, *a, **k): X.aramalar += 1; return postlar
+
+    class GH:
+        def issue_ac(self, *a): return 1
+        def yorum(self, *a): pass
+    monkeypatch.setattr(firsat, "taslaklar", lambda *a, **k: ["Tasty one tonight"])
+    gun = {"analizler": [mac(1, "France", "Italy", saat="19:00")]}
+    firsat.kaydet({"likely": {"tarih": "2026-10-03", "gonderilen": 0, "aramalar": [10]}, "gorulen": []})
+    assert firsat.kontrol(X(), GH(), AYAR, gun, simdi, client=object(), hesap="likely") == 0  # 10:00 yapıldı, 12 gelmedi
+    monkeypatch.setenv("BOT_EK", "firsat=simdi")
+    assert firsat.kontrol(X(), GH(), AYAR, gun, simdi, client=object(), hesap="likely") == 5 and X.aramalar == 1
+    assert "11:05" in firsat.yukle()["likely"]["aramalar"]
+    assert firsat.kontrol(X(), GH(), AYAR, gun, simdi, client=object(), hesap="likely") == 0  # aynı dakika iki kez değil

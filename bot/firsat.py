@@ -8,6 +8,7 @@ başına ~$0.005): günde birkaç arama, her biri en fazla ARAMA_ADET post. Gün
 
 import json
 import math
+import os
 import re
 import tomllib
 import unicodedata
@@ -22,6 +23,7 @@ DOSYA = config.ROOT / "data" / "firsatlar.json"
 ARAMA_ADET = 40  # bir aramada en fazla bu kadar post okunur (~$0.20); aynı saatteki arama iki hesaba yeter.
 # Yalnızca kartımız olan maçların postları seçildiği için 25 yetmiyordu (14 Ekim).
 TAZE_SAAT = 3  # yalnızca son bu kadar saatte atılmış postlar (eski posta yanıt görünmez)
+ZORLA_ADET = 5  # "şimdi ara" ile en fazla bu kadar fırsat (günlük sınırdan düşer)
 KULUP_ADET = 25  # bugünkü büyük maçların kulüp hesaplarından ikinci arama (25 Ekim 2026: daha çok, daha isabetli fırsat)
 
 # Büyük kulüplerin resmi (İngilizce) X hesapları: maç günü postları ("Matchday", kadro, ön izleme) en isabetli
@@ -312,14 +314,16 @@ def kontrol(x, gh, ayar, gun: dict | None, simdi: datetime, client, yaz=print, h
     veri = yukle()
     tarih = simdi.date().isoformat()
     h = _hesap_durumu(veri, hesap, tarih)
-    saat = max((s for s in saatler if s <= simdi.hour), default=None)
+    # "Şimdi ara" (sahibinin isteği 25 Ekim 2026): elle çalıştırmada ek = "firsat=simdi" saati beklemeden arar
+    zorla = "firsat=simdi" in os.environ.get("BOT_EK", "").split()
+    saat = simdi.strftime("%H:%M") if zorla else max((s for s in saatler if s <= simdi.hour), default=None)
     if saat is None or saat in h["aramalar"] or h["gonderilen"] >= gunluk:
         return 0
     maclar = [a for a in (gun or {}).get("analizler") or [] if datetime.fromisoformat(a["baslama"]) > simdi]
     if hesap == "kalkylerat" and not any(kart_postu(gun, m) for m in maclar):
         return 0  # SÖZLEŞME D6: kartı paylaşılmış yaklaşan maç yok → arama da yok (ücret yok; saat sayılmaz)
-    kalan_arama = len([s for s in saatler if s >= saat])
-    hedef = min(math.ceil((gunluk - h["gonderilen"]) / kalan_arama), gunluk - h["gonderilen"])
+    kalan_arama = 1 if zorla else len([s for s in saatler if s >= saat])
+    hedef = min(math.ceil((gunluk - h["gonderilen"]) / kalan_arama), gunluk - h["gonderilen"], ZORLA_ADET if zorla else 99)
     h["aramalar"].append(saat)
     kaydet(veri)  # arama sayıldı: hata olsa da bu saatte tekrar okunmaz (maliyet)
     baslangic = (simdi - timedelta(hours=TAZE_SAAT)).isoformat(timespec="seconds")

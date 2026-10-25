@@ -34000,7 +34000,6 @@
       "oran": 1.36
      },
      "saat": "2026-10-25T10:15:00+01:00",
-     "gunun_maci": true,
      "hikaye": true
     },
     {
@@ -34028,31 +34027,6 @@
      },
      "saat": "2026-10-25T10:55:00+01:00",
      "hikaye": true
-    },
-    {
-     "fixture_id": 1569991,
-     "ev": "Sabadell",
-     "dep": "Tenerife",
-     "lig": "Segunda División",
-     "ev_id": 9593,
-     "dep_id": 719,
-     "lig_id": 141,
-     "baslama": "2026-10-25T14:00:00+01:00",
-     "buyuk": false,
-     "p": {
-      "MS1": 0.497,
-      "MSX": 0.281,
-      "MS2": 0.222,
-      "UST25": 0.364,
-      "KGVAR": 0.408
-     },
-     "aci": {
-      "aday_id": "1569991-CS1X",
-      "etiket": "Double chance 1X",
-      "olasilik": 0.796,
-      "oran": 1.2
-     },
-     "saat": "2026-10-25T11:35:00+01:00"
     },
     {
      "fixture_id": 1549043,
@@ -34231,6 +34205,33 @@
       "oran": 1.18
      },
      "saat": "2026-10-25T16:00:00+01:00",
+     "hikaye": true
+    },
+    {
+     "fixture_id": 1570426,
+     "ev": "Barcelona",
+     "dep": "Real Madrid",
+     "lig": "La Liga",
+     "ev_id": 529,
+     "dep_id": 541,
+     "lig_id": 140,
+     "baslama": "2026-10-25T21:00:00+01:00",
+     "buyuk": true,
+     "p": {
+      "MS1": 0.571,
+      "MSX": 0.181,
+      "MS2": 0.247,
+      "UST25": 0.815,
+      "KGVAR": 0.768
+     },
+     "aci": {
+      "aday_id": "1570426-IYU05",
+      "etiket": "1st half Over 0.5 goals",
+      "olasilik": 0.855,
+      "oran": 1.11
+     },
+     "saat": "2026-10-25T18:30:00+01:00",
+     "gunun_maci": true,
      "hikaye": true
     }
    ],

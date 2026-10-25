@@ -140825,6 +140825,15 @@
               1
             ],
             "zaman": "2026-10-25T13:34:31+00:00"
+          },
+          "1570424": {
+            "durum": "paylasildi",
+            "tweet_id": "2114370952897110522",
+            "skor": [
+              4,
+              0
+            ],
+            "zaman": "2026-10-25T14:58:08+00:00"
           }
         }
       },
@@ -140894,6 +140903,12 @@
         "tweet_id": "2114358416584175994",
         "zaman": "2026-10-25T14:08:20+00:00",
         "metin": "Bayern München win 68%: about 2 in 3.\n\n🇩🇪 SC Freiburg v Bayern München 🇩🇪\n🏆 SC Freiburg 15% · Draw 17% · Bayern München 68%\n⚽ Over 2.5 goals 74% · Under 26%\n🥅 Both teams score 65% · Not both 35%\n\n💬 Chances, not picks. Can SC Freiburg beat 15%? 👇\n18+ | Play responsibly"
+      },
+      "analiz_8": {
+        "durum": "paylasildi",
+        "tweet_id": "2114370949671793110",
+        "zaman": "2026-10-25T14:58:08+00:00",
+        "metin": "Juventus win 63%: about 2 in 3.\nLecce win it about 1 time in 7 (15%).\n\n🇮🇹 Lecce v Juventus 🇮🇹 · 18:00 CET\n🏆 Lecce 15% · Draw 22% · Juventus 63%\n⚽ Over 2.5 goals 51% · Under 49%\n🥅 Both teams score 47% · Not both 53%\n\n💬 Not picks. What's your score? 👇\n18+ | Play responsibly"
       }
     }
   }

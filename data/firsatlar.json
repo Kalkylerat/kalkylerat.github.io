@@ -151,7 +151,8 @@
    12,
    14,
    16,
-   18
+   18,
+   20
   ],
   "issue": {
    "tarih": "2026-10-25",
@@ -160,332 +161,392 @@
  },
  "onbellek": {
   "tarih": "2026-10-25",
-  "saat": 18,
+  "saat": 20,
   "postlar": [
    {
-    "id": "2114417411088920684",
-    "metin": "The Granotas hit back 😜 https://t.co/Xm9aVRDP9Y",
-    "kullanici": "LaLigaEN",
-    "zaman": "2026-10-25T18:02:49.000Z",
+    "id": "2114447278014419359",
+    "metin": "Barcelona host Real Madrid in the first Clasico of the season in La Liga.\n\nHansi Flick's reigning champions have made a perfect start to their title defence with nine wins from their first nine games.\n\nMeanwhile, Jose Mourinho's Real Madrid — who are without the injured Thibaut https://t.co/SdzERmnZuq",
+    "kullanici": "TheAthleticFC",
+    "zaman": "2026-10-25T20:01:30.000Z",
     "metrik": {
      "bookmark_count": 0,
-     "impression_count": 1788,
-     "like_count": 2,
+     "impression_count": 8228,
+     "like_count": 17,
      "quote_count": 0,
      "reply_count": 0,
-     "retweet_count": 0
+     "retweet_count": 2
     },
     "video": false
    },
    {
-    "id": "2114416393240101025",
-    "metin": "🤯🇷🇺 Meanwhile in Russia, the score is 1-1 in the 87th minute and one team gets a free-kick in the perfect position..\n\nYou'll never guess what happens when the goalkeeper steps up to take it. 🤣⚽️ https://t.co/2MoEWp6WA0",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-25T17:58:46.000Z",
+    "id": "2114446905430163503",
+    "metin": "Bruno Fernandes hasn't performed all season, says Ashley Young 😬📉 https://t.co/JPGiHK6WDT",
+    "kullanici": "SkySportsPL",
+    "zaman": "2026-10-25T20:00:01.000Z",
     "metrik": {
-     "bookmark_count": 4,
-     "impression_count": 5028,
-     "like_count": 36,
+     "bookmark_count": 3,
+     "impression_count": 23283,
+     "like_count": 64,
      "quote_count": 2,
+     "reply_count": 5,
+     "retweet_count": 5
+    },
+    "video": true
+   },
+   {
+    "id": "2114446648571019307",
+    "metin": "Abdellah Ouazane scored this goal for Ajax today. 👀 \n\nHe’s just 17-years-old. 🪄🇲🇦  https://t.co/exkEyB9h2Y",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-25T19:59:00.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 3982,
+     "like_count": 19,
+     "quote_count": 0,
+     "reply_count": 1,
+     "retweet_count": 1
+    },
+    "video": true
+   },
+   {
+    "id": "2114446019479957801",
+    "metin": "Modrić over the top for Pulisic, who opens the scoring! ⚡\n\n#UdineseMilan 0-1 https://t.co/x2BnPGX3sN",
+    "kullanici": "SerieA_EN",
+    "zaman": "2026-10-25T19:56:30.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 2175,
+     "like_count": 22,
+     "quote_count": 0,
+     "reply_count": 0,
+     "retweet_count": 3
+    },
+    "video": true
+   },
+   {
+    "id": "2114445496013947249",
+    "metin": "Built for nights like this.\n\n#ELCLÁSICO https://t.co/l13SV9M7m1",
+    "kullanici": "LaLigaEN",
+    "zaman": "2026-10-25T19:54:25.000Z",
+    "metrik": {
+     "bookmark_count": 1,
+     "impression_count": 4738,
+     "like_count": 31,
+     "quote_count": 0,
      "reply_count": 0,
      "retweet_count": 4
     },
-    "video": true
+    "video": false
    },
    {
-    "id": "2114416158136828396",
-    "metin": "\"They're probably going to sack him\"\n\nGary Neville's immediate reaction to Man Utd's 3-0 loss to Bournemouth 😳 https://t.co/n9PDFXq2Vf",
-    "kullanici": "SkySportsPL",
-    "zaman": "2026-10-25T17:57:50.000Z",
+    "id": "2114445288740126764",
+    "metin": "Liverpool's new look attack 🤩\nLeeds' defensive resilience 💪\nMatthias Jaissle's big decisions 🤔\n\nWhat we learned from Sunday's five fixtures 👉 https://t.co/mNItu71Q0Q https://t.co/pShKqWjPfY",
+    "kullanici": "premierleague",
+    "zaman": "2026-10-25T19:53:35.000Z",
     "metrik": {
-     "bookmark_count": 14,
-     "impression_count": 30491,
-     "like_count": 140,
-     "quote_count": 1,
-     "reply_count": 10,
-     "retweet_count": 9
+     "bookmark_count": 2,
+     "impression_count": 64952,
+     "like_count": 300,
+     "quote_count": 2,
+     "reply_count": 12,
+     "retweet_count": 30
+    },
+    "video": false
+   },
+   {
+    "id": "2114444587578392853",
+    "metin": "On a mission \n\n#ELCLÁSICO https://t.co/jIOgmgt4vd",
+    "kullanici": "LaLigaEN",
+    "zaman": "2026-10-25T19:50:48.000Z",
+    "metrik": {
+     "bookmark_count": 1,
+     "impression_count": 5407,
+     "like_count": 51,
+     "quote_count": 0,
+     "reply_count": 2,
+     "retweet_count": 4
+    },
+    "video": false
+   },
+   {
+    "id": "2114443194406461800",
+    "metin": "Tyler, The Creator at the Camp Nou to see Barca wear his logo during ElClásico 🔥 https://t.co/lRi4YXo19m",
+    "kullanici": "ESPNFC",
+    "zaman": "2026-10-25T19:45:16.000Z",
+    "metrik": {
+     "bookmark_count": 25,
+     "impression_count": 47000,
+     "like_count": 796,
+     "quote_count": 11,
+     "reply_count": 9,
+     "retweet_count": 74
     },
     "video": true
    },
    {
-    "id": "2114416096715395517",
-    "metin": "Juve in the driving seat ⏸️\n\n#LecceJuve https://t.co/ncbpwuhXzp",
-    "kullanici": "SerieA_EN",
-    "zaman": "2026-10-25T17:57:36.000Z",
+    "id": "2114442880483721262",
+    "metin": "The Manchester United fans deserve a lot of credit for how they acted today...\n\nFully backing the manager ahead of those terrible players. https://t.co/UJo2ZkJRrF https://t.co/HIfENxttaN",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-25T19:44:01.000Z",
+    "metrik": {
+     "bookmark_count": 3,
+     "impression_count": 10858,
+     "like_count": 36,
+     "quote_count": 0,
+     "reply_count": 1,
+     "retweet_count": 1
+    },
+    "video": true
+   },
+   {
+    "id": "2114442639319675280",
+    "metin": "🔴 Gary Neville believes Manchester United fans are firmly behind Michael Carrick following his decision to leave Bruno Fernandes on the bench:\n\n🗣️ Neville: \"The fans weren't crying out for Bruno to come on when Shea Lacey came on with 20 minutes to go. They weren't singing his https://t.co/5BMtPkXI9V",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-25T19:43:04.000Z",
     "metrik": {
      "bookmark_count": 0,
-     "impression_count": 1418,
+     "impression_count": 14907,
+     "like_count": 35,
+     "quote_count": 1,
+     "reply_count": 1,
+     "retweet_count": 3
+    },
+    "video": false
+   },
+   {
+    "id": "2114442185508520270",
+    "metin": "All love ❤️ https://t.co/VUwHMBfdDl",
+    "kullanici": "ESPNFC",
+    "zaman": "2026-10-25T19:41:16.000Z",
+    "metrik": {
+     "bookmark_count": 18,
+     "impression_count": 33251,
+     "like_count": 973,
+     "quote_count": 3,
+     "reply_count": 16,
+     "retweet_count": 62
+    },
+    "video": true
+   },
+   {
+    "id": "2114440875937866115",
+    "metin": "Twenty years ago, @afcbournemouth were in the middle of a five-match losing streak in the third tier of English football 👎\n\nThis week, they secured back-to-back 3-0 wins against  AC Milan and Man Utd 🤩 https://t.co/VAy0LiSCHo",
+    "kullanici": "premierleague",
+    "zaman": "2026-10-25T19:36:03.000Z",
+    "metrik": {
+     "bookmark_count": 3,
+     "impression_count": 92899,
+     "like_count": 645,
+     "quote_count": 3,
+     "reply_count": 24,
+     "retweet_count": 70
+    },
+    "video": false
+   },
+   {
+    "id": "2114440232368021607",
+    "metin": "You know it's bad when the Man City fans are coming for you in their precarious situation. 😂😂 https://t.co/T745Fkb8IV",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-25T19:33:30.000Z",
+    "metrik": {
+     "bookmark_count": 4,
+     "impression_count": 10546,
+     "like_count": 86,
+     "quote_count": 1,
+     "reply_count": 3,
+     "retweet_count": 4
+    },
+    "video": false
+   },
+   {
+    "id": "2114439442253398279",
+    "metin": "🚨 Lamine Yamal and Karim Adeyemi showing off their style as they arrive at the Camp Nou for El Clasico. 😍💙❤️ https://t.co/xz1imPUupm",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-25T19:30:22.000Z",
+    "metrik": {
+     "bookmark_count": 4,
+     "impression_count": 9448,
+     "like_count": 56,
+     "quote_count": 0,
+     "reply_count": 4,
+     "retweet_count": 6
+    },
+    "video": false
+   },
+   {
+    "id": "2114439034978312683",
+    "metin": "The change of noise as soon as Carrick went into the tunnel is absolutely INCREDIBLE...\n\nThe fans love Carrick and always will. Those players have showed their true colours once again. https://t.co/Z4yHaqWEGJ https://t.co/1WzVpwsErS",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-25T19:28:44.000Z",
+    "metrik": {
+     "bookmark_count": 30,
+     "impression_count": 20860,
+     "like_count": 234,
+     "quote_count": 0,
+     "reply_count": 5,
+     "retweet_count": 19
+    },
+    "video": true
+   },
+   {
+    "id": "2114438989755109671",
+    "metin": "Closing in on #UdineseMilan ⏳ https://t.co/jvfvdpbbjz",
+    "kullanici": "SerieA_EN",
+    "zaman": "2026-10-25T19:28:34.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 2617,
      "like_count": 10,
      "quote_count": 0,
      "reply_count": 0,
      "retweet_count": 1
     },
-    "video": false
+    "video": true
    },
    {
-    "id": "2114415528294965452",
-    "metin": "La Real make their move! 👀 https://t.co/uSQsSYspBj",
+    "id": "2114438806745022667",
+    "metin": "FT: #RealSociedadLevanteUD 2-1 \n\nThree points secured for La Real! 🔵\n\n#LALIGAEASPORTS https://t.co/6mwr3pWInC",
     "kullanici": "LaLigaEN",
-    "zaman": "2026-10-25T17:55:20.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 4083,
-     "like_count": 12,
-     "quote_count": 0,
-     "reply_count": 1,
-     "retweet_count": 1
-    },
-    "video": false
-   },
-   {
-    "id": "2114415399215272294",
-    "metin": "\"We have to do perfect games, we didn't do the job\"\n\nPierre Sage was not best pleased with his side's performance in the last 20 minutes against Newcastle 😬 https://t.co/IqaEcwIHwC",
-    "kullanici": "SkySportsPL",
-    "zaman": "2026-10-25T17:54:49.000Z",
+    "zaman": "2026-10-25T19:27:50.000Z",
     "metrik": {
      "bookmark_count": 1,
-     "impression_count": 35515,
-     "like_count": 39,
-     "quote_count": 0,
-     "reply_count": 3,
+     "impression_count": 7278,
+     "like_count": 41,
+     "quote_count": 2,
+     "reply_count": 2,
      "retweet_count": 7
     },
-    "video": true
-   },
-   {
-    "id": "2114415231308861827",
-    "metin": "Matthias Jaissle reacts to Newcastle's crucial victory against Crystal Palace 💪 https://t.co/GMzyvfLk8w",
-    "kullanici": "SkySportsPL",
-    "zaman": "2026-10-25T17:54:09.000Z",
-    "metrik": {
-     "bookmark_count": 7,
-     "impression_count": 34982,
-     "like_count": 80,
-     "quote_count": 0,
-     "reply_count": 2,
-     "retweet_count": 3
-    },
-    "video": true
-   },
-   {
-    "id": "2114415161322922372",
-    "metin": "The grid is set for the United States Grand Prix 🇺🇸\n\nCan Kimi Antonelli make history this evening? 🤔🏆 https://t.co/z42CGMMBTE",
-    "kullanici": "BBCSport",
-    "zaman": "2026-10-25T17:53:53.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 16018,
-     "like_count": 8,
-     "quote_count": 0,
-     "reply_count": 2,
-     "retweet_count": 1
-    },
     "video": false
    },
    {
-    "id": "2114414729712070965",
-    "metin": "\"Sell United and f*ck off home.\" 🎶\n\nThe Manchester United fans made their feelings clear to the current owners of the club today. 👏 https://t.co/P8K0FuHU4h https://t.co/1WzVpws6Ck",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-25T17:52:10.000Z",
-    "metrik": {
-     "bookmark_count": 3,
-     "impression_count": 7783,
-     "like_count": 30,
-     "quote_count": 0,
-     "reply_count": 1,
-     "retweet_count": 3
-    },
-    "video": true
-   },
-   {
-    "id": "2114414481631494388",
-    "metin": "Douglas Luiz sweeps home his first Serie A goal! 💪\n\n#LecceJuve 0-2 https://t.co/fsc3b59SVJ",
-    "kullanici": "SerieA_EN",
-    "zaman": "2026-10-25T17:51:10.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 2099,
-     "like_count": 17,
-     "quote_count": 0,
-     "reply_count": 1,
-     "retweet_count": 1
-    },
-    "video": false
-   },
-   {
-    "id": "2114413376642117780",
-    "metin": "\"Fourth win in a row, it feels good!\"\n\nAndoni Iraola gives his thoughts after Liverpool's win against Brighton 🎙️ https://t.co/ijMbYatxRo",
+    "id": "2114438322978259255",
+    "metin": "\"If this continues, we could be talking about a Manchester United team in a relegation battle\"\n\nAshley Young says the Man Utd players are NOT good enough ❌ https://t.co/4swqtBdqPu",
     "kullanici": "SkySportsPL",
-    "zaman": "2026-10-25T17:46:47.000Z",
+    "zaman": "2026-10-25T19:25:55.000Z",
     "metrik": {
-     "bookmark_count": 13,
-     "impression_count": 54694,
-     "like_count": 164,
-     "quote_count": 1,
-     "reply_count": 2,
-     "retweet_count": 11
+     "bookmark_count": 33,
+     "impression_count": 99040,
+     "like_count": 933,
+     "quote_count": 8,
+     "reply_count": 33,
+     "retweet_count": 61
     },
     "video": true
    },
    {
-    "id": "2114412096108540033",
-    "metin": "McKennie applies the finishing touch on a free-kick routine! 🔥\n\n#LecceJuve 0-1 https://t.co/RBTjbCj9LE",
+    "id": "2114437636211565046",
+    "metin": "With an assist and a goal, Douglas Luiz claims the Panini Player of the Match award 👏\n\n#LecceJuve https://t.co/NTBgPosFC4",
     "kullanici": "SerieA_EN",
-    "zaman": "2026-10-25T17:41:42.000Z",
+    "zaman": "2026-10-25T19:23:11.000Z",
     "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 2779,
-     "like_count": 14,
+     "bookmark_count": 2,
+     "impression_count": 2853,
+     "like_count": 26,
      "quote_count": 0,
      "reply_count": 0,
-     "retweet_count": 2
+     "retweet_count": 5
+    },
+    "video": false
+   },
+   {
+    "id": "2114435504422715514",
+    "metin": "Mohamed Belloumi completed seven of his eight take-ons against Brentford.\n\nHe's now completed more than any other player in the Premier League this season. ⚡️\n\n@bet365 #Ad https://t.co/P5LCivUjJM",
+    "kullanici": "Squawka",
+    "zaman": "2026-10-25T19:14:43.000Z",
+    "metrik": {
+     "bookmark_count": 0,
+     "impression_count": 13525,
+     "like_count": 24,
+     "quote_count": 0,
+     "reply_count": 5,
+     "retweet_count": 1
+    },
+    "video": false
+   },
+   {
+    "id": "2114435484529344767",
+    "metin": "Jamie Carragher says Michael Carrick needs to be “relieved of his duties” as Manchester United boss ❌ https://t.co/Si2mALWmzV",
+    "kullanici": "SkySportsPL",
+    "zaman": "2026-10-25T19:14:38.000Z",
+    "metrik": {
+     "bookmark_count": 97,
+     "impression_count": 180608,
+     "like_count": 1045,
+     "quote_count": 10,
+     "reply_count": 60,
+     "retweet_count": 78
     },
     "video": true
    },
    {
-    "id": "2114410270340923495",
-    "metin": "ABDELLI SCORES IN BACK-TO-BACK GAMES AS MARSEILLE HIT FOUR! 🇩🇿🔥 https://t.co/de713ajGgM",
-    "kullanici": "Ligue1_ENG",
-    "zaman": "2026-10-25T17:34:26.000Z",
+    "id": "2114435348759797868",
+    "metin": "FC BARCELONA IN THE HOUSE \n\n#ELCLÁSICO https://t.co/Af1V5HFK6e",
+    "kullanici": "LaLigaEN",
+    "zaman": "2026-10-25T19:14:06.000Z",
     "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 2559,
-     "like_count": 14,
+     "bookmark_count": 3,
+     "impression_count": 8175,
+     "like_count": 154,
      "quote_count": 0,
      "reply_count": 3,
-     "retweet_count": 2
+     "retweet_count": 15
     },
-    "video": false
+    "video": true
    },
    {
-    "id": "2114409455555334180",
-    "metin": "Calcio under a full moon 🌕\n\n#LecceJuve https://t.co/NBeaP7ccXC",
-    "kullanici": "SerieA_EN",
-    "zaman": "2026-10-25T17:31:12.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 2867,
-     "like_count": 19,
-     "quote_count": 0,
-     "reply_count": 1,
-     "retweet_count": 2
-    },
-    "video": false
-   },
-   {
-    "id": "2114408621023068346",
-    "metin": "Sunderland and Leeds managed just 10 touches in the opposition box between them in the opening 45 minutes, the fewest in any Premier League first half this season.\n\nThe previous low (11) also came at the Stadium of Light, when Sunderland faced Fulham in August. https://t.co/N3HCC2ftdy",
-    "kullanici": "Squawka",
-    "zaman": "2026-10-25T17:27:53.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 11129,
-     "like_count": 14,
-     "quote_count": 0,
-     "reply_count": 1,
-     "retweet_count": 2
-    },
-    "video": false
-   },
-   {
-    "id": "2114408418509205532",
-    "metin": "There were just 10 touches in the opposition box between Sunderland and Leeds in the first half, the fewest in any Premier League first half this season.\n\nThe previous low (11) also came at the Stadium of Light, when Sunderland faced Fulham in August. https://t.co/N3HCC2eVo0",
-    "kullanici": "Squawka",
-    "zaman": "2026-10-25T17:27:05.000Z",
-    "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 5794,
-     "like_count": 1,
-     "quote_count": 0,
-     "reply_count": 0,
-     "retweet_count": 1
-    },
-    "video": false
-   },
-   {
-    "id": "2114406873424097564",
-    "metin": "The stats for Lamine Yamal and Kylian Mbappé so far this season 😳 🔥\n\nWhat a battle to watch today in ElClásico between two Ballon d'Or nominees 👀 https://t.co/iBfICZ0sSH",
+    "id": "2114433870401519800",
+    "metin": "Everyone hanging out, then there’s Gavi 😳\n\nWatch ElClásico TODAY at 4 PM ET for the first time ever on ABC and on the ESPN app 🍿 https://t.co/aJpBMf2gqx",
     "kullanici": "ESPNFC",
-    "zaman": "2026-10-25T17:20:57.000Z",
+    "zaman": "2026-10-25T19:08:13.000Z",
     "metrik": {
-     "bookmark_count": 19,
-     "impression_count": 43632,
-     "like_count": 1736,
-     "quote_count": 1,
-     "reply_count": 26,
-     "retweet_count": 81
+     "bookmark_count": 80,
+     "impression_count": 93430,
+     "like_count": 3812,
+     "quote_count": 14,
+     "reply_count": 22,
+     "retweet_count": 157
     },
-    "video": false
+    "video": true
    },
    {
-    "id": "2114404934993223869",
-    "metin": "Weah’s first Ligue 1 goal of the season, and look what it means! 🇺🇸🥶 https://t.co/ZhsBjGEcGO",
-    "kullanici": "Ligue1_ENG",
-    "zaman": "2026-10-25T17:13:14.000Z",
+    "id": "2114433814072320495",
+    "metin": "🇩🇿🪄 Absolutely outrageous goal from Torino wing-back Rafik Belghali.\n\nThe Algerian is just 24 years old. What a talent. 🤩 https://t.co/gqnYdJh0kK",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-25T19:08:00.000Z",
     "metrik": {
-     "bookmark_count": 0,
-     "impression_count": 2862,
-     "like_count": 15,
+     "bookmark_count": 6,
+     "impression_count": 15865,
+     "like_count": 211,
      "quote_count": 0,
      "reply_count": 1,
-     "retweet_count": 2
-    },
-    "video": false
-   },
-   {
-    "id": "2114404152621355148",
-    "metin": "Michael Carrick on whether he expects to be sacked by Manchester United tonight or tomorrow... https://t.co/d808GwtbF1 https://t.co/1WzVpwsErS",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-25T17:10:08.000Z",
-    "metrik": {
-     "bookmark_count": 46,
-     "impression_count": 45990,
-     "like_count": 158,
-     "quote_count": 1,
-     "reply_count": 5,
-     "retweet_count": 11
+     "retweet_count": 18
     },
     "video": true
    },
    {
-    "id": "2114403943937704189",
-    "metin": "Nothing to split @SunderlandAFC and @LUFC so far...\n\nJames Trafford denied Brian Brobbey in the biggest chance so far 🧤 https://t.co/DatqS4TYtQ",
-    "kullanici": "premierleague",
-    "zaman": "2026-10-25T17:09:18.000Z",
+    "id": "2114432942969631172",
+    "metin": "Whether or not Michael Carrick’s position is now untenable, the Old Trafford crowd made one thing clear as they targeted the Glazers, Sir Jim Ratcliffe and Jason Wilcox.\n\nSacking Carrick and replacing him will not fix the problems at Manchester United.\n\nThe issue is away from the https://t.co/2sNTG8zwcZ",
+    "kullanici": "TheAthleticFC",
+    "zaman": "2026-10-25T19:04:32.000Z",
     "metrik": {
-     "bookmark_count": 3,
-     "impression_count": 108369,
-     "like_count": 620,
+     "bookmark_count": 10,
+     "impression_count": 35892,
+     "like_count": 338,
      "quote_count": 3,
-     "reply_count": 20,
-     "retweet_count": 34
+     "reply_count": 16,
+     "retweet_count": 40
     },
     "video": false
    },
    {
-    "id": "2114403909947003154",
-    "metin": "\"I understand the situation\" 💭\n\nMichael Carrick responds to a question on whether he expects to be sacked by Manchester United after their 3-0 home defeat to Bournemouth. https://t.co/cqOzqTeUzh",
-    "kullanici": "SkySportsNews",
-    "zaman": "2026-10-25T17:09:10.000Z",
-    "metrik": {
-     "bookmark_count": 68,
-     "impression_count": 194197,
-     "like_count": 1173,
-     "quote_count": 16,
-     "reply_count": 55,
-     "retweet_count": 91
-    },
-    "video": true
-   },
-   {
-    "id": "2114403119471743131",
-    "metin": "Ready for #LecceJuve 👊 https://t.co/567sNc8r88",
-    "kullanici": "SerieA_EN",
-    "zaman": "2026-10-25T17:06:02.000Z",
+    "id": "2114432846441910654",
+    "metin": "Whether or not Michael Carrick’s position is now untenable, the Old Trafford crowd made one thing clear as they targeted the Glazers, Sir Jim Ratcliffe and Jason Wilcox.\n\nSacking Carrick and replacing him will not fix the problems at Manchester United.\n\nThe issue is away from the https://t.co/bybJ2oNepH",
+    "kullanici": "TheAthleticFC",
+    "zaman": "2026-10-25T19:04:09.000Z",
     "metrik": {
      "bookmark_count": 0,
-     "impression_count": 2779,
-     "like_count": 8,
+     "impression_count": 7608,
+     "like_count": 5,
      "quote_count": 0,
      "reply_count": 0,
      "retweet_count": 0
@@ -493,454 +554,214 @@
     "video": false
    },
    {
-    "id": "2114402985262383121",
-    "metin": "\"Today was a lot more like us.\" \n\nSemi Ajayi and Oli McBurnie react to Hull City's 1-1 draw against Brentford 🤝 https://t.co/TyVjgWceCA",
-    "kullanici": "SkySportsPL",
-    "zaman": "2026-10-25T17:05:30.000Z",
-    "metrik": {
-     "bookmark_count": 5,
-     "impression_count": 114087,
-     "like_count": 184,
-     "quote_count": 0,
-     "reply_count": 4,
-     "retweet_count": 11
-    },
-    "video": true
-   },
-   {
-    "id": "2114402626431283667",
-    "metin": "Manchester United struggled to create without Bruno Fernandes, but their problems went beyond his absence.\n\nHow Bournemouth's pressing exposed Carrick's side at Old Trafford. 👇\n\nhttps://t.co/vdRE1IoQbQ",
-    "kullanici": "Squawka",
-    "zaman": "2026-10-25T17:04:04.000Z",
+    "id": "2114432679886389625",
+    "metin": "Clásico starting lineups:\n\nCan Real Madrid claw their way back into the title race with a much-needed win tonight? https://t.co/KiOgw4woNG",
+    "kullanici": "OptaAnalyst",
+    "zaman": "2026-10-25T19:03:29.000Z",
     "metrik": {
      "bookmark_count": 1,
-     "impression_count": 13287,
-     "like_count": 26,
+     "impression_count": 7506,
+     "like_count": 21,
      "quote_count": 0,
      "reply_count": 1,
-     "retweet_count": 1
-    },
-    "video": false
-   },
-   {
-    "id": "2114402269391396900",
-    "metin": "WEAH DOUBLES MARSEILLE'S LEAD! 🇺🇸🔥 https://t.co/0HRvsWjeuM",
-    "kullanici": "Ligue1_ENG",
-    "zaman": "2026-10-25T17:02:39.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 2737,
-     "like_count": 24,
-     "quote_count": 0,
-     "reply_count": 0,
      "retweet_count": 5
     },
     "video": false
    },
    {
-    "id": "2114399799747244196",
-    "metin": "A Monterrey player in Liga MX accidentally hit the referee while taking a corner kick 😭 https://t.co/cDd30E1z0N",
-    "kullanici": "ESPNFC",
-    "zaman": "2026-10-25T16:52:50.000Z",
-    "metrik": {
-     "bookmark_count": 4,
-     "impression_count": 40113,
-     "like_count": 620,
-     "quote_count": 1,
-     "reply_count": 13,
-     "retweet_count": 17
-    },
-    "video": false
-   },
-   {
-    "id": "2114399341695918570",
-    "metin": "Manchester United Football Club. \nCreated by a dog. \nBroken by a horse. \nDestroyed by snakes and rats. https://t.co/juCesWjgGv",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-25T16:51:01.000Z",
-    "metrik": {
-     "bookmark_count": 5,
-     "impression_count": 13315,
-     "like_count": 141,
-     "quote_count": 0,
-     "reply_count": 2,
-     "retweet_count": 15
-    },
-    "video": false
-   },
-   {
-    "id": "2114398617477984733",
-    "metin": "Alexander Isak shines as Liverpool secured a 2-0 victory over Brighton at Anfield 💫\n\nRead our full Liverpool player ratings 🔗 https://t.co/gfIp1Sxlsd https://t.co/zTctU3RJuW",
-    "kullanici": "goal",
-    "zaman": "2026-10-25T16:48:08.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 24893,
-     "like_count": 174,
-     "quote_count": 0,
-     "reply_count": 4,
-     "retweet_count": 15
-    },
-    "video": false
-   },
-   {
-    "id": "2114397142135828946",
-    "metin": "Gary Neville going to town on the players of Manchester United happens every other week it seems.. 😂\nhttps://t.co/qeRs1iZOaJ https://t.co/HTbGkasrsi",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-25T16:42:16.000Z",
-    "metrik": {
-     "bookmark_count": 38,
-     "impression_count": 34407,
-     "like_count": 167,
-     "quote_count": 1,
-     "reply_count": 3,
-     "retweet_count": 5
-    },
-    "video": true
-   },
-   {
-    "id": "2114396545948778589",
-    "metin": "Gary Neville describes the situation at Manchester United as “an absolute mess” 😳 https://t.co/dRrxakP4nJ",
-    "kullanici": "SkySportsPL",
-    "zaman": "2026-10-25T16:39:54.000Z",
-    "metrik": {
-     "bookmark_count": 91,
-     "impression_count": 192079,
-     "like_count": 903,
-     "quote_count": 13,
-     "reply_count": 47,
-     "retweet_count": 48
-    },
-    "video": true
-   },
-   {
-    "id": "2114396181266833487",
-    "metin": "🗣️ Michael Carrick: \"I will hold that umbrella for me to get wet, and everyone stays dry.” https://t.co/Kp79ONecd2 https://t.co/1WzVpwsErS",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-25T16:38:27.000Z",
-    "metrik": {
-     "bookmark_count": 2,
-     "impression_count": 21913,
-     "like_count": 81,
-     "quote_count": 1,
-     "reply_count": 1,
-     "retweet_count": 7
-    },
-    "video": false
-   },
-   {
-    "id": "2114395764638036166",
-    "metin": "Michael Carrick on if he expects to be Manchester United manager for much longer... https://t.co/kQI2xkn4uE https://t.co/DPcrgDKhwR",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-25T16:36:48.000Z",
-    "metrik": {
-     "bookmark_count": 3,
-     "impression_count": 24916,
-     "like_count": 66,
-     "quote_count": 1,
-     "reply_count": 2,
-     "retweet_count": 4
-    },
-    "video": true
-   },
-   {
-    "id": "2114395464560775477",
-    "metin": "🔴 Gary Neville believes Manchester United fans are already preparing for Michael Carrick to be sacked:\n\n🗣️ Neville: \"The Manchester United fans were singing the Michael Carrick song because I think they know what's going to happen here. They've seen this before.\n\n\"He's one of https://t.co/iFnG8vk1YL",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-25T16:35:36.000Z",
+    "id": "2114432213051974005",
+    "metin": "The Bianconeri return to winning ways ✌️\n\n#LecceJuve https://t.co/CsTHP8sTo0",
+    "kullanici": "SerieA_EN",
+    "zaman": "2026-10-25T19:01:38.000Z",
     "metrik": {
      "bookmark_count": 0,
-     "impression_count": 45065,
-     "like_count": 71,
-     "quote_count": 2,
-     "reply_count": 3,
-     "retweet_count": 10
+     "impression_count": 3337,
+     "like_count": 31,
+     "quote_count": 0,
+     "reply_count": 2,
+     "retweet_count": 13
     },
     "video": false
    },
    {
-    "id": "2114394870622081457",
-    "metin": "🔴 Michael Carrick admits it hurts to see Manchester United struggling so badly:\n\n🗣️ Carrick: \"It's really difficult for me to have a day like this at this football club. The emotions and dynamics of what it was like, not for me personally, but for Manchester United. Really mixed https://t.co/IR5jraW6vF",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-25T16:33:15.000Z",
+    "id": "2114432178457309677",
+    "metin": "Whether or not Michael Carrick’s position is now untenable, the Old Trafford crowd made one thing clear as they targeted the Glazers, Sir Jim Ratcliffe and Jason Wilcox.\n\nSacking Carrick and replacing him will not fix the problems at Manchester United.\n\nThe issue is away from the https://t.co/a8vDStD7PJ",
+    "kullanici": "TheAthleticFC",
+    "zaman": "2026-10-25T19:01:30.000Z",
     "metrik": {
-     "bookmark_count": 3,
-     "impression_count": 35297,
-     "like_count": 121,
-     "quote_count": 3,
-     "reply_count": 7,
+     "bookmark_count": 1,
+     "impression_count": 20316,
+     "like_count": 38,
+     "quote_count": 0,
+     "reply_count": 1,
      "retweet_count": 12
     },
     "video": false
    },
    {
-    "id": "2114394766397800846",
-    "metin": "\"It's a tough situation, there is no hiding from it\"\n\"We will have to wait and see\"\n\nMichael Carrick gives thoughts about his future at in charge of Manchester United🎙️ https://t.co/hnqYLJnM3u",
-    "kullanici": "SkySportsPL",
-    "zaman": "2026-10-25T16:32:50.000Z",
-    "metrik": {
-     "bookmark_count": 60,
-     "impression_count": 303336,
-     "like_count": 851,
-     "quote_count": 8,
-     "reply_count": 41,
-     "retweet_count": 49
-    },
-    "video": true
-   },
-   {
-    "id": "2114394355926487220",
-    "metin": "\"It wasn't a nice way to end the game\" \n\nMichael Carrick reacts after Manchester United's 3-0 defeat to Bournemouth 🗣️ https://t.co/Qxaz7GxQSL",
-    "kullanici": "SkySportsPL",
-    "zaman": "2026-10-25T16:31:12.000Z",
-    "metrik": {
-     "bookmark_count": 51,
-     "impression_count": 264473,
-     "like_count": 517,
-     "quote_count": 11,
-     "reply_count": 25,
-     "retweet_count": 26
-    },
-    "video": true
-   },
-   {
-    "id": "2114393336660308332",
-    "metin": "\"Heartbreaking: The Worst Person You Know Just Made a Great Point\" https://t.co/Qw09e0QEBK https://t.co/lv8k3xwD2f",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-25T16:27:09.000Z",
-    "metrik": {
-     "bookmark_count": 224,
-     "impression_count": 163519,
-     "like_count": 1241,
-     "quote_count": 10,
-     "reply_count": 25,
-     "retweet_count": 121
-    },
-    "video": true
-   },
-   {
-    "id": "2114393163804602772",
-    "metin": "😳 Manchester United players booed by their own supporters as they walked off the pitch following the defeat to Bournemouth. https://t.co/IMVPWZyZvq https://t.co/1WzVpws6Ck",
-    "kullanici": "Footballtweet",
-    "zaman": "2026-10-25T16:26:28.000Z",
-    "metrik": {
-     "bookmark_count": 12,
-     "impression_count": 17229,
-     "like_count": 84,
-     "quote_count": 0,
-     "reply_count": 2,
-     "retweet_count": 10
-    },
-    "video": true
-   },
-   {
-    "id": "2114392974918578320",
-    "metin": "Bournemouth humiliate Man United at Old Trafford! 😱\n\nThe Cherries piled on the Red Devils' misery, securing a 3-0 victory at the Theatre of Dreams 📉\n\nRead our full player ratings 🔗 https://t.co/48G4xZWyUI https://t.co/zps7qRRxmJ",
-    "kullanici": "goal",
-    "zaman": "2026-10-25T16:25:43.000Z",
+    "id": "2114430565382324235",
+    "metin": "Only three away teams have taken a 3-0 lead at Old Trafford on three separate occasions in the Premier League:\n\n◉ Liverpool \n◉ Manchester City\n◉ Bournemouth 🆕 https://t.co/LKsGQYxxL4",
+    "kullanici": "Squawka",
+    "zaman": "2026-10-25T18:55:05.000Z",
     "metrik": {
      "bookmark_count": 1,
-     "impression_count": 19988,
-     "like_count": 99,
+     "impression_count": 14951,
+     "like_count": 56,
      "quote_count": 0,
-     "reply_count": 2,
-     "retweet_count": 7
+     "reply_count": 3,
+     "retweet_count": 10
     },
     "video": false
    },
    {
-    "id": "2114392898083127353",
-    "metin": "Bournemouth have won three of their last four trips to Old Trafford by a 3-0 scoreline 😮 https://t.co/P7aonNI06f",
-    "kullanici": "brfootball",
-    "zaman": "2026-10-25T16:25:25.000Z",
-    "metrik": {
-     "bookmark_count": 20,
-     "impression_count": 64053,
-     "like_count": 2142,
-     "quote_count": 14,
-     "reply_count": 27,
-     "retweet_count": 175
-    },
-    "video": false
-   },
-   {
-    "id": "2114414184641536274",
-    "metin": "Born ready. https://t.co/SeROhOc7HP",
-    "kullanici": "FCBarcelona",
-    "zaman": "2026-10-25T17:50:00.000Z",
-    "metrik": {
-     "bookmark_count": 13,
-     "impression_count": 60561,
-     "like_count": 1724,
-     "quote_count": 10,
-     "reply_count": 36,
-     "retweet_count": 123
-    },
-    "video": false
-   },
-   {
-    "id": "2114410409818239008",
-    "metin": "May this shirt bring us luck 🍀⛳️ https://t.co/Gtr5kJ2BdV",
-    "kullanici": "FCBarcelona",
-    "zaman": "2026-10-25T17:35:00.000Z",
-    "metrik": {
-     "bookmark_count": 10,
-     "impression_count": 67277,
-     "like_count": 2182,
-     "quote_count": 17,
-     "reply_count": 46,
-     "retweet_count": 159
-    },
-    "video": false
-   },
-   {
-    "id": "2114409152751472928",
-    "metin": "Congratulations on winning the Spanish Super Cup! Champions! 🏆https://t.co/sWVxFXB5pe",
-    "kullanici": "FCBarcelona",
-    "zaman": "2026-10-25T17:30:00.000Z",
-    "metrik": {
-     "bookmark_count": 6,
-     "impression_count": 72125,
-     "like_count": 990,
-     "quote_count": 0,
-     "reply_count": 4,
-     "retweet_count": 53
-    },
-    "video": false
-   },
-   {
-    "id": "2114408087389933661",
-    "metin": "Dressed for the occasion ⛳️ https://t.co/VIWQs8vGpH",
-    "kullanici": "FCBarcelona",
-    "zaman": "2026-10-25T17:25:46.000Z",
-    "metrik": {
-     "bookmark_count": 14,
-     "impression_count": 75626,
-     "like_count": 1761,
-     "quote_count": 5,
-     "reply_count": 19,
-     "retweet_count": 115
-    },
-    "video": true
-   },
-   {
-    "id": "2114407725060813181",
-    "metin": "A Sunday night in Friuli 🌃 https://t.co/m0GcuIr67t",
-    "kullanici": "acmilan",
-    "zaman": "2026-10-25T17:24:20.000Z",
+    "id": "2114429282261037070",
+    "metin": "Which player scored the best goal in Matchweek 8? 🤩⚽️",
+    "kullanici": "premierleague",
+    "zaman": "2026-10-25T18:49:59.000Z",
     "metrik": {
      "bookmark_count": 4,
-     "impression_count": 14206,
-     "like_count": 351,
-     "quote_count": 2,
-     "reply_count": 11,
-     "retweet_count": 21
+     "impression_count": 171577,
+     "like_count": 928,
+     "quote_count": 13,
+     "reply_count": 146,
+     "retweet_count": 66
     },
     "video": false
    },
    {
-    "id": "2114406829396463703",
-    "metin": "The dressing room is ready. https://t.co/h0MsKyo68y",
-    "kullanici": "FCBarcelona",
-    "zaman": "2026-10-25T17:20:46.000Z",
+    "id": "2114429167802486800",
+    "metin": "James Trafford speaks on his start to life at Leeds after another clean sheet 👏 https://t.co/E9wrzdheAD",
+    "kullanici": "SkySportsPL",
+    "zaman": "2026-10-25T18:49:32.000Z",
     "metrik": {
-     "bookmark_count": 35,
-     "impression_count": 143328,
-     "like_count": 3186,
-     "quote_count": 10,
-     "reply_count": 34,
-     "retweet_count": 224
+     "bookmark_count": 16,
+     "impression_count": 151219,
+     "like_count": 408,
+     "quote_count": 3,
+     "reply_count": 12,
+     "retweet_count": 25
     },
     "video": true
    },
    {
-    "id": "2114405376854728990",
-    "metin": "Drop a message of support for the team.",
-    "kullanici": "FCBarcelona",
-    "zaman": "2026-10-25T17:15:00.000Z",
+    "id": "2114428548144341399",
+    "metin": "\"On another day we win\" \n\nJames Trafford assesses Leeds' 0-0 draw with Sunderland 🗣️ https://t.co/CZpftPCJSp",
+    "kullanici": "SkySportsPL",
+    "zaman": "2026-10-25T18:47:04.000Z",
+    "metrik": {
+     "bookmark_count": 29,
+     "impression_count": 117416,
+     "like_count": 330,
+     "quote_count": 19,
+     "reply_count": 32,
+     "retweet_count": 20
+    },
+    "video": true
+   },
+   {
+    "id": "2114428529173508456",
+    "metin": "We will never see a more perfect end to a more perfect career. ❤️\n\nLionel Messi truly is one of one. 🐐 https://t.co/95Vza8dG2J",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-25T18:47:00.000Z",
+    "metrik": {
+     "bookmark_count": 5,
+     "impression_count": 13508,
+     "like_count": 215,
+     "quote_count": 0,
+     "reply_count": 2,
+     "retweet_count": 21
+    },
+    "video": true
+   },
+   {
+    "id": "2114427720293556311",
+    "metin": "This was how Anfield reacted when they heard the Manchester United full time score. 🤣\n\nRevelling in your big rival’s downfall is just as good as celebrating your own wins. 👏 \n\nThat’s the beauty of football.  https://t.co/KebFEQgV43 https://t.co/N1s8fRFUCX",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-25T18:43:47.000Z",
+    "metrik": {
+     "bookmark_count": 5,
+     "impression_count": 15293,
+     "like_count": 50,
+     "quote_count": 0,
+     "reply_count": 3,
+     "retweet_count": 3
+    },
+    "video": true
+   },
+   {
+    "id": "2114427211688067206",
+    "metin": "Where could El Clásico be won and lost?\n\nhttps://t.co/VHVRt9PUGC",
+    "kullanici": "OptaAnalyst",
+    "zaman": "2026-10-25T18:41:46.000Z",
+    "metrik": {
+     "bookmark_count": 2,
+     "impression_count": 7553,
+     "like_count": 8,
+     "quote_count": 0,
+     "reply_count": 2,
+     "retweet_count": 2
+    },
+    "video": false
+   },
+   {
+    "id": "2114426884075434285",
+    "metin": "REAL MADRID HAS ARRIVED \n\n#ELCLÁSICO https://t.co/Jsa4gs2c7O",
+    "kullanici": "LaLigaEN",
+    "zaman": "2026-10-25T18:40:27.000Z",
+    "metrik": {
+     "bookmark_count": 4,
+     "impression_count": 11371,
+     "like_count": 264,
+     "quote_count": 1,
+     "reply_count": 1,
+     "retweet_count": 20
+    },
+    "video": true
+   },
+   {
+    "id": "2114426491693924490",
+    "metin": "Michael Olise vs. Freiburg: ⚽️🎁\n\nHe's up to 10 goals and 6 assists in 11 games for Bayern this season. https://t.co/urc5O31UOB",
+    "kullanici": "brfootball",
+    "zaman": "2026-10-25T18:38:54.000Z",
     "metrik": {
      "bookmark_count": 41,
-     "impression_count": 166185,
-     "like_count": 3910,
-     "quote_count": 112,
-     "reply_count": 836,
-     "retweet_count": 226
-    },
-    "video": false
-   },
-   {
-    "id": "2114404118345486364",
-    "metin": "All of us. \nGiving everything. \nFor this badge. \n💙❤️ https://t.co/tHKfxkcUTU",
-    "kullanici": "FCBarcelona",
-    "zaman": "2026-10-25T17:10:00.000Z",
-    "metrik": {
-     "bookmark_count": 36,
-     "impression_count": 87672,
-     "like_count": 3248,
-     "quote_count": 12,
-     "reply_count": 46,
-     "retweet_count": 351
-    },
-    "video": false
-   },
-   {
-    "id": "2114401610348605721",
-    "metin": "You know what it means. https://t.co/9lGyKc4v2U",
-    "kullanici": "FCBarcelona",
-    "zaman": "2026-10-25T17:00:02.000Z",
-    "metrik": {
-     "bookmark_count": 21,
-     "impression_count": 93910,
-     "like_count": 3334,
-     "quote_count": 6,
-     "reply_count": 38,
+     "impression_count": 79941,
+     "like_count": 4402,
+     "quote_count": 5,
+     "reply_count": 23,
      "retweet_count": 192
     },
     "video": false
    },
    {
-    "id": "2114399133826224517",
-    "metin": "📺🔴 Follow the best pre-match build-up to tonight's big game LIVE on RM Play and RMTV! https://t.co/XYsEJXgErm",
-    "kullanici": "realmadriden",
-    "zaman": "2026-10-25T16:50:11.000Z",
+    "id": "2114426416041230777",
+    "metin": "Jaka Bijol's game by numbers vs. Sunderland:\n\n60 touches\n32/42 successful passes\n8 clearances\n7 passes into final third\n5 line-breaking passes\n5 duels won\n4x possessions won\n3 blocks\n2 tackles\n2 interceptions\n1 shot\n1 touch in opp. box\n\nSolid. 👊 https://t.co/ZBGNFoe9hf",
+    "kullanici": "Squawka",
+    "zaman": "2026-10-25T18:38:36.000Z",
     "metrik": {
-     "bookmark_count": 2,
-     "impression_count": 31528,
-     "like_count": 223,
+     "bookmark_count": 0,
+     "impression_count": 16334,
+     "like_count": 32,
      "quote_count": 0,
-     "reply_count": 6,
-     "retweet_count": 19
+     "reply_count": 1,
+     "retweet_count": 3
     },
     "video": false
    },
    {
-    "id": "2114399085172048343",
-    "metin": "Some matches are bigger than football.\nThis is one of them.\nLadies and gentlemen, it's El Clásico. https://t.co/ISB9JGV4bk",
-    "kullanici": "FCBarcelona",
-    "zaman": "2026-10-25T16:50:00.000Z",
+    "id": "2114426167260307889",
+    "metin": "Absolutely no notes. 👏 https://t.co/EyehQuC2i5",
+    "kullanici": "Footballtweet",
+    "zaman": "2026-10-25T18:37:37.000Z",
     "metrik": {
-     "bookmark_count": 78,
-     "impression_count": 146468,
-     "like_count": 8151,
-     "quote_count": 31,
-     "reply_count": 99,
-     "retweet_count": 557
+     "bookmark_count": 3,
+     "impression_count": 17168,
+     "like_count": 61,
+     "quote_count": 0,
+     "reply_count": 2,
+     "retweet_count": 1
     },
     "video": false
-   },
-   {
-    "id": "2114386508786581644",
-    "metin": "🥰 Signing session in Barcelona! https://t.co/ZnuXfYSSVn",
-    "kullanici": "realmadriden",
-    "zaman": "2026-10-25T16:00:01.000Z",
-    "metrik": {
-     "bookmark_count": 1,
-     "impression_count": 39591,
-     "like_count": 975,
-     "quote_count": 2,
-     "reply_count": 9,
-     "retweet_count": 59
-    },
-    "video": true
    }
   ]
  }

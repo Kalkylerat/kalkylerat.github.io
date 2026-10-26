@@ -34434,8 +34434,20 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.786,
        "deger": -0.018,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-1",
+       "goller": [
+        [
+         74,
+         0,
+         "dep"
+        ],
+        [
+         84,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1552508-IYA15",
@@ -34481,8 +34493,15 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.707,
        "deger": -0.039,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-0",
+       "goller": [
+        [
+         70,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1603478-UST25",
@@ -34521,13 +34540,17 @@
      "oran": 2.01,
      "olasilik": 0.46,
      "deger": -0.075,
-     "durum": "bekliyor",
+     "durum": "tuttu",
      "secim": "2026-10-26T06:37:11+00:00",
      "oto": true,
      "paylas": "2026-10-26T09:40:00+01:00",
      "tweet_id": "2114639588517982481",
      "metin": "🎩 Two legs today. Dull on purpose.\n\n⚽ Al Quwa Al Jawiya v Pakhtakor\n⚽ Geylang International v Hougang United\n\n📊 Combined 2.01. I make it about 46% to land, so more likely not than is.\n\n💬 Anyone fancy the other side of either of these?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-26T08:45:32+00:00"
+     "yayin": "2026-10-26T08:45:32+00:00",
+     "son_oran": 2.01,
+     "sonuc_metni": "✅ Geylang International v Hougang United: 2-0 and looked gone. Then 3-0 on 90+2'. Lovely. In at 2.01.\n\n✅ Al Quwa Al Jawiya 1-0 Pakhtakor: 1st half Under 1.5 goals\n✅ Geylang International 3-0 Hougang United: Over 2.5 goals\n\nRecord: 26 of 58 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2114813006022349011",
+     "sonuc_zamani": "2026-10-26T20:14:32+00:00"
     },
     {
      "ad": "gunun-kuponu-4",
@@ -34589,8 +34612,25 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.72,
        "deger": 0.009,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "2-1",
+       "goller": [
+        [
+         28,
+         0,
+         "ev"
+        ],
+        [
+         47,
+         0,
+         "dep"
+        ],
+        [
+         63,
+         0,
+         "ev"
+        ]
+       ]
       }
      ],
      "oran": 2.0,

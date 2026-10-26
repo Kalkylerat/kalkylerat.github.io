@@ -32865,7 +32865,7 @@
   {
    "tarih": "2026-10-26",
    "olusturma": "2026-10-26T06:37:11+00:00",
-   "durum": "secildi",
+   "durum": "bitti",
    "havuz": [
     {
      "aday_id": "1646152-CS1X",
@@ -34484,8 +34484,25 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.881,
        "deger": -0.022,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "3-0",
+       "goller": [
+        [
+         56,
+         0,
+         "ev"
+        ],
+        [
+         69,
+         0,
+         "ev"
+        ],
+        [
+         90,
+         4,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1629947-UST15",
@@ -34552,13 +34569,17 @@
      "oran": 2.0,
      "olasilik": 0.463,
      "deger": -0.074,
-     "durum": "bekliyor",
+     "durum": "tuttu",
      "secim": "2026-10-26T06:37:11+00:00",
      "oto": true,
      "paylas": "2026-10-26T16:15:00+01:00",
      "tweet_id": "2114738288984519006",
      "metin": "🎩 Three legs today. One more than I like, but here we are.\n\n⚽ Nacional Potosí v Guabirá\n⚽ Al-Qadisiyah FC v Al Sadd\n⚽ Montpellier v RED Star FC 93\n\n📊 Combined 2.00. I make it about 46% to land, so it probably doesn't.\n\n💬 Which leg worries you most?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-26T15:17:36+00:00"
+     "yayin": "2026-10-26T15:17:36+00:00",
+     "son_oran": 2.0,
+     "sonuc_metni": "✅ Al-Qadisiyah FC v Al Sadd. 1-1 at 84', so Over 1.5 goals needed one more. Got it, just. Not great for the heart. In at 2.00.\n\nRecord: 29 of 61 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2114869315807982034",
+     "sonuc_zamani": "2026-10-26T23:58:26+00:00"
     },
     {
      "ad": "gunun-kuponu-3",

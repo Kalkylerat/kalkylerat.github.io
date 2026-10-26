@@ -146264,7 +146264,20 @@
               1
             ],
             "zaman": "2026-10-26T21:40:02+00:00"
+          },
+          "1570431": {
+            "durum": "paylasildi",
+            "tweet_id": "2114838712458559851",
+            "skor": [
+              2,
+              0
+            ],
+            "zaman": "2026-10-26T21:56:54+00:00"
           }
+        },
+        "takip": {
+          "durum": "tamam",
+          "zaman": "2026-10-26T21:56:54+00:00"
         }
       },
       "analiz_0": {
@@ -146534,7 +146547,26 @@
         "durum": "paylasildi",
         "tweet_id": "2114758000720179706",
         "zaman": "2026-10-26T16:36:03+00:00",
-        "metin": "Likeliest score, 1-0, is only 14%.\n\n🆚 Sevilla v Osasuna, 21:00 CET\n\n🏆 Sevilla 51% · Draw 26% · Osasuna 23%\n⚽ Over 2.5 goals 43% · Under 57%\n🥅 Both teams score 46% · Not both 54%\n\n💬 Would you put any other score above that 14%?\n\n18+ | Play responsibly"
+        "metin": "Likeliest score, 1-0, is only 14%.\n\n🆚 Sevilla v Osasuna, 21:00 CET\n\n🏆 Sevilla 51% · Draw 26% · Osasuna 23%\n⚽ Over 2.5 goals 43% · Under 57%\n🥅 Both teams score 46% · Not both 54%\n\n💬 Would you put any other score above that 14%?\n\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2114838755932545047",
+          "skor": "2-0",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            1.18,
+            0.79
+          ],
+          "zaman": "2026-10-26T21:56:54+00:00",
+          "brier": {
+            "piyasa": 0.7538,
+            "istatistik": 1.4542
+          }
+        }
       },
       "anket": {
         "durum": "paylasildi",

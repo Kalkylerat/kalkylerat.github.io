@@ -748,7 +748,8 @@ def test_D6_yorum_firsati_sayilari_ve_saatleri_sozlesmedeki_gibi():
     """Sahibiyle anlaşılan sayılar (14 Ekim): değiştirmek için önce SOZLESME.md D6."""
     from bot import firsat
     cfg = firsat.ayar_yukle()
-    assert cfg.aktif and cfg.gunluk_yorum == 20 and cfg.likely_gunluk_yorum == 15  # sahibinin isteği 25 Ekim 2026
+    assert not cfg.aktif  # sahibinin isteği 26 Ekim 2026 (maliyet): yorum fırsatları kapalı
+    assert cfg.gunluk_yorum == 20 and cfg.likely_gunluk_yorum == 15  # yeniden açılırsa (25 Ekim 2026)
     assert cfg.saatler == [10, 12, 14, 16, 18, 20] and cfg.likely_saatler == cfg.saatler  # tek arama iki hesaba
     assert firsat.TAZE_SAAT == 3
 

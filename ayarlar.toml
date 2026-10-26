@@ -75,7 +75,9 @@ kime = "Kalkylerat-desk"
 # "🚀 Yorum fırsatları" issue'suna (telefona bildirim). Bağlantıyı açıp taslağı yapıştırır, ELLE gönderirsin;
 # bot hiçbir zaman kendisi cevap atmaz (X kuralı). gunluk_yorum: günde kaç fırsat gelsin (0 = kapalı).
 # saatler (UTC): aramaların yapıldığı saatler; fırsatlar bunlara bölünür. Maliyet: arama başına ~$0.13 (X okuma).
-aktif = true
+# 26 Ekim 2026 (sahibinin isteği, maliyet): kapalı. Arama yok, X okuma ve Claude taslak masrafı yok (~400–600 kr/ay).
+# Yeniden açmak için true; aşağıdaki sayılar o zaman geçerli (SOZLESME D6).
+aktif = false
 # 25 Ekim 2026 (sahibinin isteği: daha çok etkileşim): 10→20 ve 5→15, 6 arama (akşam maçlarının öncesi dahil), her
 # aramada bugünkü büyük maçların kulüp hesapları da. Maliyet: arama başına ~$0.20 + kulüp araması ~$0.13 → günde ~$2.
 gunluk_yorum = 20

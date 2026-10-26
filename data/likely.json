@@ -34234,8 +34234,20 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.759,
        "deger": -0.014,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-1",
+       "goller": [
+        [
+         44,
+         0,
+         "dep"
+        ],
+        [
+         90,
+         2,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1629944-EVU15",
@@ -34860,7 +34872,18 @@
       "oran": 1.12
      },
      "saat": "2026-10-26T14:45:00+01:00",
-     "hikaye": true
+     "hikaye": true,
+     "tweet_id": "2114716763774394735",
+     "metin": "🎩 Süper Lig: Rizespor v Trabzonspor, 17:00 CET.\n\n📊 Rizespor 27% · Draw 23% · Trabzonspor 50%\n⚽ Over 2.5 goals 61% · Both teams score 61%\n\n🛡️ Safest angle: Rizespor Under 2.5 goals, 84% at 1.12. Not in today's coupons.\n\n👇 More below: the story and team news",
+     "zaman": "2026-10-26T13:52:17+00:00",
+     "hikaye_ids": [
+      "2114716765016002947",
+      "2114716766395883691"
+     ],
+     "hikaye_metin": [
+      "📋 The story\n🏠 Rizespor are still waiting for a home league win this season (3 played).\n✈️ Trabzonspor have won 1 of 4 away league games this season.\n🌍 Last time out: Rizespor lost 2-1 at Çorum FK; Trabzonspor won 2-0 v Heart Of Midlothian.",
+      "🩹 Out: K. Alikulov (Rizespor) · A. Batagov, O. Cevikkan, R. Malinovskyi (Trabzonspor).\n⏱️ Rizespor have scored 4 of their 8 league goals after the 75th minute.\n\n💬 Anyone fancy the upset here?\n\n18+ | Play responsibly"
+     ]
     },
     {
      "fixture_id": 1584442,

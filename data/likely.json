@@ -34314,8 +34314,15 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.675,
        "deger": -0.028,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "1-0",
+       "goller": [
+        [
+         85,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1639829-CS1X",
@@ -34337,13 +34344,14 @@
      "oran": 3.02,
      "olasilik": 0.309,
      "deger": -0.067,
-     "durum": "bekliyor",
+     "durum": "yatti",
      "secim": "2026-10-26T06:37:11+00:00",
      "oto": true,
      "paylas": "2026-10-26T12:00:00+01:00",
      "tweet_id": "2114673676482474457",
      "metin": "🎩 The long shot. Small stakes only.\n\n⚽ Nueva Chicago v San Martin S.J.\n⚽ ATK Mohun Bagan v Chennaiyin\n⚽ Tecnico Universitario v Mushuc Runa SC\n\n📊 Combined 3.02. I make it about 31% to land.\n\n💬 Which leg is the weak one?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-26T11:01:04+00:00"
+     "yayin": "2026-10-26T11:01:04+00:00",
+     "son_oran": 1
     },
     {
      "ad": "gunun-kuponu-2",
@@ -34918,7 +34926,18 @@
      },
      "saat": "2026-10-26T17:00:00+01:00",
      "gunun_maci": true,
-     "hikaye": true
+     "hikaye": true,
+     "tweet_id": "2114748994127610112",
+     "metin": "🎩 Match of the day: Galatasaray v Fenerbahçe, 19:30 CET.\n\n📊 Galatasaray 47% · Draw 23% · Fenerbahçe 30%\n\n🛡️ Safest angle: Over 1.5 goals, 83% at 1.14. It's a leg in today's coupon.\n\n💬 Who takes it? Vote below.\n\n👇 More below: the story and team news",
+     "zaman": "2026-10-26T16:00:07+00:00",
+     "hikaye_ids": [
+      "2114748995700457669",
+      "2114748997084565698"
+     ],
+     "hikaye_metin": [
+      "📋 The story\n🏆 A top-four clash: Galatasaray 2nd on 19 pts, Fenerbahçe 3rd on 16 pts.\n🌍 Last time out: Galatasaray won 4-2 at Lille; Fenerbahçe drew 2-2 v Slavia Praha.\n⏱️ Galatasaray have scored 6 of their 17 league goals after the 75th minute.",
+      "🩹 Out: M. Asensio, J. Oosterwolde (Fenerbahçe).\n🆚 Last 25 meetings: Galatasaray 9 wins, Fenerbahçe 6, 10 draws.\n\n💬 Who takes this one?\n\n18+ | Play responsibly"
+     ]
     },
     {
      "fixture_id": 1575524,

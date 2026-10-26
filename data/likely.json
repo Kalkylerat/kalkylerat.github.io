@@ -34271,8 +34271,25 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.754,
        "deger": 0.025,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "2-1",
+       "goller": [
+        [
+         4,
+         0,
+         "ev"
+        ],
+        [
+         53,
+         0,
+         "dep"
+        ],
+        [
+         86,
+         0,
+         "ev"
+        ]
+       ]
       }
      ],
      "oran": 2.02,
@@ -34302,8 +34319,20 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.694,
        "deger": -0.029,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-1",
+       "goller": [
+        [
+         47,
+         0,
+         "dep"
+        ],
+        [
+         64,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1642183-EVU15",
@@ -34355,7 +34384,7 @@
      "tweet_id": "2114673676482474457",
      "metin": "🎩 The long shot. Small stakes only.\n\n⚽ Nueva Chicago v San Martin S.J.\n⚽ ATK Mohun Bagan v Chennaiyin\n⚽ Tecnico Universitario v Mushuc Runa SC\n\n📊 Combined 3.02. I make it about 31% to land.\n\n💬 Which leg is the weak one?\n\n18+ | Play responsibly",
      "yayin": "2026-10-26T11:01:04+00:00",
-     "son_oran": 1
+     "son_oran": 1.4
     },
     {
      "ad": "gunun-kuponu-2",

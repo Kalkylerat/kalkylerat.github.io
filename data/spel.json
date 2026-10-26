@@ -146228,6 +146228,15 @@
               1
             ],
             "zaman": "2026-10-26T20:28:47+00:00"
+          },
+          "1575524": {
+            "durum": "paylasildi",
+            "tweet_id": "2114820121122230513",
+            "skor": [
+              1,
+              2
+            ],
+            "zaman": "2026-10-26T20:43:01+00:00"
           }
         }
       },
@@ -146353,7 +146362,26 @@
         "durum": "paylasildi",
         "tweet_id": "2114714947305275520",
         "zaman": "2026-10-26T13:45:03+00:00",
-        "metin": "Benfica win 68%: about 2 in 3.\n\n🇵🇹 Santa Clara v Benfica 🇵🇹\n🏆 Santa Clara 12% · Draw 20% · Benfica 68%\n⚽ Over 2.5 goals 51% · Under 49%\n🥅 Both teams score 44% · Not both 56%\n\n💬 Chances, not picks. Benfica 68%: too high? 👇\n#Benfica\n18+ | Play responsibly"
+        "metin": "Benfica win 68%: about 2 in 3.\n\n🇵🇹 Santa Clara v Benfica 🇵🇹\n🏆 Santa Clara 12% · Draw 20% · Benfica 68%\n⚽ Over 2.5 goals 51% · Under 49%\n🥅 Both teams score 44% · Not both 56%\n\n💬 Chances, not picks. Benfica 68%: too high? 👇\n#Benfica\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2114820135714271239",
+          "skor": "1-2",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "xg": [
+            1.36,
+            1.72
+          ],
+          "zaman": "2026-10-26T20:43:01+00:00",
+          "brier": {
+            "piyasa": 0.7209,
+            "istatistik": 0.5161
+          }
+        }
       },
       "analiz_7": {
         "durum": "paylasildi",

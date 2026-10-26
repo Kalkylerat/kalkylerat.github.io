@@ -34418,8 +34418,25 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.651,
        "deger": -0.037,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "3-0",
+       "goller": [
+        [
+         45,
+         2,
+         "ev"
+        ],
+        [
+         54,
+         0,
+         "ev"
+        ],
+        [
+         90,
+         2,
+         "ev"
+        ]
+       ]
       }
      ],
      "oran": 2.01,
@@ -34804,7 +34821,18 @@
       "oran": 1.11
      },
      "saat": "2026-10-26T14:30:00+01:00",
-     "hikaye": true
+     "hikaye": true,
+     "tweet_id": "2114711402673811784",
+     "metin": "🎩 Süper Lig: Beşiktaş v Başakşehir, 17:00 CET.\n\n📊 Beşiktaş 69% · Draw 17% · Başakşehir 14%\n⚽ Over 2.5 goals 67% · Both teams score 58%\n\n🛡️ Safest angle: Over 1.5 goals, 85% at 1.11. Not in today's coupons.\n\n👇 More below: the story and team news",
+     "zaman": "2026-10-26T13:30:57+00:00",
+     "hikaye_ids": [
+      "2114711403974070553",
+      "2114711405412671532"
+     ],
+     "hikaye_metin": [
+      "📋 The story\n🏠 Beşiktaş have won all 4 home league games this season.\n✈️ Başakşehir have won 0 of 3 away league games this season.\n🌍 Last time out: Beşiktaş drew 2-2 v Crystal Palace; Başakşehir won 2-1 v Gaziantep FK.",
+      "🩹 Out: O. Kokcu, M. Rashica (Beşiktaş).\n🏆 Beşiktaş 6th on 15 pts, Başakşehir 12th on 11 pts.\n\n💬 Anyone fancy the upset here?\n\n18+ | Play responsibly"
+     ]
     },
     {
      "fixture_id": 1584446,

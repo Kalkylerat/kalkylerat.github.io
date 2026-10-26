@@ -32886,7 +32886,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 1
+     "no": 1,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1645524-CS1X",
@@ -34049,7 +34050,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 56
+     "no": 56,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1639829-CS1X",
@@ -35037,7 +35039,18 @@
       "oran": 1.22
      },
      "saat": "2026-10-26T18:30:00+01:00",
-     "hikaye": true
+     "hikaye": true,
+     "tweet_id": "2114772244643586216",
+     "metin": "🎩 La Liga: Sevilla v Osasuna, 21:00 CET.\n\n📊 Sevilla 51% · Draw 26% · Osasuna 23%\n⚽ Over 2.5 goals 43% · Both teams score 46%\n\n🛡️ Safest angle: Sevilla Over 0.5 goals, 78% at 1.22. Not in today's coupons.\n\n👇 More below: the story and team news",
+     "zaman": "2026-10-26T17:32:43+00:00",
+     "hikaye_ids": [
+      "2114772245859959283",
+      "2114772247126610154"
+     ],
+     "hikaye_metin": [
+      "📋 The story\n✈️ Osasuna have won 1 of 4 away league games this season.\n⏱️ Sevilla have scored 5 of their 14 league goals after the 75th minute.\n🏆 Sevilla 6th on 14 pts, Osasuna 12th on 11 pts.",
+      "🩹 Out: Marcao, M. Sierra (Sevilla) · A. Bonel, R. Del Castillo, J. Herrando (Osasuna).\n🗓️ Last time out: Sevilla lost 4-1 at Real Madrid; Osasuna won 2-0 v Racing Santander.\n\n💬 How do you see this one going?\n\n18+ | Play responsibly"
+     ]
     }
    ],
    "plan_ozeti": [
@@ -35485,7 +35498,7 @@
     "tweet_id": "2114609055964578084"
    },
    "tazeleme": "2026-10-26T10:03:59+00:00",
-   "olcum_sorgu": "2026-10-26T16:36:03+00:00"
+   "olcum_sorgu": "2026-10-26T17:32:43+00:00"
   }
  ],
  "kasa_duyuru": {

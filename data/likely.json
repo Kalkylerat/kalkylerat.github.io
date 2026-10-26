@@ -34429,6 +34429,66 @@
      "tweet_id": "2114639588517982481",
      "metin": "🎩 Two legs today. Dull on purpose.\n\n⚽ Al Quwa Al Jawiya v Pakhtakor\n⚽ Geylang International v Hougang United\n\n📊 Combined 2.01. I make it about 46% to land, so more likely not than is.\n\n💬 Anyone fancy the other side of either of these?\n\n18+ | Play responsibly",
      "yayin": "2026-10-26T08:45:32+00:00"
+    },
+    {
+     "ad": "gunun-kuponu-4",
+     "ayaklar": [
+      {
+       "aday_id": "1584440-CS1X",
+       "fixture_id": 1584440,
+       "pazar": "CS1X",
+       "ev": "Beşiktaş",
+       "dep": "Başakşehir",
+       "lig": "Süper Lig",
+       "baslama": "2026-10-26T17:00:00+01:00",
+       "etiket": "Double chance 1X",
+       "oran": 1.1,
+       "oran_kaynagi": "Bet365",
+       "olasilik": 0.872,
+       "deger": -0.04,
+       "durum": "bekliyor",
+       "skor": null
+      },
+      {
+       "aday_id": "1552800-EVU15",
+       "fixture_id": 1552800,
+       "pazar": "EVU15",
+       "ev": "Paris Saint Germain",
+       "dep": "Lyon",
+       "lig": "Ligue 1",
+       "baslama": "2026-10-26T20:30:00+01:00",
+       "etiket": "Paris Saint Germain Over 1.5 goals",
+       "oran": 1.3,
+       "oran_kaynagi": "Bet365",
+       "olasilik": 0.733,
+       "deger": -0.048,
+       "durum": "bekliyor",
+       "skor": null
+      },
+      {
+       "aday_id": "1646341-CS1X",
+       "fixture_id": 1646341,
+       "pazar": "CS1X",
+       "ev": "Centro Español",
+       "dep": "Central Cordoba",
+       "lig": "Primera C",
+       "baslama": "2026-10-26T19:00:00+01:00",
+       "etiket": "Double chance 1X",
+       "oran": 1.4,
+       "oran_kaynagi": "Bet365",
+       "olasilik": 0.72,
+       "deger": 0.009,
+       "durum": "bekliyor",
+       "skor": null
+      }
+     ],
+     "oran": 2.0,
+     "olasilik": 0.46,
+     "deger": -0.08,
+     "durum": "bekliyor",
+     "secim": "2026-10-26T10:03:59+00:00",
+     "oto": true,
+     "paylas": "2026-10-26T14:00:00+01:00"
     }
    ],
    "islenen": [],
@@ -35306,7 +35366,8 @@
     "sayi": 4,
     "zaman": "2026-10-26T06:44:20+00:00",
     "tweet_id": "2114609055964578084"
-   }
+   },
+   "tazeleme": "2026-10-26T10:03:59+00:00"
   }
  ],
  "kasa_duyuru": {

@@ -34496,8 +34496,25 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.669,
        "deger": -0.037,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "2-1",
+       "goller": [
+        [
+         47,
+         0,
+         "ev"
+        ],
+        [
+         51,
+         0,
+         "dep"
+        ],
+        [
+         88,
+         0,
+         "ev"
+        ]
+       ]
       }
      ],
      "oran": 2.0,

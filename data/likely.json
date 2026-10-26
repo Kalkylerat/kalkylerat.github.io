@@ -31665,7 +31665,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 5
+     "no": 5,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1494689-UST15",
@@ -33116,7 +33117,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 71
+     "no": 71,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1498904-CS12",
@@ -34646,13 +34648,14 @@
     "zaman": "2026-10-25T06:50:30+00:00",
     "tweet_id": "2114248222311071787"
    },
-   "olcum_sorgu": "2026-10-26T00:06:55+00:00",
+   "olcum_sorgu": "2026-10-26T01:06:54+00:00",
    "kasa": {
     "tweet_id": "2114467526864146497",
     "tur": "haftalik",
     "zaman": "2026-10-25T21:21:56+00:00",
     "metin": "📊 Week done. Virtual bank: €10,413.51 (−€540.42 this week).\n\n🎟️ 35 coupons this week, 15 landed.\n🏁 Started at €10,000 on 6 Oct, 3% of the free balance per coupon, losers counted.\n\n⚠️ Virtual bank, not real money.\n18+ | Play responsibly"
-   }
+   },
+   "olcum_bitti": true
   }
  ],
  "kasa_duyuru": {

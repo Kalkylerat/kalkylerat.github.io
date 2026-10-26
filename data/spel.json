@@ -146201,6 +146201,24 @@
               1
             ],
             "zaman": "2026-10-26T18:56:11+00:00"
+          },
+          "1549041": {
+            "durum": "paylasildi",
+            "tweet_id": "2114809338661380259",
+            "skor": [
+              1,
+              1
+            ],
+            "zaman": "2026-10-26T20:00:08+00:00"
+          },
+          "1497734": {
+            "durum": "paylasildi",
+            "tweet_id": "2114809340238479815",
+            "skor": [
+              1,
+              0
+            ],
+            "zaman": "2026-10-26T20:00:08+00:00"
           }
         }
       },
@@ -146313,7 +146331,26 @@
         "durum": "paylasildi",
         "tweet_id": "2114725762649501786",
         "zaman": "2026-10-26T14:27:56+00:00",
-        "metin": "Copenhagen v Odense: home win 65%, about 2 in 3.\n\n🏆 FC Copenhagen 65% · Draw 19% · Odense 16%\n⚽ Over 2.5 goals 62% · Under 38%\n🥅 Both teams score 56% · Not both 44%\n\n💬 Both teams score is 56%. Does Odense nicking one sound right?\n18+ | Play responsibly"
+        "metin": "Copenhagen v Odense: home win 65%, about 2 in 3.\n\n🏆 FC Copenhagen 65% · Draw 19% · Odense 16%\n⚽ Over 2.5 goals 62% · Under 38%\n🥅 Both teams score 56% · Not both 44%\n\n💬 Both teams score is 56%. Does Odense nicking one sound right?\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2114809395410325570",
+          "skor": "1-1",
+          "isabet": [
+            false,
+            false,
+            true
+          ],
+          "xg": [
+            2.27,
+            0.47
+          ],
+          "zaman": "2026-10-26T20:00:08+00:00",
+          "brier": {
+            "piyasa": 1.6688,
+            "istatistik": 1.4152
+          }
+        }
       },
       "analiz_3": {
         "durum": "paylasildi",
@@ -146343,6 +146380,24 @@
               0
             ],
             "zaman": "2026-10-26T19:24:23+00:00"
+          },
+          "1499703": {
+            "durum": "paylasildi",
+            "tweet_id": "2114809348002103364",
+            "skor": [
+              2,
+              0
+            ],
+            "zaman": "2026-10-26T20:00:08+00:00"
+          },
+          "1565286": {
+            "durum": "paylasildi",
+            "tweet_id": "2114809349348499569",
+            "skor": [
+              0,
+              5
+            ],
+            "zaman": "2026-10-26T20:00:08+00:00"
           }
         }
       },

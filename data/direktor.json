@@ -1,30 +1,30 @@
 {
-  "hafta": "2026-W43",
-  "guncelleme": "2026-10-19T09:06:35+02:00",
+  "hafta": "2026-W44",
+  "guncelleme": "2026-10-26T09:02:23+01:00",
   "strateji": {
-    "ton": "A fan with a spreadsheet, calm and curious. Short lines, one number per line, market % and team-stats % side by side. Cards are the format people see (about 125 views each on 18 Oct, Paris FC v Rennes 565, Cambuur v AZ 316, Lyon v Nice 244); full-time posts get 50, their duplicate copies 20, knowledge posts 3 to 7. So fewer posts, each one carrying its own numbers and one question about one of them. No stock closer, no 👇, nothing after the question. Open differently each time: the score, the gap, the expected goals, a team name.",
+    "ton": "A fan with a spreadsheet, calm and curious, who was at the game. Short lines, one number per line, one emoji per line. The first line is the fact people miss (an upset, a goal count, a gap between two numbers); the last line is one question about one number in this post. This week's best full-time posts opened on the surprise (Saint Etienne 1-0 Nantes 122 views, Westerlo 4-4 Beveren 77, ADO 2-3 Heerenveen 73, Sporting CP 1-2 Viseu 63) and the best cards were big-club games (Lens v Paris FC 109, Hibernian v Celtic 106, Villa v City 96, Barcelona v Real Madrid 87). Knowledge posts got 3 to 14, so they stay short, hang on a number from that day's card and sit in a quiet slot. Chances come from the odds only; never a team-stats number anywhere. Frequencies only as 1 in 2, 2 in 5, 3 in 5, 1 in 4 and so on, never 11 in 20. Vary the opening shape every card; no stock closer, nothing after the question.",
     "soru_ornekleri": [
-      "Paris FC win 47%, 4-3 at 1%. Does a seven-goal game make that score chance look too low to you?",
-      "NEC win: odds 58%, recent games 25%. Which number would you have had closer at Nijmegen?",
-      "Over 2.5 goals at Forest v Arsenal: odds 51%, team stats 16%. Which of the two did the 0-1 back up?",
-      "Hammarby 77% in the market, 48% on recent games. Is 29 points the widest gap you've seen on a card this week?",
-      "Bournemouth won 2-0 from 4.4 to 0.1 expected goals. Would you have had their win above 46% before kick-off?",
-      "Celtic 7-1 from 4.1 expected goals. Over 2.5 at 64% beforehand: cautious or about right for this fixture?",
-      "Lyon v Nice finished 2-1 with 1.6 expected goals each. Level shots and a 50% home win: fair result or a lucky one?",
-      "Juventus 60% in the market, 35% on recent games, then 0-3 to Lazio. Which side of that 25-point gap do you read more?"
+      "Barcelona 1-2 Real Madrid came in at 25%, about 1 in 4. With expected goals at 1.3 to 2.0, does 1 in 4 feel about right to you for that result?",
+      "Sporting CP 1-2 Academico Viseu had 9% before kick-off, a 1-in-11 result. When did you last see a Viseu win at that price in Portugal?",
+      "Inter 2-1 Fiorentina from 3.4 to 0.2 on expected goals. After shots like that, does a 71% win chance look low to you?",
+      "Westerlo 4-4 Beveren: the draw was 23%, over 2.5 goals 63%. Which of those two numbers surprised you more after eight goals?",
+      "Udinese v AC Milan, likeliest score 0-1 at only 12%. Would you have put any other score above 12% here?",
+      "Lens 39% · Draw 24% · Paris FC 37%, then Lens won 2-1 from 0.9 to 0.4 on expected goals. Which of the three numbers would you have moved first?",
+      "Sunderland 0-0 Leeds: draw 28%, under 2.5 goals 57%. Did the 0-0 feel more like the 1-in-4 draw or the coin-flip on goals to you?",
+      "Atalanta 4-4 Frosinone: over 2.5 goals was 69%, the draw 21%. Was eight goals ever on your radar for this one?"
     ],
     "kacinilacaklar": [
-      "Two or three full-time posts for the same match: about 20 matches got a 🔁 FULL TIME and a ⚽ FULL TIME board quote seconds apart on 18 Oct, Lyon v Nice got three. The second copy got 2 to 37 views against 13 to 156 for the first. One merged post per card with odds % and stats % together.",
-      "88 posts on 18 Oct with about 28 cards, and posts in the same second (14:53:37, 15:04:44, 20:45:09). Hard cap: 15 posts a day, 3 cards, 28 minutes apart.",
-      "Two cards for Leeds v Manchester United with different numbers (42% · 25% · 33% at 09:05, then 40% · 28% · 32% at 10:04; the second got 8 views). One card per match, one set of numbers.",
-      "Closers 'Saw it coming? 👇' and an '18+ | P...' line after the question (Lyon, Milan, Roma quotes), and 'Fair...' opening the question twice (Cambuur, Sirius). Ask one specific question and stop.",
-      "📐 for expected goals in the 🔁 version and no team-stats line there. Use 📈 and keep the stats % next to the market %, or say why there is none.",
-      "Knowledge posts dropped at 18:27 and 19:13 inside the card flood (7 and 3 views). One a day, built on a number from that day's card, in a slot with no other post 45 minutes either side.",
-      "Cards for matches nobody looks at (Hapoel Beer Sheva v Hapoel Katamon 9 views, Tromso v KFUM Oslo 30) while Eredivisie, Allsvenskan and Ligue 1 cards hit 150 to 565.",
-      "The same 'Most likely score: 1-1 (11%)' line and layout on 20 cards in a row. Keep every number, vary the words and the order."
+      "Two or three full-time posts for the same match, seconds apart: on 25 Oct Barcelona v Real Madrid got 46 and 27 views, Udinese v Milan 30 and 22, Inter v Fiorentina 22 and 13, Lecce v Juventus three posts (18, 13), Liverpool v Brighton 22 and 16. Seven posts went out between 15:55:01 and 15:55:09. One full-time post per card, at least 3 minutes between full-time posts, never two in the same second.",
+      "The stock closer 'Chances, not picks. More or fewer...' on about ten cards (Inter, Ajax, Man Utd, Cagliari, Napoli, Lens, Bayern) and 'Not picks.' / 'Chances, not picks' on the quote posts. One match-specific question, last line, nothing after it; the 18+ line goes before the question.",
+      "The same opening shape four or more cards in a row: 'No result above X%. Wide open on paper.' (Cagliari, Napoli, Lens, Palace), '4+ goals: X%. Expected goals a – b.' (Villa, Chelsea, Hibernian, Barcelona), 'X win Y%: about 2 in 3.' (Como, Arsenal, Lazio, Inter, Ajax, Bayern, Juventus). Keep the fact, change the words and the order each time.",
+      "Two sets of numbers for the same match on the same day: Palace v Newcastle 35 · 24 · 41 on the card but 33 · 27 · 40 in the poll and the kick-offs post; Villa v City 19 · 21 · 60 and 20 · 20 · 60; Arsenal v Everton 65 · 23 · 12 and 66 · 21 · 14; Coventry v Fulham 30 · 27 · 42 and 32 · 25 · 43. One odds snapshot per match per day across card, poll, board and full-time post.",
+      "Any team-stats or recent-games percentage, and the previous week's questions that compare odds with team stats. Odds (margin removed) only.",
+      "Knowledge posts inside the card flood: 18:03 and 18:53 on 25 Oct (14 and 3 views), 17:10 and 18:00 on 24 Oct (8 and 8). One a day, 45 minutes clear of any other post.",
+      "'11 in 20', '9 in 20' (Saint Etienne, Young Boys, Liverpool, Genoa, Norwich, Famalicao). Say about 1 in 2, or just leave the % alone.",
+      "Poll copy with two calls and a pointer: 'Vote below 👇' plus 'Tell us why in the replies'. One question that the poll itself answers, hashtag stays at one.",
+      "Two emojis for the same thing (📐 and 📈 for expected goals) and a 'Vote in the poll. 18+' line dropped into a card (Coventry v Fulham, 12:33)."
     ],
-    "odak": "1) Fix the pipeline before writing anything new: one full-time post per card (merge the 🔁 and board-quote formats), one card per match, 3 cards a day, 15 posts a day, 28 minutes between posts, never two in the same second. 2) Pick the 3 cards by where views came from this week: one headline match plus two from Eredivisie, Allsvenskan or Ligue 1; drop Israeli and Norwegian cards until they earn it. 3) Every full-time post: result, expected goals, market % and stats % side by side, one question on one number. 4) Knowledge post hangs on a number from that day's card and gets a quiet slot. 5) Goal: first reply from someone who is not us, zero duplicates, average above 90 views per post with 15 posts a day.",
-    "gunluk_max_kupon": 1
+    "odak": "1) Pipeline first, again: merge the 🔁 and ⚽ FULL TIME formats into one post per card, 3 minutes minimum between full-time posts, never two posts in the same second; one odds snapshot per match per day for card, poll, board and full-time. 2) Full-time post opens on the surprise or the goal count (upset meter line first), then result, expected goals, pre-match % of what happened, one question. 3) Headline cards (big clubs, derbies, Eredivisie and Ligue 1 games that drew 100+ views) get the best morning slots 45 minutes apart; smaller games stay on the board with their % rather than getting their own card. 4) One knowledge post a day in a quiet slot, built on a number from that day's board. 5) Monday report card today with the calibration line: 339 cards last week, said 57% on average, 58% happened; across the record, said 40-49% happened 48%. 6) Goal for the week: zero duplicate posts, zero same-second posts, first reply from someone who is not us, average above 60 views per post."
   },
-  "rapor_issue": 104
+  "rapor_issue": 134
 }

@@ -146155,7 +146155,28 @@
         }
       ]
     },
-    "etkilesim": {},
+    "etkilesim": {
+      "tablo": {
+        "durum": "paylasildi",
+        "tweet_id": "2114628747588506019",
+        "zaman": "2026-10-26T08:02:23+00:00",
+        "metin": "Derby night, 11 games on the board\n\n🆚 Galatasaray v Fenerbahçe\n🏆 Galatasaray 47% · Draw 23% · Fenerbahçe 30%\n\n🆚 Beşiktaş v Başakşehir\n🏆 Beşiktaş 69% · Draw 17% · Başakşehir 14%\n\n💬 Does 30% for Fenerbahçe at Galatasaray look right to you?\n\n18+ | Play responsibly",
+        "maclar": [
+          1584440,
+          1584446,
+          1585804,
+          1549041,
+          1497734,
+          1584442,
+          1575524,
+          1552800,
+          1552504,
+          1552508,
+          1570431
+        ],
+        "sonuclar": {}
+      }
+    },
     "yanit_kiti": {
       "issue": 133,
       "zaman": "2026-10-26T07:05:39+00:00"

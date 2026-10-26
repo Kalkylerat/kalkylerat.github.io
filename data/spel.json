@@ -146192,6 +146192,15 @@
               4
             ],
             "zaman": "2026-10-26T17:57:00+00:00"
+          },
+          "1585804": {
+            "durum": "paylasildi",
+            "tweet_id": "2114793233704476929",
+            "skor": [
+              2,
+              1
+            ],
+            "zaman": "2026-10-26T18:56:11+00:00"
           }
         }
       },
@@ -146273,7 +146282,26 @@
         "durum": "paylasildi",
         "tweet_id": "2114704122637127824",
         "zaman": "2026-10-26T13:02:00+00:00",
-        "metin": "Most likely score: 1-0.\nEven that is only 11%.\n\n🇹🇷 Mardin 1969 v Manisa F.K. 🇹🇷 · 18:00 CET\n🏆 Mardin 1969 58% · Draw 22% · Manisa F.K. 19%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 52% · Not both 48%\n\n💬 Not picks. Mardin 1969 58%: too high? 👇\n18+ | Play responsibly"
+        "metin": "Most likely score: 1-0.\nEven that is only 11%.\n\n🇹🇷 Mardin 1969 v Manisa F.K. 🇹🇷 · 18:00 CET\n🏆 Mardin 1969 58% · Draw 22% · Manisa F.K. 19%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 52% · Not both 48%\n\n💬 Not picks. Mardin 1969 58%: too high? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2114793273973977467",
+          "skor": "2-1",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            1.58,
+            2.23
+          ],
+          "zaman": "2026-10-26T18:56:11+00:00",
+          "brier": {
+            "piyasa": 0.7122,
+            "istatistik": 0.8538
+          }
+        }
       },
       "analiz_2": {
         "durum": "paylasildi",

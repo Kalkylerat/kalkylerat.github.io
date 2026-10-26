@@ -146219,6 +146219,15 @@
               0
             ],
             "zaman": "2026-10-26T20:00:08+00:00"
+          },
+          "1584442": {
+            "durum": "paylasildi",
+            "tweet_id": "2114816534463840604",
+            "skor": [
+              2,
+              1
+            ],
+            "zaman": "2026-10-26T20:28:47+00:00"
           }
         }
       },
@@ -146294,7 +146303,26 @@
         "durum": "paylasildi",
         "tweet_id": "2114693426125976044",
         "zaman": "2026-10-26T12:19:27+00:00",
-        "metin": "Galatasaray are favourites, yet don't win 53% of the time.\n\n🆚 Galatasaray v Fenerbahçe\n🏆 Galatasaray 47% · Draw 23% · Fenerbahçe 30%\n⚽ Over 2.5 goals 64% · Under 36%\n🥅 Both teams score 64% · Not both 36%\n\n💬 Is 30% too low for Fenerbahçe here?\n18+ | Play responsibly"
+        "metin": "Galatasaray are favourites, yet don't win 53% of the time.\n\n🆚 Galatasaray v Fenerbahçe\n🏆 Galatasaray 47% · Draw 23% · Fenerbahçe 30%\n⚽ Over 2.5 goals 64% · Under 36%\n🥅 Both teams score 64% · Not both 36%\n\n💬 Is 30% too low for Fenerbahçe here?\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2114816551278768476",
+          "skor": "2-1",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            2.15,
+            0.14
+          ],
+          "zaman": "2026-10-26T20:28:47+00:00",
+          "brier": {
+            "piyasa": 0.6776,
+            "istatistik": 1.0023
+          }
+        }
       },
       "analiz_6": {
         "durum": "paylasildi",

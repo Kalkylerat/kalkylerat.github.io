@@ -32950,7 +32950,8 @@
      "istatistik": 0.571,
      "uyum": false,
      "buyuk": false,
-     "no": 4
+     "no": 4,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1584440-UST15",
@@ -33037,7 +33038,8 @@
      "istatistik": 0.769,
      "uyum": true,
      "buyuk": true,
-     "no": 8
+     "no": 8,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1584440-CS12",
@@ -33145,7 +33147,8 @@
      "istatistik": 0.692,
      "uyum": false,
      "buyuk": false,
-     "no": 13
+     "no": 13,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1642183-CS12",
@@ -33188,7 +33191,8 @@
      "istatistik": 0.75,
      "uyum": true,
      "buyuk": false,
-     "no": 15
+     "no": 15,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1603478-CS1X",
@@ -33231,7 +33235,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 17
+     "no": 17,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1558256-UST15",
@@ -33316,7 +33321,8 @@
      "istatistik": 0.817,
      "uyum": true,
      "buyuk": false,
-     "no": 21
+     "no": 21,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1603590-CS12",
@@ -33553,7 +33559,8 @@
      "istatistik": 0.761,
      "uyum": true,
      "buyuk": false,
-     "no": 32
+     "no": 32,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1552800-EVU15",
@@ -33787,7 +33794,8 @@
      "istatistik": 0.626,
      "uyum": false,
      "buyuk": true,
-     "no": 43
+     "no": 43,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1629948-IYA15",
@@ -33808,7 +33816,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 44
+     "no": 44,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1493211-DPU05",
@@ -34243,8 +34252,25 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.833,
        "deger": -0.05,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "2-1",
+       "goller": [
+        [
+         29,
+         0,
+         "ev"
+        ],
+        [
+         44,
+         0,
+         "ev"
+        ],
+        [
+         62,
+         0,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1641901-CS1X",
@@ -34311,13 +34337,17 @@
      "oran": 2.02,
      "olasilik": 0.477,
      "deger": -0.036,
-     "durum": "bekliyor",
+     "durum": "tuttu",
      "secim": "2026-10-26T06:37:11+00:00",
      "oto": true,
      "paylas": "2026-10-26T09:00:00+01:00",
      "tweet_id": "2114629514286268444",
      "metin": "🎩 Treble today. Dull legs, on purpose.\n\n⚽ Galatasaray v Fenerbahçe\n⚽ Van v Gandzasar\n⚽ Al-Ahli Jeddah v Al-Gharafa\n\n📊 Combined 2.02. I make it about 48% to land, so slightly worse than a coin flip.\n\n💬 Anyone fancy the other side of one of these?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-26T08:02:23+00:00"
+     "yayin": "2026-10-26T08:02:23+00:00",
+     "son_oran": 2.02,
+     "sonuc_metni": "✅ Van v Gandzasar. 0-1 and I'd mentally moved on. Then 1-1 on 90+2'. Lovely. In at 2.02.\n\nRecord: 27 of 59 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2114816568446038525",
+     "sonuc_zamani": "2026-10-26T20:28:47+00:00"
     },
     {
      "ad": "long-shot",
@@ -35597,7 +35627,7 @@
     "tweet_id": "2114609055964578084"
    },
    "tazeleme": "2026-10-26T10:03:59+00:00",
-   "olcum_sorgu": "2026-10-26T19:31:38+00:00"
+   "olcum_sorgu": "2026-10-26T20:28:47+00:00"
   }
  ],
  "kasa_duyuru": {

@@ -146174,13 +146174,51 @@
           1552508,
           1570431
         ],
-        "sonuclar": {}
+        "sonuclar": {
+          "1584440": {
+            "durum": "paylasildi",
+            "tweet_id": "2114778340032667814",
+            "skor": [
+              2,
+              0
+            ],
+            "zaman": "2026-10-26T17:57:00+00:00"
+          },
+          "1584446": {
+            "durum": "paylasildi",
+            "tweet_id": "2114778344256409726",
+            "skor": [
+              3,
+              4
+            ],
+            "zaman": "2026-10-26T17:57:00+00:00"
+          }
+        }
       },
       "analiz_0": {
         "durum": "paylasildi",
         "tweet_id": "2114639573191963048",
         "zaman": "2026-10-26T08:45:32+00:00",
-        "metin": "Beşiktaş win 69%: about 2 in 3.\n\n🇹🇷 Beşiktaş v Başakşehir 🇹🇷\n🏆 Beşiktaş 69% · Draw 17% · Başakşehir 14%\n⚽ Over 2.5 goals 67% · Under 33%\n🥅 Both teams score 58% · Not both 42%\n\n💬 Chances, not picks. Beşiktaş 69%: too high? 👇\n#SuperLig\n18+ | Play responsibly"
+        "metin": "Beşiktaş win 69%: about 2 in 3.\n\n🇹🇷 Beşiktaş v Başakşehir 🇹🇷\n🏆 Beşiktaş 69% · Draw 17% · Başakşehir 14%\n⚽ Over 2.5 goals 67% · Under 33%\n🥅 Both teams score 58% · Not both 42%\n\n💬 Chances, not picks. Beşiktaş 69%: too high? 👇\n#SuperLig\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2114778386908217401",
+          "skor": "2-0",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "xg": [
+            1.73,
+            0.31
+          ],
+          "zaman": "2026-10-26T17:57:00+00:00",
+          "brier": {
+            "piyasa": 0.9259,
+            "istatistik": 0.5905
+          }
+        }
       },
       "bilgi": {
         "durum": "paylasildi",
@@ -146198,7 +146236,26 @@
         "durum": "paylasildi",
         "tweet_id": "2114671794380800213",
         "zaman": "2026-10-26T10:53:35+00:00",
-        "metin": "Most likely score: 1-1.\nEven that is only 10%.\n\n🇹🇷 Rizespor v Trabzonspor 🇹🇷 · 17:00 CET\n🏆 Rizespor 27% · Draw 23% · Trabzonspor 50%\n⚽ Over 2.5 goals 61% · Under 39%\n🥅 Both teams score 61% · Not both 39%\n\n💬 Chances, not picks. Can Rizespor beat 27%? 👇\n18+ | Play responsibly"
+        "metin": "Most likely score: 1-1.\nEven that is only 10%.\n\n🇹🇷 Rizespor v Trabzonspor 🇹🇷 · 17:00 CET\n🏆 Rizespor 27% · Draw 23% · Trabzonspor 50%\n⚽ Over 2.5 goals 61% · Under 39%\n🥅 Both teams score 61% · Not both 39%\n\n💬 Chances, not picks. Can Rizespor beat 27%? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2114778399751201155",
+          "skor": "3-4",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            1.81,
+            2.63
+          ],
+          "zaman": "2026-10-26T17:57:00+00:00",
+          "brier": {
+            "piyasa": 0.6728,
+            "istatistik": 1.053
+          }
+        }
       },
       "maclar": {
         "durum": "paylasildi",

@@ -35846,8 +35846,25 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.723,
        "deger": -0.017,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "3-0",
+       "goller": [
+        [
+         53,
+         0,
+         "ev"
+        ],
+        [
+         62,
+         0,
+         "ev"
+        ],
+        [
+         86,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1640386-UST25",
@@ -35940,8 +35957,35 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.818,
        "deger": -0.035,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "2-3",
+       "goller": [
+        [
+         35,
+         0,
+         "dep"
+        ],
+        [
+         44,
+         0,
+         "ev"
+        ],
+        [
+         49,
+         0,
+         "dep"
+        ],
+        [
+         60,
+         0,
+         "ev"
+        ],
+        [
+         69,
+         0,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1601579-DPA25",
@@ -35979,13 +36023,14 @@
      "oran": 2.01,
      "olasilik": 0.458,
      "deger": -0.079,
-     "durum": "bekliyor",
+     "durum": "yatti",
      "secim": "2026-10-27T06:38:37+00:00",
      "oto": true,
      "paylas": "2026-10-27T08:40:00+01:00",
      "tweet_id": "2114986164742717640",
      "metin": "🎩 A treble today, one leg more than I like. Dull legs though.\n\n⚽ SHANGHAI SIPG v Công An Nhân Dân\n⚽ Vicenza Virtus v Modena\n⚽ Berkhamsted v Sholing\n\n📊 Combined 2.01. I make it about 46% to land, so probably not.\n\n💬 Which leg would you swap out?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-27T07:42:47+00:00"
+     "yayin": "2026-10-27T07:42:47+00:00",
+     "son_oran": 1
     },
     {
      "ad": "gunun-kuponu-4",

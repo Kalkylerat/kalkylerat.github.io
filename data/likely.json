@@ -33941,7 +33941,7 @@
   {
    "tarih": "2026-10-27",
    "olusturma": "2026-10-27T06:38:37+00:00",
-   "durum": "secildi",
+   "durum": "bitti",
    "havuz": [
     {
      "aday_id": "1638559-CS1X",
@@ -35827,8 +35827,30 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.753,
        "deger": 0.002,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "2-2",
+       "goller": [
+        [
+         35,
+         0,
+         "ev"
+        ],
+        [
+         44,
+         0,
+         "ev"
+        ],
+        [
+         75,
+         0,
+         "dep"
+        ],
+        [
+         81,
+         0,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1550174-EVU05",
@@ -35892,13 +35914,17 @@
      "oran": 2.02,
      "olasilik": 0.464,
      "deger": -0.063,
-     "durum": "bekliyor",
+     "durum": "tuttu",
      "secim": "2026-10-27T06:38:37+00:00",
      "oto": true,
      "paylas": "2026-10-27T15:30:00+01:00",
      "tweet_id": "2115090307779830042",
      "metin": "🎩 Three on the card today.\n\n⚽ RSD Alcalá v Las Palmas\n⚽ Don Benito v Extremadura 1924\n⚽ Sassuolo v Lazio\n\n📊 Combined 2.02. I make it about 46% to land, so it probably doesn't.\n\n💬 Which leg would you swap out?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-27T14:36:36+00:00"
+     "yayin": "2026-10-27T14:36:36+00:00",
+     "son_oran": 2.02,
+     "sonuc_metni": "✅ Don Benito v Extremadura 1924 left it late. 2-1 until 81', then 2-2. Double chance X2 came good. In at 2.02.\n\nRecord: 30 of 66 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2115205460592836611",
+     "sonuc_zamani": "2026-10-27T22:14:10+00:00"
     },
     {
      "ad": "long-shot",

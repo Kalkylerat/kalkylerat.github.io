@@ -35986,6 +35986,66 @@
      "tweet_id": "2114986164742717640",
      "metin": "🎩 A treble today, one leg more than I like. Dull legs though.\n\n⚽ SHANGHAI SIPG v Công An Nhân Dân\n⚽ Vicenza Virtus v Modena\n⚽ Berkhamsted v Sholing\n\n📊 Combined 2.01. I make it about 46% to land, so probably not.\n\n💬 Which leg would you swap out?\n\n18+ | Play responsibly",
      "yayin": "2026-10-27T07:42:47+00:00"
+    },
+    {
+     "ad": "gunun-kuponu-4",
+     "ayaklar": [
+      {
+       "aday_id": "1638559-CS1X",
+       "fixture_id": 1638559,
+       "pazar": "CS1X",
+       "ev": "Borussia Mönchengladbach",
+       "dep": "Karlsruher SC",
+       "lig": "DFB Pokal",
+       "baslama": "2026-10-27T20:45:00+01:00",
+       "etiket": "Double chance 1X",
+       "oran": 1.1,
+       "oran_kaynagi": "Bet365",
+       "olasilik": 0.883,
+       "deger": -0.029,
+       "durum": "bekliyor",
+       "skor": null
+      },
+      {
+       "aday_id": "1638561-CS1X",
+       "fixture_id": 1638561,
+       "pazar": "CS1X",
+       "ev": "Borussia Dortmund",
+       "dep": "Werder Bremen",
+       "lig": "DFB Pokal",
+       "baslama": "2026-10-27T20:45:00+01:00",
+       "etiket": "Double chance 1X",
+       "oran": 1.1,
+       "oran_kaynagi": "Bet365",
+       "olasilik": 0.858,
+       "deger": -0.056,
+       "durum": "bekliyor",
+       "skor": null
+      },
+      {
+       "aday_id": "1588418-UST25",
+       "fixture_id": 1588418,
+       "pazar": "UST25",
+       "ev": "Dover",
+       "dep": "Chelmsford City",
+       "lig": "National League - South",
+       "baslama": "2026-10-27T20:45:00+01:00",
+       "etiket": "Over 2.5 goals",
+       "oran": 1.67,
+       "oran_kaynagi": "Bet365",
+       "olasilik": 0.621,
+       "deger": 0.036,
+       "durum": "bekliyor",
+       "skor": null
+      }
+     ],
+     "oran": 2.02,
+     "olasilik": 0.47,
+     "deger": -0.051,
+     "durum": "bekliyor",
+     "secim": "2026-10-27T10:05:16+00:00",
+     "oto": true,
+     "paylas": "2026-10-27T17:45:00+01:00"
     }
    ],
    "islenen": [],
@@ -36764,7 +36824,8 @@
     "sayi": 4,
     "zaman": "2026-10-27T06:45:33+00:00",
     "tweet_id": "2114971750840635600"
-   }
+   },
+   "tazeleme": "2026-10-27T10:05:16+00:00"
   }
  ],
  "kasa_duyuru": {

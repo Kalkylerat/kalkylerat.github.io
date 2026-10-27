@@ -33546,7 +33546,8 @@
      "istatistik": 0.681,
      "uyum": true,
      "buyuk": false,
-     "no": 31
+     "no": 31,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1497734-CS12",
@@ -33677,7 +33678,8 @@
      "istatistik": 0.729,
      "uyum": true,
      "buyuk": false,
-     "no": 37
+     "no": 37,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1570431-CS12",
@@ -35721,13 +35723,14 @@
     "tweet_id": "2114609055964578084"
    },
    "tazeleme": "2026-10-26T10:03:59+00:00",
-   "olcum_sorgu": "2026-10-27T00:19:46+00:00",
+   "olcum_sorgu": "2026-10-27T01:15:56+00:00",
    "kasa": {
     "tweet_id": "2114872818592538997",
     "tur": "gunluk",
     "zaman": "2026-10-27T00:12:25+00:00",
     "metin": "📈 Virtual bank, Mon 26 Oct: €11,305.98 (+€892.47 today).\n\n🎟️ 5 coupons, 4 landed.\n🏁 Started at €10,000 on 6 Oct, 3% of the free balance per coupon, losers counted.\n\n⚠️ Virtual bank, not real money.\n18+ | Play responsibly"
-   }
+   },
+   "olcum_bitti": true
   }
  ],
  "kasa_duyuru": {

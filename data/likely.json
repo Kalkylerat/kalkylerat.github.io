@@ -34266,7 +34266,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 15
+     "no": 15,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1640476-CSX2",
@@ -34672,7 +34673,8 @@
      "istatistik": 0.843,
      "uyum": true,
      "buyuk": false,
-     "no": 34
+     "no": 34,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1551124-DPA25",
@@ -34778,7 +34780,8 @@
      "istatistik": 0.704,
      "uyum": true,
      "buyuk": false,
-     "no": 39
+     "no": 39,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1601574-CS12",
@@ -35296,7 +35299,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 63
+     "no": 63,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1629950-UST25",
@@ -35402,7 +35406,8 @@
      "istatistik": 0.755,
      "uyum": true,
      "buyuk": false,
-     "no": 68
+     "no": 68,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1550175-EVA15",
@@ -35531,7 +35536,8 @@
      "istatistik": 0.747,
      "uyum": true,
      "buyuk": false,
-     "no": 74
+     "no": 74,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1601577-CS12",
@@ -35552,7 +35558,8 @@
      "istatistik": 0.724,
      "uyum": true,
      "buyuk": false,
-     "no": 75
+     "no": 75,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1629954-DPU15",
@@ -35792,8 +35799,20 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.83,
        "deger": -0.028,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-1",
+       "goller": [
+        [
+         49,
+         0,
+         "dep"
+        ],
+        [
+         67,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1644354-CSX2",
@@ -37106,7 +37125,7 @@
     "tweet_id": "2114971750840635600"
    },
    "tazeleme": "2026-10-27T10:05:16+00:00",
-   "olcum_sorgu": "2026-10-27T20:35:26+00:00"
+   "olcum_sorgu": "2026-10-27T21:32:18+00:00"
   }
  ],
  "kasa_duyuru": {

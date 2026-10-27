@@ -151516,7 +151516,32 @@
         "istatistik_kaynak": "lig"
       }
     ],
-    "etkilesim": {},
+    "etkilesim": {
+      "tablo": {
+        "durum": "paylasildi",
+        "tweet_id": "2114991474966253582",
+        "zaman": "2026-10-27T08:03:53+00:00",
+        "metin": "📋 Today's chances, not picks · every % in the image\n\n🆚 Borussia Dortmund v Werder Bremen\n🏆 Borussia Dortmund 66% · Draw 18% · Werder Bremen 15%\n\n🆚 Fleetwood Town v Arsenal\n🏆 Fleetwood Town 4% · Draw 9% · Arsenal 88%\n\n💬 Which % surprises you? 👇\n\n#BVB\n18+ | Play responsibly",
+        "maclar": [
+          1550174,
+          1601574,
+          1494313,
+          1601573,
+          1601576,
+          1601577,
+          1601579,
+          1601580,
+          1601581,
+          1550168,
+          1550175,
+          1638561,
+          1564323,
+          1564325,
+          1640386
+        ],
+        "sonuclar": {}
+      }
+    },
     "yanit_kiti": {
       "issue": 136,
       "zaman": "2026-10-27T07:06:42+00:00"

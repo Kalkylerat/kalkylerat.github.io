@@ -35814,8 +35814,15 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.75,
        "deger": -0.002,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "0-1",
+       "goller": [
+        [
+         6,
+         0,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1641982-CSX2",

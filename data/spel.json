@@ -151539,7 +151539,17 @@
           1564325,
           1640386
         ],
-        "sonuclar": {}
+        "sonuclar": {
+          "1550174": {
+            "durum": "paylasildi",
+            "tweet_id": "2115164414739415048",
+            "skor": [
+              2,
+              6
+            ],
+            "zaman": "2026-10-27T19:31:07+00:00"
+          }
+        }
       },
       "bilgi": {
         "durum": "paylasildi",
@@ -151551,7 +151561,26 @@
         "durum": "paylasildi",
         "tweet_id": "2115016618627539191",
         "zaman": "2026-10-27T09:43:47+00:00",
-        "metin": "Lazio are favourites.\nThey still fail to win 54% of the time.\n\n🇮🇹 Sassuolo v Lazio 🇮🇹 · 18:30 CET\n🏆 Sassuolo 31% · Draw 24% · Lazio 46%\n⚽ Over 2.5 goals 59% · Under 41%\n🥅 Both teams score 60% · Not both 40%\n\n💬 Not picks. Can Sassuolo beat 31%? 👇\n18+ | Play responsibly"
+        "metin": "Lazio are favourites.\nThey still fail to win 54% of the time.\n\n🇮🇹 Sassuolo v Lazio 🇮🇹 · 18:30 CET\n🏆 Sassuolo 31% · Draw 24% · Lazio 46%\n⚽ Over 2.5 goals 59% · Under 41%\n🥅 Both teams score 60% · Not both 40%\n\n💬 Not picks. Can Sassuolo beat 31%? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2115164425510412687",
+          "skor": "2-6",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            0.82,
+            3.41
+          ],
+          "zaman": "2026-10-27T19:31:07+00:00",
+          "brier": {
+            "piyasa": 0.7693,
+            "istatistik": 0.8111
+          }
+        }
       },
       "analiz_5": {
         "durum": "paylasildi",
@@ -151608,7 +151637,26 @@
           1564338,
           1564341
         ],
-        "sonuclar": {}
+        "sonuclar": {
+          "1551124": {
+            "durum": "paylasildi",
+            "tweet_id": "2115164418765926717",
+            "skor": [
+              1,
+              1
+            ],
+            "zaman": "2026-10-27T19:31:07+00:00"
+          },
+          "1563671": {
+            "durum": "paylasildi",
+            "tweet_id": "2115164420103893198",
+            "skor": [
+              2,
+              1
+            ],
+            "zaman": "2026-10-27T19:31:07+00:00"
+          }
+        }
       },
       "analiz_4": {
         "durum": "paylasildi",

@@ -35920,8 +35920,50 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.731,
        "deger": -0.006,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "3-5",
+       "goller": [
+        [
+         14,
+         0,
+         "ev"
+        ],
+        [
+         43,
+         0,
+         "dep"
+        ],
+        [
+         59,
+         0,
+         "ev"
+        ],
+        [
+         64,
+         0,
+         "dep"
+        ],
+        [
+         77,
+         0,
+         "dep"
+        ],
+        [
+         78,
+         0,
+         "ev"
+        ],
+        [
+         83,
+         0,
+         "dep"
+        ],
+        [
+         90,
+         1,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1629950-UST25",
@@ -36112,8 +36154,25 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.775,
        "deger": -0.031,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-2",
+       "goller": [
+        [
+         13,
+         0,
+         "ev"
+        ],
+        [
+         17,
+         0,
+         "dep"
+        ],
+        [
+         89,
+         0,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1597421-CS1X",
@@ -36142,7 +36201,7 @@
      "tweet_id": "2114986164742717640",
      "metin": "🎩 A treble today, one leg more than I like. Dull legs though.\n\n⚽ SHANGHAI SIPG v Công An Nhân Dân\n⚽ Vicenza Virtus v Modena\n⚽ Berkhamsted v Sholing\n\n📊 Combined 2.01. I make it about 46% to land, so probably not.\n\n💬 Which leg would you swap out?\n\n18+ | Play responsibly",
      "yayin": "2026-10-27T07:42:47+00:00",
-     "son_oran": 1
+     "son_oran": 1.25
     },
     {
      "ad": "gunun-kuponu-4",

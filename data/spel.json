@@ -151566,6 +151566,51 @@
               1
             ],
             "zaman": "2026-10-27T20:14:06+00:00"
+          },
+          "1601573": {
+            "durum": "paylasildi",
+            "tweet_id": "2115185925982495094",
+            "skor": [
+              2,
+              0
+            ],
+            "zaman": "2026-10-27T20:56:34+00:00"
+          },
+          "1601577": {
+            "durum": "paylasildi",
+            "tweet_id": "2115185927353934152",
+            "skor": [
+              1,
+              1
+            ],
+            "zaman": "2026-10-27T20:56:34+00:00"
+          },
+          "1601579": {
+            "durum": "paylasildi",
+            "tweet_id": "2115185928671023195",
+            "skor": [
+              1,
+              2
+            ],
+            "zaman": "2026-10-27T20:56:34+00:00"
+          },
+          "1601580": {
+            "durum": "paylasildi",
+            "tweet_id": "2115185929950216498",
+            "skor": [
+              0,
+              2
+            ],
+            "zaman": "2026-10-27T20:56:34+00:00"
+          },
+          "1601581": {
+            "durum": "paylasildi",
+            "tweet_id": "2115185931330154828",
+            "skor": [
+              2,
+              0
+            ],
+            "zaman": "2026-10-27T20:56:34+00:00"
           }
         }
       },
@@ -151629,7 +151674,26 @@
         "durum": "paylasildi",
         "tweet_id": "2115038425271124279",
         "zaman": "2026-10-27T11:10:20+00:00",
-        "metin": "Ascoli v Sampdoria: Ascoli are favourites, yet they fail to win 55% of the time.\n\n🏆 Ascoli 45% · Draw 26% · Sampdoria 29%\n⚽ Over 2.5 goals 49% · Under 51%\n🥅 Both teams score 53% · Not both 47%\n\n💬 Does Over 2.5 goals at 49% feel right here?\n\n18+ | Play responsibly"
+        "metin": "Ascoli v Sampdoria: Ascoli are favourites, yet they fail to win 55% of the time.\n\n🏆 Ascoli 45% · Draw 26% · Sampdoria 29%\n⚽ Over 2.5 goals 49% · Under 51%\n🥅 Both teams score 53% · Not both 47%\n\n💬 Does Over 2.5 goals at 49% feel right here?\n\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2115185935658766810",
+          "skor": "2-0",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "xg": [
+            0.65,
+            0.57
+          ],
+          "zaman": "2026-10-27T20:56:34+00:00",
+          "brier": {
+            "piyasa": 0.9754,
+            "istatistik": 0.675
+          }
+        }
       },
       "analiz_1": {
         "durum": "paylasildi",
@@ -151720,13 +151784,36 @@
         "durum": "paylasildi",
         "tweet_id": "2115133512927863010",
         "zaman": "2026-10-27T17:28:20+00:00",
-        "metin": "Virtus Entella are favourites.\nThey still fail to win 54% of the time.\n\n🇮🇹 Virtus Entella v Avellino 🇮🇹\n🏆 Virtus Entella 46% · Draw 27% · Avellino 27%\n⚽ Over 2.5 goals 43% · Under 57%\n🥅 Both teams score 48% · Not both 52%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "Virtus Entella are favourites.\nThey still fail to win 54% of the time.\n\n🇮🇹 Virtus Entella v Avellino 🇮🇹\n🏆 Virtus Entella 46% · Draw 27% · Avellino 27%\n⚽ Over 2.5 goals 43% · Under 57%\n🥅 Both teams score 48% · Not both 52%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2115185940557697480",
+          "skor": "1-1",
+          "isabet": [
+            false,
+            true,
+            false
+          ],
+          "xg": [
+            0.61,
+            0.88
+          ],
+          "zaman": "2026-10-27T20:56:34+00:00",
+          "brier": {
+            "piyasa": 1.2773,
+            "istatistik": 1.2345
+          }
+        }
       },
       "analiz_9": {
         "durum": "paylasildi",
         "tweet_id": "2115137082628649440",
         "zaman": "2026-10-27T17:42:31+00:00",
-        "metin": "Modena are favourites.\nThey still fail to win 52% of the time.\n\n🇮🇹 Vicenza Virtus v Modena 🇮🇹\n🏆 Vicenza Virtus 27% · Draw 25% · Modena 48%\n⚽ Over 2.5 goals 52% · Under 48%\n🥅 Both teams score 55% · Not both 46%\n\n💬 Not picks. What's your score? 👇\n18+ | Play responsibly"
+        "metin": "Modena are favourites.\nThey still fail to win 52% of the time.\n\n🇮🇹 Vicenza Virtus v Modena 🇮🇹\n🏆 Vicenza Virtus 27% · Draw 25% · Modena 48%\n⚽ Over 2.5 goals 52% · Under 48%\n🥅 Both teams score 55% · Not both 46%\n\n💬 Not picks. What's your score? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "hata",
+          "hata": "X API hatası 503: {\"detail\":\"Service Unavailable\",\"status\":503,\"title\":\"Service Unavailable\",\"type\":\"about:blank\"}"
+        }
       },
       "bilgi_aksam": {
         "durum": "paylasildi",

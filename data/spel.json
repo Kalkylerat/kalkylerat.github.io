@@ -151557,6 +151557,15 @@
               2
             ],
             "zaman": "2026-10-27T19:52:45+00:00"
+          },
+          "1601574": {
+            "durum": "paylasildi",
+            "tweet_id": "2115175230536581569",
+            "skor": [
+              1,
+              1
+            ],
+            "zaman": "2026-10-27T20:14:06+00:00"
           }
         }
       },
@@ -151595,7 +151604,26 @@
         "durum": "paylasildi",
         "tweet_id": "2115027406427668897",
         "zaman": "2026-10-27T10:26:40+00:00",
-        "metin": "Most likely score: 1-1.\nEven that is only 10%.\n\n🇮🇹 Benevento v Catanzaro 🇮🇹 · 19:00 CET\n🏆 Benevento 56% · Draw 22% · Catanzaro 22%\n⚽ Over 2.5 goals 58% · Under 42%\n🥅 Both teams score 57% · Not both 43%\n\n💬 Chances, not picks. Can Catanzaro beat 22%? 👇\n18+ | Play responsibly"
+        "metin": "Most likely score: 1-1.\nEven that is only 10%.\n\n🇮🇹 Benevento v Catanzaro 🇮🇹 · 19:00 CET\n🏆 Benevento 56% · Draw 22% · Catanzaro 22%\n⚽ Over 2.5 goals 58% · Under 42%\n🥅 Both teams score 57% · Not both 43%\n\n💬 Chances, not picks. Can Catanzaro beat 22%? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2115175234781241447",
+          "skor": "1-1",
+          "isabet": [
+            false,
+            false,
+            true
+          ],
+          "xg": [
+            2.54,
+            0.47
+          ],
+          "zaman": "2026-10-27T20:14:06+00:00",
+          "brier": {
+            "piyasa": 1.4848,
+            "istatistik": 1.519
+          }
+        }
       },
       "analiz_6": {
         "durum": "paylasildi",

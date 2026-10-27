@@ -35937,20 +35937,22 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.7,
        "deger": -0.02,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "0-0",
+       "goller": []
       }
      ],
      "oran": 2.02,
      "olasilik": 0.494,
      "deger": -0.002,
-     "durum": "bekliyor",
+     "durum": "yatti",
      "secim": "2026-10-27T06:38:37+00:00",
      "oto": true,
      "paylas": "2026-10-27T10:15:00+01:00",
      "tweet_id": "2115009459474804859",
      "metin": "🎩 Two legs today. Dull on purpose.\n\n⚽ Krka v Dren Vrhnika\n⚽ Ratchaburi v Kashiwa Reysol\n\n📊 Combined 2.02. I make it about 49% to land, so slightly worse than a coin flip.\n\n💬 Anyone fancy the other side of either one?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-27T09:15:20+00:00"
+     "yayin": "2026-10-27T09:15:20+00:00",
+     "son_oran": 1
     },
     {
      "ad": "gunun-kuponu-3",

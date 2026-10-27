@@ -35460,7 +35460,8 @@
      "istatistik": 0.794,
      "uyum": true,
      "buyuk": false,
-     "no": 72
+     "no": 72,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1556870-IYA15",
@@ -36930,7 +36931,7 @@
     "tweet_id": "2114971750840635600"
    },
    "tazeleme": "2026-10-27T10:05:16+00:00",
-   "olcum_sorgu": "2026-10-27T14:43:37+00:00"
+   "olcum_sorgu": "2026-10-27T15:40:56+00:00"
   }
  ],
  "kasa_duyuru": {

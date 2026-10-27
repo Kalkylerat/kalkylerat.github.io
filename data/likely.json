@@ -34403,7 +34403,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 22
+     "no": 22,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1629952-UST15",
@@ -34424,7 +34425,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 23
+     "no": 23,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1638571-MS2",
@@ -35159,7 +35161,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 58
+     "no": 58,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1629953-DPU05",
@@ -35285,7 +35288,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 64
+     "no": 64,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1597421-CS1X",
@@ -36880,7 +36884,7 @@
     "tweet_id": "2114971750840635600"
    },
    "tazeleme": "2026-10-27T10:05:16+00:00",
-   "olcum_sorgu": "2026-10-27T11:45:51+00:00"
+   "olcum_sorgu": "2026-10-27T12:42:22+00:00"
   }
  ],
  "kasa_duyuru": {

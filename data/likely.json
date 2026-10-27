@@ -34890,7 +34890,8 @@
      "istatistik": 0.647,
      "uyum": false,
      "buyuk": false,
-     "no": 45
+     "no": 45,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1635300-CS12",
@@ -34974,7 +34975,8 @@
      "istatistik": 0.757,
      "uyum": true,
      "buyuk": false,
-     "no": 49
+     "no": 49,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1638657-CS12",
@@ -36521,7 +36523,16 @@
       "oran": 1.33
      },
      "saat": "2026-10-27T18:30:00+01:00",
-     "hikaye": true
+     "hikaye": true,
+     "tweet_id": "2115137100882333843",
+     "metin": "🎩 League Cup: Fleetwood Town v Arsenal, 21:00 CET.\n\n📊 Fleetwood Town 4% · Draw 9% · Arsenal 88%\n⚽ Over 2.5 goals 72% · Both teams score 41%\n\n🛡️ Safest angle: Over 2.5 goals, 72% at 1.33. It's a leg in today's coupon.\n\n👇 More below: the story and team news",
+     "zaman": "2026-10-27T17:42:31+00:00",
+     "hikaye_ids": [
+      "2115137102132240511"
+     ],
+     "hikaye_metin": [
+      "📋 The story\n🗓️ Last time out: Fleetwood Town lost 2-1 at Exeter City; Arsenal won 2-0 v Everton.\n\n💬 Who takes this one?\n\n18+ | Play responsibly"
+     ]
     },
     {
      "fixture_id": 1550168,
@@ -36943,7 +36954,7 @@
     "tweet_id": "2114971750840635600"
    },
    "tazeleme": "2026-10-27T10:05:16+00:00",
-   "olcum_sorgu": "2026-10-27T16:45:16+00:00"
+   "olcum_sorgu": "2026-10-27T17:42:31+00:00"
   }
  ],
  "kasa_duyuru": {

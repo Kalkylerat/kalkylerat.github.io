@@ -151638,6 +151638,33 @@
               0
             ],
             "zaman": "2026-10-27T21:39:32+00:00"
+          },
+          "1550175": {
+            "durum": "paylasildi",
+            "tweet_id": "2115198476485345524",
+            "skor": [
+              1,
+              3
+            ],
+            "zaman": "2026-10-27T21:46:28+00:00"
+          },
+          "1638561": {
+            "durum": "paylasildi",
+            "tweet_id": "2115198477655494986",
+            "skor": [
+              3,
+              2
+            ],
+            "zaman": "2026-10-27T21:46:28+00:00"
+          },
+          "1564325": {
+            "durum": "paylasildi",
+            "tweet_id": "2115198478813131193",
+            "skor": [
+              4,
+              1
+            ],
+            "zaman": "2026-10-27T21:46:28+00:00"
           }
         }
       },
@@ -151726,7 +151753,22 @@
         "durum": "paylasildi",
         "tweet_id": "2115050924762595375",
         "zaman": "2026-10-27T12:00:07+00:00",
-        "metin": "Borussia Dortmund win 66%: about 2 in 3.\n\n🇩🇪 Borussia Dortmund v Werder Bremen 🇩🇪\n🏆 Borussia Dortmund 66% · Draw 18% · Werder Bremen 15%\n⚽ Over 2.5 goals 64% · Under 36%\n🥅 Both teams score 57% · Not both 43%\n\n💬 Chances, not picks. Your read? 👇\n#BVB\n18+ | Play responsibly"
+        "metin": "Borussia Dortmund win 66%: about 2 in 3.\n\n🇩🇪 Borussia Dortmund v Werder Bremen 🇩🇪\n🏆 Borussia Dortmund 66% · Draw 18% · Werder Bremen 15%\n⚽ Over 2.5 goals 64% · Under 36%\n🥅 Both teams score 57% · Not both 43%\n\n💬 Chances, not picks. Your read? 👇\n#BVB\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2115198485033279919",
+          "skor": "3-2",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            1.4,
+            1.59
+          ],
+          "zaman": "2026-10-27T21:46:28+00:00"
+        }
       },
       "maclar": {
         "durum": "paylasildi",
@@ -151763,7 +151805,26 @@
         "durum": "paylasildi",
         "tweet_id": "2115088500894642644",
         "zaman": "2026-10-27T14:29:20+00:00",
-        "metin": "Likeliest score: 1-1. Even that is only 10%.\n\n🆚 Torino v Como · 20:45 CET\n\n🏆 Torino 20% · Draw 22% · Como 58%\n⚽ Over 2.5 goals 58% · Under 42%\n🥅 Both teams score 56% · Not both 44%\n\n💬 Any score you'd put above 10% here?\n\n18+ | Play responsibly"
+        "metin": "Likeliest score: 1-1. Even that is only 10%.\n\n🆚 Torino v Como · 20:45 CET\n\n🏆 Torino 20% · Draw 22% · Como 58%\n⚽ Over 2.5 goals 58% · Under 42%\n🥅 Both teams score 56% · Not both 44%\n\n💬 Any score you'd put above 10% here?\n\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2115198489210876205",
+          "skor": "1-3",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "xg": [
+            0.99,
+            2.11
+          ],
+          "zaman": "2026-10-27T21:46:28+00:00",
+          "brier": {
+            "piyasa": 0.6349,
+            "istatistik": 0.6441
+          }
+        }
       },
       "anket": {
         "durum": "paylasildi",
@@ -151829,7 +151890,20 @@
               0
             ],
             "zaman": "2026-10-27T21:39:32+00:00"
+          },
+          "1564341": {
+            "durum": "paylasildi",
+            "tweet_id": "2115198480817983847",
+            "skor": [
+              1,
+              1
+            ],
+            "zaman": "2026-10-27T21:46:28+00:00"
           }
+        },
+        "takip": {
+          "durum": "tamam",
+          "zaman": "2026-10-27T21:46:28+00:00"
         }
       },
       "analiz_4": {

@@ -36206,8 +36206,20 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.722,
        "deger": -0.018,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-1",
+       "goller": [
+        [
+         2,
+         0,
+         "dep"
+        ],
+        [
+         79,
+         0,
+         "ev"
+        ]
+       ]
       }
      ],
      "oran": 2.01,
@@ -36220,7 +36232,10 @@
      "tweet_id": "2114986164742717640",
      "metin": "🎩 A treble today, one leg more than I like. Dull legs though.\n\n⚽ SHANGHAI SIPG v Công An Nhân Dân\n⚽ Vicenza Virtus v Modena\n⚽ Berkhamsted v Sholing\n\n📊 Combined 2.01. I make it about 46% to land, so probably not.\n\n💬 Which leg would you swap out?\n\n18+ | Play responsibly",
      "yayin": "2026-10-27T07:42:47+00:00",
-     "son_oran": 1.25
+     "son_oran": 1.7,
+     "sonuc_metni": "❌ One out. Always one. Coupon down. I had it at 46%, which was never 100.\n\n❌ SHANGHAI SIPG 2-3 Công An Nhân Dân: Double chance 1X\n✅ Vicenza Virtus 1-2 Modena: Modena Under 2.5 goals\n✅ Berkhamsted 1-1 Sholing: Double chance 1X\n\nRecord: 29 of 63 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2115198513231626531",
+     "sonuc_zamani": "2026-10-27T21:46:28+00:00"
     },
     {
      "ad": "gunun-kuponu-4",
@@ -36266,8 +36281,35 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.858,
        "deger": -0.056,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "3-2",
+       "goller": [
+        [
+         6,
+         0,
+         "ev"
+        ],
+        [
+         17,
+         0,
+         "ev"
+        ],
+        [
+         65,
+         0,
+         "dep"
+        ],
+        [
+         68,
+         0,
+         "dep"
+        ],
+        [
+         90,
+         3,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1588418-UST25",
@@ -36282,20 +36324,31 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.621,
        "deger": 0.036,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "0-1",
+       "goller": [
+        [
+         42,
+         0,
+         "dep"
+        ]
+       ]
       }
      ],
      "oran": 2.02,
      "olasilik": 0.47,
      "deger": -0.051,
-     "durum": "bekliyor",
+     "durum": "yatti",
      "secim": "2026-10-27T10:05:16+00:00",
      "oto": true,
      "paylas": "2026-10-27T17:45:00+01:00",
      "tweet_id": "2115122690520711405",
      "metin": "🎩 Three legs. All of them dull, which is the point.\n\n⚽ Borussia Mönchengladbach v Karlsruher SC\n⚽ Borussia Dortmund v Werder Bremen\n⚽ Dover v Chelmsford City\n\n📊 Combined 2.02. I make it about 47% to land.\n\n💬 Which of these do you trust least?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-27T16:45:16+00:00"
+     "yayin": "2026-10-27T16:45:16+00:00",
+     "son_oran": 1.21,
+     "sonuc_metni": "❌ Everything landed bar one.\n\n✅ Borussia Mönchengladbach 2-0 Karlsruher SC: Double chance 1X\n✅ Borussia Dortmund 3-2 Werder Bremen: Double chance 1X\n❌ Dover 0-1 Chelmsford City: Over 2.5 goals\n\nRecord: 29 of 64 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2115198517178401060",
+     "sonuc_zamani": "2026-10-27T21:46:28+00:00"
     }
    ],
    "islenen": [],

@@ -34775,7 +34775,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 38
+     "no": 38,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1601579-DPA25",
@@ -37265,7 +37266,7 @@
     "tweet_id": "2114971750840635600"
    },
    "tazeleme": "2026-10-27T10:05:16+00:00",
-   "olcum_sorgu": "2026-10-27T22:27:58+00:00",
+   "olcum_sorgu": "2026-10-27T23:25:30+00:00",
    "kasa": {
     "tweet_id": "2115208921170239764",
     "tur": "gunluk",

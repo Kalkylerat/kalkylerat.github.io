@@ -151594,11 +151594,659 @@
         "tweet_id": "2115099289877688468",
         "zaman": "2026-10-27T15:12:19+00:00",
         "metin": "🗳️ MATCH POLL | Sassuolo v Lazio · 18:30 CET\n\nWho wins? Vote below 👇\n\nOur numbers: Sassuolo 29% · draw 26% · Lazio 45%\nAgree or not? Tell us why in the replies.\n#SerieA"
+      },
+      "tablo_aksam": {
+        "durum": "paylasildi",
+        "tweet_id": "2115111913088860421",
+        "zaman": "2026-10-27T16:02:22+00:00",
+        "metin": "📋 Today's chances, not picks · every % in the image\n\n🆚 Arda Kardzhali v Levski Sofia · 18:30 CET\n🏆 Arda Kardzhali 17% · Draw 25% · Levski Sofia 58%\n⚽ Over 2.5 goals 42% · Under 58%\n🎯 Likeliest score 0-1 (15%)\n\n💬 Which % surprises you? 👇\n\n18+ | Play responsibly",
+        "maclar": [
+          1551124,
+          1563671,
+          1497731,
+          1564337,
+          1564338,
+          1564341
+        ],
+        "sonuclar": {}
       }
     },
     "yanit_kiti": {
       "issue": 136,
       "zaman": "2026-10-27T07:06:42+00:00"
-    }
+    },
+    "tablo_aksam": [
+      {
+        "fixture_id": 1551124,
+        "lig": "First League",
+        "ulke": "Bulgaria",
+        "lig_id": 172,
+        "ev": "Arda Kardzhali",
+        "dep": "Levski Sofia",
+        "baslama": "2026-10-27T18:30:00+01:00",
+        "p": {
+          "MS1": 0.174,
+          "MSX": 0.249,
+          "MS2": 0.577,
+          "CS1X": 0.423,
+          "CSX2": 0.826,
+          "CS12": 0.751,
+          "KGVAR": 0.421,
+          "KGYOK": 0.579,
+          "UST15": 0.681,
+          "ALT15": 0.319,
+          "UST25": 0.417,
+          "ALT25": 0.583,
+          "UST35": 0.211,
+          "ALT35": 0.789,
+          "IY1": 0.156,
+          "IYX": 0.437,
+          "IY2": 0.407,
+          "IYU05": 0.653,
+          "IYA05": 0.347,
+          "IYU15": 0.285,
+          "IYA15": 0.715,
+          "EVU05": 0.528,
+          "EVA05": 0.472,
+          "EVU15": 0.173,
+          "EVA15": 0.827,
+          "EVU25": 0.041,
+          "EVA25": 0.959,
+          "DPU05": 0.798,
+          "DPA05": 0.202,
+          "DPU15": 0.475,
+          "DPA15": 0.525,
+          "DPU25": 0.217,
+          "DPA25": 0.783,
+          "YYU05": 0.725,
+          "YYA05": 0.275,
+          "YYU15": 0.371,
+          "YYA15": 0.629
+        },
+        "skorlar": [
+          [
+            "0-1",
+            0.1526
+          ],
+          [
+            "0-2",
+            0.1221
+          ],
+          [
+            "1-1",
+            0.1144
+          ],
+          [
+            "0-0",
+            0.0954
+          ],
+          [
+            "1-2",
+            0.0916
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS2",
+            "ad": "Levski Sofia win",
+            "piyasa": 0.577,
+            "istatistik": 0.416
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Arda Kardzhali win",
+            "piyasa": 0.174,
+            "istatistik": 0.322
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.421,
+            "istatistik": 0.526
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.417,
+            "istatistik": 0.482
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.249,
+            "istatistik": 0.262
+          }
+        ],
+        "beklenen_gol": [
+          0.75,
+          1.6
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1563671,
+        "lig": "Cup",
+        "ulke": "Russia",
+        "lig_id": 237,
+        "ev": "FC Krasnodar",
+        "dep": "Dynamo",
+        "baslama": "2026-10-27T18:30:00+01:00",
+        "p": {
+          "MS1": 0.455,
+          "MSX": 0.246,
+          "MS2": 0.299,
+          "CS1X": 0.701,
+          "CSX2": 0.545,
+          "CS12": 0.754,
+          "KGVAR": 0.569,
+          "KGYOK": 0.431,
+          "UST15": 0.777,
+          "ALT15": 0.223,
+          "UST25": 0.542,
+          "ALT25": 0.458,
+          "UST35": 0.319,
+          "ALT35": 0.681,
+          "IY1": 0.348,
+          "IYX": 0.402,
+          "IY2": 0.25,
+          "IYU05": 0.723,
+          "IYA05": 0.277,
+          "IYU15": 0.367,
+          "IYA15": 0.633,
+          "EVU05": 0.798,
+          "EVA05": 0.202,
+          "EVU15": 0.475,
+          "EVA15": 0.525,
+          "EVU25": 0.217,
+          "EVA25": 0.783,
+          "DPU05": 0.713,
+          "DPA05": 0.287,
+          "DPU15": 0.355,
+          "DPA15": 0.645,
+          "DPU25": 0.132,
+          "DPA25": 0.868,
+          "YYU05": 0.791,
+          "YYA05": 0.209,
+          "YYU15": 0.465,
+          "YYA15": 0.535
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1157
+          ],
+          [
+            "1-0",
+            0.0926
+          ],
+          [
+            "2-1",
+            0.0926
+          ],
+          [
+            "2-0",
+            0.074
+          ],
+          [
+            "0-1",
+            0.0723
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [],
+        "beklenen_gol": [
+          1.6,
+          1.25
+        ],
+        "kaynak": "piyasa",
+        "istatistik_kaynak": null
+      },
+      {
+        "fixture_id": 1497731,
+        "lig": "Superettan",
+        "ulke": "Sweden",
+        "lig_id": 114,
+        "ev": "Landskrona BoIS",
+        "dep": "Varbergs BoIS FC",
+        "baslama": "2026-10-27T19:00:00+01:00",
+        "p": {
+          "MS1": 0.491,
+          "MSX": 0.235,
+          "MS2": 0.274,
+          "CS1X": 0.726,
+          "CSX2": 0.509,
+          "CS12": 0.765,
+          "KGVAR": 0.59,
+          "KGYOK": 0.41,
+          "UST15": 0.801,
+          "ALT15": 0.199,
+          "UST25": 0.577,
+          "ALT25": 0.423,
+          "UST35": 0.353,
+          "ALT35": 0.647,
+          "IY1": 0.375,
+          "IYX": 0.387,
+          "IY2": 0.238,
+          "IYU05": 0.741,
+          "IYA05": 0.259,
+          "IYU15": 0.391,
+          "IYA15": 0.609,
+          "EVU05": 0.826,
+          "EVA05": 0.174,
+          "EVU15": 0.522,
+          "EVA15": 0.478,
+          "EVU25": 0.256,
+          "EVA25": 0.744,
+          "DPU05": 0.713,
+          "DPA05": 0.287,
+          "DPU15": 0.355,
+          "DPA15": 0.645,
+          "DPU25": 0.132,
+          "DPA25": 0.868,
+          "YYU05": 0.808,
+          "YYA05": 0.192,
+          "YYU15": 0.491,
+          "YYA15": 0.509
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1089
+          ],
+          [
+            "2-1",
+            0.0953
+          ],
+          [
+            "1-0",
+            0.0871
+          ],
+          [
+            "2-0",
+            0.0762
+          ],
+          [
+            "1-2",
+            0.0681
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Landskrona BoIS win",
+            "piyasa": 0.491,
+            "istatistik": 0.386
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Varbergs BoIS FC win",
+            "piyasa": 0.274,
+            "istatistik": 0.364
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.577,
+            "istatistik": 0.542
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.235,
+            "istatistik": 0.25
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.59,
+            "istatistik": 0.577
+          }
+        ],
+        "beklenen_gol": [
+          1.75,
+          1.25
+        ],
+        "kaynak": "piyasa",
+        "ev_ulke": "Sweden",
+        "dep_ulke": "Sweden",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1564337,
+        "lig": "League One",
+        "ulke": "England",
+        "lig_id": 41,
+        "ev": "Luton",
+        "dep": "Doncaster",
+        "baslama": "2026-10-27T20:45:00+01:00",
+        "p": {
+          "MS1": 0.613,
+          "MSX": 0.201,
+          "MS2": 0.185,
+          "CS1X": 0.814,
+          "CSX2": 0.387,
+          "CS12": 0.799,
+          "KGVAR": 0.589,
+          "KGYOK": 0.411,
+          "UST15": 0.835,
+          "ALT15": 0.165,
+          "UST25": 0.63,
+          "ALT25": 0.37,
+          "UST35": 0.409,
+          "ALT35": 0.591,
+          "IY1": 0.46,
+          "IYX": 0.357,
+          "IY2": 0.184,
+          "IYU05": 0.768,
+          "IYA05": 0.232,
+          "IYU15": 0.43,
+          "IYA15": 0.57,
+          "EVU05": 0.883,
+          "EVA05": 0.116,
+          "EVU15": 0.633,
+          "EVA15": 0.367,
+          "EVU25": 0.364,
+          "EVA25": 0.636,
+          "DPU05": 0.667,
+          "DPA05": 0.333,
+          "DPU15": 0.301,
+          "DPA15": 0.699,
+          "DPU25": 0.1,
+          "DPA25": 0.9,
+          "YYU05": 0.833,
+          "YYA05": 0.167,
+          "YYU15": 0.533,
+          "YYA15": 0.467
+        },
+        "skorlar": [
+          [
+            "2-1",
+            0.0986
+          ],
+          [
+            "1-1",
+            0.0917
+          ],
+          [
+            "2-0",
+            0.0896
+          ],
+          [
+            "1-0",
+            0.0834
+          ],
+          [
+            "3-1",
+            0.0706
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Luton win",
+            "piyasa": 0.613,
+            "istatistik": 0.451
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.63,
+            "istatistik": 0.469
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Doncaster win",
+            "piyasa": 0.185,
+            "istatistik": 0.287
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.589,
+            "istatistik": 0.511
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.201,
+            "istatistik": 0.262
+          }
+        ],
+        "beklenen_gol": [
+          2.15,
+          1.1
+        ],
+        "kaynak": "piyasa",
+        "ev_ulke": "England",
+        "dep_ulke": "England",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1564338,
+        "lig": "League One",
+        "ulke": "England",
+        "lig_id": 41,
+        "ev": "Oxford United",
+        "dep": "Stockport County",
+        "baslama": "2026-10-27T20:45:00+01:00",
+        "p": {
+          "MS1": 0.289,
+          "MSX": 0.23,
+          "MS2": 0.481,
+          "CS1X": 0.519,
+          "CSX2": 0.711,
+          "CS12": 0.77,
+          "KGVAR": 0.618,
+          "KGYOK": 0.382,
+          "UST15": 0.822,
+          "ALT15": 0.178,
+          "UST25": 0.61,
+          "ALT25": 0.39,
+          "UST35": 0.386,
+          "ALT35": 0.614,
+          "IY1": 0.251,
+          "IYX": 0.377,
+          "IY2": 0.372,
+          "IYU05": 0.758,
+          "IYA05": 0.242,
+          "IYU15": 0.414,
+          "IYA15": 0.586,
+          "EVU05": 0.741,
+          "EVA05": 0.259,
+          "EVU15": 0.391,
+          "EVA15": 0.609,
+          "EVU25": 0.155,
+          "EVA25": 0.845,
+          "DPU05": 0.835,
+          "DPA05": 0.165,
+          "DPU15": 0.537,
+          "DPA15": 0.463,
+          "DPU25": 0.269,
+          "DPA25": 0.731,
+          "YYU05": 0.823,
+          "YYA05": 0.177,
+          "YYU15": 0.517,
+          "YYA15": 0.483
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1041
+          ],
+          [
+            "1-2",
+            0.0937
+          ],
+          [
+            "0-1",
+            0.0771
+          ],
+          [
+            "2-1",
+            0.0703
+          ],
+          [
+            "0-2",
+            0.0694
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.61,
+            "istatistik": 0.43
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.618,
+            "istatistik": 0.488
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Stockport County win",
+            "piyasa": 0.481,
+            "istatistik": 0.386
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Oxford United win",
+            "piyasa": 0.289,
+            "istatistik": 0.338
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.23,
+            "istatistik": 0.276
+          }
+        ],
+        "beklenen_gol": [
+          1.35,
+          1.8
+        ],
+        "kaynak": "piyasa",
+        "ev_ulke": "England",
+        "dep_ulke": "England",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1564341,
+        "lig": "League One",
+        "ulke": "England",
+        "lig_id": 41,
+        "ev": "Sheffield Wednesday",
+        "dep": "Cambridge United",
+        "baslama": "2026-10-27T20:45:00+01:00",
+        "p": {
+          "MS1": 0.48,
+          "MSX": 0.239,
+          "MS2": 0.282,
+          "CS1X": 0.718,
+          "CSX2": 0.52,
+          "CS12": 0.761,
+          "KGVAR": 0.583,
+          "KGYOK": 0.417,
+          "UST15": 0.793,
+          "ALT15": 0.207,
+          "UST25": 0.566,
+          "ALT25": 0.434,
+          "UST35": 0.342,
+          "ALT35": 0.658,
+          "IY1": 0.366,
+          "IYX": 0.392,
+          "IY2": 0.242,
+          "IYU05": 0.735,
+          "IYA05": 0.265,
+          "IYU15": 0.383,
+          "IYA15": 0.617,
+          "EVU05": 0.817,
+          "EVA05": 0.183,
+          "EVU15": 0.507,
+          "EVA15": 0.493,
+          "EVU25": 0.243,
+          "EVA25": 0.757,
+          "DPU05": 0.713,
+          "DPA05": 0.287,
+          "DPU15": 0.355,
+          "DPA15": 0.645,
+          "DPU25": 0.132,
+          "DPA25": 0.868,
+          "YYU05": 0.803,
+          "YYA05": 0.197,
+          "YYU15": 0.482,
+          "YYA15": 0.518
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1112
+          ],
+          [
+            "2-1",
+            0.0945
+          ],
+          [
+            "1-0",
+            0.089
+          ],
+          [
+            "2-0",
+            0.0756
+          ],
+          [
+            "1-2",
+            0.0695
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Sheffield Wednesday win",
+            "piyasa": 0.48,
+            "istatistik": 0.538
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Cambridge United win",
+            "piyasa": 0.282,
+            "istatistik": 0.231
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.566,
+            "istatistik": 0.554
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.583,
+            "istatistik": 0.557
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.239,
+            "istatistik": 0.231
+          }
+        ],
+        "beklenen_gol": [
+          1.7,
+          1.25
+        ],
+        "kaynak": "piyasa",
+        "ev_ulke": "England",
+        "dep_ulke": "England",
+        "istatistik_kaynak": "lig"
+      }
+    ]
   }
 ]

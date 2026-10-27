@@ -36030,20 +36030,36 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.721,
        "deger": -0.041,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "1-1",
+       "goller": [
+        [
+         21,
+         0,
+         "ev"
+        ],
+        [
+         50,
+         0,
+         "dep"
+        ]
+       ]
       }
      ],
      "oran": 3.27,
      "olasilik": 0.286,
      "deger": -0.065,
-     "durum": "bekliyor",
+     "durum": "yatti",
      "secim": "2026-10-27T06:38:37+00:00",
      "oto": true,
      "paylas": "2026-10-27T08:00:00+01:00",
      "tweet_id": "2114977098691490082",
      "metin": "🎩 Long shot today. Loses more often than it lands, and I'd rather say so up front.\n\n⚽ Pazarspor v Aliağa FAŞ\n⚽ Rijnsburgse Boys v Den Bosch\n⚽ Johor Darul Takzim FC v Port FC\n⚽ Fleetwood Town v Arsenal\n\n📊 Combined 3.27. I make it about 29% to land.\n\n18+ | Play responsibly",
-     "yayin": "2026-10-27T07:06:42+00:00"
+     "yayin": "2026-10-27T07:06:42+00:00",
+     "son_oran": 2.46,
+     "sonuc_metni": "❌ So close it hurts a bit.\n\n✅ Pazarspor 0-1 Aliağa FAŞ: Double chance X2\n✅ Rijnsburgse Boys 3-5 Den Bosch: Double chance X2\n✅ Johor Darul Takzim FC 3-0 Port FC: Over 2.5 goals\n❌ Fleetwood Town 1-1 Arsenal: Over 2.5 goals\n\nRecord: 29 of 65 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2115202033972048014",
+     "sonuc_zamani": "2026-10-27T22:00:33+00:00"
     },
     {
      "ad": "gunun-kuponu-2",

@@ -151620,6 +151620,24 @@
               1
             ],
             "zaman": "2026-10-27T21:03:45+00:00"
+          },
+          "1550168": {
+            "durum": "paylasildi",
+            "tweet_id": "2115196738512543890",
+            "skor": [
+              4,
+              2
+            ],
+            "zaman": "2026-10-27T21:39:32+00:00"
+          },
+          "1564323": {
+            "durum": "paylasildi",
+            "tweet_id": "2115196739569467465",
+            "skor": [
+              3,
+              0
+            ],
+            "zaman": "2026-10-27T21:39:32+00:00"
           }
         }
       },
@@ -151720,7 +151738,26 @@
         "durum": "paylasildi",
         "tweet_id": "2115075954854772906",
         "zaman": "2026-10-27T13:39:24+00:00",
-        "metin": "AS Roma win 73%: about 3 in 4.\nCagliari win it about 1 time in 10 (10%).\n\n🇮🇹 AS Roma v Cagliari 🇮🇹\n🏆 AS Roma 73% · Draw 17% · Cagliari 10%\n⚽ Over 2.5 goals 60% · Under 40%\n🥅 Both teams score 48% · Not both 52%\n\n💬 Not picks. AS Roma 73%: too high? 👇\n18+ | Play responsibly"
+        "metin": "AS Roma win 73%: about 3 in 4.\nCagliari win it about 1 time in 10 (10%).\n\n🇮🇹 AS Roma v Cagliari 🇮🇹\n🏆 AS Roma 73% · Draw 17% · Cagliari 10%\n⚽ Over 2.5 goals 60% · Under 40%\n🥅 Both teams score 48% · Not both 52%\n\n💬 Not picks. AS Roma 73%: too high? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2115196752177549782",
+          "skor": "4-2",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "xg": [
+            2.92,
+            2.34
+          ],
+          "zaman": "2026-10-27T21:39:32+00:00",
+          "brier": {
+            "piyasa": 0.5448,
+            "istatistik": 0.6965
+          }
+        }
       },
       "analiz_3": {
         "durum": "paylasildi",
@@ -151774,6 +151811,24 @@
               1
             ],
             "zaman": "2026-10-27T19:59:54+00:00"
+          },
+          "1564337": {
+            "durum": "paylasildi",
+            "tweet_id": "2115196745688945063",
+            "skor": [
+              3,
+              1
+            ],
+            "zaman": "2026-10-27T21:39:32+00:00"
+          },
+          "1564338": {
+            "durum": "paylasildi",
+            "tweet_id": "2115196746653659279",
+            "skor": [
+              1,
+              0
+            ],
+            "zaman": "2026-10-27T21:39:32+00:00"
           }
         }
       },

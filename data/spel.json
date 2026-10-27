@@ -151611,6 +151611,15 @@
               0
             ],
             "zaman": "2026-10-27T20:56:34+00:00"
+          },
+          "1601576": {
+            "durum": "paylasildi",
+            "tweet_id": "2115187723615031384",
+            "skor": [
+              2,
+              1
+            ],
+            "zaman": "2026-10-27T21:03:45+00:00"
           }
         }
       },
@@ -151778,7 +151787,26 @@
         "durum": "paylasildi",
         "tweet_id": "2115126309839896889",
         "zaman": "2026-10-27T16:59:32+00:00",
-        "metin": "Cesena are favourites.\nThey still fail to win 54% of the time.\n\n🇮🇹 Cesena v Empoli 🇮🇹 · 20:00 CET\n🏆 Cesena 46% · Draw 26% · Empoli 27%\n⚽ Over 2.5 goals 46% · Under 54%\n🥅 Both teams score 50% · Not both 50%\n\n💬 Chances, not picks. Cesena 46%: too high? 👇\n18+ | Play responsibly"
+        "metin": "Cesena are favourites.\nThey still fail to win 54% of the time.\n\n🇮🇹 Cesena v Empoli 🇮🇹 · 20:00 CET\n🏆 Cesena 46% · Draw 26% · Empoli 27%\n⚽ Over 2.5 goals 46% · Under 54%\n🥅 Both teams score 50% · Not both 50%\n\n💬 Chances, not picks. Cesena 46%: too high? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "paylasildi",
+          "tweet_id": "2115187728467755153",
+          "skor": "2-1",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "xg": [
+            1.35,
+            0.62
+          ],
+          "zaman": "2026-10-27T21:03:45+00:00",
+          "brier": {
+            "piyasa": 0.9806,
+            "istatistik": 1.0107
+          }
+        }
       },
       "analiz_8": {
         "durum": "paylasildi",

@@ -32908,7 +32908,8 @@
      "istatistik": 0.822,
      "uyum": true,
      "buyuk": false,
-     "no": 2
+     "no": 2,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1552800-CS1X",
@@ -33105,7 +33106,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 11
+     "no": 11,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1584446-UST15",
@@ -33850,7 +33852,8 @@
      "istatistik": 0.613,
      "uyum": false,
      "buyuk": false,
-     "no": 45
+     "no": 45,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1576511-IYA15",
@@ -33915,7 +33918,8 @@
      "istatistik": 0.713,
      "uyum": true,
      "buyuk": false,
-     "no": 48
+     "no": 48,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1498914-CS1X",
@@ -35717,7 +35721,7 @@
     "tweet_id": "2114609055964578084"
    },
    "tazeleme": "2026-10-26T10:03:59+00:00",
-   "olcum_sorgu": "2026-10-26T23:22:42+00:00",
+   "olcum_sorgu": "2026-10-27T00:19:46+00:00",
    "kasa": {
     "tweet_id": "2114872818592538997",
     "tur": "gunluk",

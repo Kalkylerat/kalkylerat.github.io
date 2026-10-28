@@ -156357,6 +156357,10 @@
         "istatistik_kaynak": "lig"
       }
     ],
-    "etkilesim": {}
+    "etkilesim": {},
+    "yanit_kiti": {
+      "issue": 140,
+      "zaman": "2026-10-28T07:01:49+00:00"
+    }
   }
 ]

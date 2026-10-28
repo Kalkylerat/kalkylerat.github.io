@@ -37788,8 +37788,20 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.779,
        "deger": -0.05,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-1",
+       "goller": [
+        [
+         40,
+         0,
+         "dep"
+        ],
+        [
+         43,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1638564-DPU05",
@@ -37845,7 +37857,8 @@
      "tweet_id": "2115413789734527296",
      "metin": "🎩 Today's three.\n\n⚽ Sakaryaspor v Bursa Yıldırımspor\n⚽ Liverpool v Chelsea\n⚽ SC Freiburg v VfL Wolfsburg\n\n📊 Combined 2.00. I make it about 46% to land.\n\n💬 Too cautious or about right?\n\n18+ | Play responsibly",
      "yayin": "2026-10-28T12:02:02+00:00",
-     "son_oran": 1.4
+     "son_oran": 1.71,
+     "sonuc_metni": "❌ One leg short.\n\n❌ Sakaryaspor 2-3 Bursa Yıldırımspor: Double chance 1X\n✅ Liverpool 1-1 Chelsea: Chelsea Over 0.5 goals\n✅ SC Freiburg 3-2 VfL Wolfsburg: VfL Wolfsburg Over 0.5 goals\n\nRecord: 30 of 70 landed.\n18+ | Play responsibly"
     }
    ],
    "islenen": [],

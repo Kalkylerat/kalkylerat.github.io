@@ -37488,20 +37488,38 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.558,
        "deger": 0.065,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "1-2",
+       "goller": [
+        [
+         9,
+         0,
+         "ev"
+        ],
+        [
+         50,
+         0,
+         "dep"
+        ],
+        [
+         79,
+         0,
+         "dep"
+        ]
+       ]
       }
      ],
      "oran": 3.38,
      "olasilik": 0.295,
      "deger": -0.003,
-     "durum": "bekliyor",
+     "durum": "yatti",
      "secim": "2026-10-28T06:42:44+00:00",
      "oto": true,
      "paylas": "2026-10-28T13:40:00+01:00",
      "tweet_id": "2115424555023884309",
      "metin": "🎩 Long shot of the day. Pocket money stuff.\n\n⚽ AC Milan v Bologna\n⚽ Parma v Udinese\n⚽ Borac Cacak v Radnik Surdulica\n\n📊 Combined 3.38. I make it about 30% to land.\n\n💬 What would you swap in?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-28T12:44:48+00:00"
+     "yayin": "2026-10-28T12:44:48+00:00",
+     "son_oran": 1
     },
     {
      "ad": "gunun-kuponu-2",
@@ -37566,20 +37584,43 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.545,
        "deger": 0.04,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "1-3",
+       "goller": [
+        [
+         34,
+         0,
+         "dep"
+        ],
+        [
+         50,
+         0,
+         "ev"
+        ],
+        [
+         66,
+         0,
+         "dep"
+        ],
+        [
+         90,
+         2,
+         "dep"
+        ]
+       ]
       }
      ],
      "oran": 2.1,
      "olasilik": 0.47,
      "deger": -0.013,
-     "durum": "bekliyor",
+     "durum": "yatti",
      "secim": "2026-10-28T06:42:44+00:00",
      "oto": true,
      "paylas": "2026-10-28T14:20:00+01:00",
      "tweet_id": "2115433576393228542",
      "metin": "🎩 Two picks, one coupon.\n\n⚽ Celtic v Dundee Utd\n⚽ FK Vozdovac v Novi Pazar\n\n📊 Combined 2.10. I make it about 47% to land.\n\n💬 Which of these do you trust least?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-28T13:20:40+00:00"
+     "yayin": "2026-10-28T13:20:40+00:00",
+     "son_oran": 1
     },
     {
      "ad": "gunun-kuponu-4",

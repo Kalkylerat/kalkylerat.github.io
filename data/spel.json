@@ -156357,7 +156357,31 @@
         "istatistik_kaynak": "lig"
       }
     ],
-    "etkilesim": {},
+    "etkilesim": {
+      "tablo": {
+        "durum": "paylasildi",
+        "tweet_id": "2115354488504492264",
+        "zaman": "2026-10-28T08:06:24+00:00",
+        "metin": "📋 Today's chances, not picks · every % in the image\n\n🆚 Liverpool v Chelsea\n🏆 Liverpool 45% · Draw 23% · Chelsea 32%\n\n🆚 AC Milan v Bologna\n🏆 AC Milan 56% · Draw 24% · Bologna 20%\n\n💬 Which % surprises you? 👇\n\n#SerieA #Liverpool\n18+ | Play responsibly",
+        "maclar": [
+          1550167,
+          1550173,
+          1550176,
+          1601582,
+          1601575,
+          1601578,
+          1640575,
+          1550171,
+          1550172,
+          1556689,
+          1638558,
+          1640383,
+          1556688,
+          1556690,
+          1640388
+        ]
+      }
+    },
     "yanit_kiti": {
       "issue": 140,
       "zaman": "2026-10-28T07:01:49+00:00"

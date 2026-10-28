@@ -7,7 +7,8 @@ import pytest
 
 from bot import analiz, config, football, model, tweets
 
-AYAR = config.yukle()
+# Tam düzenin (B1–B7) testleri: az post modu (B8, ayarlar.toml [az_post]) kendi testlerinde açılır.
+AYAR = __import__("dataclasses").replace(config.yukle(), az_post=False)
 def test_poisson_olasiliklari_tutarli():
     p = model.model_olasiliklari(1.6, 1.1)
     assert p["MS1"] + p["MSX"] + p["MS2"] == pytest.approx(1, abs=1e-4)

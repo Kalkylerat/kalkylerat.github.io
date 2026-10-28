@@ -44,6 +44,9 @@ class Ayarlar:
     guvenli_min_deger: float = -0.04
     oran_min: float = 1.20
     oran_max: float = 2.60
+    # Az post modu (sahibinin isteği 28 Ekim 2026, maliyet; SOZLESME B8): günde ~7 post, yoğun gün yok.
+    az_post: bool = False
+    az_kart: int = 3
     gunluk_post_siniri: int = 24  # etkileşim postları (maç sonu yanıtları hariç) günde en fazla  # X Topluluğu kimliği: tablo, kıyas ve kart postları oraya da gider (hesap üye olmalı)  # sorun olunca GitHub issue'sunda etiketlenecek kullanıcı (bildirim gider)
 
 
@@ -100,6 +103,8 @@ def _yukle(path: Path) -> Ayarlar:
         alarm_kime=str(t.get("alarm", {}).get("kime", "")),
         topluluk_id=str(t.get("topluluk", {}).get("id", "")).strip(),
         gunluk_post_siniri=int(t.get("yogun", {}).get("gunluk_sinir", 24)),
+        az_post=bool(t.get("az_post", {}).get("aktif", False)),
+        az_kart=int(t.get("az_post", {}).get("kart", 3)),
         **({"direktor_aktif": bool(t["direktor"].get("aktif", True)),
             "direktor_model": t["direktor"].get("gunluk_model", "claude-sonnet-5-5"),
             "direktor_effort": t["direktor"].get("gunluk_effort", "medium"),
@@ -115,6 +120,8 @@ SABAH_YEREL_DK = 7 * 60 + 17  # sabah analizi her gün 07:17 (İsveç saati; wor
 def yogun_mu(ayar, tarih: str, gun: dict | None = None) -> bool:
     """Yoğun gün mü: listede, (açıksa) Cumartesi/Pazar ya da sabah analizinde çok maç bulunan gün (gun["yogun"])."""
     from datetime import date
+    if getattr(ayar, "az_post", False):
+        return False  # az post modunda yoğun gün yok (SOZLESME B8)
     return tarih in getattr(ayar, "yogun_gunler", ()) or bool(gun and gun.get("yogun")) or (
         getattr(ayar, "yogun_hafta_sonu", False) and date.fromisoformat(tarih).weekday() >= 5)
 

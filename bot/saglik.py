@@ -41,6 +41,7 @@ def _sabah_gecti(simdi: datetime, ayar) -> bool:
 def sorunlar(gunler: list[dict], simdi: datetime, ayar, hatalar: list[str] = ()) -> list[tuple[str, str]]:
     """(anahtar, açıklama) listesi. Anahtar, aynı sorunun tekrar bildirilmemesi için."""
     bulunan = []
+    az = etkilesim.az_mi(ayar)  # B8: kart başına maç sonu ve tablo yanıtı yok, gün sonu postu var; sessizlik alarmı yok
     gun_adi = simdi.date().isoformat()
     for h in hatalar:
         bulunan.append((f"{gun_adi}:hata:{h[:80]}", f"❌ Çalışma hatası: {h[:300]}"))
@@ -73,7 +74,7 @@ def sorunlar(gunler: list[dict], simdi: datetime, ayar, hatalar: list[str] = ())
                     bulunan.append((anahtar + ":takip_hata", f'❌ {ad}: maç sonu postu paylaşılamadı ({(t.get("hata") or "")[:200]})'))
                 elif t.get("durum") == "atlandi" and t.get("neden") == "denetçi":
                     bulunan.append((anahtar + ":takip_denetci", f'🛑 {ad}: maç sonu postunu denetçi durdurdu'))
-                elif not t and simdi > datetime.fromisoformat(a["baslama"]) + TAKIP_GECIKME:
+                elif not t and not az and simdi > datetime.fromisoformat(a["baslama"]) + TAKIP_GECIKME:
                     bulunan.append((anahtar + ":takip_gec", f'⏰ {ad}: maç bitti ama maç sonu postu hâlâ çıkmadı '
                                                            f'(sözleşme: düdükten 5–15 dk sonra)'))
                 elif t.get("durum") == "paylasildi" and t.get("zaman") and datetime.fromisoformat(t["zaman"]) > \
@@ -82,7 +83,7 @@ def sorunlar(gunler: list[dict], simdi: datetime, ayar, hatalar: list[str] = ())
                               - TAHMINI_BITIS).total_seconds() // 60)
                     bulunan.append((anahtar + ":takip_gecikti", f'⏰ {ad}: maç sonu postu düdükten ~{dk} dk sonra çıktı '
                                                                f'(sözleşme: 5–15 dk)'))
-            if (tur == "tablo" or tur.startswith("tablo_")) and e.get("durum") == "paylasildi" and e.get("maclar"):
+            if not az and (tur == "tablo" or tur.startswith("tablo_")) and e.get("durum") == "paylasildi" and e.get("maclar"):
                 havuz = {a["fixture_id"]: a for a in (g.get("tablo") or []) + (g.get("tablo_aksam") or [])
                                                            + (g.get("tablo_gece") or [])}
                 for fid in e["maclar"]:
@@ -100,18 +101,23 @@ def sorunlar(gunler: list[dict], simdi: datetime, ayar, hatalar: list[str] = ())
                     + (["kısaltma (O2.5/BTTS)"] if _KISALTMA.search(metin) else [])
                 if ihlal:
                     bulunan.append((anahtar + ":kural", f'📏 {g["tarih"]} {ad}: paylaşılan metin sözleşme dışı: {", ".join(ihlal)}'))
+        kartlar = [g["analizler"][int(tur.split("_")[1])] for tur, e in durum.items()
+                   if az and tur.startswith("analiz_") and e.get("durum") == "paylasildi" and g.get("analizler")]
+        if kartlar and "gun_sonu" not in durum and simdi > max(datetime.fromisoformat(a["baslama"]) for a in kartlar) \
+                + etkilesim.GUN_SONU_SON + MAC_SONU_PAYI:
+            bulunan.append((f'{g["tarih"]}:gun_sonu:gec', f'⏰ {g["tarih"]}: kartların maçları bitti ama gün sonu postu çıkmadı'))
     bugun = next((g for g in reversed(gunler) if g["tarih"] == gun_adi and g.get("konsept") == "analiz"), None)
     if not any(g["tarih"] == gun_adi for g in gunler) and _sabah_gecti(simdi, ayar):
         bulunan.append((f"{gun_adi}:sabah", "🌅 Bugünün sabah analizi yapılmadı (tablo, kartlar ve kit çıkmayacak)"))
     if bugun and config.yogun_mu(ayar, gun_adi, bugun):
         durum = bugun.get("etkilesim") or {}
-        bekleyen = [tur for tur, erken, gec in etkilesim._plan(bugun) if tur not in durum and erken <= simdi <= gec]
+        bekleyen = [tur for tur, erken, gec in etkilesim._plan(bugun, ayar) if tur not in durum and erken <= simdi <= gec]
         son = etkilesim._son_paylasim(bugun)
         if bekleyen and son and simdi - son > timedelta(minutes=etkilesim.aralik_dk(bugun, ayar, simdi)) + DURGUNLUK:
             dk = int((simdi - son).total_seconds() // 60)
             bulunan.append((f"{gun_adi}:durgun:{son.isoformat()}",
                             f"🔇 {dk} dakikadır post yok, sırada bekleyen var: {', '.join(bekleyen[:5])}"))
-    if bugun and SESSIZ_BAS <= simdi.hour < SESSIZ_SON:  # B7: gün türü ne olursa olsun 3 saat sessizlik alarmı
+    if bugun and not az and SESSIZ_BAS <= simdi.hour < SESSIZ_SON:  # B7: gün türü ne olursa olsun 3 saat sessizlik alarmı
         son = max([z for z in (_son_hareket(bugun),) if z] + [simdi.replace(hour=SESSIZ_BAS, minute=0, second=0, microsecond=0)])
         if simdi - son > SESSIZLIK:
             bulunan.append((f"{gun_adi}:sessiz:{son.isoformat()}",

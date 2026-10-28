@@ -1,6 +1,8 @@
 # Kalkylerat (analiz hesabı, X)
 
-**Durum (22 Ekim 2026):** çalışıyor. `python -m bot.durum` → `SORUN YOK`; günde en fazla 10 kart (22 Ekim'den beri).
+**Durum (28 Ekim 2026):** az post modu (SOZLESME B8, sahibinin isteği: maliyet): günde ~7 post (günün maçları,
+tablo, anket, 3 kart, gün sonu tek sonuç postu); yorum fırsatları kapalı (26 Ekim). 30 Kasım'da takipçi sayısına bakılıp
+hesabın devamına karar verilecek. Önceki durum (22 Ekim 2026): çalışıyor. `python -m bot.durum` → `SORUN YOK`; günde en fazla 10 kart (22 Ekim'den beri).
 
 ## Ne yapıyor
 - @kalkylerat, İngilizce. Sabah 05:17 UTC analizi; sabah tablosu, analiz kartları (oran ve takım istatistiği yan yana),

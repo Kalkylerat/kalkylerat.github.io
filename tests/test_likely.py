@@ -539,6 +539,49 @@ def test_E1_otomatik_paylasim_bir_kez_gorselli_ve_sonuc_alintisi(oto):
     assert likely.oto_sonuc_paylas(AYAR, x, SIMDI + timedelta(hours=15), kart=likely_gorsel.sonuc_karti) == 0 and idler
 
 
+def test_E9_ucuz_mod_sonuclar_tek_postta_mac_postu_yalniz_buyuk(oto, monkeypatch):
+    """28 Ekim 2026, sahibinin isteği (maliyet): kuponların sonuçları günde tek postta; maç postu yalnızca büyük maçlar."""
+    from bot import likely_saglik
+    gercek = likely.LikelyAyar(**{k: v for k, v in __import__("tomllib").loads(
+        (likely.config.ROOT / "ayarlar.toml").read_text(encoding="utf-8"))["likely"].items()
+        if k in likely.LikelyAyar.__dataclass_fields__})
+    assert gercek.oto_sonuc_tek and gercek.oto_mac_yalniz_buyuk and gercek.oto_mac_sayisi == 3 and gercek.oto_hikaye_sayisi == 1
+    tek = replace(OTO, oto_sonuc_tek=True)
+    monkeypatch.setattr(likely, "ayar_yukle", lambda *a, **k: tek)
+    x = SahteX()
+    for k in sorted(likely.yukle()["gunler"][0]["secilen"], key=lambda k: k["paylas"]):
+        likely.oto_paylas(AYAR, x, datetime.fromisoformat(k["paylas"]))
+    kuponlar = [k for k in likely.yukle()["gunler"][0]["secilen"] if k.get("tweet_id")]
+    assert kuponlar
+    fids = {a["fixture_id"] for k in kuponlar for a in k["ayaklar"]}
+    adet, sonra = len(x.postlar), SIMDI + timedelta(hours=14)
+    likely.sonuclar(AYAR, bitir({f: (2, 0) for f in fids}), oto, sonra,
+                    yazici=lambda s, z: pytest.fail("tek sonuç modunda kupon başına Claude metni yazılmaz"))
+    assert likely.oto_sonuc_paylas(AYAR, x, sonra) == 1 and likely.oto_sonuc_paylas(AYAR, x, sonra) == 0
+    yeni = x.postlar[adet:]
+    assert len(yeni) == 1 and yeni[0]["alinti"] is None and yeni[0]["yanit"] is None
+    metin = yeni[0]["metin"]
+    assert metin.endswith(ANSVAR) and uzunluk(metin) <= LIMIT and "Record:" in metin and metin.startswith("🎩 ")
+    assert sum(bool(s) and s[0] in "✅❌↩" for s in metin.splitlines()) == len(kuponlar)
+    assert not likely_saglik.metin_ihlalleri(metin, True)
+    gun = likely.yukle()["gunler"][0]
+    assert {k["sonuc_tweet_id"] for k in gun["secilen"] if k.get("tweet_id")} == {f"t{adet + 1}"}  # kasa sırası (E8)
+    assert gun["toplu_sonuc"][0]["metin"] == metin
+    # Günün paylaşılabilecek kuponu kaldıysa sonuç postu onu bekler
+    veri = {"gunler": [{"tarih": "2026-10-07", "secilen": [
+        {**next(k for k in gun["secilen"] if k.get("tweet_id")), "sonuc_tweet_id": None},
+        {"ad": "gunun-kuponu-2", "durum": "bekliyor", "ayaklar": [{"baslama": (sonra + timedelta(hours=1)).isoformat()}]}]}]}
+    assert likely._tek_sonuc_paylas(veri, x, sonra) == 0
+    veri["gunler"][0]["secilen"][1]["ayaklar"][0]["baslama"] = (sonra - timedelta(hours=1)).isoformat()
+    assert likely._tek_sonuc_paylas(veri, x, sonra) == 1  # paylaşılmadan maçı başlayan kupon beklenmez (E4)
+    # Maç postu yalnızca büyük maçlar
+    adaylar = likely.havuz(MACLAR, ORANLAR, AYAR, OTO, SIMDI)
+    plan = likely.mac_planla(MACLAR, adaylar, [], SIMDI, replace(OTO, oto_mac_yalniz_buyuk=True, oto_mac_sayisi=3,
+                                                                oto_hikaye_sayisi=1), AYAR)
+    assert len(plan) <= 3 and all(m["buyuk"] for m in plan) and sum(bool(m.get("hikaye")) for m in plan) <= 1
+    assert {m["fixture_id"] for m in plan} <= {a["fixture_id"] for a in MACLAR if likely.analiz.onemli(a)}
+
+
 def test_E4_ilk_maca_az_kaldiysa_otomatik_paylasilmaz_ve_karneye_girmez(oto):
     x = SahteX()
     gun = likely.yukle()["gunler"][0]

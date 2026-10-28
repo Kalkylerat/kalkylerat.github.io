@@ -88,6 +88,10 @@ class LikelyAyar:
     oto_bilgi_aralik_dk: int = 40  # bilgi postu, başka bir posttan en az bu kadar dakika uzakta
     oto_mac_sayisi: int = 10       # günün maçı postları (E1, 24 Ekim 2026); 0 = kapalı (eski favori/gol/denk postları)
     oto_hikaye_sayisi: int = 10    # bunlardan kaçı büyük maç hikayesi flood'u olur (E1, 25 Ekim 2026; likely_hikaye)
+    # Ucuz mod (sahibinin isteği 28 Ekim 2026, maliyet; SOZLESME E9): maç postu yalnızca büyük maçlara; kuponların
+    # sonuçları kupon başına ayrı post yerine günde tek postta.
+    oto_mac_yalniz_buyuk: bool = False
+    oto_sonuc_tek: bool = False
     oto_haftalik_karne: bool = False  # Pazartesi 10:00 dersinin yerine haftalık karne postu (SOZLESME E1)
     # Sanal kasa grafiği (SOZLESME E8): açılınca önce bir kez duyuru, sonra her gün kuponlar sonuçlanınca grafik.
     oto_kasa: bool = False
@@ -1196,10 +1200,12 @@ def _kupon_sonucu(kupon: dict) -> None:
 def sonuclar(ayar, sonuc_al, gh, simdi: datetime, yazici=None, yaz=print) -> int:
     """Seçili kuponların biten maçlarını sonuçlandırır; kupon bitince sonuç postunun taslağını issue'ya yazar.
     sonuc_al(maclar, korner_idleri) -> {fixture_id: {"durum", "skor", "iy", "korner"}}. Biten kupon sayısını döndürür."""
-    if not ayar_yukle().aktif:
+    cfg = ayar_yukle()
+    if not cfg.aktif:
         return 0
     veri = yukle()
-    yazici = yazici or (lambda sablon, zorunlu: sablon)
+    if cfg.oto_sonuc_tek or not yazici:  # tek sonuç postunda kupon başına metin paylaşılmaz: Claude çağrılmaz (E9)
+        yazici = lambda sablon, zorunlu: sablon
     biten = 0
     for gun in veri["gunler"][-6:]:
         acik = [k for k in gun.get("secilen", []) if not k.get("sonuc_metni")]  # yatan kuponun kalan maçları da beklenir
@@ -1362,6 +1368,8 @@ def oto_sonuc_paylas(ayar, x, simdi: datetime, kart=None, yaz=print) -> int:
     if not cfg.aktif or cfg.mod != "otomatik":
         return 0
     veri = yukle()
+    if cfg.oto_sonuc_tek:
+        return _tek_sonuc_paylas(veri, x, simdi, yaz)
     adet = 0
     for gun in veri["gunler"][-6:]:
         for k in gun.get("secilen", []):
@@ -1377,6 +1385,58 @@ def oto_sonuc_paylas(ayar, x, simdi: datetime, kart=None, yaz=print) -> int:
                 adet += 1
                 kaydet(veri)
                 yaz(f"Mr. Likely: {gun['tarih']} {k['ad']} sonucu paylaşıldı.")
+    return adet
+
+
+KUPON_KISA_AD = {"long-shot": "Long shot", "buyuk-maclar": "Big games"}
+SONUC_KELIME = {"tuttu": ("✅", "in"), "yatti": ("❌", "down"), "iade": ("↩️", "void")}
+
+
+def toplu_sonuc_metni(kuponlar: list[dict], k: dict) -> str:
+    """Ucuz mod (E9): günün paylaşılmış kuponlarının sonuçları tek postta, paylaşım sırasıyla; tutan da yatan da aynı
+    açıklıkla, güncel karneyle. Rakamlar kayıttan (kuponun paylaşıldığı oran)."""
+    satirlar, no = [], 0
+    for kupon in kuponlar:
+        if kupon.get("ad") in KUPON_KISA_AD:
+            ad = KUPON_KISA_AD[kupon["ad"]]
+        else:
+            no += 1
+            ad = f"Coupon {no}"
+        isaret, kelime = SONUC_KELIME[kupon["durum"]]
+        satirlar.append(f'{isaret} {ad} at {kupon["oran"]:.2f}: {kelime}')
+    sayilan = [x for x in kuponlar if x["durum"] != "iade"]
+    tutan = sum(x["durum"] == "tuttu" for x in sayilan)
+    bas = (f"🎩 Today's coupons: {tutan} of {len(sayilan)} landed." if sayilan
+           else "🎩 Today's coupons: all void, nothing won and nothing lost.")
+    liste = "\n".join(satirlar)
+    return _kisalt(f"{bas}\n\n{liste}\n\n{karne_satiri(k)}\n{ANSVAR}", f"{bas}\n\n{liste}\n\n{ANSVAR}")
+
+
+def _tek_sonuc_paylas(veri: dict, x, simdi: datetime, yaz=print) -> int:
+    """Ucuz mod (E9): bir günün paylaşılmış bütün kuponları sonuçlanınca (ve paylaşılabilecek kupon kalmayınca) tek
+    sonuç postu. Her kuponun sonuç postu kimliği bu posttur (sanal kasa sırası, E8)."""
+    adet = 0
+    for gun in veri["gunler"][-6:]:
+        paylasilan = [k for k in gun.get("secilen", []) if k.get("tweet_id")]
+        if not paylasilan or all(k.get("sonuc_tweet_id") for k in paylasilan):
+            continue
+        if not all(k.get("sonuc_metni") for k in paylasilan):
+            continue  # sonuçlanmamış kupon var
+        if any(not k.get("tweet_id") and k.get("ayaklar") and min(datetime.fromisoformat(a["baslama"])
+                                                                  for a in k["ayaklar"]) > simdi
+               for k in gun.get("secilen", [])):
+            continue  # günün paylaşılabilecek kuponu kaldı (E4): sonuç postu onu da beklesin
+        yeni = [k for k in paylasilan if not k.get("sonuc_tweet_id")]
+        sira = sorted(yeni, key=lambda k: k.get("yayin") or "")
+        metin = toplu_sonuc_metni(sira, karne(veri))
+        tid = x.gonder(metin)
+        zaman = simdi.isoformat(timespec="seconds")
+        for k in yeni:
+            k["sonuc_tweet_id"], k["sonuc_zamani"] = tid, zaman
+        gun.setdefault("toplu_sonuc", []).append({"tweet_id": tid, "zaman": zaman, "metin": metin})
+        adet += 1
+        kaydet(veri)
+        yaz(f"Mr. Likely: {gun['tarih']} sonuçları tek postta paylaşıldı:\n```\n{metin}\n```")
     return adet
 
 
@@ -1434,6 +1494,7 @@ def mac_planla(analizler: list[dict], adaylar: list[dict], secilen: list[dict], 
                 en_iyi[a["fixture_id"]] = aci
     tz = ZoneInfo(ayar.saat_dilimi)
     uygun = [a for a in analizler if a["fixture_id"] in en_iyi and a.get("kaynak") == "piyasa"
+             and (analiz.onemli(a) or not cfg.oto_mac_yalniz_buyuk)
              and a.get("guven") == "yuksek" and datetime.fromisoformat(a["baslama"]) >= simdi + timedelta(minutes=60)
              and all(k in a.get("p", {}) for k in ("MS1", "MSX", "MS2", "UST25", "KGVAR"))]
     uygun.sort(key=lambda a: (not analiz.onemli(a), -_dev(a), -en_iyi[a["fixture_id"]].get("site_sayisi", 0), a["baslama"]))

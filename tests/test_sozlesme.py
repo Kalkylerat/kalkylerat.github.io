@@ -11,7 +11,8 @@ import pytest
 
 from bot import analiz, config, denetci, direktor, etkilesim, gorsel, model, saglik, tweets
 
-AYAR = config.yukle()
+# Tam düzenin (B1–B7) testleri: az post modu (B8, ayarlar.toml [az_post]) kendi testlerinde açılır.
+AYAR = __import__("dataclasses").replace(config.yukle(), az_post=False)
 ROOT = Path(__file__).resolve().parent.parent
 UTC = timezone.utc
 
@@ -429,6 +430,58 @@ def test_B7_hesap_sessiz_kalmaz():
     gun["etkilesim"]["tablo_2"] = {"durum": "paylasildi", "zaman": f"{sakin}T08:08:00+00:00",
                                    "sonuclar": {"1": {"durum": "paylasildi", "zaman": f"{sakin}T12:40:00+00:00"}}}
     assert not sessiz(12, 50)
+
+def test_B8_az_post_modu_gunde_az_post_ve_sonuclar_tek_postta():
+    """28 Ekim 2026, sahibinin isteği (maliyet): günde ~7 post; kart başına maç sonu ve tablo yanıtı yok."""
+    az = replace(AYAR, az_post=True, az_kart=3)
+    assert config.yukle().az_post and config.yukle().az_kart == 3  # ayarlar.toml [az_post]
+    assert not config.yogun_mu(az, "2026-10-03")  # Cumartesi bile yoğun gün değil
+    alt = [dict(mac(10 + i, f"Club{i}", f"Rival{i}", saat=f"1{2 + i}:00", lig="Ekstraklasa"), lig_id=106) for i in range(3)]
+    analizler = alt + [FRA, BEL]
+    gun = {"tarih": "2026-10-03", "konsept": "analiz", "olusturma": "2026-10-03T05:20:00+00:00", "analizler": analizler,
+           "vitrin": [FRA, BEL], "tablo": [FRA, BEL], "hafta_ozeti": {"x": 1}}
+    plan = [t for t, _, _ in etkilesim._plan(gun, az)]
+    kartlar = [t for t in plan if t.startswith("analiz_")]
+    assert len(kartlar) == 3 and {"analiz_3", "analiz_4"} <= set(kartlar)  # büyük maçlar önce (B6)
+    assert not {"bilgi", "bilgi_aksam", "hafta"} & set(plan) and {"maclar", "tablo", "anket"} <= set(plan)
+    assert len(plan) + 1 <= 7  # + gün sonu postu
+    assert "tablo_aksam" not in [t for t, _, _ in etkilesim._plan({**gun, "tablo_aksam": [FRA]}, az)]
+    simdi = datetime(2026, 10, 3, 17, 0, tzinfo=UTC)
+    assert etkilesim.aksam_tablosu_ekle(gun, alt, az, simdi) == etkilesim.gece_tablosu_ekle(gun, alt, az, simdi) == 0
+    assert etkilesim.yogun_kartlari_ekle(gun, alt, az, simdi) == 0
+
+    class X:
+        def __init__(self): self.giden = []
+        def gonder(self, metin, **k): self.giden.append((metin, k)); return str(len(self.giden))
+    x = X()
+    gun["etkilesim"] = {t: {"durum": "paylasildi", "tweet_id": "5", "zaman": "2026-10-03T12:00:00+00:00"} for t in kartlar}
+    gun["etkilesim"]["tablo"] = {"durum": "paylasildi", "tweet_id": "6", "maclar": [1, 2], "zaman": "2026-10-03T08:00:00+00:00"}
+    skor = {1: (1, 2), 2: (0, 0), 10: (2, 1)}
+    sonuc = lambda m: {a["fixture_id"]: {"durum": "bitti", "skor": skor[a["fixture_id"]]} for a in m}
+    sonra = datetime(2026, 10, 3, 21, 0, tzinfo=UTC)
+    assert etkilesim.tablo_takibi(gun, az, x, sonra, sonuc) == 0  # tablo yanıtı yok
+    assert etkilesim.analiz_takibi(gun, az, x, sonra, sonuc, yaz=lambda *_: None,
+                                   yazar=lambda *a: pytest.fail("Claude çağrılmaz"),
+                                   xg_getir=lambda a: pytest.fail("xG istenmez")) == 0
+    assert x.giden == [] and all(gun["etkilesim"][t]["takip"]["durum"] == "kayit" for t in kartlar)
+    assert "isabet" in gun["etkilesim"]["analiz_3"]["takip"]  # kalibrasyon kaydı sürer
+    assert etkilesim.gun_sonu(gun, az, x, sonra, yaz=lambda *_: None) and len(x.giden) == 1
+    assert not etkilesim.gun_sonu(gun, az, x, sonra + timedelta(hours=1), yaz=lambda *_: None)  # günde bir kez
+    metin = x.giden[0][0]
+    assert tweets.uzunluk(metin) <= tweets.LIMIT and metin.endswith(tweets.ANSVAR) and "not picks" in metin.lower()
+    assert not denetci._SECIM_DILI.search(metin) and not denetci.KISALTMA.search(metin)
+    for a in (FRA, BEL, alt[0]):  # her maçın skoru ve iki yüzdesi (A1)
+        satir = next(s for s in metin.splitlines() if s.startswith(a["ev"]))
+        assert a["dep"] in satir and len(re.findall(r"\d+%", satir)) == 2
+    # Tam düzen kapalıyken gün sonu postu yok
+    assert not etkilesim.gun_sonu({**gun, "etkilesim": {}}, AYAR, x, sonra)
+    # Sağlık: kart başına maç sonu ve sessizlik alarmı yok; gün sonu postu gecikirse alarm
+    bos = {**gun, "etkilesim": {t: {"durum": "paylasildi", "zaman": "2026-10-03T12:00:00+00:00"} for t in kartlar}}
+    def alarm(gun_, saat):
+        return " ".join(m for _, m in saglik.sorunlar([bos], datetime(2026, 10, gun_, saat, 50, tzinfo=UTC), az))
+    assert "maç sonu" not in alarm(3, 21) and "saattir" not in alarm(3, 16) and "gün sonu" not in alarm(3, 23)
+    assert "gün sonu postu çıkmadı" in alarm(4, 0)  # son kart 18:45: 5 sa + 25 dk pay'dan sonra
+
 
 def test_C1_nobetci_7_dk_nabiz_20_dk_alarm():
     nobet = (ROOT / ".github/workflows/nobet.yml").read_text()

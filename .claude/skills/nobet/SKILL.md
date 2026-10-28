@@ -37,6 +37,8 @@ Kurallar: `SOZLESME.md` (değişmez), çalışma kuralları: `CLAUDE.md`. Sahibi
    content" aldı, nöbetçi her başarısız çalışmaya ayrı issue açtı. 16 Ekim'de düzeltildi (SOZLESME C2 "tek kanal").
 5. Sorun yoksa sahibine tek satır "sorun yok" yeter. Sorun varsa kök nedeni bul, Türkçe kısa özet yaz.
    B7: 08–21 UTC arasında 3 saatten uzun post/yanıt yoksa bu HER ZAMAN sorundur ("sakin gün" deme).
+   İstisna: az post modu (B8, `[az_post] aktif = true`, 28 Ekim 2026'dan beri): günde ~7 post, uzun boşluk normaldir;
+   kart başına maç sonu ve tablo yanıtı yoktur, onların yerine gün sonu tek sonuç postu gelir.
 
 ## Tuzaklar (yaşandı)
 - **Saat dilimi:** `baslama` ve `_plan` saatleri +02:00 (CEST). Yorumlamadan önce `.astimezone(timezone.utc)`.

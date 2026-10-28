@@ -47,8 +47,9 @@ def _paylasilan_metinler(g: dict) -> list[tuple[str, str, bool]]:
     for k in g.get("secilen", []):
         if k.get("tweet_id") and k.get("metin"):
             m.append((f'kupon {k["ad"]}', k["metin"], True))
-        if k.get("sonuc_tweet_id") and k.get("sonuc_metni"):
+        if k.get("sonuc_tweet_id") and k.get("sonuc_metni") and not g.get("toplu_sonuc"):
             m.append((f'sonuç {k["ad"]}', k["sonuc_metni"], True))
+    m += [("tek sonuç postu", t["metin"], True) for t in g.get("toplu_sonuc", [])]  # E9
     for x in g.get("maclar", []):
         hikaye = x.get("hikaye_metin") or []
         if x.get("zaman") and x.get("metin"):  # flood'da 18+ yalnızca zincirin son postunda (25 Ekim 2026)

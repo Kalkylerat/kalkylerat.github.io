@@ -866,6 +866,11 @@ def main(argv=None) -> int:
                                             xg_getir=lambda a: football.mac_xg(_api(ayar), a["fixture_id"], a["ev"]))
                 except Exception as e:
                     _hata("Analiz takibi", e)
+            for g in gunler[-2:]:  # az post modu (B8): kartların sonuçları tek postta
+                try:
+                    etkilesim.gun_sonu(g, ayar, _x_client(), simdi, yaz=_ozet_yaz)
+                except Exception as e:
+                    _hata("Gün sonu postu", e)
         yerel = simdi.astimezone(ZoneInfo(ayar.saat_dilimi))
         if (args.komut == "nabiz" and _direktor_yazar(ayar) and direktor.haftalik_gerekli(yerel)) or args.komut == "direktor":
             try:

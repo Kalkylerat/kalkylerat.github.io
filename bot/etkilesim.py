@@ -139,15 +139,30 @@ KART_ADIM = timedelta(minutes=20)  # yoğun günde en kötü post adımı: 13 dk
 YAKIN_KART = timedelta(hours=4)  # bundan erken kart, sırada başka post yoksa çıkar
 
 
-def _plan(gun: dict) -> list[tuple[str, datetime, datetime]]:
-    """(tür, en erken, en geç) — sırayla; en geç geçtiyse o tür o gün atlanır."""
+def az_mi(ayar) -> bool:
+    """Az post modu (SÖZLEŞME B8, sahibinin isteği 28 Ekim 2026: maliyet)."""
+    return bool(getattr(ayar, "az_post", False))
+
+
+def az_kartlari(gun: dict, ayar) -> list[int]:
+    """Az post modunda kart alacak maçların sırası: büyük maçlar önce (B6), sonra sabah sırası; en fazla ayar.az_kart."""
+    analizler = gun.get("analizler") or []
+    sira = sorted(range(len(analizler)), key=lambda i: (not analiz.onemli(analizler[i]), i))
+    return sorted(sira[:getattr(ayar, "az_kart", 3)])
+
+
+def _plan(gun: dict, ayar=None) -> list[tuple[str, datetime, datetime]]:
+    """(tür, en erken, en geç) — sırayla; en geç geçtiyse o tür o gün atlanır. Az post modunda (B8) yalnızca günün
+    maçları, tablo, anket ve en fazla ayar.az_kart kart."""
     plan = []
+    az = az_mi(ayar)
     vit = gun.get("vitrin") or []
     gun_bas = datetime.fromisoformat(gun["tarih"] + "T00:00:00+00:00")
-    plan.append(("bilgi", gun_bas + timedelta(hours=9), gun_bas + timedelta(hours=19, minutes=30)))  # günlük bilgi
-    # SÖZLEŞME B7: akşam (maçlar oynanırken, sonuçlardan önce) ikinci bilgi postu; akşam saatleri sessiz kalmasın
-    plan.append(("bilgi_aksam", gun_bas + timedelta(hours=18), gun_bas + timedelta(hours=20, minutes=30)))
-    if gun.get("hafta_ozeti"):  # SÖZLEŞME A9: Pazartesi, geçen haftanın karnesi (kayıttaki maç sonu postlarından)
+    if not az:
+        plan.append(("bilgi", gun_bas + timedelta(hours=9), gun_bas + timedelta(hours=19, minutes=30)))  # günlük bilgi
+        # SÖZLEŞME B7: akşam (maçlar oynanırken, sonuçlardan önce) ikinci bilgi postu; akşam saatleri sessiz kalmasın
+        plan.append(("bilgi_aksam", gun_bas + timedelta(hours=18), gun_bas + timedelta(hours=20, minutes=30)))
+    if gun.get("hafta_ozeti") and not az:  # SÖZLEŞME A9: Pazartesi, geçen haftanın karnesi (kayıttaki maç sonu postlarından)
         plan.append(("hafta", gun_bas + timedelta(hours=10), gun_bas + timedelta(hours=17)))
     if gun.get("konsept") == "analiz":
         # Kupon yok: günün maçları, öne çıkan maçların analiz kartları (maçtan 8 saat – 35 dk önce, en erken 08:00 UTC;
@@ -162,10 +177,10 @@ def _plan(gun: dict) -> list[tuple[str, datetime, datetime]]:
         if gun.get("tablo"):  # günün analiz tablosu (görsel): sabah, tablodaki ilk maçtan önce
             ilk = min(datetime.fromisoformat(a["baslama"]) for a in gun["tablo"])
             plan.append(("tablo", _acilis(8, ilk), ilk - timedelta(minutes=10)))
-        if gun.get("tablo_gece"):  # sakin gün: gece maçlarının tablosu (B7, akşam sessiz kalmasın)
+        if gun.get("tablo_gece") and not az:  # sakin gün: gece maçlarının tablosu (B7, akşam sessiz kalmasın)
             ilk = min(datetime.fromisoformat(a["baslama"]) for a in gun["tablo_gece"])
             plan.append(("tablo_gece", gun_bas + timedelta(hours=GECE_TABLO_SAAT), ilk - timedelta(minutes=10)))
-        if gun.get("tablo_aksam"):  # akşam maçlarının tablosu (hazırlandığı andan, ilk maçtan önce)
+        if gun.get("tablo_aksam") and not az:  # akşam maçlarının tablosu (hazırlandığı andan, ilk maçtan önce)
             ilk = min(datetime.fromisoformat(a["baslama"]) for a in gun["tablo_aksam"])
             plan.append(("tablo_aksam", gun_bas + timedelta(hours=12), ilk - timedelta(minutes=10)))
         elif vit:
@@ -175,7 +190,9 @@ def _plan(gun: dict) -> list[tuple[str, datetime, datetime]]:
         if vit:
             a = datetime.fromisoformat(anket_maci(vit)["baslama"])
             plan.append(("anket", a - timedelta(hours=3), a - timedelta(minutes=30)))
-        kartlar = [(f"analiz_{i}", datetime.fromisoformat(a["baslama"])) for i, a in enumerate(gun.get("analizler") or [])]
+        secili = set(az_kartlari(gun, ayar)) if az else None
+        kartlar = [(f"analiz_{i}", datetime.fromisoformat(a["baslama"])) for i, a in enumerate(gun.get("analizler") or [])
+                   if secili is None or i in secili]
         # 11 Ekim: aynı saatte başlayan çok kart 08:00'den sonraya sığmadı, biri kaçtı. Son saat sırasındaki k. post
         # en kötü k adımda çıkar; sığmıyorsa kart penceresi sabah analizinden itibaren öne çekilir (en çok 8 saat, B4).
         son_saatler = sorted([gec for _, _, gec in plan] + [b - timedelta(minutes=35) for _, b in kartlar])
@@ -193,7 +210,7 @@ GECE_TABLO_SAAT = 16  # SÖZLEŞME B7: sakin günde gece maçları tablosu bu sa
 def gece_tablosu_ekle(gun: dict, tum: list[dict], ayar, simdi: datetime) -> int:
     """Sakin günde 16:00 UTC'den sonra bir kez: sabah ve akşam tablolarında olmayan, en az 1 saat sonra başlayan
     maçların tablosu (en az 4 maç). Akşam saatleri sessiz kalmasın diye (B7); yoğun günde akşam tablosu zaten var."""
-    if gun.get("konsept") != "analiz" or "tablo_gece" in gun or simdi.hour < GECE_TABLO_SAAT \
+    if az_mi(ayar) or gun.get("konsept") != "analiz" or "tablo_gece" in gun or simdi.hour < GECE_TABLO_SAAT \
             or config.yogun_mu(ayar, gun["tarih"], gun):
         return 0
     haric = {a["fixture_id"] for a in (gun.get("tablo") or []) + (gun.get("tablo_aksam") or [])}
@@ -207,7 +224,7 @@ def aksam_tablosu_ekle(gun: dict, tum: list[dict], ayar, simdi: datetime) -> int
     """Bir kez: sabah tablosunda olmayan akşam maçlarının tablosu (en az 4 maç). Yoğun günde 16:00 UTC'den,
     sakin günde (öğleden sonra boşluk kalmasın, B7) 12:00 UTC'den. Paylaşımı ve maç sonu yanıtları sabah tablosu gibi."""
     acilis = 16 if config.yogun_mu(ayar, gun["tarih"], gun) else 12
-    if gun.get("konsept") != "analiz" or "tablo_aksam" in gun or simdi.hour < acilis:
+    if az_mi(ayar) or gun.get("konsept") != "analiz" or "tablo_aksam" in gun or simdi.hour < acilis:
         return 0
     haric = {a["fixture_id"] for a in gun.get("tablo") or []}  # sabah tablosunda olmayanlar (kartlı da olabilir)
     liste = analiz.tablo_secimi(tum, ayar.ligler, en_erken=(simdi + timedelta(minutes=60)).isoformat(), haric=haric,
@@ -220,7 +237,7 @@ def yogun_kartlari_ekle(gun: dict, tum: list[dict], ayar, simdi: datetime) -> in
     """Kart listesi ek liglerin maçlarıyla genişler (kart penceresi kapanmamış olanlar): yoğun günde
     ayar.yogun_kart'a (günde en fazla 10), sakin günde SAKIN_KART'a kadar (SÖZLEŞME B4, B7: hesap sessiz kalmaz). Var olan
     kartların sırası değişmez (etkileşim kayıtları analiz_<sıra> ile tutulur); yeniler sona eklenir."""
-    if gun.get("konsept") != "analiz":
+    if az_mi(ayar) or gun.get("konsept") != "analiz":
         return 0
     analizler = gun.setdefault("analizler", [])
     tavan = ayar.yogun_kart if config.yogun_mu(ayar, gun["tarih"], gun) else SAKIN_KART
@@ -295,7 +312,7 @@ def _paylasim_sirasi(gun: dict, ayar, simdi: datetime) -> list[tuple[str, dateti
     saatine yetişiyorsa öne geçer; yoksa son saati en yakın açık post çıkar (10 Ekim: iki büyük maç kartı öne
     geçince saati daha yakın bir kart kaçacaktı, B3)."""
     durum = gun.get("etkilesim") or {}
-    sira = sorted(_plan(gun), key=_oncelik(gun, simdi))
+    sira = sorted(_plan(gun, ayar), key=_oncelik(gun, simdi))
     gecmis = [p for p in sira if p[0] not in durum and simdi > p[2]]
     acik = [p for p in sira if p[0] not in durum and p[1] <= simdi <= p[2]]
     if not acik:
@@ -319,7 +336,7 @@ def aralik_dk(gun: dict, ayar, simdi: datetime) -> float:
         return ARALIK_DK
     en_az = getattr(ayar, "yogun_aralik_dk", ARALIK_DK)
     durum = gun.get("etkilesim") or {}
-    kalan = sorted(gec for tur, _, gec in _plan(gun) if tur not in durum and gec > simdi)
+    kalan = sorted(gec for tur, _, gec in _plan(gun, ayar) if tur not in durum and gec > simdi)
     if not kalan or min(kalan) < simdi + timedelta(hours=1):
         return en_az
     yayilim = (max(kalan) - simdi).total_seconds() / 60 / len(kalan)
@@ -579,7 +596,10 @@ TABLO_NABIZ_YANIT = 5
 
 def tablo_takibi(gun: dict, ayar, x, simdi: datetime, sonuc_getir, tum: list[dict] | None = None, yaz=print) -> int:
     """Günün tablosundaki (ve elle paylaşılan listedeki) her maç bittikçe tablo postuna yanıt: skor ve olanların
-    maç öncesi yüzdeleri. Maç başlamasından 1 saat 50 dk sonra bakılmaya başlanır, 6 saat sonra vazgeçilir."""
+    maç öncesi yüzdeleri. Maç başlamasından 1 saat 50 dk sonra bakılmaya başlanır, 6 saat sonra vazgeçilir.
+    Az post modunda (B8) tablo yanıtı yok."""
+    if az_mi(ayar):
+        return 0
     paylasilan = 0
     for tur, e in (gun.get("etkilesim") or {}).items():
         if not (tur == "tablo" or tur.startswith("tablo_")) or e.get("durum") != "paylasildi" or e.get("takip"):
@@ -653,6 +673,10 @@ def analiz_takibi(gun: dict, ayar, x, simdi: datetime, sonuc_getir, yaz=print, y
         ev, dep = r["skor"]
         skor = f"{ev}-{dep}"
         isabet = [bool(model.kazandi_mi(c["pazar"], ev, dep)) for c in analiz.manset(a)]
+        if az_mi(ayar):  # B8: maç sonu postu yok; sonuç kalibrasyon için kaydedilir, gün sonu postunda toplanır
+            e["takip"] = {"durum": "kayit", "skor": skor, "isabet": isabet, "zaman": simdi.isoformat(timespec="seconds"),
+                          **({"brier": _brier(a, ev, dep)} if a.get("karsilastirma") else {})}
+            continue
         xg = None
         if xg_getir:
             try:  # gerçek xG yoksa ya da alınamazsa post yine çıkar, yalnızca o satır olmaz
@@ -685,17 +709,79 @@ def analiz_takibi(gun: dict, ayar, x, simdi: datetime, sonuc_getir, yaz=print, y
             e["takip"] = {"durum": "hata", "hata": str(hata)[:300]}
             yaz(f"⚠️ Analiz takibi paylaşılamadı: {hata}")
             continue
-        brier = {"piyasa": 0.0, "istatistik": 0.0}
-        for c in a.get("karsilastirma") or []:
-            oldu = 1.0 if model.kazandi_mi(c["pazar"], ev, dep) else 0.0
-            brier["piyasa"] += (c["piyasa"] - oldu) ** 2
-            brier["istatistik"] += (c["istatistik"] - oldu) ** 2
         e["takip"] = {"durum": "paylasildi", "tweet_id": tid, "skor": skor, "isabet": isabet, **({"xg": list(xg)} if xg else {}),
                       "zaman": simdi.isoformat(timespec="seconds"),
-                      **({"brier": {k: round(v, 4) for k, v in brier.items()}} if a.get("karsilastirma") else {})}
+                      **({"brier": _brier(a, ev, dep)} if a.get("karsilastirma") else {})}
         yaz(f"Analiz takibi (alıntı):\n```\n{metin}\n```")
         paylasilan += 1
     return paylasilan
+
+
+def _brier(a: dict, ev: int, dep: int) -> dict:
+    brier = {"piyasa": 0.0, "istatistik": 0.0}
+    for c in a.get("karsilastirma") or []:
+        oldu = 1.0 if model.kazandi_mi(c["pazar"], ev, dep) else 0.0
+        brier["piyasa"] += (c["piyasa"] - oldu) ** 2
+        brier["istatistik"] += (c["istatistik"] - oldu) ** 2
+    return {k: round(v, 4) for k, v in brier.items()}
+
+
+# Az post modu (B8): son kartın maçı başladıktan bu kadar sonra, bitmeyen maç beklenmeden gün sonu postu çıkar.
+GUN_SONU_SON = timedelta(hours=5)
+
+
+def gun_sonu_tweeti(biten: list[tuple[dict, str]]) -> str:
+    """Az post modunda günün kartlarının sonuçları tek postta: her maçın skoru ve olanların (sonuç, gol çizgisi) maç
+    öncesi yüzdeleri. Seçim dili yok: kart olasılıktı."""
+    satirlar = []
+    for a, skor in biten:
+        ev, dep = (int(x) for x in skor.split("-"))
+        sonuc, gol = olan_sanslar(a, ev, dep)[:2]
+        satirlar.append(f'{a["ev"]} {ev}–{dep} {a["dep"]} · 🏆 {_pct(sonuc["p"])} · ⚽ {_pct(gol["p"])}')
+    liste = "\n".join(satirlar)
+    adaylar = [f"🔁 Full time on today's cards.\n📊 Our pre-match chance of what happened (🏆 result, ⚽ goals):\n\n{liste}"
+               f"\n\n💡 Chances, not picks.\n{ANSVAR}",
+               f"🔁 Full time on today's cards.\n📊 Pre-match chance of what happened (🏆 result, ⚽ goals):\n\n{liste}"
+               f"\n\nNot picks.\n{ANSVAR}",
+               f"🔁 Full time. Pre-match chances (🏆 result, ⚽ goals):\n{liste}\nNot picks.\n{ANSVAR}"]
+    return ilk_sigan(*adaylar)
+
+
+def gun_sonu(gun: dict, ayar, x, simdi: datetime, yaz=print) -> bool:
+    """Az post modu (B8): günün kartlarının maçları bitince (en geç son kartın maçından GUN_SONU_SON sonra) bütün
+    sonuçlar tek postta. Kart başına maç sonu postunun yerine geçer; günde bir kez."""
+    if not az_mi(ayar) or gun.get("konsept") != "analiz":
+        return False
+    durum = gun.get("etkilesim") or {}
+    if "gun_sonu" in durum:
+        return False
+    secili = set(az_kartlari(gun, ayar))  # mod gün ortasında açıldıysa fazla kartların sonucu yalnızca kaydedilir
+    kartlar = sorted(((gun["analizler"][int(t.split("_")[1])], e) for t, e in durum.items()
+                      if t.startswith("analiz_") and e.get("durum") == "paylasildi" and int(t.split("_")[1]) in secili),
+                     key=lambda k: k[0]["baslama"])
+    if not kartlar:
+        return False
+    son_bas = max(datetime.fromisoformat(a["baslama"]) for a, _ in kartlar)
+    if not all(e.get("takip") for _, e in kartlar) and simdi < son_bas + GUN_SONU_SON:
+        return False
+    biten = [(a, e["takip"]["skor"]) for a, e in kartlar if (e.get("takip") or {}).get("skor")]
+    if not biten:
+        durum["gun_sonu"] = {"durum": "atlandi", "neden": "sonuç gelmedi"}
+        return False
+    sablon = gun_sonu_tweeti(biten)
+    metin = _denetle("gun_sonu", sablon, sablon, [], ayar, None, yaz)
+    if not metin:
+        durum["gun_sonu"] = {"durum": "atlandi", "neden": "denetçi"}
+        return False
+    try:
+        tid = x.gonder(metin)
+    except Exception as hata:
+        durum["gun_sonu"] = {"durum": "hata", "hata": str(hata)[:300], "zaman": simdi.isoformat(timespec="seconds")}
+        yaz(f"⚠️ Gün sonu postu paylaşılamadı: {hata}")
+        return False
+    durum["gun_sonu"] = {"durum": "paylasildi", "tweet_id": tid, "zaman": simdi.isoformat(timespec="seconds"), "metin": metin}
+    yaz(f"Gün sonu postu:\n```\n{metin}\n```")
+    return True
 
 
 HAFTA_MIN = 30  # karne en az bu kadar maç sonu çağrısıyla (daha azı gürültü)

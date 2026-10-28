@@ -91,7 +91,7 @@ yazılıyordu ve Mr. Likely'nin canlı alarmı yoktu. Bu bölüm her hesaba ve h
 | G3 | Oyun adları kısaltılmaz ("Double chance X2", "Both teams score", "Over 2.5 goals"). | `test_E2_karakter_metni_oyun_adini_kisaltamaz`; `likely_saglik` |
 | G4 | Her sonuç gösterilir; sonucu gelmeyen ya da ertelenen maç açıkça yazılır ("no result yet", "postponed, void"). | `test_E1_yatan_kupon_*`, `test_E1_baska_gune_*`; `likely_saglik` |
 | G5 | **Yeni özellik ya da sahibinin yeni isteği** canlıya şu sırayla çıkar: sözleşme maddesi → test (eski kodda kırmızı) → G1–G4'e ve diğer hesaba etkisinin kontrolü → canlı denetim (`saglik` / `likely_saglik`) → kayıtlı gerçek günün verisiyle deneme → ilk gün çıktısının kontrolü. Canlı denetimi olmayan post türü eklenmez. | süreç (CLAUDE.md) |
-| G6 | **Mr. Likely canlı denetimi** her nabızda (`bot/likely_saglik.py`): dev maç planda mı; kupon, maç postu, sonuç postu, sabah duyurusu, kasa grafiği zamanında mı; paylaşılmış her metin G2–G4'e uyuyor mu; ayak fiyatı kupon sitesinden mi. Sapma Kalkylerat alarmıyla aynı GitHub issue'suna gider (aynı sorun bir kez). Nöbet kontrolü (`python -m bot.durum`) de gösterir. | `test_G6_*` |
+| G6 | **Mr. Likely canlı denetimi** her nabızda (`bot/likely_saglik.py`): dev maç planda mı; kupon, maç postu, sonuç postu (kupon sonuçlandıktan sonra 30 dk içinde; 28 Ekim 2026), sabah duyurusu, kasa grafiği zamanında mı; paylaşılmış her metin G2–G4'e uyuyor mu; ayak fiyatı kupon sitesinden mi. Sapma Kalkylerat alarmıyla aynı GitHub issue'suna gider (aynı sorun bir kez). Nöbet kontrolü (`python -m bot.durum`) de gösterir. | `test_G6_*` |
 
 ## F. Tiny Fixes (üçüncü hesap: X ve Instagram, yapay zekâ)
 

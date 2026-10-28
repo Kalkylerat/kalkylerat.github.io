@@ -14,6 +14,7 @@ from .tweets import ANSVAR, LIMIT, uzunluk
 
 PLAN_PAYI = timedelta(minutes=30)      # planlanan post bu kadar gecikirse alarm
 SONUC_GECIKME = timedelta(hours=6)     # kuponun son maçı başlayalı bu kadar olduysa ve sonuç postu yoksa alarm
+SONUC_PAYI = timedelta(minutes=30)     # kupon sonuçlandı (metni hazır) ama bu kadar süredir sonuç postu yoksa alarm
 KISA = re.compile(r"(?<![\w.])(?:1X|X2|BTTS)(?![\w.])")
 DOLU = ("gecti", "denetci", "tekrar", "uzun")  # tweet_id yerine yazılan "atılmadı" işaretleri
 
@@ -90,7 +91,12 @@ def sorunlar(veri: dict, analizler: list[dict], simdi: datetime, ayar, cfg) -> l
                 bulunan.append((f'{t}:likely:kupon:{k["ad"]}', f'⏰ {ad}: planlanan saatten 30 dk geçti, kupon paylaşılmadı'))
             if k.get("tweet_id") and not k.get("sonuc_tweet_id") and k.get("ayaklar"):
                 son = max(datetime.fromisoformat(a["baslama"]) for a in k["ayaklar"])
-                if simdi > son + SONUC_GECIKME:
+                hazir = k.get("sonuc_hazir")
+                if hazir and k.get("sonuc_metni") and simdi > datetime.fromisoformat(hazir) + SONUC_PAYI:
+                    # 28 Ekim 2026: sonuçlanan 4 kuponun postu 3 saat çıkmadı, 6 saatlik alarm gece yarısından sonraydı
+                    bulunan.append((f'{t}:likely:sonuc_hazir:{k["ad"]}',
+                                    f'⏰ {ad}: kupon sonuçlandı ({k["durum"]}) ama 30 dk\'dır sonuç postu çıkmadı'))
+                elif simdi > son + SONUC_GECIKME:
                     bulunan.append((f'{t}:likely:sonuc:{k["ad"]}',
                                     f'⏰ {ad}: son maç başlayalı 6 saat oldu, sonuç postu hâlâ yok ({k["durum"]})'))
             if k.get("tweet_id") and t >= "2026-10-25" and cfg.oran_sitesi and any(

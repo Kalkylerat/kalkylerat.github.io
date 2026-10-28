@@ -63,6 +63,20 @@ def test_G6_geciken_kupon_mac_sonuc_kasa_alarm():
     assert not mesajlar(v, cfg=likely.LikelyAyar(aktif=True, mod="elle"))  # elle modda denetim yok
 
 
+def test_G6_sonuclanan_kuponun_postu_30_dk_icinde_cikmazsa_alarm():
+    """28 Ekim 2026: 4 kupon sonuçlandı, sonuç postları 3 saat çıkmadı; 6 saatlik alarm gece yarısından sonra gelecekti."""
+    bas = (SIMDI - timedelta(hours=3)).isoformat()
+    k = {"ad": "c", "oto": True, "tweet_id": "2", "durum": "yatti", "sonuc_metni": "❌ Coupon down.\n18+",
+         "sonuc_hazir": (SIMDI - timedelta(minutes=20)).isoformat(),
+         "ayaklar": [{"fixture_id": 1, "ev": "E", "dep": "D", "baslama": bas, "oran_kaynagi": "Bet365"}]}
+    v = {"gunler": [{"tarih": "2026-10-25", "oto": True, "secilen": [k], "maclar": []}]}
+    assert not any("sonuç postu" in m for m in mesajlar(v))
+    assert any("c: kupon sonuçlandı (yatti) ama 30 dk'dır sonuç postu çıkmadı" in m
+               for m in mesajlar(v, simdi=SIMDI + timedelta(minutes=15)))
+    k["sonuc_tweet_id"] = "9"
+    assert not any("sonuç postu" in m for m in mesajlar(v, simdi=SIMDI + timedelta(minutes=15)))
+
+
 def test_G6_ayak_fiyati_kupon_sitesi_disindan_alarm():
     v = {"gunler": [{"tarih": "2026-10-25", "secilen": [{"ad": "k", "tweet_id": "1", "durum": "bekliyor", "ayaklar": [
         {"fixture_id": 1, "ev": "E", "dep": "D", "baslama": SIMDI.isoformat(), "oran_kaynagi": "William Hill"}]}]}]}

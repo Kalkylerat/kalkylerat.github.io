@@ -1246,6 +1246,7 @@ def sonuclar(ayar, sonuc_al, gh, simdi: datetime, yazici=None, yaz=print) -> int
                 biten += 1
                 sablon = sonuc_metni(k, karne(veri), gun["tarih"] + k["ad"])
                 # Sesli yazımda maç adları ve (anlatı varsa) belirleyici dakika korunur
+                k["sonuc_hazir"] = simdi.isoformat(timespec="seconds")  # canlı denetim: sonuç postu gecikirse alarm (G6)
                 k["sonuc_metni"] = yazici(sablon, [x for a in k["ayaklar"] for x in (a["ev"], a["dep"], a["etiket"])
                                                    if x in sablon]
                                           + [x["dk"] for x in filter(None, map(an, k["ayaklar"])) if x["dk"] in sablon])

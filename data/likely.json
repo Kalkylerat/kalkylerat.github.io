@@ -35988,7 +35988,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 24
+     "no": 24,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1636721-CSX2",
@@ -36072,7 +36073,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 28
+     "no": 28,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1585315-CS12",
@@ -36744,7 +36746,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 60
+     "no": 60,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1550167-EVA25",
@@ -36975,7 +36978,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 71
+     "no": 71,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1556688-ALT35",
@@ -37439,7 +37443,10 @@
      "durum": "bekliyor",
      "secim": "2026-10-28T06:42:44+00:00",
      "oto": true,
-     "paylas": "2026-10-28T13:40:00+01:00"
+     "paylas": "2026-10-28T13:40:00+01:00",
+     "tweet_id": "2115424555023884309",
+     "metin": "🎩 Long shot of the day. Pocket money stuff.\n\n⚽ AC Milan v Bologna\n⚽ Parma v Udinese\n⚽ Borac Cacak v Radnik Surdulica\n\n📊 Combined 3.38. I make it about 30% to land.\n\n💬 What would you swap in?\n\n18+ | Play responsibly",
+     "yayin": "2026-10-28T12:44:48+00:00"
     },
     {
      "ad": "gunun-kuponu-2",
@@ -38650,7 +38657,7 @@
     "zaman": "2026-10-28T06:49:32+00:00",
     "tweet_id": "2115335140964495502"
    },
-   "olcum_sorgu": "2026-10-28T11:47:39+00:00"
+   "olcum_sorgu": "2026-10-28T12:44:48+00:00"
   }
  ],
  "kasa_duyuru": {

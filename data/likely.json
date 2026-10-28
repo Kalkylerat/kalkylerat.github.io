@@ -37328,20 +37328,58 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.739,
        "deger": 0.034,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "4-3",
+       "goller": [
+        [
+         53,
+         0,
+         "ev"
+        ],
+        [
+         58,
+         0,
+         "ev"
+        ],
+        [
+         66,
+         0,
+         "dep"
+        ],
+        [
+         74,
+         0,
+         "dep"
+        ],
+        [
+         75,
+         0,
+         "ev"
+        ],
+        [
+         81,
+         0,
+         "dep"
+        ],
+        [
+         90,
+         4,
+         "ev"
+        ]
+       ]
       }
      ],
      "oran": 2.0,
      "olasilik": 0.496,
      "deger": -0.008,
-     "durum": "bekliyor",
+     "durum": "yatti",
      "secim": "2026-10-28T06:42:44+00:00",
      "oto": true,
      "paylas": "2026-10-28T08:00:00+01:00",
      "tweet_id": "2115338241763139923",
      "metin": "🎩 Today's treble.\n\n⚽ Lernayin Artsakh v Shirak\n⚽ Genoa v Juventus\n⚽ Yokohama F. Marinos v Sanfrecce Hiroshima\n\n📊 Combined 2.00. I make it about 50% to land.\n\n💬 Which of these do you trust least?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-28T07:01:49+00:00"
+     "yayin": "2026-10-28T07:01:49+00:00",
+     "son_oran": 1
     },
     {
      "ad": "long-shot",
@@ -37533,7 +37571,10 @@
      "durum": "bekliyor",
      "secim": "2026-10-28T06:42:44+00:00",
      "oto": true,
-     "paylas": "2026-10-28T13:00:00+01:00"
+     "paylas": "2026-10-28T13:00:00+01:00",
+     "tweet_id": "2115413789734527296",
+     "metin": "🎩 Today's three.\n\n⚽ Sakaryaspor v Bursa Yıldırımspor\n⚽ Liverpool v Chelsea\n⚽ SC Freiburg v VfL Wolfsburg\n\n📊 Combined 2.00. I make it about 46% to land.\n\n💬 Too cautious or about right?\n\n18+ | Play responsibly",
+     "yayin": "2026-10-28T12:02:02+00:00"
     }
    ],
    "islenen": [],

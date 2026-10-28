@@ -545,7 +545,7 @@ def test_E9_ucuz_mod_sonuclar_tek_postta_mac_postu_yalniz_buyuk(oto, monkeypatch
     gercek = likely.LikelyAyar(**{k: v for k, v in __import__("tomllib").loads(
         (likely.config.ROOT / "ayarlar.toml").read_text(encoding="utf-8"))["likely"].items()
         if k in likely.LikelyAyar.__dataclass_fields__})
-    assert gercek.oto_sonuc_tek and gercek.oto_mac_yalniz_buyuk and gercek.oto_mac_sayisi == 3 and gercek.oto_hikaye_sayisi == 1
+    assert not gercek.oto_sonuc_tek and gercek.oto_mac_yalniz_buyuk  # sonuçlar kupon başına (28 Ekim akşamı) and gercek.oto_mac_sayisi == 3 and gercek.oto_hikaye_sayisi == 1
     tek = replace(OTO, oto_sonuc_tek=True)
     monkeypatch.setattr(likely, "ayar_yukle", lambda *a, **k: tek)
     x = SahteX()

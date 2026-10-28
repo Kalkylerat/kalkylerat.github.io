@@ -168,8 +168,9 @@ oto_mac_yalniz_buyuk = true
 # sezon karnesi, seriler, sakat/cezalılar; yalnızca API-Football verisinden (~8 istek/maç), olgu yoksa tek post.
 # 28 Ekim 2026 (sahibinin isteği, maliyet; E9): yalnızca günün maçı.
 oto_hikaye_sayisi = 1
-# 28 Ekim 2026 (sahibinin isteği, maliyet; E9): kuponların sonuçları kupon başına ayrı post yerine günde tek postta.
-oto_sonuc_tek = true
+# Kuponların sonuçları günde tek postta (E9). 28 Ekim 2026 akşamı kapatıldı (sahibinin isteği: sonuçlar kupon başına kalsın;
+# tek post, sonucu gelmeyen tek bir maç yüzünden günün bütün sonuçlarını bekletti).
+oto_sonuc_tek = false
 # Sanal kasa grafiği (SOZLESME E8): 10.000 € (6 Ekim'den), her kupona boştaki bakiyenin %3'ü. true olunca önce bir kez
 # duyuru, sonra her gün kuponlar sonuçlanınca grafik (Pazar haftalık, ay sonu aylık). Duyuru sahibinin onayıyla açılır.
 # Maliyet: günde 1 X yazma (görsel yerel). Palet: fis, hardal, murekkep, orman, gece (bot/likely_kasa.py).

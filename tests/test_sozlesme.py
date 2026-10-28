@@ -473,6 +473,9 @@ def test_B8_az_post_modu_gunde_az_post_ve_sonuclar_tek_postta():
     for a in (FRA, BEL, alt[0]):  # her maçın skoru ve iki yüzdesi (A1)
         satir = next(s for s in metin.splitlines() if s.startswith(a["ev"]))
         assert a["dep"] in satir and len(re.findall(r"\d+%", satir)) == 2
+    # Mod açılmadan önce maç sonu postu ayrı çıkmış kartlar tekrar paylaşılmaz
+    eski = {**gun, "etkilesim": {t: {"durum": "paylasildi", "takip": {"durum": "paylasildi", "skor": "1-0"}} for t in kartlar}}
+    assert not etkilesim.gun_sonu(eski, az, x, sonra) and len(x.giden) == 1 and eski["etkilesim"]["gun_sonu"]["durum"] == "atlandi"
     # Tam düzen kapalıyken gün sonu postu yok
     assert not etkilesim.gun_sonu({**gun, "etkilesim": {}}, AYAR, x, sonra)
     # Sağlık: kart başına maç sonu ve sessizlik alarmı yok; gün sonu postu gecikirse alarm

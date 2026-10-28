@@ -764,9 +764,10 @@ def gun_sonu(gun: dict, ayar, x, simdi: datetime, yaz=print) -> bool:
     son_bas = max(datetime.fromisoformat(a["baslama"]) for a, _ in kartlar)
     if not all(e.get("takip") for _, e in kartlar) and simdi < son_bas + GUN_SONU_SON:
         return False
-    biten = [(a, e["takip"]["skor"]) for a, e in kartlar if (e.get("takip") or {}).get("skor")]
+    # Yalnızca kaydedilmiş (paylaşılmamış) sonuçlar: mod açılmadan önce ayrı maç sonu postu çıkan kart tekrar edilmez
+    biten = [(a, e["takip"]["skor"]) for a, e in kartlar if (e.get("takip") or {}).get("durum") == "kayit"]
     if not biten:
-        durum["gun_sonu"] = {"durum": "atlandi", "neden": "sonuç gelmedi"}
+        durum["gun_sonu"] = {"durum": "atlandi", "neden": "sonuçlar ayrı paylaşıldı ya da gelmedi"}
         return False
     sablon = gun_sonu_tweeti(biten)
     metin = _denetle("gun_sonu", sablon, sablon, [], ayar, None, yaz)

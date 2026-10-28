@@ -101,8 +101,10 @@ def sorunlar(gunler: list[dict], simdi: datetime, ayar, hatalar: list[str] = ())
                     + (["kısaltma (O2.5/BTTS)"] if _KISALTMA.search(metin) else [])
                 if ihlal:
                     bulunan.append((anahtar + ":kural", f'📏 {g["tarih"]} {ad}: paylaşılan metin sözleşme dışı: {", ".join(ihlal)}'))
+        secili = set(etkilesim.az_kartlari(g, ayar)) if az else set()
         kartlar = [g["analizler"][int(tur.split("_")[1])] for tur, e in durum.items()
-                   if az and tur.startswith("analiz_") and e.get("durum") == "paylasildi" and g.get("analizler")]
+                   if tur.startswith("analiz_") and int(tur.split("_")[1]) in secili and e.get("durum") == "paylasildi"
+                   and (e.get("takip") or {}).get("durum") != "paylasildi"]  # ayrı maç sonu çıkmışsa gün sonu yok
         if kartlar and "gun_sonu" not in durum and simdi > max(datetime.fromisoformat(a["baslama"]) for a in kartlar) \
                 + etkilesim.GUN_SONU_SON + MAC_SONU_PAYI:
             bulunan.append((f'{g["tarih"]}:gun_sonu:gec', f'⏰ {g["tarih"]}: kartların maçları bitti ama gün sonu postu çıkmadı'))

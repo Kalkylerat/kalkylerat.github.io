@@ -37300,8 +37300,50 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.82,
        "deger": 0.001,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-7",
+       "goller": [
+        [
+         19,
+         0,
+         "dep"
+        ],
+        [
+         28,
+         0,
+         "dep"
+        ],
+        [
+         37,
+         0,
+         "dep"
+        ],
+        [
+         42,
+         0,
+         "dep"
+        ],
+        [
+         49,
+         0,
+         "ev"
+        ],
+        [
+         76,
+         0,
+         "dep"
+        ],
+        [
+         81,
+         0,
+         "dep"
+        ],
+        [
+         82,
+         0,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1550171-CSX2",
@@ -37383,7 +37425,7 @@
      "tweet_id": "2115338241763139923",
      "metin": "🎩 Today's treble.\n\n⚽ Lernayin Artsakh v Shirak\n⚽ Genoa v Juventus\n⚽ Yokohama F. Marinos v Sanfrecce Hiroshima\n\n📊 Combined 2.00. I make it about 50% to land.\n\n💬 Which of these do you trust least?\n\n18+ | Play responsibly",
      "yayin": "2026-10-28T07:01:49+00:00",
-     "son_oran": 1
+     "son_oran": 1.22
     },
     {
      "ad": "long-shot",

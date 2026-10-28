@@ -35866,7 +35866,8 @@
      "istatistik": 0.786,
      "uyum": true,
      "buyuk": false,
-     "no": 18
+     "no": 18,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1638557-MS1",
@@ -36398,7 +36399,8 @@
      "istatistik": 0.713,
      "uyum": true,
      "buyuk": false,
-     "no": 43
+     "no": 43,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1585316-CS1X",
@@ -38807,7 +38809,7 @@
     "zaman": "2026-10-28T06:49:32+00:00",
     "tweet_id": "2115335140964495502"
    },
-   "olcum_sorgu": "2026-10-28T17:33:36+00:00"
+   "olcum_sorgu": "2026-10-28T18:30:28+00:00"
   }
  ],
  "kasa_duyuru": {

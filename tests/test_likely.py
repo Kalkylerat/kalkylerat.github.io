@@ -545,7 +545,8 @@ def test_E9_ucuz_mod_sonuclar_tek_postta_mac_postu_yalniz_buyuk(oto, monkeypatch
     gercek = likely.LikelyAyar(**{k: v for k, v in __import__("tomllib").loads(
         (likely.config.ROOT / "ayarlar.toml").read_text(encoding="utf-8"))["likely"].items()
         if k in likely.LikelyAyar.__dataclass_fields__})
-    assert not gercek.oto_sonuc_tek and gercek.oto_mac_yalniz_buyuk  # sonuçlar kupon başına (28 Ekim akşamı) and gercek.oto_mac_sayisi == 3 and gercek.oto_hikaye_sayisi == 1
+    assert gercek.oto_sonuc_tek and gercek.oto_mac_yalniz_buyuk and gercek.oto_mac_sayisi == 1 and gercek.oto_hikaye_sayisi == 0
+    assert gercek.oto_bilgi_sayisi == 0  # bilgi postları kapalı (28 Ekim 2026)
     tek = replace(OTO, oto_sonuc_tek=True)
     monkeypatch.setattr(likely, "ayar_yukle", lambda *a, **k: tek)
     x = SahteX()
@@ -574,6 +575,22 @@ def test_E9_ucuz_mod_sonuclar_tek_postta_mac_postu_yalniz_buyuk(oto, monkeypatch
     assert likely._tek_sonuc_paylas(veri, x, sonra) == 0
     veri["gunler"][0]["secilen"][1]["ayaklar"][0]["baslama"] = (sonra - timedelta(hours=1)).isoformat()
     assert likely._tek_sonuc_paylas(veri, x, sonra) == 1  # paylaşılmadan maçı başlayan kupon beklenmez (E4)
+    # Sonucu gelmeyen maç günün sonuçlarını bekletmez (28 Ekim 2026): beklenen bitişinden 3 saat sonra post çıkar,
+    # takılan kupon "⏳ no result yet" yazılır; sonuçlanınca kendi kısa postunu alır
+    hazir = {**next(k for k in gun["secilen"] if k.get("tweet_id")), "sonuc_tweet_id": None, "yayin": "1"}
+    takili = {"ad": "gunun-kuponu-2", "tweet_id": "t99", "durum": "bekliyor", "oran": 2.0, "yayin": "2",
+              "ayaklar": [{"durum": "bekliyor", "baslama": (sonra - timedelta(hours=2)).isoformat()}]}
+    veri = {"gunler": [{"tarih": "2026-10-07", "secilen": [hazir, takili]}]}
+    n = len(x.postlar)
+    assert likely._tek_sonuc_paylas(veri, x, sonra) == 0  # 2 saat: henüz bekleniyor
+    takili["ayaklar"][0]["baslama"] = (sonra - timedelta(hours=5)).isoformat()
+    assert likely._tek_sonuc_paylas(veri, x, sonra) == 1
+    son = x.postlar[n]["metin"]
+    assert "⏳ Coupon 2 at 2.00: no result yet" in son and uzunluk(son) <= LIMIT and son.endswith(ANSVAR)
+    assert hazir["sonuc_tweet_id"] and not takili.get("sonuc_tweet_id")
+    takili.update(durum="iade", sonuc_metni="x")
+    assert likely._tek_sonuc_paylas(veri, x, sonra) == 1 and takili["sonuc_tweet_id"]
+    assert "↩️" in x.postlar[-1]["metin"] and likely._tek_sonuc_paylas(veri, x, sonra) == 0
     # Maç postu yalnızca büyük maçlar
     adaylar = likely.havuz(MACLAR, ORANLAR, AYAR, OTO, SIMDI)
     plan = likely.mac_planla(MACLAR, adaylar, [], SIMDI, replace(OTO, oto_mac_yalniz_buyuk=True, oto_mac_sayisi=3,

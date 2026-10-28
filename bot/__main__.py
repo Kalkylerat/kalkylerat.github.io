@@ -872,7 +872,8 @@ def main(argv=None) -> int:
                 except Exception as e:
                     _hata("Gün sonu postu", e)
         yerel = simdi.astimezone(ZoneInfo(ayar.saat_dilimi))
-        if (args.komut == "nabiz" and _direktor_yazar(ayar) and direktor.haftalik_gerekli(yerel)) or args.komut == "direktor":
+        if (args.komut == "nabiz" and ayar.direktor_haftalik and _direktor_yazar(ayar) and direktor.haftalik_gerekli(yerel)) \
+                or args.komut == "direktor":
             try:
                 try:
                     tweetler = _x_client().metrikler()

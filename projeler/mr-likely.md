@@ -1,7 +1,8 @@
 # Mr. Likely (kupon hesabı, X)
 
-**Durum (28 Ekim 2026):** ucuz mod (SOZLESME E9, sahibinin isteği: maliyet): kuponlar aynı, sonuçlar günde tek
-postta, maç postu yalnızca büyük maçlar (en fazla 3), hikâye yalnızca günün maçında; yorum fırsatları kapalı (26 Ekim).
+**Durum (28 Ekim 2026 akşamı):** ucuz mod (SOZLESME E9, sahibinin kararı: maliyet): kuponlar aynı, sonuçlar günde tek
+postta (takılan maç 3 saat sonra bırakılır), günde yalnızca 1 büyük maç postu (flood yok), bilgi postları kapalı;
+yorum fırsatları kapalı (26 Ekim).
 Önceki durum (24 Ekim 2026): çalışıyor, otomatik mod. 6–23 Ekim: 46 kupon, 22 tuttu. Ayak oranları yalnızca Bet365'ten
 (`claude/mr-likely-bet365` dalı, ana dala alınınca canlı).
 

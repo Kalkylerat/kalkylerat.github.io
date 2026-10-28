@@ -109,6 +109,9 @@ gunluk_model = "claude-sonnet-5-5"
 gunluk_effort = "medium"
 strateji_model = "claude-fable-5-1"
 strateji_effort = "high"
+# Pazartesi strateji raporu (en pahalı model, ~50 kr/ay). Sahibinin kararı 28 Ekim 2026: kapalı (maliyet); günlük metinler
+# son kaydedilen stratejiyle yazılmaya devam eder.
+haftalik = false
 
 [likely]
 # Mr. Likely: elle paylaşılan ikinci hesap (tahmin/kupon). Bot X'e hiçbir şey paylaşmaz: her sabah adayları ve hazır
@@ -155,22 +158,23 @@ oto_once_dk = 180
 oto_son_dk = 20
 # Bilgi postları (strateji notları, günün büyük maçlarından rakamlar): günde en fazla kaç tane ve başka bir posttan
 # en az kaç dakika uzakta. Saatleri: 10:00 not, 13:00 günün favorisi, 16:00 gol/denk maç, 21:00 not (İsveç saati).
-oto_bilgi_sayisi = 4
+# 28 Ekim 2026 (sahibinin kararı, maliyet; E9): bilgi postları kapalı.
+oto_bilgi_sayisi = 0
 oto_bilgi_aralik_dk = 40
 # Günün maçı postları (SOZLESME E1, 24 Ekim 2026): günde en fazla bu kadar maç (önce büyük maçlar), 1X2, gol yüzdeleri ve
 # havuzun en yüksek ihtimalli oyunu ("safest angle"). Maçtan ~2,5 saat önce. 0 = kapalı (eski favori/gol/denk postları).
 # Maliyet: maç başına 1 X yazma (en fazla 10/gün), ek API isteği yok (analiz kaydı ve havuzdan).
 # 28 Ekim 2026 (sahibinin isteği, maliyet; E9): 10 → 3, yalnızca büyük maçlar.
-oto_mac_sayisi = 3
+oto_mac_sayisi = 1  # sahibinin kararı 28 Ekim 2026 akşamı: yalnızca günün büyük maçı
 oto_mac_yalniz_buyuk = true
 # Bunlardan kaçı büyük maç hikayesi flood'u olur (E1, 25 Ekim 2026; sahibinin isteği: yoğun günde, hafta sonu ya da
 # Şampiyonlar Ligi gecesi, bütün büyük maçlar): puan durumu, eşleşme geçmişi, son maçlar,
 # sezon karnesi, seriler, sakat/cezalılar; yalnızca API-Football verisinden (~8 istek/maç), olgu yoksa tek post.
 # 28 Ekim 2026 (sahibinin isteği, maliyet; E9): yalnızca günün maçı.
-oto_hikaye_sayisi = 1
+oto_hikaye_sayisi = 0  # sahibinin kararı 28 Ekim 2026 akşamı: flood yok
 # Kuponların sonuçları günde tek postta (E9). 28 Ekim 2026 akşamı kapatıldı (sahibinin isteği: sonuçlar kupon başına kalsın;
 # tek post, sonucu gelmeyen tek bir maç yüzünden günün bütün sonuçlarını bekletti).
-oto_sonuc_tek = false
+oto_sonuc_tek = true  # sahibinin kararı 28 Ekim 2026 akşamı: ucuz yol, takılan maç bekletmez (TEK_BEKLE)
 # Sanal kasa grafiği (SOZLESME E8): 10.000 € (6 Ekim'den), her kupona boştaki bakiyenin %3'ü. true olunca önce bir kez
 # duyuru, sonra her gün kuponlar sonuçlanınca grafik (Pazar haftalık, ay sonu aylık). Duyuru sahibinin onayıyla açılır.
 # Maliyet: günde 1 X yazma (görsel yerel). Palet: fis, hardal, murekkep, orman, gece (bot/likely_kasa.py).

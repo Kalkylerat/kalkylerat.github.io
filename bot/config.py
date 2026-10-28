@@ -31,6 +31,7 @@ class Ayarlar:
     direktor_effort: str = "medium"
     direktor_strateji_model: str = "claude-fable-5-1"
     direktor_strateji_effort: str = "high"
+    direktor_haftalik: bool = True  # Pazartesi strateji raporu (sahibinin kararı 28 Ekim 2026: kapalı, maliyet)
     # Yoğun gün (ör. maç dolu Cumartesi): postlar arası daha kısa, öne çıkan kart sayısı akşam maçlarıyla genişler.
     yogun_gunler: tuple = ()
     yogun_aralik_dk: int = 15
@@ -109,7 +110,8 @@ def _yukle(path: Path) -> Ayarlar:
             "direktor_model": t["direktor"].get("gunluk_model", "claude-sonnet-5-5"),
             "direktor_effort": t["direktor"].get("gunluk_effort", "medium"),
             "direktor_strateji_model": t["direktor"].get("strateji_model", "claude-fable-5-1"),
-            "direktor_strateji_effort": t["direktor"].get("strateji_effort", "high")} if "direktor" in t else {}),
+            "direktor_strateji_effort": t["direktor"].get("strateji_effort", "high"),
+            "direktor_haftalik": bool(t["direktor"].get("haftalik", True))} if "direktor" in t else {}),
     )
 
 

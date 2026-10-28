@@ -73,6 +73,13 @@ def test_G6_sonuclanan_kuponun_postu_30_dk_icinde_cikmazsa_alarm():
     assert not any("sonuç postu" in m for m in mesajlar(v))
     assert any("c: kupon sonuçlandı (yatti) ama 30 dk'dır sonuç postu çıkmadı" in m
                for m in mesajlar(v, simdi=SIMDI + timedelta(minutes=15)))
+    # Tek sonuç postu modunda (E9): başka kupon meşru olarak bekleniyorsa alarm yok, zamanı geçince alarm
+    from dataclasses import replace
+    tek = replace(CFG, oto_sonuc_tek=True)
+    v["gunler"][0]["secilen"].append({"ad": "d", "oto": True, "tweet_id": "3", "durum": "bekliyor", "ayaklar": [
+        {"fixture_id": 2, "ev": "F", "dep": "G", "durum": "bekliyor", "baslama": (SIMDI - timedelta(hours=1)).isoformat()}]})
+    assert not any("sonuç postu" in m for m in mesajlar(v, simdi=SIMDI + timedelta(minutes=15), cfg=tek))
+    assert any("c: kupon sonuçlandı" in m for m in mesajlar(v, simdi=SIMDI + timedelta(hours=5, minutes=20), cfg=tek))
     k["sonuc_tweet_id"] = "9"
     assert not any("sonuç postu" in m for m in mesajlar(v, simdi=SIMDI + timedelta(minutes=15)))
 

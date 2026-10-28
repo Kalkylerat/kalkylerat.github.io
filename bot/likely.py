@@ -1390,7 +1390,8 @@ def oto_sonuc_paylas(ayar, x, simdi: datetime, kart=None, yaz=print) -> int:
 
 
 KUPON_KISA_AD = {"long-shot": "Long shot", "buyuk-maclar": "Big games"}
-SONUC_KELIME = {"tuttu": ("✅", "in"), "yatti": ("❌", "down"), "iade": ("↩️", "void")}
+SONUC_KELIME = {"tuttu": ("✅", "in"), "yatti": ("❌", "down"), "iade": ("↩️", "void"), "bekliyor": ("⏳", "no result yet")}
+TEK_BEKLE = MAC_SURESI + YATAN_BEKLE  # tek sonuç postu sonucu gelmeyen maçı beklenen bitişinden bu kadar sonra bırakır
 
 
 def toplu_sonuc_metni(kuponlar: list[dict], k: dict) -> str:
@@ -1405,7 +1406,7 @@ def toplu_sonuc_metni(kuponlar: list[dict], k: dict) -> str:
             ad = f"Coupon {no}"
         isaret, kelime = SONUC_KELIME[kupon["durum"]]
         satirlar.append(f'{isaret} {ad} at {kupon["oran"]:.2f}: {kelime}')
-    sayilan = [x for x in kuponlar if x["durum"] != "iade"]
+    sayilan = [x for x in kuponlar if x["durum"] not in ("iade", "bekliyor")]
     tutan = sum(x["durum"] == "tuttu" for x in sayilan)
     bas = (f"🎩 Today's coupons: {tutan} of {len(sayilan)} landed." if sayilan
            else "🎩 Today's coupons: all void, nothing won and nothing lost.")
@@ -1413,22 +1414,31 @@ def toplu_sonuc_metni(kuponlar: list[dict], k: dict) -> str:
     return _kisalt(f"{bas}\n\n{liste}\n\n{karne_satiri(k)}\n{ANSVAR}", f"{bas}\n\n{liste}\n\n{ANSVAR}")
 
 
+def tek_sonuc_hazir(gun: dict, simdi: datetime) -> bool:
+    """Tek sonuç postunun zamanı geldi mi (E9): paylaşılabilecek kupon kalmadı ve sonuçlanmamış her paylaşılmış kuponun
+    bekleyen ayakları beklenen bitişlerinden TEK_BEKLE sonra hâlâ sonuçsuz (28 Ekim 2026: sonucu gelmeyen tek maç
+    günün bütün sonuçlarını 3 saat bekletti)."""
+    secilen = gun.get("secilen", [])
+    if any(not k.get("tweet_id") and k.get("ayaklar") and min(datetime.fromisoformat(a["baslama"])
+                                                              for a in k["ayaklar"]) > simdi for k in secilen):
+        return False  # günün paylaşılabilecek kuponu kaldı (E4): sonuç postu onu da beklesin
+    return all(datetime.fromisoformat(a["baslama"]) + TEK_BEKLE <= simdi
+               for k in secilen if k.get("tweet_id") and not k.get("sonuc_metni")
+               for a in k["ayaklar"] if a["durum"] == "bekliyor")
+
+
 def _tek_sonuc_paylas(veri: dict, x, simdi: datetime, yaz=print) -> int:
-    """Ucuz mod (E9): bir günün paylaşılmış bütün kuponları sonuçlanınca (ve paylaşılabilecek kupon kalmayınca) tek
-    sonuç postu. Her kuponun sonuç postu kimliği bu posttur (sanal kasa sırası, E8)."""
+    """Ucuz mod (E9): günün paylaşılmış kuponları sonuçlanınca tek sonuç postu; sonucu gelmeyen maç beklenen
+    bitişinden TEK_BEKLE sonra bırakılır ve o kupon "⏳ no result yet" yazılır, sonuçlanınca kendi kısa postunu alır.
+    Her kuponun sonuç postu kimliği onu duyuran posttur (sanal kasa sırası, E8)."""
     adet = 0
     for gun in veri["gunler"][-6:]:
         paylasilan = [k for k in gun.get("secilen", []) if k.get("tweet_id")]
-        if not paylasilan or all(k.get("sonuc_tweet_id") for k in paylasilan):
+        yeni = [k for k in paylasilan if k.get("sonuc_metni") and not k.get("sonuc_tweet_id")]
+        if not yeni or not tek_sonuc_hazir(gun, simdi):
             continue
-        if not all(k.get("sonuc_metni") for k in paylasilan):
-            continue  # sonuçlanmamış kupon var
-        if any(not k.get("tweet_id") and k.get("ayaklar") and min(datetime.fromisoformat(a["baslama"])
-                                                                  for a in k["ayaklar"]) > simdi
-               for k in gun.get("secilen", [])):
-            continue  # günün paylaşılabilecek kuponu kaldı (E4): sonuç postu onu da beklesin
-        yeni = [k for k in paylasilan if not k.get("sonuc_tweet_id")]
-        sira = sorted(yeni, key=lambda k: k.get("yayin") or "")
+        bekleyen = [k for k in paylasilan if not k.get("sonuc_metni")]
+        sira = sorted(yeni + bekleyen, key=lambda k: k.get("yayin") or "")
         metin = toplu_sonuc_metni(sira, karne(veri))
         tid = x.gonder(metin)
         zaman = simdi.isoformat(timespec="seconds")

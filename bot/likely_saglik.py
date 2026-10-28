@@ -78,7 +78,9 @@ def sorunlar(veri: dict, analizler: list[dict], simdi: datetime, ayar, cfg) -> l
         # G1: dev maç günün maçı postlarında (plan yapıldıysa)
         if t == bugun and g.get("oto") and "maclar" in g and cfg.oto_mac_sayisi:
             planli = {m["fixture_id"] for m in g["maclar"]}
-            for a in analizler:
+            # Günde tek maç postunda (E9) yer bir dev maça gittiyse ikinci dev maç kaçmış sayılmaz
+            dolu = len(planli) >= cfg.oto_mac_sayisi and any(dev_mac(a) and a["fixture_id"] in planli for a in analizler)
+            for a in ([] if dolu else analizler):
                 if dev_mac(a) and a.get("kaynak") == "piyasa" and a["fixture_id"] not in planli \
                         and datetime.fromisoformat(a["baslama"]) > simdi:
                     bulunan.append((f'{t}:likely:dev:{a["fixture_id"]}',
@@ -92,7 +94,9 @@ def sorunlar(veri: dict, analizler: list[dict], simdi: datetime, ayar, cfg) -> l
             if k.get("tweet_id") and not k.get("sonuc_tweet_id") and k.get("ayaklar"):
                 son = max(datetime.fromisoformat(a["baslama"]) for a in k["ayaklar"])
                 hazir = k.get("sonuc_hazir")
-                if hazir and k.get("sonuc_metni") and simdi > datetime.fromisoformat(hazir) + SONUC_PAYI:
+                from . import likely
+                if hazir and k.get("sonuc_metni") and simdi > datetime.fromisoformat(hazir) + SONUC_PAYI and (
+                        not cfg.oto_sonuc_tek or likely.tek_sonuc_hazir(g, simdi - SONUC_PAYI)):
                     # 28 Ekim 2026: sonuçlanan 4 kuponun postu 3 saat çıkmadı, 6 saatlik alarm gece yarısından sonraydı
                     bulunan.append((f'{t}:likely:sonuc_hazir:{k["ad"]}',
                                     f'⏰ {ad}: kupon sonuçlandı ({k["durum"]}) ama 30 dk\'dır sonuç postu çıkmadı'))

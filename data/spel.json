@@ -156425,7 +156425,21 @@
         "durum": "paylasildi",
         "tweet_id": "2115410164295602509",
         "zaman": "2026-10-28T11:47:39+00:00",
-        "metin": "Most likely score: 0-1.\nEven that is only 16%.\n\n🇮🇹 Genoa v Juventus 🇮🇹 · 20:45 CET\n🏆 Genoa 19% · Draw 26% · Juventus 55%\n⚽ Over 2.5 goals 39% · Under 61%\n🥅 Both teams score 41% · Not both 59%\n\n💬 Chances, not picks. What's your score? 👇\n#SerieA\n18+ | Play responsibly"
+        "metin": "Most likely score: 0-1.\nEven that is only 16%.\n\n🇮🇹 Genoa v Juventus 🇮🇹 · 20:45 CET\n🏆 Genoa 19% · Draw 26% · Juventus 55%\n⚽ Over 2.5 goals 39% · Under 61%\n🥅 Both teams score 41% · Not both 59%\n\n💬 Chances, not picks. What's your score? 👇\n#SerieA\n18+ | Play responsibly",
+        "takip": {
+          "durum": "kayit",
+          "skor": "2-0",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "zaman": "2026-10-28T21:43:25+00:00",
+          "brier": {
+            "piyasa": 1.3542,
+            "istatistik": 1.3555
+          }
+        }
       },
       "maclar": {
         "durum": "paylasildi",
@@ -156438,6 +156452,12 @@
         "tweet_id": "2115452070547595530",
         "zaman": "2026-10-28T14:34:10+00:00",
         "metin": "🗳️ MATCH POLL | Parma v Udinese · 18:30 CET\n\nWho wins? Vote below 👇\n\nOur numbers: Parma 34% · draw 31% · Udinese 35%\nAgree or not? Tell us why in the replies.\n#SerieA"
+      },
+      "gun_sonu": {
+        "durum": "paylasildi",
+        "tweet_id": "2115560091713679504",
+        "zaman": "2026-10-28T21:43:25+00:00",
+        "metin": "🔁 Full time on today's cards.\n📊 Our pre-match chance of what happened (🏆 result, ⚽ goals):\n\nAC Milan 2–4 Bologna · 🏆 20% · ⚽ 51%\nVenezia 0–2 Inter · 🏆 71% · ⚽ 28%\nGenoa 2–0 Juventus · 🏆 19% · ⚽ 61%\n\n💡 Chances, not picks.\n18+ | Play responsibly"
       }
     },
     "yanit_kiti": {

@@ -37408,8 +37408,20 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.819,
        "deger": -0.041,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "2-0",
+       "goller": [
+        [
+         12,
+         0,
+         "ev"
+        ],
+        [
+         28,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1646116-EVA15",
@@ -37475,7 +37487,8 @@
      "tweet_id": "2115338241763139923",
      "metin": "🎩 Today's treble.\n\n⚽ Lernayin Artsakh v Shirak\n⚽ Genoa v Juventus\n⚽ Yokohama F. Marinos v Sanfrecce Hiroshima\n\n📊 Combined 2.00. I make it about 50% to land.\n\n💬 Which of these do you trust least?\n\n18+ | Play responsibly",
      "yayin": "2026-10-28T07:01:49+00:00",
-     "son_oran": 1.22
+     "son_oran": 1.22,
+     "sonuc_metni": "❌ Coupon down.\n\n✅ Lernayin Artsakh 1-7 Shirak: Double chance X2\n❌ Genoa 2-0 Juventus: Double chance X2\n❌ Yokohama F. Marinos 4-3 Sanfrecce Hiroshima: Yokohama F. Marinos Under 1.5 goals\n\nRecord: 30 of 70 landed.\n18+ | Play responsibly"
     },
     {
      "ad": "long-shot",
@@ -37639,8 +37652,30 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.862,
        "deger": -0.052,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "2-2",
+       "goller": [
+        [
+         18,
+         0,
+         "ev"
+        ],
+        [
+         28,
+         0,
+         "dep"
+        ],
+        [
+         31,
+         0,
+         "dep"
+        ],
+        [
+         65,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1645822-CS1X",
@@ -37691,7 +37726,8 @@
      "tweet_id": "2115433576393228542",
      "metin": "🎩 Two picks, one coupon.\n\n⚽ Celtic v Dundee Utd\n⚽ FK Vozdovac v Novi Pazar\n\n📊 Combined 2.10. I make it about 47% to land.\n\n💬 Which of these do you trust least?\n\n18+ | Play responsibly",
      "yayin": "2026-10-28T13:20:40+00:00",
-     "son_oran": 1
+     "son_oran": 1.1,
+     "sonuc_metni": "❌ Everything landed bar one. You know the feeling. Coupon down. I had it at 47%, which was never 100.\n\n✅ Celtic 2-2 Dundee Utd: Over 1.5 goals\n❌ FK Vozdovac 1-3 Novi Pazar: Double chance 1X\n\nRecord: 30 of 70 landed.\n18+ | Play responsibly"
     },
     {
      "ad": "gunun-kuponu-4",

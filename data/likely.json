@@ -35548,7 +35548,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 3
+     "no": 3,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1556689-UST15",
@@ -35590,7 +35591,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 5
+     "no": 5,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1638654-CS12",
@@ -35611,7 +35613,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 6
+     "no": 6,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1635507-CS12",
@@ -35675,7 +35678,8 @@
      "istatistik": 0.884,
      "uyum": true,
      "buyuk": false,
-     "no": 9
+     "no": 9,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1492432-CS12",
@@ -35803,7 +35807,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 15
+     "no": 15,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1494314-UST15",
@@ -35845,7 +35850,8 @@
      "istatistik": 0.791,
      "uyum": true,
      "buyuk": true,
-     "no": 17
+     "no": 17,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1549527-CS1X",
@@ -35973,7 +35979,8 @@
      "istatistik": 0.891,
      "uyum": true,
      "buyuk": false,
-     "no": 23
+     "no": 23,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1646116-CSX2",
@@ -36059,7 +36066,8 @@
      "istatistik": 0.82,
      "uyum": true,
      "buyuk": true,
-     "no": 27
+     "no": 27,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1646115-CSX2",
@@ -36209,7 +36217,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 34
+     "no": 34,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1638557-UST25",
@@ -36463,7 +36472,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 46
+     "no": 46,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1641987-CS12",
@@ -36676,7 +36686,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 56
+     "no": 56,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1550176-DPU15",
@@ -36697,7 +36708,8 @@
      "istatistik": 0.594,
      "uyum": false,
      "buyuk": true,
-     "no": 57
+     "no": 57,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1551527-CSX2",
@@ -36718,7 +36730,8 @@
      "istatistik": 0.773,
      "uyum": true,
      "buyuk": false,
-     "no": 58
+     "no": 58,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1638572-CS12",
@@ -36739,7 +36752,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 59
+     "no": 59,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1646116-EVA15",
@@ -36782,7 +36796,8 @@
      "istatistik": 0.744,
      "uyum": true,
      "buyuk": true,
-     "no": 61
+     "no": 61,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1550173-DPU05",
@@ -36803,7 +36818,8 @@
      "istatistik": 0.85,
      "uyum": true,
      "buyuk": true,
-     "no": 62
+     "no": 62,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1601578-CS12",
@@ -36908,7 +36924,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 67
+     "no": 67,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1612269-DPU05",
@@ -37036,7 +37053,8 @@
      "istatistik": 0.787,
      "uyum": true,
      "buyuk": true,
-     "no": 73
+     "no": 73,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1645819-CSX2",
@@ -37101,7 +37119,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 76
+     "no": 76,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1645412-IYU05",
@@ -37463,8 +37482,40 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.731,
        "deger": -0.028,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "2-4",
+       "goller": [
+        [
+         8,
+         0,
+         "dep"
+        ],
+        [
+         14,
+         0,
+         "ev"
+        ],
+        [
+         27,
+         0,
+         "ev"
+        ],
+        [
+         60,
+         0,
+         "dep"
+        ],
+        [
+         62,
+         0,
+         "dep"
+        ],
+        [
+         86,
+         0,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1550173-DPU05",
@@ -37479,8 +37530,9 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.722,
        "deger": -0.04,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "0-0",
+       "goller": []
       },
       {
        "aday_id": "1645809-CS1X",
@@ -37526,7 +37578,8 @@
      "tweet_id": "2115424555023884309",
      "metin": "🎩 Long shot of the day. Pocket money stuff.\n\n⚽ AC Milan v Bologna\n⚽ Parma v Udinese\n⚽ Borac Cacak v Radnik Surdulica\n\n📊 Combined 3.38. I make it about 30% to land.\n\n💬 What would you swap in?\n\n18+ | Play responsibly",
      "yayin": "2026-10-28T12:44:48+00:00",
-     "son_oran": 1
+     "son_oran": 1.33,
+     "sonuc_metni": "❌ Coupon down.\n\n✅ AC Milan 2-4 Bologna: AC Milan Under 2.5 goals\n❌ Parma 0-0 Udinese: Udinese Over 0.5 goals\n❌ Borac Cacak 1-2 Radnik Surdulica: Double chance 1X\n\nRecord: 30 of 70 landed.\n18+ | Play responsibly"
     },
     {
      "ad": "gunun-kuponu-2",
@@ -38836,7 +38889,7 @@
     "zaman": "2026-10-28T06:49:32+00:00",
     "tweet_id": "2115335140964495502"
    },
-   "olcum_sorgu": "2026-10-28T18:30:28+00:00"
+   "olcum_sorgu": "2026-10-28T19:27:19+00:00"
   }
  ],
  "kasa_duyuru": {

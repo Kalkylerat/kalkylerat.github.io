@@ -156385,13 +156385,41 @@
         "durum": "paylasildi",
         "tweet_id": "2115375939412517029",
         "zaman": "2026-10-28T09:31:39+00:00",
-        "metin": "Most likely score: 1-0.\nEven that is only 12%.\n\n🇮🇹 AC Milan v Bologna 🇮🇹 · 18:30 CET\n🏆 AC Milan 56% · Draw 24% · Bologna 20%\n⚽ Over 2.5 goals 51% · Under 49%\n🥅 Both teams score 51% · Not both 49%\n\n💬 Chances, not picks. What's your score? 👇\n#SerieA\n18+ | Play responsibly"
+        "metin": "Most likely score: 1-0.\nEven that is only 12%.\n\n🇮🇹 AC Milan v Bologna 🇮🇹 · 18:30 CET\n🏆 AC Milan 56% · Draw 24% · Bologna 20%\n⚽ Over 2.5 goals 51% · Under 49%\n🥅 Both teams score 51% · Not both 49%\n\n💬 Chances, not picks. What's your score? 👇\n#SerieA\n18+ | Play responsibly",
+        "takip": {
+          "durum": "kayit",
+          "skor": "2-4",
+          "isabet": [
+            false,
+            true,
+            true
+          ],
+          "zaman": "2026-10-28T19:27:19+00:00",
+          "brier": {
+            "piyasa": 1.4934,
+            "istatistik": 1.6173
+          }
+        }
       },
       "analiz_1": {
         "durum": "paylasildi",
         "tweet_id": "2115388576871457213",
         "zaman": "2026-10-28T10:21:52+00:00",
-        "metin": "Inter win 71%: about 7 in 10.\nVenezia win it about 1 time in 8 (13%).\n\n🇮🇹 Venezia v Inter 🇮🇹 · 18:30 CET\n🏆 Venezia 13% · Draw 16% · Inter 71%\n⚽ Over 2.5 goals 71% · Under 28%\n🥅 Both teams score 60% · Not both 40%\n\n💬 Not picks. Inter 71%: too high? 👇\n18+ | Play responsibly"
+        "metin": "Inter win 71%: about 7 in 10.\nVenezia win it about 1 time in 8 (13%).\n\n🇮🇹 Venezia v Inter 🇮🇹 · 18:30 CET\n🏆 Venezia 13% · Draw 16% · Inter 71%\n⚽ Over 2.5 goals 71% · Under 28%\n🥅 Both teams score 60% · Not both 40%\n\n💬 Not picks. Inter 71%: too high? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "kayit",
+          "skor": "0-2",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "zaman": "2026-10-28T19:27:19+00:00",
+          "brier": {
+            "piyasa": 0.9978,
+            "istatistik": 0.7769
+          }
+        }
       },
       "analiz_2": {
         "durum": "paylasildi",

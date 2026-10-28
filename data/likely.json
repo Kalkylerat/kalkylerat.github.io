@@ -34622,7 +34622,8 @@
      "istatistik": 0.848,
      "uyum": true,
      "buyuk": false,
-     "no": 31
+     "no": 31,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1564337-CS12",
@@ -37266,13 +37267,14 @@
     "tweet_id": "2114971750840635600"
    },
    "tazeleme": "2026-10-27T10:05:16+00:00",
-   "olcum_sorgu": "2026-10-27T23:25:30+00:00",
+   "olcum_sorgu": "2026-10-28T00:22:23+00:00",
    "kasa": {
     "tweet_id": "2115208921170239764",
     "tur": "gunluk",
     "zaman": "2026-10-27T22:27:58+00:00",
     "metin": "📉 Virtual bank, Tue 27 Oct: €10,334.15 (−€971.83 today).\n\n🎟️ 5 coupons, 1 landed.\n🏁 Started at €10,000 on 6 Oct, 3% of the free balance per coupon, losers counted.\n\n⚠️ Virtual bank, not real money.\n18+ | Play responsibly"
-   }
+   },
+   "olcum_bitti": true
   }
  ],
  "kasa_duyuru": {

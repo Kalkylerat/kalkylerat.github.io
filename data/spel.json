@@ -158825,6 +158825,14 @@
         "dep_ulke": "Italy",
         "istatistik_kaynak": "lig"
       }
-    ]
+    ],
+    "etkilesim": {
+      "maclar": {
+        "durum": "paylasildi",
+        "tweet_id": "2115696916294197667",
+        "zaman": "2026-10-29T06:47:06+00:00",
+        "metin": "🔥 TODAY'S BIG GAMES | 29 Oct\n\n⚽ Frosinone v Lecce · 18:30 CET\n   our numbers: Frosinone 56%\n⚽ Fiorentina v Atalanta · 20:45 CET\n   our numbers: Fiorentina 40%\n⚽ Hammarby FF v Sirius · 18:30 CET\n   our numbers: Hammarby FF 65%\n\nWhich one are you watching? 👇\n#SerieA"
+      }
+    }
   }
 ]

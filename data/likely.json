@@ -35448,7 +35448,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 80
+     "no": 80,
+     "sonuc": "kazandi"
     }
    ],
    "kuponlar": [
@@ -37226,7 +37227,7 @@
     "zaman": "2026-10-28T06:49:32+00:00",
     "tweet_id": "2115335140964495502"
    },
-   "olcum_sorgu": "2026-10-29T18:30:33+00:00",
+   "olcum_sorgu": "2026-10-29T19:27:08+00:00",
    "kasa": {
     "tweet_id": "2115716644978704489",
     "tur": "gunluk",

@@ -37376,7 +37376,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 6
+     "no": 6,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1640475-CS12",
@@ -37440,7 +37441,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 9
+     "no": 9,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1603077-CS12",
@@ -37505,7 +37507,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 12
+     "no": 12,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1494318-CS12",
@@ -37592,7 +37595,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 16
+     "no": 16,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1550169-DPU05",
@@ -37939,7 +37943,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 32
+     "no": 32,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1549533-CSX2",
@@ -38026,7 +38031,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": true,
-     "no": 36
+     "no": 36,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1603075-ALT35",
@@ -38222,7 +38228,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 45
+     "no": 45,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1641976-UST25",
@@ -38243,7 +38250,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 46
+     "no": 46,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1644350-EVU05",
@@ -38398,8 +38406,30 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.702,
        "deger": -0.045,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "3-1",
+       "goller": [
+        [
+         34,
+         0,
+         "ev"
+        ],
+        [
+         45,
+         0,
+         "ev"
+        ],
+        [
+         69,
+         0,
+         "ev"
+        ],
+        [
+         88,
+         0,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1641976-UST25",
@@ -38453,13 +38483,16 @@
      "oran": 2.04,
      "olasilik": 0.461,
      "deger": -0.06,
-     "durum": "bekliyor",
+     "durum": "tuttu",
      "secim": "2026-10-29T06:39:33+00:00",
      "oto": true,
      "paylas": "2026-10-29T17:00:00+01:00",
      "tweet_id": "2115836106079895592",
      "metin": "🎩 A double today. Short and sensible.\n\n⚽ Everton v Newcastle\n⚽ Hoek v Sparta Nijkerk\n\n📊 Combined 2.04. I make it about 46% to land.\n\n💬 Too cautious or about right?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-29T16:00:08+00:00"
+     "yayin": "2026-10-29T16:00:08+00:00",
+     "son_oran": 2.04,
+     "sonuc_hazir": "2026-10-29T21:43:23+00:00",
+     "sonuc_metni": "✅ Both legs in at 2.04. Landed. I'll try not to be smug about it.\n\n✅ Everton 3-1 Newcastle: Double chance 1X\n✅ Hoek 4-2 Sparta Nijkerk: Over 2.5 goals\n\nRecord: 32 of 75 landed.\n18+ | Play responsibly"
     },
     {
      "ad": "long-shot",
@@ -39260,7 +39293,7 @@
     "tweet_id": "2115696921725800481"
    },
    "tazeleme": "2026-10-29T10:02:50+00:00",
-   "olcum_sorgu": "2026-10-29T20:45:31+00:00"
+   "olcum_sorgu": "2026-10-29T21:43:23+00:00"
   }
  ],
  "kasa_duyuru": {

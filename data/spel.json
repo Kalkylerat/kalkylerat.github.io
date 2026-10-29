@@ -158872,7 +158872,17 @@
         "durum": "paylasildi",
         "tweet_id": "2115773366854623366",
         "zaman": "2026-10-29T11:50:53+00:00",
-        "metin": "Everton are favourites.\nThey still fail to win 56% of the time.\n\n🏴󠁧󠁢󠁥󠁮󠁧󠁿 Everton v Newcastle 🏴󠁧󠁢󠁥󠁮󠁧󠁿\n🏆 Everton 44% · Draw 25% · Newcastle 31%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 56% · Not both 44%\n\n💬 Not picks. More or fewer than 2.5 goals? 👇\n18+ | Play responsibly"
+        "metin": "Everton are favourites.\nThey still fail to win 56% of the time.\n\n🏴󠁧󠁢󠁥󠁮󠁧󠁿 Everton v Newcastle 🏴󠁧󠁢󠁥󠁮󠁧󠁿\n🏆 Everton 44% · Draw 25% · Newcastle 31%\n⚽ Over 2.5 goals 53% · Under 47%\n🥅 Both teams score 56% · Not both 44%\n\n💬 Not picks. More or fewer than 2.5 goals? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "kayit",
+          "skor": "3-1",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "zaman": "2026-10-29T21:43:23+00:00"
+        }
       },
       "analiz_3": {
         "durum": "paylasildi",

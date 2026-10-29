@@ -38495,8 +38495,20 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.655,
        "deger": -0.017,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "0-2",
+       "goller": [
+        [
+         8,
+         0,
+         "dep"
+        ],
+        [
+         90,
+         0,
+         "dep"
+        ]
+       ]
       }
      ],
      "oran": 3.02,
@@ -38668,8 +38680,15 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.815,
        "deger": -0.005,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "0-1",
+       "goller": [
+        [
+         77,
+         0,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1494319-EVU05",
@@ -38684,8 +38703,15 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.751,
        "deger": -0.039,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "0-1",
+       "goller": [
+        [
+         84,
+         0,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1550170-DPU05",
@@ -38739,13 +38765,16 @@
      "oran": 2.03,
      "olasilik": 0.454,
      "deger": -0.078,
-     "durum": "bekliyor",
+     "durum": "yatti",
      "secim": "2026-10-29T10:02:50+00:00",
      "oto": true,
      "paylas": "2026-10-29T15:30:00+01:00",
      "tweet_id": "2115813518121291806",
      "metin": "🎩 Today's treble.\n\n⚽ Tzeirey Tira v Hapoel Marmorek\n⚽ Kalmar FF v Gais\n⚽ Frosinone v Lecce\n\n📊 Combined 2.03. I make it about 45% to land.\n\n💬 Which leg lets me down?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-29T14:30:24+00:00"
+     "yayin": "2026-10-29T14:30:24+00:00",
+     "son_oran": 1.59,
+     "sonuc_hazir": "2026-10-29T19:55:52+00:00",
+     "sonuc_metni": "❌ So close it hurts a bit. Coupon down. I had it at 45%, which was never 100.\n\n✅ Tzeirey Tira 0-1 Hapoel Marmorek: Double chance X2\n❌ Kalmar FF 0-1 Gais: Kalmar FF Over 0.5 goals\n✅ Frosinone 5-1 Lecce: Lecce Over 0.5 goals\n\nRecord: 31 of 74 landed.\n18+ | Play responsibly"
     }
    ],
    "islenen": [],

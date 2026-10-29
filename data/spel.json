@@ -158852,7 +158852,21 @@
         "durum": "paylasildi",
         "tweet_id": "2115738902874952084",
         "zaman": "2026-10-29T09:33:56+00:00",
-        "metin": "4+ goals: 47%.\nExpected goals 2.2 – 1.4.\n\n🇮🇹 Frosinone v Lecce 🇮🇹 · 18:30 CET\n🏆 Frosinone 57% · Draw 20% · Lecce 23%\n⚽ Over 2.5 goals 69% · Under 31%\n🥅 Both teams score 66% · Not both 34%\n\n💬 Chances, not picks. Can Lecce beat 23%? 👇\n#SerieA\n18+ | Play responsibly"
+        "metin": "4+ goals: 47%.\nExpected goals 2.2 – 1.4.\n\n🇮🇹 Frosinone v Lecce 🇮🇹 · 18:30 CET\n🏆 Frosinone 57% · Draw 20% · Lecce 23%\n⚽ Over 2.5 goals 69% · Under 31%\n🥅 Both teams score 66% · Not both 34%\n\n💬 Chances, not picks. Can Lecce beat 23%? 👇\n#SerieA\n18+ | Play responsibly",
+        "takip": {
+          "durum": "kayit",
+          "skor": "5-1",
+          "isabet": [
+            true,
+            true,
+            true
+          ],
+          "zaman": "2026-10-29T19:34:21+00:00",
+          "brier": {
+            "piyasa": 0.4944,
+            "istatistik": 0.8022
+          }
+        }
       },
       "analiz_2": {
         "durum": "paylasildi",

@@ -37307,7 +37307,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 5
+     "no": 5,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1644356-CSX2",
@@ -37603,7 +37604,8 @@
      "istatistik": 0.667,
      "uyum": false,
      "buyuk": false,
-     "no": 19
+     "no": 19,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1492430-UST15",
@@ -37645,7 +37647,8 @@
      "istatistik": 0.564,
      "uyum": false,
      "buyuk": false,
-     "no": 21
+     "no": 21,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1632273-CS12",
@@ -38092,7 +38095,8 @@
      "istatistik": 0.646,
      "uyum": true,
      "buyuk": false,
-     "no": 42
+     "no": 42,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1603076-UST25",
@@ -38469,8 +38473,40 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.671,
        "deger": -0.034,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "2-4",
+       "goller": [
+        [
+         19,
+         0,
+         "dep"
+        ],
+        [
+         32,
+         0,
+         "ev"
+        ],
+        [
+         36,
+         0,
+         "dep"
+        ],
+        [
+         52,
+         0,
+         "ev"
+        ],
+        [
+         70,
+         0,
+         "dep"
+        ],
+        [
+         75,
+         0,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1643371-CS1X",
@@ -38504,13 +38540,16 @@
      "oran": 2.07,
      "olasilik": 0.448,
      "deger": -0.073,
-     "durum": "bekliyor",
+     "durum": "yatti",
      "secim": "2026-10-29T06:39:33+00:00",
      "oto": true,
      "paylas": "2026-10-29T13:00:00+01:00",
      "tweet_id": "2115776851113078977",
      "metin": "🎩 Two picks, one coupon.\n\n⚽ Inter Turku v HJK Helsinki\n⚽ Al Salt v Al Jazeera\n\n📊 Combined 2.07. I make it about 45% to land.\n\n💬 Which of these do you trust least?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-29T12:04:42+00:00"
+     "yayin": "2026-10-29T12:04:42+00:00",
+     "son_oran": 1.44,
+     "sonuc_hazir": "2026-10-29T17:54:57+00:00",
+     "sonuc_metni": "❌ Everything landed bar one. You know the feeling. Coupon down. I had it at 45%, which was never 100.\n\n❌ Inter Turku 2-4 HJK Helsinki: Double chance 1X\n✅ Al Salt 1-1 Al Jazeera: Double chance 1X\n\nRecord: 30 of 72 landed.\n18+ | Play responsibly"
     },
     {
      "ad": "gunun-kuponu-3",
@@ -39065,7 +39104,7 @@
     "tweet_id": "2115696921725800481"
    },
    "tazeleme": "2026-10-29T10:02:50+00:00",
-   "olcum_sorgu": "2026-10-29T16:58:06+00:00"
+   "olcum_sorgu": "2026-10-29T17:54:57+00:00"
   }
  ],
  "kasa_duyuru": {

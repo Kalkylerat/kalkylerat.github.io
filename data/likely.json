@@ -38553,8 +38553,9 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.675,
        "deger": -0.029,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "0-0",
+       "goller": []
       },
       {
        "aday_id": "1644350-EVU05",
@@ -38595,7 +38596,9 @@
      "tweet_id": "2115753277564313678",
      "metin": "🎩 The ambitious one. Treat it like a lottery ticket with better manners.\n\n⚽ Club Africain v CA Bizertin\n⚽ Maghreb Fès v Renaissance Berkane\n⚽ Coruxo v Zamora\n\n📊 Combined 3.02. I make it about 30% to land.\n\n💬 Which of these do you trust least?\n\n18+ | Play responsibly",
      "yayin": "2026-10-29T10:31:02+00:00",
-     "son_oran": 1
+     "son_oran": 1.44,
+     "sonuc_hazir": "2026-10-29T21:50:18+00:00",
+     "sonuc_metni": "❌ Coupon down. Not today. Kettle's on. I had it at 30%, which was never 100.\n\n❌ Club Africain 3-2 CA Bizertin: Under 2.5 goals\n✅ Maghreb Fès 0-0 Renaissance Berkane: Under 2.5 goals\n❌ Coruxo 0-2 Zamora: Coruxo Over 0.5 goals\n\nRecord: 32 of 75 landed.\n18+ | Play responsibly"
     },
     {
      "ad": "gunun-kuponu-2",

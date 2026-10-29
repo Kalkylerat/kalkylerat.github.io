@@ -38023,7 +38023,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 39
+     "no": 39,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1494320-ALT35",
@@ -39037,7 +39038,7 @@
     "tweet_id": "2115696921725800481"
    },
    "tazeleme": "2026-10-29T10:02:50+00:00",
-   "olcum_sorgu": "2026-10-29T14:58:44+00:00"
+   "olcum_sorgu": "2026-10-29T15:55:58+00:00"
   }
  ],
  "kasa_duyuru": {

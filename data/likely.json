@@ -37221,7 +37221,8 @@
      "istatistik": 0.642,
      "uyum": false,
      "buyuk": false,
-     "no": 1
+     "no": 1,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1645430-CS12",
@@ -37792,7 +37793,8 @@
      "istatistik": 0.717,
      "uyum": true,
      "buyuk": false,
-     "no": 28
+     "no": 28,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1646859-CS1X",
@@ -37918,7 +37920,8 @@
      "istatistik": 0.665,
      "uyum": true,
      "buyuk": false,
-     "no": 34
+     "no": 34,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1643371-UST15",
@@ -37939,7 +37942,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 35
+     "no": 35,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1640385-CS1X",
@@ -37981,7 +37985,8 @@
      "istatistik": 0.799,
      "uyum": true,
      "buyuk": false,
-     "no": 37
+     "no": 37,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1612272-ALT35",
@@ -38129,7 +38134,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 44
+     "no": 44,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1644349-IYA15",
@@ -38479,8 +38485,20 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.667,
        "deger": -0.039,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-1",
+       "goller": [
+        [
+         72,
+         0,
+         "dep"
+        ],
+        [
+         73,
+         0,
+         "ev"
+        ]
+       ]
       }
      ],
      "oran": 2.07,
@@ -39041,7 +39059,7 @@
     "tweet_id": "2115696921725800481"
    },
    "tazeleme": "2026-10-29T10:02:50+00:00",
-   "olcum_sorgu": "2026-10-29T15:55:58+00:00"
+   "olcum_sorgu": "2026-10-29T16:58:06+00:00"
   }
  ],
  "kasa_duyuru": {

@@ -162748,7 +162748,31 @@
         "istatistik_kaynak": "lig"
       }
     ],
-    "etkilesim": {},
+    "etkilesim": {
+      "tablo": {
+        "durum": "paylasildi",
+        "tweet_id": "2116078792158429409",
+        "zaman": "2026-10-30T08:04:32+00:00",
+        "metin": "📋 Today's chances, not picks · every % in the image\n\n🆚 Arsenal v Bate Borisov\n🏆 Arsenal 30% · Draw 27% · Bate Borisov 42%\n\n🆚 Konyaspor v Galatasaray\n🏆 Konyaspor 18% · Draw 21% · Galatasaray 62%\n\n💬 Which % surprises you? 👇\n\n#SuperLig #Arsenal\n18+ | Play responsibly",
+        "maclar": [
+          1526015,
+          1584455,
+          1576215,
+          1576216,
+          1552801,
+          1552806,
+          1552514,
+          1552516,
+          1552517,
+          1552518,
+          1552521,
+          1575211,
+          1570442,
+          1563233,
+          1552802
+        ]
+      }
+    },
     "yanit_kiti": {
       "issue": 145,
       "zaman": "2026-10-30T07:00:41+00:00"

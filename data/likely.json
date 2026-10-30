@@ -39535,8 +39535,30 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.692,
        "deger": -0.031,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "2-2",
+       "goller": [
+        [
+         48,
+         0,
+         "ev"
+        ],
+        [
+         71,
+         0,
+         "dep"
+        ],
+        [
+         78,
+         0,
+         "dep"
+        ],
+        [
+         82,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1552516-DPU05",
@@ -39866,7 +39888,10 @@
       "oran": 1.11
      },
      "saat": "2026-10-30T15:45:00+01:00",
-     "gunun_maci": true
+     "gunun_maci": true,
+     "tweet_id": "2116181275849502952",
+     "metin": "🎩 Match of the day: Konyaspor v Galatasaray, 18:00 CET.\n\n📊 Konyaspor 18% · Draw 21% · Galatasaray 62%\n\n🛡️ Safest angle: Galatasaray Over 0.5 goals, 85% at 1.11. Not in today's coupons.\n\n💬 Who takes it? Vote below.\n\n18+ | Play responsibly",
+     "zaman": "2026-10-30T14:51:46+00:00"
     }
    ],
    "plan_ozeti": [

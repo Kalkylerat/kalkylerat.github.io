@@ -39548,7 +39548,114 @@
      "durum": "bekliyor",
      "secim": "2026-10-30T06:39:24+00:00",
      "oto": true,
-     "paylas": "2026-10-30T11:00:00+01:00"
+     "paylas": "2026-10-30T11:00:00+01:00",
+     "tweet_id": "2116109296975098131",
+     "metin": "🎩 Double for today, nothing clever.\n\n⚽ Dubrava Zagreb v Sesvete\n⚽ Laval v Boulogne\n\n📊 Combined 2.02. I make it about 47% to land.\n\n💬 Which of these do you trust least?\n\n18+ | Play responsibly",
+     "yayin": "2026-10-30T10:05:04+00:00"
+    },
+    {
+     "ad": "gunun-kuponu-3",
+     "ayaklar": [
+      {
+       "aday_id": "1585811-DPU05",
+       "fixture_id": 1585811,
+       "pazar": "DPU05",
+       "ev": "Esenler Erokspor",
+       "dep": "Keçiörengücü",
+       "lig": "1. Lig",
+       "baslama": "2026-10-30T18:00:00+01:00",
+       "etiket": "Keçiörengücü Over 0.5 goals",
+       "oran": 1.4,
+       "oran_kaynagi": "Bet365",
+       "olasilik": 0.704,
+       "deger": -0.014,
+       "durum": "bekliyor",
+       "skor": null
+      },
+      {
+       "aday_id": "1584455-DPA25",
+       "fixture_id": 1584455,
+       "pazar": "DPA25",
+       "ev": "Konyaspor",
+       "dep": "Galatasaray",
+       "lig": "Süper Lig",
+       "baslama": "2026-10-30T18:00:00+01:00",
+       "etiket": "Galatasaray Under 2.5 goals",
+       "oran": 1.44,
+       "oran_kaynagi": "Bet365",
+       "olasilik": 0.669,
+       "deger": -0.037,
+       "durum": "bekliyor",
+       "skor": null
+      }
+     ],
+     "oran": 2.02,
+     "olasilik": 0.471,
+     "deger": -0.049,
+     "durum": "bekliyor",
+     "secim": "2026-10-30T10:05:04+00:00",
+     "oto": true,
+     "paylas": "2026-10-30T16:10:00+01:00"
+    },
+    {
+     "ad": "gunun-kuponu-4",
+     "ayaklar": [
+      {
+       "aday_id": "1548556-EVA25",
+       "fixture_id": 1548556,
+       "pazar": "EVA25",
+       "ev": "NK Slaven Belupo",
+       "dep": "Istra 1961",
+       "lig": "HNL",
+       "baslama": "2026-10-30T18:00:00+01:00",
+       "etiket": "NK Slaven Belupo Under 2.5 goals",
+       "oran": 1.25,
+       "oran_kaynagi": "Bet365",
+       "olasilik": 0.78,
+       "deger": -0.026,
+       "durum": "bekliyor",
+       "skor": null
+      },
+      {
+       "aday_id": "1647325-EVA25",
+       "fixture_id": 1647325,
+       "pazar": "EVA25",
+       "ev": "Louisville City",
+       "dep": "Pittsburgh Riverhounds",
+       "lig": "USL Championship",
+       "baslama": "2026-10-30T23:30:00+01:00",
+       "etiket": "Louisville City Under 2.5 goals",
+       "oran": 1.25,
+       "oran_kaynagi": "Bet365",
+       "olasilik": 0.779,
+       "deger": -0.026,
+       "durum": "bekliyor",
+       "skor": null
+      },
+      {
+       "aday_id": "1551858-UST25",
+       "fixture_id": 1551858,
+       "pazar": "UST25",
+       "ev": "FC Volendam",
+       "dep": "De Graafschap",
+       "lig": "Eerste Divisie",
+       "baslama": "2026-10-30T20:00:00+01:00",
+       "etiket": "Over 2.5 goals",
+       "oran": 1.28,
+       "oran_kaynagi": "Bet365",
+       "olasilik": 0.765,
+       "deger": -0.021,
+       "durum": "bekliyor",
+       "skor": null
+      }
+     ],
+     "oran": 2.0,
+     "olasilik": 0.465,
+     "deger": -0.07,
+     "durum": "bekliyor",
+     "secim": "2026-10-30T10:05:04+00:00",
+     "oto": true,
+     "paylas": "2026-10-30T16:50:00+01:00"
     }
    ],
    "islenen": [],
@@ -40217,7 +40324,8 @@
     "sayi": 3,
     "zaman": "2026-10-30T06:46:18+00:00",
     "tweet_id": "2116059101427900715"
-   }
+   },
+   "tazeleme": "2026-10-30T10:05:04+00:00"
   }
  ],
  "kasa_duyuru": {

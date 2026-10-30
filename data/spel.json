@@ -162796,7 +162796,21 @@
         "durum": "paylasildi",
         "tweet_id": "2116103803594256759",
         "zaman": "2026-10-30T09:43:55+00:00",
-        "metin": "Most likely score: 1-2.\nEven that is only 10%.\n\n🇹🇷 Konyaspor v Galatasaray 🇹🇷 · 18:00 CET\n🏆 Konyaspor 18% · Draw 21% · Galatasaray 62%\n⚽ Over 2.5 goals 59% · Under 41%\n🥅 Both teams score 55% · Not both 45%\n\n💬 Chances, not picks. What's your score? 👇\n18+ | Play responsibly"
+        "metin": "Most likely score: 1-2.\nEven that is only 10%.\n\n🇹🇷 Konyaspor v Galatasaray 🇹🇷 · 18:00 CET\n🏆 Konyaspor 18% · Draw 21% · Galatasaray 62%\n⚽ Over 2.5 goals 59% · Under 41%\n🥅 Both teams score 55% · Not both 45%\n\n💬 Chances, not picks. What's your score? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "kayit",
+          "skor": "0-4",
+          "isabet": [
+            true,
+            true,
+            false
+          ],
+          "zaman": "2026-10-30T19:02:27+00:00",
+          "brier": {
+            "piyasa": 0.695,
+            "istatistik": 1.0988
+          }
+        }
       },
       "analiz_2": {
         "durum": "paylasildi",

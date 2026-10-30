@@ -39589,8 +39589,35 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.7,
        "deger": -0.02,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "3-2",
+       "goller": [
+        [
+         20,
+         0,
+         "dep"
+        ],
+        [
+         45,
+         1,
+         "dep"
+        ],
+        [
+         64,
+         0,
+         "ev"
+        ],
+        [
+         88,
+         0,
+         "ev"
+        ],
+        [
+         90,
+         4,
+         "ev"
+        ]
+       ]
       }
      ],
      "oran": 3.29,
@@ -39603,7 +39630,7 @@
      "tweet_id": "2116175943261691923",
      "metin": "🎩 Today's long shot. It loses more often than it lands.\n\n⚽ Stenhousemuir v Livingston\n⚽ Arminia Bielefeld v Eintracht Braunschweig\n⚽ Deportivo Pereira v Jaguares\n⚽ Helmond Sport v FC Eindhoven\n\n📊 Combined 3.29. I make it about 28% to land.\n\n18+ | Play responsibly",
      "yayin": "2026-10-30T14:30:34+00:00",
-     "son_oran": 1
+     "son_oran": 1.4
     },
     {
      "ad": "gunun-kuponu-2",
@@ -39659,20 +39686,30 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.683,
        "deger": -0.016,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "1-0",
+       "goller": [
+        [
+         34,
+         0,
+         "ev"
+        ]
+       ]
       }
      ],
      "oran": 2.02,
      "olasilik": 0.473,
      "deger": -0.045,
-     "durum": "bekliyor",
+     "durum": "yatti",
      "secim": "2026-10-30T06:39:24+00:00",
      "oto": true,
      "paylas": "2026-10-30T11:00:00+01:00",
      "tweet_id": "2116109296975098131",
      "metin": "🎩 Double for today, nothing clever.\n\n⚽ Dubrava Zagreb v Sesvete\n⚽ Laval v Boulogne\n\n📊 Combined 2.02. I make it about 47% to land.\n\n💬 Which of these do you trust least?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-30T10:05:04+00:00"
+     "yayin": "2026-10-30T10:05:04+00:00",
+     "son_oran": 1.4,
+     "sonuc_hazir": "2026-10-30T20:56:24+00:00",
+     "sonuc_metni": "❌ Everything landed bar one. You know the feeling. Coupon down. I had it at 47%, which was never 100.\n\n✅ Dubrava Zagreb 2-2 Sesvete: 1st half Under 1.5 goals\n❌ Laval 1-0 Boulogne: Boulogne Over 0.5 goals\n\nRecord: 33 of 80 landed.\n18+ | Play responsibly"
     },
     {
      "ad": "gunun-kuponu-3",

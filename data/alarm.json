@@ -1,6 +1,6 @@
 {
- "issue": 141,
- "tarih": "2026-10-29",
+ "issue": 146,
+ "tarih": "2026-10-30",
  "bildirilen": [
   "2026-10-02:analiz_0:takip_gecikti",
   "2026-10-02:analiz_1:takip_gecikti",
@@ -65,6 +65,7 @@
   "2026-10-25:likely:mac:1556684",
   "2026-10-27:analiz_9:takip_hata",
   "2026-10-28:likely:sonuc:gunun-kuponu-2",
-  "2026-10-29:likely:sonuc:gunun-kuponu-2"
+  "2026-10-29:likely:sonuc:gunun-kuponu-2",
+  "2026-10-30:likely:sonuc:gunun-kuponu-3"
  ]
 }

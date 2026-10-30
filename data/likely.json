@@ -39622,8 +39622,15 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.722,
        "deger": -0.019,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "1-0",
+       "goller": [
+        [
+         71,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1551859-CS1X",
@@ -39679,7 +39686,9 @@
      "tweet_id": "2116175943261691923",
      "metin": "🎩 Today's long shot. It loses more often than it lands.\n\n⚽ Stenhousemuir v Livingston\n⚽ Arminia Bielefeld v Eintracht Braunschweig\n⚽ Deportivo Pereira v Jaguares\n⚽ Helmond Sport v FC Eindhoven\n\n📊 Combined 3.29. I make it about 28% to land.\n\n18+ | Play responsibly",
      "yayin": "2026-10-30T14:30:34+00:00",
-     "son_oran": 1.4
+     "son_oran": 1.4,
+     "sonuc_hazir": "2026-10-30T23:02:13+00:00",
+     "sonuc_metni": "❌ Coupon down.\n\nRecord: 33 of 80 landed.\n18+ | Play responsibly"
     },
     {
      "ad": "gunun-kuponu-2",

@@ -39428,8 +39428,25 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.706,
        "deger": -0.012,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "2-1",
+       "goller": [
+        [
+         27,
+         0,
+         "ev"
+        ],
+        [
+         67,
+         0,
+         "ev"
+        ],
+        [
+         90,
+         1,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1612273-DPU05",
@@ -39463,13 +39480,16 @@
      "oran": 2.02,
      "olasilik": 0.492,
      "deger": -0.006,
-     "durum": "bekliyor",
+     "durum": "tuttu",
      "secim": "2026-10-30T06:39:24+00:00",
      "oto": true,
      "paylas": "2026-10-30T13:00:00+01:00",
      "tweet_id": "2116139079947768088",
      "metin": "🎩 Today's double. Two legs, no heroics.\n\n⚽ Oddevold v IK brage\n⚽ Asyut Petrol v El Gouna FC\n\n📊 Combined 2.02. I make it about 49% to land.\n\n💬 Too cautious or about right?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-30T12:04:05+00:00"
+     "yayin": "2026-10-30T12:04:05+00:00",
+     "son_oran": 2.02,
+     "sonuc_hazir": "2026-10-30T19:52:16+00:00",
+     "sonuc_metni": "✅ Both legs in at 2.02. That'll do.\n\n✅ Oddevold 2-1 IK brage: IK brage Under 1.5 goals\n✅ Asyut Petrol 1-1 El Gouna FC: El Gouna FC Over 0.5 goals\n\nRecord: 33 of 79 landed.\n18+ | Play responsibly"
     },
     {
      "ad": "long-shot",

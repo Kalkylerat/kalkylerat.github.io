@@ -37722,7 +37722,8 @@
      "istatistik": 0.82,
      "uyum": true,
      "buyuk": false,
-     "no": 6
+     "no": 6,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1603479-CSX2",
@@ -37853,7 +37854,8 @@
      "istatistik": 0.844,
      "uyum": true,
      "buyuk": false,
-     "no": 12
+     "no": 12,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1612275-ALT35",
@@ -37962,7 +37964,8 @@
      "istatistik": 0.857,
      "uyum": true,
      "buyuk": false,
-     "no": 17
+     "no": 17,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1584455-UST15",
@@ -38859,7 +38862,8 @@
      "istatistik": 0.657,
      "uyum": false,
      "buyuk": false,
-     "no": 58
+     "no": 58,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1558258-EVA25",
@@ -38990,7 +38994,8 @@
      "istatistik": 0.744,
      "uyum": true,
      "buyuk": false,
-     "no": 64
+     "no": 64,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1549732-DPU05",
@@ -40633,7 +40638,7 @@
     "tweet_id": "2116059101427900715"
    },
    "tazeleme": "2026-10-30T10:05:04+00:00",
-   "olcum_sorgu": "2026-10-30T23:16:51+00:00"
+   "olcum_sorgu": "2026-10-31T00:13:17+00:00"
   }
  ],
  "kasa_duyuru": {

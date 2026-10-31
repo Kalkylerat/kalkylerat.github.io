@@ -166718,7 +166718,21 @@
         "durum": "paylasildi",
         "tweet_id": "2116458731873472773",
         "zaman": "2026-10-31T09:14:17+00:00",
-        "metin": "Chelsea are favourites.\nThey still fail to win 52% of the time.\n\n🏴󠁧󠁢󠁥󠁮󠁧󠁿 Chelsea v Manchester United 🏴󠁧󠁢󠁥󠁮󠁧󠁿\n🏆 Chelsea 48% · Draw 23% · Manchester United 28%\n⚽ Over 2.5 goals 59% · Under 41%\n🥅 Both teams score 60% · Not both 40%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly"
+        "metin": "Chelsea are favourites.\nThey still fail to win 52% of the time.\n\n🏴󠁧󠁢󠁥󠁮󠁧󠁿 Chelsea v Manchester United 🏴󠁧󠁢󠁥󠁮󠁧󠁿\n🏆 Chelsea 48% · Draw 23% · Manchester United 28%\n⚽ Over 2.5 goals 59% · Under 41%\n🥅 Both teams score 60% · Not both 40%\n\n💬 Not picks. Your read? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "kayit",
+          "skor": "2-0",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "zaman": "2026-10-31T14:33:08+00:00",
+          "brier": {
+            "piyasa": 1.1133,
+            "istatistik": 1.3088
+          }
+        }
       },
       "analiz_1": {
         "durum": "paylasildi",

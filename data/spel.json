@@ -166684,7 +166684,14 @@
         "istatistik_kaynak": "lig"
       }
     ],
-    "etkilesim": {},
+    "etkilesim": {
+      "maclar": {
+        "durum": "paylasildi",
+        "tweet_id": "2116433553198117242",
+        "zaman": "2026-10-31T07:34:14+00:00",
+        "metin": "🔥 TODAY'S BIG GAMES | 31 Oct\n\n⚽ Chelsea v Manchester United · 13:30 CET\n   our numbers: Chelsea 48%\n⚽ Bournemouth v Leeds · 16:00 CET\n   our numbers: Bournemouth 46%\n\nWhich one are you watching? 👇\n#PremierLeague"
+      }
+    },
     "yanit_kiti": {
       "issue": 149,
       "zaman": "2026-10-31T07:05:22+00:00"

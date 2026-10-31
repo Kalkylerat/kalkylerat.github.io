@@ -40921,6 +40921,66 @@
      "secim": "2026-10-31T06:37:22+00:00",
      "oto": true,
      "paylas": "2026-10-31T11:20:00+01:00"
+    },
+    {
+     "ad": "gunun-kuponu-4",
+     "ayaklar": [
+      {
+       "aday_id": "1548552-CS1X",
+       "fixture_id": 1548552,
+       "pazar": "CS1X",
+       "ev": "HNK Hajduk Split",
+       "dep": "HNK Gorica",
+       "lig": "HNL",
+       "baslama": "2026-10-31T15:00:00+01:00",
+       "etiket": "Double chance 1X",
+       "oran": 1.1,
+       "oran_kaynagi": "Bet365",
+       "olasilik": 0.898,
+       "deger": -0.013,
+       "durum": "bekliyor",
+       "skor": null
+      },
+      {
+       "aday_id": "1555540-DPA15",
+       "fixture_id": 1555540,
+       "pazar": "DPA15",
+       "ev": "Maccabi Netanya",
+       "dep": "Hapoel Katamon",
+       "lig": "Ligat Ha'al",
+       "baslama": "2026-10-31T18:30:00+01:00",
+       "etiket": "Hapoel Katamon Under 1.5 goals",
+       "oran": 1.36,
+       "oran_kaynagi": "Bet365",
+       "olasilik": 0.709,
+       "deger": -0.036,
+       "durum": "bekliyor",
+       "skor": null
+      },
+      {
+       "aday_id": "1557456-EVA25",
+       "fixture_id": 1557456,
+       "pazar": "EVA25",
+       "ev": "Tottenham",
+       "dep": "Crystal Palace",
+       "lig": "Premier League",
+       "baslama": "2026-10-31T18:30:00+01:00",
+       "etiket": "Tottenham Under 2.5 goals",
+       "oran": 1.4,
+       "oran_kaynagi": "Bet365",
+       "olasilik": 0.694,
+       "deger": -0.028,
+       "durum": "bekliyor",
+       "skor": null
+      }
+     ],
+     "oran": 2.09,
+     "olasilik": 0.442,
+     "deger": -0.076,
+     "durum": "bekliyor",
+     "secim": "2026-10-31T10:01:31+00:00",
+     "oto": true,
+     "paylas": "2026-10-31T13:10:00+01:00"
     }
    ],
    "islenen": [],
@@ -41321,7 +41381,10 @@
       "oran": 1.36
      },
      "saat": "2026-10-31T11:00:00+01:00",
-     "gunun_maci": true
+     "gunun_maci": true,
+     "tweet_id": "2116470814862442994",
+     "metin": "🎩 Match of the day: Chelsea v Manchester United, 13:30 CET.\n\n📊 Chelsea 48% · Draw 23% · Manchester United 28%\n\n🛡️ Safest angle: Manchester United Over 0.5 goals, 73% at 1.36. It's a leg in today's coupon.\n\n💬 Who takes it? Vote below.\n\n18+ | Play responsibly",
+     "zaman": "2026-10-31T10:01:31+00:00"
     }
    ],
    "plan_ozeti": [
@@ -43202,7 +43265,8 @@
     "sayi": 4,
     "zaman": "2026-10-31T06:45:07+00:00",
     "tweet_id": "2116421190197600481"
-   }
+   },
+   "tazeleme": "2026-10-31T10:01:31+00:00"
   }
  ],
  "kasa_duyuru": {

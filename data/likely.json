@@ -40761,8 +40761,15 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.863,
        "deger": -0.042,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kaybetti",
+       "skor": "1-0",
+       "goller": [
+        [
+         9,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1496375-CS1X",
@@ -40811,13 +40818,16 @@
      "oran": 2.0,
      "olasilik": 0.498,
      "deger": -0.004,
-     "durum": "bekliyor",
+     "durum": "yatti",
      "secim": "2026-10-31T06:37:22+00:00",
      "oto": true,
      "paylas": "2026-10-31T10:00:00+01:00",
      "tweet_id": "2116455196100337740",
      "metin": "🎩 Two picks, one coupon.\n\n⚽ Ajax v AZ Alkmaar\n⚽ Lørenskog v Follo\n\n📊 Combined 2.00. I make it about 50% to land.\n\n💬 Which leg lets me down?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-31T09:00:13+00:00"
+     "yayin": "2026-10-31T09:00:13+00:00",
+     "son_oran": 1.8,
+     "sonuc_hazir": "2026-10-31T21:59:12+00:00",
+     "sonuc_metni": "❌ So close it hurts a bit. Coupon down. I had it at 50%, which was never 100.\n\n❌ Ajax 1-0 AZ Alkmaar: Over 1.5 goals\n✅ Lørenskog 3-2 Follo: Double chance 1X\n\nRecord: 36 of 85 landed.\n18+ | Play responsibly"
     },
     {
      "ad": "long-shot",

@@ -37591,7 +37591,7 @@
   {
    "tarih": "2026-10-30",
    "olusturma": "2026-10-30T06:39:24+00:00",
-   "durum": "secildi",
+   "durum": "bitti",
    "havuz": [
     {
      "aday_id": "1570442-CS1X",
@@ -39542,7 +39542,9 @@
      "yayin": "2026-10-30T12:04:05+00:00",
      "son_oran": 2.02,
      "sonuc_hazir": "2026-10-30T19:52:16+00:00",
-     "sonuc_metni": "✅ Both legs in at 2.02. That'll do.\n\n✅ Oddevold 2-1 IK brage: IK brage Under 1.5 goals\n✅ Asyut Petrol 1-1 El Gouna FC: El Gouna FC Over 0.5 goals\n\nRecord: 33 of 79 landed.\n18+ | Play responsibly"
+     "sonuc_metni": "✅ Both legs in at 2.02. That'll do.\n\n✅ Oddevold 2-1 IK brage: IK brage Under 1.5 goals\n✅ Asyut Petrol 1-1 El Gouna FC: El Gouna FC Over 0.5 goals\n\nRecord: 33 of 79 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2116338794966225007",
+     "sonuc_zamani": "2026-10-31T01:17:39+00:00"
     },
     {
      "ad": "long-shot",
@@ -39697,7 +39699,9 @@
      "yayin": "2026-10-30T14:30:34+00:00",
      "son_oran": 1.4,
      "sonuc_hazir": "2026-10-30T23:02:13+00:00",
-     "sonuc_metni": "❌ Coupon down.\n\nRecord: 33 of 80 landed.\n18+ | Play responsibly"
+     "sonuc_metni": "❌ Coupon down.\n\nRecord: 33 of 80 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2116338794966225007",
+     "sonuc_zamani": "2026-10-31T01:17:39+00:00"
     },
     {
      "ad": "gunun-kuponu-2",
@@ -39776,7 +39780,9 @@
      "yayin": "2026-10-30T10:05:04+00:00",
      "son_oran": 1.4,
      "sonuc_hazir": "2026-10-30T20:56:24+00:00",
-     "sonuc_metni": "❌ Everything landed bar one. You know the feeling. Coupon down. I had it at 47%, which was never 100.\n\n✅ Dubrava Zagreb 2-2 Sesvete: 1st half Under 1.5 goals\n❌ Laval 1-0 Boulogne: Boulogne Over 0.5 goals\n\nRecord: 33 of 80 landed.\n18+ | Play responsibly"
+     "sonuc_metni": "❌ Everything landed bar one. You know the feeling. Coupon down. I had it at 47%, which was never 100.\n\n✅ Dubrava Zagreb 2-2 Sesvete: 1st half Under 1.5 goals\n❌ Laval 1-0 Boulogne: Boulogne Over 0.5 goals\n\nRecord: 33 of 80 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2116338794966225007",
+     "sonuc_zamani": "2026-10-31T01:17:39+00:00"
     },
     {
      "ad": "gunun-kuponu-3",
@@ -39875,7 +39881,9 @@
      "yayin": "2026-10-30T15:13:20+00:00",
      "son_oran": 1.4,
      "sonuc_hazir": "2026-10-30T19:02:27+00:00",
-     "sonuc_metni": "❌ One leg short. The classic. Coupon down. I had it at 47%, which was never 100.\n\n✅ Esenler Erokspor 3-2 Keçiörengücü: Keçiörengücü Over 0.5 goals\n❌ Konyaspor 0-4 Galatasaray: Galatasaray Under 2.5 goals\n\nRecord: 32 of 77 landed.\n18+ | Play responsibly"
+     "sonuc_metni": "❌ One leg short. The classic. Coupon down. I had it at 47%, which was never 100.\n\n✅ Esenler Erokspor 3-2 Keçiörengücü: Keçiörengücü Over 0.5 goals\n❌ Konyaspor 0-4 Galatasaray: Galatasaray Under 2.5 goals\n\nRecord: 32 of 77 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2116338794966225007",
+     "sonuc_zamani": "2026-10-31T01:17:39+00:00"
     },
     {
      "ad": "gunun-kuponu-4",
@@ -39921,8 +39929,9 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.779,
        "deger": -0.026,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "0-0",
+       "goller": []
       },
       {
        "aday_id": "1551858-UST25",
@@ -39961,13 +39970,18 @@
      "oran": 2.0,
      "olasilik": 0.465,
      "deger": -0.07,
-     "durum": "bekliyor",
+     "durum": "tuttu",
      "secim": "2026-10-30T10:05:04+00:00",
      "oto": true,
      "paylas": "2026-10-30T16:50:00+01:00",
      "tweet_id": "2116197457398829370",
      "metin": "🎩 Today's three.\n\n⚽ NK Slaven Belupo v Istra 1961\n⚽ Louisville City v Pittsburgh Riverhounds\n⚽ FC Volendam v De Graafschap\n\n📊 Combined 2.00. I make it about 46% to land.\n\n💬 Which leg lets me down?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-30T15:56:03+00:00"
+     "yayin": "2026-10-30T15:56:03+00:00",
+     "son_oran": 2.0,
+     "sonuc_hazir": "2026-10-31T01:17:39+00:00",
+     "sonuc_metni": "✅ FC Volendam v De Graafschap. 83': 1-2. Over 2.5 goals in, just. Not great for the heart. In at 2.00.\n\nRecord: 34 of 81 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2116338794966225007",
+     "sonuc_zamani": "2026-10-31T01:17:39+00:00"
     }
    ],
    "islenen": [],
@@ -40641,7 +40655,14 @@
     "tweet_id": "2116059101427900715"
    },
    "tazeleme": "2026-10-30T10:05:04+00:00",
-   "olcum_sorgu": "2026-10-31T01:10:30+00:00"
+   "olcum_sorgu": "2026-10-31T01:10:30+00:00",
+   "toplu_sonuc": [
+    {
+     "tweet_id": "2116338794966225007",
+     "zaman": "2026-10-31T01:17:39+00:00",
+     "metin": "🎩 Today's coupons: 2 of 5 landed.\n\n❌ Coupon 1 at 2.02: down\n✅ Coupon 2 at 2.02: in\n❌ Long shot at 3.29: down\n❌ Coupon 3 at 2.02: down\n✅ Coupon 4 at 2.00: in\n\nRecord: 34 of 81 landed.\n18+ | Play responsibly"
+    }
+   ]
   }
  ],
  "kasa_duyuru": {

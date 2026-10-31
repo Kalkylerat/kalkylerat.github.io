@@ -38945,7 +38945,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 3
+     "no": 3,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1551143-CSX2",
@@ -39010,7 +39011,8 @@
      "istatistik": 0.683,
      "uyum": false,
      "buyuk": false,
-     "no": 6
+     "no": 6,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1575203-CS1X",
@@ -39053,7 +39055,8 @@
      "istatistik": 0.815,
      "uyum": true,
      "buyuk": false,
-     "no": 8
+     "no": 8,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1516171-CSX2",
@@ -39181,7 +39184,8 @@
      "istatistik": 0.793,
      "uyum": true,
      "buyuk": false,
-     "no": 14
+     "no": 14,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1553900-CS12",
@@ -39245,7 +39249,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 17
+     "no": 17,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1558259-UST15",
@@ -39354,7 +39359,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 22
+     "no": 22,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1563230-CS12",
@@ -39462,7 +39468,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 27
+     "no": 27,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1551142-CS12",
@@ -40029,7 +40036,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 53
+     "no": 53,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1497737-CS12",
@@ -40204,7 +40212,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 61
+     "no": 61,
+     "sonuc": "kaybetti"
     },
     {
      "aday_id": "1505553-EVU05",
@@ -40486,7 +40495,8 @@
      "istatistik": 0.612,
      "uyum": false,
      "buyuk": false,
-     "no": 74
+     "no": 74,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1575208-EVA25",
@@ -43535,7 +43545,7 @@
     "tweet_id": "2116421190197600481"
    },
    "tazeleme": "2026-10-31T10:01:31+00:00",
-   "olcum_sorgu": "2026-10-31T19:38:14+00:00"
+   "olcum_sorgu": "2026-10-31T20:35:01+00:00"
   }
  ],
  "kasa_duyuru": {

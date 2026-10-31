@@ -40898,8 +40898,25 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.833,
        "deger": -0.025,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "2-1",
+       "goller": [
+        [
+         34,
+         0,
+         "dep"
+        ],
+        [
+         66,
+         0,
+         "ev"
+        ],
+        [
+         88,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1575206-EVU05",
@@ -40966,13 +40983,16 @@
      "oran": 2.0,
      "olasilik": 0.462,
      "deger": -0.076,
-     "durum": "bekliyor",
+     "durum": "tuttu",
      "secim": "2026-10-31T06:37:22+00:00",
      "oto": true,
      "paylas": "2026-10-31T12:30:00+01:00",
      "tweet_id": "2116494157174780252",
      "metin": "🎩 Three legs. All of them dull, which is the point.\n\n⚽ Salford City v Exeter City\n⚽ FC Augsburg v SC Freiburg\n⚽ Peterborough v Luton\n\n📊 Combined 2.00. I make it about 46% to land.\n\n💬 Too cautious or about right?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-31T11:35:02+00:00"
+     "yayin": "2026-10-31T11:35:02+00:00",
+     "son_oran": 2.0,
+     "sonuc_hazir": "2026-10-31T17:02:12+00:00",
+     "sonuc_metni": "✅ All in at 2.00. Lovely. Quietly lovely.\n\n✅ Salford City 2-1 Exeter City: Double chance 1X\n✅ FC Augsburg 1-2 SC Freiburg: FC Augsburg Over 0.5 goals\n✅ Peterborough 0-2 Luton: Luton Under 2.5 goals\n\nRecord: 35 of 83 landed.\n18+ | Play responsibly"
     },
     {
      "ad": "gunun-kuponu-3",

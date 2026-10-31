@@ -41183,8 +41183,20 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.709,
        "deger": -0.036,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-1",
+       "goller": [
+        [
+         44,
+         0,
+         "ev"
+        ],
+        [
+         69,
+         0,
+         "dep"
+        ]
+       ]
       },
       {
        "aday_id": "1557456-EVA25",
@@ -41199,20 +41211,35 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.694,
        "deger": -0.028,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "2-0",
+       "goller": [
+        [
+         25,
+         0,
+         "ev"
+        ],
+        [
+         73,
+         0,
+         "ev"
+        ]
+       ]
       }
      ],
      "oran": 2.09,
      "olasilik": 0.442,
      "deger": -0.076,
-     "durum": "bekliyor",
+     "durum": "tuttu",
      "secim": "2026-10-31T10:01:31+00:00",
      "oto": true,
      "paylas": "2026-10-31T13:10:00+01:00",
      "tweet_id": "2116503026793943254",
      "metin": "🎩 Today's treble.\n\n⚽ HNK Hajduk Split v HNK Gorica\n⚽ Maccabi Netanya v Hapoel Katamon\n⚽ Tottenham v Crystal Palace\n\n📊 Combined 2.09. I make it about 44% to land.\n\n💬 Which one would you drop?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-31T12:10:17+00:00"
+     "yayin": "2026-10-31T12:10:17+00:00",
+     "son_oran": 2.09,
+     "sonuc_hazir": "2026-10-31T19:24:08+00:00",
+     "sonuc_metni": "✅ All in at 2.09. That'll do.\n\n✅ HNK Hajduk Split 5-0 HNK Gorica: Double chance 1X\n✅ Maccabi Netanya 1-1 Hapoel Katamon: Hapoel Katamon Under 1.5 goals\n✅ Tottenham 2-0 Crystal Palace: Tottenham Under 2.5 goals\n\nRecord: 36 of 84 landed.\n18+ | Play responsibly"
     }
    ],
    "islenen": [],

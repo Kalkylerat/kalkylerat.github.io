@@ -166758,13 +166758,33 @@
         "durum": "paylasildi",
         "tweet_id": "2116483152340300131",
         "zaman": "2026-10-31T10:51:19+00:00",
-        "metin": "Most likely score: 1-1.\nEven that is only 10%.\n\n🏴󠁧󠁢󠁥󠁮󠁧󠁿 Tottenham v Crystal Palace 🏴󠁧󠁢󠁥󠁮󠁧󠁿 · 18:30 CET\n🏆 Tottenham 58% · Draw 22% · Crystal Palace 20%\n⚽ Over 2.5 goals 58% · Under 42%\n🥅 Both teams score 56% · Not both 44%\n\n💬 Not picks. Tottenham 58%: too high? 👇\n18+ | Play responsibly"
+        "metin": "Most likely score: 1-1.\nEven that is only 10%.\n\n🏴󠁧󠁢󠁥󠁮󠁧󠁿 Tottenham v Crystal Palace 🏴󠁧󠁢󠁥󠁮󠁧󠁿 · 18:30 CET\n🏆 Tottenham 58% · Draw 22% · Crystal Palace 20%\n⚽ Over 2.5 goals 58% · Under 42%\n🥅 Both teams score 56% · Not both 44%\n\n💬 Not picks. Tottenham 58%: too high? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "kayit",
+          "skor": "2-0",
+          "isabet": [
+            true,
+            false,
+            false
+          ],
+          "zaman": "2026-10-31T19:24:08+00:00",
+          "brier": {
+            "piyasa": 0.9049,
+            "istatistik": 0.9823
+          }
+        }
       },
       "anket": {
         "durum": "paylasildi",
         "tweet_id": "2116501338792276004",
         "zaman": "2026-10-31T12:03:36+00:00",
         "metin": "🗳️ MATCH POLL | Coventry v Sunderland · 16:00 CET\n\nWho wins? Vote below 👇\n\nOur numbers: Coventry 30% · draw 29% · Sunderland 41%\nAgree or not? Tell us why in the replies.\n#PremierLeague"
+      },
+      "gun_sonu": {
+        "durum": "paylasildi",
+        "tweet_id": "2116612205701386264",
+        "zaman": "2026-10-31T19:24:08+00:00",
+        "metin": "🔁 Full time on today's cards.\n📊 Pre-match chance of what happened (🏆 result, ⚽ goals):\n\nChelsea 2–0 Manchester United · 🏆 48% · ⚽ 41%\nManchester City 0–1 Brighton · 🏆 22% · ⚽ 32%\nTottenham 2–0 Crystal Palace · 🏆 58% · ⚽ 42%\n\nNot picks.\n18+ | Play responsibly"
       }
     },
     "yanit_kiti": {

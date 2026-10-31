@@ -38228,7 +38228,8 @@
      "istatistik": 0.789,
      "uyum": true,
      "buyuk": false,
-     "no": 29
+     "no": 29,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1552517-EVA25",
@@ -40655,7 +40656,7 @@
     "tweet_id": "2116059101427900715"
    },
    "tazeleme": "2026-10-30T10:05:04+00:00",
-   "olcum_sorgu": "2026-10-31T01:10:30+00:00",
+   "olcum_sorgu": "2026-10-31T02:07:20+00:00",
    "toplu_sonuc": [
     {
      "tweet_id": "2116338794966225007",
@@ -40668,7 +40669,8 @@
     "tur": "gunluk",
     "zaman": "2026-10-31T01:31:26+00:00",
     "metin": "📉 Fourth red day in a row. Virtual bank, Fri 30 Oct: €8,410.80 (−€254.47 today).\n\n🎟️ 5 coupons, 2 landed.\n🏁 Started at €10,000 on 6 Oct, 3% of the free balance per coupon, losers counted.\n\n⚠️ Virtual bank, not real money.\n18+ | Play responsibly"
-   }
+   },
+   "olcum_bitti": true
   }
  ],
  "kasa_duyuru": {

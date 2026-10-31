@@ -39099,7 +39099,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 10
+     "no": 10,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1570434-MS1",
@@ -39560,7 +39561,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 31
+     "no": 31,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1555535-UST15",
@@ -39603,7 +39605,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 33
+     "no": 33,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1563847-CS1X",
@@ -40240,7 +40243,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 62
+     "no": 62,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1563227-DPU05",
@@ -40568,7 +40572,8 @@
      "istatistik": null,
      "uyum": true,
      "buyuk": false,
-     "no": 77
+     "no": 77,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1557451-CSX2",
@@ -43609,14 +43614,20 @@
     "tweet_id": "2116421190197600481"
    },
    "tazeleme": "2026-10-31T10:01:31+00:00",
-   "olcum_sorgu": "2026-10-31T22:27:54+00:00",
+   "olcum_sorgu": "2026-10-31T23:24:18+00:00",
    "toplu_sonuc": [
     {
      "tweet_id": "2116669203256430801",
      "zaman": "2026-10-31T23:10:34+00:00",
      "metin": "🎩 Today's coupons: 3 of 5 landed.\n\n❌ Coupon 1 at 2.00: down\n❌ Long shot at 3.52: down\n✅ Coupon 2 at 2.05: in\n✅ Coupon 3 at 2.00: in\n✅ Coupon 4 at 2.09: in\n\nRecord: 37 of 86 landed.\n18+ | Play responsibly"
     }
-   ]
+   ],
+   "kasa": {
+    "tweet_id": "2116672650952998919",
+    "tur": "aylik",
+    "zaman": "2026-10-31T23:24:18+00:00",
+    "metin": "🗓️ October in the virtual bank: €10,000 → €8,636.78 (−€1,363.22).\n\n🎟️ 86 coupons this month, 37 landed.\n🏁 Started at €10,000 on 6 Oct, 3% of the free balance per coupon, losers counted.\n\n⚠️ Virtual bank, not real money.\n18+ | Play responsibly"
+   }
   }
  ],
  "kasa_duyuru": {

@@ -38880,7 +38880,7 @@
   {
    "tarih": "2026-10-31",
    "olusturma": "2026-10-31T06:37:22+00:00",
-   "durum": "secildi",
+   "durum": "bitti",
    "havuz": [
     {
      "aday_id": "1556489-CS1X",
@@ -40832,7 +40832,9 @@
      "yayin": "2026-10-31T09:00:13+00:00",
      "son_oran": 1.8,
      "sonuc_hazir": "2026-10-31T21:59:12+00:00",
-     "sonuc_metni": "❌ So close it hurts a bit. Coupon down. I had it at 50%, which was never 100.\n\n❌ Ajax 1-0 AZ Alkmaar: Over 1.5 goals\n✅ Lørenskog 3-2 Follo: Double chance 1X\n\nRecord: 36 of 85 landed.\n18+ | Play responsibly"
+     "sonuc_metni": "❌ So close it hurts a bit. Coupon down. I had it at 50%, which was never 100.\n\n❌ Ajax 1-0 AZ Alkmaar: Over 1.5 goals\n✅ Lørenskog 3-2 Follo: Double chance 1X\n\nRecord: 36 of 85 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2116669203256430801",
+     "sonuc_zamani": "2026-10-31T23:10:34+00:00"
     },
     {
      "ad": "long-shot",
@@ -40951,7 +40953,9 @@
      "yayin": "2026-10-31T09:40:07+00:00",
      "son_oran": 2.59,
      "sonuc_hazir": "2026-10-31T19:02:19+00:00",
-     "sonuc_metni": "❌ One leg short.\n\nRecord: 35 of 83 landed.\n18+ | Play responsibly"
+     "sonuc_metni": "❌ One leg short.\n\nRecord: 35 of 83 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2116669203256430801",
+     "sonuc_zamani": "2026-10-31T23:10:34+00:00"
     },
     {
      "ad": "gunun-kuponu-2",
@@ -41063,7 +41067,9 @@
      "yayin": "2026-10-31T11:35:02+00:00",
      "son_oran": 2.0,
      "sonuc_hazir": "2026-10-31T17:02:12+00:00",
-     "sonuc_metni": "✅ All in at 2.00. Lovely. Quietly lovely.\n\n✅ Salford City 2-1 Exeter City: Double chance 1X\n✅ FC Augsburg 1-2 SC Freiburg: FC Augsburg Over 0.5 goals\n✅ Peterborough 0-2 Luton: Luton Under 2.5 goals\n\nRecord: 35 of 83 landed.\n18+ | Play responsibly"
+     "sonuc_metni": "✅ All in at 2.00. Lovely. Quietly lovely.\n\n✅ Salford City 2-1 Exeter City: Double chance 1X\n✅ FC Augsburg 1-2 SC Freiburg: FC Augsburg Over 0.5 goals\n✅ Peterborough 0-2 Luton: Luton Under 2.5 goals\n\nRecord: 35 of 83 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2116669203256430801",
+     "sonuc_zamani": "2026-10-31T23:10:34+00:00"
     },
     {
      "ad": "gunun-kuponu-3",
@@ -41152,20 +41158,52 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.697,
        "deger": -0.025,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "4-1",
+       "goller": [
+        [
+         10,
+         0,
+         "ev"
+        ],
+        [
+         38,
+         0,
+         "ev"
+        ],
+        [
+         48,
+         0,
+         "ev"
+        ],
+        [
+         54,
+         0,
+         "dep"
+        ],
+        [
+         66,
+         0,
+         "ev"
+        ]
+       ]
       }
      ],
      "oran": 2.05,
      "olasilik": 0.453,
      "deger": -0.071,
-     "durum": "bekliyor",
+     "durum": "tuttu",
      "secim": "2026-10-31T06:37:22+00:00",
      "oto": true,
      "paylas": "2026-10-31T11:20:00+01:00",
      "tweet_id": "2116475960405160012",
      "metin": "🎩 Today's three.\n\n⚽ Port Vale v Rochdale\n⚽ O'Higgins v Nublense\n⚽ Los Angeles Galaxy v Austin\n\n📊 Combined 2.05. I make it about 45% to land.\n\n💬 Which leg lets me down?\n\n18+ | Play responsibly",
-     "yayin": "2026-10-31T10:22:44+00:00"
+     "yayin": "2026-10-31T10:22:44+00:00",
+     "son_oran": 2.05,
+     "sonuc_hazir": "2026-10-31T23:10:34+00:00",
+     "sonuc_metni": "✅ All in at 2.05. No drama, which is exactly how I like them.\n\n✅ Port Vale 4-2 Rochdale: Double chance 1X\n✅ O'Higgins 1-0 Nublense: O'Higgins Over 0.5 goals\n✅ Los Angeles Galaxy 4-1 Austin: Los Angeles Galaxy Over 1.5 goals\n\nRecord: 37 of 86 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2116669203256430801",
+     "sonuc_zamani": "2026-10-31T23:10:34+00:00"
     },
     {
      "ad": "gunun-kuponu-4",
@@ -41282,7 +41320,9 @@
      "yayin": "2026-10-31T12:10:17+00:00",
      "son_oran": 2.09,
      "sonuc_hazir": "2026-10-31T19:24:08+00:00",
-     "sonuc_metni": "✅ All in at 2.09. That'll do.\n\n✅ HNK Hajduk Split 5-0 HNK Gorica: Double chance 1X\n✅ Maccabi Netanya 1-1 Hapoel Katamon: Hapoel Katamon Under 1.5 goals\n✅ Tottenham 2-0 Crystal Palace: Tottenham Under 2.5 goals\n\nRecord: 36 of 84 landed.\n18+ | Play responsibly"
+     "sonuc_metni": "✅ All in at 2.09. That'll do.\n\n✅ HNK Hajduk Split 5-0 HNK Gorica: Double chance 1X\n✅ Maccabi Netanya 1-1 Hapoel Katamon: Hapoel Katamon Under 1.5 goals\n✅ Tottenham 2-0 Crystal Palace: Tottenham Under 2.5 goals\n\nRecord: 36 of 84 landed.\n18+ | Play responsibly",
+     "sonuc_tweet_id": "2116669203256430801",
+     "sonuc_zamani": "2026-10-31T23:10:34+00:00"
     }
    ],
    "islenen": [],
@@ -43569,7 +43609,14 @@
     "tweet_id": "2116421190197600481"
    },
    "tazeleme": "2026-10-31T10:01:31+00:00",
-   "olcum_sorgu": "2026-10-31T22:27:54+00:00"
+   "olcum_sorgu": "2026-10-31T22:27:54+00:00",
+   "toplu_sonuc": [
+    {
+     "tweet_id": "2116669203256430801",
+     "zaman": "2026-10-31T23:10:34+00:00",
+     "metin": "🎩 Today's coupons: 3 of 5 landed.\n\n❌ Coupon 1 at 2.00: down\n❌ Long shot at 3.52: down\n✅ Coupon 2 at 2.05: in\n✅ Coupon 3 at 2.00: in\n✅ Coupon 4 at 2.09: in\n\nRecord: 37 of 86 landed.\n18+ | Play responsibly"
+    }
+   ]
   }
  ],
  "kasa_duyuru": {

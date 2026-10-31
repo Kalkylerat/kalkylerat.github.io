@@ -40875,8 +40875,15 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.703,
        "deger": -0.015,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-0",
+       "goller": [
+        [
+         19,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1575208-EVA25",
@@ -40906,7 +40913,9 @@
      "tweet_id": "2116465237780296106",
      "metin": "🎩 Long shot of the day. Pocket money stuff.\n\n⚽ Chelsea v Manchester United\n⚽ Annecy v Montpellier\n⚽ Sportivo Italiano v Villa Dalmine\n⚽ Borussia Mönchengladbach v SC Paderborn 07\n\n📊 Combined 3.52. I make it about 26% to land.\n\n18+ | Play responsibly",
      "yayin": "2026-10-31T09:40:07+00:00",
-     "son_oran": 1.85
+     "son_oran": 2.59,
+     "sonuc_hazir": "2026-10-31T19:02:19+00:00",
+     "sonuc_metni": "❌ One leg short.\n\nRecord: 35 of 83 landed.\n18+ | Play responsibly"
     },
     {
      "ad": "gunun-kuponu-2",

@@ -41129,8 +41129,15 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.782,
        "deger": -0.022,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "1-0",
+       "goller": [
+        [
+         43,
+         0,
+         "ev"
+        ]
+       ]
       },
       {
        "aday_id": "1490592-EVU15",

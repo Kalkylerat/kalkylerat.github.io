@@ -38901,7 +38901,8 @@
      "istatistik": 0.784,
      "uyum": false,
      "buyuk": false,
-     "no": 1
+     "no": 1,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1548552-CS1X",
@@ -38964,7 +38965,8 @@
      "istatistik": 0.695,
      "uyum": false,
      "buyuk": false,
-     "no": 4
+     "no": 4,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1584451-CS1X",
@@ -39069,7 +39071,8 @@
      "istatistik": 0.718,
      "uyum": false,
      "buyuk": false,
-     "no": 9
+     "no": 9,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1498927-CS1X",
@@ -40035,7 +40038,8 @@
      "istatistik": 0.9,
      "uyum": true,
      "buyuk": false,
-     "no": 55
+     "no": 55,
+     "sonuc": "kazandi"
     },
     {
      "aday_id": "1563840-UST15",
@@ -40560,7 +40564,8 @@
      "istatistik": 0.728,
      "uyum": true,
      "buyuk": false,
-     "no": 80
+     "no": 80,
+     "sonuc": "kazandi"
     }
    ],
    "kuponlar": [
@@ -40708,8 +40713,35 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.577,
        "deger": 0.039,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "3-2",
+       "goller": [
+        [
+         19,
+         0,
+         "ev"
+        ],
+        [
+         34,
+         0,
+         "ev"
+        ],
+        [
+         47,
+         0,
+         "ev"
+        ],
+        [
+         69,
+         0,
+         "dep"
+        ],
+        [
+         87,
+         0,
+         "dep"
+        ]
+       ]
       }
      ],
      "oran": 2.0,
@@ -43276,7 +43308,7 @@
     "tweet_id": "2116421190197600481"
    },
    "tazeleme": "2026-10-31T10:01:31+00:00",
-   "olcum_sorgu": "2026-10-31T13:00:22+00:00"
+   "olcum_sorgu": "2026-10-31T13:57:02+00:00"
   }
  ],
  "kasa_duyuru": {

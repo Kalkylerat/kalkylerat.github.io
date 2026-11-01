@@ -166791,5 +166791,3835 @@
       "issue": 149,
       "zaman": "2026-10-31T07:05:22+00:00"
     }
+  },
+  {
+    "yogun": true,
+    "id": "2026-11-01",
+    "tarih": "2026-11-01",
+    "olusturma": "2026-11-01T06:42:23+00:00",
+    "konsept": "analiz",
+    "taranan": 853,
+    "analiz_sayisi": 358,
+    "vitrin": [
+      {
+        "fixture_id": 1557453,
+        "lig": "Premier League",
+        "ulke": "England",
+        "izinli": true,
+        "ev": "Liverpool",
+        "dep": "Arsenal",
+        "baslama": "2026-11-01T17:30:00+01:00",
+        "p": {
+          "MS1": 0.33,
+          "MSX": 0.284,
+          "MS2": 0.386
+        },
+        "beklenen_gol": [
+          1.3,
+          1.4
+        ],
+        "olasi_skor": "1-1"
+      },
+      {
+        "fixture_id": 1570438,
+        "lig": "La Liga",
+        "ulke": "Spain",
+        "izinli": true,
+        "ev": "Getafe",
+        "dep": "Sevilla",
+        "baslama": "2026-11-01T14:00:00+01:00",
+        "p": {
+          "MS1": 0.28,
+          "MSX": 0.318,
+          "MS2": 0.402
+        },
+        "beklenen_gol": [
+          0.9,
+          1.15
+        ],
+        "olasi_skor": "0-1"
+      },
+      {
+        "fixture_id": 1570440,
+        "lig": "La Liga",
+        "ulke": "Spain",
+        "izinli": true,
+        "ev": "Racing Santander",
+        "dep": "Real Madrid",
+        "baslama": "2026-11-01T16:15:00+01:00",
+        "p": {
+          "MS1": 0.093,
+          "MSX": 0.121,
+          "MS2": 0.787
+        },
+        "beklenen_gol": [
+          1.05,
+          3.15
+        ],
+        "olasi_skor": "1-3"
+      },
+      {
+        "fixture_id": 1570437,
+        "lig": "La Liga",
+        "ulke": "Spain",
+        "izinli": true,
+        "ev": "Elche",
+        "dep": "Valencia",
+        "baslama": "2026-11-01T18:30:00+01:00",
+        "p": {
+          "MS1": 0.41,
+          "MSX": 0.281,
+          "MS2": 0.309
+        },
+        "beklenen_gol": [
+          1.4,
+          1.2
+        ],
+        "olasi_skor": "1-1"
+      },
+      {
+        "fixture_id": 1570433,
+        "lig": "La Liga",
+        "ulke": "Spain",
+        "izinli": true,
+        "ev": "Athletic Club",
+        "dep": "Real Sociedad",
+        "baslama": "2026-11-01T21:00:00+01:00",
+        "p": {
+          "MS1": 0.452,
+          "MSX": 0.268,
+          "MS2": 0.28
+        },
+        "beklenen_gol": [
+          1.6,
+          1.2
+        ],
+        "olasi_skor": "1-1"
+      },
+      {
+        "fixture_id": 1550180,
+        "lig": "Serie A",
+        "ulke": "Italy",
+        "izinli": true,
+        "ev": "Como",
+        "dep": "Venezia",
+        "baslama": "2026-11-01T12:30:00+01:00",
+        "p": {
+          "MS1": 0.728,
+          "MSX": 0.158,
+          "MS2": 0.114
+        },
+        "beklenen_gol": [
+          2.6,
+          0.95
+        ],
+        "olasi_skor": "2-0"
+      }
+    ],
+    "analizler": [
+      {
+        "fixture_id": 1556695,
+        "lig": "Premiership",
+        "ulke": "Scotland",
+        "lig_id": 179,
+        "ev": "Falkirk",
+        "dep": "Celtic",
+        "baslama": "2026-11-01T14:00:00+01:00",
+        "beklenen_gol": [
+          1.05,
+          2.2
+        ],
+        "p": {
+          "MS1": 0.17,
+          "MSX": 0.195,
+          "MS2": 0.635,
+          "CS1X": 0.365,
+          "CSX2": 0.83,
+          "CS12": 0.805,
+          "KGVAR": 0.578,
+          "KGYOK": 0.422,
+          "UST15": 0.835,
+          "ALT15": 0.165,
+          "UST25": 0.63,
+          "ALT25": 0.37,
+          "UST35": 0.409,
+          "ALT35": 0.591,
+          "IY1": 0.172,
+          "IYX": 0.353,
+          "IY2": 0.474,
+          "IYU05": 0.768,
+          "IYA05": 0.232,
+          "IYU15": 0.43,
+          "IYA15": 0.57,
+          "EVU05": 0.65,
+          "EVA05": 0.35,
+          "EVU15": 0.283,
+          "EVA15": 0.717,
+          "EVU25": 0.09,
+          "EVA25": 0.91,
+          "DPU05": 0.889,
+          "DPA05": 0.111,
+          "DPU15": 0.645,
+          "DPA15": 0.355,
+          "DPU25": 0.377,
+          "DPA25": 0.623,
+          "YYU05": 0.833,
+          "YYA05": 0.167,
+          "YYU15": 0.533,
+          "YYA15": 0.467
+        },
+        "skorlar": [
+          [
+            "1-2",
+            0.0985
+          ],
+          [
+            "0-2",
+            0.0938
+          ],
+          [
+            "1-1",
+            0.0896
+          ],
+          [
+            "0-1",
+            0.0853
+          ],
+          [
+            "1-3",
+            0.0723
+          ]
+        ],
+        "guven": "yuksek",
+        "kaynak": "piyasa",
+        "istatistik_gol": [
+          1.0,
+          1.9
+        ],
+        "istatistik_kaynak": "lig",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.63,
+            "istatistik": 0.554
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Celtic win",
+            "piyasa": 0.635,
+            "istatistik": 0.584
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.578,
+            "istatistik": 0.538
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Falkirk win",
+            "piyasa": 0.17,
+            "istatistik": 0.195
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.195,
+            "istatistik": 0.221
+          }
+        ],
+        "marj": 0.0673,
+        "ev_id": 1389,
+        "dep_id": 247,
+        "ev_ulke": "Scotland",
+        "dep_ulke": "Scotland"
+      },
+      {
+        "fixture_id": 1570438,
+        "lig": "La Liga",
+        "ulke": "Spain",
+        "lig_id": 140,
+        "ev": "Getafe",
+        "dep": "Sevilla",
+        "baslama": "2026-11-01T14:00:00+01:00",
+        "beklenen_gol": [
+          0.9,
+          1.15
+        ],
+        "p": {
+          "MS1": 0.285,
+          "MSX": 0.301,
+          "MS2": 0.414,
+          "CS1X": 0.586,
+          "CSX2": 0.715,
+          "CS12": 0.699,
+          "KGVAR": 0.406,
+          "KGYOK": 0.594,
+          "UST15": 0.607,
+          "ALT15": 0.393,
+          "UST25": 0.337,
+          "ALT25": 0.663,
+          "UST35": 0.152,
+          "ALT35": 0.848,
+          "IY1": 0.219,
+          "IYX": 0.485,
+          "IY2": 0.296,
+          "IYU05": 0.602,
+          "IYA05": 0.398,
+          "IYU15": 0.236,
+          "IYA15": 0.764,
+          "EVU05": 0.593,
+          "EVA05": 0.407,
+          "EVU15": 0.228,
+          "EVA15": 0.772,
+          "EVU25": 0.063,
+          "EVA25": 0.937,
+          "DPU05": 0.683,
+          "DPA05": 0.317,
+          "DPU15": 0.319,
+          "DPA15": 0.681,
+          "DPU25": 0.11,
+          "DPA25": 0.89,
+          "YYU05": 0.676,
+          "YYA05": 0.324,
+          "YYU15": 0.311,
+          "YYA15": 0.689
+        },
+        "skorlar": [
+          [
+            "0-1",
+            0.148
+          ],
+          [
+            "1-1",
+            0.1332
+          ],
+          [
+            "0-0",
+            0.1287
+          ],
+          [
+            "1-0",
+            0.1159
+          ],
+          [
+            "0-2",
+            0.0851
+          ]
+        ],
+        "guven": "yuksek",
+        "kaynak": "piyasa",
+        "istatistik_gol": [
+          1.4,
+          1.2
+        ],
+        "istatistik_kaynak": "lig",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Getafe win",
+            "piyasa": 0.285,
+            "istatistik": 0.416
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.337,
+            "istatistik": 0.482
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.406,
+            "istatistik": 0.526
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Sevilla win",
+            "piyasa": 0.414,
+            "istatistik": 0.322
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.301,
+            "istatistik": 0.262
+          }
+        ],
+        "marj": 0.0511,
+        "ev_id": 546,
+        "dep_id": 536,
+        "ev_ulke": "Spain",
+        "dep_ulke": "Spain"
+      },
+      {
+        "fixture_id": 1570440,
+        "lig": "La Liga",
+        "ulke": "Spain",
+        "lig_id": 140,
+        "ev": "Racing Santander",
+        "dep": "Real Madrid",
+        "baslama": "2026-11-01T16:15:00+01:00",
+        "beklenen_gol": [
+          1.05,
+          3.15
+        ],
+        "p": {
+          "MS1": 0.091,
+          "MSX": 0.124,
+          "MS2": 0.784,
+          "CS1X": 0.215,
+          "CSX2": 0.909,
+          "CS12": 0.875,
+          "KGVAR": 0.622,
+          "KGYOK": 0.378,
+          "UST15": 0.921,
+          "ALT15": 0.078,
+          "UST25": 0.789,
+          "ALT25": 0.21,
+          "UST35": 0.604,
+          "ALT35": 0.395,
+          "IY1": 0.123,
+          "IYX": 0.27,
+          "IY2": 0.607,
+          "IYU05": 0.848,
+          "IYA05": 0.151,
+          "IYU15": 0.563,
+          "IYA15": 0.436,
+          "EVU05": 0.65,
+          "EVA05": 0.35,
+          "EVU15": 0.282,
+          "EVA15": 0.717,
+          "EVU25": 0.09,
+          "EVA25": 0.91,
+          "DPU05": 0.957,
+          "DPA05": 0.043,
+          "DPU15": 0.822,
+          "DPA15": 0.178,
+          "DPU25": 0.609,
+          "DPA25": 0.39,
+          "YYU05": 0.9,
+          "YYA05": 0.099,
+          "YYU15": 0.671,
+          "YYA15": 0.329
+        },
+        "skorlar": [
+          [
+            "1-3",
+            0.082
+          ],
+          [
+            "0-3",
+            0.0781
+          ],
+          [
+            "1-2",
+            0.0781
+          ],
+          [
+            "0-2",
+            0.0744
+          ],
+          [
+            "1-4",
+            0.0646
+          ]
+        ],
+        "guven": "yuksek",
+        "kaynak": "piyasa",
+        "istatistik_gol": [
+          1.8,
+          1.6
+        ],
+        "istatistik_kaynak": "lig",
+        "karsilastirma": [
+          {
+            "pazar": "MS2",
+            "ad": "Real Madrid win",
+            "piyasa": 0.784,
+            "istatistik": 0.346
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Racing Santander win",
+            "piyasa": 0.091,
+            "istatistik": 0.429
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.789,
+            "istatistik": 0.66
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.124,
+            "istatistik": 0.225
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.622,
+            "istatistik": 0.666
+          }
+        ],
+        "marj": 0.0433,
+        "ev_id": 4665,
+        "dep_id": 541,
+        "ev_ulke": "Spain",
+        "dep_ulke": "Spain"
+      },
+      {
+        "fixture_id": 1557453,
+        "lig": "Premier League",
+        "ulke": "England",
+        "lig_id": 39,
+        "ev": "Liverpool",
+        "dep": "Arsenal",
+        "baslama": "2026-11-01T17:30:00+01:00",
+        "beklenen_gol": [
+          1.3,
+          1.4
+        ],
+        "p": {
+          "MS1": 0.348,
+          "MSX": 0.258,
+          "MS2": 0.394,
+          "CS1X": 0.606,
+          "CSX2": 0.652,
+          "CS12": 0.742,
+          "KGVAR": 0.548,
+          "KGYOK": 0.452,
+          "UST15": 0.751,
+          "ALT15": 0.249,
+          "UST25": 0.506,
+          "ALT25": 0.494,
+          "UST35": 0.286,
+          "ALT35": 0.714,
+          "IY1": 0.277,
+          "IYX": 0.417,
+          "IY2": 0.306,
+          "IYU05": 0.703,
+          "IYA05": 0.297,
+          "IYU15": 0.343,
+          "IYA15": 0.657,
+          "EVU05": 0.727,
+          "EVA05": 0.273,
+          "EVU15": 0.373,
+          "EVA15": 0.627,
+          "EVU25": 0.143,
+          "EVA25": 0.857,
+          "DPU05": 0.753,
+          "DPA05": 0.247,
+          "DPU15": 0.408,
+          "DPA15": 0.592,
+          "DPU25": 0.167,
+          "DPA25": 0.833,
+          "YYU05": 0.773,
+          "YYA05": 0.227,
+          "YYU15": 0.437,
+          "YYA15": 0.563
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1223
+          ],
+          [
+            "0-1",
+            0.0941
+          ],
+          [
+            "1-0",
+            0.0874
+          ],
+          [
+            "1-2",
+            0.0856
+          ],
+          [
+            "2-1",
+            0.0795
+          ]
+        ],
+        "guven": "yuksek",
+        "kaynak": "piyasa",
+        "istatistik_gol": [
+          0.9,
+          1.15
+        ],
+        "istatistik_kaynak": "lig",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.506,
+            "istatistik": 0.337
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.548,
+            "istatistik": 0.406
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Liverpool win",
+            "piyasa": 0.348,
+            "istatistik": 0.285
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.258,
+            "istatistik": 0.301
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Arsenal win",
+            "piyasa": 0.394,
+            "istatistik": 0.414
+          }
+        ],
+        "marj": 0.0453,
+        "ev_id": 40,
+        "dep_id": 42,
+        "ev_ulke": "England",
+        "dep_ulke": "England"
+      },
+      {
+        "fixture_id": 1550182,
+        "lig": "Serie A",
+        "ulke": "Italy",
+        "lig_id": 135,
+        "ev": "Juventus",
+        "dep": "Napoli",
+        "baslama": "2026-11-01T20:45:00+01:00",
+        "beklenen_gol": [
+          1.4,
+          1.2
+        ],
+        "p": {
+          "MS1": 0.416,
+          "MSX": 0.262,
+          "MS2": 0.322,
+          "CS1X": 0.678,
+          "CSX2": 0.584,
+          "CS12": 0.738,
+          "KGVAR": 0.526,
+          "KGYOK": 0.474,
+          "UST15": 0.733,
+          "ALT15": 0.267,
+          "UST25": 0.482,
+          "ALT25": 0.518,
+          "UST35": 0.264,
+          "ALT35": 0.736,
+          "IY1": 0.316,
+          "IYX": 0.425,
+          "IY2": 0.259,
+          "IYU05": 0.69,
+          "IYA05": 0.31,
+          "IYU15": 0.327,
+          "IYA15": 0.673,
+          "EVU05": 0.753,
+          "EVA05": 0.247,
+          "EVU15": 0.408,
+          "EVA15": 0.592,
+          "EVU25": 0.167,
+          "EVA25": 0.833,
+          "DPU05": 0.699,
+          "DPA05": 0.301,
+          "DPU15": 0.337,
+          "DPA15": 0.663,
+          "DPU25": 0.121,
+          "DPA25": 0.879,
+          "YYU05": 0.761,
+          "YYA05": 0.239,
+          "YYU15": 0.418,
+          "YYA15": 0.582
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1248
+          ],
+          [
+            "1-0",
+            0.104
+          ],
+          [
+            "0-1",
+            0.0891
+          ],
+          [
+            "2-1",
+            0.0873
+          ],
+          [
+            "1-2",
+            0.0749
+          ]
+        ],
+        "guven": "yuksek",
+        "kaynak": "piyasa",
+        "istatistik_gol": [
+          1.25,
+          1.4
+        ],
+        "istatistik_kaynak": "lig",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Juventus win",
+            "piyasa": 0.416,
+            "istatistik": 0.335
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Napoli win",
+            "piyasa": 0.322,
+            "istatistik": 0.405
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.482,
+            "istatistik": 0.494
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.526,
+            "istatistik": 0.538
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.262,
+            "istatistik": 0.26
+          }
+        ],
+        "marj": 0.0483,
+        "ev_id": 496,
+        "dep_id": 492,
+        "ev_ulke": "Italy",
+        "dep_ulke": "Italy"
+      }
+    ],
+    "tablo": [
+      {
+        "fixture_id": 1550180,
+        "lig": "Serie A",
+        "ulke": "Italy",
+        "lig_id": 135,
+        "ev": "Como",
+        "dep": "Venezia",
+        "baslama": "2026-11-01T12:30:00+01:00",
+        "p": {
+          "MS1": 0.727,
+          "MSX": 0.158,
+          "MS2": 0.115,
+          "CS1X": 0.885,
+          "CSX2": 0.272,
+          "CS12": 0.842,
+          "KGVAR": 0.568,
+          "KGYOK": 0.432,
+          "UST15": 0.869,
+          "ALT15": 0.131,
+          "UST25": 0.688,
+          "ALT25": 0.312,
+          "UST35": 0.474,
+          "ALT35": 0.526,
+          "IY1": 0.548,
+          "IYX": 0.317,
+          "IY2": 0.135,
+          "IYU05": 0.797,
+          "IYA05": 0.202,
+          "IYU15": 0.474,
+          "IYA15": 0.526,
+          "EVU05": 0.926,
+          "EVA05": 0.074,
+          "EVU15": 0.732,
+          "EVA15": 0.267,
+          "EVU25": 0.481,
+          "EVA25": 0.518,
+          "DPU05": 0.613,
+          "DPA05": 0.387,
+          "DPU15": 0.246,
+          "DPA15": 0.754,
+          "DPU25": 0.071,
+          "DPA25": 0.929,
+          "YYU05": 0.858,
+          "YYA05": 0.142,
+          "YYU15": 0.581,
+          "YYA15": 0.419
+        },
+        "skorlar": [
+          [
+            "2-0",
+            0.0971
+          ],
+          [
+            "2-1",
+            0.0922
+          ],
+          [
+            "3-0",
+            0.0841
+          ],
+          [
+            "3-1",
+            0.0799
+          ],
+          [
+            "1-0",
+            0.0747
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.688,
+            "istatistik": 0.417
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.568,
+            "istatistik": 0.353
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.158,
+            "istatistik": 0.216
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Como win",
+            "piyasa": 0.727,
+            "istatistik": 0.677
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Venezia win",
+            "piyasa": 0.115,
+            "istatistik": 0.107
+          }
+        ],
+        "beklenen_gol": [
+          2.6,
+          0.95
+        ],
+        "kaynak": "piyasa",
+        "ev_ulke": "Italy",
+        "dep_ulke": "Italy",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1570438,
+        "lig": "La Liga",
+        "ulke": "Spain",
+        "lig_id": 140,
+        "ev": "Getafe",
+        "dep": "Sevilla",
+        "baslama": "2026-11-01T14:00:00+01:00",
+        "p": {
+          "MS1": 0.285,
+          "MSX": 0.301,
+          "MS2": 0.414,
+          "CS1X": 0.586,
+          "CSX2": 0.715,
+          "CS12": 0.699,
+          "KGVAR": 0.406,
+          "KGYOK": 0.594,
+          "UST15": 0.607,
+          "ALT15": 0.393,
+          "UST25": 0.337,
+          "ALT25": 0.663,
+          "UST35": 0.152,
+          "ALT35": 0.848,
+          "IY1": 0.219,
+          "IYX": 0.485,
+          "IY2": 0.296,
+          "IYU05": 0.602,
+          "IYA05": 0.398,
+          "IYU15": 0.236,
+          "IYA15": 0.764,
+          "EVU05": 0.593,
+          "EVA05": 0.407,
+          "EVU15": 0.228,
+          "EVA15": 0.772,
+          "EVU25": 0.063,
+          "EVA25": 0.937,
+          "DPU05": 0.683,
+          "DPA05": 0.317,
+          "DPU15": 0.319,
+          "DPA15": 0.681,
+          "DPU25": 0.11,
+          "DPA25": 0.89,
+          "YYU05": 0.676,
+          "YYA05": 0.324,
+          "YYU15": 0.311,
+          "YYA15": 0.689
+        },
+        "skorlar": [
+          [
+            "0-1",
+            0.148
+          ],
+          [
+            "1-1",
+            0.1332
+          ],
+          [
+            "0-0",
+            0.1287
+          ],
+          [
+            "1-0",
+            0.1159
+          ],
+          [
+            "0-2",
+            0.0851
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Getafe win",
+            "piyasa": 0.285,
+            "istatistik": 0.416
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.337,
+            "istatistik": 0.482
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.406,
+            "istatistik": 0.526
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Sevilla win",
+            "piyasa": 0.414,
+            "istatistik": 0.322
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.301,
+            "istatistik": 0.262
+          }
+        ],
+        "beklenen_gol": [
+          0.9,
+          1.15
+        ],
+        "kaynak": "piyasa",
+        "ev_ulke": "Spain",
+        "dep_ulke": "Spain",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1550181,
+        "lig": "Serie A",
+        "ulke": "Italy",
+        "lig_id": 135,
+        "ev": "Frosinone",
+        "dep": "Torino",
+        "baslama": "2026-11-01T15:00:00+01:00",
+        "p": {
+          "MS1": 0.472,
+          "MSX": 0.219,
+          "MS2": 0.309,
+          "CS1X": 0.691,
+          "CSX2": 0.528,
+          "CS12": 0.781,
+          "KGVAR": 0.676,
+          "KGYOK": 0.324,
+          "UST15": 0.864,
+          "ALT15": 0.136,
+          "UST25": 0.679,
+          "ALT25": 0.321,
+          "UST35": 0.463,
+          "ALT35": 0.537,
+          "IY1": 0.374,
+          "IYX": 0.354,
+          "IY2": 0.271,
+          "IYU05": 0.793,
+          "IYA05": 0.207,
+          "IYU15": 0.467,
+          "IYA15": 0.533,
+          "EVU05": 0.858,
+          "EVA05": 0.142,
+          "EVU15": 0.58,
+          "EVA15": 0.42,
+          "EVU25": 0.31,
+          "EVA25": 0.69,
+          "DPU05": 0.788,
+          "DPA05": 0.212,
+          "DPU15": 0.459,
+          "DPA15": 0.541,
+          "DPU25": 0.204,
+          "DPA25": 0.796,
+          "YYU05": 0.854,
+          "YYA05": 0.146,
+          "YYU15": 0.573,
+          "YYA15": 0.427
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.0913
+          ],
+          [
+            "2-1",
+            0.089
+          ],
+          [
+            "1-2",
+            0.0707
+          ],
+          [
+            "2-2",
+            0.069
+          ],
+          [
+            "1-0",
+            0.0589
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.679,
+            "istatistik": 0.66
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.676,
+            "istatistik": 0.661
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Frosinone win",
+            "piyasa": 0.472,
+            "istatistik": 0.472
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.219,
+            "istatistik": 0.222
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Torino win",
+            "piyasa": 0.309,
+            "istatistik": 0.306
+          }
+        ],
+        "beklenen_gol": [
+          1.95,
+          1.55
+        ],
+        "kaynak": "piyasa",
+        "ev_ulke": "Italy",
+        "dep_ulke": "Italy",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1550183,
+        "lig": "Serie A",
+        "ulke": "Italy",
+        "lig_id": 135,
+        "ev": "Lazio",
+        "dep": "Cagliari",
+        "baslama": "2026-11-01T15:00:00+01:00",
+        "p": {
+          "MS1": 0.654,
+          "MSX": 0.205,
+          "MS2": 0.141,
+          "CS1X": 0.859,
+          "CSX2": 0.346,
+          "CS12": 0.795,
+          "KGVAR": 0.476,
+          "KGYOK": 0.524,
+          "UST15": 0.769,
+          "ALT15": 0.231,
+          "UST25": 0.531,
+          "ALT25": 0.469,
+          "UST35": 0.308,
+          "ALT35": 0.692,
+          "IY1": 0.474,
+          "IYX": 0.383,
+          "IY2": 0.143,
+          "IYU05": 0.716,
+          "IYA05": 0.284,
+          "IYU15": 0.359,
+          "IYA15": 0.641,
+          "EVU05": 0.865,
+          "EVA05": 0.135,
+          "EVU15": 0.594,
+          "EVA15": 0.406,
+          "EVU25": 0.323,
+          "EVA25": 0.677,
+          "DPU05": 0.551,
+          "DPA05": 0.449,
+          "DPU15": 0.191,
+          "DPA15": 0.809,
+          "DPU25": 0.047,
+          "DPA25": 0.953,
+          "YYU05": 0.786,
+          "YYA05": 0.214,
+          "YYU15": 0.455,
+          "YYA15": 0.545
+        },
+        "skorlar": [
+          [
+            "1-0",
+            0.1216
+          ],
+          [
+            "2-0",
+            0.1216
+          ],
+          [
+            "1-1",
+            0.0973
+          ],
+          [
+            "2-1",
+            0.0973
+          ],
+          [
+            "3-0",
+            0.0811
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Lazio win",
+            "piyasa": 0.654,
+            "istatistik": 0.56
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.476,
+            "istatistik": 0.567
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Cagliari win",
+            "piyasa": 0.141,
+            "istatistik": 0.217
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.531,
+            "istatistik": 0.577
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.205,
+            "istatistik": 0.223
+          }
+        ],
+        "beklenen_gol": [
+          2.0,
+          0.8
+        ],
+        "kaynak": "piyasa",
+        "ev_ulke": "Italy",
+        "dep_ulke": "Italy",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1552808,
+        "lig": "Ligue 1",
+        "ulke": "France",
+        "lig_id": 61,
+        "ev": "Strasbourg",
+        "dep": "Auxerre",
+        "baslama": "2026-11-01T15:00:00+01:00",
+        "p": {
+          "MS1": 0.526,
+          "MSX": 0.224,
+          "MS2": 0.251,
+          "CS1X": 0.749,
+          "CSX2": 0.474,
+          "CS12": 0.776,
+          "KGVAR": 0.607,
+          "KGYOK": 0.393,
+          "UST15": 0.822,
+          "ALT15": 0.178,
+          "UST25": 0.61,
+          "ALT25": 0.39,
+          "UST35": 0.386,
+          "ALT35": 0.614,
+          "IY1": 0.4,
+          "IYX": 0.374,
+          "IY2": 0.226,
+          "IYU05": 0.758,
+          "IYA05": 0.242,
+          "IYU15": 0.414,
+          "IYA15": 0.586,
+          "EVU05": 0.85,
+          "EVA05": 0.15,
+          "EVU15": 0.566,
+          "EVA15": 0.434,
+          "EVU25": 0.296,
+          "EVA25": 0.704,
+          "DPU05": 0.713,
+          "DPA05": 0.286,
+          "DPU15": 0.355,
+          "DPA15": 0.645,
+          "DPU25": 0.132,
+          "DPA25": 0.868,
+          "YYU05": 0.823,
+          "YYA05": 0.177,
+          "YYU15": 0.517,
+          "YYA15": 0.483
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1018
+          ],
+          [
+            "2-1",
+            0.0967
+          ],
+          [
+            "1-0",
+            0.0814
+          ],
+          [
+            "2-0",
+            0.0773
+          ],
+          [
+            "1-2",
+            0.0636
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.61,
+            "istatistik": 0.769
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.607,
+            "istatistik": 0.743
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Auxerre win",
+            "piyasa": 0.251,
+            "istatistik": 0.296
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Strasbourg win",
+            "piyasa": 0.526,
+            "istatistik": 0.505
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.224,
+            "istatistik": 0.199
+          }
+        ],
+        "beklenen_gol": [
+          1.9,
+          1.25
+        ],
+        "kaynak": "piyasa",
+        "ev_ulke": "France",
+        "dep_ulke": "France",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1575207,
+        "lig": "Bundesliga",
+        "ulke": "Germany",
+        "lig_id": 78,
+        "ev": "Union Berlin",
+        "dep": "1. FC Köln",
+        "baslama": "2026-11-01T15:30:00+01:00",
+        "p": {
+          "MS1": 0.364,
+          "MSX": 0.25,
+          "MS2": 0.386,
+          "CS1X": 0.614,
+          "CSX2": 0.636,
+          "CS12": 0.75,
+          "KGVAR": 0.577,
+          "KGYOK": 0.423,
+          "UST15": 0.777,
+          "ALT15": 0.223,
+          "UST25": 0.542,
+          "ALT25": 0.458,
+          "UST35": 0.319,
+          "ALT35": 0.681,
+          "IY1": 0.291,
+          "IYX": 0.404,
+          "IY2": 0.305,
+          "IYU05": 0.723,
+          "IYA05": 0.277,
+          "IYU15": 0.367,
+          "IYA15": 0.633,
+          "EVU05": 0.753,
+          "EVA05": 0.247,
+          "EVU15": 0.408,
+          "EVA15": 0.592,
+          "EVU25": 0.166,
+          "EVA25": 0.833,
+          "DPU05": 0.765,
+          "DPA05": 0.235,
+          "DPU15": 0.425,
+          "DPA15": 0.575,
+          "DPU25": 0.179,
+          "DPA25": 0.821,
+          "YYU05": 0.791,
+          "YYA05": 0.209,
+          "YYU15": 0.465,
+          "YYA15": 0.535
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1174
+          ],
+          [
+            "1-2",
+            0.0851
+          ],
+          [
+            "0-1",
+            0.0839
+          ],
+          [
+            "2-1",
+            0.0822
+          ],
+          [
+            "1-0",
+            0.081
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Union Berlin win",
+            "piyasa": 0.364,
+            "istatistik": 0.538
+          },
+          {
+            "pazar": "MS2",
+            "ad": "1. FC Köln win",
+            "piyasa": 0.386,
+            "istatistik": 0.231
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.25,
+            "istatistik": 0.231
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.577,
+            "istatistik": 0.557
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.542,
+            "istatistik": 0.554
+          }
+        ],
+        "beklenen_gol": [
+          1.4,
+          1.45
+        ],
+        "kaynak": "piyasa",
+        "ev_ulke": "Germany",
+        "dep_ulke": "Germany",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1570440,
+        "lig": "La Liga",
+        "ulke": "Spain",
+        "lig_id": 140,
+        "ev": "Racing Santander",
+        "dep": "Real Madrid",
+        "baslama": "2026-11-01T16:15:00+01:00",
+        "p": {
+          "MS1": 0.091,
+          "MSX": 0.124,
+          "MS2": 0.784,
+          "CS1X": 0.215,
+          "CSX2": 0.909,
+          "CS12": 0.875,
+          "KGVAR": 0.622,
+          "KGYOK": 0.378,
+          "UST15": 0.921,
+          "ALT15": 0.078,
+          "UST25": 0.789,
+          "ALT25": 0.21,
+          "UST35": 0.604,
+          "ALT35": 0.395,
+          "IY1": 0.123,
+          "IYX": 0.27,
+          "IY2": 0.607,
+          "IYU05": 0.848,
+          "IYA05": 0.151,
+          "IYU15": 0.563,
+          "IYA15": 0.436,
+          "EVU05": 0.65,
+          "EVA05": 0.35,
+          "EVU15": 0.282,
+          "EVA15": 0.717,
+          "EVU25": 0.09,
+          "EVA25": 0.91,
+          "DPU05": 0.957,
+          "DPA05": 0.043,
+          "DPU15": 0.822,
+          "DPA15": 0.178,
+          "DPU25": 0.609,
+          "DPA25": 0.39,
+          "YYU05": 0.9,
+          "YYA05": 0.099,
+          "YYU15": 0.671,
+          "YYA15": 0.329
+        },
+        "skorlar": [
+          [
+            "1-3",
+            0.082
+          ],
+          [
+            "0-3",
+            0.0781
+          ],
+          [
+            "1-2",
+            0.0781
+          ],
+          [
+            "0-2",
+            0.0744
+          ],
+          [
+            "1-4",
+            0.0646
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS2",
+            "ad": "Real Madrid win",
+            "piyasa": 0.784,
+            "istatistik": 0.346
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Racing Santander win",
+            "piyasa": 0.091,
+            "istatistik": 0.429
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.789,
+            "istatistik": 0.66
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.124,
+            "istatistik": 0.225
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.622,
+            "istatistik": 0.666
+          }
+        ],
+        "beklenen_gol": [
+          1.05,
+          3.15
+        ],
+        "kaynak": "piyasa",
+        "ev_ulke": "Spain",
+        "dep_ulke": "Spain",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1552804,
+        "lig": "Ligue 1",
+        "ulke": "France",
+        "lig_id": 61,
+        "ev": "Lyon",
+        "dep": "Angers",
+        "baslama": "2026-11-01T17:15:00+01:00",
+        "p": {
+          "MS1": 0.688,
+          "MSX": 0.18,
+          "MS2": 0.132,
+          "CS1X": 0.868,
+          "CSX2": 0.312,
+          "CS12": 0.82,
+          "KGVAR": 0.534,
+          "KGYOK": 0.466,
+          "UST15": 0.829,
+          "ALT15": 0.171,
+          "UST25": 0.62,
+          "ALT25": 0.38,
+          "UST35": 0.397,
+          "ALT35": 0.603,
+          "IY1": 0.51,
+          "IYX": 0.347,
+          "IY2": 0.143,
+          "IYU05": 0.763,
+          "IYA05": 0.237,
+          "IYU15": 0.422,
+          "IYA15": 0.578,
+          "EVU05": 0.9,
+          "EVA05": 0.1,
+          "EVU15": 0.669,
+          "EVA15": 0.331,
+          "EVU25": 0.404,
+          "EVA25": 0.596,
+          "DPU05": 0.593,
+          "DPA05": 0.407,
+          "DPU15": 0.228,
+          "DPA15": 0.772,
+          "DPU25": 0.063,
+          "DPA25": 0.937,
+          "YYU05": 0.828,
+          "YYA05": 0.172,
+          "YYU15": 0.525,
+          "YYA15": 0.475
+        },
+        "skorlar": [
+          [
+            "2-0",
+            0.1078
+          ],
+          [
+            "2-1",
+            0.097
+          ],
+          [
+            "1-0",
+            0.0938
+          ],
+          [
+            "1-1",
+            0.0844
+          ],
+          [
+            "3-0",
+            0.0827
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Lyon win",
+            "piyasa": 0.688,
+            "istatistik": 0.644
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.534,
+            "istatistik": 0.582
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Angers win",
+            "piyasa": 0.132,
+            "istatistik": 0.164
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.62,
+            "istatistik": 0.641
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.18,
+            "istatistik": 0.191
+          }
+        ],
+        "beklenen_gol": [
+          2.3,
+          0.9
+        ],
+        "kaynak": "piyasa",
+        "ev_ulke": "France",
+        "dep_ulke": "France",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1552807,
+        "lig": "Ligue 1",
+        "ulke": "France",
+        "lig_id": 61,
+        "ev": "Paris FC",
+        "dep": "Monaco",
+        "baslama": "2026-11-01T17:15:00+01:00",
+        "p": {
+          "MS1": 0.396,
+          "MSX": 0.252,
+          "MS2": 0.351,
+          "CS1X": 0.649,
+          "CSX2": 0.604,
+          "CS12": 0.748,
+          "KGVAR": 0.567,
+          "KGYOK": 0.433,
+          "UST15": 0.769,
+          "ALT15": 0.231,
+          "UST25": 0.531,
+          "ALT25": 0.469,
+          "UST35": 0.308,
+          "ALT35": 0.692,
+          "IY1": 0.31,
+          "IYX": 0.408,
+          "IY2": 0.282,
+          "IYU05": 0.716,
+          "IYA05": 0.284,
+          "IYU15": 0.359,
+          "IYA15": 0.641,
+          "EVU05": 0.765,
+          "EVA05": 0.235,
+          "EVU15": 0.425,
+          "EVA15": 0.575,
+          "EVU25": 0.179,
+          "EVA25": 0.821,
+          "DPU05": 0.741,
+          "DPA05": 0.259,
+          "DPU15": 0.391,
+          "DPA15": 0.609,
+          "DPU25": 0.155,
+          "DPA25": 0.845,
+          "YYU05": 0.786,
+          "YYA05": 0.214,
+          "YYU15": 0.455,
+          "YYA15": 0.545
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.119
+          ],
+          [
+            "1-0",
+            0.0882
+          ],
+          [
+            "2-1",
+            0.0863
+          ],
+          [
+            "0-1",
+            0.0821
+          ],
+          [
+            "1-2",
+            0.0803
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS2",
+            "ad": "Monaco win",
+            "piyasa": 0.351,
+            "istatistik": 0.244
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Paris FC win",
+            "piyasa": 0.396,
+            "istatistik": 0.501
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.567,
+            "istatistik": 0.498
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.531,
+            "istatistik": 0.469
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.252,
+            "istatistik": 0.255
+          }
+        ],
+        "beklenen_gol": [
+          1.45,
+          1.35
+        ],
+        "kaynak": "piyasa",
+        "ev_ulke": "France",
+        "dep_ulke": "France",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1557453,
+        "lig": "Premier League",
+        "ulke": "England",
+        "lig_id": 39,
+        "ev": "Liverpool",
+        "dep": "Arsenal",
+        "baslama": "2026-11-01T17:30:00+01:00",
+        "p": {
+          "MS1": 0.348,
+          "MSX": 0.258,
+          "MS2": 0.394,
+          "CS1X": 0.606,
+          "CSX2": 0.652,
+          "CS12": 0.742,
+          "KGVAR": 0.548,
+          "KGYOK": 0.452,
+          "UST15": 0.751,
+          "ALT15": 0.249,
+          "UST25": 0.506,
+          "ALT25": 0.494,
+          "UST35": 0.286,
+          "ALT35": 0.714,
+          "IY1": 0.277,
+          "IYX": 0.417,
+          "IY2": 0.306,
+          "IYU05": 0.703,
+          "IYA05": 0.297,
+          "IYU15": 0.343,
+          "IYA15": 0.657,
+          "EVU05": 0.727,
+          "EVA05": 0.273,
+          "EVU15": 0.373,
+          "EVA15": 0.627,
+          "EVU25": 0.143,
+          "EVA25": 0.857,
+          "DPU05": 0.753,
+          "DPA05": 0.247,
+          "DPU15": 0.408,
+          "DPA15": 0.592,
+          "DPU25": 0.167,
+          "DPA25": 0.833,
+          "YYU05": 0.773,
+          "YYA05": 0.227,
+          "YYU15": 0.437,
+          "YYA15": 0.563
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1223
+          ],
+          [
+            "0-1",
+            0.0941
+          ],
+          [
+            "1-0",
+            0.0874
+          ],
+          [
+            "1-2",
+            0.0856
+          ],
+          [
+            "2-1",
+            0.0795
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.506,
+            "istatistik": 0.337
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.548,
+            "istatistik": 0.406
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Liverpool win",
+            "piyasa": 0.348,
+            "istatistik": 0.285
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.258,
+            "istatistik": 0.301
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Arsenal win",
+            "piyasa": 0.394,
+            "istatistik": 0.414
+          }
+        ],
+        "beklenen_gol": [
+          1.3,
+          1.4
+        ],
+        "kaynak": "piyasa",
+        "ev_ulke": "England",
+        "dep_ulke": "England",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1575205,
+        "lig": "Bundesliga",
+        "ulke": "Germany",
+        "lig_id": 78,
+        "ev": "Eintracht Frankfurt",
+        "dep": "Hamburger SV",
+        "baslama": "2026-11-01T17:30:00+01:00",
+        "p": {
+          "MS1": 0.631,
+          "MSX": 0.191,
+          "MS2": 0.178,
+          "CS1X": 0.822,
+          "CSX2": 0.369,
+          "CS12": 0.809,
+          "KGVAR": 0.615,
+          "KGYOK": 0.385,
+          "UST15": 0.859,
+          "ALT15": 0.141,
+          "UST25": 0.67,
+          "ALT25": 0.33,
+          "UST35": 0.452,
+          "ALT35": 0.547,
+          "IY1": 0.477,
+          "IYX": 0.341,
+          "IY2": 0.182,
+          "IYU05": 0.788,
+          "IYA05": 0.212,
+          "IYU15": 0.46,
+          "IYA15": 0.54,
+          "EVU05": 0.9,
+          "EVA05": 0.1,
+          "EVU15": 0.669,
+          "EVA15": 0.331,
+          "EVU25": 0.404,
+          "EVA25": 0.596,
+          "DPU05": 0.683,
+          "DPA05": 0.317,
+          "DPU15": 0.319,
+          "DPA15": 0.681,
+          "DPU25": 0.11,
+          "DPA25": 0.89,
+          "YYU05": 0.85,
+          "YYA05": 0.15,
+          "YYU15": 0.565,
+          "YYA15": 0.434
+        },
+        "skorlar": [
+          [
+            "2-1",
+            0.0966
+          ],
+          [
+            "1-1",
+            0.084
+          ],
+          [
+            "2-0",
+            0.084
+          ],
+          [
+            "3-1",
+            0.074
+          ],
+          [
+            "1-0",
+            0.073
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Eintracht Frankfurt win",
+            "piyasa": 0.631,
+            "istatistik": 0.493
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Hamburger SV win",
+            "piyasa": 0.178,
+            "istatistik": 0.284
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.191,
+            "istatistik": 0.223
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.67,
+            "istatistik": 0.641
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.615,
+            "istatistik": 0.641
+          }
+        ],
+        "beklenen_gol": [
+          2.3,
+          1.15
+        ],
+        "kaynak": "piyasa",
+        "ev_ulke": "Germany",
+        "dep_ulke": "Germany",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1550184,
+        "lig": "Serie A",
+        "ulke": "Italy",
+        "lig_id": 135,
+        "ev": "Lecce",
+        "dep": "Genoa",
+        "baslama": "2026-11-01T18:00:00+01:00",
+        "p": {
+          "MS1": 0.296,
+          "MSX": 0.285,
+          "MS2": 0.42,
+          "CS1X": 0.58,
+          "CSX2": 0.704,
+          "CS12": 0.715,
+          "KGVAR": 0.451,
+          "KGYOK": 0.549,
+          "UST15": 0.657,
+          "ALT15": 0.343,
+          "UST25": 0.391,
+          "ALT25": 0.609,
+          "UST35": 0.191,
+          "ALT35": 0.809,
+          "IY1": 0.232,
+          "IYX": 0.461,
+          "IY2": 0.307,
+          "IYU05": 0.637,
+          "IYA05": 0.363,
+          "IYU15": 0.269,
+          "IYA15": 0.731,
+          "EVU05": 0.632,
+          "EVA05": 0.368,
+          "EVU15": 0.264,
+          "EVA15": 0.736,
+          "EVU25": 0.08,
+          "EVA25": 0.92,
+          "DPU05": 0.713,
+          "DPA05": 0.287,
+          "DPU15": 0.355,
+          "DPA15": 0.645,
+          "DPU25": 0.132,
+          "DPA25": 0.868,
+          "YYU05": 0.71,
+          "YYA05": 0.29,
+          "YYU15": 0.351,
+          "YYA15": 0.649
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1317
+          ],
+          [
+            "0-1",
+            0.1317
+          ],
+          [
+            "0-0",
+            0.1054
+          ],
+          [
+            "1-0",
+            0.1054
+          ],
+          [
+            "1-2",
+            0.0823
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.391,
+            "istatistik": 0.519
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.451,
+            "istatistik": 0.558
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Lecce win",
+            "piyasa": 0.296,
+            "istatistik": 0.361
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Genoa win",
+            "piyasa": 0.42,
+            "istatistik": 0.384
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.285,
+            "istatistik": 0.255
+          }
+        ],
+        "beklenen_gol": [
+          1.0,
+          1.25
+        ],
+        "kaynak": "piyasa",
+        "ev_ulke": "Italy",
+        "dep_ulke": "Italy",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1570437,
+        "lig": "La Liga",
+        "ulke": "Spain",
+        "lig_id": 140,
+        "ev": "Elche",
+        "dep": "Valencia",
+        "baslama": "2026-11-01T18:30:00+01:00",
+        "p": {
+          "MS1": 0.416,
+          "MSX": 0.262,
+          "MS2": 0.322,
+          "CS1X": 0.678,
+          "CSX2": 0.584,
+          "CS12": 0.738,
+          "KGVAR": 0.526,
+          "KGYOK": 0.474,
+          "UST15": 0.733,
+          "ALT15": 0.267,
+          "UST25": 0.482,
+          "ALT25": 0.518,
+          "UST35": 0.264,
+          "ALT35": 0.736,
+          "IY1": 0.316,
+          "IYX": 0.425,
+          "IY2": 0.259,
+          "IYU05": 0.69,
+          "IYA05": 0.31,
+          "IYU15": 0.327,
+          "IYA15": 0.673,
+          "EVU05": 0.753,
+          "EVA05": 0.247,
+          "EVU15": 0.408,
+          "EVA15": 0.592,
+          "EVU25": 0.167,
+          "EVA25": 0.833,
+          "DPU05": 0.699,
+          "DPA05": 0.301,
+          "DPU15": 0.337,
+          "DPA15": 0.663,
+          "DPU25": 0.121,
+          "DPA25": 0.879,
+          "YYU05": 0.761,
+          "YYA05": 0.239,
+          "YYU15": 0.418,
+          "YYA15": 0.582
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1248
+          ],
+          [
+            "1-0",
+            0.104
+          ],
+          [
+            "0-1",
+            0.0891
+          ],
+          [
+            "2-1",
+            0.0873
+          ],
+          [
+            "1-2",
+            0.0749
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS2",
+            "ad": "Valencia win",
+            "piyasa": 0.322,
+            "istatistik": 0.526
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Elche win",
+            "piyasa": 0.416,
+            "istatistik": 0.251
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.482,
+            "istatistik": 0.61
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.526,
+            "istatistik": 0.607
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.262,
+            "istatistik": 0.224
+          }
+        ],
+        "beklenen_gol": [
+          1.4,
+          1.2
+        ],
+        "kaynak": "piyasa",
+        "ev_ulke": "Spain",
+        "dep_ulke": "Spain",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1550182,
+        "lig": "Serie A",
+        "ulke": "Italy",
+        "lig_id": 135,
+        "ev": "Juventus",
+        "dep": "Napoli",
+        "baslama": "2026-11-01T20:45:00+01:00",
+        "p": {
+          "MS1": 0.416,
+          "MSX": 0.262,
+          "MS2": 0.322,
+          "CS1X": 0.678,
+          "CSX2": 0.584,
+          "CS12": 0.738,
+          "KGVAR": 0.526,
+          "KGYOK": 0.474,
+          "UST15": 0.733,
+          "ALT15": 0.267,
+          "UST25": 0.482,
+          "ALT25": 0.518,
+          "UST35": 0.264,
+          "ALT35": 0.736,
+          "IY1": 0.316,
+          "IYX": 0.425,
+          "IY2": 0.259,
+          "IYU05": 0.69,
+          "IYA05": 0.31,
+          "IYU15": 0.327,
+          "IYA15": 0.673,
+          "EVU05": 0.753,
+          "EVA05": 0.247,
+          "EVU15": 0.408,
+          "EVA15": 0.592,
+          "EVU25": 0.167,
+          "EVA25": 0.833,
+          "DPU05": 0.699,
+          "DPA05": 0.301,
+          "DPU15": 0.337,
+          "DPA15": 0.663,
+          "DPU25": 0.121,
+          "DPA25": 0.879,
+          "YYU05": 0.761,
+          "YYA05": 0.239,
+          "YYU15": 0.418,
+          "YYA15": 0.582
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1248
+          ],
+          [
+            "1-0",
+            0.104
+          ],
+          [
+            "0-1",
+            0.0891
+          ],
+          [
+            "2-1",
+            0.0873
+          ],
+          [
+            "1-2",
+            0.0749
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Juventus win",
+            "piyasa": 0.416,
+            "istatistik": 0.335
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Napoli win",
+            "piyasa": 0.322,
+            "istatistik": 0.405
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.482,
+            "istatistik": 0.494
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.526,
+            "istatistik": 0.538
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.262,
+            "istatistik": 0.26
+          }
+        ],
+        "beklenen_gol": [
+          1.4,
+          1.2
+        ],
+        "kaynak": "piyasa",
+        "ev_ulke": "Italy",
+        "dep_ulke": "Italy",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1570433,
+        "lig": "La Liga",
+        "ulke": "Spain",
+        "lig_id": 140,
+        "ev": "Athletic Club",
+        "dep": "Real Sociedad",
+        "baslama": "2026-11-01T21:00:00+01:00",
+        "p": {
+          "MS1": 0.467,
+          "MSX": 0.247,
+          "MS2": 0.286,
+          "CS1X": 0.714,
+          "CSX2": 0.533,
+          "CS12": 0.753,
+          "KGVAR": 0.558,
+          "KGYOK": 0.442,
+          "UST15": 0.769,
+          "ALT15": 0.231,
+          "UST25": 0.531,
+          "ALT25": 0.469,
+          "UST35": 0.308,
+          "ALT35": 0.692,
+          "IY1": 0.354,
+          "IYX": 0.405,
+          "IY2": 0.241,
+          "IYU05": 0.716,
+          "IYA05": 0.284,
+          "IYU15": 0.359,
+          "IYA15": 0.641,
+          "EVU05": 0.798,
+          "EVA05": 0.202,
+          "EVU15": 0.475,
+          "EVA15": 0.525,
+          "EVU25": 0.217,
+          "EVA25": 0.783,
+          "DPU05": 0.699,
+          "DPA05": 0.301,
+          "DPU15": 0.337,
+          "DPA15": 0.663,
+          "DPU25": 0.121,
+          "DPA25": 0.879,
+          "YYU05": 0.786,
+          "YYA05": 0.214,
+          "YYU15": 0.455,
+          "YYA15": 0.545
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1168
+          ],
+          [
+            "1-0",
+            0.0973
+          ],
+          [
+            "2-1",
+            0.0934
+          ],
+          [
+            "2-0",
+            0.0778
+          ],
+          [
+            "0-1",
+            0.073
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.531,
+            "istatistik": 0.697
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.558,
+            "istatistik": 0.69
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.247,
+            "istatistik": 0.215
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Real Sociedad win",
+            "piyasa": 0.286,
+            "istatistik": 0.312
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Athletic Club win",
+            "piyasa": 0.467,
+            "istatistik": 0.473
+          }
+        ],
+        "beklenen_gol": [
+          1.6,
+          1.2
+        ],
+        "kaynak": "piyasa",
+        "ev_ulke": "Spain",
+        "dep_ulke": "Spain",
+        "istatistik_kaynak": "lig"
+      }
+    ],
+    "ayrisma": [
+      {
+        "fixture_id": 1570440,
+        "lig": "La Liga",
+        "ulke": "Spain",
+        "lig_id": 140,
+        "ev": "Racing Santander",
+        "dep": "Real Madrid",
+        "baslama": "2026-11-01T16:15:00+01:00",
+        "p": {
+          "MS1": 0.091,
+          "MSX": 0.124,
+          "MS2": 0.784,
+          "CS1X": 0.215,
+          "CSX2": 0.909,
+          "CS12": 0.875,
+          "KGVAR": 0.622,
+          "KGYOK": 0.378,
+          "UST15": 0.921,
+          "ALT15": 0.078,
+          "UST25": 0.789,
+          "ALT25": 0.21,
+          "UST35": 0.604,
+          "ALT35": 0.395,
+          "IY1": 0.123,
+          "IYX": 0.27,
+          "IY2": 0.607,
+          "IYU05": 0.848,
+          "IYA05": 0.151,
+          "IYU15": 0.563,
+          "IYA15": 0.436,
+          "EVU05": 0.65,
+          "EVA05": 0.35,
+          "EVU15": 0.282,
+          "EVA15": 0.717,
+          "EVU25": 0.09,
+          "EVA25": 0.91,
+          "DPU05": 0.957,
+          "DPA05": 0.043,
+          "DPU15": 0.822,
+          "DPA15": 0.178,
+          "DPU25": 0.609,
+          "DPA25": 0.39,
+          "YYU05": 0.9,
+          "YYA05": 0.099,
+          "YYU15": 0.671,
+          "YYA15": 0.329
+        },
+        "skorlar": [
+          [
+            "1-3",
+            0.082
+          ],
+          [
+            "0-3",
+            0.0781
+          ],
+          [
+            "1-2",
+            0.0781
+          ],
+          [
+            "0-2",
+            0.0744
+          ],
+          [
+            "1-4",
+            0.0646
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS2",
+            "ad": "Real Madrid win",
+            "piyasa": 0.784,
+            "istatistik": 0.346
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Racing Santander win",
+            "piyasa": 0.091,
+            "istatistik": 0.429
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.789,
+            "istatistik": 0.66
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.124,
+            "istatistik": 0.225
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.622,
+            "istatistik": 0.666
+          }
+        ],
+        "beklenen_gol": [
+          1.05,
+          3.15
+        ],
+        "kaynak": "piyasa",
+        "ev_ulke": "Spain",
+        "dep_ulke": "Spain",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1560061,
+        "lig": "Czech Liga",
+        "ulke": "Czech-Republic",
+        "lig_id": 345,
+        "ev": "Mlada Boleslav",
+        "dep": "Hradec Králové",
+        "baslama": "2026-11-01T13:00:00+01:00",
+        "p": {
+          "MS1": 0.435,
+          "MSX": 0.239,
+          "MS2": 0.326,
+          "CS1X": 0.674,
+          "CSX2": 0.565,
+          "CS12": 0.761,
+          "KGVAR": 0.609,
+          "KGYOK": 0.391,
+          "UST15": 0.808,
+          "ALT15": 0.192,
+          "UST25": 0.588,
+          "ALT25": 0.412,
+          "UST35": 0.364,
+          "ALT35": 0.636,
+          "IY1": 0.341,
+          "IYX": 0.387,
+          "IY2": 0.273,
+          "IYU05": 0.747,
+          "IYA05": 0.253,
+          "IYU15": 0.399,
+          "IYA15": 0.601,
+          "EVU05": 0.808,
+          "EVA05": 0.192,
+          "EVU15": 0.491,
+          "EVA15": 0.509,
+          "EVU25": 0.23,
+          "EVA25": 0.77,
+          "DPU05": 0.753,
+          "DPA05": 0.247,
+          "DPU15": 0.408,
+          "DPA15": 0.592,
+          "DPU25": 0.166,
+          "DPA25": 0.833,
+          "YYU05": 0.813,
+          "YYA05": 0.187,
+          "YYU15": 0.5,
+          "YYA15": 0.5
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1094
+          ],
+          [
+            "2-1",
+            0.0903
+          ],
+          [
+            "1-0",
+            0.0781
+          ],
+          [
+            "1-2",
+            0.0766
+          ],
+          [
+            "0-1",
+            0.0663
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.609,
+            "istatistik": 0.201
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.588,
+            "istatistik": 0.269
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Hradec Králové win",
+            "piyasa": 0.326,
+            "istatistik": 0.071
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Mlada Boleslav win",
+            "piyasa": 0.435,
+            "istatistik": 0.68
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.239,
+            "istatistik": 0.248
+          }
+        ],
+        "beklenen_gol": [
+          1.65,
+          1.4
+        ],
+        "kaynak": "piyasa",
+        "dep_ulke": "Czech-Republic",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1575530,
+        "lig": "Primeira Liga",
+        "ulke": "Portugal",
+        "lig_id": 94,
+        "ev": "SC Braga",
+        "dep": "Famalicao",
+        "baslama": "2026-11-01T21:30:00+01:00",
+        "p": {
+          "MS1": 0.576,
+          "MSX": 0.244,
+          "MS2": 0.18,
+          "CS1X": 0.82,
+          "CSX2": 0.424,
+          "CS12": 0.756,
+          "KGVAR": 0.445,
+          "KGYOK": 0.555,
+          "UST15": 0.702,
+          "ALT15": 0.298,
+          "UST25": 0.443,
+          "ALT25": 0.557,
+          "UST35": 0.232,
+          "ALT35": 0.768,
+          "IY1": 0.41,
+          "IYX": 0.427,
+          "IY2": 0.163,
+          "IYU05": 0.668,
+          "IYA05": 0.332,
+          "IYU15": 0.302,
+          "IYA15": 0.698,
+          "EVU05": 0.808,
+          "EVA05": 0.192,
+          "EVU15": 0.491,
+          "EVA15": 0.509,
+          "EVU25": 0.23,
+          "EVA25": 0.77,
+          "DPU05": 0.551,
+          "DPA05": 0.449,
+          "DPU15": 0.191,
+          "DPA15": 0.809,
+          "DPU25": 0.047,
+          "DPA25": 0.953,
+          "YYU05": 0.74,
+          "YYA05": 0.26,
+          "YYU15": 0.39,
+          "YYA15": 0.61
+        },
+        "skorlar": [
+          [
+            "1-0",
+            0.1424
+          ],
+          [
+            "2-0",
+            0.1175
+          ],
+          [
+            "1-1",
+            0.1139
+          ],
+          [
+            "2-1",
+            0.094
+          ],
+          [
+            "0-0",
+            0.0863
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "SC Braga win",
+            "piyasa": 0.576,
+            "istatistik": 0.191
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Famalicao win",
+            "piyasa": 0.18,
+            "istatistik": 0.574
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.443,
+            "istatistik": 0.494
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.445,
+            "istatistik": 0.49
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.244,
+            "istatistik": 0.234
+          }
+        ],
+        "beklenen_gol": [
+          1.65,
+          0.8
+        ],
+        "kaynak": "piyasa",
+        "ev_ulke": "Portugal",
+        "dep_ulke": "Portugal",
+        "istatistik_kaynak": "lig"
+      }
+    ],
+    "kiyas": [
+      {
+        "fixture_id": 1550180,
+        "lig": "Serie A",
+        "ulke": "Italy",
+        "lig_id": 135,
+        "ev": "Como",
+        "dep": "Venezia",
+        "baslama": "2026-11-01T12:30:00+01:00",
+        "p": {
+          "MS1": 0.727,
+          "MSX": 0.158,
+          "MS2": 0.115,
+          "CS1X": 0.885,
+          "CSX2": 0.272,
+          "CS12": 0.842,
+          "KGVAR": 0.568,
+          "KGYOK": 0.432,
+          "UST15": 0.869,
+          "ALT15": 0.131,
+          "UST25": 0.688,
+          "ALT25": 0.312,
+          "UST35": 0.474,
+          "ALT35": 0.526,
+          "IY1": 0.548,
+          "IYX": 0.317,
+          "IY2": 0.135,
+          "IYU05": 0.797,
+          "IYA05": 0.202,
+          "IYU15": 0.474,
+          "IYA15": 0.526,
+          "EVU05": 0.926,
+          "EVA05": 0.074,
+          "EVU15": 0.732,
+          "EVA15": 0.267,
+          "EVU25": 0.481,
+          "EVA25": 0.518,
+          "DPU05": 0.613,
+          "DPA05": 0.387,
+          "DPU15": 0.246,
+          "DPA15": 0.754,
+          "DPU25": 0.071,
+          "DPA25": 0.929,
+          "YYU05": 0.858,
+          "YYA05": 0.142,
+          "YYU15": 0.581,
+          "YYA15": 0.419
+        },
+        "skorlar": [
+          [
+            "2-0",
+            0.0971
+          ],
+          [
+            "2-1",
+            0.0922
+          ],
+          [
+            "3-0",
+            0.0841
+          ],
+          [
+            "3-1",
+            0.0799
+          ],
+          [
+            "1-0",
+            0.0747
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.688,
+            "istatistik": 0.417
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.568,
+            "istatistik": 0.353
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.158,
+            "istatistik": 0.216
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Como win",
+            "piyasa": 0.727,
+            "istatistik": 0.677
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Venezia win",
+            "piyasa": 0.115,
+            "istatistik": 0.107
+          }
+        ],
+        "beklenen_gol": [
+          2.6,
+          0.95
+        ],
+        "kaynak": "piyasa",
+        "ev_ulke": "Italy",
+        "dep_ulke": "Italy",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1570438,
+        "lig": "La Liga",
+        "ulke": "Spain",
+        "lig_id": 140,
+        "ev": "Getafe",
+        "dep": "Sevilla",
+        "baslama": "2026-11-01T14:00:00+01:00",
+        "p": {
+          "MS1": 0.285,
+          "MSX": 0.301,
+          "MS2": 0.414,
+          "CS1X": 0.586,
+          "CSX2": 0.715,
+          "CS12": 0.699,
+          "KGVAR": 0.406,
+          "KGYOK": 0.594,
+          "UST15": 0.607,
+          "ALT15": 0.393,
+          "UST25": 0.337,
+          "ALT25": 0.663,
+          "UST35": 0.152,
+          "ALT35": 0.848,
+          "IY1": 0.219,
+          "IYX": 0.485,
+          "IY2": 0.296,
+          "IYU05": 0.602,
+          "IYA05": 0.398,
+          "IYU15": 0.236,
+          "IYA15": 0.764,
+          "EVU05": 0.593,
+          "EVA05": 0.407,
+          "EVU15": 0.228,
+          "EVA15": 0.772,
+          "EVU25": 0.063,
+          "EVA25": 0.937,
+          "DPU05": 0.683,
+          "DPA05": 0.317,
+          "DPU15": 0.319,
+          "DPA15": 0.681,
+          "DPU25": 0.11,
+          "DPA25": 0.89,
+          "YYU05": 0.676,
+          "YYA05": 0.324,
+          "YYU15": 0.311,
+          "YYA15": 0.689
+        },
+        "skorlar": [
+          [
+            "0-1",
+            0.148
+          ],
+          [
+            "1-1",
+            0.1332
+          ],
+          [
+            "0-0",
+            0.1287
+          ],
+          [
+            "1-0",
+            0.1159
+          ],
+          [
+            "0-2",
+            0.0851
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Getafe win",
+            "piyasa": 0.285,
+            "istatistik": 0.416
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.337,
+            "istatistik": 0.482
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.406,
+            "istatistik": 0.526
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Sevilla win",
+            "piyasa": 0.414,
+            "istatistik": 0.322
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.301,
+            "istatistik": 0.262
+          }
+        ],
+        "beklenen_gol": [
+          0.9,
+          1.15
+        ],
+        "kaynak": "piyasa",
+        "ev_ulke": "Spain",
+        "dep_ulke": "Spain",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1552808,
+        "lig": "Ligue 1",
+        "ulke": "France",
+        "lig_id": 61,
+        "ev": "Strasbourg",
+        "dep": "Auxerre",
+        "baslama": "2026-11-01T15:00:00+01:00",
+        "p": {
+          "MS1": 0.526,
+          "MSX": 0.224,
+          "MS2": 0.251,
+          "CS1X": 0.749,
+          "CSX2": 0.474,
+          "CS12": 0.776,
+          "KGVAR": 0.607,
+          "KGYOK": 0.393,
+          "UST15": 0.822,
+          "ALT15": 0.178,
+          "UST25": 0.61,
+          "ALT25": 0.39,
+          "UST35": 0.386,
+          "ALT35": 0.614,
+          "IY1": 0.4,
+          "IYX": 0.374,
+          "IY2": 0.226,
+          "IYU05": 0.758,
+          "IYA05": 0.242,
+          "IYU15": 0.414,
+          "IYA15": 0.586,
+          "EVU05": 0.85,
+          "EVA05": 0.15,
+          "EVU15": 0.566,
+          "EVA15": 0.434,
+          "EVU25": 0.296,
+          "EVA25": 0.704,
+          "DPU05": 0.713,
+          "DPA05": 0.286,
+          "DPU15": 0.355,
+          "DPA15": 0.645,
+          "DPU25": 0.132,
+          "DPA25": 0.868,
+          "YYU05": 0.823,
+          "YYA05": 0.177,
+          "YYU15": 0.517,
+          "YYA15": 0.483
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1018
+          ],
+          [
+            "2-1",
+            0.0967
+          ],
+          [
+            "1-0",
+            0.0814
+          ],
+          [
+            "2-0",
+            0.0773
+          ],
+          [
+            "1-2",
+            0.0636
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.61,
+            "istatistik": 0.769
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.607,
+            "istatistik": 0.743
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Auxerre win",
+            "piyasa": 0.251,
+            "istatistik": 0.296
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Strasbourg win",
+            "piyasa": 0.526,
+            "istatistik": 0.505
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.224,
+            "istatistik": 0.199
+          }
+        ],
+        "beklenen_gol": [
+          1.9,
+          1.25
+        ],
+        "kaynak": "piyasa",
+        "ev_ulke": "France",
+        "dep_ulke": "France",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1575207,
+        "lig": "Bundesliga",
+        "ulke": "Germany",
+        "lig_id": 78,
+        "ev": "Union Berlin",
+        "dep": "1. FC Köln",
+        "baslama": "2026-11-01T15:30:00+01:00",
+        "p": {
+          "MS1": 0.364,
+          "MSX": 0.25,
+          "MS2": 0.386,
+          "CS1X": 0.614,
+          "CSX2": 0.636,
+          "CS12": 0.75,
+          "KGVAR": 0.577,
+          "KGYOK": 0.423,
+          "UST15": 0.777,
+          "ALT15": 0.223,
+          "UST25": 0.542,
+          "ALT25": 0.458,
+          "UST35": 0.319,
+          "ALT35": 0.681,
+          "IY1": 0.291,
+          "IYX": 0.404,
+          "IY2": 0.305,
+          "IYU05": 0.723,
+          "IYA05": 0.277,
+          "IYU15": 0.367,
+          "IYA15": 0.633,
+          "EVU05": 0.753,
+          "EVA05": 0.247,
+          "EVU15": 0.408,
+          "EVA15": 0.592,
+          "EVU25": 0.166,
+          "EVA25": 0.833,
+          "DPU05": 0.765,
+          "DPA05": 0.235,
+          "DPU15": 0.425,
+          "DPA15": 0.575,
+          "DPU25": 0.179,
+          "DPA25": 0.821,
+          "YYU05": 0.791,
+          "YYA05": 0.209,
+          "YYU15": 0.465,
+          "YYA15": 0.535
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1174
+          ],
+          [
+            "1-2",
+            0.0851
+          ],
+          [
+            "0-1",
+            0.0839
+          ],
+          [
+            "2-1",
+            0.0822
+          ],
+          [
+            "1-0",
+            0.081
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Union Berlin win",
+            "piyasa": 0.364,
+            "istatistik": 0.538
+          },
+          {
+            "pazar": "MS2",
+            "ad": "1. FC Köln win",
+            "piyasa": 0.386,
+            "istatistik": 0.231
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.25,
+            "istatistik": 0.231
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.577,
+            "istatistik": 0.557
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.542,
+            "istatistik": 0.554
+          }
+        ],
+        "beklenen_gol": [
+          1.4,
+          1.45
+        ],
+        "kaynak": "piyasa",
+        "ev_ulke": "Germany",
+        "dep_ulke": "Germany",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1570440,
+        "lig": "La Liga",
+        "ulke": "Spain",
+        "lig_id": 140,
+        "ev": "Racing Santander",
+        "dep": "Real Madrid",
+        "baslama": "2026-11-01T16:15:00+01:00",
+        "p": {
+          "MS1": 0.091,
+          "MSX": 0.124,
+          "MS2": 0.784,
+          "CS1X": 0.215,
+          "CSX2": 0.909,
+          "CS12": 0.875,
+          "KGVAR": 0.622,
+          "KGYOK": 0.378,
+          "UST15": 0.921,
+          "ALT15": 0.078,
+          "UST25": 0.789,
+          "ALT25": 0.21,
+          "UST35": 0.604,
+          "ALT35": 0.395,
+          "IY1": 0.123,
+          "IYX": 0.27,
+          "IY2": 0.607,
+          "IYU05": 0.848,
+          "IYA05": 0.151,
+          "IYU15": 0.563,
+          "IYA15": 0.436,
+          "EVU05": 0.65,
+          "EVA05": 0.35,
+          "EVU15": 0.282,
+          "EVA15": 0.717,
+          "EVU25": 0.09,
+          "EVA25": 0.91,
+          "DPU05": 0.957,
+          "DPA05": 0.043,
+          "DPU15": 0.822,
+          "DPA15": 0.178,
+          "DPU25": 0.609,
+          "DPA25": 0.39,
+          "YYU05": 0.9,
+          "YYA05": 0.099,
+          "YYU15": 0.671,
+          "YYA15": 0.329
+        },
+        "skorlar": [
+          [
+            "1-3",
+            0.082
+          ],
+          [
+            "0-3",
+            0.0781
+          ],
+          [
+            "1-2",
+            0.0781
+          ],
+          [
+            "0-2",
+            0.0744
+          ],
+          [
+            "1-4",
+            0.0646
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS2",
+            "ad": "Real Madrid win",
+            "piyasa": 0.784,
+            "istatistik": 0.346
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Racing Santander win",
+            "piyasa": 0.091,
+            "istatistik": 0.429
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.789,
+            "istatistik": 0.66
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.124,
+            "istatistik": 0.225
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.622,
+            "istatistik": 0.666
+          }
+        ],
+        "beklenen_gol": [
+          1.05,
+          3.15
+        ],
+        "kaynak": "piyasa",
+        "ev_ulke": "Spain",
+        "dep_ulke": "Spain",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1557453,
+        "lig": "Premier League",
+        "ulke": "England",
+        "lig_id": 39,
+        "ev": "Liverpool",
+        "dep": "Arsenal",
+        "baslama": "2026-11-01T17:30:00+01:00",
+        "p": {
+          "MS1": 0.348,
+          "MSX": 0.258,
+          "MS2": 0.394,
+          "CS1X": 0.606,
+          "CSX2": 0.652,
+          "CS12": 0.742,
+          "KGVAR": 0.548,
+          "KGYOK": 0.452,
+          "UST15": 0.751,
+          "ALT15": 0.249,
+          "UST25": 0.506,
+          "ALT25": 0.494,
+          "UST35": 0.286,
+          "ALT35": 0.714,
+          "IY1": 0.277,
+          "IYX": 0.417,
+          "IY2": 0.306,
+          "IYU05": 0.703,
+          "IYA05": 0.297,
+          "IYU15": 0.343,
+          "IYA15": 0.657,
+          "EVU05": 0.727,
+          "EVA05": 0.273,
+          "EVU15": 0.373,
+          "EVA15": 0.627,
+          "EVU25": 0.143,
+          "EVA25": 0.857,
+          "DPU05": 0.753,
+          "DPA05": 0.247,
+          "DPU15": 0.408,
+          "DPA15": 0.592,
+          "DPU25": 0.167,
+          "DPA25": 0.833,
+          "YYU05": 0.773,
+          "YYA05": 0.227,
+          "YYU15": 0.437,
+          "YYA15": 0.563
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1223
+          ],
+          [
+            "0-1",
+            0.0941
+          ],
+          [
+            "1-0",
+            0.0874
+          ],
+          [
+            "1-2",
+            0.0856
+          ],
+          [
+            "2-1",
+            0.0795
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.506,
+            "istatistik": 0.337
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.548,
+            "istatistik": 0.406
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Liverpool win",
+            "piyasa": 0.348,
+            "istatistik": 0.285
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.258,
+            "istatistik": 0.301
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Arsenal win",
+            "piyasa": 0.394,
+            "istatistik": 0.414
+          }
+        ],
+        "beklenen_gol": [
+          1.3,
+          1.4
+        ],
+        "kaynak": "piyasa",
+        "ev_ulke": "England",
+        "dep_ulke": "England",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1575205,
+        "lig": "Bundesliga",
+        "ulke": "Germany",
+        "lig_id": 78,
+        "ev": "Eintracht Frankfurt",
+        "dep": "Hamburger SV",
+        "baslama": "2026-11-01T17:30:00+01:00",
+        "p": {
+          "MS1": 0.631,
+          "MSX": 0.191,
+          "MS2": 0.178,
+          "CS1X": 0.822,
+          "CSX2": 0.369,
+          "CS12": 0.809,
+          "KGVAR": 0.615,
+          "KGYOK": 0.385,
+          "UST15": 0.859,
+          "ALT15": 0.141,
+          "UST25": 0.67,
+          "ALT25": 0.33,
+          "UST35": 0.452,
+          "ALT35": 0.547,
+          "IY1": 0.477,
+          "IYX": 0.341,
+          "IY2": 0.182,
+          "IYU05": 0.788,
+          "IYA05": 0.212,
+          "IYU15": 0.46,
+          "IYA15": 0.54,
+          "EVU05": 0.9,
+          "EVA05": 0.1,
+          "EVU15": 0.669,
+          "EVA15": 0.331,
+          "EVU25": 0.404,
+          "EVA25": 0.596,
+          "DPU05": 0.683,
+          "DPA05": 0.317,
+          "DPU15": 0.319,
+          "DPA15": 0.681,
+          "DPU25": 0.11,
+          "DPA25": 0.89,
+          "YYU05": 0.85,
+          "YYA05": 0.15,
+          "YYU15": 0.565,
+          "YYA15": 0.434
+        },
+        "skorlar": [
+          [
+            "2-1",
+            0.0966
+          ],
+          [
+            "1-1",
+            0.084
+          ],
+          [
+            "2-0",
+            0.084
+          ],
+          [
+            "3-1",
+            0.074
+          ],
+          [
+            "1-0",
+            0.073
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS1",
+            "ad": "Eintracht Frankfurt win",
+            "piyasa": 0.631,
+            "istatistik": 0.493
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Hamburger SV win",
+            "piyasa": 0.178,
+            "istatistik": 0.284
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.191,
+            "istatistik": 0.223
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.67,
+            "istatistik": 0.641
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.615,
+            "istatistik": 0.641
+          }
+        ],
+        "beklenen_gol": [
+          2.3,
+          1.15
+        ],
+        "kaynak": "piyasa",
+        "ev_ulke": "Germany",
+        "dep_ulke": "Germany",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1570437,
+        "lig": "La Liga",
+        "ulke": "Spain",
+        "lig_id": 140,
+        "ev": "Elche",
+        "dep": "Valencia",
+        "baslama": "2026-11-01T18:30:00+01:00",
+        "p": {
+          "MS1": 0.416,
+          "MSX": 0.262,
+          "MS2": 0.322,
+          "CS1X": 0.678,
+          "CSX2": 0.584,
+          "CS12": 0.738,
+          "KGVAR": 0.526,
+          "KGYOK": 0.474,
+          "UST15": 0.733,
+          "ALT15": 0.267,
+          "UST25": 0.482,
+          "ALT25": 0.518,
+          "UST35": 0.264,
+          "ALT35": 0.736,
+          "IY1": 0.316,
+          "IYX": 0.425,
+          "IY2": 0.259,
+          "IYU05": 0.69,
+          "IYA05": 0.31,
+          "IYU15": 0.327,
+          "IYA15": 0.673,
+          "EVU05": 0.753,
+          "EVA05": 0.247,
+          "EVU15": 0.408,
+          "EVA15": 0.592,
+          "EVU25": 0.167,
+          "EVA25": 0.833,
+          "DPU05": 0.699,
+          "DPA05": 0.301,
+          "DPU15": 0.337,
+          "DPA15": 0.663,
+          "DPU25": 0.121,
+          "DPA25": 0.879,
+          "YYU05": 0.761,
+          "YYA05": 0.239,
+          "YYU15": 0.418,
+          "YYA15": 0.582
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1248
+          ],
+          [
+            "1-0",
+            0.104
+          ],
+          [
+            "0-1",
+            0.0891
+          ],
+          [
+            "2-1",
+            0.0873
+          ],
+          [
+            "1-2",
+            0.0749
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "MS2",
+            "ad": "Valencia win",
+            "piyasa": 0.322,
+            "istatistik": 0.526
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Elche win",
+            "piyasa": 0.416,
+            "istatistik": 0.251
+          },
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.482,
+            "istatistik": 0.61
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.526,
+            "istatistik": 0.607
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.262,
+            "istatistik": 0.224
+          }
+        ],
+        "beklenen_gol": [
+          1.4,
+          1.2
+        ],
+        "kaynak": "piyasa",
+        "ev_ulke": "Spain",
+        "dep_ulke": "Spain",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1552805,
+        "lig": "Ligue 1",
+        "ulke": "France",
+        "lig_id": 61,
+        "ev": "Marseille",
+        "dep": "Toulouse",
+        "baslama": "2026-11-01T20:45:00+01:00",
+        "p": {
+          "MS1": 0.504,
+          "MSX": 0.223,
+          "MS2": 0.273,
+          "CS1X": 0.727,
+          "CSX2": 0.496,
+          "CS12": 0.777,
+          "KGVAR": 0.63,
+          "KGYOK": 0.37,
+          "UST15": 0.835,
+          "ALT15": 0.165,
+          "UST25": 0.63,
+          "ALT25": 0.37,
+          "UST35": 0.409,
+          "ALT35": 0.591,
+          "IY1": 0.389,
+          "IYX": 0.369,
+          "IY2": 0.243,
+          "IYU05": 0.768,
+          "IYA05": 0.232,
+          "IYU15": 0.43,
+          "IYA15": 0.57,
+          "EVU05": 0.85,
+          "EVA05": 0.15,
+          "EVU15": 0.566,
+          "EVA15": 0.434,
+          "EVU25": 0.296,
+          "EVA25": 0.704,
+          "DPU05": 0.741,
+          "DPA05": 0.259,
+          "DPU15": 0.391,
+          "DPA15": 0.609,
+          "DPU25": 0.155,
+          "DPA25": 0.845,
+          "YYU05": 0.833,
+          "YYA05": 0.167,
+          "YYU15": 0.533,
+          "YYA15": 0.467
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.0995
+          ],
+          [
+            "2-1",
+            0.0945
+          ],
+          [
+            "1-0",
+            0.0737
+          ],
+          [
+            "2-0",
+            0.07
+          ],
+          [
+            "1-2",
+            0.0671
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.63,
+            "istatistik": 0.803
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.63,
+            "istatistik": 0.781
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Toulouse win",
+            "piyasa": 0.273,
+            "istatistik": 0.4
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Marseille win",
+            "piyasa": 0.504,
+            "istatistik": 0.4
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.223,
+            "istatistik": 0.199
+          }
+        ],
+        "beklenen_gol": [
+          1.9,
+          1.35
+        ],
+        "kaynak": "piyasa",
+        "ev_ulke": "France",
+        "dep_ulke": "France",
+        "istatistik_kaynak": "lig"
+      },
+      {
+        "fixture_id": 1570433,
+        "lig": "La Liga",
+        "ulke": "Spain",
+        "lig_id": 140,
+        "ev": "Athletic Club",
+        "dep": "Real Sociedad",
+        "baslama": "2026-11-01T21:00:00+01:00",
+        "p": {
+          "MS1": 0.467,
+          "MSX": 0.247,
+          "MS2": 0.286,
+          "CS1X": 0.714,
+          "CSX2": 0.533,
+          "CS12": 0.753,
+          "KGVAR": 0.558,
+          "KGYOK": 0.442,
+          "UST15": 0.769,
+          "ALT15": 0.231,
+          "UST25": 0.531,
+          "ALT25": 0.469,
+          "UST35": 0.308,
+          "ALT35": 0.692,
+          "IY1": 0.354,
+          "IYX": 0.405,
+          "IY2": 0.241,
+          "IYU05": 0.716,
+          "IYA05": 0.284,
+          "IYU15": 0.359,
+          "IYA15": 0.641,
+          "EVU05": 0.798,
+          "EVA05": 0.202,
+          "EVU15": 0.475,
+          "EVA15": 0.525,
+          "EVU25": 0.217,
+          "EVA25": 0.783,
+          "DPU05": 0.699,
+          "DPA05": 0.301,
+          "DPU15": 0.337,
+          "DPA15": 0.663,
+          "DPU25": 0.121,
+          "DPA25": 0.879,
+          "YYU05": 0.786,
+          "YYA05": 0.214,
+          "YYU15": 0.455,
+          "YYA15": 0.545
+        },
+        "skorlar": [
+          [
+            "1-1",
+            0.1168
+          ],
+          [
+            "1-0",
+            0.0973
+          ],
+          [
+            "2-1",
+            0.0934
+          ],
+          [
+            "2-0",
+            0.0778
+          ],
+          [
+            "0-1",
+            0.073
+          ]
+        ],
+        "guven": "yuksek",
+        "karsilastirma": [
+          {
+            "pazar": "UST25",
+            "ad": "Over 2.5 goals",
+            "piyasa": 0.531,
+            "istatistik": 0.697
+          },
+          {
+            "pazar": "KGVAR",
+            "ad": "Both teams score",
+            "piyasa": 0.558,
+            "istatistik": 0.69
+          },
+          {
+            "pazar": "MSX",
+            "ad": "Draw",
+            "piyasa": 0.247,
+            "istatistik": 0.215
+          },
+          {
+            "pazar": "MS2",
+            "ad": "Real Sociedad win",
+            "piyasa": 0.286,
+            "istatistik": 0.312
+          },
+          {
+            "pazar": "MS1",
+            "ad": "Athletic Club win",
+            "piyasa": 0.467,
+            "istatistik": 0.473
+          }
+        ],
+        "beklenen_gol": [
+          1.6,
+          1.2
+        ],
+        "kaynak": "piyasa",
+        "ev_ulke": "Spain",
+        "dep_ulke": "Spain",
+        "istatistik_kaynak": "lig"
+      }
+    ]
   }
 ]

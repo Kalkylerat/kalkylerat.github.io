@@ -43746,8 +43746,9 @@
        "oran_kaynagi": "Bet365",
        "olasilik": 0.714,
        "deger": -0.03,
-       "durum": "bekliyor",
-       "skor": null
+       "durum": "kazandi",
+       "skor": "0-0",
+       "goller": []
       },
       {
        "aday_id": "1573331-ALT25",

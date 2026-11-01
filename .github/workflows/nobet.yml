@@ -6,9 +6,10 @@ name: Kalkylerat Nöbetçi
 # postu düdükten ~5–12 dk sonra; postlar arası aralığı ayarlar.toml belirler, bu sıklık post sayısını artırmaz).
 # Depo herkese açık olduğu için Actions dakikaları ücretsiz.
 on:
-  schedule:
-    - cron: "13 * * * *"
-    - cron: "43 * * * *"
+  # 1 Kasım 2026: botlar durduruldu (SOZLESME C0); nöbetçi zamanlayıcısı kapalı. Yeniden açmak için iki satırı geri aç.
+  # schedule:
+  #   - cron: "13 * * * *"
+  #   - cron: "43 * * * *"
   workflow_dispatch:
 
 permissions:

@@ -735,6 +735,10 @@ def main(argv=None) -> int:
                                      "flood", "flood_yetki", "flood_ig", "flood_tani", "flood_paket", "flood_site"])
     args = p.parse_args(argv)
     ayar = config.yukle()
+    if ayar.durduruldu and args.komut != "tani":
+        # SÖZLEŞME C0 (sahibinin kararı 1 Kasım 2026): iki hesap durduruldu; post, okuma, Claude ve API isteği yok
+        print("Botlar durduruldu (ayarlar.toml [genel] durduruldu = true): hiçbir şey yapılmadı.")
+        return 0
 
     if args.komut == "tani":
         tani(ayar)

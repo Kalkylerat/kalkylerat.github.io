@@ -2,6 +2,9 @@
 
 [genel]
 saat_dilimi = "Europe/Stockholm"
+# 1 Kasım 2026 (sahibinin kararı, maliyet): Kalkylerat ve Mr. Likely durduruldu. true iken bot hiçbir şey yapmaz (yalnızca
+# elle "tani"); zamanlanmış çalışmalar da workflow'lardan kaldırıldı. Yeniden açmak için false ve cron satırlarını geri aç.
+durduruldu = true
 
 [ligler]
 # API-Football lig ID'leri; sıra önceliktir (günlük tarama sınırı dolarsa sondakiler atlanır).

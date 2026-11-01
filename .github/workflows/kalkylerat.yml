@@ -1,13 +1,15 @@
 name: Kalkylerat Botu
 
 on:
-  schedule:
+  # 1 Kasım 2026: botlar durduruldu (SOZLESME C0); zamanlayıcı kapalı. Yeniden açmak için "schedule:" ve iki cron
+  # satırının başındaki "#" kaldırılır, ayarlar.toml [genel] durduruldu = false yapılır.
+  # schedule:
     # Günün analizi her gün sabah erken: Asya/Okyanusya'daki öğle maçları (ör. Japonya) da kart alsın.
     # Tam saat yerine :17 = GitHub'ın yoğun saatinde gecikme azalır. Atlanırsa nabız gün içinde tamamlar.
-    - cron: "17 5 * * *"   # 07:17 İsveç yaz saati (kışın 06:17); config.SABAH_YEREL_DK ile aynı
+    # - cron: "17 5 * * *"   # 07:17 İsveç yaz saati (kışın 06:17); config.SABAH_YEREL_DK ile aynı
     # Nabız, 15 dakikada bir (nöbetçi ayrıca 7 dakikada bir başlatır): sıradaki analiz postu, maç sonu postları,
     # Mr. Likely ve Tiny Fixes işleri. API isteği yalnızca bitmiş olması gereken maçlar için.
-    - cron: "7,22,37,52 * * * *"  # çeyrek başları GitHub'ın en yoğun anı, gecikmesin
+    # - cron: "7,22,37,52 * * * *"  # çeyrek başları GitHub'ın en yoğun anı, gecikmesin
   issue_comment:
     types: [created]  # Mr. Likely paketine sahibinin cevabı (kupon seçimi, "iptal")
   workflow_dispatch:

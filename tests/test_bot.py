@@ -559,6 +559,8 @@ def test_analiz_konsepti_kupon_hazirlamaz_ve_temizlik_partilerle_siler(monkeypat
     from bot import temizlik
     monkeypatch.setattr(config, "DATA_FILE", tmp_path / "spel.json")
     monkeypatch.setattr(config, "PANEL_FILE", tmp_path / "index.html")
+    _yukle = config.yukle  # çalışan bot davranışı (durdurma anahtarı C0 kapalıyken)
+    monkeypatch.setattr(config, "yukle", lambda *a, **k: __import__("dataclasses").replace(_yukle(*a, **k), durduruldu=False))
     monkeypatch.setattr(temizlik, "DOSYA", tmp_path / "temizlik.json")
     monkeypatch.setattr(ana, "HATALAR", [])
     cagrilar = []

@@ -46,6 +46,7 @@ class Ayarlar:
     oran_min: float = 1.20
     oran_max: float = 2.60
     # Az post modu (sahibinin isteği 28 Ekim 2026, maliyet; SOZLESME B8): günde ~7 post, yoğun gün yok.
+    durduruldu: bool = False  # SOZLESME C0: iki hesap durduruldu (1 Kasım 2026)
     az_post: bool = False
     az_kart: int = 3
     gunluk_post_siniri: int = 24  # etkileşim postları (maç sonu yanıtları hariç) günde en fazla  # X Topluluğu kimliği: tablo, kıyas ve kart postları oraya da gider (hesap üye olmalı)  # sorun olunca GitHub issue'sunda etiketlenecek kullanıcı (bildirim gider)
@@ -81,6 +82,7 @@ def _yukle(path: Path) -> Ayarlar:
     s = t["strateji"]
     return Ayarlar(
         saat_dilimi=t["genel"]["saat_dilimi"],
+        durduruldu=bool(t["genel"].get("durduruldu", False)),
         ligler=list(t["ligler"]["izinli"]),
         tum_ligler=bool(t["ligler"]["tum_ligler"]),
         max_oran_sayfasi=int(t["ligler"]["max_oran_sayfasi"]),

@@ -338,7 +338,7 @@ def test_B5_sabah_analizi_yoksa_alarm():
     assert not any("sabah analizi" in m for _, m in saglik.sorunlar([], datetime(2026, 10, 5, 5, 30, tzinfo=UTC), AYAR))
     assert any("sabah analizi" in m for _, m in saglik.sorunlar([], datetime(2026, 10, 5, 6, 30, tzinfo=UTC), AYAR))
     wf = (ROOT / ".github/workflows/kalkylerat.yml").read_text()
-    assert 'cron: "17 5 * * *"' in wf and config.SABAH_YEREL_DK == 7 * 60 + 17
+    assert '"17 5 * * *"' in wf and config.SABAH_YEREL_DK == 7 * 60 + 17  # zamanlayıcı C0 ile kapalı, saat korunur
     # elle cevap taslakları: fırsatlar açıkken yorum fırsatları, kapalıyken yanıt kiti (ikisi birden gelmez)
     kod = (ROOT / "bot/__main__.py").read_text(encoding="utf-8")
     assert "not (firsat.ayar_yukle().aktif and firsat.ayar_yukle().gunluk_yorum > 0)" in kod and "kit.gonder(" in kod
@@ -486,9 +486,24 @@ def test_B8_az_post_modu_gunde_az_post_ve_sonuclar_tek_postta():
     assert "gün sonu postu çıkmadı" in alarm(4, 0)  # son kart 18:45: 5 sa + 25 dk pay'dan sonra
 
 
+def test_C0_durduruldu_bot_hicbir_sey_yapmaz(capsys, monkeypatch):
+    """1 Kasım 2026, sahibinin kararı: iki hesap durduruldu; zamanlayıcı yok, bot hiçbir şey yapmaz."""
+    import yaml
+    from bot import __main__ as ana
+    assert config.yukle().durduruldu
+    for ad in ("kalkylerat.yml", "nobet.yml"):
+        wf = yaml.safe_load((ROOT / ".github/workflows" / ad).read_text())
+        tetik = wf.get("on", wf.get(True))
+        assert "schedule" not in tetik and "workflow_dispatch" in tetik
+    monkeypatch.setattr(ana, "tani", lambda *a: pytest.fail("çağrılmamalı"))
+    for komut in ("nabiz", "otomatik", "likely"):
+        assert ana.main([komut]) == 0
+    assert "durduruldu" in capsys.readouterr().out
+
+
 def test_C1_nobetci_7_dk_nabiz_20_dk_alarm():
     nobet = (ROOT / ".github/workflows/nobet.yml").read_text()
-    assert '-ge 420 ]' in nobet and '-ge 1200 ]' in nobet and 'conclusion' in nobet and "cron:" in nobet
+    assert '-ge 420 ]' in nobet and '-ge 1200 ]' in nobet and 'conclusion' in nobet and "cron:" in nobet  # C0: yorumda
 
 
 def test_C2_saglik_alarmi_kacan_ve_geciken():

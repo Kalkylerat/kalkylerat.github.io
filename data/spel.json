@@ -170675,7 +170675,21 @@
         "durum": "paylasildi",
         "tweet_id": "2116834120617845024",
         "zaman": "2026-11-01T10:05:56+00:00",
-        "metin": "Sevilla are favourites.\nThey still fail to win 59% of the time.\n\n🇪🇸 Getafe v Sevilla 🇪🇸 · 14:00 CET\n🏆 Getafe 28% · Draw 30% · Sevilla 41%\n⚽ Over 2.5 goals 34% · Under 66%\n🥅 Both teams score 41% · Not both 59%\n\n💬 Not picks. Can Getafe beat 28%? 👇\n18+ | Play responsibly"
+        "metin": "Sevilla are favourites.\nThey still fail to win 59% of the time.\n\n🇪🇸 Getafe v Sevilla 🇪🇸 · 14:00 CET\n🏆 Getafe 28% · Draw 30% · Sevilla 41%\n⚽ Over 2.5 goals 34% · Under 66%\n🥅 Both teams score 41% · Not both 59%\n\n💬 Not picks. Can Getafe beat 28%? 👇\n18+ | Play responsibly",
+        "takip": {
+          "durum": "kayit",
+          "skor": "3-1",
+          "isabet": [
+            false,
+            false,
+            false
+          ],
+          "zaman": "2026-11-01T15:03:43+00:00",
+          "brier": {
+            "piyasa": 1.5656,
+            "istatistik": 1.0064
+          }
+        }
       },
       "analiz_2": {
         "durum": "paylasildi",

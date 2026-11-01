@@ -1,6 +1,6 @@
 {
- "issue": 147,
- "tarih": "2026-10-31",
+ "issue": 152,
+ "tarih": "2026-11-01",
  "bildirilen": [
   "2026-10-02:analiz_0:takip_gecikti",
   "2026-10-02:analiz_1:takip_gecikti",
@@ -70,6 +70,7 @@
   "2026-10-30:likely:sonuc:gunun-kuponu-2",
   "2026-10-30:likely:sonuc:gunun-kuponu-3",
   "2026-10-31:likely:sonuc:gunun-kuponu-2",
-  "2026-10-31:likely:sonuc:long-shot"
+  "2026-10-31:likely:sonuc:long-shot",
+  "2026-11-01:hata:Mr. Likely sonuçları: API-Football hatası (fixtures): {'requests': 'You have rea"
  ]
 }

@@ -170620,6 +170620,14 @@
         "dep_ulke": "Spain",
         "istatistik_kaynak": "lig"
       }
-    ]
+    ],
+    "etkilesim": {
+      "maclar": {
+        "durum": "paylasildi",
+        "tweet_id": "2116784668737462539",
+        "zaman": "2026-11-01T06:49:27+00:00",
+        "metin": "🔥 TODAY'S BIG GAMES | 1 Nov\n\n⚽ Liverpool v Arsenal · 17:30 CET\n   our numbers: Arsenal 39%\n⚽ Getafe v Sevilla · 14:00 CET\n   our numbers: Sevilla 40%\n⚽ Racing Santander v Real Madrid · 16:15 CET\n   our numbers: Real Madrid 79%\n\nWhich one are you watching? 👇\n#PremierLeague"
+      }
+    }
   }
 ]

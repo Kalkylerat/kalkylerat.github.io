@@ -13,6 +13,14 @@ vurgu = "#e8c48a"
 yazi = "#f0f0f5"
 yazi_ikincil = "#b8c0d0"
 
+[filtre]
+# Bütün videolara, kapaklara ve banner'a uygulanan kırmızı -> turuncu ton (renk.py). Sahibinin seçimiyle doldurulur;
+# seçenekler renk.SECENEKLER: ember, mars_dusk, solar_flare, crimson_night, amber_haze. Boşken filtre uygulanmaz.
+secim = ""
+duraklar = []
+guc = 0.0
+kontrast = 1.0
+
 [yazi]
 baslik_font = "Inter-ExtraBold"
 govde_font = "Inter-Medium"

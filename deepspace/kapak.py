@@ -10,6 +10,8 @@ from PIL import Image, ImageDraw, ImageFilter
 from . import yazi
 from .ortak import KOK, cikti, seri
 from .sahne import Sahne, probe_sprite
+from .renk import marka_filtresi
+from .renk import uygula as renk_uygula
 from .tablo import Tablo
 
 VARYANTLAR = [  # (gezegen yerleşimi, yazı konumu)
@@ -47,6 +49,10 @@ def kapaklar(gorev: dict, ayar: dict) -> list[Path]:
         else:
             s = Sahne(parca, int(gorev["tohum"]) * 100 + hedef_i, W, H, 40.0, yerlesim=gyer, olcek=1.35, probe=False)
             img = Image.fromarray(s.kare(7.0)).convert("RGBA")
+        f = marka_filtresi()
+        if f:
+            img = Image.fromarray(renk_uygula(np.asarray(img.convert("RGB")), f["duraklar"], f["guc"],
+                                              f.get("kontrast", 1.0))).convert("RGBA")
         if yyer == "alt":
             katman = yazi.katman(W, H, [(ust, 104, "kalin", 1.0), (alt, 56, "kalin", 0.9)], W // 2, H - 250,
                                  hiza="orta")
@@ -72,7 +78,11 @@ def kanal_gorselleri(ayar: dict) -> list[Path]:
     W, H = 2560, 1440
     s = Sahne({"tur": "gaz", "halka": True, "palet": ["#050a18", "#1a2c5c", "#3d6fb8", "#d6c7a1"]}, 7, W, H, 40.0,
               yerlesim="sag", olcek=0.55, probe=False)
-    banner = Image.fromarray(s.kare(3.0)).convert("RGBA")
+    kare = s.kare(3.0)
+    f = marka_filtresi()
+    if f:
+        kare = renk_uygula(kare, f["duraklar"], f["guc"], f.get("kontrast", 1.0))
+    banner = Image.fromarray(kare).convert("RGBA")
     banner.alpha_composite(yazi.katman(W, H, [(ad, 120, "kalin", 1.0),
                                               ("ambient music for deep focus  ·  a new mission every week", 40,
                                                "normal", 0.85)], W // 2, H // 2 - 110, hiza="orta"))

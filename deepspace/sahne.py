@@ -371,18 +371,28 @@ class Sahne:
 
 
 def dongu_kodla(sahne: Sahne, hedef: Path, fps: int = 24, crf: int = 16, sure: float | None = None,
-                ust_katman: np.ndarray | None = None) -> Path:
+                ust_katman: np.ndarray | None = None, lut: Path | None = None) -> Path:
     """Sahneyi ffmpeg'e ham kare olarak akıtır. sure verilmezse tam bir döngü (L sn) kodlanır.
-    ust_katman: (H, W, 4) float 0..1, her karenin üstüne konur (Shorts yazıları için)."""
+    ust_katman: (H, W, 4) float 0..1, her karenin üstüne konur (Shorts yazıları için; filtreden sonra).
+    lut: marka renk filtresinin .cube dosyası (renk.py); ffmpeg lut3d ile uygulanır."""
+    if lut is not None and ust_katman is not None:
+        from .renk import marka_filtresi, uygula
+        f = marka_filtresi()
+        lut, onceden = None, f  # yazı filtrelenmesin: filtre karede, yazı sonra
+    else:
+        onceden = None
     sure = sure or sahne.L
     n = int(round(sure * fps))
     komut = ["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24",
-             "-s", f"{sahne.W}x{sahne.H}", "-r", str(fps), "-i", "-", "-c:v", "libx264", "-preset", "medium",
+             "-s", f"{sahne.W}x{sahne.H}", "-r", str(fps), "-i", "-",
+             *(["-vf", f"lut3d=file={lut}"] if lut else []), "-c:v", "libx264", "-preset", "medium",
              "-crf", str(crf), "-pix_fmt", "yuv420p", "-g", str(fps * 2), str(hedef)]
     surec = subprocess.Popen(komut, stdin=subprocess.PIPE, stderr=subprocess.PIPE)
     try:
         for i in range(n):
             k = sahne.kare(i / fps)
+            if onceden:
+                k = uygula(k, onceden["duraklar"], onceden["guc"], onceden.get("kontrast", 1.0))
             if ust_katman is not None:
                 a = ust_katman[..., 3:]
                 k = (k * (1 - a) + ust_katman[..., :3] * 255 * a).astype(np.uint8)

@@ -40,9 +40,16 @@ def sahne_nesnesi(gorev: dict, i: int, W: int, H: int, L: float, **kw):
     return Sahne(gorev["parca"][i], _tohum(gorev, i), W, H, L, **kw)
 
 
+def marka_lut(gorev: dict) -> Path | None:
+    """marka.toml'da filtre seçiliyse .cube dosyasını yazar (G6: bütün görseller aynı tonda)."""
+    from .renk import cube_yaz, marka_filtresi
+    f = marka_filtresi()
+    return cube_yaz(cikti(gorev) / "marka.cube", f) if f else None
+
+
 def _sahne_isi(args):
-    gorev, i, W, H, L, fps, hedef = args
-    dongu_kodla(sahne_nesnesi(gorev, i, W, H, L), Path(hedef), fps=fps)
+    gorev, i, W, H, L, fps, hedef, lut = args
+    dongu_kodla(sahne_nesnesi(gorev, i, W, H, L), Path(hedef), fps=fps, lut=lut)
     return hedef
 
 
@@ -51,11 +58,12 @@ def sahneler(gorev: dict, ayar: dict, yeniden: bool = False) -> list[Path]:
     klasor = cikti(gorev) / "sahne"
     klasor.mkdir(exist_ok=True)
     isler, yollar = [], []
+    lut = marka_lut(gorev)
     for i, p in enumerate(gorev["parca"]):
         hedef = klasor / f"sahne_{i + 1:02d}.mp4"
         yollar.append(hedef)
         if yeniden or not hedef.exists():
-            isler.append((gorev, i, v["genislik"], v["yukseklik"], float(v["dongu_sn"]), v["fps"], str(hedef)))
+            isler.append((gorev, i, v["genislik"], v["yukseklik"], float(v["dongu_sn"]), v["fps"], str(hedef), lut))
     if isler:
         with ProcessPoolExecutor(max_workers=v["is_parcacigi"]) as ex:
             list(ex.map(_sahne_isi, isler))
@@ -180,7 +188,7 @@ def shorts(gorev: dict, ayar: dict) -> list[Path]:
         katman = np.asarray(ust, np.float32) / 255
         sessiz = out / f"short_{k + 1}_v.mp4"
         dongu_kodla(sahne_nesnesi(gorev, i, W, H, float(v["dongu_sn"]), yerlesim="ust"), sessiz, fps=fps,
-                    crf=v["crf"], sure=sure, ust_katman=katman)
+                    crf=v["crf"], sure=sure, ust_katman=katman, lut=marka_lut(gorev))
         bas = max(0.0, bp["basla"] + bp["sure"] / 2 - sure / 2)
         hedef = out / f"short_{k + 1}.mp4"
         calistir(["ffmpeg", "-y", "-loglevel", "error", "-i", str(sessiz), "-ss", f"{bas:.3f}", "-t", f"{sure:.3f}",

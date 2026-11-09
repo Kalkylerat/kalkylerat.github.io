@@ -3,7 +3,7 @@
 # Renkler: arka -> en koyu zemin, gölge -> ikinci koyu, ana -> markanın ana rengi, vurgu -> az kullanılan ışık,
 # yazi -> başlık rengi, yazi_ikincil -> alt satırlar.
 
-durum = "taslak"   # referanslar gelince "onaylandi"
+durum = "taslak"   # film tonu seçildi (bal_kehribar, hafif); görsel kaynağı kararı bekleniyor
 
 [palet]
 arka = "#05070f"
@@ -17,7 +17,8 @@ yazi_ikincil = "#b8c0d0"
 # Kanalın imza film tonu (sinema LUT'u, renk.py): bütün videolara, kapaklara, Shorts'a ve banner'a uygulanır.
 # secim: renk.SECENEKLER'den biri (altin_saat, bal_kehribar, eski_film, kum_altini, sari_camgobegi). Boşken uygulanmaz.
 # İnce ayar için seçenekteki bir alan burada ezilebilir (ör. guc = 0.8, doygunluk = 0.9).
-secim = ""
+secim = "bal_kehribar"   # 9 Kasım 2026, sahibi: "2 ama biraz daha hafif"
+guc = 0.55
 
 [yazi]
 baslik_font = "Inter-ExtraBold"

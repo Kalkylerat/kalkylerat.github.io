@@ -1,7 +1,12 @@
 """Sinemagraf: görüntü fotoğraf gibi durur, yalnızca seçilen bölgeler hareket eder (SOZLESME.md G6).
 
 Kamera sabittir. Her parçanın görseline bir hareket tarifi eşlik eder (`gorsel/NN_hareket.json`): hangi bölgede
-hangi etki. Bölge = normalize kutu [x0, y0, x1, y1] + yumuşak kenar, istenirse renk/parlaklık/derinlik koşulu.
+hangi etki. Bölge = normalize kutu [x0, y0, x1, y1] + yumuşak kenar, istenirse renk/parlaklık/derinlik koşulu ve
+"haric" kutuları.
+
+Hareket mantığı (sahibinin kuralı, 9 Kasım 2026): yalnızca gerçekte hareket eden şey hareket eder, ince ve zarif.
+Katı nesneler (araç, insan, bina, kaya) asla akmaz ya da bükülmez: onların etrafı "haric" ile korunur; araçta yalnızca
+ışık titrer. Toz ve kar az olur.
 
 Etkiler (hepsi döngü süresi L'nin tam katı: kare(0) == kare(L)):
   akis     bulut, sis, su: dokular bir yöne akar (iki fazlı akış, dikiş görünmez)
@@ -65,6 +70,10 @@ class Sinemagraf:
         mx = np.clip(np.minimum(nx - x0, x1 - nx) / max(yum, 1e-4), 0, 1)
         my = np.clip(np.minimum(ny - y0, y1 - ny) / max(yum * self.W / self.H, 1e-4), 0, 1)
         m = mx * my
+        for hx0, hy0, hx1, hy1 in b.get("haric", []):  # katı nesneler (tren, insan, bina) asla bükülmez
+            hm = ((nx > hx0) & (nx < hx1) & (ny > hy0) & (ny < hy1)).astype(np.float32)
+            hm = self.cv2.GaussianBlur(hm, (0, 0), max(1.0, self.W * 0.004))
+            m *= np.clip(1 - hm * 1.5, 0, 1)
         if "parlaklik_min" in b:
             m *= np.clip((self.lum - b["parlaklik_min"]) / 0.08, 0, 1)
         if "parlaklik_max" in b:

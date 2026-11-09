@@ -1,8 +1,8 @@
 {"bolgeler": [
-  {"etki": "donme", "merkez": [0.481, 0.487], "yaricap": 0.265, "derinlik": [0.0, 0.62], "hiz": 1.6, "tekrar": 6},
-  {"etki": "parilti", "kutu": [0.20, 0.39, 0.64, 0.47], "parlaklik_min": 0.5, "guc": 0.7, "tekrar": 16},
-  {"etki": "parilti", "kutu": [0.50, 0.78, 0.57, 0.89], "parlaklik_min": 0.6, "guc": 0.4, "tekrar": 6},
-  {"etki": "akis", "kutu": [0.0, 0.84, 1.0, 1.0], "yon": [-1, 0], "hiz": 22, "tekrar": 4},
-  {"etki": "yildiz", "kutu": [0.0, 0.0, 1.0, 0.5], "parlaklik_max": 0.25, "adet": 220, "parlaklik": 0.9},
-  {"etki": "kar", "kutu": [0.0, 0.0, 1.0, 1.0], "adet": 320, "tekrar": 2, "parlaklik": 0.6}
+  {"etki": "donme", "merkez": [0.481, 0.487], "yaricap": 0.265, "derinlik": [0.0, 0.62], "haric": [[0.40, 0.72, 0.62, 1.0]], "hiz": 2.6, "tekrar": 10},
+  {"etki": "parilti", "kutu": [0.20, 0.39, 0.64, 0.47], "parlaklik_min": 0.5, "guc": 0.35, "tekrar": 14},
+  {"etki": "parilti", "kutu": [0.50, 0.78, 0.57, 0.89], "parlaklik_min": 0.62, "guc": 0.12, "tekrar": 40},
+  {"etki": "akis", "kutu": [0.0, 0.87, 1.0, 1.0], "haric": [[0.40, 0.72, 0.62, 1.0]], "yon": [-1, 0], "hiz": 10, "tekrar": 8},
+  {"etki": "yildiz", "kutu": [0.0, 0.0, 1.0, 0.5], "parlaklik_max": 0.25, "adet": 180, "parlaklik": 0.75},
+  {"etki": "kar", "kutu": [0.0, 0.0, 1.0, 1.0], "adet": 120, "tekrar": 2, "parlaklik": 0.35}
 ]}

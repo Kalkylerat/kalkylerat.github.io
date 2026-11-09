@@ -27,7 +27,7 @@ def _kapla(img: Image.Image, w: int, h: int) -> Image.Image:
 
 class Tablo:
     def __init__(self, gorsel: Path, W: int = 1920, H: int = 1080, L: float = 60.0, tohum: int = 1,
-                 on_plan: Path | None = None, nefes: float = 0.03, yildiz: int = 140, toz: int = 60):
+                 on_plan: Path | None = None, nefes: float = 0.03, yildiz: int = 140, toz: int = 14):
         self.W, self.H, self.L = W, H, L
         rng = np.random.default_rng(tohum)
         self.pay = 1.10  # kaynak, çıktıdan %10 büyük tutulur: hareket için boşluk
@@ -59,7 +59,7 @@ class Tablo:
         self.t_k = rng.choice([-1, 1], toz) * rng.integers(1, 3, toz)
         self.t_faz = rng.uniform(0, TAU, toz).astype(np.float32)
         self.t_boy = rng.uniform(1.0, 3.2, toz).astype(np.float32) * (min(W, H) / 1080)
-        self.t_parlak = rng.uniform(0.04, 0.16, toz).astype(np.float32)
+        self.t_parlak = rng.uniform(0.02, 0.07, toz).astype(np.float32)  # sahibi: toz çok yoğundu (9 Kasım)
         self.isik = np.array([1.0, 0.95, 0.88], np.float32)
 
     def _donusum(self, t: float, carpan: float) -> tuple[float, float, float]:

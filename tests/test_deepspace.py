@@ -248,6 +248,11 @@ def test_G6_sinemagraf_yalniz_secilen_yerler_hareket_eder_ve_doner(tmp_path):
     a, b = sabit.kare(0).astype(int), sabit.kare(6.0).astype(int)
     assert np.abs(a[:30, 80:] - b[:30, 80:]).max() == 0  # bölge dışı kıpırdamaz
     assert np.abs(a[60:, :40] - b[60:, :40]).mean() > 0  # bölge içi hareket eder
+    korunan = Sinemagraf(g, [{"etki": "akis", "kutu": [0, 0, 1, 1], "haric": [[0.3, 0.3, 0.7, 0.7]], "hiz": 9}],
+                         W=160, H=90, L=24.0)
+    a, b = korunan.kare(0).astype(int), korunan.kare(5.0).astype(int)
+    assert np.abs(a[38:52, 64:96] - b[38:52, 64:96]).max() == 0  # "haric" içindeki katı nesne kıpırdamaz
+    assert np.abs(a[:10] - b[:10]).mean() > 0
     from deepspace.canli import Sinemagraf as _S
     assert isinstance(video.sahne_nesnesi(_gorev(tmp_path), 1, 160, 90, 24.0), _S)
 

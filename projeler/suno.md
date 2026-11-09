@@ -1,7 +1,9 @@
 # Suno müzik
 
-**Durum (22 Ekim 2026):** skill hazır (30 Eylül–1 Ekim), kullanılıp kullanılmadığı belli değil. Kod
-`claude/chrome-music-generation-9cyq2h` dalındaki `suno/` klasöründe (ana dalda yok).
+**Durum (9 Kasım 2026):** Suno Pro var (v6). Müzik artık Deep Space Log kanalı için üretiliyor: istemler
+`deepspace/gorevler/*/SUNO.md`, ayrıntı `projeler/deep-space-log.md`. Eski Chrome skill'i
+`claude/chrome-music-generation-9cyq2h` dalında (ana dalda yok). SunoMCP (Ace Data Cloud) resmî olmayan erişim
+olabileceği için kullanılmıyor.
 
 ## Nasıl çalışıyor
 1. Bilgisayarda `claude --chrome` ile Claude Code'u aç.

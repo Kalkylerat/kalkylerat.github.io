@@ -1,0 +1,3 @@
+# Deep Space Log için ek paketler (botun requirements.txt'sine girmez: ağırlar)
+onnxruntime>=1.18
+opencv-python-headless>=4.9

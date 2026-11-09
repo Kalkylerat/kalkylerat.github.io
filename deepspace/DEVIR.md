@@ -9,7 +9,7 @@ winget install Git.Git Python.Python.3.12 Gyan.FFmpeg
 git clone https://github.com/kalkylerat/kalkylerat.github.io.git
 cd kalkylerat.github.io
 git checkout claude/deep-space-log
-py -m pip install -r requirements.txt
+py -m pip install -r requirements.txt -r deepspace/requirements.txt
 py -m pytest -q tests/test_deepspace.py      # 31 test yeşil olmalı
 claude
 ```
@@ -39,6 +39,12 @@ Klip üretimi: ElevenLabs'te video **ücretli plan ister** (ücretsiz planda kap
 saniyesi ≥20 kredi (yetmez). Seçenekler: ElevenLabs ücretli plan (Kling 4 / Seedance 2.5 / Veo 3.1 Fast, başlangıç ve
 bitiş karesi aynı görsel), ya da sahibinin Kling/Runway sitesinden elle üretip `gorsel/` klasörüne koyması.
 Hareket istemi: `marka.toml [hareket] istem_eki` + sahneye özel hareket (dalga, sis, buğday, fener ışığı).
+
+## 3D fotoğraf efekti (9 Kasım, ücretsiz yol; sahibi "2'yi deneyelim")
+`tablo.Tablo3D` + `derinlik.py`: Depth Anything V2 Small (ONNX, Apache-2.0, GitHub'dan ~100 MB, `deepspace/.model/`)
+derinlik çıkarır; yakın/uzak katmanlar farklı hızda kayar, uzakta sis süzülür. Görsel varsa ve paketler kuruluysa
+otomatik devreye girer (`py -m pip install -r deepspace/requirements.txt`). Derinlik `gorsel/NN_derinlik.png`'ye
+önbelleklenir, elle düzeltilebilir. Örnek video sahibine gönderildi (referans ekran görüntüsündeki iki sahne).
 
 ## Sahibin bekleyen kararı
 Görsel kaynağı: **A** yapay zekâ (Referans 1 tarzı; FLUX 3 1K ~291 kredi ≈ 0,03 $/görsel, Seedream 5 Pro ~818 kredi),

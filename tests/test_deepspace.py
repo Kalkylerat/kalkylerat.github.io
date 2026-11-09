@@ -211,6 +211,18 @@ def test_G6_marka_filtresi_tek_kaynaktan(tmp_path):
     assert satir[0] == "LUT_3D_SIZE 5" and len(satir) == 1 + 5 ** 3
 
 
+@pytest.mark.skipif(__import__("importlib").util.find_spec("cv2") is None, reason="opencv yok")
+def test_G6_3d_fotograf_kusursuz_doner(tmp_path):
+    from PIL import Image
+    from deepspace.tablo import Tablo3D
+    rng = np.random.default_rng(2)
+    Image.fromarray((rng.random((90, 160, 3)) * 255).astype(np.uint8)).save(tmp_path / "g.png")
+    derin = np.tile(np.linspace(0, 1, 90, dtype=np.float32)[:, None], (1, 160))  # alt yakın, üst uzak
+    t = Tablo3D(tmp_path / "g.png", derin, W=160, H=90, L=24.0, tohum=1)
+    assert np.abs(t.kare(0).astype(int) - t.kare(24.0 - 1e-6).astype(int)).mean() < 0.5
+    assert np.abs(t.kare(0).astype(int) - t.kare(12.0).astype(int)).mean() > 0
+
+
 @pytest.mark.skipif(not __import__("shutil").which("ffmpeg"), reason="ffmpeg yok")
 def test_G6_hareketli_klip_dikissiz_doner(tmp_path):
     from deepspace import klip

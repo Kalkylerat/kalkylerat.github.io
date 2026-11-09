@@ -75,9 +75,7 @@ class Tablo:
         dy = bos_y * 0.45 * carpan * math.sin(th)
         return k, bos_x + dx, bos_y + dy
 
-    def kare(self, t: float) -> np.ndarray:
-        t = t % self.L
-        k, x0, y0 = self._donusum(t, 1.0)
+    def _arka_plan(self, t: float, k: float, x0: float, y0: float) -> np.ndarray:
         bg = self.arka.transform((self.W, self.H), Image.AFFINE, (k, 0, x0, 0, k, y0), resample=Image.BILINEAR)
         if self.on is not None:
             k2, x2, y2 = self._donusum(t, 0.35)
@@ -85,7 +83,12 @@ class Tablo:
             bg = bg.convert("RGBA")
             bg.alpha_composite(fg)
             bg = bg.convert("RGB")
-        kare = np.asarray(bg, np.float32) / 255
+        return np.asarray(bg, np.float32) / 255
+
+    def kare(self, t: float) -> np.ndarray:
+        t = t % self.L
+        k, x0, y0 = self._donusum(t, 1.0)
+        kare = self._arka_plan(t, k, x0, y0)
         th = TAU * t / self.L
 
         # pırıltı (arka planla aynı dönüşüm)
@@ -112,3 +115,60 @@ class Tablo:
             g = np.exp(-((xx - x) ** 2 + (yy - y) ** 2) / (2 * boy * boy)).astype(np.float32) * parlak
             kare[ya:yb, xa:xb] += g[..., None] * self.isik
         return (np.clip(kare, 0, 1) * 255).astype(np.uint8)
+
+
+class Tablo3D(Tablo):
+    """3D fotoğraf efekti: derinlik haritasıyla yakın ve uzak katmanlar farklı hızda kayar (gerçek kamera hissi).
+
+    Kamera çok yavaş bir elips çizer; derinliği odak düzleminden (`odak`) büyük olan yerler (ön plan) bir yöne,
+    küçük olanlar (gökyüzü, gezegen) öbür yöne kayar. Uzak bölgelerde ince bir sis katmanı süzülür.
+    Hepsi L'nin tam katı: kare(0) == kare(L).
+    """
+
+    def __init__(self, gorsel: Path, derinlik: np.ndarray, W: int = 1920, H: int = 1080, L: float = 60.0,
+                 tohum: int = 1, genlik: float = 0.012, odak: float = 0.35, sis: float = 0.10, **kw):
+        import cv2
+
+        super().__init__(gorsel, W, H, L, tohum, nefes=0.012, **kw)
+        src = Image.open(gorsel)
+        d = Image.fromarray(np.asarray(derinlik, np.float32), mode="F").resize(src.size, Image.BICUBIC)
+        oran = max(self.SW / d.width, self.SH / d.height)
+        d = d.resize((math.ceil(d.width * oran), math.ceil(d.height * oran)), Image.BICUBIC)
+        x, y = (d.width - self.SW) // 2, (d.height - self.SH) // 2
+        d = np.asarray(d.crop((x, y, x + self.SW, y + self.SH)), np.float32)
+        # kenar halesini azalt: yakın nesneleri biraz genişlet, sonra yumuşat
+        cek = max(3, int(self.SW * 0.004)) | 1
+        d = cv2.GaussianBlur(cv2.dilate(d, np.ones((cek, cek), np.uint8)), (0, 0), self.SW * 0.003)
+        self.derin = d
+        self.arka_np = np.asarray(self.arka, np.float32) / 255
+        self.genlik, self.odak = genlik, odak
+        yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
+        self.xx, self.yy = xx, yy
+        # sis: x'te periyodik bulut dokusu, döngü başına bir genişlik kayar
+        from .sahne import _dongulu_fbm
+        rng = np.random.default_rng(tohum + 7)
+        self.sis_doku = _dongulu_fbm(max(64, H // 4), max(128, W // 4), rng, oktav=5, taban=3)
+        self.sis = sis
+
+    def _arka_plan(self, t: float, k: float, x0: float, y0: float) -> np.ndarray:
+        import cv2
+
+        th = TAU * t / self.L + self.faz
+        ox = self.genlik * self.SW * math.cos(th)
+        oy = self.genlik * 0.5 * self.SH * math.sin(th)
+        mx = self.xx * k + x0
+        my = self.yy * k + y0
+        d = cv2.remap(self.derin, mx, my, cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
+        kayma = d - self.odak
+        mx = mx - kayma * ox
+        my = my - kayma * oy
+        kare = cv2.remap(self.arka_np, mx, my, cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
+        if self.sis:
+            sh, sw = self.sis_doku.shape
+            kay = int(round(sw * (t % self.L) / self.L))
+            doku = np.roll(self.sis_doku, -kay, axis=1)
+            doku = cv2.resize(doku, (self.W, self.H), interpolation=cv2.INTER_LINEAR)
+            uzak = np.clip(1.0 - d * 1.6, 0, 1)  # sis uzak ve orta mesafede
+            a = (np.clip(doku - 0.45, 0, 1) * 1.8 * self.sis * uzak)[..., None]
+            kare = kare * (1 - a) + np.array([1.0, 0.93, 0.82], np.float32) * a
+        return kare

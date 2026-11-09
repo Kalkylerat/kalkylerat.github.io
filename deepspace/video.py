@@ -15,7 +15,7 @@ import numpy as np
 from . import klip, yazi
 from .ortak import calistir, cikti, ffprobe_sure
 from .sahne import Sahne, dongu_kodla
-from .tablo import Tablo
+from .tablo import Tablo, Tablo3D
 
 GORSEL_UZANTI = (".png", ".jpg", ".jpeg", ".webp")
 
@@ -38,10 +38,23 @@ def parca_klibi(gorev: dict, i: int) -> Path | None:
     return yol if yol.exists() else None
 
 
+def _derinlik_dene(ana: Path):
+    """Derinlik haritası (önbellekli). Model ya da paketler yoksa None: düz canlı tabloya düşülür."""
+    try:
+        import cv2  # noqa: F401
+        from .derinlik import derinlik_haritasi
+        return derinlik_haritasi(ana)
+    except Exception:  # paket yok, model inmedi: 3D olmadan devam (G6 yine sağlanır)
+        return None
+
+
 def sahne_nesnesi(gorev: dict, i: int, W: int, H: int, L: float, **kw):
     """Görsel varsa canlı tablo, yoksa yedek kod sahnesi (klip varsa sahneler() onu doğrudan döngüye çevirir)."""
     ana, on = parca_gorseli(gorev, i)
     if ana:
+        d = _derinlik_dene(ana)
+        if d is not None:  # 3D fotoğraf efekti (ücretsiz derinlik modeli)
+            return Tablo3D(ana, d, W, H, L, tohum=_tohum(gorev, i))
         return Tablo(ana, W, H, L, tohum=_tohum(gorev, i), on_plan=on)
     return Sahne(gorev["parca"][i], _tohum(gorev, i), W, H, L, **kw)
 

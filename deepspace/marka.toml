@@ -15,7 +15,7 @@ yazi_ikincil = "#b8c0d0"
 
 [filtre]
 # Kanalın imza film tonu (sinema LUT'u, renk.py): bütün videolara, kapaklara, Shorts'a ve banner'a uygulanır.
-# secim: renk.SECENEKLER'den biri (ember_film, col_epigi, turuncu_sis, kizil_kodak). Boşken filtre uygulanmaz.
+# secim: renk.SECENEKLER'den biri (altin_saat, bal_kehribar, eski_film, kum_altini, sari_camgobegi). Boşken uygulanmaz.
 # İnce ayar için seçenekteki bir alan burada ezilebilir (ör. guc = 0.8, doygunluk = 0.9).
 secim = ""
 

@@ -51,8 +51,7 @@ def kapaklar(gorev: dict, ayar: dict) -> list[Path]:
             img = Image.fromarray(s.kare(7.0)).convert("RGBA")
         f = marka_filtresi()
         if f:
-            img = Image.fromarray(renk_uygula(np.asarray(img.convert("RGB")), f["duraklar"], f["guc"],
-                                              f.get("kontrast", 1.0))).convert("RGBA")
+            img = Image.fromarray(renk_uygula(np.asarray(img.convert("RGB")), f)).convert("RGBA")
         if yyer == "alt":
             katman = yazi.katman(W, H, [(ust, 104, "kalin", 1.0), (alt, 56, "kalin", 0.9)], W // 2, H - 250,
                                  hiza="orta")
@@ -81,7 +80,7 @@ def kanal_gorselleri(ayar: dict) -> list[Path]:
     kare = s.kare(3.0)
     f = marka_filtresi()
     if f:
-        kare = renk_uygula(kare, f["duraklar"], f["guc"], f.get("kontrast", 1.0))
+        kare = renk_uygula(kare, f)
     banner = Image.fromarray(kare).convert("RGBA")
     banner.alpha_composite(yazi.katman(W, H, [(ad, 120, "kalin", 1.0),
                                               ("ambient music for deep focus  ·  a new mission every week", 40,

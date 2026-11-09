@@ -1,8 +1,13 @@
-"""Marka renk filtresi: bütün görsellere aynı kırmızı -> turuncu tonu verir (SOZLESME.md G6, marka.toml [filtre]).
+"""Marka renk derecelendirmesi (sinema LUT'u): bütün görsellere aynı film tonu (SOZLESME.md G6, marka.toml [filtre]).
 
-Yöntem "gradient map": her pikselin parlaklığı, koyudan açığa sıralı renk duraklarına eşlenir ve orijinal renkle
-`guc` oranında karıştırılır. Videoda filtre ffmpeg'in lut3d süzgeciyle uygulanır (hızlı); kapak ve banner gibi
-durağan görsellerde aynı hesap numpy ile yapılır, böylece ikisi birebir aynı görünür.
+Filmlerdeki "color grade" adımlarının sadeleştirilmiş hali, hepsi yalnızca renge bağlı (piksel komşuluğu yok), bu
+yüzden tek bir 3D LUT'a (.cube) birebir sığar:
+  1. pozlama ve filmik S eğrisi (kontrast, yumuşak parlak alan),
+  2. siyah kaldırma (lift) ve parlak alan tavanı,
+  3. renk tonuna göre doygunluk: sıcaklar korunur, mavi/yeşil/mor bastırılır,
+  4. split toning: alt-orta tonlar bir renge, üst tonlar başka bir renge çekilir (saf siyah ve beyaz korunur),
+  5. son ton karışımı (gücü `guc`).
+Videoda ffmpeg lut3d ile, kapak ve banner'da aynı hesap numpy ile uygulanır; ikisi aynı görünür.
 """
 from __future__ import annotations
 
@@ -12,40 +17,79 @@ import numpy as np
 
 from .ortak import marka_yukle, rgb
 
-# Sahibine sunulan seçenekler (9 Kasım 2026). Seçilen marka.toml [filtre]'ye yazılır.
+# Sahibine sunulan film tonları (9 Kasım 2026). Seçilen marka.toml [filtre]'ye yazılır.
 SECENEKLER = {
-    "ember": {"duraklar": ["#050101", "#2a0505", "#9c1f17", "#f0642a", "#ffd2a0"], "guc": 0.85, "kontrast": 1.10},
-    "mars_dusk": {"duraklar": ["#100706", "#3e1710", "#94402a", "#d9874f", "#f2d3b2"], "guc": 0.70, "kontrast": 1.0},
-    "solar_flare": {"duraklar": ["#000000", "#4a0800", "#d83c16", "#ffa01e", "#fff1cc"], "guc": 0.90, "kontrast": 1.25},
-    "crimson_night": {"duraklar": ["#030001", "#300405", "#82111a", "#df561f", "#ffb36c"], "guc": 0.90, "kontrast": 1.15},
-    "amber_haze": {"duraklar": ["#0c0603", "#381909", "#974812", "#ee912c", "#ffe3b3"], "guc": 0.75, "kontrast": 0.95},
+    "ember_film": {"aciklama": "sıcak, zengin kırmızı-turuncu; gölgeler koyu kızıl, parlak alanlar kehribar",
+                   "pozlama": 0.0, "kontrast": 0.55, "lift": "#140405", "lift_miktar": 0.025, "tavan": 0.97,
+                   "golge": "#7a1410", "parlak": "#ffb067", "ton_miktar": 0.32, "doygunluk": 1.05,
+                   "soguk_bastir": 0.75, "guc": 1.0},
+    "col_epigi": {"aciklama": "soluk okra ve pas; doygunluk düşük, siyahlar kalkık, epik çöl filmi hissi",
+                  "pozlama": 0.02, "kontrast": 0.35, "lift": "#2a160e", "lift_miktar": 0.06, "tavan": 0.94,
+                  "golge": "#5a2a18", "parlak": "#f2c08a", "ton_miktar": 0.35, "doygunluk": 0.55,
+                  "soguk_bastir": 0.9, "guc": 1.0},
+    "turuncu_sis": {"aciklama": "yoğun turuncu pus, ezik siyahlar, neo-noir bilim kurgu hissi",
+                    "pozlama": 0.03, "kontrast": 0.7, "lift": "#0a0302", "lift_miktar": 0.02, "tavan": 0.98,
+                    "golge": "#6e1a06", "parlak": "#ff9a3c", "ton_miktar": 0.45, "doygunluk": 1.15,
+                    "soguk_bastir": 0.95, "guc": 1.0},
+    "kizil_kodak": {"aciklama": "film negatifi taklidi: kırmızıya kayan gölgeler, yumuşak sıcak ışık, doğal",
+                    "pozlama": 0.0, "kontrast": 0.45, "lift": "#1a0608", "lift_miktar": 0.02, "tavan": 0.96,
+                    "golge": "#5c1018", "parlak": "#ffc88e", "ton_miktar": 0.25, "doygunluk": 0.95,
+                    "soguk_bastir": 0.55, "guc": 1.0},
 }
 
 
-def uygula(img: np.ndarray, duraklar: list[str], guc: float, kontrast: float = 1.0) -> np.ndarray:
+def _renk(h: str) -> np.ndarray:
+    return np.array(rgb(h), np.float32) / 255
+
+
+def uygula(img: np.ndarray, ton: dict) -> np.ndarray:
     """img: HxWx3 uint8 ya da 0..1 float. Aynı biçimde döner."""
     tam = img.dtype == np.uint8
-    x = img.astype(np.float32) / 255 if tam else img.astype(np.float32)
-    lum = x[..., 0] * 0.2126 + x[..., 1] * 0.7152 + x[..., 2] * 0.0722
-    lum = np.clip((lum - 0.5) * kontrast + 0.5, 0, 1)
-    renkler = np.array([rgb(d) for d in duraklar], np.float32) / 255
-    konum = np.linspace(0, 1, len(renkler))
-    harita = np.stack([np.interp(lum, konum, renkler[:, k]) for k in range(3)], axis=-1)
-    out = x * (1 - guc) + harita * guc
-    return (np.clip(out, 0, 1) * 255).astype(np.uint8) if tam else np.clip(out, 0, 1)
+    x0 = img.astype(np.float32) / 255 if tam else img.astype(np.float32)
+    x = np.clip(x0 * (2.0 ** ton.get("pozlama", 0.0)), 0, 1)
+    # 1. filmik S eğrisi
+    s = x * x * (3 - 2 * x)
+    x = x * (1 - ton["kontrast"]) + s * ton["kontrast"]
+    # 2. lift (renkli siyah) ve tavan
+    lc = _renk(ton["lift"])
+    L = ton["lift_miktar"] * lc / max(float(lc.max()), 1e-3)
+    x = L + x * (ton["tavan"] - L)
+    x = np.clip(x, 0, 1)
+    # 3. renk tonuna göre doygunluk: sıcak tonlar (kırmızı-turuncu-sarı) korunur, mavi/yeşil/mor bastırılır
+    mx, mn = x.max(axis=-1), x.min(axis=-1)
+    fark = mx - mn + 1e-6
+    r, gg, b = x[..., 0], x[..., 1], x[..., 2]
+    hue = np.where(mx == r, ((gg - b) / fark) % 6, np.where(mx == gg, (b - r) / fark + 2, (r - gg) / fark + 4)) * 60
+    sicaklik = np.clip(1 - np.minimum(np.abs(hue - 30), np.abs(hue - 390)) / 60, 0, 1)  # 330..90 derece sıcak
+    lum = (r * 0.2126 + gg * 0.7152 + b * 0.0722)[..., None]
+    doy = ton["doygunluk"] * (1 - ton["soguk_bastir"] * (1 - sicaklik))[..., None]
+    x = np.clip(lum + (x - lum) * doy, 0, 1)
+    # 4. split toning: gölge rengi alt-orta tonlarda, parlak rengi üst tonlarda; saf siyah ve beyaz korunur
+    g, p = _renk(ton["golge"]), _renk(ton["parlak"])
+    w_g = 6.75 * lum * (1 - lum) ** 2      # en çok lum = 1/3'te
+    w_p = 6.75 * lum ** 2 * (1 - lum)      # en çok lum = 2/3'te
+    x = x + ton["ton_miktar"] * (w_g * (g - g.mean()) + w_p * (p - p.mean())) * 1.6
+    x = np.clip(x, 0, 1)
+    out = np.clip(x0 * (1 - ton["guc"]) + np.clip(x, 0, 1) * ton["guc"], 0, 1)
+    return (out * 255 + 0.5).astype(np.uint8) if tam else out
 
 
 def marka_filtresi() -> dict | None:
-    f = marka_yukle().get("filtre")
-    return f if f and f.get("duraklar") else None
+    f = marka_yukle().get("filtre", {})
+    secim = f.get("secim")
+    if not secim:
+        return None
+    ton = dict(SECENEKLER[secim])
+    ton.update({k: v for k, v in f.items() if k != "secim"})
+    return ton
 
 
-def cube_yaz(hedef: Path, filtre: dict, boy: int = 33) -> Path:
+def cube_yaz(hedef: Path, ton: dict, boy: int = 33) -> Path:
     """ffmpeg lut3d için .cube dosyası (R en hızlı değişen eksen)."""
     g = np.linspace(0, 1, boy, dtype=np.float32)
     b, gg, r = np.meshgrid(g, g, g, indexing="ij")
     izgara = np.stack([r, gg, b], axis=-1).reshape(-1, 1, 3)
-    cikis = uygula(izgara, filtre["duraklar"], filtre["guc"], filtre.get("kontrast", 1.0)).reshape(-1, 3)
+    cikis = uygula(izgara, ton).reshape(-1, 3)
     satir = [f"LUT_3D_SIZE {boy}"] + [f"{c[0]:.5f} {c[1]:.5f} {c[2]:.5f}" for c in cikis]
     hedef.write_text("\n".join(satir) + "\n", encoding="ascii")
     return hedef

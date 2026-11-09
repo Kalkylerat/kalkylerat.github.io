@@ -14,18 +14,20 @@ yazi = "#f0f0f5"
 yazi_ikincil = "#b8c0d0"
 
 [filtre]
-# Bütün videolara, kapaklara ve banner'a uygulanan kırmızı -> turuncu ton (renk.py). Sahibinin seçimiyle doldurulur;
-# seçenekler renk.SECENEKLER: ember, mars_dusk, solar_flare, crimson_night, amber_haze. Boşken filtre uygulanmaz.
+# Kanalın imza film tonu (sinema LUT'u, renk.py): bütün videolara, kapaklara, Shorts'a ve banner'a uygulanır.
+# secim: renk.SECENEKLER'den biri (ember_film, col_epigi, turuncu_sis, kizil_kodak). Boşken filtre uygulanmaz.
+# İnce ayar için seçenekteki bir alan burada ezilebilir (ör. guc = 0.8, doygunluk = 0.9).
 secim = ""
-duraklar = []
-guc = 0.0
-kontrast = 1.0
 
 [yazi]
 baslik_font = "Inter-ExtraBold"
 govde_font = "Inter-Medium"
 
 [gorsel]
-# Yapay zekâ görsellerinde her istemin sonuna eklenecek sabit stil cümlesi (referanslardan yazılacak).
-stil_eki = ""
+# Onaylı referans (9 Kasım 2026, sahibi "referans 1 güzel"): ElevenLabs akışı G9Slu7mLp7MkDCxTUyPp, üretim
+# QlZuTQFS4fs5WbM2cA9t (FLUX 3). Yön: fotogerçekçi sinema karesi, dramatik ve hikâyeli; gerçek bir gök cismi +
+# küçük bir insan izi (astronot, araç, istasyon, PROBE-7) + yalnızlık ve uzun yolculuk duygusu.
+# Renk tonunu görsel modeli değil [filtre] belirler; istem nötr-sıcak kalır ki LUT her görselde aynı sonucu versin.
+model = "flux-3-image"
+stil_eki = "Photorealistic cinematic film still, dramatic and story-driven, a small human presence against a vast real celestial world, quiet and lonely mood of a long voyage. Shot on ARRI Alexa 65 with anamorphic lens, shallow depth of field, volumetric light, dust in light beams, subtle film grain, high dynamic range, ultra detailed, realistic materials and scale. No text, no logo, no watermark."
 yasaklar = ["neon pink", "purple gradient", "lens flare overload", "emoji", "text in image", "watermark"]

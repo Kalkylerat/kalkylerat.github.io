@@ -200,15 +200,13 @@ def test_G6_canli_tablo_kusursuz_doner_ve_gorsel_secilir(tmp_path):
 def test_G6_marka_filtresi_tek_kaynaktan(tmp_path):
     from deepspace import renk
     img = (np.random.default_rng(1).random((20, 30, 3)) * 255).astype(np.uint8)
-    f = renk.SECENEKLER["ember"]
-    assert np.array_equal(renk.uygula(img, f["duraklar"], 0.0), img)  # güç 0: dokunmaz
-    sicak = renk.uygula(img, f["duraklar"], 1.0).astype(int)
-    assert sicak[..., 0].mean() > sicak[..., 2].mean()  # kırmızı -> turuncu: kırmızı kanal baskın
-    cube = renk.cube_yaz(tmp_path / "m.cube", {"duraklar": f["duraklar"], "guc": f["guc"]}, boy=5)
+    for ad, ton in renk.SECENEKLER.items():
+        assert np.array_equal(renk.uygula(img, dict(ton, guc=0.0)), img), ad  # güç 0: dokunmaz
+        sicak = renk.uygula(img, ton).astype(int)
+        assert sicak[..., 0].mean() > sicak[..., 2].mean(), ad  # sıcak ton: kırmızı kanal maviden baskın
+    cube = renk.cube_yaz(tmp_path / "m.cube", renk.SECENEKLER["ember_film"], boy=5)
     satir = cube.read_text().splitlines()
     assert satir[0] == "LUT_3D_SIZE 5" and len(satir) == 1 + 5 ** 3
-    for ad, s in renk.SECENEKLER.items():
-        assert len(s["duraklar"]) >= 3 and 0 < s["guc"] <= 1, ad
 
 
 # ---------- G7 ----------

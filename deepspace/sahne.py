@@ -392,7 +392,7 @@ def dongu_kodla(sahne: Sahne, hedef: Path, fps: int = 24, crf: int = 16, sure: f
         for i in range(n):
             k = sahne.kare(i / fps)
             if onceden:
-                k = uygula(k, onceden["duraklar"], onceden["guc"], onceden.get("kontrast", 1.0))
+                k = uygula(k, onceden)
             if ust_katman is not None:
                 a = ust_katman[..., 3:]
                 k = (k * (1 - a) + ust_katman[..., :3] * 255 * a).astype(np.uint8)

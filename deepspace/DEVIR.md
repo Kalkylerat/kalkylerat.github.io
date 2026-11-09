@@ -1,0 +1,64 @@
+# Deep Space Log: devir notu (9 Kasım 2026, bulut oturumundan yerel terminale)
+
+Bu dosya yeni bir Claude Code oturumunun (yerel terminal) kaldığımız yerden devam etmesi için. Önce bunu, sonra
+`SOZLESME.md` G bölümünü ve `.claude/skills/deep-space-log/SKILL.md`'yi oku. Sahibiyle Türkçe konuş.
+
+## Kurulum (Windows, bir kez)
+```powershell
+winget install Git.Git Python.Python.3.12 Gyan.FFmpeg
+git clone https://github.com/kalkylerat/kalkylerat.github.io.git
+cd kalkylerat.github.io
+git checkout claude/deep-space-log
+py -m pip install -r requirements.txt
+py -m pytest -q tests/test_deepspace.py      # 31 test yeşil olmalı
+claude
+```
+(Depo zaten bilgisayardaysa: `git fetch origin` ve `git checkout claude/deep-space-log`, sonra `git pull`.)
+
+## Nerede kaldık
+- **Kanal**: Köz (`@kozruh`, UCtJHvFs1UuIKwTUhcWVyWIg, 7 abone, video yok) → "Deep Space Log". Sahibi adı/handle'ı
+  Studio'da değiştirecek; metinler `deepspace/kanal.md`.
+- **Hat** (`deepspace/`): ses → sahne/canlı tablo → 4K video → 3 kapak → metin → 3 Shorts → kapılar (`rapor.json`).
+  Bulutta uçtan uca denendi (34/34 kapı yeşil). Komutlar: `py -m deepspace.gorev hepsi deepspace/gorevler/001-trappist`.
+- **Görev 001 TRAPPIST-1e**: 20 parça, ~124 dk (sahibi: "20 şarkı, 2 saat"). İstemler `gorevler/001-trappist/SUNO.md`;
+  **sahibi Suno'da üretiyor**, dosyaları SUNO.md'deki adlarla `ses/` klasörüne (ya da Drive `DeepSpaceLog/001/`) koyacak.
+- **Film tonu (marka)**: `marka.toml [filtre]` = `bal_kehribar`, güç 0.55 ("2 ama biraz daha hafif"). Kırmızı-turuncu
+  tonlar ve hafif tonlar reddedildi; sarımsı istendi. Ton `renk.py` ile tek LUT'tan video, kapak, Shorts, banner'a.
+- **Görsel yönü**: kodla çizilen gezegenler reddedildi ("çocuk çizimi"). Onaylı referans: ElevenLabs akışı
+  `G9Slu7mLp7MkDCxTUyPp`, üretim `QlZuTQFS4fs5WbM2cA9t` (FLUX 3): gözlem güvertesinde masada oturan astronot, dev
+  pencereden kızıl cüce ışığında okyanus gezegeni. Stil cümlesi `marka.toml [gorsel] stil_eki`.
+  Fotogerçekçi + dramatik/hikâyeli + gerçek gök cismi + küçük insan izi. Rengi model değil LUT verir.
+- **Örnek kurgu**: Hubble Derin Alan (NASA, telifsiz) + canlı tablo + ton + kart/etiket; sahibine gönderildi.
+
+## Sahibin bekleyen kararı
+Görsel kaynağı: **A** yapay zekâ (Referans 1 tarzı; FLUX 3 1K ~291 kredi ≈ 0,03 $/görsel, Seedream 5 Pro ~818 kredi),
+**B** NASA/JWST/Hubble fotoğrafları (ücretsiz, kaynak gösterilerek), ya da **karışım** (önerilen). ElevenLabs
+hesabı ücretsiz katmanda; yoğun saatte "free generations busy" hatası verebilir (ücret alınmaz, aynı turda yeniden
+deneme).
+
+## Sıradaki işler (sırayla)
+1. Sahipten görsel kaynağı kararı. Sonra 20 parça için `gorsel/NN.png` (16:9, mümkünse 3840 px). Yapay zekâ
+   seçilirse her istem = parçanın konusu + küçük insan izi + `stil_eki`; ElevenLabs MCP ile üret, ücreti önce
+   `estimate_only` ile söyle (CLAUDE.md maliyet kuralı, SOZLESME G11). Yerelde ağ kısıtı yok: görselleri
+   `content_url`'den indirip `deepspace/gorevler/001-trappist/gorsel/` altına koy (depoya girmez).
+2. İsteğe bağlı ön plan: `NN_on.png` (şeffaf; ElevenLabs "Image Background Removal" ile pencere/oda ayrılırsa
+   iki katmanlı derinlik).
+3. Banner ve profil resmini yeni görsel diliyle yeniden üret (`py -m deepspace.gorev kanal`; şu anki kod sahnesinden).
+4. Müzik gelince: `py -m deepspace.gorev hepsi <klasör>`. 4K, 2 saatte ~1,5–2 saat kodlama (dizüstünde daha uzun
+   olabilir; hızlı deneme için görevde `[ayar.video] genislik = 1920, yukseklik = 1080`). Kırmızı kapı = video yok.
+5. Denetçi alt ajan → sahibine başlık, 3 kapak, rapor özeti → `ok` → `onay --kim sahip`.
+6. Yükleme: Google kurulumu yapılmadıysa (`deepspace/KURULUM.md`) sahibi Studio'dan elle yükler; `youtube.json`'daki
+   başlık/açıklama/etiket, reklam araları (`reklam_noktalari`), 3 kapak (Test & Compare), sentetik içerik işareti.
+   Yayından sonra `py -m deepspace.gorev kaydet <klasör> --youtube-id ...` ve commit.
+
+## Denenmemiş / bilinen eksikler
+- `google.py` (Drive al/teslim, YouTube yükleme) sahte cevaplarla test edildi, gerçek hesapla hiç çalışmadı.
+  YouTube API'si denetimsiz projelerin yüklemelerini gizliye kilitler; denetim başvurusu sahibinde.
+- Kapak düzeni kod sahnesiyle denendi; gerçek görselle yeniden bakılmalı (yazı okunurluğu, PROBE-7 yeri).
+- Suno Pro indirme sınırı ayda 20 (kaynaklardan, doğrulanmadı): 20 parça bir ayı doldurur.
+- Bulutta oluşturulan `kalkylerat.github.io` ortamı (NASA/ESA/Solar System Scope hostları) yerelde gereksiz.
+
+## Yeni oturuma ilk mesaj
+> Deep Space Log'a devam ediyoruz. deepspace/DEVIR.md, SOZLESME.md G bölümü ve deep-space-log skill'ini oku,
+> `py -m pytest -q tests/test_deepspace.py` çalıştır, sonra bana durumu 5 satırda özetle ve görsel kaynağı
+> kararını sor.

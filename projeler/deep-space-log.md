@@ -3,7 +3,7 @@
 **Durum (9 Kasım 2026):** hat kuruldu (`claude/deep-space-log` dalı), uçtan uca denendi (34/34 kapı yeşil). İlk görev
 001 TRAPPIST-1e: 20 parça, ~124 dk; sahibi Suno'da üretiyor (`SUNO.md`). Görsel yön: bütün görsellere kırmızı →
 turuncu marka filtresi (`renk.py`, 5 seçenek sahibine gönderildi, seçim bekleniyor); 4K canlı tablo motoru hazır,
-görsel kaynağı henüz kararlaştırılmadı.
+görsel kaynağı henüz kararlaştırılmadı. Film tonu seçildi: bal_kehribar (hafif). Onaylı görsel referansı: FLUX 3 "gözlem güvertesi".
 
 - Kurallar: SOZLESME.md G. Kod `deepspace/`, rehber `.claude/skills/deep-space-log/SKILL.md`.
 - Kanal: `@kozruh` (UCtJHvFs1UuIKwTUhcWVyWIg), 7 abone, video yok. Ad "Deep Space Log", maskot PROBE-7.
@@ -17,4 +17,6 @@ görsel kaynağı henüz kararlaştırılmadı.
 - [ ] İlk yayın sonrası `kaydet` ve haftalık analiz.
 
 ## İlk mesaj
-> Deep Space Log'a devam. projeler/deep-space-log.md ve deep-space-log skill'ini oku; `kalkylerat.github.io` ortamındayız.
+Ayrıntılı devir notu: `deepspace/DEVIR.md` (yerel terminal kurulumu dahil).
+> Deep Space Log'a devam ediyoruz. deepspace/DEVIR.md, SOZLESME.md G bölümü ve deep-space-log skill'ini oku,
+> `py -m pytest -q tests/test_deepspace.py` çalıştır, sonra durumu 5 satırda özetle ve görsel kaynağı kararını sor.

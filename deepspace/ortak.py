@@ -10,10 +10,20 @@ from pathlib import Path
 KOK = Path(__file__).resolve().parent
 AYAR_DOSYASI = KOK / "ayar.toml"
 KAYIT_DOSYASI = KOK / "kayit.json"
+MARKA_DOSYASI = KOK / "marka.toml"
 
 
 def ayar_yukle() -> dict:
     return tomllib.loads(AYAR_DOSYASI.read_text(encoding="utf-8"))
+
+
+def marka_yukle() -> dict:
+    return tomllib.loads(MARKA_DOSYASI.read_text(encoding="utf-8"))
+
+
+def rgb(hexs: str) -> tuple[int, int, int]:
+    h = hexs.lstrip("#")
+    return tuple(int(h[i:i + 2], 16) for i in (0, 2, 4))
 
 
 def _birlestir(taban: dict, ust: dict) -> dict:

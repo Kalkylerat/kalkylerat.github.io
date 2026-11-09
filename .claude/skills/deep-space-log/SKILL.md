@@ -45,6 +45,20 @@ Rapor yeşil olunca bağlamsız bir alt ajana yalnızca `gorev.toml`, `cikti/rap
 kapakları ver: "G kurallarına göre bu video yayına hazır mı? Kanıtla." Denetçi rapor.json'u okumadan ya da rapor
 kırmızıyken "bitti" denmez. Sonra kapaklardan ve videodan birkaç kareyi kendin gör.
 
+## Görseller ve marka
+- Marka paleti ve stil eki `deepspace/marka.toml` (durum `taslak` iken sahibinin referansları bekleniyor). Tüm
+  görseller bu paleti izler; paletten sapan görsel önerme.
+- Parça görseli `gorsel/NN.png` (16:9, en az 3840 px genişlik) varsa canlı tablo (`tablo.py`) kullanılır; şeffaf ön
+  plan `gorsel/NN_on.png` iki katmanlı derinlik verir. Görsel yoksa yedek kod sahnesi (`sahne.py`).
+- 4K kodlama 2 saatlik videoda ~1,5–2 saat sürer: `hepsi`'yi arka planda çalıştır. Hızlı deneme için görevde
+  `[ayar.video] genislik = 1920, yukseklik = 1080`.
+
+## Google (kurulum `deepspace/KURULUM.md`)
+- `al --drive DeepSpaceLog/NNN`: ses ve görselleri Drive'dan çeker. `teslim`: paketi Drive'da `cikti/`'ya koyar.
+- `onay --kim sahip [--yayin <RFC3339>]`: **yalnızca sahibi sohbette açıkça "ok" dediğinde**. `yukle`: gizli/planlı.
+- YouTube API denetimi geçene kadar API yüklemeleri gizliye kilitlenir: o zamana kadar `teslim` + sahibin Studio'dan
+  manuel yüklemesi.
+
 ## 4. Onay, yükleme, kayıt
 - Sahibine: başlık, 3 kapak, rapor özeti, önizleme. `ok` olmadan public yok (G8). Yükleme gizli ya da planlı.
 - Yüklemede: "altered or synthetic content" işaretli, kategori Music, reklam araları `youtube.json`

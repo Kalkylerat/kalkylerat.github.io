@@ -1,0 +1,23 @@
+# Deep Space Log marka sistemi: bütün görseller (sahne, kapak, yazı katmanları, banner) bu dosyadan beslenir.
+# Sahibinin göndereceği referanslarla doldurulacak (9 Kasım 2026: "tüm görsellerde aynı palet").
+# Renkler: arka -> en koyu zemin, gölge -> ikinci koyu, ana -> markanın ana rengi, vurgu -> az kullanılan ışık,
+# yazi -> başlık rengi, yazi_ikincil -> alt satırlar.
+
+durum = "taslak"   # referanslar gelince "onaylandi"
+
+[palet]
+arka = "#05070f"
+golge = "#121a2e"
+ana = "#3d6fb8"
+vurgu = "#e8c48a"
+yazi = "#f0f0f5"
+yazi_ikincil = "#b8c0d0"
+
+[yazi]
+baslik_font = "Inter-ExtraBold"
+govde_font = "Inter-Medium"
+
+[gorsel]
+# Yapay zekâ görsellerinde her istemin sonuna eklenecek sabit stil cümlesi (referanslardan yazılacak).
+stil_eki = ""
+yasaklar = ["neon pink", "purple gradient", "lens flare overload", "emoji", "text in image", "watermark"]

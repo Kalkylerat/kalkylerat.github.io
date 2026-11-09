@@ -10,6 +10,7 @@ from PIL import Image, ImageDraw, ImageFilter
 from . import yazi
 from .ortak import KOK, cikti, seri
 from .sahne import Sahne, probe_sprite
+from .tablo import Tablo
 
 VARYANTLAR = [  # (gezegen yerleşimi, yazı konumu)
     ("sag", "sol"),
@@ -38,8 +39,14 @@ def kapaklar(gorev: dict, ayar: dict) -> list[Path]:
     W, H = 1280, 720
     yollar = []
     for k, (gyer, yyer) in enumerate(VARYANTLAR):
-        s = Sahne(parca, int(gorev["tohum"]) * 100 + hedef_i, W, H, 40.0, yerlesim=gyer, olcek=1.35, probe=False)
-        img = Image.fromarray(s.kare(7.0)).convert("RGBA")
+        from .video import parca_gorseli
+        ana, on = parca_gorseli(gorev, hedef_i)
+        if ana:  # marka görseli varsa kapak ondan çıkar; varyantlar farklı an ve kadraj
+            s = Tablo(ana, W, H, 60.0, tohum=k + 1, on_plan=on, yildiz=0, toz=0, nefes=0.03 * (k + 1))
+            img = Image.fromarray(s.kare(10.0 * k)).convert("RGBA")
+        else:
+            s = Sahne(parca, int(gorev["tohum"]) * 100 + hedef_i, W, H, 40.0, yerlesim=gyer, olcek=1.35, probe=False)
+            img = Image.fromarray(s.kare(7.0)).convert("RGBA")
         if yyer == "alt":
             katman = yazi.katman(W, H, [(ust, 104, "kalin", 1.0), (alt, 56, "kalin", 0.9)], W // 2, H - 250,
                                  hiza="orta")

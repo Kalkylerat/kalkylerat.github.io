@@ -6,6 +6,12 @@
     python -m deepspace.gorev kaydet   deepspace/gorevler/001-trappist   # sahibin "ok"undan sonra: kayit.json'a işle
     python -m deepspace.gorev kanal                                      # banner ve profil resmi
 
+Google (deepspace/KURULUM.md):
+    python -m deepspace.gorev al      <klasör> --drive DeepSpaceLog/001  # Drive'dan ses/ ve gorsel/ dosyaları
+    python -m deepspace.gorev teslim  <klasör> --drive DeepSpaceLog/001  # bitmiş paketi Drive'a (cikti alt klasörü)
+    python -m deepspace.gorev onay    <klasör> --kim sahip [--yayin 2026-11-20T17:00:00Z]  # yalnızca sahibin "ok"uyla
+    python -m deepspace.gorev yukle   <klasör>                           # YouTube'a gizli/planlı yükleme
+
 Tek tek istasyonlar: ses, sahneler, video, kapak, metin, shorts.
 """
 from __future__ import annotations
@@ -76,10 +82,53 @@ def _kirmizi_mi(kontroller: list[dict]) -> list[dict]:
     return [k for k in kontroller if not k["gecti"]]
 
 
+def _google(a, gorev: dict) -> int:
+    from . import google
+    out = cikti(gorev)
+    if a.komut == "onay":
+        if not a.kim:
+            raise SystemExit("--kim gerekli (sahibin onayı)")
+        print(google.onay_yaz(out, a.kim, a.yayin))
+        return 0
+    if a.komut == "yukle":
+        sonuc = google.youtube_yukle(out)
+        print(f"yüklendi (gizli): https://youtu.be/{sonuc['id']}  {sonuc.get('kapak_hatasi', '')}")
+        return 0
+    if not a.drive:
+        raise SystemExit("--drive klasör yolu gerekli")
+    tok = google.erisim_belirteci()
+    if a.komut == "al":
+        kok = google.klasor_yolu(a.drive, tok)
+        istenen = {p["dosya"] for p in gorev["parca"]}
+        (Path(gorev["klasor"]) / "ses").mkdir(exist_ok=True)
+        for d in google.drive_listele(kok, tok):
+            if d["name"] in istenen:
+                print("ses:", google.drive_indir(d["id"], Path(gorev["klasor"]) / "ses" / d["name"], tok))
+        gorsel_id = google.klasor_bul("gorsel", tok, kok)
+        if gorsel_id:
+            (Path(gorev["klasor"]) / "gorsel").mkdir(exist_ok=True)
+            for d in google.drive_listele(gorsel_id, tok):
+                print("görsel:", google.drive_indir(d["id"], Path(gorev["klasor"]) / "gorsel" / d["name"], tok))
+        eksik = sorted(istenen - {p.name for p in (Path(gorev["klasor"]) / "ses").glob("*")})
+        print("eksik ses:", ", ".join(eksik) if eksik else "yok")
+        return 0 if not eksik else 1
+    hedef = google.klasor_yolu(a.drive.rstrip("/") + "/cikti", tok, olustur=True)
+    for ad, mime in (("video.mp4", "video/mp4"), ("kapak_1.jpg", "image/jpeg"), ("kapak_2.jpg", "image/jpeg"),
+                     ("kapak_3.jpg", "image/jpeg"), ("short_1.mp4", "video/mp4"), ("short_2.mp4", "video/mp4"),
+                     ("short_3.mp4", "video/mp4"), ("aciklama.txt", "text/plain"), ("youtube.json", "application/json"),
+                     ("rapor.json", "application/json")):
+        if (out / ad).exists():
+            print("teslim:", ad, google.drive_yukle(out / ad, hedef, tok, mime))
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="deepspace.gorev")
     ap.add_argument("komut", choices=["istemler", "ses", "sahneler", "video", "kapak", "metin", "shorts", "kontrol",
-                                      "hepsi", "kaydet", "kanal"])
+                                      "hepsi", "kaydet", "kanal", "al", "teslim", "onay", "yukle"])
+    ap.add_argument("--drive", help="Drive klasör yolu, ör. DeepSpaceLog/001")
+    ap.add_argument("--kim", help="onaylayan (sahibin onay mesajından)")
+    ap.add_argument("--yayin", help="planlı yayın zamanı, RFC3339 UTC")
     ap.add_argument("klasor", nargs="?")
     ap.add_argument("--youtube-id")
     ap.add_argument("--siyah-kontrolu-yok", action="store_true", help="hızlı deneme için siyah ekran taramasını atla")
@@ -96,6 +145,8 @@ def main(argv: list[str] | None = None) -> int:
     if a.komut == "istemler":
         print(istemler(gorev, ayar))
         return 0
+    if a.komut in ("al", "teslim", "onay", "yukle"):
+        return _google(a, gorev)
     if a.komut == "kaydet":
         kaydet(gorev, a.youtube_id)
         print(f"kayit.json güncellendi: görev {gorev['no']}")

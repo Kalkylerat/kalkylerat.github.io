@@ -50,12 +50,12 @@ sessizlik_db = -60
 sessizlik_max_sn = 4       # parça ortasında bundan uzun sessizlik = bozuk dosya
 
 [video]
-genislik = 1920
-yukseklik = 1080
+genislik = 3840            # 4K (sahibinin isteği: ultra HD). Hızlı deneme için görevde [ayar.video] ile 1920x1080
+yukseklik = 2160
 fps = 24
-dongu_sn = 40              # her sahne bu kadar sürer ve kusursuz döner
-crf = 21
-preset = "veryfast"
+dongu_sn = 60              # her sahne bu kadar sürer ve kusursuz döner
+crf = 20
+preset = "superfast"
 is_parcacigi = 3           # aynı anda kaç parça kodlanır
 
 [shorts]

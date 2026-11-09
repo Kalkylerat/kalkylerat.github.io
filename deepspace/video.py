@@ -15,15 +15,34 @@ import numpy as np
 from . import yazi
 from .ortak import calistir, cikti, seri
 from .sahne import Sahne, dongu_kodla
+from .tablo import Tablo
+
+GORSEL_UZANTI = (".png", ".jpg", ".jpeg", ".webp")
 
 
 def _tohum(gorev: dict, i: int) -> int:
     return int(gorev["tohum"]) * 100 + i
 
 
+def parca_gorseli(gorev: dict, i: int) -> tuple[Path | None, Path | None]:
+    """gorsel/NN.png (ya da .jpg/.webp) ve isteğe bağlı şeffaf ön plan gorsel/NN_on.png."""
+    klasor = Path(gorev["klasor"]) / "gorsel"
+    ana = next((klasor / f"{i + 1:02d}{u}" for u in GORSEL_UZANTI if (klasor / f"{i + 1:02d}{u}").exists()), None)
+    on = klasor / f"{i + 1:02d}_on.png"
+    return ana, (on if on.exists() else None)
+
+
+def sahne_nesnesi(gorev: dict, i: int, W: int, H: int, L: float, **kw):
+    """Parçanın görseli varsa canlı tablo, yoksa yedek kod sahnesi."""
+    ana, on = parca_gorseli(gorev, i)
+    if ana:
+        return Tablo(ana, W, H, L, tohum=_tohum(gorev, i), on_plan=on)
+    return Sahne(gorev["parca"][i], _tohum(gorev, i), W, H, L, **kw)
+
+
 def _sahne_isi(args):
-    parca, tohum, W, H, L, fps, hedef = args
-    dongu_kodla(Sahne(parca, tohum, W, H, L), Path(hedef), fps=fps)
+    gorev, i, W, H, L, fps, hedef = args
+    dongu_kodla(sahne_nesnesi(gorev, i, W, H, L), Path(hedef), fps=fps)
     return hedef
 
 
@@ -36,8 +55,7 @@ def sahneler(gorev: dict, ayar: dict, yeniden: bool = False) -> list[Path]:
         hedef = klasor / f"sahne_{i + 1:02d}.mp4"
         yollar.append(hedef)
         if yeniden or not hedef.exists():
-            isler.append((p, _tohum(gorev, i), v["genislik"], v["yukseklik"], float(v["dongu_sn"]), v["fps"],
-                          str(hedef)))
+            isler.append((gorev, i, v["genislik"], v["yukseklik"], float(v["dongu_sn"]), v["fps"], str(hedef)))
     if isler:
         with ProcessPoolExecutor(max_workers=v["is_parcacigi"]) as ex:
             list(ex.map(_sahne_isi, isler))
@@ -161,7 +179,7 @@ def shorts(gorev: dict, ayar: dict) -> list[Path]:
         ust.alpha_composite(alt)
         katman = np.asarray(ust, np.float32) / 255
         sessiz = out / f"short_{k + 1}_v.mp4"
-        dongu_kodla(Sahne(p, _tohum(gorev, i), W, H, float(v["dongu_sn"]), yerlesim="ust"), sessiz, fps=fps,
+        dongu_kodla(sahne_nesnesi(gorev, i, W, H, float(v["dongu_sn"]), yerlesim="ust"), sessiz, fps=fps,
                     crf=v["crf"], sure=sure, ust_katman=katman)
         bas = max(0.0, bp["basla"] + bp["sure"] / 2 - sure / 2)
         hedef = out / f"short_{k + 1}.mp4"

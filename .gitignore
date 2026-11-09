@@ -10,3 +10,4 @@ urun/
 # Deep Space Log: ses ve video çıktıları depoya girmez
 deepspace/gorevler/*/ses/
 deepspace/gorevler/*/cikti/
+deepspace/gorevler/*/gorsel/

@@ -1,0 +1,190 @@
+"""Google Drive ve YouTube Data API (SOZLESME.md G8): ses alma, paket teslimi, onaylı ve gizli yükleme.
+
+Ücretsiz API'ler; kimlik bilgileri ortam değişkenlerinden okunur (sohbete ya da depoya asla yazılmaz):
+    DSL_GOOGLE_CLIENT_ID, DSL_GOOGLE_CLIENT_SECRET, DSL_GOOGLE_REFRESH_TOKEN
+Kurulum adımları: deepspace/KURULUM.md. Gereken hostlar: oauth2.googleapis.com, www.googleapis.com.
+
+Yükleme kuralları: rapor.json yeşil olmalı, cikti/onay.json videonun şimdiki haliyle eşleşmeli (sahibin "ok"u),
+gizlilik "private" (isteğe bağlı publishAt ile planlı yayın), "altered or synthetic content" işaretli.
+"""
+from __future__ import annotations
+
+import json
+import os
+from datetime import datetime, timezone
+from pathlib import Path
+
+import requests
+
+TOKEN_URL = "https://oauth2.googleapis.com/token"
+DRIVE = "https://www.googleapis.com/drive/v3"
+DRIVE_UPLOAD = "https://www.googleapis.com/upload/drive/v3/files"
+YT_UPLOAD = "https://www.googleapis.com/upload/youtube/v3/videos"
+YT = "https://www.googleapis.com/youtube/v3"
+PARCA = 64 * 1024 * 1024  # devam ettirilebilir yüklemede parça boyu (256 KiB'nin katı)
+
+
+class GoogleHatasi(RuntimeError):
+    pass
+
+
+def erisim_belirteci(oturum=requests) -> str:
+    eksik = [k for k in ("DSL_GOOGLE_CLIENT_ID", "DSL_GOOGLE_CLIENT_SECRET", "DSL_GOOGLE_REFRESH_TOKEN")
+             if not os.environ.get(k)]
+    if eksik:
+        raise GoogleHatasi(f"ortam değişkeni eksik: {', '.join(eksik)} (deepspace/KURULUM.md)")
+    r = oturum.post(TOKEN_URL, data={"client_id": os.environ["DSL_GOOGLE_CLIENT_ID"],
+                                     "client_secret": os.environ["DSL_GOOGLE_CLIENT_SECRET"],
+                                     "refresh_token": os.environ["DSL_GOOGLE_REFRESH_TOKEN"],
+                                     "grant_type": "refresh_token"}, timeout=30)
+    if r.status_code != 200:
+        raise GoogleHatasi(f"belirteç alınamadı ({r.status_code}): {r.text[:300]}")
+    return r.json()["access_token"]
+
+
+def _baslik(tok: str) -> dict:
+    return {"Authorization": f"Bearer {tok}"}
+
+
+# ---------- Drive ----------
+def klasor_bul(ad: str, tok: str, ust: str | None = None, oturum=requests) -> str | None:
+    q = f"mimeType='application/vnd.google-apps.folder' and name='{ad}' and trashed=false"
+    if ust:
+        q += f" and '{ust}' in parents"
+    r = oturum.get(f"{DRIVE}/files", headers=_baslik(tok), params={"q": q, "fields": "files(id,name)"}, timeout=30)
+    r.raise_for_status()
+    dosyalar = r.json().get("files", [])
+    return dosyalar[0]["id"] if dosyalar else None
+
+
+def klasor_yolu(yol: str, tok: str, olustur: bool = False, oturum=requests) -> str:
+    """'DeepSpaceLog/001' gibi bir yolu klasör kimliğine çevirir (gerekirse oluşturur)."""
+    ust = None
+    for ad in [p for p in yol.split("/") if p]:
+        bulunan = klasor_bul(ad, tok, ust, oturum)
+        if not bulunan:
+            if not olustur:
+                raise GoogleHatasi(f"Drive'da klasör yok: {yol}")
+            govde = {"name": ad, "mimeType": "application/vnd.google-apps.folder"}
+            if ust:
+                govde["parents"] = [ust]
+            r = oturum.post(f"{DRIVE}/files", headers=_baslik(tok), json=govde, params={"fields": "id"}, timeout=30)
+            r.raise_for_status()
+            bulunan = r.json()["id"]
+        ust = bulunan
+    return ust
+
+
+def drive_listele(klasor_id: str, tok: str, oturum=requests) -> list[dict]:
+    r = oturum.get(f"{DRIVE}/files", headers=_baslik(tok),
+                   params={"q": f"'{klasor_id}' in parents and trashed=false", "fields": "files(id,name,size)",
+                           "pageSize": 200}, timeout=30)
+    r.raise_for_status()
+    return r.json().get("files", [])
+
+
+def drive_indir(dosya_id: str, hedef: Path, tok: str, oturum=requests) -> Path:
+    with oturum.get(f"{DRIVE}/files/{dosya_id}", headers=_baslik(tok), params={"alt": "media"}, stream=True,
+                    timeout=120) as r:
+        r.raise_for_status()
+        with open(hedef, "wb") as f:
+            for blok in r.iter_content(8 * 1024 * 1024):
+                f.write(blok)
+    return hedef
+
+
+def _devam_ettir(oturum_url: str, dosya: Path, mime: str, oturum=requests) -> dict:
+    boyut = dosya.stat().st_size
+    with open(dosya, "rb") as f:
+        bas = 0
+        while bas < boyut:
+            veri = f.read(PARCA)
+            son = bas + len(veri) - 1
+            r = oturum.put(oturum_url, data=veri, timeout=600,
+                           headers={"Content-Length": str(len(veri)), "Content-Type": mime,
+                                    "Content-Range": f"bytes {bas}-{son}/{boyut}"})
+            if r.status_code in (200, 201):
+                return r.json()
+            if r.status_code != 308:
+                raise GoogleHatasi(f"yükleme kesildi ({r.status_code}): {r.text[:300]}")
+            bas = son + 1
+    raise GoogleHatasi("yükleme tamamlanmadı")
+
+
+def drive_yukle(dosya: Path, klasor_id: str, tok: str, mime: str = "application/octet-stream",
+                oturum=requests) -> str:
+    r = oturum.post(DRIVE_UPLOAD, params={"uploadType": "resumable", "fields": "id"}, timeout=30,
+                    headers={**_baslik(tok), "X-Upload-Content-Type": mime},
+                    json={"name": dosya.name, "parents": [klasor_id]})
+    if r.status_code != 200:
+        raise GoogleHatasi(f"Drive yükleme başlatılamadı ({r.status_code}): {r.text[:300]}")
+    return _devam_ettir(r.headers["Location"], dosya, mime, oturum)["id"]
+
+
+# ---------- onay ----------
+def video_imzasi(video: Path) -> dict:
+    s = video.stat()
+    return {"boyut": s.st_size, "degisme": int(s.st_mtime)}
+
+
+def onay_yaz(cikti: Path, kim: str, yayin_zamani: str | None = None) -> Path:
+    """Sahibin "ok"u: yalnızca sahibi sohbette açıkça onay verdiğinde çağrılır (SKILL.md)."""
+    rapor = json.loads((cikti / "rapor.json").read_text(encoding="utf-8"))
+    if not rapor.get("gecti"):
+        raise GoogleHatasi("rapor.json kırmızı: video onaya sunulamaz (G8)")
+    onay = {"onaylayan": kim, "zaman": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+            "video": video_imzasi(cikti / "video.mp4"), "yayin_zamani": yayin_zamani}
+    yol = cikti / "onay.json"
+    yol.write_text(json.dumps(onay, indent=2, ensure_ascii=False), encoding="utf-8")
+    return yol
+
+
+def onay_kontrol(cikti: Path) -> dict:
+    rapor_yol, onay_yol = cikti / "rapor.json", cikti / "onay.json"
+    if not rapor_yol.exists() or not json.loads(rapor_yol.read_text(encoding="utf-8")).get("gecti"):
+        raise GoogleHatasi("rapor.json yok ya da kırmızı (G8)")
+    if not onay_yol.exists():
+        raise GoogleHatasi("onay.json yok: sahibin 'ok'u olmadan yükleme yapılmaz (G8)")
+    onay = json.loads(onay_yol.read_text(encoding="utf-8"))
+    if onay.get("video") != video_imzasi(cikti / "video.mp4"):
+        raise GoogleHatasi("video onaydan sonra değişmiş: yeniden onay gerekli (G8)")
+    return onay
+
+
+# ---------- YouTube ----------
+def youtube_govdesi(yt: dict, yayin_zamani: str | None) -> dict:
+    durum = {"privacyStatus": "private", "selfDeclaredMadeForKids": False, "containsSyntheticMedia": True,
+             "embeddable": True}
+    if yayin_zamani:
+        durum["publishAt"] = yayin_zamani  # gizli kalır, bu saatte kendiliğinden yayına girer
+    return {"snippet": {"title": yt["baslik"], "description": yt["aciklama"], "tags": yt["etiketler"],
+                        "categoryId": yt.get("kategori", "10"), "defaultLanguage": yt.get("dil", "en"),
+                        "defaultAudioLanguage": "zxx"},
+            "status": durum}
+
+
+def youtube_yukle(cikti: Path, oturum=requests) -> dict:
+    onay = onay_kontrol(cikti)
+    yt = json.loads((cikti / "youtube.json").read_text(encoding="utf-8"))
+    if not yt.get("sentetik_icerik"):
+        raise GoogleHatasi("sentetik içerik etiketi kapalı (G9)")
+    tok = erisim_belirteci(oturum)
+    govde = youtube_govdesi(yt, onay.get("yayin_zamani"))
+    video = cikti / "video.mp4"
+    r = oturum.post(YT_UPLOAD, params={"uploadType": "resumable", "part": "snippet,status"}, json=govde,
+                    timeout=30, headers={**_baslik(tok), "X-Upload-Content-Type": "video/mp4",
+                                         "X-Upload-Content-Length": str(video.stat().st_size)})
+    if r.status_code != 200:
+        raise GoogleHatasi(f"YouTube yükleme başlatılamadı ({r.status_code}): {r.text[:300]}")
+    sonuc = _devam_ettir(r.headers["Location"], video, "video/mp4", oturum)
+    vid = sonuc["id"]
+    kapak = cikti / "kapak_1.jpg"
+    if kapak.exists():
+        with open(kapak, "rb") as f:
+            k = oturum.post("https://www.googleapis.com/upload/youtube/v3/thumbnails/set", params={"videoId": vid},
+                            headers={**_baslik(tok), "Content-Type": "image/jpeg"}, data=f.read(), timeout=60)
+        if k.status_code != 200:
+            sonuc["kapak_hatasi"] = f"{k.status_code}: {k.text[:200]}"  # doğrulanmamış kanalda kapak yüklenemez
+    (cikti / "yukleme.json").write_text(json.dumps({"video_id": vid, "durum": govde["status"]}, indent=2),
+                                        encoding="utf-8")
+    return sonuc

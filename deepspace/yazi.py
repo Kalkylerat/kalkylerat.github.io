@@ -6,6 +6,8 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
+from .ortak import marka_yukle, rgb
+
 _FONTLAR = {
     "kalin": ["/usr/share/fonts/opentype/inter/Inter-ExtraBold.otf", "/usr/share/fonts/opentype/inter/Inter-Bold.otf",
               "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"],
@@ -44,8 +46,10 @@ def katman(W: int, H: int, satirlar: list[tuple[str, int, str, float]], x: int, 
             gd.text((xx, yy + 2), metin, font=f, fill=(0, 0, 0, int(200 * opak)))
         img = Image.alpha_composite(img, g.filter(ImageFilter.GaussianBlur(max(2, H // 300))))
         d = ImageDraw.Draw(img)
-    for xx, yy, metin, f, opak in konumlar:
-        d.text((xx, yy), metin, font=f, fill=(240, 240, 245, int(255 * opak)))
+    palet = marka_yukle()["palet"]
+    for k, (xx, yy, metin, f, opak) in enumerate(konumlar):
+        renk = rgb(palet["yazi"] if k == 0 or f.size >= konumlar[0][3].size else palet["yazi_ikincil"])
+        d.text((xx, yy), metin, font=f, fill=(*renk, int(255 * opak)))
     return img
 
 

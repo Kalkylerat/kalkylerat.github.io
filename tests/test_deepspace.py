@@ -172,10 +172,29 @@ def test_G6_sahne_kusursuz_doner(tur):
 
 
 def test_G6_video_boyutu_ve_ucretli_servis_yok():
-    assert (AYAR["video"]["genislik"], AYAR["video"]["yukseklik"]) == (1920, 1080)
+    assert (AYAR["video"]["genislik"], AYAR["video"]["yukseklik"]) == (3840, 2160)
     for dosya in (KOK / "deepspace").glob("*.py"):
         metin_ = dosya.read_text(encoding="utf-8")
-        assert not re.search(r"^\s*(import|from)\s+(anthropic|requests|openai|elevenlabs)", metin_, re.M), dosya.name
+        assert not re.search(r"^\s*(import|from)\s+(anthropic|openai|elevenlabs)", metin_, re.M), dosya.name
+        if dosya.name != "google.py":  # ağa yalnızca ücretsiz Google API'leri için çıkılır
+            assert not re.search(r"^\s*(import|from)\s+requests", metin_, re.M), dosya.name
+
+
+def test_G6_canli_tablo_kusursuz_doner_ve_gorsel_secilir(tmp_path):
+    from PIL import Image
+    from deepspace.tablo import Tablo
+    gorsel = tmp_path / "gorsel"
+    gorsel.mkdir()
+    rng = np.random.default_rng(0)
+    Image.fromarray((rng.random((120, 200, 3)) * 255).astype(np.uint8)).save(gorsel / "03.png")
+    t = Tablo(gorsel / "03.png", W=160, H=90, L=60.0, tohum=1)
+    assert np.abs(t.kare(0).astype(int) - t.kare(60.0 - 1e-6).astype(int)).mean() < 0.5
+    assert np.abs(t.kare(0).astype(int) - t.kare(30.0).astype(int)).mean() > 0
+    g = _gorev(tmp_path)
+    assert video.parca_gorseli(g, 2)[0] == gorsel / "03.png"
+    assert video.parca_gorseli(g, 0) == (None, None)
+    assert isinstance(video.sahne_nesnesi(g, 2, 160, 90, 60.0), Tablo)
+    assert isinstance(video.sahne_nesnesi(g, 0, 160, 90, 60.0), Sahne)
 
 
 # ---------- G7 ----------
@@ -187,13 +206,63 @@ def test_G7_kapak_en_fazla_3_kelime_ve_3_varyant(tmp_path):
 
 
 # ---------- G8 ----------
-def test_G8_onaysiz_yayin_yok():
-    yukle = KOK / "deepspace" / "yukle.py"
-    if yukle.exists():  # yükleme modülü eklendiğinde onay şartı ve gizli varsayılan zorunlu
-        t = yukle.read_text(encoding="utf-8")
-        assert "onay" in t and '"private"' in t
+def _hazir_cikti(tmp_path, gecti=True):
+    out = tmp_path / "cikti"
+    out.mkdir(parents=True)
+    (out / "rapor.json").write_text(json.dumps({"gecti": gecti}), encoding="utf-8")
+    (out / "video.mp4").write_bytes(b"x" * 1000)
+    (out / "youtube.json").write_text(json.dumps({"baslik": "T", "aciklama": "A", "etiketler": ["e"],
+                                                  "sentetik_icerik": True}), encoding="utf-8")
+    return out
+
+
+def test_G8_onaysiz_ya_da_kirmizi_raporla_yukleme_yok(tmp_path):
+    from deepspace import google
+    out = _hazir_cikti(tmp_path)
+    with pytest.raises(google.GoogleHatasi, match="onay"):
+        google.onay_kontrol(out)
+    google.onay_yaz(out, "sahip")
+    assert google.onay_kontrol(out)["onaylayan"] == "sahip"
+    (out / "video.mp4").write_bytes(b"y" * 1001)  # onaydan sonra değişen video yeniden onay ister
+    with pytest.raises(google.GoogleHatasi, match="değişmiş"):
+        google.onay_kontrol(out)
+    kirmizi = _hazir_cikti(tmp_path / "k", gecti=False)
+    with pytest.raises(google.GoogleHatasi, match="kırmızı"):
+        google.onay_yaz(kirmizi, "sahip")
+
+
+def test_G8_yukleme_gizli_ve_planli():
+    from deepspace import google
+    g = google.youtube_govdesi({"baslik": "T", "aciklama": "A", "etiketler": []}, None)
+    assert g["status"]["privacyStatus"] == "private" and "publishAt" not in g["status"]
+    p = google.youtube_govdesi({"baslik": "T", "aciklama": "A", "etiketler": []}, "2026-11-20T17:00:00Z")
+    assert p["status"]["privacyStatus"] == "private" and p["status"]["publishAt"] == "2026-11-20T17:00:00Z"
     skill = (KOK / ".claude" / "skills" / "deep-space-log" / "SKILL.md").read_text(encoding="utf-8")
     assert "rapor.json" in skill and "denetçi" in skill.lower() and "ok" in skill
+
+
+class _Yanit:
+    def __init__(self, kod, govde=None, baslik=None):
+        self.status_code, self._g, self.headers, self.text = kod, govde or {}, baslik or {}, ""
+
+    def json(self):
+        return self._g
+
+
+def test_G8_devam_ettirilebilir_yukleme_parcalari(tmp_path, monkeypatch):
+    from deepspace import google
+    monkeypatch.setattr(google, "PARCA", 256 * 1024)
+    dosya = tmp_path / "v.mp4"
+    dosya.write_bytes(b"z" * (256 * 1024 * 2 + 100))
+    araliklar = []
+
+    class Oturum:
+        def put(self, url, data, headers, timeout):
+            araliklar.append(headers["Content-Range"])
+            return _Yanit(200, {"id": "VID"}) if len(araliklar) == 3 else _Yanit(308)
+
+    assert google._devam_ettir("u", dosya, "video/mp4", Oturum())["id"] == "VID"
+    assert araliklar == ["bytes 0-262143/524388", "bytes 262144-524287/524388", "bytes 524288-524387/524388"]
 
 
 # ---------- G9 ----------

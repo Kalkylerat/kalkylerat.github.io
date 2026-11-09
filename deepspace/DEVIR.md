@@ -24,10 +24,12 @@ claude
   **sahibi Suno'da üretiyor**, dosyaları SUNO.md'deki adlarla `ses/` klasörüne (ya da Drive `DeepSpaceLog/001/`) koyacak.
 - **Film tonu (marka)**: `marka.toml [filtre]` = `bal_kehribar`, güç 0.55 ("2 ama biraz daha hafif"). Kırmızı-turuncu
   tonlar ve hafif tonlar reddedildi; sarımsı istendi. Ton `renk.py` ile tek LUT'tan video, kapak, Shorts, banner'a.
-- **Görsel yönü**: kodla çizilen gezegenler reddedildi ("çocuk çizimi"). Onaylı referans: ElevenLabs akışı
-  `G9Slu7mLp7MkDCxTUyPp`, üretim `QlZuTQFS4fs5WbM2cA9t` (FLUX 3): gözlem güvertesinde masada oturan astronot, dev
-  pencereden kızıl cüce ışığında okyanus gezegeni. Stil cümlesi `marka.toml [gorsel] stil_eki`.
-  Fotogerçekçi + dramatik/hikâyeli + gerçek gök cismi + küçük insan izi. Rengi model değil LUT verir.
+- **Görsel konsepti (9 Kasım, sahibinin YouTube referanslarıyla)**: tanıdık, Dünya'ya benzeyen sakin manzara
+  (tarla, dağ, göl, yol, deniz feneri) + gökyüzünü kaplayan imkânsız büyüklükte gerçek gök cismi + ön planda küçük
+  hikâye unsuru (astronot, tren, kulübe, araba). Stil cümlesi `marka.toml [gorsel] stil_eki`. Referanslar ElevenLabs
+  akışı `G9Slu7mLp7MkDCxTUyPp` (FLUX 3). Rengi model değil LUT verir. Kodla çizilen gezegenler reddedildi.
+- **ElevenLabs ücretsiz planı**: günlük görsel sınırı var (9 Kasım'da 5 görselde doldu). 20 görsel için ücretli
+  plan ya da birkaç gün gerekir; sahibine sor.
 - **Örnek kurgu**: Hubble Derin Alan (NASA, telifsiz) + canlı tablo + ton + kart/etiket; sahibine gönderildi.
 
 ## Sahibin bekleyen kararı

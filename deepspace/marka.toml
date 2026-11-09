@@ -25,10 +25,12 @@ baslik_font = "Inter-ExtraBold"
 govde_font = "Inter-Medium"
 
 [gorsel]
-# Onaylı referans (9 Kasım 2026, sahibi "referans 1 güzel"): ElevenLabs akışı G9Slu7mLp7MkDCxTUyPp, üretim
-# QlZuTQFS4fs5WbM2cA9t (FLUX 3). Yön: fotogerçekçi sinema karesi, dramatik ve hikâyeli; gerçek bir gök cismi +
-# küçük bir insan izi (astronot, araç, istasyon, PROBE-7) + yalnızlık ve uzun yolculuk duygusu.
-# Renk tonunu görsel modeli değil [filtre] belirler; istem nötr-sıcak kalır ki LUT her görselde aynı sonucu versin.
+# Görsel konsept (9 Kasım 2026, sahibinin YouTube referansları: dev gezegen altında karlı dağlarda tren; buğday
+# tarlasında toprak yolda yürüyen astronot): TANIDIK, Dünya'ya benzeyen sakin bir manzara + gökyüzünü kaplayan
+# İMKÂNSIZ büyüklükte gerçek bir gök cismi + ön planda küçük bir HİKÂYE unsuru (yolcu, astronot, tren, kulübe,
+# deniz feneri, araba). Fotogerçekçi ama rüya gibi; altın saat ışığı, pus, okra ve soluk camgöbeği.
+# Önceki onay (gözlem güvertesi, akış G9Slu7mLp7MkDCxTUyPp) ikincil kullanım: iç mekân sahnesi gerekirse.
+# Rengi model değil [filtre] belirler (bal_kehribar); istemdeki tonlar yalnızca ışık yönü içindir.
 model = "flux-3-image"
-stil_eki = "Photorealistic cinematic film still, dramatic and story-driven, a small human presence against a vast real celestial world, quiet and lonely mood of a long voyage. Shot on ARRI Alexa 65 with anamorphic lens, shallow depth of field, volumetric light, dust in light beams, subtle film grain, high dynamic range, ultra detailed, realistic materials and scale. No text, no logo, no watermark."
+stil_eki = "Surreal yet photorealistic cinematic matte painting. A calm, familiar Earth-like landscape under an impossible sky dominated by a colossal celestial body that fills a large part of the frame. One small human element in the foreground tells a quiet story. Golden hour light, soft atmospheric haze, muted teal sky and warm ochre ground, gentle film grain, ultra detailed, realistic textures and scale, wide 16:9 composition. No text, no logo, no watermark."
 yasaklar = ["neon pink", "purple gradient", "lens flare overload", "emoji", "text in image", "watermark"]

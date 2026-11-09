@@ -15,12 +15,12 @@ AYAR = ortak.ayar_yukle()
 GOREV_001 = KOK / "deepspace" / "gorevler" / "001-trappist"
 
 
-def _gorev(tmp_path, n=16, **ek):
+def _gorev(tmp_path, n=20, **ek):
     parcalar = []
     for i in range(n):
         parcalar.append({"ad": f"World {i + 1}", "kisa": "a real place", "dosya": f"{i + 1:02d}.mp3",
                          "tur": TURLER[i % len(TURLER)], "palet": ["#000000", "#223344", "#556677", "#aabbcc"],
-                         "bilgi": f"Fact {i + 1}.", "hedef_sure": "7:30", "anahtar": "D minor", "bpm": 58,
+                         "bilgi": f"Fact {i + 1}.", "hedef_sure": "6:15", "anahtar": "D minor", "bpm": 58,
                          "style": "ambient, instrumental", "exclude": "drums, vocals", "lyrics": "[Intro]"})
     g = {"no": 7, "seri": "focus", "hedef": "World 3", "uzaklik": "10 light-years", "tohum": 7007,
          "ozet": "A test route.", "parca": parcalar, "klasor": tmp_path}
@@ -53,9 +53,9 @@ def test_G1_kimlik_ve_seriler():
     assert AYAR["kanal"]["youtube_kanal_id"] == "UCtJHvFs1UuIKwTUhcWVyWIg"
     assert AYAR["kanal"]["dil"] == "en"
     s = AYAR["seri"]
-    assert (s["focus"]["hedef_dakika"], s["focus"]["parca_sayisi"]) == (120, 16)
+    assert (s["focus"]["hedef_dakika"], s["focus"]["parca_sayisi"]) == (120, 20)
     assert (s["sleep"]["hedef_dakika"], s["sleep"]["parca_sayisi"]) == (180, 20)
-    assert (s["drift"]["hedef_dakika"], s["drift"]["parca_sayisi"]) == (120, 16)
+    assert (s["drift"]["hedef_dakika"], s["drift"]["parca_sayisi"]) == (120, 20)
 
 
 # ---------- G2 ----------

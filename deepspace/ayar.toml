@@ -11,7 +11,7 @@ dil = "en"
 ad = "Deep Focus"
 kapak_yazi = "DEEP FOCUS"
 hedef_dakika = 120
-parca_sayisi = 16
+parca_sayisi = 20
 baslik = "Deep Focus Space Ambient for Studying | {hedef} | {saat} Hours"
 etiketler = ["space ambient music", "deep focus ambient music", "ambient music for studying",
              "sci fi ambient music", "captivating space music", "space background music",
@@ -32,7 +32,7 @@ hashtagler = ["#spaceambient", "#sleepmusic", "#ambient"]
 ad = "Sci-Fi Drift"
 kapak_yazi = "SCI-FI DRIFT"
 hedef_dakika = 120
-parca_sayisi = 16
+parca_sayisi = 20
 baslik = "Dark Sci-Fi Ambient for Deep Work | {hedef} | {saat} Hours"
 etiketler = ["sci fi ambient music", "dark ambient space music", "deep space music", "space ambient",
              "deep work music", "cinematic ambient", "space background music"]

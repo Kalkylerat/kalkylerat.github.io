@@ -47,7 +47,8 @@ def istemler(gorev: dict, ayar: dict) -> Path:
             satir += [f"Motif: {p['motif']}", ""]
         for baslik, alan in (("Style", "style"), ("Exclude", "exclude"), ("Lyrics", "lyrics")):
             satir += [f"**{baslik}**", "```", p[alan].strip(), "```", ""]
-    satir += [f"Toplam hedef: {toplam / 60:.0f} dk ({len(gorev['parca'])} parça).", ""]
+    net = toplam - ayar["ses"]["capraz_gecis_sn"] * (len(gorev["parca"]) - 1)
+    satir += [f"Toplam hedef: {len(gorev['parca'])} parça, ~{net / 60:.0f} dk (çapraz geçişler düşülmüş).", ""]
     yol = Path(gorev["klasor"]) / "SUNO.md"
     yol.write_text("\n".join(satir), encoding="utf-8")
     return yol

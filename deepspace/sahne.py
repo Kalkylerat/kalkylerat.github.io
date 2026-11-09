@@ -3,7 +3,7 @@
 Her hareket döngü süresi L'nin tam katına bağlıdır, yani kare(0) == kare(L). 40 sn'lik döngü bir saat boyunca
 tekrarlansa da dikiş görünmez. Ücretli hiçbir servis kullanılmaz: numpy ile çizilir, ffmpeg ile kodlanır.
 
-Gezegen türleri: kayalik, gaz, buz, lav, okyanus, pulsar, kuasar. Renkler görevin paletinden gelir.
+Türler: kayalik, gaz, buz, lav, okyanus, yildiz (dev yıldız), pulsar, kuasar. Renkler görevin paletinden gelir.
 """
 from __future__ import annotations
 
@@ -16,7 +16,7 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 
 TAU = 2 * math.pi
-TURLER = ("kayalik", "gaz", "buz", "lav", "okyanus", "pulsar", "kuasar")
+TURLER = ("kayalik", "gaz", "buz", "lav", "okyanus", "yildiz", "pulsar", "kuasar")
 
 
 def renk(hexs: str) -> np.ndarray:
@@ -223,6 +223,11 @@ class Sahne:
             catlak = np.clip(1 - np.abs(d - 0.5) * 14, 0, 1) ** 2
             self.doku = _karisim(d, [p[1] * 0.25, p[1] * 0.5, p[1] * 0.35])
             self.isima = (catlak[..., None] * p[3]).astype(np.float32)
+        elif tur == "yildiz":  # kendi ışığını veren dev yıldız: gölge yok, kenar kararması güçlü
+            d = _dongulu_fbm(th, tw, rng, oktav=7, taban=6)
+            self.doku = _karisim(d, [p[1], p[2], p[3], p[3] * 0.5 + 0.5])
+            self.aydin = np.ones_like(self.aydin)
+            self.kenar = self.kenar ** 2.2
         elif tur == "okyanus":
             d = _dongulu_fbm(th, tw, rng, oktav=7)
             kara = np.clip((d - 0.56) * 6, 0, 1)[..., None]
@@ -235,8 +240,11 @@ class Sahne:
         hy, hx = np.mgrid[0:self.H, 0:self.W].astype(np.float32)
         d = np.hypot(hx - cx, hy - cy) / R
         yon = np.clip(((hx - cx) * self.isik[0] + (hy - cy) * self.isik[1]) / (R * 1.0) + 0.6, 0, 1.3)
-        self.hale = (np.exp(-np.clip(d - 1, 0, None) * 18) * (d > 0.98) * yon * 0.55)[..., None] * \
-            (p[2] * 0.6 + 0.4)[None, None, :]
+        if self.tur == "yildiz":  # her yönde parlayan taç
+            self.hale = (np.exp(-np.clip(d - 1, 0, None) * 4) * (d > 0.98) * 0.7)[..., None] * p[3][None, None, :]
+        else:
+            self.hale = (np.exp(-np.clip(d - 1, 0, None) * 18) * (d > 0.98) * yon * 0.55)[..., None] * \
+                (p[2] * 0.6 + 0.4)[None, None, :]
         self.hale = self.hale.astype(np.float32)
 
         self.halka = parca.get("halka", False)

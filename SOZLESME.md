@@ -109,7 +109,7 @@ Müziği sahibi Suno'da üretir ve seçer; gerisini hat yapar.
 
 | # | Kural | Test |
 |---|---|---|
-| G1 | **Kimlik**: kanal adı "Deep Space Log", maskot **PROBE-7** (sakin, küçük, abartısız sonda; kapakta ve videoda hep aynı), dil İngilizce. Seriler: Deep Focus (2 saat, 16 parça), Deep Sleep (3 saat, 20 parça), Sci-Fi Drift (2 saat, 16 parça). | `test_G1` |
+| G1 | **Kimlik**: kanal adı "Deep Space Log", maskot **PROBE-7** (sakin, küçük, abartısız sonda; kapakta ve videoda hep aynı), dil İngilizce. Seriler: Deep Focus (2 saat, 20 parça), Deep Sleep (3 saat, 20 parça), Sci-Fi Drift (2 saat, 20 parça). (9 Kasım 2026: sahibinin kararıyla 16 → 20 parça.) | `test_G1` |
 | G2 | **Süre ve tekrar yok**: video toplamı serinin hedefinin ±%10'u; parça 3–10 dk. Bir videoda aynı müzik iki kez çalınmaz; süre döngüyle şişirilmez. | `test_G2` |
 | G3 | **Ses**: parçalar -16 LUFS'a eşitlenip 8 sn çapraz geçişle birleşir; master -16 ±1 LUFS, tepe ≤ -1.5 dBTP (0.5 tolerans); parça ortasında 4 sn'den uzun sessizlik varsa dosya bozuk sayılır. | `test_G3` |
 | G4 | **Özgünlük**: aynı ses dosyası iki videoda kullanılmaz (dosya özeti `deepspace/kayit.json`'da); hedef gök cismi ve sahne tohumu tekrar etmez; her parçanın kendi sahnesi vardır. | `test_G4` |

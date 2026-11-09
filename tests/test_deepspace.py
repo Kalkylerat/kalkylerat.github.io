@@ -203,7 +203,9 @@ def test_G6_marka_filtresi_tek_kaynaktan(tmp_path):
     for ad, ton in renk.SECENEKLER.items():
         assert np.array_equal(renk.uygula(img, dict(ton, guc=0.0)), img), ad  # güç 0: dokunmaz
         sicak = renk.uygula(img, ton).astype(int)
-        assert sicak[..., 0].mean() > sicak[..., 2].mean(), ad  # sıcak ton: kırmızı kanal maviden baskın
+        once = img.astype(int)
+        assert (sicak[..., 0] - sicak[..., 2]).mean() > (once[..., 0] - once[..., 2]).mean(), ad  # daha sıcak
+        assert np.abs(sicak - once).mean() < 40, ad  # hafif: görselin kendi renkleri korunur (9 Kasım 2026)
     cube = renk.cube_yaz(tmp_path / "m.cube", renk.SECENEKLER["ember_film"], boy=5)
     satir = cube.read_text().splitlines()
     assert satir[0] == "LUT_3D_SIZE 5" and len(satir) == 1 + 5 ** 3

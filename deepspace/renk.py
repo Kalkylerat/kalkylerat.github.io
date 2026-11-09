@@ -19,22 +19,23 @@ from .ortak import marka_yukle, rgb
 
 # Sahibine sunulan film tonları (9 Kasım 2026). Seçilen marka.toml [filtre]'ye yazılır.
 SECENEKLER = {
-    "ember_film": {"aciklama": "sıcak, zengin kırmızı-turuncu; gölgeler koyu kızıl, parlak alanlar kehribar",
-                   "pozlama": 0.0, "kontrast": 0.55, "lift": "#140405", "lift_miktar": 0.025, "tavan": 0.97,
-                   "golge": "#7a1410", "parlak": "#ffb067", "ton_miktar": 0.32, "doygunluk": 1.05,
-                   "soguk_bastir": 0.75, "guc": 1.0},
-    "col_epigi": {"aciklama": "soluk okra ve pas; doygunluk düşük, siyahlar kalkık, epik çöl filmi hissi",
-                  "pozlama": 0.02, "kontrast": 0.35, "lift": "#2a160e", "lift_miktar": 0.06, "tavan": 0.94,
-                  "golge": "#5a2a18", "parlak": "#f2c08a", "ton_miktar": 0.35, "doygunluk": 0.55,
-                  "soguk_bastir": 0.9, "guc": 1.0},
-    "turuncu_sis": {"aciklama": "yoğun turuncu pus, ezik siyahlar, neo-noir bilim kurgu hissi",
-                    "pozlama": 0.03, "kontrast": 0.7, "lift": "#0a0302", "lift_miktar": 0.02, "tavan": 0.98,
-                    "golge": "#6e1a06", "parlak": "#ff9a3c", "ton_miktar": 0.45, "doygunluk": 1.15,
-                    "soguk_bastir": 0.95, "guc": 1.0},
-    "kizil_kodak": {"aciklama": "film negatifi taklidi: kırmızıya kayan gölgeler, yumuşak sıcak ışık, doğal",
-                    "pozlama": 0.0, "kontrast": 0.45, "lift": "#1a0608", "lift_miktar": 0.02, "tavan": 0.96,
-                    "golge": "#5c1018", "parlak": "#ffc88e", "ton_miktar": 0.25, "doygunluk": 0.95,
-                    "soguk_bastir": 0.55, "guc": 1.0},
+    # 9 Kasım 2026: sahibi "çok yoğun, gerçeklikten kopmayalım" dedi; hepsi hafif (görselin kendi renkleri korunur).
+    "ember_film": {"aciklama": "sıcak kırmızı-turuncu hava, gölgeler hafif kızıl, parlak alanlar kehribar",
+                   "pozlama": 0.0, "kontrast": 0.25, "lift": "#140405", "lift_miktar": 0.012, "tavan": 0.99,
+                   "golge": "#7a1410", "parlak": "#ffb067", "ton_miktar": 0.18, "doygunluk": 1.0,
+                   "soguk_bastir": 0.35, "guc": 0.5},
+    "col_epigi": {"aciklama": "hafif okra ve pas, renkler biraz soluk, epik çöl filmi hissi",
+                  "pozlama": 0.0, "kontrast": 0.2, "lift": "#2a160e", "lift_miktar": 0.03, "tavan": 0.97,
+                  "golge": "#5a2a18", "parlak": "#f2c08a", "ton_miktar": 0.18, "doygunluk": 0.8,
+                  "soguk_bastir": 0.4, "guc": 0.5},
+    "turuncu_sis": {"aciklama": "belirgin ama ölçülü turuncu pus, derin siyahlar",
+                    "pozlama": 0.0, "kontrast": 0.3, "lift": "#0a0302", "lift_miktar": 0.01, "tavan": 0.99,
+                    "golge": "#6e1a06", "parlak": "#ff9a3c", "ton_miktar": 0.22, "doygunluk": 1.05,
+                    "soguk_bastir": 0.45, "guc": 0.5},
+    "kizil_kodak": {"aciklama": "film negatifi gibi doğal; en hafif sıcaklık, renkler neredeyse olduğu gibi",
+                    "pozlama": 0.0, "kontrast": 0.2, "lift": "#1a0608", "lift_miktar": 0.01, "tavan": 0.985,
+                    "golge": "#5c1018", "parlak": "#ffc88e", "ton_miktar": 0.14, "doygunluk": 0.98,
+                    "soguk_bastir": 0.25, "guc": 0.45},
 }
 
 

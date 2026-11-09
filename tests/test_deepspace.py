@@ -211,6 +211,28 @@ def test_G6_marka_filtresi_tek_kaynaktan(tmp_path):
     assert satir[0] == "LUT_3D_SIZE 5" and len(satir) == 1 + 5 ** 3
 
 
+@pytest.mark.skipif(not __import__("shutil").which("ffmpeg"), reason="ffmpeg yok")
+def test_G6_hareketli_klip_dikissiz_doner(tmp_path):
+    from deepspace import klip
+    kaynak = tmp_path / "03.mp4"
+    ortak.calistir(["ffmpeg", "-y", "-loglevel", "error", "-f", "lavfi", "-i",
+                    "testsrc2=size=320x180:rate=24:duration=6", "-pix_fmt", "yuv420p", str(kaynak)])
+    hedef = klip.dongu(kaynak, tmp_path / "d.mp4", 192, 108, fps=24, capraz=1.0)
+    assert abs(ortak.ffprobe_sure(hedef) - 5.0) < 0.1  # D - X
+
+    def kare(t):
+        ham = ortak.calistir(["ffmpeg", "-loglevel", "error", "-ss", str(t), "-i", str(hedef), "-frames:v", "1",
+                              "-f", "rawvideo", "-pix_fmt", "rgb24", "-"], text=False).stdout
+        return np.frombuffer(ham, np.uint8).astype(int)
+
+    ilk, son, orta = kare(0), kare(5.0 - 1 / 24), kare(2.5)
+    assert np.abs(ilk - son).mean() < np.abs(ilk - orta).mean() / 3  # son kare başa kavuşuyor
+    g = _gorev(tmp_path)
+    (tmp_path / "gorsel").mkdir()
+    (tmp_path / "gorsel" / "05.mp4").write_bytes(b"x")
+    assert video.parca_klibi(g, 4) == tmp_path / "gorsel" / "05.mp4" and video.parca_klibi(g, 0) is None
+
+
 # ---------- G7 ----------
 def test_G7_kapak_en_fazla_3_kelime_ve_3_varyant(tmp_path):
     for ad in AYAR["seri"]:

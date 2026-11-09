@@ -32,6 +32,14 @@ claude
   plan ya da birkaç gün gerekir; sahibine sor.
 - **Örnek kurgu**: Hubble Derin Alan (NASA, telifsiz) + canlı tablo + ton + kart/etiket; sahibine gönderildi.
 
+## Hareket (9 Kasım)
+Sahibi gerçek hareket istiyor ("direkt motion"). Hat hazır: `gorsel/NN.mp4` (yapay zekâ klibi, ~10 sn, başlangıç =
+bitiş karesi) varsa `klip.py` dikişsiz döngüye çevirir, 4K'ya ölçekler, tonu uygular; yoksa görselden canlı tablo.
+Klip üretimi: ElevenLabs'te video **ücretli plan ister** (ücretsiz planda kapalı); vidIQ'da 105 kredi var, video
+saniyesi ≥20 kredi (yetmez). Seçenekler: ElevenLabs ücretli plan (Kling 4 / Seedance 2.5 / Veo 3.1 Fast, başlangıç ve
+bitiş karesi aynı görsel), ya da sahibinin Kling/Runway sitesinden elle üretip `gorsel/` klasörüne koyması.
+Hareket istemi: `marka.toml [hareket] istem_eki` + sahneye özel hareket (dalga, sis, buğday, fener ışığı).
+
 ## Sahibin bekleyen kararı
 Görsel kaynağı: **A** yapay zekâ (Referans 1 tarzı; FLUX 3 1K ~291 kredi ≈ 0,03 $/görsel, Seedream 5 Pro ~818 kredi),
 **B** NASA/JWST/Hubble fotoğrafları (ücretsiz, kaynak gösterilerek), ya da **karışım** (önerilen). ElevenLabs

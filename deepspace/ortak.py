@@ -77,9 +77,11 @@ def sure_oku(metin: str) -> float:
 
 
 def calistir(komut: list[str], **kw) -> subprocess.CompletedProcess:
-    sonuc = subprocess.run(komut, capture_output=True, text=True, **kw)
+    kw.setdefault("text", True)
+    sonuc = subprocess.run(komut, capture_output=True, **kw)
     if sonuc.returncode != 0:
-        raise RuntimeError(f"komut başarısız ({sonuc.returncode}): {' '.join(komut[:6])} ...\n{sonuc.stderr[-2000:]}")
+        hata = sonuc.stderr if isinstance(sonuc.stderr, str) else sonuc.stderr.decode(errors="replace")
+        raise RuntimeError(f"komut başarısız ({sonuc.returncode}): {' '.join(komut[:6])} ...\n{hata[-2000:]}")
     return sonuc
 
 

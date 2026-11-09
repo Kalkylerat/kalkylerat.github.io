@@ -12,8 +12,8 @@ from pathlib import Path
 
 import numpy as np
 
-from . import yazi
-from .ortak import calistir, cikti, seri
+from . import klip, yazi
+from .ortak import calistir, cikti, ffprobe_sure
 from .sahne import Sahne, dongu_kodla
 from .tablo import Tablo
 
@@ -32,8 +32,14 @@ def parca_gorseli(gorev: dict, i: int) -> tuple[Path | None, Path | None]:
     return ana, (on if on.exists() else None)
 
 
+def parca_klibi(gorev: dict, i: int) -> Path | None:
+    """Hareketli klip gorsel/NN.mp4 (yapay zekâ videosu). Varsa görselden önce gelir."""
+    yol = Path(gorev["klasor"]) / "gorsel" / f"{i + 1:02d}.mp4"
+    return yol if yol.exists() else None
+
+
 def sahne_nesnesi(gorev: dict, i: int, W: int, H: int, L: float, **kw):
-    """Parçanın görseli varsa canlı tablo, yoksa yedek kod sahnesi."""
+    """Görsel varsa canlı tablo, yoksa yedek kod sahnesi (klip varsa sahneler() onu doğrudan döngüye çevirir)."""
     ana, on = parca_gorseli(gorev, i)
     if ana:
         return Tablo(ana, W, H, L, tohum=_tohum(gorev, i), on_plan=on)
@@ -49,7 +55,11 @@ def marka_lut(gorev: dict) -> Path | None:
 
 def _sahne_isi(args):
     gorev, i, W, H, L, fps, hedef, lut = args
-    dongu_kodla(sahne_nesnesi(gorev, i, W, H, L), Path(hedef), fps=fps, lut=lut)
+    kaynak = parca_klibi(gorev, i)
+    if kaynak:  # öncelik: hareketli klip -> dikişsiz döngü
+        klip.dongu(kaynak, Path(hedef), W, H, fps=fps, lut=lut)
+    else:
+        dongu_kodla(sahne_nesnesi(gorev, i, W, H, L), Path(hedef), fps=fps, lut=lut)
     return hedef
 
 
@@ -93,10 +103,10 @@ def _kodla_parametre(v: dict) -> list[str]:
 
 
 def _bolum_kodla(args) -> str:
-    b, sahne_yollari, basla, L, v, etiketler, hedef = args
+    b, sahne_yollari, basla, donguler, v, etiketler, hedef = args
     fps = v["fps"]
     i = b["i"]
-    yerel = (b["bas"] - basla[i]) % L
+    yerel = (b["bas"] - basla[i]) % donguler[i]  # her sahnenin kendi döngü süresi (klipler farklı uzunlukta)
     komut = ["ffmpeg", "-y", "-loglevel", "error", "-stream_loop", "-1", "-ss", f"{yerel:.4f}",
              "-i", str(sahne_yollari[i])]
     if b["tur"] == "gecis":
@@ -125,7 +135,8 @@ def uzun_video(gorev: dict, ayar: dict) -> Path:
     out = cikti(gorev)
     bolumler = json.loads((out / "bolumler.json").read_text(encoding="utf-8"))
     sahne_yollari = sahneler(gorev, ayar)
-    L, fps, W, H = float(v["dongu_sn"]), v["fps"], v["genislik"], v["yukseklik"]
+    fps, W, H = v["fps"], v["genislik"], v["yukseklik"]
+    donguler = [ffprobe_sure(y) for y in sahne_yollari]
     basla = [p["basla"] for p in bolumler["parcalar"]]
     saat = round(bolumler["toplam_sn"] / 3600)
 
@@ -151,7 +162,7 @@ def uzun_video(gorev: dict, ayar: dict) -> Path:
             else:
                 etiketler = [(etiket_yollari[b["i"]], 0.5, 7.0)]
             etiketler = [e for e in etiketler if e[1] + e[2] <= b["kare"] / fps]
-        isler.append((b, sahne_yollari, basla, L, v, etiketler, str(bolum_klasor / f"b{k:03d}.mp4")))
+        isler.append((b, sahne_yollari, basla, donguler, v, etiketler, str(bolum_klasor / f"b{k:03d}.mp4")))
     with ThreadPoolExecutor(max_workers=v["is_parcacigi"]) as ex:
         parcalar = list(ex.map(_bolum_kodla, isler))
 
@@ -185,10 +196,20 @@ def shorts(gorev: dict, ayar: dict) -> list[Path]:
                                  (f"Full {saat}-hour mission on the channel", 30, "normal", 0.8)],
                           W // 2, H - 420, hiza="orta")
         ust.alpha_composite(alt)
-        katman = np.asarray(ust, np.float32) / 255
         sessiz = out / f"short_{k + 1}_v.mp4"
-        dongu_kodla(sahne_nesnesi(gorev, i, W, H, float(v["dongu_sn"]), yerlesim="ust"), sessiz, fps=fps,
-                    crf=v["crf"], sure=sure, ust_katman=katman, lut=marka_lut(gorev))
+        if parca_klibi(gorev, i):  # klipten dikey kesit: uzun videonun döngüsünden ortası kırpılır
+            yazi_png = out / f"short_{k + 1}_yazi.png"
+            ust.save(yazi_png)
+            calistir(["ffmpeg", "-y", "-loglevel", "error", "-stream_loop", "-1",
+                      "-i", str(cikti(gorev) / "sahne" / f"sahne_{i + 1:02d}.mp4"), "-i", str(yazi_png),
+                      "-filter_complex", f"[0:v]crop=ih*9/16:ih,scale={W}:{H}:flags=lanczos[a];[a][1:v]overlay[v]",
+                      "-map", "[v]", "-t", f"{sure:.3f}", "-c:v", "libx264", "-preset", "medium",
+                      "-crf", str(v["crf"]), "-pix_fmt", "yuv420p", "-r", str(fps), str(sessiz)])
+            yazi_png.unlink()
+        else:
+            katman = np.asarray(ust, np.float32) / 255
+            dongu_kodla(sahne_nesnesi(gorev, i, W, H, float(v["dongu_sn"]), yerlesim="ust"), sessiz, fps=fps,
+                        crf=v["crf"], sure=sure, ust_katman=katman, lut=marka_lut(gorev))
         bas = max(0.0, bp["basla"] + bp["sure"] / 2 - sure / 2)
         hedef = out / f"short_{k + 1}.mp4"
         calistir(["ffmpeg", "-y", "-loglevel", "error", "-i", str(sessiz), "-ss", f"{bas:.3f}", "-t", f"{sure:.3f}",

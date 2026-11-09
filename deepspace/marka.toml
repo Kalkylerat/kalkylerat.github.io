@@ -34,3 +34,11 @@ govde_font = "Inter-Medium"
 model = "flux-3-image"
 stil_eki = "Surreal yet photorealistic cinematic matte painting. A calm, familiar Earth-like landscape under an impossible sky dominated by a colossal celestial body that fills a large part of the frame. One small human element in the foreground tells a quiet story. Golden hour light, soft atmospheric haze, muted teal sky and warm ochre ground, gentle film grain, ultra detailed, realistic textures and scale, wide 16:9 composition. No text, no logo, no watermark."
 yasaklar = ["neon pink", "purple gradient", "lens flare overload", "emoji", "text in image", "watermark"]
+
+[hareket]
+# Görseli videoya çeviren yapay zekâ klibi (image-to-video). Klip gorsel/NN.mp4 olarak konur; hat onu dikişsiz döngüye
+# çevirir (klip.py), 4K'ya ölçekler, marka tonunu uygular. Klip yoksa görselden canlı tablo (tablo.py) yapılır.
+# Döngü için başlangıç ve bitiş karesine AYNI görsel verilir. Kamera sabit; yalnızca ortam hareket eder.
+modeller = ["kling-4", "bytedance-seedance-v2.5", "veo-3.1-fast-generate-001"]  # ElevenLabs'te ücretli plan ister
+sure_sn = 10
+istem_eki = "Locked-off static camera, no camera movement, no cuts, no zoom. Only gentle, slow ambient motion in the scene; the giant celestial body stays perfectly still in the sky. The last frame returns exactly to the first frame for a seamless loop. Calm, meditative pacing. No text, no people appearing or disappearing, no morphing, no flickering textures."

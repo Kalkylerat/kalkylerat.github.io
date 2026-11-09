@@ -223,6 +223,34 @@ def test_G6_3d_fotograf_kusursuz_doner(tmp_path):
     assert np.abs(t.kare(0).astype(int) - t.kare(12.0).astype(int)).mean() > 0
 
 
+@pytest.mark.skipif(__import__("importlib").util.find_spec("cv2") is None, reason="opencv yok")
+def test_G6_sinemagraf_yalniz_secilen_yerler_hareket_eder_ve_doner(tmp_path):
+    import json as _json
+    from PIL import Image
+    from deepspace.canli import Sinemagraf, tarif_oku
+    rng = np.random.default_rng(4)
+    (tmp_path / "gorsel").mkdir()
+    g = tmp_path / "gorsel" / "02.png"
+    Image.fromarray((rng.random((90, 160, 3)) * 255).astype(np.uint8)).save(g)
+    tarif = {"bolgeler": [{"etki": "akis", "kutu": [0.5, 0.0, 1.0, 0.5], "hiz": 4, "tekrar": 2},
+                          {"etki": "salinim", "kutu": [0.0, 0.5, 0.5, 1.0], "genlik": 3, "tekrar": 3},
+                          {"etki": "dalga", "kutu": [0.5, 0.5, 1.0, 1.0], "tekrar": 4},
+                          {"etki": "parilti", "kutu": [0.0, 0.0, 0.5, 0.5], "tekrar": 5},
+                          {"etki": "kar", "adet": 20}, {"etki": "yildiz", "adet": 20}]}
+    (tmp_path / "gorsel" / "02_hareket.json").write_text(_json.dumps(tarif))
+    s = Sinemagraf(g, tarif_oku(g), W=160, H=90, L=24.0, tohum=1)
+    k0 = s.kare(0).astype(int)
+    bas = np.abs(s.kare(1 / 24).astype(int) - k0).mean()      # ilk kareden ikinciye fark
+    son = np.abs(s.kare(24.0 - 1 / 24).astype(int) - k0).mean()  # son kareden başa dönüş farkı
+    assert son <= bas * 1.5 + 0.5  # dikiş yok: sondan başa geçiş normal bir kare adımı kadar
+    sabit = Sinemagraf(g, [{"etki": "salinim", "kutu": [0.0, 0.6, 0.3, 1.0], "yumusak": 0.01}], W=160, H=90, L=24.0)
+    a, b = sabit.kare(0).astype(int), sabit.kare(6.0).astype(int)
+    assert np.abs(a[:30, 80:] - b[:30, 80:]).max() == 0  # bölge dışı kıpırdamaz
+    assert np.abs(a[60:, :40] - b[60:, :40]).mean() > 0  # bölge içi hareket eder
+    from deepspace.canli import Sinemagraf as _S
+    assert isinstance(video.sahne_nesnesi(_gorev(tmp_path), 1, 160, 90, 24.0), _S)
+
+
 @pytest.mark.skipif(not __import__("shutil").which("ffmpeg"), reason="ffmpeg yok")
 def test_G6_hareketli_klip_dikissiz_doner(tmp_path):
     from deepspace import klip

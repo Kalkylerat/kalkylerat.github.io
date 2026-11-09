@@ -1,0 +1,7 @@
+{"bolgeler": [
+  {"etki": "parilti", "kutu": [0.20, 0.39, 0.64, 0.47], "parlaklik_min": 0.5, "guc": 0.5, "tekrar": 10},
+  {"etki": "parilti", "kutu": [0.50, 0.78, 0.57, 0.89], "parlaklik_min": 0.6, "guc": 0.25, "tekrar": 4},
+  {"etki": "akis", "kutu": [0.0, 0.86, 1.0, 1.0], "yon": [-1, 0], "hiz": 8, "tekrar": 3},
+  {"etki": "yildiz", "kutu": [0.0, 0.0, 1.0, 0.5], "parlaklik_max": 0.25, "adet": 150},
+  {"etki": "kar", "kutu": [0.0, 0.0, 1.0, 1.0], "adet": 200, "tekrar": 1, "parlaklik": 0.4}
+]}

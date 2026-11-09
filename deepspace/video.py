@@ -49,9 +49,14 @@ def _derinlik_dene(ana: Path):
 
 
 def sahne_nesnesi(gorev: dict, i: int, W: int, H: int, L: float, **kw):
-    """Görsel varsa canlı tablo, yoksa yedek kod sahnesi (klip varsa sahneler() onu doğrudan döngüye çevirir)."""
+    """Öncelik: klip (sahneler() doğrudan döngüye çevirir) > sinemagraf (gorsel/NN_hareket.json) > 3D fotoğraf
+    (derinlik modeli) > canlı tablo > yedek kod sahnesi."""
     ana, on = parca_gorseli(gorev, i)
     if ana:
+        from .canli import Sinemagraf, tarif_oku
+        tarif = tarif_oku(ana)
+        if tarif:  # sinemagraf: görüntü sabit, yalnızca tarifteki bölgeler hareket eder
+            return Sinemagraf(ana, tarif, W, H, L, tohum=_tohum(gorev, i), derinlik=_derinlik_dene(ana))
         d = _derinlik_dene(ana)
         if d is not None:  # 3D fotoğraf efekti (ücretsiz derinlik modeli)
             return Tablo3D(ana, d, W, H, L, tohum=_tohum(gorev, i))

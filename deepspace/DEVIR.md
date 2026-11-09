@@ -46,6 +46,13 @@ derinlik çıkarır; yakın/uzak katmanlar farklı hızda kayar, uzakta sis süz
 otomatik devreye girer (`py -m pip install -r deepspace/requirements.txt`). Derinlik `gorsel/NN_derinlik.png`'ye
 önbelleklenir, elle düzeltilebilir. Örnek video sahibine gönderildi (referans ekran görüntüsündeki iki sahne).
 
+## Sinemagraf (9 Kasım, sahibinin asıl istediği: "resim gibi, ama bazı yerler hareket etsin")
+`canli.Sinemagraf`: kamera sabit; `gorsel/NN_hareket.json` tarifindeki bölgeler hareket eder (akis: bulut/sis/su,
+salinim: ağaç/ot, dalga: buğday/çimen, parilti: ışıklar, kar, yildiz). Bölge = normalize kutu + renk/parlaklık/
+derinlik koşulu. Örnek tarifler `deepspace/ornek_hareket/`. Her görsel için tarifi ajan yazar: görseli ızgarayla
+inceler (0.1'lik çizgiler), bölgeleri seçer, kısa bir deneme karesiyle kontrol eder (parlak gezegen kenarını
+parilti kutusuna alma: dalgalı desen yapar). Örnek video sahibine gönderildi; ücretsiz.
+
 ## Sahibin bekleyen kararı
 Görsel kaynağı: **A** yapay zekâ (Referans 1 tarzı; FLUX 3 1K ~291 kredi ≈ 0,03 $/görsel, Seedream 5 Pro ~818 kredi),
 **B** NASA/JWST/Hubble fotoğrafları (ücretsiz, kaynak gösterilerek), ya da **karışım** (önerilen). ElevenLabs

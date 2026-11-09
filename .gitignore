@@ -6,3 +6,7 @@ ornek/demo_kupon.png
 onay_istegi.md
 govde.md
 urun/
+
+# Deep Space Log: ses ve video çıktıları depoya girmez
+deepspace/gorevler/*/ses/
+deepspace/gorevler/*/cikti/

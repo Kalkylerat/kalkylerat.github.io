@@ -1,0 +1,71 @@
+# Deep Space Log kanal ayarları. Kararlar sahibiyle 9 Kasım 2026'da sabitlendi (SOZLESME.md G).
+# Bir görev (gorev.toml) [ayar] tablosuyla bu değerlerin bir kısmını yalnızca deneme için ezebilir.
+
+[kanal]
+ad = "Deep Space Log"
+maskot = "PROBE-7"
+youtube_kanal_id = "UCtJHvFs1UuIKwTUhcWVyWIg"  # eski adı Köz (@kozruh)
+dil = "en"
+
+[seri.focus]
+ad = "Deep Focus"
+kapak_yazi = "DEEP FOCUS"
+hedef_dakika = 120
+parca_sayisi = 16
+baslik = "Deep Focus Space Ambient for Studying | {hedef} | {saat} Hours"
+etiketler = ["space ambient music", "deep focus ambient music", "ambient music for studying",
+             "sci fi ambient music", "captivating space music", "space background music",
+             "deep space ambient", "study music", "focus music", "deep work music"]
+hashtagler = ["#spaceambient", "#deepfocus", "#studymusic"]
+
+[seri.sleep]
+ad = "Deep Sleep"
+kapak_yazi = "DEEP SLEEP"
+hedef_dakika = 180
+parca_sayisi = 20
+baslik = "Deep Sleep Space Ambient | {hedef} | {saat} Hours of Calm Cosmic Music"
+etiketler = ["space ambient music", "space sleep music", "deep space ambient", "space relaxing music",
+             "ambient music", "sleep music", "space meditation music", "calm space music"]
+hashtagler = ["#spaceambient", "#sleepmusic", "#ambient"]
+
+[seri.drift]
+ad = "Sci-Fi Drift"
+kapak_yazi = "SCI-FI DRIFT"
+hedef_dakika = 120
+parca_sayisi = 16
+baslik = "Dark Sci-Fi Ambient for Deep Work | {hedef} | {saat} Hours"
+etiketler = ["sci fi ambient music", "dark ambient space music", "deep space music", "space ambient",
+             "deep work music", "cinematic ambient", "space background music"]
+hashtagler = ["#scifiambient", "#darkambient", "#deepwork"]
+
+[ses]
+capraz_gecis_sn = 8
+hedef_lufs = -16.0
+lufs_tolerans = 1.0
+tepe_dbtp = -1.5
+parca_min_sn = 180
+parca_max_sn = 600
+sure_tolerans = 0.10       # toplam süre hedefin ±%10'u
+sessizlik_db = -60
+sessizlik_max_sn = 4       # parça ortasında bundan uzun sessizlik = bozuk dosya
+
+[video]
+genislik = 1920
+yukseklik = 1080
+fps = 24
+dongu_sn = 40              # her sahne bu kadar sürer ve kusursuz döner
+crf = 21
+preset = "veryfast"
+is_parcacigi = 3           # aynı anda kaç parça kodlanır
+
+[shorts]
+adet = 3
+sure_sn = 45
+
+[metin]
+yasak_kelimeler = ["hans zimmer", "zimmer", "interstellar", "inception", "nolan", "christopher nolan",
+                   "dune", "star wars", "tatooine", "star trek", "vangelis", "blade runner"]
+baslik_max = 100
+aciklama_max = 5000
+etiket_max_karakter = 500
+kapak_max_kelime = 3

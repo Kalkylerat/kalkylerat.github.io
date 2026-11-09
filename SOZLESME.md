@@ -99,3 +99,25 @@ Gelir modeli (sahibinin kararı, 15 Ekim 2026): X ve Instagram trafik getirir; g
 | F14 | **Gelir rakamları** (abone, satış) yalnızca araçların API'sinden gelir; okunamazsa rapor "okunamadı" yazar, tahmin yazmaz. Bu anahtarlar yalnızca okuma içindir. (15 Ekim 2026) | `test_F14` |
 | F15 | **Önce / sonra**: her Fix ve Library'de insanların soracağı **düz soru da gerçekten çalıştırılır** (aynı model, aynı örnek girdi); kart ve postlar iki cevabı yan yana gösterir. Değerlendirme düz cevapla bizim cevabımız arasında belirgin fark görmezse post çıkmaz (fark yoksa söyleyecek bir şeyimiz yoktur). Çözüm bir komutla sınırlı değildir: kaynaklı adımlar (F1) ya da bir yapay zekâ ayarı da olabilir. (15 Ekim 2026) | `test_F15` |
 | F16 | **Herkesin sorunu, dürüst kanca**: konu genel kitlenin bu hafta yaşayabileceği bir sorun olmalı (konu seçiminde "herkes" puanı 5 üzerinden en az 4; teknik/geliştirici konuları elenir). Kanca okuyanı ilk satırda "sen" ve somut bir anla yakalar ("Your phone is at 20% by lunch?"), ama yalnızca postun gerçekten verdiği şeyi vaat eder; F8'in abartı ve tuzak yasakları aynen geçerlidir. (15 Ekim 2026) | `test_F16` |
+
+## G. Deep Space Log (YouTube: uzay temalı çalışma müziği)
+
+Testler `tests/test_deepspace.py` içinde. Kod `deepspace/`, ayarlar `deepspace/ayar.toml`, işletme rehberi
+`.claude/skills/deep-space-log/SKILL.md`. 9 Kasım 2026: sahibinin "hepsi ok" onayıyla eklendi. Kanal sahibinin eski
+"Köz" kanalıdır (`@kozruh`, kimliği `UCtJHvFs1UuIKwTUhcWVyWIg`). Bahis ve futbol hesaplarıyla bağı yoktur.
+Müziği sahibi Suno'da üretir ve seçer; gerisini hat yapar.
+
+| # | Kural | Test |
+|---|---|---|
+| G1 | **Kimlik**: kanal adı "Deep Space Log", maskot **PROBE-7** (sakin, küçük, abartısız sonda; kapakta ve videoda hep aynı), dil İngilizce. Seriler: Deep Focus (2 saat, 16 parça), Deep Sleep (3 saat, 20 parça), Sci-Fi Drift (2 saat, 16 parça). | `test_G1` |
+| G2 | **Süre ve tekrar yok**: video toplamı serinin hedefinin ±%10'u; parça 3–10 dk. Bir videoda aynı müzik iki kez çalınmaz; süre döngüyle şişirilmez. | `test_G2` |
+| G3 | **Ses**: parçalar -16 LUFS'a eşitlenip 8 sn çapraz geçişle birleşir; master -16 ±1 LUFS, tepe ≤ -1.5 dBTP (0.5 tolerans); parça ortasında 4 sn'den uzun sessizlik varsa dosya bozuk sayılır. | `test_G3` |
+| G4 | **Özgünlük**: aynı ses dosyası iki videoda kullanılmaz (dosya özeti `deepspace/kayit.json`'da); hedef gök cismi ve sahne tohumu tekrar etmez; her parçanın kendi sahnesi vardır. | `test_G4` |
+| G5 | **Metin**: başlık ≤100, açıklama ≤5000, etiketler ≤500 karakter. Sanatçı ve film adları (Hans Zimmer, Interstellar vb. `yasak_kelimeler`) ne başlıkta, açıklamada, etikette ne de Suno istemlerinde geçer. Bölümler 0:00'dan başlar, her parça bir bölümdür, aralar ≥10 sn. Açıklamada her gök cismi için gerçek bilgi ve süreç notu bulunur. Her istem enstrümantaldir ve vokali yasaklar. | `test_G5` |
+| G6 | **Görsel**: sahneler kodla üretilir ve kusursuz döner (kare(0) = kare(L)); 1920x1080; video süresi ses süresine ±1 sn eşittir, siyah ekran yoktur. Ücretli görsel veya video servisi sahibinin onayı olmadan kullanılmaz. | `test_G6` |
+| G7 | **Kapak**: 3 varyant (YouTube Test & Compare), 1280x720, <2MB, en fazla 3 kelime, PROBE-7 görünür. | `test_G7` |
+| G8 | **Onay**: konsept (gorev.toml) ve bitmiş video sahibinin `ok`u olmadan yayına çıkmaz. Kapı raporu (`rapor.json`) kırmızıysa video onaya bile sunulmaz; denetçi ajan raporu okumadan "bitti" denmez. Yükleme varsayılan olarak gizli (private) ya da planlıdır. | `test_G8` |
+| G9 | **Dürüstlük**: her yüklemede "altered or synthetic content" işaretlenir; açıklama müziğin yapay zekâ araçlarıyla üretildiğini yazar. Sahte izlenme, yorum ya da abone yok; başka kanalların müziği ve görüntüsü kullanılmaz. | `test_G9` |
+| G10 | **Reklam araları** yalnızca parça geçişlerine konur (parçanın ortasında reklam yok). | `test_G10` |
+| G11 | **Maliyet**: ücretli tek kalem Suno aboneliğidir. Metinler şablonla üretilir (yapay zekâ API çağrısı yok); vidIQ, görsel/video üretimi gibi ücretli çağrılar sahibine sorulmadan hatta eklenmez. | `test_G11` |
+| G12 | **Shorts**: her videodan 3 dikey Shorts (1080x1920, ≤60 sn), yalnızca o videonun kendi müziğinden ve sahnesinden. | `test_G12` |

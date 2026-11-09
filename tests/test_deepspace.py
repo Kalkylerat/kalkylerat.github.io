@@ -236,7 +236,8 @@ def test_G6_sinemagraf_yalniz_secilen_yerler_hareket_eder_ve_doner(tmp_path):
                           {"etki": "salinim", "kutu": [0.0, 0.5, 0.5, 1.0], "genlik": 3, "tekrar": 3},
                           {"etki": "dalga", "kutu": [0.5, 0.5, 1.0, 1.0], "tekrar": 4},
                           {"etki": "parilti", "kutu": [0.0, 0.0, 0.5, 0.5], "tekrar": 5},
-                          {"etki": "kar", "adet": 20}, {"etki": "yildiz", "adet": 20}]}
+                          {"etki": "kar", "adet": 20}, {"etki": "yildiz", "adet": 20},
+                          {"etki": "donme", "merkez": [0.5, 0.5], "yaricap": 0.2, "hiz": 2, "tekrar": 3}]}
     (tmp_path / "gorsel" / "02_hareket.json").write_text(_json.dumps(tarif))
     s = Sinemagraf(g, tarif_oku(g), W=160, H=90, L=24.0, tohum=1)
     k0 = s.kare(0).astype(int)

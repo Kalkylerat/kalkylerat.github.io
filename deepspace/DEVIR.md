@@ -48,7 +48,8 @@ otomatik devreye girer (`py -m pip install -r deepspace/requirements.txt`). Deri
 
 ## Sinemagraf (9 Kasım, sahibinin asıl istediği: "resim gibi, ama bazı yerler hareket etsin")
 `canli.Sinemagraf`: kamera sabit; `gorsel/NN_hareket.json` tarifindeki bölgeler hareket eder (akis: bulut/sis/su,
-salinim: ağaç/ot, dalga: buğday/çimen, parilti: ışıklar, kar, yildiz). Bölge = normalize kutu + renk/parlaklık/
+salinim: ağaç/ot, dalga: buğday/çimen, parilti: ışıklar, kar, yildiz, donme: gezegen yüzeyi küre gibi döner).
+Sahibi ilk sürümde "hareket görmedim" dedi: hareketler belirgin olmalı (ornek_hareket'teki 2. sürüm değerleri taban). Bölge = normalize kutu + renk/parlaklık/
 derinlik koşulu. Örnek tarifler `deepspace/ornek_hareket/`. Her görsel için tarifi ajan yazar: görseli ızgarayla
 inceler (0.1'lik çizgiler), bölgeleri seçer, kısa bir deneme karesiyle kontrol eder (parlak gezegen kenarını
 parilti kutusuna alma: dalgalı desen yapar). Örnek video sahibine gönderildi; ücretsiz.

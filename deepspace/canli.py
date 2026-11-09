@@ -10,6 +10,7 @@ Etkiler (hepsi döngü süresi L'nin tam katı: kare(0) == kare(L)):
   parilti  ışıklar, şehir ışıkları, halka: parlak noktalar titreşir ya da nefes alır
   kar      yavaşça düşen kar/toz taneleri
   yildiz   karanlık gökte yıldız pırıltısı
+  donme    gezegen: yüzey küre gibi yavaşça döner (merkez, yarıçap verilir; iki fazlı, dikişsiz)
 """
 from __future__ import annotations
 
@@ -87,6 +88,21 @@ class Sinemagraf:
         if e == "akis":
             b["n"] = int(b.get("tekrar", 4))  # döngüde kaç akış periyodu
             b["vx"], b["vy"] = (np.array(b.get("yon", [1, 0]), np.float32) * b.get("hiz", 6) * olcek)
+        elif e == "donme":
+            cx, cy = b["merkez"]
+            R = b["yaricap"] * self.W
+            nx = (self.xx - cx * self.W) / R
+            ny = (self.yy - cy * self.H) / R
+            r2 = nx ** 2 + ny ** 2
+            ic = np.clip((1 - r2) / 0.02, 0, 1)  # disk içi
+            nz = np.sqrt(np.clip(1 - r2, 0, 1))
+            b["lat_cos"] = np.sqrt(np.clip(1 - ny ** 2, 1e-6, 1)).astype(np.float32)
+            b["lon"] = np.arctan2(nx, nz).astype(np.float32)
+            b["cxp"], b["R"] = cx * self.W, R
+            kenar = np.clip((1 - np.sqrt(np.clip(r2, 0, 1))) / 0.06, 0, 1)  # kenara yakın daha az kayar
+            b["m"] = (b["m"] * ic * kenar).astype(np.float32)
+            b["n"] = int(b.get("tekrar", 6))
+            b["w"] = math.radians(b.get("hiz", 1.0))  # derece/sn
         elif e == "parilti":
             # yumuşak faz alanı: komşu ışıklar birlikte, uzaktakiler farklı zamanda titreşir (blok görünmez)
             g = rng.random((self.H // 24 + 2, self.W // 24 + 2)).astype(np.float32)
@@ -143,6 +159,20 @@ class Sinemagraf:
                 w1 = 1 - abs(2 * p1 - 1)
                 akan = yer[0] * w1 + yer[1] * (1 - w1)
                 kare = kare * (1 - m) + akan * m
+            elif b["etki"] == "donme":  # boylam kayar: x' = cx + R*cos(enlem)*sin(boylam - delta)
+                T = self.L / b["n"]
+                p1 = (t % T) / T
+                p2 = ((t + T / 2) % T) / T
+                yer = []
+                for p in (p1, p2):
+                    delta = b["w"] * T * (p - 0.5)
+                    lon = np.clip(b["lon"] - delta, -math.pi / 2, math.pi / 2)
+                    sx = b["cxp"] + b["R"] * b["lat_cos"] * np.sin(lon)
+                    yer.append(cv2.remap(self.img, sx.astype(np.float32), self.yy, cv2.INTER_LINEAR,
+                                         borderMode=cv2.BORDER_REFLECT))
+                w1 = 1 - abs(2 * p1 - 1)
+                donen = yer[0] * w1 + yer[1] * (1 - w1)
+                kare = kare * (1 - m) + donen * m
             elif b["etki"] == "parilti":
                 f = int(b.get("tekrar", 12))
                 g = b.get("guc", 0.35)

@@ -750,7 +750,7 @@ def test_otomatik_onay_istegi_acar(monkeypatch, tmp_path):
     g = _gun("2026-10-03", [_secim(1, 1.5, 0.8), _secim(2, 1.4, 0.7)], tweet_id=None, kuponlar=[[0, 1]])
     simdi = datetime(2026, 10, 3, 8, tzinfo=timezone.utc)
     onay.onay_iste(g, [g], AYAR, simdi)
-    metin = (tmp_path / "istek.md").read_text()
+    metin = (tmp_path / "istek.md").read_text(encoding="utf-8")
     assert metin.startswith("Onay: 2026-10-03 kuponu\n") and "`ok`" in metin and "TODAY'S COUPON" in metin
     assert "raw.githubusercontent.com" in metin and (tmp_path / "2026-10-03-1-v1.png").exists()
     # son: en fazla 90 dk sonra, en geç ilk maçtan (13:00 UTC) 2 saat önce
@@ -884,7 +884,7 @@ def test_yanit_onerileri_suzulur_ve_onizlemede_gorunur(monkeypatch, tmp_path):
     g = _gun("2026-10-03", [_secim(1, 1.5, 0.8), _secim(2, 1.4, 0.7)], tweet_id=None, kuponlar=[[0, 1]])
     g["yanit_onerileri"] = temiz
     onay.onay_iste(g, [g], AYAR, datetime(2026, 10, 3, 8, tzinfo=timezone.utc))
-    metin = (tmp_path / "istek.md").read_text()
+    metin = (tmp_path / "istek.md").read_text(encoding="utf-8")
     assert "Elle yazabileceğin yanıtlar" in metin and "AIK lost 4 of 5 away." in metin and "@kalkylerat" in metin
 
 
@@ -1337,7 +1337,7 @@ def test_ayni_calismada_birden_fazla_onay_istegi(monkeypatch, tmp_path):
     b = {**_gun("2026-10-03", [_secim(2, 1.5, 0.7)], tweet_id=None, kuponlar=[[0]]), "id": "2026-10-03-2", "ek": True}
     onay.onay_iste(a, [a, b], AYAR, simdi)
     onay.onay_iste(b, [a, b], AYAR, simdi, gecikme_dk=30)
-    parcalar = (tmp_path / "istek.md").read_text().split(onay.AYRAC)
+    parcalar = (tmp_path / "istek.md").read_text(encoding="utf-8").split(onay.AYRAC)
     assert [p.splitlines()[0] for p in parcalar] == ["Onay: 2026-10-03 kuponu", "Onay: 2026-10-03-2 kuponu"]
     assert datetime.fromisoformat(b["onay"]["son"]) - datetime.fromisoformat(a["onay"]["son"]) == timedelta(minutes=30)
 
@@ -1670,7 +1670,7 @@ def test_yayin_denetimi_dogru_postu_gecirir_hatali_postu_durdurur(monkeypatch, t
     g["kuponlar"][0]["stake"] = 150.0
     onay.onay_iste(g, [g], AYAR, simdi)
     assert g["onay"]["durum"] == "durduruldu" and g["onay"]["denetim"]["engel"]
-    assert "Denetçi durdurdu" in (tmp_path / "istek.md").read_text()
+    assert "Denetçi durdurdu" in (tmp_path / "istek.md").read_text(encoding="utf-8")
 
 
 def test_gorsel_denetimi_gorselleri_ve_beklenen_rakamlari_gonderir():
@@ -1976,7 +1976,7 @@ def test_analiz_gunu_kartlar_ve_mac_sonu_takibi(monkeypatch, tmp_path):
     gunler = []
     simdi = datetime(2026, 10, 3, 8, 50, tzinfo=timezone.utc)
     gun = ana.analiz_gunu(AYAR, gunler, "2026-10-03", simdi, api=object())
-    tum = json.loads((tmp_path / "analiz" / "2026-10-03.json").read_text())
+    tum = json.loads((tmp_path / "analiz" / "2026-10-03.json").read_text(encoding="utf-8"))
     assert gun["analiz_sayisi"] == 4 and len(tum) == 4  # verisi olmayan maç analiz edilmez
     assert {a["fixture_id"]: a["guven"] for a in tum}[4] == "dusuk" and {a["fixture_id"]: a["guven"] for a in tum}[1] == "yuksek"
     assert [a["ev"] for a in gun["analizler"]] == ["Arsenal", "Leeds", "Spurs"]  # alt lig öne çıkmaz

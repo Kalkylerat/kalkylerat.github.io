@@ -76,8 +76,16 @@ def sure_oku(metin: str) -> float:
     return sn
 
 
+def filtre_yolu(dosya: Path) -> str:
+    """ffmpeg filtre seçeneği içinde dosya yolu: Windows'ta "C:" iki noktası ve ters bölü filtreyi bozar."""
+    return "'" + Path(dosya).as_posix().replace(":", r"\:") + "'"
+
+
 def calistir(komut: list[str], **kw) -> subprocess.CompletedProcess:
     kw.setdefault("text", True)
+    if kw["text"]:  # Windows'ta varsayılan kod sayfası ffmpeg çıktısındaki UTF-8'i bozar
+        kw.setdefault("encoding", "utf-8")
+        kw.setdefault("errors", "replace")
     sonuc = subprocess.run(komut, capture_output=True, **kw)
     if sonuc.returncode != 0:
         hata = sonuc.stderr if isinstance(sonuc.stderr, str) else sonuc.stderr.decode(errors="replace")

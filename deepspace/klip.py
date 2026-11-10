@@ -9,14 +9,14 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from .ortak import calistir, ffprobe_sure
+from .ortak import calistir, ffprobe_sure, filtre_yolu
 
 
 def dongu(kaynak: Path, hedef: Path, W: int, H: int, fps: int = 24, lut: Path | None = None,
           capraz: float = 1.5, crf: int = 16) -> Path:
     D = ffprobe_sure(kaynak)
     X = min(capraz, D / 4)
-    renk = f",lut3d=file={lut}" if lut else ""
+    renk = f",lut3d=file={filtre_yolu(lut)}" if lut else ""
     filtre = (f"[0:v]fps={fps},scale={W}:{H}:force_original_aspect_ratio=increase:flags=lanczos,crop={W}:{H},"
               f"setsar=1{renk},split[a][b];"
               f"[a]trim=start={X:.4f},setpts=PTS-STARTPTS[a1];"

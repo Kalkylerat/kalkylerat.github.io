@@ -9,6 +9,11 @@ PANEL_FILE = ROOT / "docs" / "index.html"
 HAFTA_FILE = ROOT / "data" / "haftalik.json"
 
 
+def tarih_metni(t, bicim: str) -> str:
+    """strftime, ama "%-d" (başında sıfırsız gün) Windows'ta da çalışır; Linux çıktısıyla aynı."""
+    return t.strftime(bicim.replace("%-d", str(t.day)))
+
+
 @dataclass(frozen=True)
 class Ayarlar:
     saat_dilimi: str

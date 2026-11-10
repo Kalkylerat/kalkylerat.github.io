@@ -226,7 +226,7 @@ def test_A9_haftalik_karne_kayittan_kaybedenler_dahil():
 
 def test_B1_mac_sonu_dudukten_5_15_dk_sonra():
     assert etkilesim.TAKIP_GECIKME <= timedelta(hours=1, minutes=45)
-    nobet = (ROOT / ".github/workflows/nobet.yml").read_text()
+    nobet = (ROOT / ".github/workflows/nobet.yml").read_text(encoding="utf-8")
     assert '-ge 420 ]' in nobet  # nöbetçi botu 7 dakikada bir çalıştırır
     assert saglik.TAKIP_GECIKME <= timedelta(hours=2, minutes=20)  # geç kalırsa alarm
 
@@ -287,7 +287,7 @@ def test_B5_sabah_analizi_yoksa_alarm():
     # analiz her gün 07:17 (İsveç) planlı: 05:30 UTC'de henüz alarm yok, 06:30 UTC'de var (hafta içi de)
     assert not any("sabah analizi" in m for _, m in saglik.sorunlar([], datetime(2026, 10, 5, 5, 30, tzinfo=UTC), AYAR))
     assert any("sabah analizi" in m for _, m in saglik.sorunlar([], datetime(2026, 10, 5, 6, 30, tzinfo=UTC), AYAR))
-    wf = (ROOT / ".github/workflows/kalkylerat.yml").read_text()
+    wf = (ROOT / ".github/workflows/kalkylerat.yml").read_text(encoding="utf-8")
     assert 'cron: "17 5 * * *"' in wf and config.SABAH_YEREL_DK == 7 * 60 + 17
 
 
@@ -369,7 +369,7 @@ def test_B7_hesap_sessiz_kalmaz():
     assert not sessiz(12, 50)
 
 def test_C1_nobetci_7_dk_nabiz_20_dk_alarm():
-    nobet = (ROOT / ".github/workflows/nobet.yml").read_text()
+    nobet = (ROOT / ".github/workflows/nobet.yml").read_text(encoding="utf-8")
     assert '-ge 420 ]' in nobet and '-ge 1200 ]' in nobet and 'conclusion' in nobet and "cron:" in nobet
 
 
@@ -404,7 +404,7 @@ def test_D2_ayni_metin_iki_kez_gitmez():
 
 
 def test_D3_baskalarina_otomatik_etkilesim_yok():
-    kaynak = "\n".join(p.read_text() for p in (ROOT / "bot").glob("*.py"))
+    kaynak = "\n".join(p.read_text(encoding="utf-8") for p in (ROOT / "bot").glob("*.py"))
     for yasak in ("/likes", "/following", "/retweets", "/dm_conversations", "/blocks", "/bookmarks"):
         assert yasak not in kaynak, yasak  # beğeni, takip, RT, DM uç noktaları hiç çağrılmaz
 
@@ -684,7 +684,7 @@ def test_D6_yorum_firsati_sayilari_ve_saatleri_sozlesmedeki_gibi():
 
 
 def test_D4_topluluga_yalnizca_tablo_ve_kiyas():
-    kaynak = (ROOT / "bot/etkilesim.py").read_text()
+    kaynak = (ROOT / "bot/etkilesim.py").read_text(encoding="utf-8")
     assert kaynak.count("_gonder(x, ayar, metin, yaz") == 2  # tablo ve ayrışma (kıyas) postları
 
 

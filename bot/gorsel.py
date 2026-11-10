@@ -5,7 +5,7 @@ from datetime import datetime
 
 from PIL import Image, ImageDraw, ImageFont
 
-from .config import ROOT
+from .config import ROOT, tarih_metni
 from .kayit import kar, kupon_ayaklari, kupon_durumu, kupon_kar, kupon_olasilik, kupon_oran, kuponlar
 from .kayit import kupon_bakiyesi
 from .analiz import fark_puani
@@ -54,7 +54,7 @@ def _ust(im, d, tarih_iso: str, sag_alt: str) -> None:
         x += 120
     d.text((x, KENAR + 8), "KALKYLERAT", font=_font(42, True), fill=YAZI)
     d.text((x, KENAR + 60), "Data-driven football picks", font=_font(24), fill=SOLUK)
-    tarih = datetime.fromisoformat(tarih_iso).strftime("%-d %b %Y").upper()
+    tarih = tarih_metni(datetime.fromisoformat(tarih_iso), "%-d %b %Y").upper()
     f = _font(30, True)
     d.text((BOYUT - KENAR - d.textlength(tarih, font=f), KENAR + 8), tarih, font=f, fill=VURGU)
     d.text((BOYUT - KENAR - d.textlength(sag_alt, font=f), KENAR + 56), sag_alt, font=f, fill=YAZI)
@@ -176,7 +176,7 @@ def kasa_grafigi(seyir: list[tuple[str, float]], baslangic: float, birim: str) -
     adim = max(1, len(seyir) // 6)
     for i, (t, _) in enumerate(seyir):
         if i % adim == 0 or i == len(seyir) - 1:
-            e = datetime.fromisoformat(t).strftime("%-d %b")
+            e = tarih_metni(datetime.fromisoformat(t), "%-d %b")
             d.text((x(i) - d.textlength(e, font=fk) / 2, alt + 14), e, font=fk, fill=SOLUK)
     altyazi = "Every coupon posted before kick-off · all results counted · 18+ | Play responsibly"
     altyazi, f = _sigdir(d, altyazi, G_ - 2 * KENAR, 22)
@@ -298,7 +298,7 @@ def analiz_karti(a: dict, saat: str, dil: str = "en") -> bytes:
     d = ImageDraw.Draw(im)
     yuzde = (lambda x: f"%{100 * x:.0f}") if dil == "tr" else (lambda x: f"{100 * x:.0f}%")
     d.text((K, 52), f"KALKYLERAT · {e['baslik']}", font=_font(26, True), fill=r["vurgu"])
-    tarih = datetime.fromisoformat(a["baslama"]).strftime("%-d %b").upper()
+    tarih = tarih_metni(datetime.fromisoformat(a["baslama"]), "%-d %b").upper()
     sag = f"{tarih} · {saat}"
     d.text((W - K - d.textlength(sag, font=_font(24, True)), 54), sag, font=_font(24, True), fill=r["soluk"])
     mac, f = _sigdir(d, f'{a["ev"]} – {a["dep"]}', W - 2 * K, 60, True, 34)
@@ -422,7 +422,7 @@ def analiz_tablosu(liste: list[dict], tarih_iso: str, saatler: list[str], dil: s
     d = ImageDraw.Draw(im)
     yuzde = (lambda x: f"%{100 * x:.0f}") if dil == "tr" else (lambda x: f"{100 * x:.0f}%")
     d.text((K, 44), f"KALKYLERAT · {e['baslik']}", font=_font(26, True), fill=r["vurgu"])
-    tarih = datetime.fromisoformat(tarih_iso).strftime("%-d %b %Y").upper()
+    tarih = tarih_metni(datetime.fromisoformat(tarih_iso), "%-d %b %Y").upper()
     d.text((W - K - d.textlength(tarih, font=_font(24, True)), 46), tarih, font=_font(24, True), fill=r["soluk"])
     adim = (W - 2 * K) / len(e["sutun"])
     sutunlar = [(ad, K + adim * i + adim / 2) for i, ad in enumerate(e["sutun"])]
@@ -508,7 +508,7 @@ def kiyas_tablosu(liste: list[dict], tarih_iso: str, saatler: list[str], dil: st
     d = ImageDraw.Draw(im)
     yuzde = (lambda x: f"%{100 * x:.0f}") if dil == "tr" else (lambda x: f"{100 * x:.0f}%")
     d.text((K, 44), f"KALKYLERAT · {e['baslik']}", font=_font(26, True), fill=r["vurgu"])
-    tarih = datetime.fromisoformat(tarih_iso).strftime("%-d %b %Y").upper()
+    tarih = tarih_metni(datetime.fromisoformat(tarih_iso), "%-d %b %Y").upper()
     d.text((W - K - d.textlength(tarih, font=_font(24, True)), 46), tarih, font=_font(24, True), fill=r["soluk"])
     x0 = K + 170  # solda ODDS / STATS etiketleri
     adim = (W - K - x0) / len(e["sutun"])

@@ -15,6 +15,8 @@ from pathlib import Path
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 
+from .ortak import filtre_yolu
+
 TAU = 2 * math.pi
 TURLER = ("kayalik", "gaz", "buz", "lav", "okyanus", "yildiz", "pulsar", "kuasar")
 
@@ -385,7 +387,7 @@ def dongu_kodla(sahne: Sahne, hedef: Path, fps: int = 24, crf: int = 16, sure: f
     n = int(round(sure * fps))
     komut = ["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24",
              "-s", f"{sahne.W}x{sahne.H}", "-r", str(fps), "-i", "-",
-             *(["-vf", f"lut3d=file={lut}"] if lut else []), "-c:v", "libx264", "-preset", "medium",
+             *(["-vf", f"lut3d=file={filtre_yolu(lut)}"] if lut else []), "-c:v", "libx264", "-preset", "medium",
              "-crf", str(crf), "-pix_fmt", "yuv420p", "-g", str(fps * 2), str(hedef)]
     surec = subprocess.Popen(komut, stdin=subprocess.PIPE, stderr=subprocess.PIPE)
     try:

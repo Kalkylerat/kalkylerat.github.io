@@ -8,6 +8,7 @@ from datetime import datetime
 
 from requests_oauthlib import OAuth1Session
 
+from .config import tarih_metni
 from .kayit import kar, kupon_ayaklari, kupon_durumu, kupon_kar, kupon_olasilik, kupon_oran, kuponlar
 
 LIMIT = 280
@@ -171,7 +172,7 @@ def rekor(o: dict) -> str:
 
 
 def _tarih(gun: dict) -> str:
-    return datetime.fromisoformat(gun["tarih"]).strftime("%-d %b")
+    return tarih_metni(datetime.fromisoformat(gun["tarih"]), "%-d %b")
 
 
 def _mac(s: dict, takim_max: int = 40) -> str:
@@ -407,7 +408,7 @@ def hafta_tweeti(h: dict, ozet: dict, birim: str) -> str:
     """Haftalık özet (Pazar akşamı): haftanın kuponları, oyunları, kâr/zarar ve kasa."""
     bas = datetime.fromisoformat(h["baslangic"])
     bit = datetime.fromisoformat(h["bitis"])
-    aralik = f'{bas.day}–{bit.strftime("%-d %b")}' if bas.month == bit.month else f'{bas.strftime("%-d %b")} – {bit.strftime("%-d %b")}'
+    aralik = f'{bas.day}–{tarih_metni(bit, "%-d %b")}' if bas.month == bit.month else f'{tarih_metni(bas, "%-d %b")} – {tarih_metni(bit, "%-d %b")}'
     satirlar = [f"📅 WEEKLY RECAP | {aralik}", ""]
     if h["kupon"]:
         satirlar.append(f'🎫 Coupons: {h["kupon_tuttu"]} of {h["kupon"]} won')

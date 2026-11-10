@@ -9,6 +9,7 @@ from itertools import product
 from zoneinfo import ZoneInfo
 
 from . import analiz, bilgi, config, gorsel, model
+from .config import tarih_metni
 from .oddsapi import ima_edilen_goller
 from .tweets import ANSVAR, LIMIT, etiket_satiri, ilk_sigan, liste_etiketleri, uzunluk
 
@@ -91,7 +92,7 @@ def skor_maci(vit: list[dict]) -> dict | None:
 
 
 def maclar_tweeti(gun: dict, ayar) -> str:
-    tarih = datetime.fromisoformat(gun["tarih"]).strftime("%-d %b")
+    tarih = tarih_metni(datetime.fromisoformat(gun["tarih"]), "%-d %b")
     satirlar = []
     for v in gun["vitrin"][:4]:
         fav, p = _favori(v)
@@ -214,7 +215,7 @@ def radar_tweeti(gun: dict, ayar, haric_takimlar: set[str] = frozenset()) -> str
     liste = radar_maclari(gun.get("vitrin") or [], haric_takimlar)
     if len(liste) < 2:
         return None
-    tarih = datetime.fromisoformat(gun["tarih"]).strftime("%-d %b")
+    tarih = tarih_metni(datetime.fromisoformat(gun["tarih"]), "%-d %b")
     satirlar = [f'- {v["ev"]} v {v["dep"]}: {v["radar"]} {_pct(v["radar_p"])}' for v in liste]
     metin = None
     for n in range(len(liste), 1, -1):  # sığmazsa son maç düşer
@@ -237,7 +238,7 @@ def deger_tweeti(gun: dict, ayar, haric_takimlar: set[str] = frozenset()) -> str
     liste = deger_maclari(gun.get("vitrin") or [], haric_takimlar)
     if not liste:
         return None
-    tarih = datetime.fromisoformat(gun["tarih"]).strftime("%-d %b")
+    tarih = tarih_metni(datetime.fromisoformat(gun["tarih"]), "%-d %b")
 
     def satir(v):
         k = v["kisa"]
@@ -258,7 +259,7 @@ def bilgi_tweeti(gun: dict, kayma: int = 0) -> str:
 
 
 def pas_tweeti(gun: dict) -> str:
-    tarih = datetime.fromisoformat(gun["tarih"]).strftime("%-d %b")
+    tarih = tarih_metni(datetime.fromisoformat(gun["tarih"]), "%-d %b")
     n = gun.get("taranan")
     bakilan = f"We checked {n} games today." if n else "We checked today's games."
     return (f"⏸️ NO COUPON TODAY | {tarih}\n\n{bakilan} None had odds good enough for their real chances, "
@@ -624,7 +625,7 @@ def deger_takip_tweeti(gun: dict, maclar: list[dict], birim: str) -> str | None:
         yorum = (f"{len(tutan)} of {len(biten)} came in, and €{ORNEK_TUTAR} on each ends at "
                  f"{'+' if net >= 0 else '-'}€{abs(net):.0f}. One miss wipes out the short-odds wins.")
     yorum = yorum.replace("€", birim)
-    tarih = datetime.fromisoformat(gun["tarih"]).strftime("%-d %b")
+    tarih = tarih_metni(datetime.fromisoformat(gun["tarih"]), "%-d %b")
 
     def satir(m):
         isaret = "✅" if m["sonuc"] == "kazandi" else "❌"
@@ -967,7 +968,7 @@ def hafta_ozeti(gunler: list[dict], tarih: str) -> dict | None:
 def hafta_tweeti(oz: dict) -> str:
     """Pazartesi karnesi: bütün rakamlar kayıttan (hafta_ozeti); seçim/isabet dili yok, olanla yüzdemiz yan yana."""
     ilk, son = (datetime.fromisoformat(oz[k]) for k in ("ilk", "son"))
-    aralik = f"{ilk:%-d}–{son:%-d %b}" if ilk.month == son.month else f"{ilk:%-d %b} – {son:%-d %b}"
+    aralik = f"{ilk.day}–{tarih_metni(son, '%-d %b')}" if ilk.month == son.month else f"{tarih_metni(ilk, '%-d %b')} – {tarih_metni(son, '%-d %b')}"
     govde = [f"🎯 Our cards' main chances averaged {_pct(oz['ort_p'])}.",
              f"📈 Actually happened: {_pct(oz['olan'] / oz['adet'])} ({oz['olan']} of {oz['adet']})."]
     if oz["kiyas"] >= 10:

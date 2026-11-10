@@ -12,6 +12,7 @@ from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
 from . import analiz, config, denetci, direktor, editor, etkilesim, flood, flood_ig, flood_yetki, football, gorsel, kayit, kit, likely, likely_gorsel, likely_yetki, model, oddsapi, onay, panel, saglik, temizlik, tweets, yorum, firsat
+from .config import tarih_metni
 from .model import adaylari_uret, bet_builder, etiketler
 
 # Çalışma sırasında yakalanan hatalar: iş sonunda "başarısız" işaretlenir, GitHub sahibine e-posta atar.
@@ -405,7 +406,7 @@ def yayinla(ayar, gun: dict, x, gunler: list[dict], simdi: datetime, gorsel_sart
 def zaten_paylasildi(x, tarih: str) -> str | None:
     """Kayıt kaybolduysa (ör. push başarısız) aynı günün kuponunu ikinci kez atmamak için hesabın son
     ana tweetlerine bakar. Bulunursa tweet kimliğini döndürür."""
-    etiket = f'| {datetime.fromisoformat(tarih).strftime("%-d %b")}'
+    etiket = f'| {tarih_metni(datetime.fromisoformat(tarih), "%-d %b")}'
     for t in x.son_tweetler(adet=10, yanitsiz=True):
         metin = t["text"].lstrip("⚽ ")
         ilk = metin.splitlines()[0] if metin else ""
@@ -584,7 +585,7 @@ def haftalik(ayar, x, gunler: list[dict], simdi: datetime, zorla: bool = False) 
         return False  # Pazar akşamı; maçı sonuçlanmayan hafta Çarşamba'ya kadar beklenir
     pazar = (yerel - timedelta(days=(yerel.weekday() + 1) % 7)).date()
     anahtar = f"{pazar.isocalendar().year}-W{pazar.isocalendar().week:02d}"
-    kayitlar = json.loads(config.HAFTA_FILE.read_text()) if config.HAFTA_FILE.exists() else {}
+    kayitlar = json.loads(config.HAFTA_FILE.read_text(encoding="utf-8")) if config.HAFTA_FILE.exists() else {}
     if anahtar in kayitlar:
         return False
     h = kayit.hafta_ozeti(gunler, pazar.isoformat())
@@ -1391,7 +1392,7 @@ def metrik() -> None:
 def hesap_kontrol() -> None:
     """data/takip_adaylari.txt'deki X hesaplarının var olup olmadığını ve takipçi/post sayılarını kontrol eder
     (yalnızca okuma): data/takip_adaylari.json."""
-    adlar = [s.strip().lstrip("@") for s in (config.DATA_FILE.parent / "takip_adaylari.txt").read_text().splitlines()
+    adlar = [s.strip().lstrip("@") for s in (config.DATA_FILE.parent / "takip_adaylari.txt").read_text(encoding="utf-8").splitlines()
              if s.strip()]
     x = _x_client()
     bulunan, hatalar = [], []

@@ -207,7 +207,7 @@ def test_G6_marka_filtresi_tek_kaynaktan(tmp_path):
         assert (sicak[..., 0] - sicak[..., 2]).mean() > (once[..., 0] - once[..., 2]).mean(), ad  # daha sıcak
         assert np.abs(sicak - once).mean() < 40, ad  # hafif: görselin kendi renkleri korunur (9 Kasım 2026)
     cube = renk.cube_yaz(tmp_path / "m.cube", renk.SECENEKLER["altin_saat"], boy=5)
-    satir = cube.read_text().splitlines()
+    satir = cube.read_text(encoding="utf-8").splitlines()
     assert satir[0] == "LUT_3D_SIZE 5" and len(satir) == 1 + 5 ** 3
 
 

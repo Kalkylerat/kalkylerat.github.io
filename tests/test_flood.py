@@ -925,7 +925,7 @@ def test_F11_site_yalnizca_yayinlanmis_ve_guvenli_icerik(tmp_path):
     degisen = flood_site.uret(GELIR, girdiler, {"sayi": 60, "kategoriler": ["Email", "Work"], "modeller": ["Claude Sonnet 5.5"]},
                               klasor=tmp_path / "s")
     assert "fix/kotu.html" not in degisen and "fix/phone-battery-draining-after-the-update.html" in degisen
-    sayfa = (tmp_path / "s" / "fix" / "phone-battery-draining-after-the-update.html").read_text()
+    sayfa = (tmp_path / "s" / "fix" / "phone-battery-draining-after-the-update.html").read_text(encoding="utf-8")
     assert "Tested with Claude Sonnet 5.5" in sayfa and "The limit" in sayfa and 'href="https://www.alpha.com/a"' in sayfa  # F1 kaynak
     assert "60 tested prompts" in sayfa and "<script>alert" not in sayfa
     assert not any(k in sayfa.lower() for k in ("only 3 left", "limited time", "hurry", "testimonial", "5 stars"))  # sahte aciliyet yok
@@ -944,18 +944,18 @@ def test_F11_affiliate_yalnizca_denenmis_arac_ve_etiketli():
 def test_F11_html_kacislanir(tmp_path):
     x = _girdi(baslik='Fix <script>alert(1)</script> "quoted"', slug="xss")
     flood_site.uret(GELIR, [x], None, klasor=tmp_path)
-    s = (tmp_path / "fix" / "xss.html").read_text()
+    s = (tmp_path / "fix" / "xss.html").read_text(encoding="utf-8")
     assert "<script>alert(1)" not in s and "&lt;script&gt;" in s
 
 
 def test_F12_form_yalnizca_ayar_varsa_ve_bot_e_posta_gondermez(tmp_path):
     bos = flood_gelir.GelirAyar()
     flood_site.uret(bos, [_girdi()], {"sayi": 60}, klasor=tmp_path / "a")
-    ana = (tmp_path / "a" / "index.html").read_text()
+    ana = (tmp_path / "a" / "index.html").read_text(encoding="utf-8")
     assert "<form" not in ana and "free pack" not in ana.lower() and "lemonsqueezy" not in ana  # vaat yok
     assert not any("Free pack" in c for c in flood_gelir.cagri_secenekleri(bos))
     flood_site.uret(GELIR, [_girdi()], {"sayi": 60}, klasor=tmp_path / "b")
-    ana = (tmp_path / "b" / "index.html").read_text()
+    ana = (tmp_path / "b" / "index.html").read_text(encoding="utf-8")
     assert 'action="https://app.kit.com/forms/123/subscriptions"' in ana and "Unsubscribe any time" in ana
     assert any("Free pack of 10" in c for c in flood_gelir.cagri_secenekleri(GELIR))
     assert all("http" not in c for c in flood_gelir.cagri_secenekleri(GELIR))  # post çağrısında link yok (F4)
@@ -990,7 +990,7 @@ def test_F13_paket_yalnizca_denenmis_komut_sifreli_saklanir_ve_pdf_metin_tasir(m
     assert pdf[:4] == b"%PDF" and len(pdf) > 5000
     o = flood_kutuphane.ozet(paket, SIMDI)
     assert o["sayi"] == 2 and o["modeller"] == ["Claude Sonnet 5.5"] and "komut" not in json.dumps(o)
-    gitignore = (ROOT / ".gitignore").read_text()
+    gitignore = (ROOT / ".gitignore").read_text(encoding="utf-8")
     assert "urun/" in gitignore  # PDF depoya girmez
     assert not any(den.guvensiz_alan(t) for _, t in flood_kutuphane.PAKET_TEMALARI)  # F5
     secilen = flood_kutuphane.ucretsiz_sec([{"kategori": k, "baslik": f"{k}{i}"} for k in "ABC" for i in range(4)], 5)

@@ -35,7 +35,10 @@ Hepsi tek komut: `python -m deepspace.gorev hepsi deepspace/gorevler/NNN-ad` (ç
    olur; bölümün bütün parçaları bu paletten seçer, parçalar motif ve dokuyla ayrışır. Sonraki bölüm uzay temasını
    koruyarak paleti değiştirir (yeni enstrümanlar, yeni dokular). Örnek palet "Yalnız Gezegen": org flüt registerı,
    rüzgâr, uzak gök gürültüsü, gezegen uğultusu, uzun çello armoniği, cam tınılar; az eleman, uzun sessizlikler.
-   Görev dosyasında `ses_paleti = [...]` olarak yazılır. (001 bu kuraldan önce yazıldı: parça başına ayrı palet.)
+   Görev dosyasında `ses_paleti = [...]` olarak yazılır.
+   Ders (10 Kasım, "Small Signal" ölçümü): Suno ortam seslerini zayıf verdi (enerjinin %90'ı 250 Hz altı ve
+   orta bant, 2 kHz üstü ~0; rüzgâr/kum/cızırtı yok denecek kadar az). Ortam sesi istenen paletlerde Style şu ekle
+   BAŞLASIN: `ambient soundscape, wind and distant thunder field recording,`. (001 bu kuraldan önce yazıldı: parça başına ayrı palet.)
 4. `python -m deepspace.gorev istemler <klasör>` → `SUNO.md`. Kapı kırmızıysa dosya üretilmez.
 5. Konsepti sahibine kısa özetle sun (hedef, 16 durak, yay). `ok` gelmeden müzik istenmez.
 

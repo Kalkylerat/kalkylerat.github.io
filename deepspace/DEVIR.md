@@ -70,17 +70,16 @@ Bütün seçimleri sistem yapar, kararı denetçi ajan verir. Yayın gizli + pla
 bilgi gider, onay beklenmez; `iptal` her zaman önceliklidir (`py -m deepspace.gorev iptal <klasör>`). Sahibinde kalan
 tek iş Suno üretimi (resmî API yok). Sahibi ElevenLabs Creator (~22 $) alıyor: görseller için ticari lisans.
 
-## Sahibin bekleyen kararı
-Görsel kaynağı: **A** yapay zekâ (Referans 1 tarzı; FLUX 3 1K ~291 kredi ≈ 0,03 $/görsel, Seedream 5 Pro ~818 kredi),
-**B** NASA/JWST/Hubble fotoğrafları (ücretsiz, kaynak gösterilerek), ya da **karışım** (önerilen). ElevenLabs
-hesabı ücretsiz katmanda; yoğun saatte "free generations busy" hatası verebilir (ücret alınmaz, aynı turda yeniden
-deneme).
+## Görseller hazır ve denetlendi (10 Kasım)
+Sahibi ElevenLabs Creator aldı; 20 görsel FLUX 3 2K (2736x1536) üretildi, bulut ağı açıldı, indirildi
+(`deepspace/gorevler/001-trappist/gorsel/`, depoya girmez; yeniden indirmek için `gorev.toml`'daki
+`gorsel_oturum/gorsel_uretim` kimlikleriyle `creative_get_generations`). G13 denetimi: 18 görsel ilk seferde geçti,
+02 (ikiz balıkçı) ve 13 (8 tekerlekli gezici) istem düzeltilip birer kez yeniden üretildi, ikisi de geçti. Ayrıntı
+`deepspace/gorevler/001-trappist/GORSEL_DENETIM.md`.
 
 ## Sıradaki işler (sırayla)
-1. Sahipten görsel kaynağı kararı. Sonra 20 parça için `gorsel/NN.png` (16:9, mümkünse 3840 px). Yapay zekâ
-   seçilirse her istem = parçanın konusu + küçük insan izi + `stil_eki`; ElevenLabs MCP ile üret, ücreti önce
-   `estimate_only` ile söyle (CLAUDE.md maliyet kuralı, SOZLESME G11). Yerelde ağ kısıtı yok: görselleri
-   `content_url`'den indirip `deepspace/gorevler/001-trappist/gorsel/` altına koy (depoya girmez).
+1. Görseller tamam (yukarı bak). Her görsel için sinemagraf tarifi `gorsel/NN_hareket.json` (örnekler
+   `deepspace/ornek_hareket/`); yeni görsel gelirse önce G13 denetimi (`py -m deepspace.gorev denetle`).
 2. İsteğe bağlı ön plan: `NN_on.png` (şeffaf; ElevenLabs "Image Background Removal" ile pencere/oda ayrılırsa
    iki katmanlı derinlik).
 3. Banner ve profil resmini yeni görsel diliyle yeniden üret (`py -m deepspace.gorev kanal`; şu anki kod sahnesinden).

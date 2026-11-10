@@ -167,10 +167,19 @@ def shorts(yollar: list[Path], ayar: dict) -> list[dict]:
     return sonuc
 
 
+# ---------- G13: görsel denetimi ----------
+def gorseller(gorev: dict) -> list[dict]:
+    """Görseli olan her parça teknik ölçümü ve göz denetimini geçmeli. Görseli olmayan parça kod sahnesine düşer (G6)."""
+    from .gorsel_denetim import gorev_gorselleri
+    return [_k(f"görsel {g['no']:02d} denetimi", not g["sorunlar"], "; ".join(g["sorunlar"]))
+            for g in gorev_gorselleri(gorev) if g["yol"]]
+
+
 def rapor(gorev: dict, ayar: dict, siyah_kontrol: bool = True) -> dict:
     from .kapak import kapak_yazilari
     out = cikti(gorev)
     kontroller = gorev_dosyasi(gorev, ayar) + ozgunluk(gorev, kayit_yukle(), gorev.get("_ses_ozetleri"))
+    kontroller += gorseller(gorev)
     bolumler_yol = out / "bolumler.json"
     if bolumler_yol.exists():
         bolumler = json.loads(bolumler_yol.read_text(encoding="utf-8"))

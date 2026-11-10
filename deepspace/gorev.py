@@ -6,6 +6,9 @@
     python -m deepspace.gorev kontrol  deepspace/gorevler/001-trappist   # yalnızca kapılar (rapor.json)
     python -m deepspace.gorev kaydet   deepspace/gorevler/001-trappist   # sahibin "ok"undan sonra: kayit.json'a işle
     python -m deepspace.gorev kanal                                      # banner ve profil resmi
+    python -m deepspace.gorev denetle  <klasör>                          # görsel denetimi durumu (G13)
+    python -m deepspace.gorev denetle  <klasör> --parca 2                # paftaları çıkar (denetçi bakar)
+    python -m deepspace.gorev denetle  <klasör> --parca 2 --puan 8 [--sorun "tekrar:iki balıkçı"]  # karar
 
 Google (deepspace/KURULUM.md):
     python -m deepspace.gorev al      <klasör> --drive DeepSpaceLog/001  # Drive'dan ses/ ve gorsel/ dosyaları
@@ -147,17 +150,49 @@ def _google(a, gorev: dict) -> int:
     return 0
 
 
+def denetle(gorev: dict, a) -> int:
+    """G13 görsel denetimi: durum, pafta çıkarma ya da denetçinin kararını yazma."""
+    from . import gorsel_denetim as gd
+    if a.parca is None:
+        durum = gd.gorev_gorselleri(gorev)
+        for g in durum:
+            print(f"{g['no']:02d} {'GEÇTİ' if not g['sorunlar'] else 'KALDI'}  {'; '.join(g['sorunlar'])}")
+        return 0 if all(not g["sorunlar"] for g in durum if g["yol"]) else 2
+    ana, _ = video.parca_gorseli(gorev, a.parca - 1)
+    if not ana:
+        print(f"parça {a.parca:02d}: görsel yok")
+        return 2
+    if a.puan is None:
+        print("Kontrol listesi:")
+        for k in gd.KONTROL_LISTESI:
+            print(f"  [{k['kod']}{' *kritik' if k['kritik'] else ''}] {k['soru']}")
+        print("İstem:", gorev["parca"][a.parca - 1].get("gorsel_istem", ""))
+        print("Teknik:", gd.teknik_sorunlar(gd.teknik_olcum(ana)) or "sorun yok")
+        for p in gd.paftalar(ana, cikti(gorev) / "pafta"):
+            print(p)
+        return 0
+    sorunlar = [{"kod": s.split(":", 1)[0].strip(), "not": s.split(":", 1)[1].strip() if ":" in s else ""}
+                for s in a.sorun]
+    hedef = gd.goz_denetimi_yaz(ana, a.puan, sorunlar, a.kim or "denetci")
+    gecti, neden = gd.goz_denetimi_gecti(gd.goz_denetimi_oku(ana), ana)
+    print(f"{hedef}: {'GEÇTİ' if gecti else 'KALDI'} ({neden})")
+    return 0 if gecti else 2
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="deepspace.gorev")
     ap.add_argument("komut", choices=["istemler", "ses", "sahneler", "video", "kapak", "metin", "shorts", "kontrol",
                                       "hepsi", "kaydet", "kanal", "al", "teslim", "onay", "iptal", "yukle",
-                                      "gorseller"])
+                                      "gorseller", "denetle"])
     ap.add_argument("--drive", help="Drive klasör yolu, ör. DeepSpaceLog/001")
     ap.add_argument("--kim", help="karar veren (varsayılan: denetci)")
     ap.add_argument("--neden", help="iptal nedeni")
     ap.add_argument("--yayin", help="planlı yayın zamanı, RFC3339 UTC")
     ap.add_argument("klasor", nargs="?")
     ap.add_argument("--youtube-id")
+    ap.add_argument("--parca", type=int, help="denetle: parça numarası (1'den)")
+    ap.add_argument("--puan", type=int, help="denetle: göz denetimi puanı 0-10")
+    ap.add_argument("--sorun", action="append", default=[], help="denetle: kod:not (tekrarlanabilir)")
     ap.add_argument("--siyah-kontrolu-yok", action="store_true", help="hızlı deneme için siyah ekran taramasını atla")
     a = ap.parse_args(argv)
 
@@ -175,6 +210,8 @@ def main(argv: list[str] | None = None) -> int:
     if a.komut == "gorseller":
         print(gorsel_istemleri(gorev))
         return 0
+    if a.komut == "denetle":
+        return denetle(gorev, a)
     if a.komut in ("al", "teslim", "onay", "iptal", "yukle"):
         return _google(a, gorev)
     if a.komut == "kaydet":

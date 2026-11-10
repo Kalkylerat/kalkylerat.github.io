@@ -387,3 +387,51 @@ def test_G12_shorts():
     assert AYAR["shorts"]["adet"] == 3 and AYAR["shorts"]["sure_sn"] <= 60
     assert video.shorts_secimi(16, 3) == [3, 7, 11]
     assert len(video.shorts_secimi(4, 3)) == 3
+
+
+def _resim(yol, w=2736, h=1536, tohum=0):
+    from PIL import Image
+    r = np.random.default_rng(tohum)
+    x = np.clip(r.normal(0.4, 0.15, (h // 8, w // 8, 3)), 0, 1)
+    Image.fromarray((x * 255).astype(np.uint8)).resize((w, h)).save(yol)
+    return yol
+
+
+def test_G13_gorsel_denetimi(tmp_path):
+    from deepspace import gorsel_denetim as gd
+    (tmp_path / "gorsel").mkdir()
+    g = _gorev(tmp_path, n=3)
+    a = _resim(tmp_path / "gorsel" / "01.png", tohum=1)
+    _resim(tmp_path / "gorsel" / "02.png", tohum=2)
+    _resim(tmp_path / "gorsel" / "03.png", tohum=1)  # 01'in kopyası
+    # Teknik katman: iyi görsel temiz; küçük, 4:3 ya da simsiyah görsel kalır.
+    assert gd.teknik_sorunlar(gd.teknik_olcum(a)) == []
+    assert gd.teknik_sorunlar(gd.teknik_olcum(_resim(tmp_path / "kucuk.png", 1280, 720)))
+    assert any("16:9" in s for s in gd.teknik_sorunlar(gd.teknik_olcum(_resim(tmp_path / "kare.png", 2736, 2052))))
+    from PIL import Image
+    Image.new("RGB", (2736, 1536)).save(tmp_path / "siyah.png")
+    assert gd.teknik_sorunlar(gd.teknik_olcum(tmp_path / "siyah.png"))
+    # Göz denetimi yoksa kapı kapalı.
+    assert all(not k["gecti"] for k in kapilar.gorseller(g))
+    # Kritik kusur puandan bağımsız düşürür; puan <7 düşürür; bilinmeyen kod reddedilir.
+    gd.goz_denetimi_yaz(a, 9, [{"kod": "anatomi", "not": "altı parmak"}])
+    assert not gd.goz_denetimi_gecti(gd.goz_denetimi_oku(a), a)[0]
+    gd.goz_denetimi_yaz(a, 6, [{"kod": "tekrar", "not": "iki balıkçı"}])
+    assert not gd.goz_denetimi_gecti(gd.goz_denetimi_oku(a), a)[0]
+    with pytest.raises(ValueError):
+        gd.goz_denetimi_yaz(a, 8, [{"kod": "uydurma"}])
+    for i in (1, 2, 3):
+        gd.goz_denetimi_yaz(tmp_path / "gorsel" / f"{i:02d}.png", 8, [{"kod": "olcek", "not": "küçük"}])
+    k = kapilar.gorseller(g)
+    assert k[0]["gecti"] and k[1]["gecti"]
+    assert not k[2]["gecti"] and "neredeyse aynı" in k[2]["ayrinti"]  # kopya görsel yakalanır
+    # Görsel değişirse eski karar geçersiz.
+    _resim(a, tohum=5)
+    assert "değişmiş" in gd.goz_denetimi_gecti(gd.goz_denetimi_oku(a), a)[1]
+    # Kontrol listesi: kritik maddeler ve eşikler sözleşmedeki gibi.
+    kritik = {x["kod"] for x in gd.KONTROL_LISTESI if x["kritik"]}
+    assert kritik == {"anatomi", "yazi", "fizik", "istem"}
+    assert gd.GECME_PUANI == 7 and gd.YENIDEN_DENEME == 2
+    # Paftalar tam çözünürlükte 6 parça.
+    p = gd.paftalar(tmp_path / "gorsel" / "02.png", tmp_path / "pafta")
+    assert len(p) == 6 and Image.open(p[0]).size == (912, 768)

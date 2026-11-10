@@ -9,10 +9,10 @@ Renk tonu sonradan marka filtresiyle verilir; istemdeki ışık tarifi yeterli.
 A windswept heather moor with an old stone cottage and one lit window; a colossal rust-red cratered rocky planet fills the sky beside a tiny dim red sun; a figure with a lantern walks the path to the door. Surreal yet photorealistic cinematic matte painting. A calm, familiar Earth-like landscape under an impossible sky dominated by a colossal celestial body that fills a large part of the frame. One small human element in the foreground tells a quiet story. Golden hour light, soft atmospheric haze, muted teal sky and warm ochre ground, gentle film grain, ultra detailed, realistic textures and scale, wide 16:9 composition. No text, no logo, no watermark.
 ```
 
-## 02. Barnard b · üretildi: `JeWrlyuCG42sX2Ytnpt9`
+## 02. Barnard b · üretildi: `TzqHmykpMFTzK2MLZaOi`
 
 ```
-A quiet fishing village pier at dusk with small wooden boats; a huge dark rocky world with frozen seas rises over the bay in faint red starlight; an old fisherman mends nets on the pier. Surreal yet photorealistic cinematic matte painting. A calm, familiar Earth-like landscape under an impossible sky dominated by a colossal celestial body that fills a large part of the frame. One small human element in the foreground tells a quiet story. Golden hour light, soft atmospheric haze, muted teal sky and warm ochre ground, gentle film grain, ultra detailed, realistic textures and scale, wide 16:9 composition. No text, no logo, no watermark.
+A quiet fishing village pier at dusk with small wooden boats; a huge dark rocky world with frozen seas rises over the bay in faint red starlight; a single old fisherman sits alone mending nets on the pier, no other people. Surreal yet photorealistic cinematic matte painting. A calm, familiar Earth-like landscape under an impossible sky dominated by a colossal celestial body that fills a large part of the frame. One small human element in the foreground tells a quiet story. Golden hour light, soft atmospheric haze, muted teal sky and warm ochre ground, gentle film grain, ultra detailed, realistic textures and scale, wide 16:9 composition. No text, no logo, no watermark.
 ```
 
 ## 03. PSR B1257+12 · üretildi: `wn9fIAjjJnacRk2ZONsY`
@@ -75,10 +75,10 @@ A long empty highway through tall grassland with one glowing gas station sign; a
 An amber marshland with a wooden boardwalk through reeds under a thick orange haze; huge ringed Saturn glows faintly behind the haze over a dark methane lake; a person with a lantern stands on the boardwalk. Surreal yet photorealistic cinematic matte painting. A calm, familiar Earth-like landscape under an impossible sky dominated by a colossal celestial body that fills a large part of the frame. One small human element in the foreground tells a quiet story. Golden hour light, soft atmospheric haze, muted teal sky and warm ochre ground, gentle film grain, ultra detailed, realistic textures and scale, wide 16:9 composition. No text, no logo, no watermark.
 ```
 
-## 13. 55 Cancri e · üretildi: `De8QwPXpTIGKA4d5Lunh`
+## 13. 55 Cancri e · üretildi: `EQ7KOp4Ca0KXrmfIgMOn`
 
 ```
-A black volcanic plateau with a small six-wheeled research rover, headlights on; a colossal glowing lava world fills the sky, rivers of fire visible across its surface; heat haze and drifting embers. Surreal yet photorealistic cinematic matte painting. A calm, familiar Earth-like landscape under an impossible sky dominated by a colossal celestial body that fills a large part of the frame. One small human element in the foreground tells a quiet story. Golden hour light, soft atmospheric haze, muted teal sky and warm ochre ground, gentle film grain, ultra detailed, realistic textures and scale, wide 16:9 composition. No text, no logo, no watermark.
+A black volcanic plateau with a small research rover with exactly six wheels, three per side, headlights on; a colossal glowing lava world fills the sky, rivers of fire visible across its surface; heat haze and drifting embers. Surreal yet photorealistic cinematic matte painting. A calm, familiar Earth-like landscape under an impossible sky dominated by a colossal celestial body that fills a large part of the frame. One small human element in the foreground tells a quiet story. Golden hour light, soft atmospheric haze, muted teal sky and warm ochre ground, gentle film grain, ultra detailed, realistic textures and scale, wide 16:9 composition. No text, no logo, no watermark.
 ```
 
 ## 14. WASP-76b · üretildi: `5V9BQzYvNFYVxGXp496t`

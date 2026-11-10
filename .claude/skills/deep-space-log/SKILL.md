@@ -67,6 +67,19 @@ kırmızıyken "bitti" denmez. Sonra kapaklardan ve videodan birkaç kareyi kend
 - 4K kodlama 2 saatlik videoda ~1,5–2 saat sürer: `hepsi`'yi arka planda çalıştır. Hızlı deneme için görevde
   `[ayar.video] genislik = 1920, yukseklik = 1080`.
 
+## Görsel denetimi (G13: saçmalık motoru)
+Her yeni ya da değişen görsel videoya girmeden:
+1. `python -m deepspace.gorev denetle <klasör>`: teknik durum (çözünürlük, 16:9, pozlama, netlik, kopya görsel).
+2. `... denetle <klasör> --parca N`: kontrol listesi, istem ve 6 tam çözünürlüklü pafta yazdırır. Paftaların hepsine
+   **Read ile bak** (küçük önizlemede fazla parmak, ikiz figür, fazla tekerlek görünmez). İnsan/araç varsa ayrıca
+   yakın kırp. Gökteki dev cisim konseptin parçasıdır; istemde olmayan ikinci güneş/figür/nesne "tekrar"dır.
+3. `... denetle <klasör> --parca N --puan P [--sorun "kod:not"]`. Kritik kod (anatomi, yazi, fizik, istem) ya da
+   puan <7 = kaldı. Kalan görselde `gorev.toml`'daki `gorsel_istem`e kusurun tersini açıkça ekle ("a single
+   fisherman, no other people", "exactly six wheels"), ElevenLabs düğümünün istemini güncelle, **tek varyasyonla**
+   yeniden üret (`generations_count=1`, 2K ≈ 1.454 kredi), indir, yeniden denetle; `gorsel_oturum/gorsel_uretim`
+   kimliklerini güncelle. Görsel başına en fazla 2 deneme; sonra kod sahnesi + `GORSEL_DENETIM.md`'ye kayıt.
+`kontrol` raporu da bu kapıyı içerir: denetimsiz görsel = kırmızı rapor.
+
 ## Google (kurulum `deepspace/KURULUM.md`)
 - `al --drive DeepSpaceLog/NNN`: ses ve görselleri Drive'dan çeker. `teslim`: paketi Drive'da `cikti/`'ya koyar.
 - `onay --kim sahip [--yayin <RFC3339>]`: **yalnızca sahibi sohbette açıkça "ok" dediğinde**. `yukle`: gizli/planlı.

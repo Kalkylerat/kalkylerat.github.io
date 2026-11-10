@@ -2,7 +2,7 @@
 
 İki katman:
 1. Teknik ölçüm (bu dosya, ücretsiz): çözünürlük, 16:9 oran, pozlama (yanık/ezik), netlik, aynı görselin tekrarı.
-2. Göz denetimi (denetçi ajan, `gorsel/NN_denetim.json`): ajan görsele KONTROL_LISTESI ile bakar ve puan verir.
+2. Göz denetimi (denetçi ajan, `denetim/NN.json`): ajan görsele KONTROL_LISTESI ile bakar ve puan verir.
    Yapay zekâ görsellerinin tipik saçmalıkları burada yakalanır (fazla parmak, iki kafa, havada duran nesne...).
 Kapı: ikisi de geçmeden görsel videoya girmez. Kalan görselin istemine bulunan kusurun tersi açıkça yazılır
 ("a single fisherman", "exactly six wheels") ve yeniden üretilir (en fazla YENIDEN_DENEME kez, tek varyasyon);
@@ -87,14 +87,19 @@ def dosya_ozeti(yol: Path) -> str:
     return hashlib.sha256(Path(yol).read_bytes()).hexdigest()
 
 
+def denetim_yolu(yol: Path) -> Path:
+    """Karar depoda kalır (gorsel/ depoya girmez): <görev>/denetim/NN.json. Görselin özetine bağlıdır."""
+    return Path(yol).parent.parent / "denetim" / f"{Path(yol).stem}.json"
+
+
 def goz_denetimi_oku(yol: Path) -> dict | None:
-    dj = yol.with_name(yol.stem + "_denetim.json")
+    dj = denetim_yolu(yol)
     return json.loads(dj.read_text(encoding="utf-8")) if dj.exists() else None
 
 
 def goz_denetimi_gecti(d: dict | None, yol: Path | None = None) -> tuple[bool, str]:
     if d is None:
-        return False, "göz denetimi yapılmamış (NN_denetim.json yok)"
+        return False, "göz denetimi yapılmamış (denetim/NN.json yok)"
     if d.get("kontrol_listesi_surumu") != SURUM:
         return False, "eski kontrol listesiyle denetlenmiş"
     if yol is not None and d.get("ozet") != dosya_ozeti(yol):
@@ -119,7 +124,8 @@ def goz_denetimi_yaz(yol: Path, puan: int, sorunlar: list[dict], denetleyen: str
     d = {"kontrol_listesi_surumu": SURUM, "denetleyen": denetleyen, "ozet": dosya_ozeti(yol), "puan": int(puan),
          "sorunlar": sorunlar}
     d["gecti"] = goz_denetimi_gecti(d)[0]
-    hedef = yol.with_name(yol.stem + "_denetim.json")
+    hedef = denetim_yolu(yol)
+    hedef.parent.mkdir(parents=True, exist_ok=True)
     hedef.write_text(json.dumps(d, indent=2, ensure_ascii=False), encoding="utf-8")
     return hedef
 

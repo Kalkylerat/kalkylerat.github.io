@@ -1,19 +1,36 @@
-# Deep Space Log: devir notu (9 Kasım 2026, bulut oturumundan yerel terminale)
+# Deep Space Log: devir notu (10 Kasım 2026, bulut oturumundan yerel terminale)
 
 Bu dosya yeni bir Claude Code oturumunun (yerel terminal) kaldığımız yerden devam etmesi için. Önce bunu, sonra
 `SOZLESME.md` G bölümünü ve `.claude/skills/deep-space-log/SKILL.md`'yi oku. Sahibiyle Türkçe konuş.
 
-## Kurulum (Windows, bir kez)
-```powershell
-winget install Git.Git Python.Python.3.12 Gyan.FFmpeg
-git clone https://github.com/kalkylerat/kalkylerat.github.io.git
-cd kalkylerat.github.io
-git checkout claude/deep-space-log
-py -m pip install -r requirements.txt -r deepspace/requirements.txt
-py -m pytest -q tests/test_deepspace.py      # 31 test yeşil olmalı
-claude
+## Kurulum (Windows, bir kez): masaüstü klasörü
+Sahibine `DeepSpaceLog_kur.ps1` gönderildi (10 Kasım). Ne yapar: `Masaüstü\DeepSpaceLog\` açar, depoyu
+`depo\` altına klonlar (`claude/deep-space-log` dalı), paketleri kurar, görev klasörlerine kısayol (junction)
+koyar ve 20 görseli indirir. Düzen:
 ```
-(Depo zaten bilgisayardaysa: `git fetch origin` ve `git checkout claude/deep-space-log`, sonra `git pull`.)
+Masaüstü\DeepSpaceLog\
+  depo\                         # kod (git)
+  001-trappist\  -> depo\deepspace\gorevler\001-trappist
+      gorsel\   NN.png         # 20 görsel (depoya girmez)
+      ses\      NN-ad.wav/mp3  # Suno dosyaları buraya (SUNO.md'deki adlarla)
+      cikti\    video, kapak, shorts, rapor
+      denetim\  NN.json        # G13 kararları (depoda)
+```
+Elle: `winget install Git.Git Python.Python.3.12 Gyan.FFmpeg`, sonra
+`git clone -b claude/deep-space-log https://github.com/kalkylerat/kalkylerat.github.io.git depo`,
+`py -m pip install -r requirements.txt -r deepspace/requirements.txt`, `py -m pytest -q`.
+
+Görsel linkleri imzalı ve 10 Kasım ~14:00 (İsveç saati) sonra geçersiz. Sonra indirmek için: ElevenLabs bağlantısıyla
+`creative_get_generations` (akış `wXHon9u5lPX0oECJcwqN`, kimlikler `gorev.toml`'da `gorsel_uretim`), dönen
+`full_res_url`'yi `gorsel/NN.png`'ye indir. Aynı dosya inerse `denetim/NN.json` kararları geçerli kalır (özet eşleşir).
+
+## Terminalde başlatma
+```powershell
+cd $env:USERPROFILE\Desktop\DeepSpaceLog\depo   # (OneDrive masaüstüyse betiğin yazdığı yol)
+claude --teleport session_01SQC21TK4HUr2srKHyASQZw --model claude-opus-5-5 --effort high   # bulut konuşmasının devamı
+claude --model claude-opus-5-5 --effort high                                               # ya da temiz oturum + bu dosya
+claude -c --model claude-opus-5-5 --effort high                                            # sonraki günler: son yerel konuşma
+```
 
 ## Nerede kaldık
 - **Kanal**: Köz (`@kozruh`, UCtJHvFs1UuIKwTUhcWVyWIg, 7 abone, video yok) → "Deep Space Log". Sahibi adı/handle'ı
@@ -97,7 +114,7 @@ Sahibi ElevenLabs Creator aldı; 20 görsel FLUX 3 2K (2736x1536) üretildi, bul
 - Suno Pro indirme sınırı ayda 20 (kaynaklardan, doğrulanmadı): 20 parça bir ayı doldurur.
 - Bulutta oluşturulan `kalkylerat.github.io` ortamı (NASA/ESA/Solar System Scope hostları) yerelde gereksiz.
 
-## Yeni oturuma ilk mesaj
+## Yeni oturuma ilk mesaj (teleport kullanılmazsa)
 > Deep Space Log'a devam ediyoruz. deepspace/DEVIR.md, SOZLESME.md G bölümü ve deep-space-log skill'ini oku,
-> `py -m pytest -q tests/test_deepspace.py` çalıştır, sonra bana durumu 5 satırda özetle ve görsel kaynağı
-> kararını sor.
+> `py -m pytest -q` ve `py -m deepspace.gorev denetle deepspace/gorevler/001-trappist` çalıştır, durumu 5 satırda
+> özetle. Sonra: Suno WAV'ları `ses/` klasörüne geldiyse Small Signal ile örnek video, değilse sinemagraf tarifleri.

@@ -60,8 +60,10 @@ parilti kutusuna alma: dalgalı desen yapar). Örnek video sahibine gönderildi;
 - Sahibinin fikri: her bölümün tutarlı bir enstrüman paleti, sonraki bölümde uzay teması korunarak değişen palet
   (skill'de "Bölüm ses paleti"). İlk deneme paleti "Yalnız Gezegen" (2 parça: PSO J318.5-22, Gale Crater), sahibi
   Suno'da üretti, "çok güzel" dedi. Uygun görürse 002 bu paletle kurulur.
-- 001'in 20 görsel istemi `gorev.toml`'da (`gorsel_istem`); liste `GORSEL.md`. 3'ü hazır (A TRAPPIST-1e, B J1407b,
-  C Kepler-186f; ElevenLabs akışı G9Slu7mLp7MkDCxTUyPp), 17'si üretilecek.
+- 001'in 20 görseli üretildi (10 Kasım, FLUX 3, **2K**, görsel başı 1.454 kredi, toplam ~29.080; 4K 4.654 kredi
+  olduğu için seçilmedi). ElevenLabs akışı `wXHon9u5lPX0oECJcwqN`; her parçada `gorsel_oturum` + `gorsel_uretim`.
+  İndirme (yerel): `creative_get_flow_run_status(akış, oturumlar)` → `content_url` → `gorsel/NN.png`.
+  Sahibi Creator (~22 $/ay, 121.000 kredi) aldı.
 
 ## G8 değişti (10 Kasım 2026, sahibinin onayıyla): sahibi izleyici
 Bütün seçimleri sistem yapar, kararı denetçi ajan verir. Yayın gizli + planlı, karardan en az 24 saat sonra; sahibine

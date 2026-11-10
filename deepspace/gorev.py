@@ -64,7 +64,7 @@ def gorsel_istemleri(gorev: dict) -> Path:
              f"Model: `{g['model']}` (16:9). Her görsel `gorsel/NN.png` olarak kaydedilir (NN = parça no).",
              "Renk tonu sonradan marka filtresiyle verilir; istemdeki ışık tarifi yeterli.", ""]
     for i, p in enumerate(gorev["parca"], 1):
-        durum = f"hazır: üretim `{p['gorsel_hazir']}`" if p.get("gorsel_hazir") else "üretilecek"
+        durum = f"üretildi: `{p['gorsel_uretim']}`" if p.get("gorsel_uretim") else "üretilecek"
         satir += [f"## {i:02d}. {p['ad']} · {durum}", "", "```", f"{p['gorsel_istem']} {g['stil_eki']}", "```", ""]
     yol = Path(gorev["klasor"]) / "GORSEL.md"
     yol.write_text("\n".join(satir), encoding="utf-8")

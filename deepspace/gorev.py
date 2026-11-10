@@ -183,7 +183,7 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="deepspace.gorev")
     ap.add_argument("komut", choices=["istemler", "ses", "sahneler", "video", "kapak", "metin", "shorts", "kontrol",
                                       "hepsi", "kaydet", "kanal", "al", "teslim", "onay", "iptal", "yukle",
-                                      "gorseller", "denetle"])
+                                      "gorseller", "denetle", "ornek"])
     ap.add_argument("--drive", help="Drive klasör yolu, ör. DeepSpaceLog/001")
     ap.add_argument("--kim", help="karar veren (varsayılan: denetci)")
     ap.add_argument("--neden", help="iptal nedeni")
@@ -193,6 +193,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--parca", type=int, help="denetle: parça numarası (1'den)")
     ap.add_argument("--puan", type=int, help="denetle: göz denetimi puanı 0-10")
     ap.add_argument("--sorun", action="append", default=[], help="denetle: kod:not (tekrarlanabilir)")
+    ap.add_argument("--ses", help="ornek: ses dosyası (wav/mp3)")
+    ap.add_argument("--boyut", default="1920x1080", help="ornek: GENxYUK (varsayılan 1920x1080)")
     ap.add_argument("--siyah-kontrolu-yok", action="store_true", help="hızlı deneme için siyah ekran taramasını atla")
     a = ap.parse_args(argv)
 
@@ -212,6 +214,13 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if a.komut == "denetle":
         return denetle(gorev, a)
+    if a.komut == "ornek":  # G14: tek parçalık referans video, sesi ölçülmüş
+        from .ornek import ornek
+        if a.parca is None or not a.ses:
+            ap.error("ornek: --parca N ve --ses DOSYA gerekli")
+        W, H = (int(x) for x in a.boyut.lower().split("x"))
+        print(ornek(gorev, ayar, a.parca, Path(a.ses), W, H))
+        return 0
     if a.komut in ("al", "teslim", "onay", "iptal", "yukle"):
         return _google(a, gorev)
     if a.komut == "kaydet":

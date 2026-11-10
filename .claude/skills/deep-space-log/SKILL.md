@@ -46,7 +46,29 @@ Hepsi tek komut: `python -m deepspace.gorev hepsi deepspace/gorevler/NNN-ad` (ç
 4b. Görseller: `python -m deepspace.gorev gorseller <klasör>` → `GORSEL.md` (sahne + marka stil eki). Konsept:
    Dünya'ya benzeyen sakin manzara + gökyüzünü kaplayan gerçek gök cismi + küçük hikâye unsuru (`marka.toml`).
    Her görsele bir sinemagraf tarifi (`gorsel/NN_hareket.json`): yalnız gerçekte hareket eden şey, ince; katı
-   nesneler "haric" ile korunur (`deepspace/ornek_hareket/`).
+   nesneler "haric" ile korunur (`deepspace/ornek_hareket/`). Kurallar ve dersler aşağıda "Sinemagraf hareketi".
+
+## Sinemagraf hareketi (G14; 10 Kasım 2026 Small Signal örneğinden dersler)
+Sahibinin tepkisi: "en büyük gezegen dönmüyor, üzerindeki katman çoğalıp tekrar birleşiyor; motion grafik gibi değil".
+- **Hayalet yasak.** `akis` iki kaydırılmış kopyayı karıştırır. Desensiz dokuda (sis, pus, ince bulut tülü, su
+  yüzeyi) görünmez, ama belirgin şekli olan şeyde (gezegen yüzeyi, kasırga, kıta, belirgin bulut kümesi) çift görüntü
+  olur. Gezegenin üstüne `akis` koyma; `ton` ya da `parlaklik` koşulu gezegeni yakalıyorsa onu `haric`e al.
+- **Tek fotoğraftan gezegen döndürülmez.** Görselde arka yüz yoktur. Görünen yüzü döndürmek kenarı çizgi çizgi
+  gerer ya da aynalı, simetrik leke yapar (denendi, ikisi de kötü). `donme` yalnız iki şart birlikteyse çalışır:
+  tam yüzey haritası (`doku`: görselin yanında 2:1 eşdikdörtgen dosya) ve diski tamamen kadrajda olan gezegen. Kod
+  ikisinden biri eksikse reddeder. Dev, kadraja sığmayan gezegen her zaman sabit kalır. Gerçekte de bu ölçekte
+  dönme bir dakikada görünmez.
+- Gezegeni döndürmenin ücretli yolları (G11: sahibine maliyetle sor): (1) gezegen başına bir tam yüzey haritası
+  üretmek (görsel modeli, "seamless equirectangular texture map ...", 2K ≈ 1.454 kredi) ve `donme` + `doku`; (2)
+  görselden hareketli klip `gorsel/NN.mp4` (görüntüden videoya model).
+- Sahneyi canlı tutan şeyler: buğday/çimen `dalga`, ağaç `salinim`, ışıklar `parilti`, karanlık gökte `yildiz`,
+  desensiz sis ya da su `akis`.
+- **Tarifi göndermeden önce kendin bak.** Hareketli bölgeden döngünün 0, 1/8, 1/4, 3/8 ve 1/2 noktalarında kırpıntı
+  al ve Read ile incele. Çift görüntü, gerilme çizgisi, simetrik leke ya da ileri-geri gidip gelme varsa tarifi düzelt.
+- **Sesli teslim.** Örnek videoyu `python -m deepspace.gorev ornek <klasör> --parca N --ses <dosya>` ile üret. Sessiz
+  döngü `cikti/ornek/ara/` içinde kalır, teslim klasöründe yalnız sesli video durur. Komut sesi ölçer
+  (`kapilar.ses_duyuluyor`, ortalama > -45 dB); "hazır" demeden önce bu ölçüm geçmiş olmalı. Sahibine verilen
+  yol tek dosya olsun.
 
 ## 2. Müzik geldikten sonra
 - `ses/` klasöründe `SUNO.md`'deki dosya adları birebir olmalı. Ses dosyaları ve `cikti/` depoya girmez (.gitignore).

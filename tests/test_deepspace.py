@@ -237,7 +237,8 @@ def test_G6_sinemagraf_yalniz_secilen_yerler_hareket_eder_ve_doner(tmp_path):
                           {"etki": "dalga", "kutu": [0.5, 0.5, 1.0, 1.0], "tekrar": 4},
                           {"etki": "parilti", "kutu": [0.0, 0.0, 0.5, 0.5], "tekrar": 5},
                           {"etki": "kar", "adet": 20}, {"etki": "yildiz", "adet": 20},
-                          {"etki": "donme", "merkez": [0.5, 0.5], "yaricap": 0.2, "hiz": 2, "tekrar": 3}]}
+                          {"etki": "donme", "merkez": [0.5, 0.5], "yaricap": 0.2, "doku": "02_doku.png"}]}
+    Image.fromarray((rng.random((64, 128, 3)) * 255).astype(np.uint8)).save(tmp_path / "gorsel" / "02_doku.png")
     (tmp_path / "gorsel" / "02_hareket.json").write_text(_json.dumps(tarif))
     s = Sinemagraf(g, tarif_oku(g), W=160, H=90, L=24.0, tohum=1)
     k0 = s.kare(0).astype(int)
@@ -435,3 +436,54 @@ def test_G13_gorsel_denetimi(tmp_path):
     # Paftalar tam çözünürlükte 6 parça.
     p = gd.paftalar(tmp_path / "gorsel" / "02.png", tmp_path / "pafta")
     assert len(p) == 6 and Image.open(p[0]).size == (912, 768)
+
+
+# ---------- G14 ----------
+@pytest.mark.skipif(__import__("importlib").util.find_spec("cv2") is None, reason="opencv yok")
+def test_G14_gezegen_gercekten_doner_hayalet_yok(tmp_path):
+    import cv2
+    from PIL import Image
+    from deepspace.canli import Sinemagraf
+    W, H, L = 320, 180, 24.0
+    rng = np.random.default_rng(7)
+    doku = cv2.GaussianBlur(rng.random((H, W, 3)).astype(np.float32), (0, 0), 2.5)
+    doku = (doku - doku.min()) / (doku.max() - doku.min())
+    g = tmp_path / "g.png"
+    Image.fromarray(np.full((H, W, 3), 90, np.uint8)).save(g)
+    harita = cv2.GaussianBlur(rng.random((256, 512, 3)).astype(np.float32), (0, 0), 2.5)
+    harita = (harita - harita.min()) / (harita.max() - harita.min())
+    Image.fromarray((harita * 255).astype(np.uint8)).save(tmp_path / "g_doku.png")
+    # Tam yüzey dokusu yoksa ya da disk kadraja sığmıyorsa dönme reddedilir: gezegen sabit kalır.
+    with pytest.raises(ValueError, match="doku"):
+        Sinemagraf(g, [{"etki": "donme", "merkez": [0.5, 0.5], "yaricap": 0.22}], W, H, L)
+    with pytest.raises(ValueError, match="kadraja"):
+        Sinemagraf(g, [{"etki": "donme", "merkez": [0.2, -1.9], "yaricap": 1.28, "doku": "g_doku.png"}], W, H, L)
+    s = Sinemagraf(g, [{"etki": "donme", "merkez": [0.5, 0.5], "yaricap": 0.22, "doku": "g_doku.png"}], W, H, L)
+    yy, xx = np.mgrid[0:H, 0:W]
+    ic = ((xx - W / 2) ** 2 + (yy - H / 2) ** 2) < (0.12 * W) ** 2  # diskin iç kısmı
+    k0 = s.kare(0).astype(np.float32)
+    assert np.abs(s.kare(L).astype(int) - k0.astype(int)).max() == 0  # tam tur: dikişsiz
+    for t in (L / 8, L / 4, L * 3 / 8):
+        k = s.kare(t).astype(np.float32)
+        assert np.abs(k[ic] - k0[ic]).mean() > 5  # yüzey gerçekten kayıyor
+        # İki kopya karışsaydı doku kontrastı ~%30 düşerdi (hayalet); tek kopyada korunur.
+        assert k[ic].std() > 0.85 * k0[ic].std()
+    assert np.abs(s.kare(L / 4)[~ic & (yy < 20)].astype(int) - k0[~ic & (yy < 20)].astype(int)).max() == 0
+
+
+@pytest.mark.skipif(not __import__("shutil").which("ffmpeg"), reason="ffmpeg yok")
+def test_G14_teslim_edilen_videoda_ses_duyulur(tmp_path):
+    def yap(ad, ses):
+        y = tmp_path / ad
+        ortak.calistir(["ffmpeg", "-y", "-loglevel", "error", "-f", "lavfi", "-i", "color=c=gray:s=64x36:d=4",
+                        "-f", "lavfi", "-i", ses, "-t", "4", "-c:v", "libx264", "-c:a", "aac", "-shortest", str(y)])
+        return y
+    assert kapilar.ses_duyuluyor(yap("sesli.mp4", "sine=frequency=220:duration=4"))[0]
+    assert not kapilar.ses_duyuluyor(yap("sessiz.mp4", "anullsrc=r=48000:cl=stereo"))[0]
+    y = tmp_path / "sadece_goruntu.mp4"
+    ortak.calistir(["ffmpeg", "-y", "-loglevel", "error", "-f", "lavfi", "-i", "color=c=gray:s=64x36:d=2",
+                    "-c:v", "libx264", str(y)])
+    assert kapilar.ses_duyuluyor(y) == (False, "ses akışı yok")
+    # Örnek komutu sessiz döngüyü teslim klasörüne değil ara/ klasörüne yazar.
+    kod = Path(__file__).resolve().parents[1].joinpath("deepspace", "ornek.py").read_text(encoding="utf-8")
+    assert 'klasor / "ara"' in kod and "ses_duyuluyor" in kod

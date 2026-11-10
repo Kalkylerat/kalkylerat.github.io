@@ -1,5 +1,4 @@
 {"bolgeler": [
-  {"etki": "donme", "merkez": [0.481, 0.487], "yaricap": 0.265, "derinlik": [0.0, 0.62], "haric": [[0.40, 0.72, 0.62, 1.0]], "hiz": 2.6, "tekrar": 10},
   {"etki": "parilti", "kutu": [0.20, 0.39, 0.64, 0.47], "parlaklik_min": 0.5, "guc": 0.35, "tekrar": 14},
   {"etki": "parilti", "kutu": [0.50, 0.78, 0.57, 0.89], "parlaklik_min": 0.62, "guc": 0.12, "tekrar": 40},
   {"etki": "akis", "kutu": [0.0, 0.87, 1.0, 1.0], "haric": [[0.40, 0.72, 0.62, 1.0]], "yon": [-1, 0], "hiz": 10, "tekrar": 8},

@@ -65,13 +65,23 @@ otomatik devreye girer (`py -m pip install -r deepspace/requirements.txt`). Deri
 
 ## Sinemagraf (9 Kasım, sahibinin asıl istediği: "resim gibi, ama bazı yerler hareket etsin")
 `canli.Sinemagraf`: kamera sabit; `gorsel/NN_hareket.json` tarifindeki bölgeler hareket eder (akis: bulut/sis/su,
-salinim: ağaç/ot, dalga: buğday/çimen, parilti: ışıklar, kar, yildiz, donme: gezegen yüzeyi küre gibi döner).
+salinim: ağaç/ot, dalga: buğday/çimen, parilti: ışıklar, kar, yildiz, donme: yalnız tam yüzey haritasıyla, G14).
 Sahibinin geri bildirimleri: 1) "hareket görmedim" → belirgin olmalı; 2) "mantık yok, tren bulanıklaşıp geri geliyor"
 → yalnızca gerçekte hareket eden şey hareket eder, ince ve zarif; katı nesneler "haric" ile korunur, araçta yalnız ışık
 titrer; 3) toz çok yoğundu → az; 4) gezegen biraz daha hızlı dönsün (~2.2–2.6°/sn). Taban değerler `ornek_hareket/` (3. sürüm). Bölge = normalize kutu + renk/parlaklık/
 derinlik koşulu. Örnek tarifler `deepspace/ornek_hareket/`. Her görsel için tarifi ajan yazar: görseli ızgarayla
 inceler (0.1'lik çizgiler), bölgeleri seçer, kısa bir deneme karesiyle kontrol eder (parlak gezegen kenarını
 parilti kutusuna alma: dalgalı desen yapar). Örnek video sahibine gönderildi; ücretsiz.
+
+## Small Signal referans videosu ve G14 (10 Kasım, yerel Windows)
+- Sahibinin tepkisi: "en büyük gezegen dönmüyor, üzerindeki katman çoğalıp birleşiyor; şarkı duymuyorum".
+- **Gezegen sorunu:** eski `donme`, iki kaydırılmış kopyayı karıştırıyordu ve bu hayalet yapıyordu. Tek kopyalı
+  dönme de denendi: arka yüz olmadığından kenar geriliyor ya da aynalı leke çıkıyor. Yeni kural (SOZLESME G14):
+  gezegen yalnız tam yüzey haritasıyla (`doku`) ve diski kadrajdaysa döner; değilse sabit kalır. Kod bunu zorlar.
+- **Ses sorunu:** ses `small_signal_1080p.mp4` içinde vardı (-16,7 dB ortalama). Aynı klasörde sessiz
+  `dongu_1080p.mp4` de duruyordu; sahibi büyük olasılıkla onu açtı. Artık ara dosyalar `ornek/ara/` içinde, ses
+  `kapilar.ses_duyuluyor` ile ölçülüyor. Uzun video ve Shorts kapısı da sesin duyulduğunu ölçüyor.
+- Komut: `py -m deepspace.gorev ornek deepspace/gorevler/001-trappist --parca 16 --ses "deepspace/gorevler/001-trappist/ses/Small Signal.wav"`
 
 ## Bölüm ses paleti ve görsel istemleri (10 Kasım)
 - Sahibinin fikri: her bölümün tutarlı bir enstrüman paleti, sonraki bölümde uzay teması korunarak değişen palet

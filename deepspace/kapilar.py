@@ -136,6 +136,21 @@ def _akislar(dosya: Path) -> dict:
     return json.loads(s.stdout)
 
 
+SES_ESIGI_DB = -45.0  # ortalama seviye bunun altındaysa ses "duyulmuyor" (G14)
+
+
+def ses_duyuluyor(dosya: Path) -> tuple[bool, str]:
+    """G14: video dosyasında ses akışı var ve gerçekten duyuluyor mu (ortadan 30 sn ölçülür)."""
+    if not any(s["codec_type"] == "audio" for s in _akislar(dosya)["streams"]):
+        return False, "ses akışı yok"
+    bas = max(0.0, ffprobe_sure(dosya) / 2 - 15)
+    s = calistir(["ffmpeg", "-hide_banner", "-nostats", "-ss", f"{bas:.2f}", "-t", "30", "-i", str(dosya),
+                  "-map", "0:a:0", "-af", "volumedetect", "-f", "null", "-"])
+    m = re.search(r"mean_volume:\s*(-?[\d.]+|-inf)", s.stderr)
+    db = float(m.group(1)) if m and m.group(1) != "-inf" else -999.0
+    return db > SES_ESIGI_DB, f"ortalama {db:.1f} dB"
+
+
 def video(dosya: Path, bolumler: dict, ayar: dict, siyah_kontrol: bool = True) -> list[dict]:
     v = ayar["video"]
     sonuc = []
@@ -148,7 +163,7 @@ def video(dosya: Path, bolumler: dict, ayar: dict, siyah_kontrol: bool = True) -
     vid = [s for s in ak if s["codec_type"] == "video"]
     sonuc.append(_k("çözünürlük", bool(vid) and (vid[0]["width"], vid[0]["height"]) == (v["genislik"], v["yukseklik"]),
                     f"{vid[0]['width']}x{vid[0]['height']}" if vid else "video akışı yok"))
-    sonuc.append(_k("ses akışı var", any(s["codec_type"] == "audio" for s in ak)))
+    sonuc.append(_k("ses duyuluyor", *ses_duyuluyor(dosya)))
     if siyah_kontrol:
         s = calistir(["ffmpeg", "-hide_banner", "-nostats", "-i", str(dosya), "-vf",
                       "fps=2,scale=320:-2,blackdetect=d=2:pix_th=0.02", "-an", "-f", "null", "-"])
@@ -163,7 +178,8 @@ def shorts(yollar: list[Path], ayar: dict) -> list[dict]:
         ak = _akislar(y)["streams"]
         vid = [s for s in ak if s["codec_type"] == "video"]
         ok = bool(vid) and (vid[0]["width"], vid[0]["height"]) == (1080, 1920) and ffprobe_sure(y) <= 60
-        sonuc.append(_k(f"{Path(y).name} dikey ve ≤60 sn", ok and any(s["codec_type"] == "audio" for s in ak)))
+        sonuc.append(_k(f"{Path(y).name} dikey ve ≤60 sn", ok))
+        sonuc.append(_k(f"{Path(y).name} ses duyuluyor", *ses_duyuluyor(y)))
     return sonuc
 
 

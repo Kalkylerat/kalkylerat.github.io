@@ -9,13 +9,16 @@ Katı nesneler (araç, insan, bina, kaya) asla akmaz ya da bükülmez: onların 
 ışık titrer. Toz ve kar az olur.
 
 Etkiler (hepsi döngü süresi L'nin tam katı: kare(0) == kare(L)):
-  akis     bulut, sis, su: dokular bir yöne akar (iki fazlı akış, dikiş görünmez)
+  akis     sis, pus, ince bulut tülü, su: desensiz doku bir yöne akar (iki fazlı akış). Belirgin şekli olan şeyde
+           (gezegen, kasırga, belirgin bulut) KULLANILMAZ: iki kopya karışır, hayalet görünür (G14).
   salinim  ağaç, bayrak, ot: üst kısım daha çok olmak üzere hafif sallanma
   dalga    buğday, çimen, su yüzeyi: rüzgâr dalgası bölge boyunca ilerler
   parilti  ışıklar, şehir ışıkları, halka: parlak noktalar titreşir ya da nefes alır
   kar      yavaşça düşen kar/toz taneleri
   yildiz   karanlık gökte yıldız pırıltısı
-  donme    gezegen: yüzey küre gibi yavaşça döner (merkez, yarıçap verilir; iki fazlı, dikişsiz)
+  donme    gezegen: tam yüzey haritasıyla (doku: görselin yanındaki 2:1 eşdikdörtgen dosya) küre gibi döner, ışık/
+           gölge görseldeki gibi yerinde kalır (merkez, yarıçap, doku, tur = döngüdeki tam tur). Tek kopya, karışım
+           yok. Dokusu olmayan ya da diski kadraja sığmayan gezegen reddedilir: o sabit kalır (G14).
 """
 from __future__ import annotations
 
@@ -47,6 +50,7 @@ class Sinemagraf:
         import cv2
 
         self.cv2 = cv2
+        self.kaynak = Path(gorsel)
         self.W, self.H, self.L = W, H, L
         rng = np.random.default_rng(tohum)
         self.img = np.asarray(_kapla(Image.open(gorsel).convert("RGB"), W, H), np.float32) / 255
@@ -97,21 +101,37 @@ class Sinemagraf:
         if e == "akis":
             b["n"] = int(b.get("tekrar", 4))  # döngüde kaç akış periyodu
             b["vx"], b["vy"] = (np.array(b.get("yon", [1, 0]), np.float32) * b.get("hiz", 6) * olcek)
-        elif e == "donme":
+        elif e == "donme":  # G14: gerçek dönme, tek kopya; yalnız diski tamamen kadrajda olan gezegen
             cx, cy = b["merkez"]
             R = b["yaricap"] * self.W
-            nx = (self.xx - cx * self.W) / R
-            ny = (self.yy - cy * self.H) / R
+            px, py = cx * self.W, cy * self.H
+            pay = 0.01 * self.W
+            if px - R < -pay or px + R > self.W + pay or py - R < -pay or py + R > self.H + pay:
+                raise ValueError("donme: gezegen diski kadraja sığmıyor; kısmi/dev gezegen sabit kalır (SOZLESME G14)")
+            # Tek fotoğrafta gezegenin arka yüzü yoktur: görünen yüzü döndürmek kenarı gerer ya da aynalı desen yapar
+            # (10 Kasım 2026 denemesi). Gerçek dönme için tam yüzey haritası (eşdikdörtgen doku, 2:1) şarttır.
+            if not b.get("doku") or not self.kaynak.with_name(b["doku"]).exists():
+                raise ValueError("donme: tam yüzey dokusu ('doku', 2:1 harita) yok; gezegen sabit kalır (SOZLESME G14)")
+            nx = (self.xx - px) / R
+            ny = (self.yy - py) / R
             r2 = nx ** 2 + ny ** 2
-            ic = np.clip((1 - r2) / 0.02, 0, 1)  # disk içi
+            disk = (r2 < 1).astype(np.float32)
             nz = np.sqrt(np.clip(1 - r2, 0, 1))
-            b["lat_cos"] = np.sqrt(np.clip(1 - ny ** 2, 1e-6, 1)).astype(np.float32)
             b["lon"] = np.arctan2(nx, nz).astype(np.float32)
-            b["cxp"], b["R"] = cx * self.W, R
-            kenar = np.clip((1 - np.sqrt(np.clip(r2, 0, 1))) / 0.06, 0, 1)  # kenara yakın daha az kayar
-            b["m"] = (b["m"] * ic * kenar).astype(np.float32)
-            b["n"] = int(b.get("tekrar", 6))
-            b["w"] = math.radians(b.get("hiz", 1.0))  # derece/sn
+            b["v"] = ((np.arcsin(np.clip(ny, -1, 1)) / math.pi + 0.5)).astype(np.float32)
+            doku = np.asarray(Image.open(self.kaynak.with_name(b["doku"])).convert("RGB"), np.float32) / 255
+            # Işık/gölge yerinde kalır: görseldeki gezegenin yumuşak parlaklığı (gece yüzü karanlık kalır).
+            ic = disk > 0
+            s = max(1.0, R * 0.25)
+            bl = lambda a: self.cv2.GaussianBlur(a, (0, 0), s)  # noqa: E731
+            isik = bl(self.lum * disk) / (bl(disk) + 1e-4)
+            b["isik"] = np.clip(isik / max(1e-3, np.median(self.lum[ic])), 0, 2)[..., None].astype(np.float32)
+            # Doku rengi görseldeki gezegenin ortalama rengine eşitlenir (marka tonu korunur).
+            hedef_ort = self.img[ic].mean(0) / max(1e-3, float(b["isik"][ic].mean()))
+            b["doku"] = np.clip(doku * (hedef_ort / np.maximum(doku.reshape(-1, 3).mean(0), 1e-3)), 0, 1)
+            kenar = np.clip((1 - np.sqrt(np.clip(r2, 0, 1))) / 0.06, 0, 1)  # kenar (atmosfer halkası) sabit kalır
+            b["m"] = (b["m"] * disk * kenar).astype(np.float32)
+            b["tur"] = max(1, int(b.get("tur", 1)))  # döngüde tam tur: dikiş yok, karışım yok
         elif e == "parilti":
             # yumuşak faz alanı: komşu ışıklar birlikte, uzaktakiler farklı zamanda titreşir (blok görünmez)
             g = rng.random((self.H // 24 + 2, self.W // 24 + 2)).astype(np.float32)
@@ -169,19 +189,12 @@ class Sinemagraf:
                 akan = yer[0] * w1 + yer[1] * (1 - w1)
                 kare = kare * (1 - m) + akan * m
             elif b["etki"] == "donme":  # boylam kayar: x' = cx + R*cos(enlem)*sin(boylam - delta)
-                T = self.L / b["n"]
-                p1 = (t % T) / T
-                p2 = ((t + T / 2) % T) / T
-                yer = []
-                for p in (p1, p2):
-                    delta = b["w"] * T * (p - 0.5)
-                    lon = np.clip(b["lon"] - delta, -math.pi / 2, math.pi / 2)
-                    sx = b["cxp"] + b["R"] * b["lat_cos"] * np.sin(lon)
-                    yer.append(cv2.remap(self.img, sx.astype(np.float32), self.yy, cv2.INTER_LINEAR,
-                                         borderMode=cv2.BORDER_REFLECT))
-                w1 = 1 - abs(2 * p1 - 1)
-                donen = yer[0] * w1 + yer[1] * (1 - w1)
-                kare = kare * (1 - m) + donen * m
+                # Tam yüzey haritasından örnekle; boylam tam tur kayar, tek kopya, karışım yok. kare(0) = kare(L).
+                dh, dw = b["doku"].shape[:2]
+                u = np.mod((b["lon"] - TAU * b["tur"] * t / self.L) / TAU + 0.5, 1.0) * dw
+                yuzey = cv2.remap(b["doku"], u.astype(np.float32), (b["v"] * (dh - 1)).astype(np.float32),
+                                  cv2.INTER_LINEAR, borderMode=cv2.BORDER_WRAP)
+                kare = kare * (1 - m) + np.clip(yuzey * b["isik"], 0, 1) * m
             elif b["etki"] == "parilti":
                 f = int(b.get("tekrar", 12))
                 g = b.get("guc", 0.35)

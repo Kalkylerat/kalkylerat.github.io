@@ -74,7 +74,8 @@ işçi → kod kapıları → denetçi ─ GEÇTİ → sonraki istasyon
 ## 5. Görev akışı (002'den itibaren)
 1. **marka** (kanal başına bir kez): kit, ardından denetçi, ardından **sahibinin onayı**.
 2. **arastirma:** YouTube uzmanı görev için kelime, başlık adayı ve rakip verisini çıkarır (§13), ardından denetçi.
-   **konsept:** `gorev.toml` ve `SUNO.md` (araştırma önerileriyle), ardından **bilgi** (her olgunun kaynağı `bilgi_kaynak` alanına),
+   **konsept:** `gorev.toml` ve `SUNO.md` (araştırma önerileriyle), ardından **bilgi** (her olgunun kaynağı ayrı `bilgi_kaynak.json` dosyasına; `gorev.toml`'a dokunmaz,
+   böylece konseptin onaylı özeti bozulmaz),
    ardından denetçi.
 3. **Sahibi:** Suno'da şarkıları üretir ve `ses/` klasörüne koyar (tek insan adımı).
 4. **ses:** operatör ses kapısını çalıştırır (G3), ardından denetçi.

@@ -51,3 +51,10 @@ Hiçbirinde maskot, görev anlatısı ya da müziğe bağlı HUD yok: **bizim fa
 - **Sahneler:** istasyon penceresi, uzay kabini, gezegen kenarından yörünge, galaksi ufku ve bulutsu en çok tıklanan
   görseller. Bunlar zaten tasarım notundaki uzay temalı sahne listesinde var.
 - **Yapay zekâ etiketi:** öne çıkan videoların bir kısmı "AI-labeled"; beyan (G9) büyümeyi engellemiyor.
+
+## 5. Sahibinin stil seçimi (11 Kasım 2026)
+Sahibi, öne çıkan kapaklardan ikisini "tarz olarak çok iyi" buldu: karanlık, durgun bir ufuk (koyu gezegen yüzeyi ya da
+sakin koyu deniz), gökyüzünü kaplayan tek bir galaksi ya da bulutsu, bol boşluk, üstte ortada ince, harf aralığı geniş
+küçük bir başlık ve onun altında minik bir alt satır. Bu his 002'den itibaren kapak, banner ve sahne görsellerinin yönüdür.
+Bizim dilimizle uygulanır: Space Mono (geniş harf aralığı), kehribar (#e8c48a) çizgi ve `MISSION 00N` etiketi, ufukta
+küçük PROBE-7 silueti (G7). Referans yalnız histir; kopyalanmaz.

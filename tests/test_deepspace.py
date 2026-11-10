@@ -522,3 +522,79 @@ def test_G15_G16_G17_sozlesmede_ve_ayarda():
     assert AYAR["vidiq"]["cagri_kredi"] == 5
     assert AYAR["shorts"]["min_sn"] == 20 and AYAR["shorts"]["max_sn"] == 58
     assert AYAR["shorts"]["yayin_gunleri"] == [1, 3, 5] and AYAR["shorts"]["kanca_max_kelime"] == 3
+
+
+def _istasyon_gorevi(tmp_path, no=2):
+    g = _gorev(tmp_path, no=no)
+    (tmp_path / "buyume").mkdir()
+    for ad in ("oneriler.json", "arastirma.md"):
+        (tmp_path / "buyume" / ad).write_text("{}", encoding="utf-8")
+    return g
+
+
+def test_G15_denetimsiz_istasyondan_sonra_kilit(tmp_path, monkeypatch):
+    from deepspace import is_kaydi
+    monkeypatch.setattr(is_kaydi, "gecerli_mi", lambda k, i: (i == "marka", "test"))
+    ok, neden = is_kaydi.kilit(tmp_path, "konsept", 2)
+    assert not ok and "arastirma" in neden
+    assert is_kaydi.kilit(tmp_path, "konsept", 1) == (True, "kilit dışı")
+
+
+def test_G15_kaldi_kilitler_ozet_degisince_gecersiz(tmp_path):
+    from deepspace import is_kaydi
+    _istasyon_gorevi(tmp_path)
+    is_kaydi.kayit_yaz(tmp_path, "arastirma", "KALDI", "denetci", [{"kod": "x", "not": "y", "kanit": ""}], [])
+    assert not is_kaydi.gecerli_mi(tmp_path, "arastirma")[0]
+    is_kaydi.kayit_yaz(tmp_path, "arastirma", "GECTI", "denetci", [], [])
+    assert is_kaydi.kayit_oku(tmp_path, "arastirma")["tur"] == 2
+    assert is_kaydi.gecerli_mi(tmp_path, "arastirma")[0]
+    (tmp_path / "buyume" / "oneriler.json").write_text('{"x": 1}', encoding="utf-8")
+    assert not is_kaydi.gecerli_mi(tmp_path, "arastirma")[0]
+
+
+def test_G15_kirmizi_kapida_ya_da_ciktisiz_gecti_yazilamaz(tmp_path):
+    from deepspace import is_kaydi
+    _istasyon_gorevi(tmp_path)
+    with pytest.raises(is_kaydi.KilitHatasi):
+        is_kaydi.kayit_yaz(tmp_path, "arastirma", "GECTI", "denetci", [], ["ses kapısı"])
+    with pytest.raises(is_kaydi.KilitHatasi):
+        is_kaydi.kayit_yaz(tmp_path, "video", "GECTI", "denetci", [], [])  # video.mp4 yok
+
+
+def test_G15_ucuncu_turdan_sonra_sefte_ve_bozuk_kayit(tmp_path):
+    from deepspace import is_kaydi
+    _istasyon_gorevi(tmp_path)
+    for _ in range(3):
+        is_kaydi.kayit_yaz(tmp_path, "arastirma", "KALDI", "denetci", [], [])
+    satir = next(s for s in is_kaydi.durum(tmp_path)["istasyonlar"] if s["ad"] == "arastirma")
+    assert satir["sefte"] and satir["tur"] == 3
+    is_kaydi.kayit_yolu(tmp_path, "arastirma").write_text("{bozuk", encoding="utf-8")
+    assert is_kaydi.kayit_oku(tmp_path, "arastirma") is None
+    assert not is_kaydi.gecerli_mi(tmp_path, "arastirma")[0]
+
+
+def test_G16_marka_degisince_eski_kararlar_gecersiz(tmp_path, monkeypatch):
+    from deepspace import is_kaydi
+    _istasyon_gorevi(tmp_path)
+    monkeypatch.setattr(is_kaydi, "marka_ozeti", lambda: "a")
+    is_kaydi.kayit_yaz(tmp_path, "arastirma", "GECTI", "denetci", [], [])
+    assert is_kaydi.gecerli_mi(tmp_path, "arastirma")[0]
+    monkeypatch.setattr(is_kaydi, "marka_ozeti", lambda: "b")
+    assert not is_kaydi.gecerli_mi(tmp_path, "arastirma")[0]
+
+
+def test_G16_marka_sahip_onayi_olmadan_gecersiz(tmp_path, monkeypatch):
+    from deepspace import is_kaydi
+    monkeypatch.setattr(is_kaydi, "MARKA_KLASORU", tmp_path / "marka")
+    monkeypatch.setattr(is_kaydi, "MARKA_DOSYASI", tmp_path / "marka.toml")
+    (tmp_path / "marka").mkdir()
+    (tmp_path / "marka.toml").write_text("durum = 'x'\n", encoding="utf-8")
+    (tmp_path / "marka" / "banner.jpg").write_bytes(b"1")
+    with pytest.raises(is_kaydi.KilitHatasi):
+        is_kaydi.sahip_onayi_yaz("sahip")                      # denetçi kararı yok
+    is_kaydi.kayit_yaz(None, "marka", "GECTI", "denetci", [], [])
+    assert not is_kaydi.gecerli_mi(None, "marka")[0]
+    is_kaydi.sahip_onayi_yaz("sahip")
+    assert is_kaydi.gecerli_mi(None, "marka")[0]
+    (tmp_path / "marka" / "banner.jpg").write_bytes(b"2")     # kit değişti
+    assert not is_kaydi.gecerli_mi(None, "marka")[0]

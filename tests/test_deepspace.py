@@ -459,6 +459,9 @@ def test_G14_seyir_defteri_goruntuyu_bukmez(tmp_path):
     assert np.abs(yan[orta] - son[orta]).max() == 0
     assert np.abs(yan[orta] - (s.taban[orta] * 255 + 0.5).astype(int)).max() == 0
     assert s.kare(0).shape == (H, W, 3)
+    # Telefonda okunurluk: en küçük yazı 1080p'de kare yüksekliğinin %2'si (22 px) altında olamaz.
+    from deepspace import defter
+    assert min(defter.YAZI.values()) >= defter.EN_KUCUK_YAZI_ORANI * 1080
 @pytest.mark.skipif(__import__("importlib").util.find_spec("cv2") is None, reason="opencv yok")
 def test_G14_gezegen_gercekten_doner_hayalet_yok(tmp_path):
     import cv2

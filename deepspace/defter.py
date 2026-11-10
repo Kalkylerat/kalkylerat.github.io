@@ -25,6 +25,11 @@ from .ortak import marka_yukle, rgb
 
 FONT = Path(__file__).resolve().parent / "font"
 TAU = 2 * math.pi
+# Yazı boyları 1080p piksel cinsinden. Telefonda okunurluk (sahibinin 11 Kasım 2026 geri bildirimi: "telefonda çok
+# küçük"): en küçük yazı kare yüksekliğinin %2'sinden küçük olamaz (1080p'de 22 px), test_G14 sınar.
+YAZI = {"baslik": 34, "alt": 24, "kayit": 27, "etiket": 22}
+EN_KUCUK_YAZI_ORANI = 0.02
+KENAR = 64
 
 
 @lru_cache(maxsize=64)
@@ -154,9 +159,9 @@ class SeyirDefteri:
     # ---------- kayıt (HUD) ----------
     def _kayit_satirlari(self) -> list[tuple[float, str]]:
         b = self.bilgi
-        satir = [(3.0, f"ARRIVAL  {b['ad']}  ·  {b.get('kisa', '')}")]
-        t = 9.0
-        for parca in textwrap.wrap(b.get("bilgi", ""), 64):
+        satir = [(3.0, f"ARRIVAL  {b['ad']}")]
+        t = 6.0
+        for parca in textwrap.wrap(b.get("kisa", ""), 52) + textwrap.wrap(b.get("bilgi", ""), 52):
             satir.append((t, parca))
             t += len(parca) / 20 + 1.2
         satir.append((self.sure * 0.5, "SIGNAL STEADY  ·  PROBE-7 HOLDING COURSE"))
@@ -170,40 +175,43 @@ class SeyirDefteri:
         return img, ImageDraw.Draw(img)
 
     def _yazi(self, d, xy, metin, boy, kalin=False, opak=1.0, renk=None, hiza="sol", genislik=0):
+        """Telefonda okunur: koyu kontur + gölge. boy 1080p piksel cinsinden (YAZI tablosundan)."""
         f = _font(int(boy * self.o), kalin)
         x, y = xy
         if hiza == "sag":
             x = genislik - d.textlength(metin, font=f) - x
         r = rgb(renk or self.palet["yazi"])
-        d.text((x + 1, y + 2), metin, font=f, fill=(0, 0, 0, int(170 * opak)))
-        d.text((x, y), metin, font=f, fill=(*r, int(255 * opak)))
+        kontur = max(1, int(2 * self.o))
+        d.text((x + 1, y + 3 * self.o), metin, font=f, fill=(0, 0, 0, int(120 * opak)))
+        d.text((x, y), metin, font=f, fill=(*r, int(255 * opak)), stroke_width=kontur,
+               stroke_fill=(8, 10, 18, int(150 * opak)))
 
     def _ust_sol(self) -> tuple[int, int, np.ndarray]:
-        o, b, m = self.o, self.bilgi, int(48 * self.o)
-        img, d = self._parca(760 * o, 64 * o)
-        self._yazi(d, (0, 0), "DEEP SPACE LOG", 19, True, 0.92)
-        self._yazi(d, (0, 30 * o), f"MISSION {b['gorev_no']:03d}  ·  {b['hedef']}", 14, False, 0.72,
+        o, b, m = self.o, self.bilgi, int(KENAR * self.o)
+        img, d = self._parca(1100 * o, 90 * o)
+        self._yazi(d, (0, 0), "DEEP SPACE LOG", YAZI["baslik"], True, 0.95)
+        self._yazi(d, (0, 48 * o), f"MISSION {b['gorev_no']:03d}  ·  {b['hedef']}", YAZI["alt"], False, 0.85,
                    self.palet["yazi_ikincil"])
         return m, m, np.asarray(img, np.float32) / 255
 
     def _hud(self, t: float, i: int) -> list[tuple[int, int, np.ndarray]]:
         o, W, H, b = self.o, self.W, self.H, self.bilgi
-        m = int(48 * o)
+        m = int(KENAR * o)
         parcalar = [self._sabit]
         # sağ üst: görev saati ve alım ışığı
-        gw = int(460 * o)
-        img, d = self._parca(gw, 64 * o)
+        gw = int(620 * o)
+        img, d = self._parca(gw, 90 * o)
         s = int(t)
-        self._yazi(d, (0, 0), f"T+{s // 3600:02d}:{s % 3600 // 60:02d}:{s % 60:02d}", 19, True, 0.92, hiza="sag",
-                   genislik=gw)
+        self._yazi(d, (0, 0), f"T+{s // 3600:02d}:{s % 3600 // 60:02d}:{s % 60:02d}", YAZI["baslik"], True, 0.95,
+                   hiza="sag", genislik=gw)
         alt = f"{b['parca_no']:02d}/{b['parca_say']:02d}  RECEIVING"
-        self._yazi(d, (0, 30 * o), alt, 14, False, 0.72, self.palet["yazi_ikincil"], hiza="sag", genislik=gw)
+        self._yazi(d, (0, 48 * o), alt, YAZI["alt"], False, 0.85, self.palet["yazi_ikincil"], hiza="sag", genislik=gw)
         nabiz = 0.3 + 0.7 * (0.5 + 0.5 * math.cos(TAU * t / 2.4))
-        gx = gw - d.textlength(alt, font=_font(int(14 * o))) - 16 * o
-        r = 4 * o
-        d.ellipse([gx - r, 39 * o - r, gx + r, 39 * o + r], fill=(*rgb(self.palet["vurgu"]), int(255 * nabiz)))
+        gx = gw - d.textlength(alt, font=_font(int(YAZI["alt"] * o))) - 22 * o
+        r, cy = 7 * o, 48 * o + YAZI["alt"] * 0.62 * o
+        d.ellipse([gx - r, cy - r, gx + r, cy + r], fill=(*rgb(self.palet["vurgu"]), int(255 * nabiz)))
         parcalar.append((W - m - gw, m, np.asarray(img, np.float32) / 255))
-        # sol alt: kayıt, son 4 satır, harf harf yazılır, 40 sn sonra solar
+        # sol alt: kayıt, son 3 satır, harf harf yazılır, 40 sn sonra solar
         gorunen = []
         for bas, metin in self._kayit:
             if t < bas:
@@ -211,29 +219,42 @@ class SeyirDefteri:
             n = int((t - bas) * 22)
             sol = 1.0 if t - bas < 40 else max(0.0, 1 - (t - bas - 40) / 3)
             if sol > 0:
-                ss = int(bas)
-                gorunen.append((f"> {ss // 3600:02d}:{ss % 3600 // 60:02d}:{ss % 60:02d}  " + metin[:n]
-                                + ("_" if n < len(metin) and i % 12 < 6 else ""), sol))
+                gorunen.append(("> " + metin[:n] + ("_" if n < len(metin) and i % 12 < 6 else ""), sol))
         if gorunen:
-            kh = int(22 * o * 4 + 8 * o)
-            img, d = self._parca(1100 * o, kh)
-            y = kh - 22 * o * len(gorunen[-4:]) - 6 * o
-            for metin, sol in gorunen[-4:]:
-                self._yazi(d, (0, y), metin, 14, False, 0.86 * sol)
-                y += 22 * o
+            sat = YAZI["kayit"] * 1.5 * o
+            kh = int(sat * 3 + 12 * o)
+            img, d = self._parca(1150 * o, kh)
+            y = kh - sat * len(gorunen[-3:]) - 6 * o
+            # yarı saydam koyu panel (marka "arka" rengi): parlak zeminde de yüksek kontrast
+            f = _font(int(YAZI["kayit"] * o))
+            en = max(d.textlength(m_, font=f) for m_, _ in gorunen[-3:]) + 36 * o
+            panel = Image.new("RGBA", img.size, (0, 0, 0, 0))
+            ImageDraw.Draw(panel).rounded_rectangle([0, y - 10 * o, min(en, img.width - 1), kh - 1], radius=int(10 * o),
+                                                    fill=(*rgb(self.palet["arka"]), int(120 * max(s_ for _, s_ in gorunen[-3:]))))
+            img.alpha_composite(panel.filter(ImageFilter.GaussianBlur(2 * o)))
+            d = ImageDraw.Draw(img)
+            y += 0
+            for metin, sol in gorunen[-3:]:
+                self._yazi(d, (18 * o, y), metin, YAZI["kayit"], False, 0.95 * sol)
+                y += sat
             parcalar.append((m, H - m - kh, np.asarray(img, np.float32) / 255))
         # sağ alt: sinyal, müziğin spektrumu (3x çizilip küçültülür: kenarlar yumuşak)
         sp = self.muzik["spektrum"][min(i, len(self.muzik["spektrum"]) - 1)]
-        gw, gh, k = int(380 * o), int(64 * o), 3
+        gw, gh, k = int(560 * o), int(120 * o), 3
         s_img = Image.new("RGBA", (gw * k, gh * k), (0, 0, 0, 0))
         sd = ImageDraw.Draw(s_img)
-        xs = np.linspace(0, gw * k - 1, 160)
+        xs = np.linspace(0, gw * k - 1, 180)
         ince = np.convolve(np.interp(xs, np.linspace(0, gw * k - 1, len(sp)), sp), np.ones(5) / 5, mode="same")
-        taban_y = gh * k * 0.95
-        sd.line([(0, taban_y), (gw * k, taban_y)], fill=(*rgb(self.palet["yazi_ikincil"]), 70), width=k)
-        sd.line([(float(x), float(taban_y - v * gh * k * 0.62)) for x, v in zip(xs, ince)],
-                fill=(*rgb(self.palet["vurgu"]), 220), width=max(1, int(1.6 * k * o)), joint="curve")
-        sd.text((0, 0), "SIGNAL", font=_font(int(12 * o * k)), fill=(*rgb(self.palet["yazi_ikincil"]), 170))
+        taban_y = gh * k * 0.96
+        tepe = gh * k * 0.62  # etiketin altından başlar
+        golge = [(float(x), float(taban_y - v * tepe + 3 * k * o)) for x, v in zip(xs, ince)]
+        sd.line(golge, fill=(8, 10, 18, 120), width=max(1, int(4 * k * o)), joint="curve")
+        sd.line([(0, taban_y), (gw * k, taban_y)], fill=(*rgb(self.palet["yazi_ikincil"]), 90), width=k)
+        sd.line([(float(x), float(taban_y - v * tepe)) for x, v in zip(xs, ince)],
+                fill=(*rgb(self.palet["vurgu"]), 235), width=max(1, int(2.6 * k * o)), joint="curve")
+        f = _font(int(YAZI["etiket"] * o * k))
+        sd.text((0, 0), "SIGNAL", font=f, fill=(*rgb(self.palet["yazi_ikincil"]), 210),
+                stroke_width=max(1, int(2 * k * o)), stroke_fill=(8, 10, 18, 140))
         s_img = s_img.resize((gw, gh), Image.LANCZOS)
         parcalar.append((W - m - gw, H - m - gh, np.asarray(s_img, np.float32) / 255))
         return parcalar

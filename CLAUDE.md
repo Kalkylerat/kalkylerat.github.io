@@ -11,6 +11,8 @@
 - Projelerin güncel durumu, açık işler ve ana dala alınmamış dallar: `projeler/README.md`. Bir iş bitince ilgili
   dosyanın Durum satırını güncelle.
 - Büyüme ve içerik soruları için `.claude/skills/sosyal-medya/SKILL.md`.
+- **Deep Space Log** (YouTube, eski Köz): işletme `.claude/skills/deep-space-log/SKILL.md`, kanal kurulumu, paket,
+  büyüme ve YPP politikaları `.claude/skills/youtube/SKILL.md`, kurallar SOZLESME.md G bölümü.
 - Saatlik sağlık kontrolü, alarmlar, workflow'lar ve paylaşım zamanlaması için `.claude/skills/nobet/SKILL.md`
   (hızlı durum: `python -m bot.durum`).
 - **Mr. Likely** (ikinci hesap, otomatik mod): `bot/likely.py`, görsel `bot/likely_gorsel.py`, kurallar SOZLESME.md

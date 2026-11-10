@@ -16,6 +16,7 @@ Bu rehber Deep Space Log için yazıldı: uzun, enstrümantal, uzay temalı odak
 - **Rekabet yoğun, giriş kolay.** Fark yaratan şey: tutarlı bir ruh hali ve marka, tanınan bir görsel imza (bizde
   sinyal çizgisi, görev saati, PROBE-7) ve her videoda gerçekten farklı bir konsept.
 - **Değerli izleyici geri dönen izleyicidir.** Seri yapısı (MISSION 001, 002 …) geri dönüşü besler.
+- Niş verisi (anahtar kelimeler, rakipler, kapak ve süre kalıpları): `deepspace/arastirma.md`.
 - Sektör blogları (vidIQ, OutlierKit, Metricool) yön verir ama rakamları satış amaçlıdır. Karar verirken kanalın
   kendi Studio verisine bak.
 
@@ -82,8 +83,10 @@ netleştirdi. Kaynak: support.google.com/youtube/answer/1311392.
     anahtar kelimeli.
 
 ## 4. Paket: başlık, kapak, ilk 30 saniye
-- **Başlık** (≤100 karakter, G5): önce fayda, sonra marka.
-  - Örnek: `Deep Focus Music for Studying · 2 Hours of Space Ambient · Mission 001: TRAPPIST-1`.
+- **Başlık** (≤100 karakter, G5): nişte öne çıkan videolar çağrışımlı bir adla başlar, ardından arama kelimeleri gelir
+  (`deepspace/arastirma.md`). İki biçim denenir, Studio verisi karar verir:
+  - ad önce: `TRAPPIST-1 | Sci-Fi Space Ambient for Deep Focus & Work (2 Hours) · Mission 001`;
+  - fayda önce: `Deep Focus Music for Work · Sci-Fi Space Ambient (2 Hours) · Mission 001: TRAPPIST-1`.
   - Sanatçı ya da film adı yok (G5), yanıltıcı vaat yok. Yıl eklemek ("2026") arama trafiği getirebilir, ama
     zamansızlığı azaltır: önce test et.
 - **Kapak** (G7):

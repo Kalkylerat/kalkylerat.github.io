@@ -195,6 +195,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--sorun", action="append", default=[], help="denetle: kod:not (tekrarlanabilir)")
     ap.add_argument("--ses", help="ornek: ses dosyası (wav/mp3)")
     ap.add_argument("--boyut", default="1920x1080", help="ornek: GENxYUK (varsayılan 1920x1080)")
+    ap.add_argument("--mod", default="defter", choices=["defter", "sinemagraf"], help="ornek: sahne modu")
     ap.add_argument("--siyah-kontrolu-yok", action="store_true", help="hızlı deneme için siyah ekran taramasını atla")
     a = ap.parse_args(argv)
 
@@ -219,7 +220,7 @@ def main(argv: list[str] | None = None) -> int:
         if a.parca is None or not a.ses:
             ap.error("ornek: --parca N ve --ses DOSYA gerekli")
         W, H = (int(x) for x in a.boyut.lower().split("x"))
-        print(ornek(gorev, ayar, a.parca, Path(a.ses), W, H))
+        print(ornek(gorev, ayar, a.parca, Path(a.ses), W, H, mod=a.mod))
         return 0
     if a.komut in ("al", "teslim", "onay", "iptal", "yukle"):
         return _google(a, gorev)

@@ -89,6 +89,24 @@ kırmızıyken "bitti" denmez. Sonra kapaklardan ve videodan birkaç kareyi kend
 - 4K kodlama 2 saatlik videoda ~1,5–2 saat sürer: `hepsi`'yi arka planda çalıştır. Hızlı deneme için görevde
   `[ayar.video] genislik = 1920, yukseklik = 1080`.
 
+## Seyir Defteri modu (`deepspace/defter.py`; 10 Kasım 2026, A yönü, sahibinin son onayı bekleniyor)
+Sahibinin isteği: "jazzy cafe" kanallarını kopyalamadan, markaya ait, müzikle uyumlu, kolay üretilen bir arka plan.
+Referans yalnızca histir, klonlanmaz.
+- Görüntü hiç bükülmez. Hareket yalnız üstüne eklenen katmanlardır (`gorsel/NN_hareket.json` → `"katmanlar"`):
+  `isik` (LED yanıp söner, hale nefes alır, müzikle parlar), `toz` (ışıkta süzülen toz), `goktasi` (seyrek),
+  `yildiz` (karanlık gökte).
+- Marka kaydı (HUD), font Space Mono (OFL, `deepspace/font/`):
+  - sol üst: DEEP SPACE LOG ve görev;
+  - sağ üst: görev saati ve `NN/20 RECEIVING`;
+  - sol alt: harf harf yazılan kayıt (gerçek bilgi `gorev.toml`'dan; uydurma rakam yok);
+  - sağ alt: müziğin spektrumundan "sinyal" çizgisi.
+- Alt ve üst kenar hafifçe kararır, yazı parlak zeminde de okunur. Gök cismi adları büyük harfe çevrilmez
+  (TRAPPIST-1e).
+- Görsel istemi kuralı (onaydan sonra `marka.toml`'a): her sahnede doğal bir ışık kaynağı olsun (sondanın işaret
+  lambası, istasyon ışığı, giysi LED'i, uzak şehir ışıkları, kutup ışığı).
+- Komut: `python -m deepspace.gorev ornek <klasör> --parca N --ses <dosya> --mod defter`. Kareler doğrudan sesle
+  kodlanır (ara dosya yok). 1080p'de kare başına ~0,1 sn.
+
 ## Görsel denetimi (G13: saçmalık motoru)
 Her yeni ya da değişen görsel videoya girmeden:
 1. `python -m deepspace.gorev denetle <klasör>`: teknik durum (çözünürlük, 16:9, pozlama, netlik, kopya görsel).

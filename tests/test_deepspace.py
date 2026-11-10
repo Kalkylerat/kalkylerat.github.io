@@ -439,6 +439,26 @@ def test_G13_gorsel_denetimi(tmp_path):
 
 
 # ---------- G14 ----------
+def test_G14_seyir_defteri_goruntuyu_bukmez(tmp_path):
+    from PIL import Image
+    from deepspace.defter import SeyirDefteri
+    W, H, fps = 640, 360, 24
+    rng = np.random.default_rng(3)
+    g = tmp_path / "g.png"
+    Image.fromarray((rng.random((H, W, 3)) * 200).astype(np.uint8)).save(g)
+    n = 24 * 20
+    muzik = {"zarf": np.full(n, 0.5, np.float32), "spektrum": np.full((n, 40), 0.3, np.float32)}
+    bilgi = {"ad": "TRAPPIST-1e", "kisa": "test", "bilgi": "A real fact.", "gorev_no": 1, "hedef": "TRAPPIST-1e",
+             "parca_no": 1, "parca_say": 20, "sonraki": "Vega"}
+    led = {"etki": "isik", "merkez": [0.5, 0.5], "yaricap": 0.004, "guc": 1.0, "nabiz": "yanip_son", "periyot": 4}
+    s = SeyirDefteri(g, [led], W, H, fps, 20.0, muzik, bilgi)
+    yan, son = s.kare(int(0.4 * fps)).astype(int), s.kare(int(2.0 * fps)).astype(int)  # LED yanık / sönük
+    assert np.abs(yan[170:190, 310:330] - son[170:190, 310:330]).max() > 30  # ışık yanıp söner
+    # Işığın ve yazıların dışında hiçbir piksel kıpırdamaz: görüntü bükülmez, yalnız üstüne katman eklenir.
+    orta = (slice(80, 150), slice(100, 260))
+    assert np.abs(yan[orta] - son[orta]).max() == 0
+    assert np.abs(yan[orta] - (s.taban[orta] * 255 + 0.5).astype(int)).max() == 0
+    assert s.kare(0).shape == (H, W, 3)
 @pytest.mark.skipif(__import__("importlib").util.find_spec("cv2") is None, reason="opencv yok")
 def test_G14_gezegen_gercekten_doner_hayalet_yok(tmp_path):
     import cv2

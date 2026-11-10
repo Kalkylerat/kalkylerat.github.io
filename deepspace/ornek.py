@@ -23,7 +23,34 @@ def _loudnorm(ses: Path, sure: float) -> str:
             f"linear=true,aresample=48000,afade=t=in:d=3,afade=t=out:st={max(0.0, sure - 5):.2f}:d=5")
 
 
-def ornek(gorev: dict, ayar: dict, parca: int, ses: Path, W: int = 1920, H: int = 1080) -> Path:
+def _defter(gorev: dict, ayar: dict, parca: int, ses: Path, W: int, H: int) -> Path:
+    """Seyir Defteri modu: kareler doğrudan sesle birlikte kodlanır (ara dosya yok)."""
+    from . import defter
+    from .renk import marka_filtresi
+    ana, _ = video.parca_gorseli(gorev, parca - 1)
+    if not ana:
+        raise FileNotFoundError(f"parça {parca:02d}: görsel yok")
+    fps = int(ayar["video"]["fps"])
+    sure = ffprobe_sure(ses)
+    p = gorev["parca"][parca - 1]
+    bilgi = {"ad": p["ad"], "kisa": p.get("kisa", ""), "bilgi": p.get("bilgi", ""), "gorev_no": gorev["no"],
+             "hedef": gorev["hedef"], "parca_no": parca, "parca_say": len(gorev["parca"]),
+             "sonraki": gorev["parca"][parca]["ad"] if parca < len(gorev["parca"]) else ""}
+    sahne = defter.SeyirDefteri(ana, defter.katmanlari_oku(ana), W, H, fps, sure, defter.ses_ozeti(ses, fps), bilgi,
+                                tohum=int(gorev["tohum"]) * 100 + parca, ton=marka_filtresi())
+    klasor = cikti(gorev) / "ornek"
+    klasor.mkdir(parents=True, exist_ok=True)
+    hedef = klasor / f"{Path(ses).stem.lower().replace(' ', '_')}_{parca:02d}_defter_{H}p.mp4"
+    return defter.kodla(sahne, ses, hedef, _loudnorm(ses, sure))
+
+
+def ornek(gorev: dict, ayar: dict, parca: int, ses: Path, W: int = 1920, H: int = 1080, mod: str = "defter") -> Path:
+    if mod == "defter":
+        hedef = _defter(gorev, ayar, parca, ses, W, H)
+        duyuluyor, ayrinti = kapilar.ses_duyuluyor(hedef)
+        if not duyuluyor:
+            raise RuntimeError(f"G14: {hedef.name} içinde ses duyulmuyor ({ayrinti})")
+        return hedef
     v = ayar["video"]
     L, fps = float(v["dongu_sn"]), int(v["fps"])
     klasor = cikti(gorev) / "ornek"

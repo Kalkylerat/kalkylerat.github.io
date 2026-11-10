@@ -30,6 +30,9 @@ TAU = 2 * math.pi
 YAZI = {"baslik": 34, "alt": 24, "kayit": 27, "etiket": 22}
 EN_KUCUK_YAZI_ORANI = 0.02
 KENAR = 64
+KART_KENAR = 40          # kayıt kartı köşeye daha yakın
+KART_GENISLIK = 660      # 1080p'de ~%34 genişlik: videoya yayılmaz
+KART_SUTUN = 34          # kart içinde satır başına en çok karakter
 
 
 @lru_cache(maxsize=64)
@@ -161,10 +164,10 @@ class SeyirDefteri:
         b = self.bilgi
         satir = [(3.0, f"ARRIVAL  {b['ad']}")]
         t = 6.0
-        for parca in textwrap.wrap(b.get("kisa", ""), 52) + textwrap.wrap(b.get("bilgi", ""), 52):
+        for parca in textwrap.wrap(b.get("kisa", ""), KART_SUTUN) + textwrap.wrap(b.get("bilgi", ""), KART_SUTUN):
             satir.append((t, parca))
             t += len(parca) / 20 + 1.2
-        satir.append((self.sure * 0.5, "SIGNAL STEADY  ·  PROBE-7 HOLDING COURSE"))
+        satir.append((self.sure * 0.5, "SIGNAL STEADY · COURSE HELD"))
         if b.get("sonraki"):
             satir.append((max(t + 30, self.sure - 45), f"NEXT  {b['sonraki']}"))
         return satir
@@ -194,6 +197,33 @@ class SeyirDefteri:
                    self.palet["yazi_ikincil"])
         return m, m, np.asarray(img, np.float32) / 255
 
+    def _kayit_karti(self, satirlar: list[tuple[str, float]]) -> tuple[int, int, np.ndarray]:
+        """Sol alt köşede dar kayıt kartı (sahibinin isteği, 11 Kasım 2026: "şık arka plan, köşede, videoya
+        yayılmadan"). Koyu cam zemin, ince çerçeve, solda vurgu çizgisi, üstte PROBE-7 · LOG etiketi."""
+        o, H = self.o, self.H
+        m = int(KART_KENAR * o)
+        sat = YAZI["kayit"] * 1.42 * o
+        ic = 22 * o
+        bas_h = YAZI["etiket"] * 1.6 * o
+        kw, kh = int(KART_GENISLIK * o), int(ic * 2 + bas_h + sat * 3)
+        sol = max(s for _, s in satirlar)
+        img = Image.new("RGBA", (kw, kh), (0, 0, 0, 0))
+        zemin = Image.new("RGBA", (kw, kh), (0, 0, 0, 0))
+        zd = ImageDraw.Draw(zemin)
+        r = int(14 * o)
+        zd.rounded_rectangle([0, 0, kw - 1, kh - 1], radius=r, fill=(*rgb(self.palet["arka"]), int(178 * sol)),
+                             outline=(*rgb(self.palet["yazi_ikincil"]), int(55 * sol)), width=max(1, int(1.5 * o)))
+        zd.rounded_rectangle([0, r, int(4 * o), kh - r], radius=int(2 * o), fill=(*rgb(self.palet["vurgu"]), int(230 * sol)))
+        img.alpha_composite(zemin)
+        d = ImageDraw.Draw(img)
+        x = int(ic + 6 * o)
+        self._yazi(d, (x, ic - 4 * o), "PROBE-7  ·  LOG", YAZI["etiket"], True, 0.9 * sol, self.palet["vurgu"])
+        y = ic + bas_h
+        for metin, s in satirlar:
+            self._yazi(d, (x, y), metin, YAZI["kayit"], False, 0.96 * s)
+            y += sat
+        return m, H - m - kh, np.asarray(img, np.float32) / 255
+
     def _hud(self, t: float, i: int) -> list[tuple[int, int, np.ndarray]]:
         o, W, H, b = self.o, self.W, self.H, self.bilgi
         m = int(KENAR * o)
@@ -221,23 +251,7 @@ class SeyirDefteri:
             if sol > 0:
                 gorunen.append(("> " + metin[:n] + ("_" if n < len(metin) and i % 12 < 6 else ""), sol))
         if gorunen:
-            sat = YAZI["kayit"] * 1.5 * o
-            kh = int(sat * 3 + 12 * o)
-            img, d = self._parca(1150 * o, kh)
-            y = kh - sat * len(gorunen[-3:]) - 6 * o
-            # yarı saydam koyu panel (marka "arka" rengi): parlak zeminde de yüksek kontrast
-            f = _font(int(YAZI["kayit"] * o))
-            en = max(d.textlength(m_, font=f) for m_, _ in gorunen[-3:]) + 36 * o
-            panel = Image.new("RGBA", img.size, (0, 0, 0, 0))
-            ImageDraw.Draw(panel).rounded_rectangle([0, y - 10 * o, min(en, img.width - 1), kh - 1], radius=int(10 * o),
-                                                    fill=(*rgb(self.palet["arka"]), int(120 * max(s_ for _, s_ in gorunen[-3:]))))
-            img.alpha_composite(panel.filter(ImageFilter.GaussianBlur(2 * o)))
-            d = ImageDraw.Draw(img)
-            y += 0
-            for metin, sol in gorunen[-3:]:
-                self._yazi(d, (18 * o, y), metin, YAZI["kayit"], False, 0.95 * sol)
-                y += sat
-            parcalar.append((m, H - m - kh, np.asarray(img, np.float32) / 255))
+            parcalar.append(self._kayit_karti(gorunen[-3:]))
         # sağ alt: sinyal, müziğin spektrumu (3x çizilip küçültülür: kenarlar yumuşak)
         sp = self.muzik["spektrum"][min(i, len(self.muzik["spektrum"]) - 1)]
         gw, gh, k = int(560 * o), int(120 * o), 3

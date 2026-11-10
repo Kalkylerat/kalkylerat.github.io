@@ -91,22 +91,35 @@ işçi → kod kapıları → denetçi ─ GEÇTİ → sonraki istasyon
   kuralı: en küçük yazı kare yüksekliğinin %2'si.
 - **İmza öğeleri:** sinyal çizgisi (visualizer, sahibinin beğendiği), görev saati, `MISSION 00N` etiketi.
   Küçük resimde de görünür.
-- **Görsel dili:** konu ortamdır; gökte dev bir gök cismi; sahnede doğal bir ışık kaynağı; insan figürü yok ya da
-  çok küçük.
+- **Görsel dili (sahibinin düzeltmesi, 11 Kasım 2026: "görseller uzay temalı olacak"):** her sahne uzaydadır.
+  Dünya manzarası, akarsu, göl ya da buğday tarlası yoktur. Örnek sahneler:
+  - yabancı gezegen yüzeyi (kraterler, buz ovaları, lav düzlükleri),
+  - yörüngeden görünen dünya,
+  - istasyon penceresi ve gözlem güvertesi,
+  - gezegen halkaları içinden görünüm,
+  - asteroit kuşağı,
+  - bulutsu önünde PROBE-7.
+
+  Sahnede doğal bir ışık kaynağı bulunur: istasyon ışıkları, PROBE-7'nin işaret lambası, yanardağ parıltısı,
+  kutup ışığı ya da yıldız. Konu ortamdır; insan figürü yoktur ya da çok küçüktür. `marka.toml` stil eki bu dile
+  göre yeniden yazılır (eski "Earth-like landscape" eki 001'de kalır).
 - **Şablonlar:** küçük resim (G7: ≤3 kelime, PROBE-7 görünür, 3 varyant), Shorts, banner.
 - **Marka kitabı:** tek sayfalık görsel sayfa, sahibine gösterilir.
 
 ## 7. Hareket (Seyir Defteri modu, G14 içinde)
 - Görüntü bükülmez; hareket yalnız üstüne eklenen katmanlardır.
 - Var olanlar: `isik`, `toz`, `goktasi`, `yildiz`.
-- Eklenecekler:
-  - `su_piriltisi`: su yüzeyinde parlak noktalar,
-  - `kutup_isigi`: aurora bölgesinde yavaş parlaklık nabzı,
-  - `pencereler`: rastgele yanıp sönen küçük ışıklar,
-  - `sis_tulu`: yalnız desensiz alanda, çok yavaş,
+- Eklenecekler (hepsi uzaya ait):
+  - `isaret_lambasi`: PROBE-7 ya da istasyon lambası,
+  - `pencereler`: istasyon pencerelerinde rastgele yanıp sönen küçük ışıklar,
+  - `kutup_isigi`: yabancı gezegende aurora bölgesinde yavaş parlaklık nabzı,
+  - `halka_piriltisi`: gezegen halkalarında parlayan buz taneleri,
+  - `bulutsu_tulu`: bulutsunun desensiz alanında çok yavaş parlaklık akışı,
   - `uydu`: gökte yavaş geçen nokta.
 - Sahibinin notu: hareket biraz daha fazla olsun. Her sahnede en az 3 katman bulunur, biri müzikle bağlıdır.
-- HUD: telefon okunurluğu (testli), kayıt paneli, 3 satır.
+- HUD: telefon okunurluğu (testli). Kayıt **kartı** sol alt köşededir (genişliğin ~%34'ü, satır başına en çok 34
+  karakter, 3 satır). Kartta koyu cam zemin, ince çerçeve, kehribar vurgu çizgisi ve `PROBE-7 · LOG` etiketi
+  bulunur. Sahibinin isteği: "şık arka plan, köşede, videoya yayılmadan".
 
 ## 8. Sözleşme değişiklikleri
 - **G15 İş bölümü ve denetim kilidi:** işi yapan denetleyemez; kalan iş düzeltilmeden geçemez (kod kilidi);

@@ -56,6 +56,13 @@ derinlik koşulu. Örnek tarifler `deepspace/ornek_hareket/`. Her görsel için 
 inceler (0.1'lik çizgiler), bölgeleri seçer, kısa bir deneme karesiyle kontrol eder (parlak gezegen kenarını
 parilti kutusuna alma: dalgalı desen yapar). Örnek video sahibine gönderildi; ücretsiz.
 
+## Bölüm ses paleti ve görsel istemleri (10 Kasım)
+- Sahibinin fikri: her bölümün tutarlı bir enstrüman paleti, sonraki bölümde uzay teması korunarak değişen palet
+  (skill'de "Bölüm ses paleti"). İlk deneme paleti "Yalnız Gezegen" (2 parça: PSO J318.5-22, Gale Crater), sahibi
+  Suno'da üretti, "çok güzel" dedi. Uygun görürse 002 bu paletle kurulur.
+- 001'in 20 görsel istemi `gorev.toml`'da (`gorsel_istem`); liste `GORSEL.md`. 3'ü hazır (A TRAPPIST-1e, B J1407b,
+  C Kepler-186f; ElevenLabs akışı G9Slu7mLp7MkDCxTUyPp), 17'si üretilecek.
+
 ## Sahibin bekleyen kararı
 Görsel kaynağı: **A** yapay zekâ (Referans 1 tarzı; FLUX 3 1K ~291 kredi ≈ 0,03 $/görsel, Seedream 5 Pro ~818 kredi),
 **B** NASA/JWST/Hubble fotoğrafları (ücretsiz, kaynak gösterilerek), ya da **karışım** (önerilen). ElevenLabs

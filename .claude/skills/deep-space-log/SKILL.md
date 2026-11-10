@@ -28,11 +28,21 @@ Hepsi tek komut: `python -m deepspace.gorev hepsi deepspace/gorevler/NNN-ad` (ç
    `sonraki_adaylar` listesi ve sabit yorumdaki izleyici önerileri ilk aday havuzudur.
 2. 16 parça (seriye göre), her biri **gerçek** bir gök cismi. `bilgi` alanı yalnızca doğrulanmış olgu (uzaklık,
    keşif yılı); emin olmadığın rakamı yazma, yuvarla ya da çıkar.
-3. Besteci kuralları: komşu tonlar (ör. Re minör, Fa majör, Do majör, La minör), 52–66 BPM; her parçanın kendi
-   motifi (nota adlarıyla ve tarifle), kendi baş enstrümanı ve ses paleti; saatin bir yayı olsun (tek doruk
-   ~%60–70'te), son parça ilk parçanın motifini değiştirerek geri çağırsın. Sanatçı/film adı yok (G5).
+3. Besteci kuralları: komşu tonlar (ör. Re minör, Fa majör, Do majör, La minör), 50–66 BPM; her parçanın kendi
+   motifi (nota adlarıyla ve tarifle); saatin bir yayı olsun (tek doruk ~%60–70'te), son parça ilk parçanın
+   motifini değiştirerek geri çağırsın. Sanatçı/film adı yok (G5).
+   **Bölüm ses paleti (sahibinin fikri, 10 Kasım 2026):** her bölümün (görevin) tek, tutarlı bir enstrüman paleti
+   olur; bölümün bütün parçaları bu paletten seçer, parçalar motif ve dokuyla ayrışır. Sonraki bölüm uzay temasını
+   koruyarak paleti değiştirir (yeni enstrümanlar, yeni dokular). Örnek palet "Yalnız Gezegen": org flüt registerı,
+   rüzgâr, uzak gök gürültüsü, gezegen uğultusu, uzun çello armoniği, cam tınılar; az eleman, uzun sessizlikler.
+   Görev dosyasında `ses_paleti = [...]` olarak yazılır. (001 bu kuraldan önce yazıldı: parça başına ayrı palet.)
 4. `python -m deepspace.gorev istemler <klasör>` → `SUNO.md`. Kapı kırmızıysa dosya üretilmez.
 5. Konsepti sahibine kısa özetle sun (hedef, 16 durak, yay). `ok` gelmeden müzik istenmez.
+
+4b. Görseller: `python -m deepspace.gorev gorseller <klasör>` → `GORSEL.md` (sahne + marka stil eki). Konsept:
+   Dünya'ya benzeyen sakin manzara + gökyüzünü kaplayan gerçek gök cismi + küçük hikâye unsuru (`marka.toml`).
+   Her görsele bir sinemagraf tarifi (`gorsel/NN_hareket.json`): yalnız gerçekte hareket eden şey, ince; katı
+   nesneler "haric" ile korunur (`deepspace/ornek_hareket/`).
 
 ## 2. Müzik geldikten sonra
 - `ses/` klasöründe `SUNO.md`'deki dosya adları birebir olmalı. Ses dosyaları ve `cikti/` depoya girmez (.gitignore).

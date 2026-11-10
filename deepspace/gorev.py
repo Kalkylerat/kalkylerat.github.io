@@ -1,6 +1,7 @@
 """Deep Space Log komut satırı. Bir görev = bir video. Kullanım:
 
     python -m deepspace.gorev istemler deepspace/gorevler/001-trappist   # sahibine Suno istem dosyası (SUNO.md)
+    python -m deepspace.gorev gorseller deepspace/gorevler/001-trappist  # görsel istem listesi (GORSEL.md)
     python -m deepspace.gorev hepsi    deepspace/gorevler/001-trappist   # ses -> sahne -> video -> kapak -> metin -> shorts -> kontrol
     python -m deepspace.gorev kontrol  deepspace/gorevler/001-trappist   # yalnızca kapılar (rapor.json)
     python -m deepspace.gorev kaydet   deepspace/gorevler/001-trappist   # sahibin "ok"undan sonra: kayit.json'a işle
@@ -50,6 +51,21 @@ def istemler(gorev: dict, ayar: dict) -> Path:
     net = toplam - ayar["ses"]["capraz_gecis_sn"] * (len(gorev["parca"]) - 1)
     satir += [f"Toplam hedef: {len(gorev['parca'])} parça, ~{net / 60:.0f} dk (çapraz geçişler düşülmüş).", ""]
     yol = Path(gorev["klasor"]) / "SUNO.md"
+    yol.write_text("\n".join(satir), encoding="utf-8")
+    return yol
+
+
+def gorsel_istemleri(gorev: dict) -> Path:
+    """Görsel üretim listesi (GORSEL.md): her parça için sahne + marka stil eki; hazır olanlar işaretli."""
+    from .ortak import marka_yukle
+    g = marka_yukle()["gorsel"]
+    satir = [f"# Mission {gorev['no']:03d} · {gorev['hedef']}: görsel istemleri", "",
+             f"Model: `{g['model']}` (16:9). Her görsel `gorsel/NN.png` olarak kaydedilir (NN = parça no).",
+             "Renk tonu sonradan marka filtresiyle verilir; istemdeki ışık tarifi yeterli.", ""]
+    for i, p in enumerate(gorev["parca"], 1):
+        durum = f"hazır: üretim `{p['gorsel_hazir']}`" if p.get("gorsel_hazir") else "üretilecek"
+        satir += [f"## {i:02d}. {p['ad']} · {durum}", "", "```", f"{p['gorsel_istem']} {g['stil_eki']}", "```", ""]
+    yol = Path(gorev["klasor"]) / "GORSEL.md"
     yol.write_text("\n".join(satir), encoding="utf-8")
     return yol
 
@@ -126,7 +142,7 @@ def _google(a, gorev: dict) -> int:
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="deepspace.gorev")
     ap.add_argument("komut", choices=["istemler", "ses", "sahneler", "video", "kapak", "metin", "shorts", "kontrol",
-                                      "hepsi", "kaydet", "kanal", "al", "teslim", "onay", "yukle"])
+                                      "hepsi", "kaydet", "kanal", "al", "teslim", "onay", "yukle", "gorseller"])
     ap.add_argument("--drive", help="Drive klasör yolu, ör. DeepSpaceLog/001")
     ap.add_argument("--kim", help="onaylayan (sahibin onay mesajından)")
     ap.add_argument("--yayin", help="planlı yayın zamanı, RFC3339 UTC")
@@ -145,6 +161,9 @@ def main(argv: list[str] | None = None) -> int:
 
     if a.komut == "istemler":
         print(istemler(gorev, ayar))
+        return 0
+    if a.komut == "gorseller":
+        print(gorsel_istemleri(gorev))
         return 0
     if a.komut in ("al", "teslim", "onay", "yukle"):
         return _google(a, gorev)

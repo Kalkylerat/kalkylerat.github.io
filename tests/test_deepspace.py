@@ -510,3 +510,15 @@ def test_G14_teslim_edilen_videoda_ses_duyulur(tmp_path):
     # Örnek komutu sessiz döngüyü teslim klasörüne değil ara/ klasörüne yazar.
     kod = Path(__file__).resolve().parents[1].joinpath("deepspace", "ornek.py").read_text(encoding="utf-8")
     assert 'klasor / "ara"' in kod and "ses_duyuluyor" in kod
+
+
+# ---------- G15 / G16 / G17 (iş bölümü, marka, YouTube uzmanı) ----------
+def test_G15_G16_G17_sozlesmede_ve_ayarda():
+    s = (KOK / "SOZLESME.md").read_text(encoding="utf-8")
+    for madde in ("| G15 |", "| G16 |", "| G17 |"):
+        assert madde in s
+    assert AYAR["is_bolumu"] == {"kilit_baslangic": 2, "en_cok_tur": 3}
+    assert AYAR["vidiq"]["aylik_kredi"] == 100 and AYAR["vidiq"]["yenileme_gunu"] == 27
+    assert AYAR["vidiq"]["cagri_kredi"] == 5
+    assert AYAR["shorts"]["min_sn"] == 20 and AYAR["shorts"]["max_sn"] == 58
+    assert AYAR["shorts"]["yayin_gunleri"] == [1, 3, 5] and AYAR["shorts"]["kanca_max_kelime"] == 3

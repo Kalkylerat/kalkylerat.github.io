@@ -61,6 +61,19 @@ is_parcacigi = 3           # aynı anda kaç parça kodlanır
 [shorts]
 adet = 3
 sure_sn = 45
+min_sn = 20                # kurgucu planında bir Short'un en kısa ve en uzun süresi (G12)
+max_sn = 58
+kanca_max_kelime = 3
+yayin_gunleri = [1, 3, 5]  # uzun videonun yayınından kaç gün sonra (gizli + planlı)
+
+[is_bolumu]
+kilit_baslangic = 2        # G15: istasyon kilidi bu görev numarasından başlar (001 eski akışla biter)
+en_cok_tur = 3             # bu kadar KALDI'dan sonra iş şefe gider
+
+[vidiq]
+aylik_kredi = 100          # G17: YouTube uzmanının aylık vidIQ tavanı (vidIQ ayda 150 yeniler)
+yenileme_gunu = 27         # vidIQ kredilerinin yenilendiği gün; dönem bu günden başlar
+cagri_kredi = 5
 
 [metin]
 yasak_kelimeler = ["hans zimmer", "zimmer", "interstellar", "inception", "nolan", "christopher nolan",

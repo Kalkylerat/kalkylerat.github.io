@@ -4,14 +4,15 @@
     DSL_GOOGLE_CLIENT_ID, DSL_GOOGLE_CLIENT_SECRET, DSL_GOOGLE_REFRESH_TOKEN
 Kurulum adımları: deepspace/KURULUM.md. Gereken hostlar: oauth2.googleapis.com, www.googleapis.com.
 
-Yükleme kuralları: rapor.json yeşil olmalı, cikti/onay.json videonun şimdiki haliyle eşleşmeli (sahibin "ok"u),
-gizlilik "private" (isteğe bağlı publishAt ile planlı yayın), "altered or synthetic content" işaretli.
+Yükleme kuralları (G8, 10 Kasım 2026): rapor.json yeşil olmalı; cikti/onay.json denetçinin kararıdır ve videonun
+şimdiki haliyle eşleşmeli; yayın her zaman gizli + planlı (publishAt, karardan en az 24 saat sonra); sahibine o arada
+bilgi gider; cikti/iptal.json varsa yükleme yok. "Altered or synthetic content" işaretli.
 """
 from __future__ import annotations
 
 import json
 import os
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import requests
@@ -127,28 +128,62 @@ def video_imzasi(video: Path) -> dict:
     return {"boyut": s.st_size, "degisme": int(s.st_mtime)}
 
 
-def onay_yaz(cikti: Path, kim: str, yayin_zamani: str | None = None) -> Path:
-    """Sahibin "ok"u: yalnızca sahibi sohbette açıkça onay verdiğinde çağrılır (SKILL.md)."""
+BILDIRIM_SAATI = 24  # karar ile yayın arası; sahibi bu sürede bilgilendirilir ve isterse iptal eder
+
+
+def _zaman_oku(metin: str) -> datetime:
+    return datetime.fromisoformat(metin.replace("Z", "+00:00"))
+
+
+def onay_yaz(cikti: Path, kim: str, yayin_zamani: str, simdi: datetime | None = None) -> Path:
+    """Denetçinin kararı (G8): rapor yeşil, yayın saati karardan en az BILDIRIM_SAATI saat sonra."""
+    simdi = simdi or datetime.now(timezone.utc)
     rapor = json.loads((cikti / "rapor.json").read_text(encoding="utf-8"))
     if not rapor.get("gecti"):
-        raise GoogleHatasi("rapor.json kırmızı: video onaya sunulamaz (G8)")
-    onay = {"onaylayan": kim, "zaman": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-            "video": video_imzasi(cikti / "video.mp4"), "yayin_zamani": yayin_zamani}
+        raise GoogleHatasi("rapor.json kırmızı: video yayına planlanamaz (G8)")
+    if (cikti / "iptal.json").exists():
+        raise GoogleHatasi("sahibi iptal etmiş (iptal.json): yayın planlanmaz (G8)")
+    if not yayin_zamani or _zaman_oku(yayin_zamani) < simdi + timedelta(hours=BILDIRIM_SAATI):
+        raise GoogleHatasi(f"yayın saati karardan en az {BILDIRIM_SAATI} saat sonra olmalı (G8)")
+    onay = {"karar_veren": kim, "zaman": simdi.isoformat(timespec="seconds"),
+            "video": video_imzasi(cikti / "video.mp4"), "yayin_zamani": yayin_zamani,
+            "not": "sahibi izleyicidir; bilgi gider, iptal.json her zaman önceliklidir"}
     yol = cikti / "onay.json"
     yol.write_text(json.dumps(onay, indent=2, ensure_ascii=False), encoding="utf-8")
     return yol
 
 
+def iptal_yaz(cikti: Path, neden: str = "") -> Path:
+    """Sahibinin acil freni (G8)."""
+    yol = cikti / "iptal.json"
+    yol.write_text(json.dumps({"zaman": datetime.now(timezone.utc).isoformat(timespec="seconds"), "neden": neden},
+                              ensure_ascii=False), encoding="utf-8")
+    return yol
+
+
 def onay_kontrol(cikti: Path) -> dict:
     rapor_yol, onay_yol = cikti / "rapor.json", cikti / "onay.json"
+    if (cikti / "iptal.json").exists():
+        raise GoogleHatasi("sahibi iptal etmiş (iptal.json): yükleme yapılmaz (G8)")
     if not rapor_yol.exists() or not json.loads(rapor_yol.read_text(encoding="utf-8")).get("gecti"):
         raise GoogleHatasi("rapor.json yok ya da kırmızı (G8)")
     if not onay_yol.exists():
-        raise GoogleHatasi("onay.json yok: sahibin 'ok'u olmadan yükleme yapılmaz (G8)")
+        raise GoogleHatasi("onay.json yok: denetçi kararı olmadan yükleme yapılmaz (G8)")
     onay = json.loads(onay_yol.read_text(encoding="utf-8"))
     if onay.get("video") != video_imzasi(cikti / "video.mp4"):
-        raise GoogleHatasi("video onaydan sonra değişmiş: yeniden onay gerekli (G8)")
+        raise GoogleHatasi("video karardan sonra değişmiş: yeniden karar gerekli (G8)")
+    if not onay.get("yayin_zamani"):
+        raise GoogleHatasi("planlı yayın saati yok (G8)")
     return onay
+
+
+def youtube_planli_yayini_geri_al(video_id: str, oturum=requests) -> None:
+    """iptal: videoyu gizli bırakır, planlı yayını kaldırır (G8)."""
+    tok = erisim_belirteci(oturum)
+    r = oturum.put(f"{YT}/videos", params={"part": "status"}, headers=_baslik(tok), timeout=30,
+                   json={"id": video_id, "status": {"privacyStatus": "private", "selfDeclaredMadeForKids": False}})
+    if r.status_code != 200:
+        raise GoogleHatasi(f"planlı yayın geri alınamadı ({r.status_code}): {r.text[:300]}")
 
 
 # ---------- YouTube ----------

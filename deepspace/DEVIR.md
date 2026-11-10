@@ -63,6 +63,11 @@ parilti kutusuna alma: dalgalı desen yapar). Örnek video sahibine gönderildi;
 - 001'in 20 görsel istemi `gorev.toml`'da (`gorsel_istem`); liste `GORSEL.md`. 3'ü hazır (A TRAPPIST-1e, B J1407b,
   C Kepler-186f; ElevenLabs akışı G9Slu7mLp7MkDCxTUyPp), 17'si üretilecek.
 
+## G8 değişti (10 Kasım 2026, sahibinin onayıyla): sahibi izleyici
+Bütün seçimleri sistem yapar, kararı denetçi ajan verir. Yayın gizli + planlı, karardan en az 24 saat sonra; sahibine
+bilgi gider, onay beklenmez; `iptal` her zaman önceliklidir (`py -m deepspace.gorev iptal <klasör>`). Sahibinde kalan
+tek iş Suno üretimi (resmî API yok). Sahibi ElevenLabs Creator (~22 $) alıyor: görseller için ticari lisans.
+
 ## Sahibin bekleyen kararı
 Görsel kaynağı: **A** yapay zekâ (Referans 1 tarzı; FLUX 3 1K ~291 kredi ≈ 0,03 $/görsel, Seedream 5 Pro ~818 kredi),
 **B** NASA/JWST/Hubble fotoğrafları (ücretsiz, kaynak gösterilerek), ya da **karışım** (önerilen). ElevenLabs
@@ -79,7 +84,7 @@ deneme).
 3. Banner ve profil resmini yeni görsel diliyle yeniden üret (`py -m deepspace.gorev kanal`; şu anki kod sahnesinden).
 4. Müzik gelince: `py -m deepspace.gorev hepsi <klasör>`. 4K, 2 saatte ~1,5–2 saat kodlama (dizüstünde daha uzun
    olabilir; hızlı deneme için görevde `[ayar.video] genislik = 1920, yukseklik = 1080`). Kırmızı kapı = video yok.
-5. Denetçi alt ajan → sahibine başlık, 3 kapak, rapor özeti → `ok` → `onay --kim sahip`.
+5. Denetçi alt ajan karar verir → `onay --yayin <en az 24 sa sonra>` → sahibine bilgi (önizleme, kapak, başlık).
 6. Yükleme: Google kurulumu yapılmadıysa (`deepspace/KURULUM.md`) sahibi Studio'dan elle yükler; `youtube.json`'daki
    başlık/açıklama/etiket, reklam araları (`reklam_noktalari`), 3 kapak (Test & Compare), sentetik içerik işareti.
    Yayından sonra `py -m deepspace.gorev kaydet <klasör> --youtube-id ...` ve commit.

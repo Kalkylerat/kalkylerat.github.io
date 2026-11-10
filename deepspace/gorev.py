@@ -10,7 +10,8 @@
 Google (deepspace/KURULUM.md):
     python -m deepspace.gorev al      <klasör> --drive DeepSpaceLog/001  # Drive'dan ses/ ve gorsel/ dosyaları
     python -m deepspace.gorev teslim  <klasör> --drive DeepSpaceLog/001  # bitmiş paketi Drive'a (cikti alt klasörü)
-    python -m deepspace.gorev onay    <klasör> --kim sahip [--yayin 2026-11-20T17:00:00Z]  # yalnızca sahibin "ok"uyla
+    python -m deepspace.gorev onay    <klasör> --yayin 2026-11-20T17:00:00Z  # denetçinin kararı (G8), en az 24 sa sonra
+    python -m deepspace.gorev iptal   <klasör> [--neden ...]           # sahibinin acil freni (G8)
     python -m deepspace.gorev yukle   <klasör>                           # YouTube'a gizli/planlı yükleme
 
 Tek tek istasyonlar: ses, sahneler, video, kapak, metin, shorts.
@@ -103,9 +104,16 @@ def _google(a, gorev: dict) -> int:
     from . import google
     out = cikti(gorev)
     if a.komut == "onay":
-        if not a.kim:
-            raise SystemExit("--kim gerekli (sahibin onayı)")
-        print(google.onay_yaz(out, a.kim, a.yayin))
+        if not a.yayin:
+            raise SystemExit("--yayin gerekli (planlı yayın saati, en az 24 saat sonra)")
+        print(google.onay_yaz(out, a.kim or "denetci", a.yayin))
+        return 0
+    if a.komut == "iptal":
+        print(google.iptal_yaz(out, a.neden or ""))
+        yuk = out / "yukleme.json"
+        if yuk.exists():
+            google.youtube_planli_yayini_geri_al(json.loads(yuk.read_text(encoding="utf-8"))["video_id"])
+            print("YouTube'daki planlı yayın geri alındı (video gizli kaldı)")
         return 0
     if a.komut == "yukle":
         sonuc = google.youtube_yukle(out)
@@ -142,9 +150,11 @@ def _google(a, gorev: dict) -> int:
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="deepspace.gorev")
     ap.add_argument("komut", choices=["istemler", "ses", "sahneler", "video", "kapak", "metin", "shorts", "kontrol",
-                                      "hepsi", "kaydet", "kanal", "al", "teslim", "onay", "yukle", "gorseller"])
+                                      "hepsi", "kaydet", "kanal", "al", "teslim", "onay", "iptal", "yukle",
+                                      "gorseller"])
     ap.add_argument("--drive", help="Drive klasör yolu, ör. DeepSpaceLog/001")
-    ap.add_argument("--kim", help="onaylayan (sahibin onay mesajından)")
+    ap.add_argument("--kim", help="karar veren (varsayılan: denetci)")
+    ap.add_argument("--neden", help="iptal nedeni")
     ap.add_argument("--yayin", help="planlı yayın zamanı, RFC3339 UTC")
     ap.add_argument("klasor", nargs="?")
     ap.add_argument("--youtube-id")
@@ -165,7 +175,7 @@ def main(argv: list[str] | None = None) -> int:
     if a.komut == "gorseller":
         print(gorsel_istemleri(gorev))
         return 0
-    if a.komut in ("al", "teslim", "onay", "yukle"):
+    if a.komut in ("al", "teslim", "onay", "iptal", "yukle"):
         return _google(a, gorev)
     if a.komut == "kaydet":
         kaydet(gorev, a.youtube_id)

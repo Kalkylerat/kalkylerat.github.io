@@ -298,19 +298,30 @@ def _hazir_cikti(tmp_path, gecti=True):
     return out
 
 
-def test_G8_onaysiz_ya_da_kirmizi_raporla_yukleme_yok(tmp_path):
+def test_G8_denetci_karari_24_saat_ve_iptal(tmp_path):
+    from datetime import datetime, timedelta, timezone
     from deepspace import google
     out = _hazir_cikti(tmp_path)
+    simdi = datetime(2026, 11, 10, 12, 0, tzinfo=timezone.utc)
     with pytest.raises(google.GoogleHatasi, match="onay"):
-        google.onay_kontrol(out)
-    google.onay_yaz(out, "sahip")
-    assert google.onay_kontrol(out)["onaylayan"] == "sahip"
-    (out / "video.mp4").write_bytes(b"y" * 1001)  # onaydan sonra değişen video yeniden onay ister
+        google.onay_kontrol(out)  # karar yok
+    with pytest.raises(google.GoogleHatasi, match="24 saat"):
+        google.onay_yaz(out, "denetci", "2026-11-11T06:00:00Z", simdi=simdi)  # 18 saat: sahibine süre kalmıyor
+    google.onay_yaz(out, "denetci", "2026-11-11T13:00:00Z", simdi=simdi)
+    karar = google.onay_kontrol(out)
+    assert karar["karar_veren"] == "denetci" and karar["yayin_zamani"] == "2026-11-11T13:00:00Z"
+    (out / "video.mp4").write_bytes(b"y" * 1001)  # karardan sonra değişen video yeniden karar ister
     with pytest.raises(google.GoogleHatasi, match="değişmiş"):
         google.onay_kontrol(out)
+    google.onay_yaz(out, "denetci", "2026-11-11T13:00:00Z", simdi=simdi)
+    google.iptal_yaz(out, "sahibi istemedi")  # iptal her zaman önceliklidir
+    with pytest.raises(google.GoogleHatasi, match="iptal"):
+        google.onay_kontrol(out)
+    with pytest.raises(google.GoogleHatasi, match="iptal"):
+        google.onay_yaz(out, "denetci", "2026-11-12T13:00:00Z", simdi=simdi)
     kirmizi = _hazir_cikti(tmp_path / "k", gecti=False)
     with pytest.raises(google.GoogleHatasi, match="kırmızı"):
-        google.onay_yaz(kirmizi, "sahip")
+        google.onay_yaz(kirmizi, "denetci", "2026-11-12T13:00:00Z", simdi=simdi)
 
 
 def test_G8_yukleme_gizli_ve_planli():
@@ -320,7 +331,7 @@ def test_G8_yukleme_gizli_ve_planli():
     p = google.youtube_govdesi({"baslik": "T", "aciklama": "A", "etiketler": []}, "2026-11-20T17:00:00Z")
     assert p["status"]["privacyStatus"] == "private" and p["status"]["publishAt"] == "2026-11-20T17:00:00Z"
     skill = (KOK / ".claude" / "skills" / "deep-space-log" / "SKILL.md").read_text(encoding="utf-8")
-    assert "rapor.json" in skill and "denetçi" in skill.lower() and "ok" in skill
+    assert "rapor.json" in skill and "denetçi" in skill.lower() and "iptal" in skill
 
 
 class _Yanit:

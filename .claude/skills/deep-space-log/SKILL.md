@@ -19,7 +19,7 @@ Kurallar: `SOZLESME.md` G bölümü (değişmez; değiştirmeden önce sahibine 
 | 5 | Uzun video (bölüm bölüm, paralel) | `... video` | süre, çözünürlük, siyah ekran |
 | 6 | Kapak ×3, metin, Shorts ×3 | `... kapak / metin / shorts` | `kapilar.kapak / metin / shorts` |
 | 7 | **Denetçi** | sıfır bağlamlı alt ajan | `rapor.json` yeşil + insan gözüyle bakış |
-| 8 | Onay ve yükleme | **sahibi** (`ok`) | G8 |
+| 8 | Karar ve planlı yükleme | **denetçi** (sahibi izleyici, `iptal` hakkı) | G8 |
 
 Hepsi tek komut: `python -m deepspace.gorev hepsi deepspace/gorevler/NNN-ad` (çıkış kodu 0 = bütün kapılar yeşil).
 
@@ -40,7 +40,8 @@ Hepsi tek komut: `python -m deepspace.gorev hepsi deepspace/gorevler/NNN-ad` (ç
    orta bant, 2 kHz üstü ~0; rüzgâr/kum/cızırtı yok denecek kadar az). Ortam sesi istenen paletlerde Style şu ekle
    BAŞLASIN: `ambient soundscape, wind and distant thunder field recording,`. (001 bu kuraldan önce yazıldı: parça başına ayrı palet.)
 4. `python -m deepspace.gorev istemler <klasör>` → `SUNO.md`. Kapı kırmızıysa dosya üretilmez.
-5. Konsepti sahibine kısa özetle sun (hedef, 16 durak, yay). `ok` gelmeden müzik istenmez.
+5. Konsepti sahibine bilgi olarak bildir (hedef, duraklar, yay, ses paleti). Onay beklenmez (G8, 10 Kasım 2026):
+   sahibi izleyicidir; yalnız Suno üretimi onda kalır (resmî API yok).
 
 4b. Görseller: `python -m deepspace.gorev gorseller <klasör>` → `GORSEL.md` (sahne + marka stil eki). Konsept:
    Dünya'ya benzeyen sakin manzara + gökyüzünü kaplayan gerçek gök cismi + küçük hikâye unsuru (`marka.toml`).
@@ -72,11 +73,16 @@ kırmızıyken "bitti" denmez. Sonra kapaklardan ve videodan birkaç kareyi kend
 - YouTube API denetimi geçene kadar API yüklemeleri gizliye kilitlenir: o zamana kadar `teslim` + sahibin Studio'dan
   manuel yüklemesi.
 
-## 4. Onay, yükleme, kayıt
-- Sahibine: başlık, 3 kapak, rapor özeti, önizleme. `ok` olmadan public yok (G8). Yükleme gizli ya da planlı.
-- Yüklemede: "altered or synthetic content" işaretli, kategori Music, reklam araları `youtube.json`
-  → `reklam_noktalari`, Test & Compare'e 3 kapak, sabit yorum `sabit_yorum`.
-- Yayından sonra `python -m deepspace.gorev kaydet <klasör> --youtube-id ...` ve kayit.json'u commit et.
+## 4. Karar, yükleme, kayıt (G8: sahibi izleyici)
+- Kararı denetçi verir: rapor yeşil + denetçinin gözle bakışı (kapaklar, birkaç kare, metin). Seçimleri (görsel,
+  şarkı varyasyonu, kapak varyantı) sistem yapar.
+- `onay --yayin <RFC3339>`: yayın saati karardan **en az 24 saat** sonra. Ardından sahibine **bilgi** gider
+  (önizleme bağlantısı, kapak, başlık): onay istenmez. Sahibi "iptal" derse `iptal` komutu (planlı yayını da geri alır).
+- Yükleme her zaman gizli + planlı; "altered or synthetic content" işaretli, kategori Music, reklam araları
+  `reklam_noktalari`, Test & Compare'e 3 kapak, sabit yorum `sabit_yorum`.
+- YouTube API denetimi geçene kadar yüklemeler gizliye kilitlenir: o zamana kadar `teslim` (Drive) ve sahibine
+  "Studio'dan yükle" bilgisi.
+- Yayından sonra `kaydet --youtube-id ...` ve kayit.json'u commit et.
 - Sahibi bir şeyi beğenmezse tarihiyle `deepspace/begenmeme.md`'ye yaz; tekrar eden madde kurala ya da koda dönüşür.
 
 ## Maliyet (G11)

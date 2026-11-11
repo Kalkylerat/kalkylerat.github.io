@@ -600,6 +600,48 @@ def test_G16_marka_sahip_onayi_olmadan_gecersiz(tmp_path, monkeypatch):
     assert not is_kaydi.gecerli_mi(None, "marka")[0]
 
 
+def test_G16_sablon_yazilari_telefon_kuralini_saglar():
+    m = ortak.marka_yukle()
+    assert m["sablon"]["kapak_etiket"] >= 0.02 * 720
+    assert m["sablon"]["short_etiket"] >= 0.02 * 1920
+    assert "Earth-like" not in m["gorsel"]["stil_eki"]
+    assert "Earth-like" in m["gorsel"]["stil_eki_001"]  # 001'in istemleri geriye dönük okunur
+    assert m["yazi"]["baslik_font"].startswith("SpaceMono")
+
+
+def _yazi_satirlari(katman):
+    a = np.asarray(katman)[..., 3]
+    return np.nonzero(a.max(axis=1) > 0)[0]
+
+
+def test_G16_kapak_sablonu_uc_duzen():
+    from deepspace import yazi
+    m = ortak.marka_yukle()["sablon"]
+    ust = _yazi_satirlari(yazi.kapak_katmani(1280, 720, "DEEP FOCUS", "2H", "ust"))
+    alt = _yazi_satirlari(yazi.kapak_katmani(1280, 720, "DEEP FOCUS", "2H", "alt"))
+    assert ust.max() < 720 * 0.35 and alt.min() > 720 * 0.6  # başlık üstte / altta
+    k = np.asarray(yazi.kapak_katmani(1280, 720, "DEEP FOCUS", "2H", "etiket"))
+    vurgu = np.array(ortak.rgb(ortak.marka_yukle()["palet"]["vurgu"]))
+    renkli = np.nonzero((np.abs(k[..., :3].astype(int) - vurgu).sum(axis=2) < 30) & (k[..., 3] > 200))[0]
+    beyaz = np.nonzero((k[..., :3].min(axis=2) > 225) & (k[..., 3] > 200))[0]
+    assert renkli.min() < beyaz.min()  # seri etiketi (kehribar) başlığın önünde
+    with pytest.raises(ValueError):
+        yazi.kapak_katmani(1280, 720, "DEEP FOCUS", "2H", "yan")
+    assert m["kapak_baslik"] > m["kapak_etiket"]
+
+
+def test_G16_kanal_kiti_kaynak_gorselden(tmp_path):
+    from PIL import Image
+    from deepspace import marka_kiti
+    kaynak = KOK / "deepspace" / "marka" / "kaynak" / "A2.png"
+    yollar = marka_kiti.uret(kaynak, tmp_path)
+    boyut = {p.name: Image.open(p).size for p in yollar}
+    assert boyut == {"banner.jpg": (2560, 1440), "profil.png": (800, 800), "filigran.png": (150, 150),
+                     "marka_kitabi.jpg": (1600, 1500)}
+    assert Image.open(tmp_path / "filigran.png").mode == "RGBA"
+    assert (tmp_path / "banner.jpg").stat().st_size < 6 * 1024 * 1024  # YouTube banner sınırı
+
+
 def test_G15_komut_kilidi_cikis_3(tmp_path, monkeypatch, capsys):
     from deepspace import gorev as cli, is_kaydi
     monkeypatch.setattr(cli, "gorev_yukle", lambda k: (_gorev(tmp_path, no=2), AYAR))

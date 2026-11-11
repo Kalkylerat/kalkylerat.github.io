@@ -1,9 +1,10 @@
 # Deep Space Log marka sistemi: bütün görseller (sahne, kapak, yazı katmanları, banner) bu dosyadan beslenir.
-# Sahibinin göndereceği referanslarla doldurulacak (9 Kasım 2026: "tüm görsellerde aynı palet").
+# Kit dosyaları deepspace/marka/ altında (banner, profil, filigran, marka kitabı, kaynak/A2.png). Kit ya da bu dosya
+# değişirse marka istasyonu yeniden denetlenir ve sahibinin onayı yenilenir (G16).
 # Renkler: arka -> en koyu zemin, gölge -> ikinci koyu, ana -> markanın ana rengi, vurgu -> az kullanılan ışık,
 # yazi -> başlık rengi, yazi_ikincil -> alt satırlar.
 
-durum = "taslak"   # film tonu seçildi (bal_kehribar, hafif); görsel kaynağı kararı bekleniyor
+durum = "onaylandi"   # 11 Kasım 2026, sahibi: kit onaylandı; renk seçimi bize bırakıldı (A: film tonu yok)
 
 [palet]
 arka = "#05070f"
@@ -17,22 +18,29 @@ yazi_ikincil = "#b8c0d0"
 # Kanalın imza film tonu (sinema LUT'u, renk.py): bütün videolara, kapaklara, Shorts'a ve banner'a uygulanır.
 # secim: renk.SECENEKLER'den biri (altin_saat, bal_kehribar, eski_film, kum_altini, sari_camgobegi). Boşken uygulanmaz.
 # İnce ayar için seçenekteki bir alan burada ezilebilir (ör. guc = 0.8, doygunluk = 0.9).
-secim = "bal_kehribar"   # 9 Kasım 2026, sahibi: "2 ama biraz daha hafif"
-guc = 0.55
+secim = ""   # 11 Kasım 2026: A (tonsuz). Kehribar yalnız vurgu rengi olarak kalır. Önceki: bal_kehribar, guc 0.55
 
 [yazi]
-baslik_font = "Inter-ExtraBold"
-govde_font = "Inter-Medium"
+baslik_font = "SpaceMono-Bold"     # deepspace/font (OFL)
+govde_font = "SpaceMono-Regular"
+
+[sablon]
+# Şablon yazı boyutları (piksel, kendi karesinde). Telefon kuralı: en küçük yazı kare yüksekliğinin %2'si (G16).
+# Kapak 1280x720: üstte/altta ortada harf aralıklı başlık, kehribar çizgi, kehribar etiket, gökte küçük PROBE-7.
+kapak_baslik = 70
+kapak_etiket = 22
+# Short 1080x1920: kanca y=0.28H, sinyal y>0.8H.
+short_kanca = 64
+short_etiket = 40
 
 [gorsel]
-# Görsel konsept (9 Kasım 2026, sahibinin YouTube referansları: dev gezegen altında karlı dağlarda tren; buğday
-# tarlasında toprak yolda yürüyen astronot): TANIDIK, Dünya'ya benzeyen sakin bir manzara + gökyüzünü kaplayan
-# İMKÂNSIZ büyüklükte gerçek bir gök cismi + ön planda küçük bir HİKÂYE unsuru (yolcu, astronot, tren, kulübe,
-# deniz feneri, araba). Fotogerçekçi ama rüya gibi; altın saat ışığı, pus, okra ve soluk camgöbeği.
-# Önceki onay (gözlem güvertesi, akış G9Slu7mLp7MkDCxTUyPp) ikincil kullanım: iç mekân sahnesi gerekirse.
-# Rengi model değil [filtre] belirler (bal_kehribar); istemdeki tonlar yalnızca ışık yönü içindir.
+# Görsel dili (11 Kasım 2026, marka kiti): karanlık, durgun bir ufuk (buzlu ya da kayalık bir dünyanın yüzeyi,
+# yörüngeden bir gezegen kenarı) ve gökyüzünü kaplayan TEK büyük gök cismi (galaksi, bulutsu, halkalı dev).
+# Bol boşluk, insan figürü yok ya da çok küçük. Her sahne uzayda; ışık fiziği doğru (G13).
+# stil_eki_001: 001'in onaylı istemleri için eski dil (Dünya'ya benzeyen manzara); yeni görevler stil_eki kullanır.
 model = "flux-3-image"
-stil_eki = "Surreal yet photorealistic cinematic matte painting. A calm, familiar Earth-like landscape under an impossible sky dominated by a colossal celestial body that fills a large part of the frame. One small human element in the foreground tells a quiet story. Golden hour light, soft atmospheric haze, muted teal sky and warm ochre ground, gentle film grain, ultra detailed, realistic textures and scale, wide 16:9 composition. No text, no logo, no watermark."
+stil_eki = "Photorealistic cinematic space scene, minimal and vast. A dark, quiet horizon of an alien world or a planet limb seen from orbit, under a sky dominated by one colossal galaxy or nebula. Deep blacks, cool blue and soft starlight, a single warm amber accent at most. Physically plausible lighting: every lit crescent faces its star. Generous negative space in the upper third for a title. Calm, still, meditative. Ultra detailed, realistic scale, wide 16:9. No people, no text, no logo, no watermark."
+stil_eki_001 = "Surreal yet photorealistic cinematic matte painting. A calm, familiar Earth-like landscape under an impossible sky dominated by a colossal celestial body that fills a large part of the frame. One small human element in the foreground tells a quiet story. Golden hour light, soft atmospheric haze, muted teal sky and warm ochre ground, gentle film grain, ultra detailed, realistic textures and scale, wide 16:9 composition. No text, no logo, no watermark."
 yasaklar = ["neon pink", "purple gradient", "lens flare overload", "emoji", "text in image", "watermark"]
 
 [hareket]

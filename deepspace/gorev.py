@@ -70,12 +70,13 @@ def gorsel_istemleri(gorev: dict) -> Path:
     """Görsel üretim listesi (GORSEL.md): her parça için sahne + marka stil eki; hazır olanlar işaretli."""
     from .ortak import marka_yukle
     g = marka_yukle()["gorsel"]
+    ek = g["stil_eki_001"] if gorev.get("no") == 1 else g["stil_eki"]  # 001 onaylı eski görsel diliyle kalır
     satir = [f"# Mission {gorev['no']:03d} · {gorev['hedef']}: görsel istemleri", "",
              f"Model: `{g['model']}` (16:9). Her görsel `gorsel/NN.png` olarak kaydedilir (NN = parça no).",
-             "Renk tonu sonradan marka filtresiyle verilir; istemdeki ışık tarifi yeterli.", ""]
+             "Renk tonu marka filtresinden gelir (marka.toml [filtre]); istemdeki ışık tarifi yeterli.", ""]
     for i, p in enumerate(gorev["parca"], 1):
         durum = f"üretildi: `{p['gorsel_uretim']}`" if p.get("gorsel_uretim") else "üretilecek"
-        satir += [f"## {i:02d}. {p['ad']} · {durum}", "", "```", f"{p['gorsel_istem']} {g['stil_eki']}", "```", ""]
+        satir += [f"## {i:02d}. {p['ad']} · {durum}", "", "```", f"{p['gorsel_istem']} {ek}", "```", ""]
     yol = Path(gorev["klasor"]) / "GORSEL.md"
     yol.write_text("\n".join(satir), encoding="utf-8")
     return yol

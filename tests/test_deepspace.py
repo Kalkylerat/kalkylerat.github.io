@@ -782,6 +782,34 @@ def test_G12_kaydet_shorts_anlarini_yazar(tmp_path, monkeypatch):
     assert sh[0]["ses_ozeti"] == kayit["gorevler"][0]["ses_ozetleri"][1]
 
 
+def test_G17_arastirma_basligi_pakete_girer_yasakliysa_sablon(tmp_path):
+    g = _gorev(tmp_path, no=2)
+    _yaz_bolumler(g, _bolumler([360.0] * 20))
+    (tmp_path / "buyume").mkdir()
+    o = {"kelimeler": ["sci fi ambient music"], "secilen": 0, "seri": "focus", "yayin_saati_utc": "14:00",
+         "kaynaklar": [], "basliklar": ["World 3 | Sci-Fi Space Ambient for Deep Focus (2 Hours) · Mission 007",
+                                        "Deep Focus Music · Mission 007"]}
+    (tmp_path / "buyume" / "oneriler.json").write_text(json.dumps(o), encoding="utf-8")
+    yt = metin.uret(g, AYAR)
+    assert yt["baslik"].startswith("World 3 | Sci-Fi") and yt["baslik_kaynagi"] == "arastirma"
+    o["basliklar"][0] = "Interstellar Ambient for Deep Focus"
+    (tmp_path / "buyume" / "oneriler.json").write_text(json.dumps(o), encoding="utf-8")
+    yt = metin.uret(g, AYAR)
+    assert "interstellar" not in yt["baslik"].lower() and yt["baslik_kaynagi"] == "sablon"
+    (tmp_path / "buyume" / "oneriler.json").write_text("{bozuk", encoding="utf-8")
+    assert metin.uret(g, AYAR)["baslik_kaynagi"] == "sablon"          # bozuk öneri dosyası çökertmez
+    o.update(secilen=5)
+    (tmp_path / "buyume" / "oneriler.json").write_text(json.dumps(o), encoding="utf-8")
+    assert metin.uret(g, AYAR)["baslik_kaynagi"] == "sablon"
+
+
+def test_G9_surec_notu_gorsellerin_kaynagini_dogru_soyler():
+    assert "AI-generated images" in metin.SUREC_NOTU and "generated with code" not in metin.SUREC_NOTU
+    skill = (KOK / ".claude" / "skills" / "youtube" / "SKILL.md").read_text(encoding="utf-8")
+    assert "## 8. YouTube uzmanı ajanı" in skill and "oneriler.json" in skill and "kararlar.json" in skill
+    assert (KOK / "deepspace" / "buyume" / "README.md").exists()
+
+
 def test_G14_seyir_defteri_goruntuyu_bukmez(tmp_path):
     from PIL import Image
     from deepspace.defter import SeyirDefteri

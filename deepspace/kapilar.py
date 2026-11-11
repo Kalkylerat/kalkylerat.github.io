@@ -96,14 +96,20 @@ def ses(bolumler: dict, ayar: dict, hedef_dakika: float) -> list[dict]:
 
 
 # ---------- G5: metin ----------
+def yasak_kelimeler(metin: str, ayar: dict) -> list[str]:
+    """G5: metinde geçen sanatçı ve film adları (`ayar.toml [metin] yasak_kelimeler`, büyük/küçük harf duyarsız)."""
+    m = metin.lower()
+    return [k for k in ayar["metin"]["yasak_kelimeler"] if re.search(rf"\b{re.escape(k)}\b", m)]
+
+
 def metin_temel(yt: dict, ayar: dict) -> list[dict]:
     """G5/G9: uzunluklar, yasak kelimeler (sanatçı/film adı), sentetik içerik etiketi. Shorts metinleri de buna uyar."""
     mt = ayar["metin"]
     sonuc = [_k("başlık uzunluğu", 0 < len(yt["baslik"]) <= mt["baslik_max"], f"{len(yt['baslik'])} karakter"),
              _k("açıklama uzunluğu", len(yt["aciklama"]) <= mt["aciklama_max"], f"{len(yt['aciklama'])} karakter"),
              _k("etiket toplamı", sum(len(e) + 1 for e in yt["etiketler"]) <= mt["etiket_max_karakter"])]
-    tum = " ".join([yt["baslik"], yt["aciklama"], " ".join(yt["etiketler"]), yt.get("sabit_yorum", "")]).lower()
-    yasak = [k for k in mt["yasak_kelimeler"] if re.search(rf"\b{re.escape(k)}\b", tum)]
+    yasak = yasak_kelimeler(" ".join([yt["baslik"], yt["aciklama"], " ".join(yt["etiketler"]),
+                                      yt.get("sabit_yorum", "")]), ayar)
     sonuc.append(_k("yasak kelime yok (sanatçı/film adı)", not yasak, ", ".join(yasak)))
     sonuc.append(_k("sentetik içerik etiketi açık", yt.get("sentetik_icerik") is True))
     return sonuc

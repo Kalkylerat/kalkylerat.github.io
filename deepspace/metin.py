@@ -1,24 +1,40 @@
 """YouTube metinleri: başlık, açıklama (bölümler + gerçek gök cismi bilgisi + süreç notu), etiketler, sabit yorum.
 
-Şablonla üretilir; yapay zekâ çağrısı yok (maliyet kuralı). Bilgiler görevin gorev.toml dosyasından gelir.
+Şablonla üretilir; yapay zekâ çağrısı yok (maliyet kuralı). Bilgiler görevin gorev.toml dosyasından gelir. Başlık:
+YouTube uzmanının araştırma önerisi (`<görev>/buyume/oneriler.json`) G5'ten geçerse o, yoksa seri şablonu (G17).
 """
 from __future__ import annotations
 
 import json
+from pathlib import Path
 
+from .kapilar import yasak_kelimeler
 from .ortak import cikti, seri, zaman
 
 SUREC_NOTU = (
     "How this music is made\n"
     "Every mission is composed around one destination. Each piece has its own melodic motif, key and sound "
     "palette, written as composition prompts and generated with AI music tools (Suno), then hand-selected, "
-    "sequenced and mastered for long, distraction-free focus. The visuals are generated with code: real "
-    "planets and stars, imagined surfaces."
+    "sequenced and mastered for long, distraction-free focus. The scenes are AI-generated images of real "
+    "destinations with imagined surfaces; the light motion and the mission log are rendered with code."
 )
 
 
 def bolum_satirlari(bolumler: dict) -> list[str]:
     return [f"{zaman(p['basla'])} {p['ad']}" for p in bolumler["parcalar"]]
+
+
+def oneri_basligi(gorev: dict, ayar: dict) -> str | None:
+    """Araştırma istasyonunun seçtiği başlık; dosya yoksa, bozuksa ya da G5'i geçmiyorsa None."""
+    yol = Path(gorev["klasor"]) / "buyume" / "oneriler.json"
+    try:
+        o = json.loads(yol.read_text(encoding="utf-8"))
+        aday = str(o["basliklar"][int(o["secilen"])]).strip()
+    except (OSError, ValueError, KeyError, IndexError, TypeError):
+        return None
+    if not 0 < len(aday) <= ayar["metin"]["baslik_max"] or yasak_kelimeler(aday, ayar):
+        return None
+    return aday
 
 
 def uret(gorev: dict, ayar: dict) -> dict:
@@ -27,7 +43,8 @@ def uret(gorev: dict, ayar: dict) -> dict:
     sr = seri(gorev, ayar)
     kanal = ayar["kanal"]["ad"]
     saat = round(bolumler["toplam_sn"] / 3600)
-    baslik = sr["baslik"].format(hedef=gorev["hedef"], saat=saat)
+    oneri = oneri_basligi(gorev, ayar)
+    baslik = oneri or sr["baslik"].format(hedef=gorev["hedef"], saat=saat)
 
     notlar = [f"{p['ad']}: {p['bilgi']}" for p in gorev["parca"] if p.get("bilgi")]
     aciklama = "\n".join([
@@ -64,6 +81,7 @@ def uret(gorev: dict, ayar: dict) -> dict:
 
     sonuc = {
         "baslik": baslik,
+        "baslik_kaynagi": "arastirma" if oneri else "sablon",
         "aciklama": aciklama,
         "etiketler": etiketler,
         "sabit_yorum": yorum,

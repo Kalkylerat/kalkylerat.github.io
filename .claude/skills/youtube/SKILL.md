@@ -119,7 +119,8 @@ netleştirdi. Kaynak: support.google.com/youtube/answer/1311392.
 - Geri dönen izleyici, abonelik kaynağı, trafik kaynağı (arama, önerilen, dış kaynak).
 - Karar kuralı: bir değişiklik bir kerede bir şeyi değiştirir. Test & Compare sonucu gelmeden ikinci değişiklik
   yapılmaz.
-- vidIQ ve benzeri ücretli araçlar çağrı başına kredi harcar: sahibine sormadan kullanma (G11).
+- vidIQ çağrı başına kredi harcar: yalnız YouTube uzmanı ajanı, aylık bütçe içinde (G17, §8). Başka ücretli
+  araç sahibine sormadan kullanılmaz (G11).
 
 ## 7. Denetçiye kontrol listesi (YouTube paketi)
 - [ ] Başlık ≤100 karakter, fayda önce, sanatçı/film adı yok, yanıltıcı değil.
@@ -129,3 +130,23 @@ netleştirdi. Kaynak: support.google.com/youtube/answer/1311392.
 - [ ] AI use = Yes; kategori Music; gizli ve planlı yükleme (≥24 sa).
 - [ ] Bu video öncekilerden konsept, görseller, müzik ve anlatı bakımından açıkça farklı (inauthentic kalkanı).
 - [ ] Sabit yorum ve bitiş ekranı (son 20 sn: sonraki görev + abone ol).
+
+## 8. YouTube uzmanı ajanı
+Ajan: `.claude/agents/youtube-uzmani.md` (en güçlü model). Veri vidIQ'dan; dosya biçimleri `deepspace/buyume/README.md`.
+
+- **Görev başına (araştırma istasyonu, G15):** konsepte göre kelime araştırması ve öne çıkan rakip videolar →
+  `<görev>/buyume/oneriler.json` (iki başlık adayı ve seçim, kelimeler, seri, yayın saati, kaynaklar) ve
+  `<görev>/buyume/arastirma.md` (gerekçe; her rakamın hangi çağrıdan geldiği). Denetçi rakamları kaynağa karşı
+  kontrol eder. `metin.uret` seçilen başlığı G5'ten geçerse kullanır; geçmezse seri şablonuna döner ve
+  `youtube.json`'a `"baslik_kaynagi": "sablon"` yazar.
+- **Haftalık analiz:** önce kendi kanal verisi (CTR, izlenme süresi, trafik kaynağı), sonra rakiplerin öne çıkanları
+  ve yükselen kelimeler → `deepspace/buyume/hafta_<yıl>-<hafta>.md` ve kararlar `deepspace/buyume/kararlar.json`.
+- **Kendi verdiği kararlar (kural içinde):** başlık kelimeleri ve biçim testi, yayın günü ve saati, seri sırası,
+  konsept adayları, kapak varyant sırası, oynatma listesi düzeni. Bir kerede tek değişiklik; önceki testin sonucu
+  gelmeden ikincisi yok (§6).
+- **Sahibine sorulanlar:** yeni seri, bütçe artışı, kural gevşetme, kanal adı ya da handle değişikliği.
+- **Bütçe (G17):** çağrı başı 5 kredi, `vidiq_balance` ücretsiz; aylık tavan `ayar.toml [vidiq] aylik_kredi`
+  (100), dönem yenileme gününde (27) başlar. Proje kancası `deepspace/vidiq_butce.py` her vidIQ çağrısından önce
+  çalışır: izin listesi dışındaki araçları (üretim, kanala yazma, yorum yanıtlama) ve tavanı aşan çağrıyı reddeder,
+  izin verileni `deepspace/buyume/vidiq_harcama.jsonl` defterine yazar. Aynı veriyi iki kez çekme: önce `buyume/`.
+- **Yasak:** sahte etkileşim, başka kanallara yorum, kopya başlık ya da kapak, film ve sanatçı adları (G5, G9).

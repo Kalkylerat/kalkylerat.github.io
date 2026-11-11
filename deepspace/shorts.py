@@ -6,13 +6,12 @@ bu analize ve görsellere bakarak `shorts_plan.json`'u yazar; plan kod kapısın
 from __future__ import annotations
 
 import json
-import re
 import subprocess
 from pathlib import Path
 
 import numpy as np
 
-from .kapilar import SES_ESIGI_DB, _k
+from .kapilar import SES_ESIGI_DB, _k, yasak_kelimeler
 from .ortak import cikti, kayit_yukle, seri
 
 SR = 8000  # enerji eğrisi için yeterli (yalnız seviye ölçülür)
@@ -73,7 +72,7 @@ SHORTS_NOTU = ("Music generated with AI music tools (Suno), then hand-selected a
 def plan_kontrol(plan: list, gorev: dict, bolumler: dict, kayit: dict, ayar: dict) -> list[dict]:
     """G12 plan kapısı: adet, ayrı parçalar, süre, aralık (çapraz geçiş hariç), kırpma, kanca (≤3 kelime, G5) ve
     başka görevde kullanılmış anla örtüşme (ses özeti + parça içi saniye)."""
-    sh, mt = ayar["shorts"], ayar["metin"]
+    sh = ayar["shorts"]
     if not isinstance(plan, list):
         return [_k("shorts planı bir liste", False)]
     satirlar = [x if isinstance(x, dict) else {} for x in plan]
@@ -100,7 +99,7 @@ def plan_kontrol(plan: list, gorev: dict, bolumler: dict, kayit: dict, ayar: dic
         bp = bolumler["parcalar"][parca - 1]
         alt, ust = bp["basla"] + capraz, bp["basla"] + bp["sure"] - capraz
         kelime = len(kanca.split())
-        yasak = [w for w in mt["yasak_kelimeler"] if re.search(rf"\b{re.escape(w)}\b", kanca.lower())]
+        yasak = yasak_kelimeler(kanca, ayar)
         sonuc += [
             _k(f"{ad}: süre {sh['min_sn']}–{sh['max_sn']} sn", sh["min_sn"] <= sure <= sh["max_sn"], f"{sure:g} sn"),
             _k(f"{ad}: aralık parçanın içinde (çapraz geçiş hariç)", alt <= bas and bas + sure <= ust,

@@ -58,3 +58,14 @@ sakin koyu deniz), gökyüzünü kaplayan tek bir galaksi ya da bulutsu, bol bo�
 küçük bir başlık ve onun altında minik bir alt satır. Bu his 002'den itibaren kapak, banner ve sahne görsellerinin yönüdür.
 Bizim dilimizle uygulanır: Space Mono (geniş harf aralığı), kehribar (#e8c48a) çizgi ve `MISSION 00N` etiketi, ufukta
 küçük PROBE-7 silueti (G7). Referans yalnız histir; kopyalanmaz.
+
+## 6. Konsept doğrulaması (11 Kasım 2026 akşam, vidIQ outliers 3 çağrı, 15 kredi)
+Son 6–12 ayın en çok izlenen ve en çok taşan uzay ambient videoları:
+- **En büyükler sade:** Astral Ambience "Nighttime" 796K, "Quiet" 305K, "Sleeping Galaxy" 201K, "Nebula Dreams" 151K.
+  Hepsi 2 saat, karanlık ufuk + tek galaksi/bulutsu, ince harf aralıklı tek ad. 1.3K aboneli bir kanalın derin uzay
+  bulutsusu videosu 268K. Sahibinin 11 Kasım stil seçimi verilerle örtüşüyor.
+- **Ses hep elektronik:** yavaş synth katmanları, dron, "cinematic electronic", analog Berlin okulu (274K). Akustik
+  orkestra/folk paleti bu nişte yok; 001'in "Yalnız Gezegen" paleti bu yüzden değişiyor.
+- **Başlık kalıbı:** çağrışımlı tek ad + `|` + tür + fayda (uyku en güçlü, sonra odak/çalışma) + süre.
+- **Dünya manzarası + dev gezegen** kalıbı öne çıkanlarda yok; 001 görselleri yeni konseptle (gezegen yüzeyi/yörünge,
+  insan yok) yeniden üretilecek.

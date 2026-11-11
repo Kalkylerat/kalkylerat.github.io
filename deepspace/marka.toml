@@ -26,7 +26,7 @@ govde_font = "SpaceMono-Regular"
 
 [sablon]
 # Şablon yazı boyutları (piksel, kendi karesinde). Telefon kuralı: en küçük yazı kare yüksekliğinin %2'si (G16).
-# Kapak 1280x720: üstte/altta ortada harf aralıklı başlık, kehribar çizgi, kehribar etiket, gökte küçük PROBE-7.
+# Kapak 1280x720: sahnenin küçültülmüş hâli, harf aralıklı başlık, kehribar çizgi ve etiket (düzen: kapak.py).
 kapak_baslik = 70
 kapak_etiket = 22
 # Short 1080x1920: kanca y=0.28H, sinyal y>0.8H.
@@ -34,11 +34,11 @@ short_kanca = 64
 short_etiket = 40
 
 [gorsel]
-# Görsel dili (11 Kasım 2026, marka kiti): karanlık, durgun bir ufuk (buzlu ya da kayalık bir dünyanın yüzeyi,
-# yörüngeden bir gezegen kenarı) ve gökyüzünü kaplayan TEK büyük gök cismi (galaksi, bulutsu, halkalı dev).
-# Bol boşluk, insan figürü yok ya da çok küçük. Her sahne uzayda; ışık fiziği doğru (G13).
+# Görsel dili: kurallar .claude/skills/gorsel-dili/SKILL.md (12 Kasım 2026). Karanlık, durgun bir yabancı ufuk ya da
+# yörüngeden görünüm ve TEK büyük gerçek gök cismi. Sahnede insan, araç, sonda, bina, iz yok; PROBE-7 yalnız
+# arayüzde. Her sahne uzayda; ışık fiziği doğru (G13).
 model = "flux-3-image"
-stil_eki = "Photorealistic cinematic space scene, minimal and vast: what a distant probe camera sees, a dark quiet alien horizon or a view from orbit with one huge real celestial body as the subject. Deep blacks, sharp unblinking stars. Physically correct lighting: the only light comes from the named star, every lit crescent faces it, shadows fall away from it, and the light colour matches the star. Generous empty dark sky in the upper third for a title. Calm, still, meditative. Ultra detailed, realistic scale, wide 16:9. No people, no vehicles, no probes, no spacecraft, no landers, no buildings, no machines, no footprints, no text, no logo, no watermark."
+stil_eki = "Photorealistic cinematic space scene, minimal and vast: what a distant probe camera sees, a dark quiet alien horizon or a view from orbit with one huge real celestial body as the subject. Deep blacks, sharp stars wherever the sky is clear. Physically correct lighting: the only light comes from the named star, every lit crescent faces it, shadows fall away from it, and the light colour matches the star. At least half of the frame is calm darkness. Calm, still, meditative. Ultra detailed, realistic scale, wide 16:9. No people, no vehicles, no probes, no spacecraft, no landers, no buildings, no machines, no footprints, no text, no logo, no watermark."
 yasaklar = ["neon pink", "purple gradient", "lens flare overload", "emoji", "text in image", "watermark"]
 
 [hareket]

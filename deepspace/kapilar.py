@@ -216,7 +216,7 @@ def shorts(yollar: list[Path], ayar: dict) -> list[dict]:
 
 # ---------- G13: görsel denetimi ----------
 def gorseller(gorev: dict) -> list[dict]:
-    """Görseli olan her parça teknik ölçümü ve göz denetimini geçmeli. Görseli olmayan parça kod sahnesine düşer (G6)."""
+    """Görseli olan her parça teknik ölçümü ve göz denetimini geçmeli. Görseli olmayan parça kod sahnesine düşmez; video çıkmaz (G6)."""
     from .gorsel_denetim import gorev_gorselleri
     return [_k(f"görsel {g['no']:02d} denetimi", not g["sorunlar"], "; ".join(g["sorunlar"]))
             for g in gorev_gorselleri(gorev) if g["yol"]]

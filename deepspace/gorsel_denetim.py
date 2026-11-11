@@ -6,7 +6,7 @@
    Yapay zekâ görsellerinin tipik saçmalıkları burada yakalanır (fazla parmak, iki kafa, havada duran nesne...).
 Kapı: ikisi de geçmeden görsel videoya girmez. Kalan görselin istemine bulunan kusurun tersi açıkça yazılır
 ("a single fisherman", "exactly six wheels") ve yeniden üretilir (en fazla YENIDEN_DENEME kez, tek varyasyon);
-yine kalırsa istem sadeleştirilir ya da parça kod sahnesine düşer, olay kayda geçer.
+yine kalırsa video çıkmaz ve sahibine sorulur (kod sahnesi yok, G6); olay kayda geçer.
 Göz denetimi görselin dosya özetine bağlıdır: görsel değişirse eski denetim geçersizdir.
 """
 from __future__ import annotations
@@ -25,20 +25,24 @@ YENIDEN_DENEME = 2
 # Göz denetiminin sorduğu sorular. "kritik" olanlardan biri bile varsa puan ne olursa olsun görsel kalır.
 KONTROL_LISTESI = [
     {"kod": "anatomi", "kritik": True,
-     "soru": "İnsan/hayvan varsa: fazla ya da eksik kol, bacak, parmak, iki kafa, erimiş yüz, ters dönmüş eklem var mı?"},
+     "soru": "Sahnede insan, hayvan, araç, sonda, iniş aracı, uzay aracı, bina, makine ya da ayak izi gibi bir iz var mı? "
+             "(Konsept: sahnede hiçbiri olmaz; PROBE-7 yalnız arayüzde görünür.)"},
     {"kod": "yazi", "kritik": True,
      "soru": "Görselde okunur ya da yarım yazı, logo, filigran, imza, arayüz öğesi var mı?"},
     {"kod": "fizik", "kritik": True,
-     "soru": "Havada asılı duran ev/araç/insan, yere gömülmüş ya da ikiye bölünmüş nesne, imkânsız birleşme var mı? "
+     "soru": "Işık fiziği bozuk mu: ikinci ışık kaynağı, yıldıza bakmayan hilal, açıyla çelişen evre, yıldızın tersine "
+             "düşmeyen gölge, havada asılı kaya, ikiye bölünmüş ya da iç içe geçmiş cisim? "
              "(Gökyüzündeki dev gök cismi konseptin parçasıdır, saçmalık sayılmaz.)"},
     {"kod": "tekrar", "kritik": False,
      "soru": "İstenmeyen kopya var mı: aynı figürden iki tane, istemde yokken iki güneş, kopyala-yapıştır gibi tekrar eden desen?"},
     {"kod": "olcek", "kritik": False,
-     "soru": "Ölçek ve perspektif tutarlı mı: ufuk çizgisi düz, insan/araç boyutu çevreyle uyumlu, gölgeler makul yönde?"},
+     "soru": "Ölçek ve perspektif tutarlı mı: ufuk çizgisi düz, gökteki cismin boyutu ve zemin dokusu birbiriyle uyumlu, "
+             "gölgeler aynı yönde?"},
     {"kod": "bozulma", "kritik": False,
      "soru": "Erimiş doku, bulanık yama, dikiş izi, aşırı keskinleşme, plastik görünüm gibi bozulma var mı?"},
     {"kod": "istem", "kritik": True,
-     "soru": "İstemin üç ana öğesi var mı: Dünya'ya benzeyen manzara, gökyüzünde dev gök cismi, küçük insan izi/hikâye unsuru?"},
+     "soru": "Konseptin ana öğeleri var mı: karanlık, durgun bir yabancı ufuk ya da yörüngeden görünüm, tek büyük gerçek "
+             "gök cismi özne olarak, istemdeki duraktan sapmayan yüzey (Dünya'ya benzeyen yeşil/mavi manzara yok)?"},
     {"kod": "marka", "kritik": False,
      "soru": "Sakin ve sinematik mi? Neon pembe, mor gradyan, aşırı parlama, çizgi film görünümü yok mu?"},
 ]

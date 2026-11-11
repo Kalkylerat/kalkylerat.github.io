@@ -149,7 +149,7 @@ Her yeni ya da değişen görsel videoya girmeden:
    puan <7 = kaldı. Kalan görselde `gorev.toml`'daki `gorsel_istem`e kusurun tersini açıkça ekle ("a single
    fisherman, no other people", "exactly six wheels"), ElevenLabs düğümünün istemini güncelle, **tek varyasyonla**
    yeniden üret (`generations_count=1`, 2K ≈ 1.454 kredi), indir, yeniden denetle; `gorsel_oturum/gorsel_uretim`
-   kimliklerini güncelle. Görsel başına en fazla 2 deneme; sonra kod sahnesi + `GORSEL_DENETIM.md`'ye kayıt.
+   kimliklerini güncelle. Görsel başına en fazla 2 deneme; yine kalırsa video çıkmaz, sahibine sorulur (kod sahnesi yok, G6).
 `kontrol` raporu da bu kapıyı içerir: denetimsiz görsel = kırmızı rapor.
 
 ## Google (kurulum `deepspace/KURULUM.md`)

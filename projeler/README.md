@@ -14,7 +14,7 @@ güncelle.
 | Flow Event (DJ hizmeti ve kursu) | [flow-event.md](flow-event.md) | beklemede | alan adı, pilot öğrenci |
 | E-ticaret (Shopify) | [e-ticaret.md](e-ticaret.md) | başlamadı | ilk ürün kararı |
 | Suno müzik | [suno.md](suno.md) | Deep Space Log'a bağlandı | 001 müzikleri |
-| Deep Space Log (YouTube, eski Köz) | [deep-space-log.md](deep-space-log.md) | konsept sabit, bağımsız inceleme uygulandı (11 Kasım) | 001: 20 Suno şarkısı (sahibi seçer), 19 görsel, banner/profil onayı |
+| Deep Space Log (YouTube, eski Köz) | [deep-space-log.md](deep-space-log.md) | inceleme uygulandı; banner/profil/açıklama yayında; 001 ve 002 şarkıları Suno'da (12 Kasım) | 001: sahibinin şarkı seçimi + indirme, 19 görsel; 002: hat istasyonları (marka kararı, bilgi doğrulama) |
 | Fikir rafı | [fikir-rafi.md](fikir-rafi.md) | karar bekliyor | "Sezon hazır" (1 Kasım öncesi) |
 | Genel: Claude kullanımı ve maliyet | [genel.md](genel.md) | not | — |
 

@@ -12,7 +12,15 @@ Bu bölüm aşağıdaki bütün eski notların üstündedir; çelişirse bu geç
 - **001 Seven Worlds:** yeni rota (Proxima b → ... → Fomalhaut, sonra TRAPPIST-1 b–h, uzaklık sırasıyla),
   `gorev.toml` + `SUNO.md` palet A ile yeniden yazıldı; bilgiler doğrulandı (`bilgi_kaynak.json`, 4 düzeltme
   uygulandı). Başlık `buyume/oneriler.json`. Görseller: yalnız `gorsel/17.png` (TRAPPIST-1e, durağan) hazır; eski
-  20 görsel `gorsel/eski_dunya/`. Sıradaki: 20 Suno şarkısı (2 versiyon), sahibi seçer; 3 görsel deneme, sonra 17.
+  20 görsel `gorsel/eski_dunya/`. **Şarkılar üretildi (12 Kasım):** Suno çalışma alanı "DSL 001 Seven Worlds"
+  (wid 2db92512-7f06-4cf8-9878-cf1ef884be00), 20 parça × 2 versiyon, hepsi 6:00, başlıklar "NN Ad". Sıradaki:
+  sahibi seçer, yalnız seçilenler indirilir (indirme hakkı 18 Kasım'a kadar ~25); 3 görsel deneme, sonra 17.
+- **002 Frost Line (taslak, 12 Kasım):** Güneş Sistemi'nde içten dışa 20 durak (Ay → Mars → ... → Pluto → Charon
+  → Arrokoth), palet A, Mi minör → Sol → Re (doruk Titan) → Si minör. `gorevler/002-frost-line/gorev.toml`.
+  Kredi yanmasın diye şarkılar sahibinin izniyle ("kafana göre üret") önden üretildi:
+  Suno "DSL 002 Frost Line" (wid e87b14ad-a74d-4d7a-a62d-ca930ea56a35), 40 şarkı. **Hat istasyonları işlenmedi:**
+  marka kararı yeni banner yüzünden yenilenmeli (`gorev durum` "çıktılar karardan sonra değişti"), araştırma,
+  konsept denetimi ve bilgi doğrulaması (bilgi-dogrulayici) yapılmadı; `SUNO.md` bu yüzden üretilemedi.
 - **Video (G6, G14):** görsel durağan, yalnız arayüz hareket eder; parça geçişinde görüntü sesle birlikte yumuşakça
   karışır; ilk dakikadan sonra arayüz %60'a söner; sol üstte o anki durağın adı ve "ARTIST'S IMPRESSION". Kayıt
   kartı cümleyi iki karta bölmez. Çıkış 1440p. Görseli olmayan parça kod sahnesine düşmez, video çıkmaz.
@@ -23,9 +31,10 @@ Bu bölüm aşağıdaki bütün eski notların üstündedir; çelişirse bu geç
 - **Shorts (G12):** duraklatıldı (`[shorts] acik = false`), ilk 5 uzun videodan sonra.
 - **Metinler (G9):** Studio'daki AI beyanı açık; metinler AI'yi anmaz, yalan da söylemez. Açıklama notu:
   "Visuals are artist's impressions. The worlds are real." Sıklık sözü ("weekly") yok.
-- **Marka:** yeni banner ve profil taslağı (kayıt defteri dili, bağımsız incelemeyi yapan model çizdi):
-  `deepspace/marka/taslak/banner_defter.jpg`, `profil_defter.png`, önizleme `onizleme_defter.jpg`; sahibinin
-  onayından sonra Studio'ya yüklenir. Kanal ülkesi İsveç (11 Kasım).
+- **Marka:** yeni banner ve profil (kayıt defteri dili, bağımsız incelemeyi yapan model çizdi):
+  `deepspace/marka/taslak/banner_defter.jpg`, `profil_defter.png`, önizleme `onizleme_defter.jpg`. Sahibi "koyu mod
+  harika olmuş" dedi; 12 Kasım'da Studio'ya yüklendi, kanal açıklaması da `kanal.md`'deki yeni metinle değişti.
+  Marka kiti dosyaları (`marka_kiti.py` kaynakları) henüz bu tasarıma çekilmedi. Kanal ülkesi İsveç (11 Kasım).
 - **Hareket istasyonu ve hareket-tarifcisi ajanı** artık kullanılmaz (görsel durağan).
 
 ## Eski durum (11 Kasım 2026 öğleden sonra; yukarıdaki bölüm geçerlidir)

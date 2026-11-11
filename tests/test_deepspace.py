@@ -628,3 +628,62 @@ def test_G15_001_kilit_disi_ve_denetim_komutu(tmp_path, monkeypatch):
     k = is_kaydi.kayit_oku(tmp_path, "arastirma")
     assert k["karar"] == "KALDI" and k["bulgular"][0] == {"kod": "kaynak", "not": "rakam kaynaksız", "kanit": ""}
     assert cli.main(["denetim", str(tmp_path), "--istasyon", "video", "--karar", "GECTI"]) == 3
+
+
+def _on_bolum(yol):
+    satirlar = yol.read_text(encoding="utf-8").split("---")[1].strip().splitlines()
+    return {a.strip(): b.strip() for a, _, b in (s.partition(":") for s in satirlar if ":" in s)}
+
+
+def test_G15_ajan_dosyalari():
+    klasor = KOK / ".claude" / "agents"
+    beklenen = {"marka-tasarimcisi": "opus", "konsept-yazari": "sonnet", "bilgi-dogrulayici": "sonnet",
+                "gorsel-yonetmeni": "sonnet", "gorsel-denetcisi": "opus", "hareket-tarifcisi": "sonnet",
+                "operator": "haiku", "kod-ustasi": "sonnet", "denetci": "opus", "youtube-uzmani": "opus",
+                "shorts-kurgucusu": "sonnet"}
+    for ad, model in beklenen.items():
+        on = _on_bolum(klasor / f"{ad}.md")
+        assert on["name"] == ad and on["model"] == model and on["tools"] and on["effort"]
+    denetci = _on_bolum(klasor / "denetci.md")
+    assert not {"Write", "Edit", "NotebookEdit"} & {t.strip() for t in denetci["tools"].split(",")}
+    uzman = _on_bolum(klasor / "youtube-uzmani.md")
+    assert uzman["effort"] == "high"
+    from deepspace import vidiq_butce
+    araclar = {t.strip() for t in uzman["tools"].split(",")}
+    assert {f"mcp__claude_ai_vidIQ__{a}" for a in vidiq_butce.IZINLI} <= araclar
+    assert not any("generate" in t or "reply" in t or "upload" in t or "update" in t for t in araclar)
+
+
+def test_G17_vidiq_izin_listesi_ve_tavan(tmp_path):
+    from datetime import datetime, timezone
+    from deepspace import vidiq_butce as vb
+    d, ayar = tmp_path / "h.jsonl", {"vidiq": {"aylik_kredi": 10, "yenileme_gunu": 27, "cagri_kredi": 5}}
+    t = datetime(2026, 11, 28, tzinfo=timezone.utc)
+    assert not vb.karar("mcp__claude_ai_vidIQ__vidiq_generate_video", d, ayar, t)[0]
+    assert not vb.karar("mcp__claude_ai_vidIQ__vidiq_reply_to_comment", d, ayar, t)[0]
+    assert vb.karar("mcp__claude_ai_vidIQ__vidiq_balance", d, ayar, t)[0]
+    assert vb.karar("mcp__vidIQ__vidiq_outliers", d, ayar, t)[0]
+    assert vb.karar("mcp__claude_ai_vidIQ__vidiq_keyword_research", d, ayar, t)[0]
+    assert not vb.karar("mcp__claude_ai_vidIQ__vidiq_outliers", d, ayar, t)[0]   # 10 kredi doldu
+    assert vb.harcanan(d, vb.donem_basi(t, 27)) == 10                           # balance düşmedi
+    assert len(d.read_text(encoding="utf-8").splitlines()) == 3
+    yeni_donem = datetime(2026, 12, 27, 1, tzinfo=timezone.utc)
+    assert vb.karar("mcp__claude_ai_vidIQ__vidiq_outliers", d, ayar, yeni_donem)[0]
+    assert vb.donem_basi(datetime(2026, 1, 5, tzinfo=timezone.utc), 27).isoformat() == "2025-12-27"
+
+
+def test_G17_kanca_bozuk_girdiyi_reddeder(monkeypatch):
+    import io
+    from deepspace import vidiq_butce as vb
+    monkeypatch.setattr("sys.stdin", io.StringIO("{bozuk"))
+    assert vb.main() == 2
+    monkeypatch.setattr("sys.stdin", io.StringIO('{"tool_name": "mcp__claude_ai_vidIQ__vidiq_update_video"}'))
+    assert vb.main() == 2
+
+
+def test_G17_kanca_proje_ayarinda():
+    s = json.loads((KOK / ".claude" / "settings.json").read_text(encoding="utf-8"))
+    kanca = s["hooks"]["PreToolUse"][0]
+    assert re.fullmatch(kanca["matcher"], "mcp__claude_ai_vidIQ__vidiq_outliers")
+    assert re.fullmatch(kanca["matcher"], "mcp__vidIQ__vidiq_outliers")
+    assert "deepspace.vidiq_butce" in kanca["hooks"][0]["command"]

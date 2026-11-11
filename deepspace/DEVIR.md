@@ -19,7 +19,11 @@ Bu bölüm aşağıdaki eski notların üstündedir; çelişirse bu geçerlidir.
   uzun videodan +1/+3/+5 gün sonra planlı.
 - **YouTube uzmanı (G17):** araştırma istasyonu ve haftalık analiz, vidIQ aylık 100 kredi tavanı (kanca
   `deepspace/vidiq_butce.py`). Araştırmanın başlığı G5'ten geçerse pakete girer (`baslik_kaynagi`).
-- **Açık:** marka istasyonunun denetçi kararı ve sahibin onay kaydı (`gorev marka --onay --kim sahip`); 001 kapağı
+- **Marka:** denetçi tur 2'de GEÇTİ, sahibinin onayı kayıtlı (11 Kasım).
+- **001 müziği:** 20 istem tek paletle yeniden yazıldı ("Yalnız Gezegen": org flüt, çello armoniği, cam, gezegen
+  uğultusu, rüzgâr, uzak gök gürültüsü; `gorev.toml ses_paleti`, `SUNO.md`). Sıradaki: sahibi 20 şarkıyı `ses/`'e
+  koyar (mp3 ya da wav), "şarkılar geldi" der; sonra ses → video → paket.
+- **Açık:** 001 kapağı
   için sahibinin seçtiği B3 (`marka/taslak/kapak_001.jpg`) ile `kapaklar`ın ürettiği arasında fark; Suno dosyaları
   (şu an yalnız `Small Signal.wav`); kanal adı/handle (`@deepspacelogmusic`) ve Google OAuth sahibinde.
 

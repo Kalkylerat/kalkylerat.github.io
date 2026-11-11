@@ -1,544 +1,529 @@
 # Mission 001 · TRAPPIST-1e: Suno istemleri
 
 Her parça için: Suno'da **Custom** modu aç, aşağıdaki üç bloğu ilgili kutulara yapıştır, **Create**.
-Beğendiğin varyasyonu indir ve **dosya adını tam olarak** aşağıdaki gibi koy, `ses/` klasörüne at.
+Beğendiğin varyasyonu indir ve **dosya adını tam olarak** aşağıdaki gibi koy (uzantı .mp3 ya da .wav olabilir), `ses/` klasörüne at.
 Parça hedef süreden kısa çıkarsa son 30 saniyesinden **Extend** ile tamamla. Vokal gelirse **Instrumental**'ı açıp yeniden üret.
+
+Bölüm ses paleti (bütün parçalar bu enstrümanlardan seçer, mix'te tek ses gibi akar): soft pipe organ flute stop, long cello harmonics, bowed glass tones, deep planetary hum, wind field recording, distant thunder.
 
 ## 01. Proxima b · 6:15 · D minor · 58 BPM
 
 Dosya adı: `01-proxima-b.mp3`
 
-Motif: Beacon: D–A–F, kök, beşli yukarı, minör üçlüye iniş; FM cam çanında, 8 ölçüde bir.
+Motif: Beacon: D–A–F, kök, beşli yukarı, minör üçlüye iniş; org flüt registerinde. Bölümün ana teması (20'de geri döner).
 
 **Style**
 ```
-deep space ambient, recurring three-note beacon motif D-A-F on cold FM glass bell, slow and lonely, cathedral pipe organ 16 foot drone, high-passed white noise solar wind, pure sine sub bass, D minor, 58 bpm, sus2 harmony, huge reverb, slow fade in, sparse, mysterious, instrumental, 6 minutes 15 seconds
+ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, beacon motif D-A-F on soft pipe organ flute stop, long cello harmonics, faint bowed glass tones, deep planetary hum drone, D minor, 58 bpm, sus2 harmony, sparse, long silences, slow fade in, calm, lonely, huge natural reverb, instrumental, 6 minutes 15 seconds
 ```
 
 **Exclude**
 ```
-drums, percussion, vocals, choir, piano, strings, EDM, upbeat, busy melodies
+drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies
 ```
 
 **Lyrics**
 ```
-[Intro | 0:00-0:45 | near silence, solar wind noise slowly rises, no melody]
-[Drone | 0:45-1:30 | pipe organ low D drone fades in, sine sub bass underneath]
-[Beacon Motif | 1:30-2:25 | FM glass bell plays D-A-F slowly, long echo, repeats twice]
-[Space | 2:25-3:15 | motif rests, wind and drone breathe, sus2 color]
-[Beacon Returns | 3:15-4:20 | motif an octave higher, organ adds fifth, slightly brighter]
-[Deep Field | 4:20-5:20 | bell fades, organ swells softly, noise shimmer]
-[Outro | 5:20-6:15 | last D-A-F far away, drone holds, slow fade to silence]
+[Intro | 0:00-0:40 | wind field recording and distant thunder only, near silence]
+[Hum | 0:40-1:40 | deep planetary hum drone fades in under the wind]
+[Beacon Motif | 1:40-2:40 | soft pipe organ flute plays D-A-F slowly, long echo, repeats twice]
+[Space | 2:40-3:50 | motif rests, long cello harmonic holds, wind breathes]
+[Beacon Returns | 3:50-5:00 | D-A-F an octave higher, faint bowed glass answers]
+[Outro | 5:00-6:15 | last D-A-F far away, hum holds, slow fade to wind]
 ```
 
 ## 02. Barnard b · 6:15 · D minor · 60 BPM
 
 Dosya adı: `02-barnard-b.mp3`
 
-Motif: Lantern: F – E – D – alçak A, kızıl cüce ışığı gibi sıcak iniş; bant doygunluklu Rhodes.
+Motif: Ember: F–E–D, sonra alçak A; uzun çello armoniğinde, kızıl cüce ışığı gibi sıcak iniş.
 
 **Style**
 ```
-warm intimate space ambient, lantern motif F-E-D then low A on tape-saturated Rhodes electric piano, soft red glow synth pads, slow gentle tremolo, low sustained cello, faint tape hiss, D minor, 60 bpm, minor 9 chords, cozy, warm, close, slow, instrumental, 6 minutes 15 seconds
+ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, ember motif F-E-D then low A on long cello harmonics, soft pipe organ flute pad underneath, bowed glass tones, deep planetary hum drone, D minor, 60 bpm, minor 9 harmony, warm, close, sparse, long silences, slow, huge natural reverb, instrumental, 6 minutes 15 seconds
 ```
 
 **Exclude**
 ```
-drums, percussion, vocals, choir, brass, bright, distorted, EDM
+drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies
 ```
 
 **Lyrics**
 ```
-[Intro | 0:00-0:40 | faint tape hiss, warm red glow pad]
-[Lantern Motif | 0:40-1:40 | tape-saturated Rhodes plays F-E-D, then a low A, slow and warm]
-[Glow | 1:40-2:50 | low cello sustains underneath, tremolo pad breathes]
-[Close Star | 2:50-4:00 | motif repeats an octave lower, pads swell gently]
-[Embers | 4:00-5:10 | Rhodes rests, cello and glow pad only]
-[Outro | 5:10-6:15 | last F-E-D-A, fading hiss]
+[Intro | 0:00-0:40 | soft wind, distant thunder, warm hum]
+[Ember Motif | 0:40-1:40 | cello harmonics play F-E-D, then a low A, slow and warm]
+[Glow | 1:40-2:40 | pipe organ flute pad breathes underneath, motif rests]
+[Close Star | 2:40-3:50 | motif repeats lower, bowed glass glints once]
+[Embers | 3:50-5:00 | cello alone, long held harmonic, wind]
+[Outro | 5:00-6:15 | last F-E-D-A, hum fades into wind]
 ```
 
 ## 03. PSR B1257+12 · 6:30 · D minor · 66 BPM
 
 Dosya adı: `03-psr-b1257-12.mp3`
 
-Motif: Signal: A A A – F – D, üç kısa darbe sonra iniş (mors gibi); bitcrush'lı kare dalga, 4 ölçüde bir.
+Motif: Pulse: üç yumuşak A, sonra F–D inişi; cam tınıda, pulsar sinyali gibi düzenli (davul yok).
 
 **Style**
 ```
-retro analog synth ambient, robotic pulsar signal motif three short pulses A A A then falling F D, bitcrushed square wave lead, analog saw sequencer arpeggio through resonant low-pass filter slowly opening, modular blips, breathing pumping pad, tape delay, deep sub bass, D minor, 66 bpm, mechanical, hypnotic, cosmic, no drums, instrumental, 6 minutes 30 seconds
+ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, slow pulsar signal motif, three soft repeated A notes then falling F-D on bowed glass tones, steady breathing pipe organ flute pulse, cello harmonics, deep planetary hum drone, D minor, 66 bpm, hypnotic, steady, sparse, no drums, huge natural reverb, instrumental, 6 minutes 30 seconds
 ```
 
 **Exclude**
 ```
-drums, drum kit, vocals, choir, orchestra, piano, organ, acoustic instruments, EDM drops
+drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies
 ```
 
 **Lyrics**
 ```
-[Intro | 0:00-0:35 | lone radio pulse ticking, tape hiss]
-[Signal Motif | 0:35-1:20 | bitcrushed square lead: three pulses A A A, falls to F and D, repeats]
-[Sequencer | 1:20-2:20 | analog saw arpeggio starts, filter closed and dark, sub bass enters]
-[Machine World | 2:20-3:30 | filter slowly opens, modular blips answer the signal motif, pad pumps gently]
-[Orbit Lock | 3:30-4:35 | signal motif doubled an octave up with tape delay, all layers steady and hypnotic]
-[Power Down | 4:35-5:45 | filter closes, sequencer thins, blips fade]
-[Outro | 5:45-6:30 | only the three pulses remain, slowing, fading into hiss]
+[Intro | 0:00-0:45 | wind and distant thunder, faint hum]
+[Signal | 0:45-1:45 | bowed glass plays three soft A notes, then F-D, slow and regular]
+[Pulse | 1:45-2:50 | pipe organ flute breathes in a steady slow pulse, signal repeats]
+[Drift | 2:50-4:00 | signal rests, cello harmonic holds, pulse continues softly]
+[Signal Returns | 4:00-5:15 | three A notes higher, F-D answered by cello harmonics]
+[Outro | 5:15-6:30 | pulse slows, last signal far away, fade to wind]
 ```
 
 ## 04. Europa · 6:15 · D minor · 60 BPM
 
 Dosya adı: `04-europa.mp3`
 
-Motif: Under Ice: A – D – E – F, buzun altından yükselen boğuk figür; keçeli piyano, uzun yankı.
+Motif: Under Ice: A–D–E–F yavaşça yükselir; boğuk org flütünde, buz çatlağı gibi cam parıltı.
 
 **Style**
 ```
-frozen cinematic ambient, under-ice motif A-D-E-F rising slowly on muffled felt piano, bowed vibraphone shimmer, frozen granular ice textures, low cello harmonics, deep sub-ice rumble, cold, still, D minor, 60 bpm, sus2 chords, spacious, slow, instrumental, 6 minutes 15 seconds
+ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, under-ice motif A-D-E-F rising slowly on muffled pipe organ flute stop, bowed glass shimmer like cracking ice, low cello harmonics, deep sub-ice planetary hum, D minor, 60 bpm, sus2 harmony, cold, still, spacious, long silences, huge natural reverb, instrumental, 6 minutes 15 seconds
 ```
 
 **Exclude**
 ```
-drums, percussion, vocals, choir, brass, synth arpeggios, bright, EDM
+drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies
 ```
 
 **Lyrics**
 ```
-[Intro | 0:00-0:40 | cracking ice textures far away, low rumble]
-[Ice Shell | 0:40-1:30 | bowed vibraphone holds a cold D minor chord, granular frost drifts]
-[Under Ice Motif | 1:30-2:30 | muffled felt piano plays A-D-E-F, as if heard through ice]
-[Hidden Ocean | 2:30-3:35 | low cello harmonics swell underneath, rumble deepens]
-[Motif Rises | 3:35-4:45 | motif an octave higher, vibraphone answers, a little light through the ice]
-[Freeze | 4:45-5:35 | layers thin to vibraphone and frost]
-[Outro | 5:35-6:15 | last A-D-E-F, fading into ice silence]
+[Intro | 0:00-0:40 | cold wind, muffled distant thunder, deep hum]
+[Under Ice | 0:40-1:40 | muffled pipe organ flute plays A-D-E-F rising slowly]
+[Ice Shimmer | 1:40-2:40 | bowed glass shimmers like cracking ice, motif rests]
+[Deep Water | 2:40-3:50 | low cello harmonics hold, hum swells softly]
+[Rising | 3:50-5:00 | A-D-E-F again, a little clearer, glass above]
+[Outro | 5:00-6:15 | motif sinks away, hum and wind fade]
 ```
 
 ## 05. HD 189733b · 6:15 · F major · 62 BPM
 
 Dosya adı: `05-hd-189733b.mp3`
 
-Motif: Glass Rain: C – A – F – G, damla gibi iniş, son notada soru gibi küçük yükseliş; celesta.
+Motif: Glass Rain: C–A–F–G düşen damlalar gibi; cam tınılarda.
 
 **Style**
 ```
-crystalline ambient, falling glass rain motif C-A-F-G on celesta like droplets, glass harmonica sustained tones, granular sparkle pad, crystal FM chimes, reverse reverb swells, airy, F major, 62 bpm, add9 chords, fragile, shimmering, weightless, wide stereo, instrumental, 6 minutes 15 seconds
+ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, falling glass rain motif C-A-F-G on bowed glass tones like slow droplets, soft pipe organ flute chords, airy cello harmonics, faint planetary hum, F major, 62 bpm, add9 harmony, fragile, weightless, wide stereo, sparse, huge natural reverb, instrumental, 6 minutes 15 seconds
 ```
 
 **Exclude**
 ```
-drums, percussion, vocals, choir, organ, brass, bass heavy, distortion, dark
+drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies
 ```
 
 **Lyrics**
 ```
-[Intro | 0:00-0:40 | single crystal chimes, scattered like first drops]
-[Glass Rain Motif | 0:40-1:30 | celesta plays C-A-F-G, drops falling, ends like a question]
-[Harmonica | 1:30-2:25 | glass harmonica holds soft add9 chords, motif answers above]
-[Storm of Light | 2:25-3:35 | granular sparkle pad thickens, chimes fall sideways across stereo]
-[Motif Variation | 3:35-4:35 | motif slower, reverse reverb swells into each note]
-[Clearing | 4:35-5:30 | layers thin, harmonica alone]
-[Outro | 5:30-6:15 | final C-A-F-G on celesta, last drop rings out]
+[Intro | 0:00-0:40 | light wind, very distant thunder]
+[Glass Rain | 0:40-1:40 | bowed glass plays C-A-F-G falling like slow droplets]
+[Haze | 1:40-2:40 | soft pipe organ flute chords bloom, rain rests]
+[Shimmer | 2:40-3:50 | glass rain returns wider, cello harmonics float above]
+[Calm Air | 3:50-5:00 | organ and cello only, long silence between notes]
+[Outro | 5:00-6:15 | last drops C-A-F-G, fade to wind]
 ```
 
 ## 06. Kepler-16b · 6:15 · F major · 60 BPM
 
 Dosya adı: `06-kepler-16b.mp3`
 
-Motif: Twin Suns: iki ses üçlü aralıkla birlikte yükselir, A–Bb–C üstünde F–G–A; iki yumuşak synth lead.
+Motif: Two Suns: org flütünde F–C, çello armoniği A–F ile cevap verir; iki güneşin karşılıklı çağrısı.
 
 **Style**
 ```
-warm cinematic ambient, twin suns motif two soft lead voices moving together in thirds A-Bb-C over F-G-A, warm analog poly synth pads, slow acoustic guitar harmonics, golden evening light, gentle tape saturation, F major, 60 bpm, maj7 and add9 chords, peaceful, hopeful, wide, instrumental, 6 minutes 15 seconds
+ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, two-sun call and answer motif, F-C on pipe organ flute answered by A-F on cello harmonics, bowed glass halo, deep planetary hum drone, F major, 60 bpm, open fifths, golden, calm, sparse, long silences, huge natural reverb, instrumental, 6 minutes 15 seconds
 ```
 
 **Exclude**
 ```
-drums, percussion, vocals, choir, organ, dark, distorted, EDM
+drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies
 ```
 
 **Lyrics**
 ```
-[Intro | 0:00-0:40 | warm pad rises like first light]
-[Guitar Harmonics | 0:40-1:30 | slow acoustic guitar harmonics, F major add9]
-[Twin Suns Motif | 1:30-2:30 | two soft synth leads play the motif together in thirds]
-[Double Sunset | 2:30-3:35 | poly synth pads swell, guitar answers the motif]
-[Second Light | 3:35-4:45 | motif returns an octave lower, warmer, tape saturation]
-[Dusk | 4:45-5:35 | leads drift apart, pads soften]
-[Outro | 5:35-6:15 | one last pair of notes in thirds, fading glow]
+[Intro | 0:00-0:40 | warm wind, distant thunder, hum]
+[First Sun | 0:40-1:40 | pipe organ flute calls F-C slowly]
+[Second Sun | 1:40-2:40 | cello harmonics answer A-F, long and soft]
+[Twin Light | 2:40-3:50 | both voices together, bowed glass halo above]
+[Dusk | 3:50-5:00 | call and answer slow down, open fifths hold]
+[Outro | 5:00-6:15 | last F-C and A-F far apart, fade to wind]
 ```
 
 ## 07. Kepler-186f · 6:30 · F major · 60 BPM
 
 Dosya adı: `07-kepler-186f.mp3`
 
-Motif: Home: F – G – A – C – A – G, yay gibi yükselip geri dönen, şarkı söyler gibi solo çello.
+Motif: Meadow: F–G–A–C nazikçe yükselir; sıcak org flütünde.
 
 **Style**
 ```
-warm cinematic ambient, singing solo cello home motif rising and returning F-G-A-C-A-G, felt piano answering, warm string ensemble swells, soft chorused analog pad, gentle pipe organ pedal, F major, 60 bpm, sus4 and add9 over pedal bass, hopeful, tender, nostalgic, slow evolving, instrumental, 6 minutes 30 seconds
+ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, meadow motif F-G-A-C rising gently on warm pipe organ flute stop, soft cello harmonics, light bowed glass tones, gentle wind, faint planetary hum, F major, 60 bpm, major 7 harmony, hopeful, peaceful, sparse, huge natural reverb, instrumental, 6 minutes 30 seconds
 ```
 
 **Exclude**
 ```
-drums, percussion, vocals, choir, synth arpeggios, electronic blips, EDM, harsh, dark
+drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies
 ```
 
 **Lyrics**
 ```
-[Intro | 0:00-0:40 | warm chorused pad, soft and distant]
-[Strings | 0:40-1:30 | string ensemble enters on F major add9]
-[Home Motif | 1:30-2:25 | solo cello sings F-G-A-C-A-G, tender and slow]
-[Piano Answer | 2:25-3:25 | felt piano echoes the motif, cello holds long notes]
-[Together | 3:25-4:35 | cello and piano in dialogue, strings swell gently, organ pedal underneath]
-[Memory | 4:35-5:35 | strings soften, motif fragments on piano]
-[Outro | 5:35-6:30 | cello plays motif once more, last note held, pad fades]
+[Intro | 0:00-0:45 | gentle wind over open land, distant thunder]
+[Meadow Motif | 0:45-1:45 | warm pipe organ flute plays F-G-A-C rising gently]
+[Open Field | 1:45-2:50 | cello harmonics hold, motif rests]
+[Warm Light | 2:50-4:00 | motif again with light bowed glass above]
+[Stillness | 4:00-5:15 | only organ chord and wind, long silence]
+[Outro | 5:15-6:30 | last F-G-A-C softly, fade to wind]
 ```
 
 ## 08. Io · 6:00 · F major · 62 BPM
 
 Dosya adı: `08-io.mp3`
 
-Motif: Eruption: C – F – A – yüksek C sıçrayarak yükselir, A – G'ye geri düşer; yumuşak marimba.
+Motif: Ember Vent: alçak C–F–E; derin org flütünde, gök gürültüsü yakında, gezegen uğultusu güçlü.
 
 **Style**
 ```
-warm organic ambient, eruption motif leaping up C-F-A-high C then falling back A-G on soft marimba mallets, warm bowed double bass, gentle plucked harp, granular lava hiss texture, slow swelling sulfur-yellow pads, F major, 62 bpm, add9 and sus2 chords, glowing, alive, calm, instrumental, 6 minutes
+ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, volcanic ember motif low C-F-E on deep pipe organ flute, rumbling planetary hum, closer distant thunder, low cello harmonics, dark bowed glass, F major, 62 bpm, sus4 harmony, smoldering, heavy but calm, sparse, huge natural reverb, instrumental, 6 minutes
 ```
 
 **Exclude**
 ```
-drums, drum kit, vocals, choir, organ, distortion, dark, EDM
+drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies
 ```
 
 **Lyrics**
 ```
-[Intro | 0:00-0:40 | soft lava hiss, distant warm pad]
-[Eruption Motif | 0:40-1:40 | soft marimba leaps C-F-A-high C, falls back A-G]
-[Plumes | 1:40-2:50 | bowed double bass and harp join, pads swell like rising plumes]
-[Volcano Field | 2:50-4:00 | motif echoes across stereo, gentle and warm]
-[Cooling Lava | 4:00-5:10 | marimba rests, harp and pad glow]
-[Outro | 5:10-6:00 | last eruption motif, fading hiss]
+[Intro | 0:00-0:40 | rumbling hum, thunder closer than before, wind]
+[Vent Motif | 0:40-1:35 | deep pipe organ flute plays low C-F-E slowly]
+[Rumble | 1:35-2:35 | hum swells, motif rests, low cello harmonic]
+[Glow | 2:35-3:40 | motif returns, dark bowed glass above]
+[Cooling | 3:40-4:50 | thunder recedes, organ holds sus4 chord]
+[Outro | 4:50-6:00 | last C-F-E low, rumble fades to wind]
 ```
 
 ## 09. Enceladus · 6:15 · C major · 62 BPM
 
 Dosya adı: `09-enceladus.mp3`
 
-Motif: Geyser: G – C – E – G hızlı yukarı parıltı, sonra uzun tutulan nota; yumuşak kalimba.
+Motif: Plume: G–C–D–E yükselir; cam tınılarda, gayzer bulutu gibi.
 
 **Style**
 ```
-bright airy ambient, geyser motif quick rising sparkle G-C-E-G then a long held note on soft kalimba, gentle mallet tones, breathy flute-like synth, shimmering ice particle textures, light string harmonics, C major, 62 bpm, add9 and sus2 chords, playful but calm, clean, spacious, instrumental, 6 minutes 15 seconds
+ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, rising plume motif G-C-D-E on bowed glass tones, soft pipe organ flute, airy cello harmonics, icy wind, faint planetary hum, C major, 62 bpm, add9 harmony, bright cold air, spacious, sparse, long silences, huge natural reverb, instrumental, 6 minutes 15 seconds
 ```
 
 **Exclude**
 ```
-drums, percussion loops, vocals, choir, organ, distortion, dark, heavy bass, EDM
+drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies
 ```
 
 **Lyrics**
 ```
-[Intro | 0:00-0:40 | faint icy shimmer, soft air]
-[Geyser Motif | 0:40-1:30 | kalimba plays G-C-E-G quickly, last note rings long]
-[Plume | 1:30-2:30 | breathy flute-like synth drifts upward, ice particles sparkle]
-[Second Jet | 2:30-3:35 | motif repeats higher with mallets, string harmonics glow]
-[Ice Fall | 3:35-4:45 | sparkles fall slowly, flute synth answers the motif]
-[Stillness | 4:45-5:35 | only string harmonics and shimmer]
-[Outro | 5:35-6:15 | one last geyser motif, long fade]
+[Intro | 0:00-0:40 | icy wind, faint distant thunder]
+[Plume | 0:40-1:40 | bowed glass plays G-C-D-E rising like a geyser plume]
+[Cold Air | 1:40-2:40 | soft pipe organ flute chord, motif rests]
+[Spray | 2:40-3:50 | plume rises again, cello harmonics float higher]
+[Frost | 3:50-5:00 | only glass and wind, long silence]
+[Outro | 5:00-6:15 | last G-C-D-E fading upward, wind]
 ```
 
 ## 10. J1407b · 6:30 · C major · 58 BPM
 
 Dosya adı: `10-j1407b.mp3`
 
-Motif: Rings: C – E – G – B – G – E, dairesel tekrar eden Cmaj7 arpeji; sıcak elektrik piyano.
+Motif: Rings: C–G–E–G daire çizer; yavaş org flütünde, halkalar gibi dönen çello armonikleri.
 
 **Style**
 ```
-cinematic ambient, circular rings motif repeating C-E-G-B-G-E arpeggio on warm electric piano, soft pipe organ flute stops, bowed glass and string harmonics, slow orbiting stereo movement, C major, 58 bpm, maj7 chords, majestic, calm, hypnotic, vast, instrumental, 6 minutes 30 seconds
+ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, circling ring motif C-G-E-G on slow pipe organ flute stop, cello harmonics drifting in circles, bowed glass shimmer, deep planetary hum drone, C major, 58 bpm, suspended harmony, vast, slow orbit, sparse, huge natural reverb, instrumental, 6 minutes 30 seconds
 ```
 
 **Exclude**
 ```
-drums, percussion, vocals, choir, distortion, harsh, EDM, sudden stops
+drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies
 ```
 
 **Lyrics**
 ```
-[Intro | 0:00-0:40 | soft organ flute stops, distant]
-[Rings Motif | 0:40-1:40 | warm electric piano circles C-E-G-B-G-E, slowly panning around]
-[Orbit | 1:40-2:40 | bowed glass and string harmonics join, the circle keeps turning]
-[Ring Plane | 2:40-3:55 | organ swells under the arpeggio, maj7 colors widen]
-[Gap in the Rings | 3:55-4:50 | arpeggio pauses, organ and glass hold]
-[Return | 4:50-5:50 | motif returns softer, slower]
-[Outro | 5:50-6:30 | circle fades, last C major 7 held]
+[Intro | 0:00-0:45 | wind, distant thunder, deep hum]
+[Rings | 0:45-1:45 | slow pipe organ flute circles C-G-E-G]
+[Orbit | 1:45-2:50 | cello harmonics drift around the motif]
+[Shimmer | 2:50-4:00 | bowed glass shimmer like ring dust, motif rests]
+[Wide Orbit | 4:00-5:15 | C-G-E-G returns slower and wider]
+[Outro | 5:15-6:30 | circling slows, hum and wind fade]
 ```
 
 ## 11. Mira · 6:15 · C major · 56 BPM
 
 Dosya adı: `11-mira.mp3`
 
-Motif: Comet Trail: G – E – C uzun tutulur, ardından aşağı doğru uzun bir kayış; sonsuz sustain gitar.
+Motif: Tail: E–D–C–G uzun düşüş; çello armoniğinde, ölen yıldızın kuyruğu gibi.
 
 **Style**
 ```
-vast cinematic ambient, comet trail motif G-E-C held long then a slow downward glide on infinite-sustain ebow guitar, long string glissandi, airy wide pad, slow breathing low synth pulse like a star swelling and shrinking, C major, 56 bpm, maj7 and sus2 chords, majestic, flowing, calm, instrumental, 6 minutes 15 seconds
+ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, long falling tail motif E-D-C-G on cello harmonics, fading pipe organ flute chords, bowed glass trail, distant thunder, deep planetary hum, C major, 56 bpm, add9 harmony, bittersweet, slow, sparse, long silences, huge natural reverb, instrumental, 6 minutes 15 seconds
 ```
 
 **Exclude**
 ```
-drums, percussion, vocals, choir, piano, bright bells, EDM
+drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies
 ```
 
 **Lyrics**
 ```
-[Intro | 0:00-0:45 | slow breathing low synth pulse, airy pad]
-[Comet Trail Motif | 0:45-1:50 | ebow guitar holds G-E-C, then glides slowly downward]
-[Tail | 1:50-3:00 | long string glissandi trail behind the motif]
-[Pulsation | 3:00-4:10 | low pulse swells and shrinks, pad widens]
-[Drift | 4:10-5:20 | guitar rests, strings and pad flow]
-[Outro | 5:20-6:15 | last held G-E-C, long glide into silence]
+[Intro | 0:00-0:40 | wind, distant thunder, hum]
+[Tail Motif | 0:40-1:40 | cello harmonics play E-D-C-G, a long slow fall]
+[Trail | 1:40-2:40 | bowed glass trail follows, motif rests]
+[Fading Star | 2:40-3:50 | pipe organ flute chords fade in and out]
+[Tail Returns | 3:50-5:00 | E-D-C-G lower, longer notes]
+[Outro | 5:00-6:15 | last G held, fade to wind]
 ```
 
 ## 12. Titan · 6:15 · A minor · 56 BPM
 
 Dosya adı: `12-titan.mp3`
 
-Motif: Methane Rain: E – C – A – G yavaşça düşen damla figürü; bant bozulmalı piyano.
+Motif: Lake: A–C–B–E; alçak çello armoniğinde, metan gölü gibi karanlık ve durgun.
 
 **Style**
 ```
-hazy dark ambient, methane rain motif E-C-A-G slowly falling on detuned tape-warped piano, warm hazy guitar wash with long reverb, thick low drone, soft rain-like granular texture, amber atmosphere, A minor, 56 bpm, sus2 and minor 9 chords, dreamy, heavy air, slow, instrumental, 6 minutes 15 seconds
+ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, dark lake motif A-C-B-E on low cello harmonics, muffled pipe organ flute, still bowed glass, thick heavy wind, deep planetary hum drone, A minor, 56 bpm, minor add9 harmony, dark, misty, still, sparse, huge natural reverb, instrumental, 6 minutes 15 seconds
 ```
 
 **Exclude**
 ```
-drums, percussion, vocals, choir, bright, celesta, EDM, upbeat
+drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies
 ```
 
 **Lyrics**
 ```
-[Intro | 0:00-0:45 | thick low drone, hazy air]
-[Haze | 0:45-1:40 | warm guitar wash with long reverb, A minor 9]
-[Methane Rain Motif | 1:40-2:40 | tape-warped piano plays E-C-A-G, slow drops]
-[Seas | 2:40-3:45 | rain-like granular texture, guitar wash rises and falls]
-[Motif Again | 3:45-4:45 | motif lower and slower, drone deepens]
-[Amber Fog | 4:45-5:30 | everything blurs into haze]
-[Outro | 5:30-6:15 | last falling notes, drone fades]
+[Intro | 0:00-0:40 | thick heavy wind, distant thunder, deep hum]
+[Lake Motif | 0:40-1:40 | low cello harmonics play A-C-B-E, slow and dark]
+[Mist | 1:40-2:40 | muffled pipe organ flute haze, motif rests]
+[Still Water | 2:40-3:50 | bowed glass touches once, hum deepens]
+[Lake Returns | 3:50-5:00 | A-C-B-E again with organ underneath]
+[Outro | 5:00-6:15 | motif dissolves, heavy wind fades]
 ```
 
 ## 13. 55 Cancri e · 6:15 · A minor · 56 BPM
 
 Dosya adı: `13-55-cancri-e.mp3`
 
-Motif: Magma: alçak A – E, sonra yarım ses ağıt F – E; tuba ve trombonlar.
+Motif: Diamond: E–A–B–C; cam tınılarda. Yolculuğun tek doruğu: org akorları kabarır, gök gürültüsü yaklaşır, yine sakin.
 
 **Style**
 ```
-dark cinematic ambient, heavy magma motif low brass A-E then lament F-E, tuba and trombones, full pipe organ pedal, distorted sub rumble, metallic scrapes, slow tremolo strings, volcanic heat, A minor, 56 bpm, ominous but calm, massive, slow tension, instrumental, 6 minutes 15 seconds
+ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, diamond motif E-A-B-C on bowed glass tones, full pipe organ flute chords swelling, cello harmonics in octaves, closer rolling thunder, deep planetary hum, A minor, 56 bpm, wide minor harmony, the single emotional peak of the journey, majestic but calm, huge natural reverb, instrumental, 6 minutes 15 seconds
 ```
 
 **Exclude**
 ```
-drums, drum kit, vocals, choir, celesta, bells, bright, synth arpeggios, EDM
+drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies
 ```
 
 **Lyrics**
 ```
-[Intro | 0:00-0:45 | deep tectonic rumble, metallic scrapes]
-[Organ Pedal | 0:45-1:30 | full organ low A pedal, heavy]
-[Magma Motif | 1:30-2:30 | low brass plays A-E, then lament F-E, slow and heavy]
-[Heat | 2:30-3:35 | tremolo strings shimmer like heat haze, rumble swells]
-[Motif Grows | 3:35-4:35 | brass and organ play motif together, tension rises, no climax]
-[Cooling | 4:35-5:30 | brass drops out, strings and rumble remain]
-[Outro | 5:30-6:15 | one last F-E on tuba, rumble fades into drone]
+[Intro | 0:00-0:40 | rolling thunder closer, wind, hum]
+[Diamond Motif | 0:40-1:40 | bowed glass plays E-A-B-C, clear and bright]
+[Swell | 1:40-2:40 | full pipe organ flute chords swell slowly]
+[Peak | 2:40-3:50 | all voices together, cello harmonics in octaves, motif at its fullest, still calm]
+[After Light | 3:50-5:00 | organ recedes, glass motif once more, softer]
+[Outro | 5:00-6:15 | thunder rolls away, hum and wind remain, fade]
 ```
 
 ## 14. WASP-76b · 6:00 · A minor · 58 BPM
 
 Dosya adı: `14-wasp-76b.mp3`
 
-Motif: Iron Rain: E E – D – C, metalik tekrar eden nota ve iniş; vurulmuş metal kâseler.
+Motif: Iron Rain: C–B–A–E düşer; org flütünde, doruktan sonra durulma.
 
 **Style**
 ```
-dark industrial ambient, iron rain motif repeated metallic E E then falling D C on struck singing bowls and resonant metal, dark analog bass drone, hot granular wind, distant low brass swells, A minor, 58 bpm, minor 9 chords, tense but steady, mysterious, slow, instrumental, 6 minutes
+ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, falling iron rain motif C-B-A-E on pipe organ flute, slow cello harmonics, metallic bowed glass, distant thunder fading, deep planetary hum, A minor, 58 bpm, minor harmony, after the storm, settling, sparse, huge natural reverb, instrumental, 6 minutes
 ```
 
 **Exclude**
 ```
-drums, drum kit, vocals, choir, bright, celesta, piano, EDM
+drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies
 ```
 
 **Lyrics**
 ```
-[Intro | 0:00-0:40 | hot wind, distant metallic resonance]
-[Iron Rain Motif | 0:40-1:35 | struck metal bowls ring E E, then D C, slowly]
-[Night Side | 1:35-2:45 | dark analog bass drone, rain of metallic tones across stereo]
-[Swells | 2:45-3:50 | distant low brass swells under the motif]
-[Storm | 3:50-4:50 | granular wind thickens, motif echoes, no climax]
-[Settling | 4:50-5:25 | bowls ring out, drone holds]
-[Outro | 5:25-6:00 | last E E D C, fading heat]
+[Intro | 0:00-0:40 | thunder fading in the distance, wind]
+[Iron Rain | 0:40-1:35 | pipe organ flute plays C-B-A-E falling slowly]
+[Metal Air | 1:35-2:35 | metallic bowed glass, motif rests]
+[Settling | 2:35-3:40 | cello harmonics hold, thunder farther away]
+[Rain Returns | 3:40-4:50 | C-B-A-E softer, slower]
+[Outro | 4:50-6:00 | last E held, fade to wind]
 ```
 
 ## 15. Betelgeuse · 6:30 · A minor · 54 BPM
 
 Dosya adı: `15-betelgeuse.mp3`
 
-Motif: Giant: alçak A – C – B – E, ağır ve yavaş; org ve çello grubu, kalp atışı gibi alt nabız.
+Motif: Giant: A–E–F çok yavaş; alçak org flüt registerinde, kızıl dev gibi büyük nefes.
 
 **Style**
 ```
-massive dark cinematic ambient, giant motif low A-C-B-E heavy and slow on deep pipe organ and cello section, slow heartbeat-like sub pulse, warm distant brass swells, red ember textures, A minor, 54 bpm, minor and sus4 chords, colossal, solemn, calm, slow, instrumental, 6 minutes 30 seconds
+ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, giant star motif A-E-F very slow on low pipe organ flute register, huge cello harmonic swells, deep red planetary hum, soft bowed glass, A minor, 54 bpm, dark open fifths, immense, slow breathing, long silences, huge natural reverb, instrumental, 6 minutes 30 seconds
 ```
 
 **Exclude**
 ```
-drums, drum kit, vocals, choir, bright, celesta, synth arpeggios, EDM
+drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies
 ```
 
 **Lyrics**
 ```
-[Intro | 0:00-0:45 | slow heartbeat sub pulse, red ember textures]
-[Giant Motif | 0:45-1:55 | deep organ and cellos play low A-C-B-E, heavy and slow]
-[Supergiant | 1:55-3:10 | distant brass swells under the motif, pulse steady]
-[Surface | 3:10-4:20 | cellos hold, embers crackle softly]
-[Before the Dawn | 4:20-5:40 | motif returns softer, preparing for light]
-[Outro | 5:40-6:30 | pulse slows, organ fades]
+[Intro | 0:00-0:45 | deep hum, wind, very distant thunder]
+[Giant Motif | 0:45-1:45 | low pipe organ flute plays A-E-F, very slow]
+[Breath | 1:45-2:50 | huge cello harmonic swell rises and falls]
+[Red Light | 2:50-4:00 | soft bowed glass above, motif rests]
+[Giant Returns | 4:00-5:15 | A-E-F again, longer, open fifths]
+[Outro | 5:15-6:30 | swell fades, hum holds, wind]
 ```
 
 ## 16. TRAPPIST-1e · 7:00 · A dorian · 60 BPM
 
 Dosya adı: `16-trappist-1e.mp3`
 
-Motif: Hope: C – B – A – E iniş, cevap D – E – F# – E (F# Dorian rengi); kuyruklu piyano. Saatin tek doruğu.
+Motif: Seven Worlds: A–C–D–E–F#–E–C; org flütünde, dorian F# ile umutlu. Bölümün adı olan hedef.
 
 **Style**
 ```
-cinematic orchestral ambient, piano ostinato on Am Em G D, hope motif C-B-A-E answered by D-E-F#-E, grand piano, layered gradual build, strings then soft french horns then pipe organ, one restrained emotional peak, A dorian, 60 bpm, bittersweet, hopeful, epic but gentle, instrumental, 7 minutes
+ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, seven worlds motif A-C-D-E-F#-E-C on soft pipe organ flute stop, warm cello harmonics, bowed glass tones like distant planets, gentle wind, faint planetary hum, A dorian, 60 bpm, dorian major sixth color, hopeful, homecoming feeling, sparse, huge natural reverb, instrumental, 7 minutes
 ```
 
 **Exclude**
 ```
-drums, drum kit, vocals, choir lyrics, EDM, synth arpeggios, electronic blips, sudden stops
+drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies
 ```
 
 **Lyrics**
 ```
-[Intro | 0:00-0:50 | solo grand piano ostinato Am Em G D, quiet]
-[Hope Motif | 0:50-1:45 | piano right hand plays C-B-A-E, answer D-E-F#-E]
-[Strings | 1:45-2:45 | low strings enter, then full strings carry the motif]
-[Horns | 2:45-3:50 | soft french horns double the answer phrase, warmer]
-[Build | 3:50-4:50 | pipe organ enters, all layers grow slowly]
-[Peak | 4:50-5:30 | restrained peak, full motif on horns and strings]
-[Release | 5:30-6:15 | layers fall away one by one]
-[Outro | 6:15-7:00 | solo piano plays motif once more, fades]
+[Intro | 0:00-0:45 | gentle wind, distant thunder, faint hum]
+[Seven Worlds | 0:45-1:50 | pipe organ flute plays A-C-D-E-F#-E-C slowly]
+[Planets | 1:50-3:00 | bowed glass tones like seven distant planets, motif rests]
+[Warm Orbit | 3:00-4:15 | cello harmonics carry the motif, organ underneath]
+[Home Light | 4:15-5:35 | motif again, fuller, hopeful dorian color]
+[Outro | 5:35-7:00 | last A-C-D-E far away, fade to wind]
 ```
 
 ## 17. Kepler-22b · 6:15 · D minor · 58 BPM
 
 Dosya adı: `17-kepler-22b.mp3`
 
-Motif: Shoreline: D – F – E – C – D, kıyıya vuran dalga gibi yumuşak dönüş; naylon gitar armonikleri.
+Motif: Tide: D–F–E–C–D dalga gibi iner çıkar; çello armoniğinde.
 
 **Style**
 ```
-oceanic ambient, shoreline motif D-F-E-C-D gentle and returning on nylon guitar harmonics, warm wide pad, soft distant ocean wash noise, low sustained strings, D minor, 58 bpm, minor 9 and sus2 chords, calm, reflective, breathing, after the peak, slow, instrumental, 6 minutes 15 seconds
+ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, tide motif D-F-E-C-D rising and falling like slow waves on cello harmonics, soft pipe organ flute swells, bowed glass spray, wind over water, deep planetary hum, D minor, 58 bpm, sus2 harmony, rolling, calm, sparse, huge natural reverb, instrumental, 6 minutes 15 seconds
 ```
 
 **Exclude**
 ```
-drums, percussion, vocals, choir, brass, organ, bright, EDM
+drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies
 ```
 
 **Lyrics**
 ```
-[Intro | 0:00-0:40 | soft distant ocean wash, warm pad]
-[Shoreline Motif | 0:40-1:40 | nylon guitar harmonics play D-F-E-C-D, like a wave returning]
-[Tide | 1:40-2:45 | low strings breathe in and out under the guitar]
-[Open Water | 2:45-3:55 | pad widens, motif echoes far away]
-[Calm Sea | 3:55-5:00 | guitar rests, strings and ocean wash only]
-[Return | 5:00-5:40 | motif once more, softer]
-[Outro | 5:40-6:15 | ocean wash fades out]
+[Intro | 0:00-0:40 | wind over water, distant thunder]
+[Tide Motif | 0:40-1:40 | cello harmonics play D-F-E-C-D like a slow wave]
+[Swell | 1:40-2:40 | pipe organ flute swells and recedes]
+[Spray | 2:40-3:50 | bowed glass spray, motif rests]
+[Tide Returns | 3:50-5:00 | D-F-E-C-D lower, slower waves]
+[Outro | 5:00-6:15 | waves fade, wind remains]
 ```
 
 ## 18. Gliese 1214b · 6:15 · D minor · 56 BPM
 
 Dosya adı: `18-gliese-1214b.mp3`
 
-Motif: Tide: D – E – F – A – F – E, gel-git gibi yükselip çekilen arp figürü.
+Motif: Mist: A–G–F–D; nefesli org flütünde, sisli su dünyası.
 
 **Style**
 ```
-underwater ambient, tide motif on harp rising and receding D-E-F-A-F-E, low-passed submerged warm pads, muffled Rhodes electric piano, whale-like pitch bending synth calls, bubbling granular textures, deep ocean drone, D minor, 56 bpm, fluid, dreamy, slow motion, calm, instrumental, 6 minutes 15 seconds
+ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, mist motif A-G-F-D on breathy pipe organ flute, cello harmonics barely audible, hazy bowed glass, soft wind, deep planetary hum, D minor, 56 bpm, minor 9 harmony, hazy, quiet, drifting, long silences, huge natural reverb, instrumental, 6 minutes 15 seconds
 ```
 
 **Exclude**
 ```
-drums, percussion, vocals, choir, brass, organ, bright, harsh, EDM
+drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies
 ```
 
 **Lyrics**
 ```
-[Intro | 0:00-0:40 | deep water drone, distant bubbles]
-[Tide Motif | 0:40-1:30 | harp plays D-E-F-A-F-E, rising and receding like waves]
-[Submerged | 1:30-2:30 | muffled Rhodes chords, low-passed pads, slow motion]
-[Whale Calls | 2:30-3:35 | pitch bending synth calls echo, harp motif answers]
-[Current | 3:35-4:45 | motif slower and lower, granular bubbles drift]
-[Descent | 4:45-5:35 | everything sinks darker, filter closing]
-[Outro | 5:35-6:15 | final tide motif, sinking into silence]
+[Intro | 0:00-0:40 | soft wind, hum, thunder very far]
+[Mist Motif | 0:40-1:40 | breathy pipe organ flute plays A-G-F-D]
+[Haze | 1:40-2:40 | hazy bowed glass, cello harmonics barely audible]
+[Drift | 2:40-3:50 | near silence, only wind and hum]
+[Mist Returns | 3:50-5:00 | A-G-F-D again, softer]
+[Outro | 5:00-6:15 | motif dissolves into wind]
 ```
 
 ## 19. Kepler-452b · 6:15 · D minor · 54 BPM
 
 Dosya adı: `19-kepler-452b.mp3`
 
-Motif: Old Earth: A – G – F – D, nostaljik iniş; eskimiş müzik kutusu.
+Motif: Homesick: F–A–D–C; çello armoniğinde, Dünya'nın kuzeni için özlem.
 
 **Style**
 ```
-nostalgic cinematic ambient, old earth motif A-G-F-D gently descending on a worn music box, warm analog string pads, distant soft french horn, faint vinyl crackle, slow tape wow, D minor, 54 bpm, minor 6 and add9 chords, wistful, warm, memory-like, slow, instrumental, 6 minutes 15 seconds
+ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, homesick motif F-A-D-C on cello harmonics, warm pipe organ flute chords, soft bowed glass, gentle wind, faint planetary hum, D minor, 54 bpm, minor add9 harmony, nostalgic, tender, slow, sparse, huge natural reverb, instrumental, 6 minutes 15 seconds
 ```
 
 **Exclude**
 ```
-drums, percussion, vocals, choir, synth arpeggios, distortion, bright, EDM
+drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies
 ```
 
 **Lyrics**
 ```
-[Intro | 0:00-0:40 | faint vinyl crackle, warm string pad]
-[Old Earth Motif | 0:40-1:40 | worn music box plays A-G-F-D, slightly out of tune]
-[Memory | 1:40-2:45 | analog strings swell, tape wow bends the pitch gently]
-[Distant Horn | 2:45-3:55 | soft french horn answers the motif from far away]
-[Fading Photo | 3:55-5:00 | music box slows, strings hold]
-[Last Turn | 5:00-5:40 | motif once more, slower]
-[Outro | 5:40-6:15 | crackle and strings fade]
+[Intro | 0:00-0:40 | gentle wind, distant thunder, faint hum]
+[Homesick Motif | 0:40-1:40 | cello harmonics play F-A-D-C, tender and slow]
+[Memory | 1:40-2:40 | warm pipe organ flute chords, motif rests]
+[Far Home | 2:40-3:50 | soft bowed glass, motif returns higher]
+[Quiet | 3:50-5:00 | organ and wind only, long silence]
+[Outro | 5:00-6:15 | last F-A-D-C, fade to wind]
 ```
 
 ## 20. 3C 273 · 7:00 · D minor · 52 BPM
 
 Dosya adı: `20-3c-273.mp3`
 
-Motif: Beacon Echo: 1. parçanın motifi değişmiş haliyle D – A – E, sus2'de çözülmeden biter.
+Motif: Return Beacon: 1. parçanın D–A–F'si daha yavaş ve bir oktav aşağıda; çello D–A–F–G–A ile çözer. Veda.
 
 **Style**
 ```
-vast cosmic drone ambient, beacon echo motif D-A-E on tape-warped distant piano, slowly morphing wavetable pad, distant pipe organ, shortwave radio static textures, pure sine drone, infinite reverb, D minor resolving to Dsus2, 52 bpm, serene, timeless, ancient light, very long fade out, instrumental, 7 minutes
+ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, final return of the beacon motif D-A-F, slower and an octave lower on pipe organ flute, answered by cello harmonics resolving D-A-F-G-A, soft bowed glass light, distant thunder fading away, deep planetary hum, D minor, 52 bpm, sus2 to open fifth, farewell, peaceful ending, long silences, slow fade to silence, huge natural reverb, instrumental, 7 minutes
 ```
 
 **Exclude**
 ```
-drums, percussion, vocals, choir, brass, synth arpeggios, melody hooks, EDM, sudden changes
+drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies
 ```
 
 **Lyrics**
 ```
-[Intro | 0:00-0:50 | faint shortwave radio static, ancient signal]
-[Light | 0:50-1:55 | wavetable pad slowly opens, sine drone underneath]
-[Beacon Echo | 1:55-2:55 | tape-warped piano plays D-A-E, distant, like a memory of the first signal]
-[Ancient Light | 2:55-4:15 | distant organ joins, pad morphs slowly]
-[Echo Again | 4:15-5:15 | motif once more, slower, more reverb]
-[Dissolve | 5:15-6:10 | everything thins to sine drone and static]
-[Outro | 6:10-7:00 | Dsus2 held, very long fade to silence]
+[Intro | 0:00-0:45 | wind and distant thunder, deep hum, like the beginning]
+[Beacon Remembered | 0:45-1:50 | pipe organ flute plays D-A-F, slower, an octave lower]
+[Answer | 1:50-3:00 | cello harmonics answer D-A-F-G-A, resolving]
+[Light | 3:00-4:15 | soft bowed glass light, motif rests]
+[Last Beacon | 4:15-5:35 | D-A-F once more, very far away]
+[Outro | 5:35-7:00 | thunder fades away, hum holds, slow fade to silence]
 ```
 
 Toplam hedef: 20 parça, ~124 dk (çapraz geçişler düşülmüş).

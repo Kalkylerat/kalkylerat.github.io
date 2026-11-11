@@ -58,7 +58,8 @@ yalnız 001 içindir (002'den itibaren çıkış 3). Elle sorgu: `gorev kilit <k
    Görev dosyasında `ses_paleti = [...]` olarak yazılır.
    Ders (10 Kasım, "Small Signal" ölçümü): Suno ortam seslerini zayıf verdi (enerjinin %90'ı 250 Hz altı ve
    orta bant, 2 kHz üstü ~0; rüzgâr/kum/cızırtı yok denecek kadar az). Ortam sesi istenen paletlerde Style şu ekle
-   BAŞLASIN: `ambient soundscape, wind and distant thunder field recording,`. (001 bu kuraldan önce yazıldı: parça başına ayrı palet.)
+   BAŞLASIN: `ambient soundscape, wind and distant thunder field recording,`. 001 de 11 Kasım'da sahibinin isteğiyle bu paletle (Yalnız Gezegen) yeniden yazıldı; 002 aynı tarzda, başka enstrümanlarla.
+   İstem biçimi (sahibinin): her parça için ayrı **Style** (≤1000 karakter, tonu, BPM'i, motifi nota adlarıyla ve süreyi içerir), **Exclude** ve zaman damgalı bölümlerle ayrıntılı **Lyrics** (`[Bölüm | 0:00-0:40 | tarif]`).
 4. `python -m deepspace.gorev istemler <klasör>` → `SUNO.md`. Kapı kırmızıysa dosya üretilmez.
 5. Konsepti sahibine bilgi olarak bildir (hedef, duraklar, yay, ses paleti). Onay beklenmez (G8, 10 Kasım 2026):
    sahibi izleyicidir; yalnız Suno üretimi onda kalır (resmî API yok).

@@ -46,9 +46,13 @@ def istemler(gorev: dict, ayar: dict) -> Path:
         raise SystemExit("görev dosyası kapıdan geçmedi: " + "; ".join(f"{k['ad']} {k['ayrinti']}" for k in kirmizi))
     satir = [f"# Mission {gorev['no']:03d} · {gorev['hedef']}: Suno istemleri", "",
              "Her parça için: Suno'da **Custom** modu aç, aşağıdaki üç bloğu ilgili kutulara yapıştır, **Create**.",
-             "Beğendiğin varyasyonu indir ve **dosya adını tam olarak** aşağıdaki gibi koy, `ses/` klasörüne at.",
+             "Beğendiğin varyasyonu indir ve **dosya adını tam olarak** aşağıdaki gibi koy (uzantı .mp3 ya da .wav "
+             "olabilir), `ses/` klasörüne at.",
              "Parça hedef süreden kısa çıkarsa son 30 saniyesinden **Extend** ile tamamla. Vokal gelirse "
              "**Instrumental**'ı açıp yeniden üret.", ""]
+    if gorev.get("ses_paleti"):
+        satir += ["Bölüm ses paleti (bütün parçalar bu enstrümanlardan seçer, mix'te tek ses gibi akar): "
+                  + ", ".join(gorev["ses_paleti"]) + ".", ""]
     toplam = 0.0
     for i, p in enumerate(gorev["parca"], 1):
         toplam += sure_oku(p["hedef_sure"])

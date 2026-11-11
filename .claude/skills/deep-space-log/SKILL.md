@@ -8,25 +8,45 @@ description: Deep Space Log YouTube kanalı (eski Köz) işletme rehberi: yeni g
 Kurallar: `SOZLESME.md` G bölümü (değişmez; değiştirmeden önce sahibine sor). Kod: `deepspace/`. Ayarlar:
 `deepspace/ayar.toml`. Görevler: `deepspace/gorevler/NNN-ad/gorev.toml`. Sahibiyle Türkçe konuş; kanal metinleri İngilizce.
 
-## İstasyonlar (tek şef = sen; her istasyonun çıkışında kod kapısı var)
+## İş bölümü (G15, 002'den itibaren; tasarım `docs/superpowers/specs/2026-11-11-is-bolumu-design.md`)
+Sen şefsin: atama yaparsın, kararı okursun, sahibine özet verirsin. İşi ajanlar yapar (`.claude/agents/`), işi yapan
+kendi işini denetlemez. Alt ajan başka ajan çağıramaz.
 
-| # | İstasyon | Kim | Kapı |
+| # | İstasyon | İşçi ajan | Çıktı (denetim özeti bunlardan) |
 |---|---|---|---|
-| 1 | Konsept: `gorev.toml` (16 gerçek gök cismi, motif, palet, istem) | sen | `kapilar.gorev_dosyasi` + `ozgunluk` |
-| 2 | Müzik: `SUNO.md` istemleriyle Suno'da üretim, seçim, `ses/` klasörüne yükleme | **sahibi** | dosya adları birebir |
-| 3 | Ses: ölç, eşitle, çapraz geçiş, master | `python -m deepspace.gorev ses` | `kapilar.ses` |
-| 4 | Sahneler (paralel) | `... sahneler` | döngü kusursuz (G6) |
-| 5 | Uzun video (bölüm bölüm, paralel) | `... video` | süre, çözünürlük, siyah ekran |
-| 6 | Kapak ×3, metin, Shorts ×3 | `... kapak / metin / shorts` | `kapilar.kapak / metin / shorts` |
-| 7 | **Denetçi** | sıfır bağlamlı alt ajan | `rapor.json` yeşil + insan gözüyle bakış |
-| 8 | Karar ve planlı yükleme | **denetçi** (sahibi izleyici, `iptal` hakkı) | G8 |
+| 1 | `marka` (kanal başına bir kez) | marka-tasarimcisi | `deepspace/marka/`, `marka.toml` + **sahibin onayı** |
+| 2 | `arastirma` | youtube-uzmani (vidIQ, G17 bütçesi) | `buyume/oneriler.json`, `buyume/arastirma.md` |
+| 3 | `konsept` | konsept-yazari | `gorev.toml`, `SUNO.md` |
+| 4 | `bilgi` | bilgi-dogrulayici | `bilgi_kaynak.json` |
+| – | müzik | **sahibi** (Suno, tek insan adımı) | `ses/` |
+| 5 | `ses` | operator (`gorev ses`) | `cikti/bolumler.json`, `cikti/ses.m4a` |
+| 6 | `gorsel` | gorsel-yonetmeni → gorsel-denetcisi (G13) | `gorsel/NN.png`, `denetim/NN.json` |
+| 7 | `hareket` | hareket-tarifcisi | `gorsel/NN_hareket.json` (≥3 katman, biri müzikle) |
+| 8 | `video` | operator (`gorev video`, Seyir Defteri modu) | `cikti/video.mp4` |
+| 9 | `shorts` | shorts-kurgucusu (`shorts-analiz` → plan) → operator (`gorev shorts`) | `shorts_plan.json`, `short_?.mp4`, `shorts.json` |
+| 10 | `paket` | operator (`gorev kapak`, `gorev metin`) | `kapak_?.jpg`, `youtube.json`, `aciklama.txt` |
+| 11 | `karar` | şef + denetci | `cikti/onay.json` |
 
-Hepsi tek komut: `python -m deepspace.gorev hepsi deepspace/gorevler/NNN-ad` (çıkış kodu 0 = bütün kapılar yeşil).
+**Şefin döngüsü:**
+1. `py -m deepspace.gorev durum <klasör>` → `sıradaki` istasyon.
+2. O istasyonun işçi ajanını çağır (girdi dosyaları ve sözleşme maddesiyle).
+3. Kod kapıları işçinin çıktısında çalışır; kırmızıysa işçiye geri ver.
+4. `denetci` ajanını sıfır bağlamla çağır: yalnız çıktı, sözleşme, marka kiti ve kanıt dosyaları. Kararı o yazar:
+   `py -m deepspace.gorev denetim <klasör> --istasyon X --karar GECTI|KALDI --bulgu "kod:not" [--kanit yol]`.
+   Kırmızı kod kapısı varken GEÇTİ yazılamaz (komut çıkış 3).
+5. KALDI ise bulgular işçiye, düzeltme, yeniden denetim. **3. turda da KALDI** (`durum`'da `ŞEFTE`): sen incele
+   (farklı işçi ya da model, istem düzeltmesi). Çözülmezse `GOREV_GUNLUGU.md`'ye yaz, sahibine tek mesaj.
+6. Sıradakine geç. Sahibine dönüş yalnız sonda (G8: önizleme, kapaklar, başlık, `iptal` hakkı) ve marka kiti
+   onayında (G16).
 
-## 1. Yeni görev konsepti
+**Kilit:** bir istasyonun komutu, önceki her istasyon GEÇTİ olmadan ya da çıktıları karardan sonra değiştiyse
+çalışmaz (çıkış 3, neden yazılır). Marka kiti değişirse bütün eski kararlar geçersiz olur (G16). `hepsi` komutu
+yalnız 001 içindir (002'den itibaren çıkış 3). Elle sorgu: `gorev kilit <klasör> --istasyon X`.
+
+## 1. Yeni görev konsepti (konsept-yazari ve bilgi-dogrulayici bunu uygular)
 1. `deepspace/kayit.json`'u oku: kullanılmış hedefler ve tohumlar tekrar edemez (G4). Önceki görevin
    `sonraki_adaylar` listesi ve sabit yorumdaki izleyici önerileri ilk aday havuzudur.
-2. 16 parça (seriye göre), her biri **gerçek** bir gök cismi. `bilgi` alanı yalnızca doğrulanmış olgu (uzaklık,
+2. Parça sayısı seriye göre (`ayar.toml` `parca_sayisi`, şu an 20), her biri **gerçek** bir gök cismi. `bilgi` alanı yalnızca doğrulanmış olgu (uzaklık,
    keşif yılı); emin olmadığın rakamı yazma, yuvarla ya da çıkar.
 3. Besteci kuralları: komşu tonlar (ör. Re minör, Fa majör, Do majör, La minör), 50–66 BPM; her parçanın kendi
    motifi (nota adlarıyla ve tarifle); saatin bir yayı olsun (tek doruk ~%60–70'te), son parça ilk parçanın
@@ -42,13 +62,12 @@ Hepsi tek komut: `python -m deepspace.gorev hepsi deepspace/gorevler/NNN-ad` (ç
 4. `python -m deepspace.gorev istemler <klasör>` → `SUNO.md`. Kapı kırmızıysa dosya üretilmez.
 5. Konsepti sahibine bilgi olarak bildir (hedef, duraklar, yay, ses paleti). Onay beklenmez (G8, 10 Kasım 2026):
    sahibi izleyicidir; yalnız Suno üretimi onda kalır (resmî API yok).
+6. Görseller (gorsel-yonetmeni): `python -m deepspace.gorev gorseller <klasör>` → `GORSEL.md` (sahne + marka stil
+   eki, aşağıda "Görseller ve marka"). Hareket tarifleri (hareket-tarifcisi): Seyir Defteri katmanları.
 
-4b. Görseller: `python -m deepspace.gorev gorseller <klasör>` → `GORSEL.md` (sahne + marka stil eki). Konsept:
-   Dünya'ya benzeyen sakin manzara + gökyüzünü kaplayan gerçek gök cismi + küçük hikâye unsuru (`marka.toml`).
-   Her görsele bir sinemagraf tarifi (`gorsel/NN_hareket.json`): yalnız gerçekte hareket eden şey, ince; katı
-   nesneler "haric" ile korunur (`deepspace/ornek_hareket/`). Kurallar ve dersler aşağıda "Sinemagraf hareketi".
+## Eski sinemagraf modu (yalnız 001 ve `ornek --mod sinemagraf`; G14, 10 Kasım 2026 dersleri)
+002'den itibaren varsayılan Seyir Defteri'dir (görüntü bükülmez). Aşağıdakiler eski yolu kullanan iş içindir.
 
-## Sinemagraf hareketi (G14; 10 Kasım 2026 Small Signal örneğinden dersler)
 Sahibinin tepkisi: "en büyük gezegen dönmüyor, üzerindeki katman çoğalıp tekrar birleşiyor; motion grafik gibi değil".
 - **Hayalet yasak.** `akis` iki kaydırılmış kopyayı karıştırır. Desensiz dokuda (sis, pus, ince bulut tülü, su
   yüzeyi) görünmez, ama belirgin şekli olan şeyde (gezegen yüzeyi, kasırga, kıta, belirgin bulut kümesi) çift görüntü
@@ -72,40 +91,52 @@ Sahibinin tepkisi: "en büyük gezegen dönmüyor, üzerindeki katman çoğalıp
 
 ## 2. Müzik geldikten sonra
 - `ses/` klasöründe `SUNO.md`'deki dosya adları birebir olmalı. Ses dosyaları ve `cikti/` depoya girmez (.gitignore).
-- `hepsi` çalıştır. Kırmızı kapı varsa düzelt ya da sahibine hangi parçanın yeniden üretilmesi gerektiğini söyle
+- 002'den itibaren istasyon istasyon ilerle (`ses` → `gorsel` → ... yukarıdaki döngü). `hepsi` yalnız 001 içindir.
+  Kırmızı kapı varsa düzelt ya da sahibine hangi parçanın yeniden üretilmesi gerektiğini söyle
   (ör. "parça 05 ortasında 7 sn boşluk var").
 - Aynı hata iki kez olursa not değil **kod kapısı** ekle (`kapilar.py` + test).
 
-## 3. Denetçi
-Rapor yeşil olunca bağlamsız bir alt ajana yalnızca `gorev.toml`, `cikti/rapor.json`, `cikti/youtube.json` ve
-kapakları ver: "G kurallarına göre bu video yayına hazır mı? Kanıtla." Denetçi rapor.json'u okumadan ya da rapor
-kırmızıyken "bitti" denmez. Sonra kapaklardan ve videodan birkaç kareyi kendin gör.
+## 3. Denetçi (G15)
+Her istasyonun kararını `denetci` ajanı verir (yukarıdaki döngü, `gorev denetim`). `karar` istasyonunda ona yalnızca
+`gorev.toml`, `cikti/rapor.json`, `cikti/youtube.json`, kapaklar ve birkaç video karesi verilir: "G kurallarına göre
+bu video yayına hazır mı? Kanıtla." Denetçi rapor.json'u okumadan ya da rapor kırmızıyken "bitti" denmez. Şef
+kararı okur, kapaklardan ve videodan birkaç kareyi kendi de görür.
 
-## Görseller ve marka
-- Marka paleti ve stil eki `deepspace/marka.toml` (durum `taslak` iken sahibinin referansları bekleniyor). Tüm
-  görseller bu paleti izler; paletten sapan görsel önerme.
-- Parça görseli `gorsel/NN.png` (16:9, en az 3840 px genişlik) varsa canlı tablo (`tablo.py`) kullanılır; şeffaf ön
-  plan `gorsel/NN_on.png` iki katmanlı derinlik verir. Görsel yoksa yedek kod sahnesi (`sahne.py`).
-- 4K kodlama 2 saatlik videoda ~1,5–2 saat sürer: `hepsi`'yi arka planda çalıştır. Hızlı deneme için görevde
-  `[ayar.video] genislik = 1920, yukseklik = 1080`.
+## Görseller ve marka (G16)
+- Marka kiti onaylı (11 Kasım 2026): `deepspace/marka/` (banner, profil, filigran, marka kitabı, `kaynak/A2.png`) ve
+  `marka.toml`. Renk A: film tonu yok, kehribar yalnız vurgu. Yazı Space Mono. Kit yeniden üretimi: `gorev kanal`.
+- Görsel dili (`marka.toml [gorsel] stil_eki`): karanlık durgun ufuk, gökyüzünü kaplayan tek büyük gök cismi, bol
+  boşluk, insan yok ya da çok küçük; ışık fiziği doğru (G13). 001 eski dilde kalır (`stil_eki_001`).
+- Kapak şablonu: ince harf aralıklı başlık, kehribar çizgi ve etiket, gökte küçük PROBE-7; 3 düzen; en fazla 3
+  kelime (G7: seri adı + süre, ör. `DEEP FOCUS` + `2H`).
+- Parça görseli `gorsel/NN.png` (16:9). Defter modunda her parçanın görseli zorunludur.
+- 4K Seyir Defteri render'ı 2 saatlik videoda yaklaşık 5 saat kare + kodlama (3 süreç): `video`'yu arka planda
+  çalıştır. Hızlı deneme için görevde `[ayar.video] genislik = 1920, yukseklik = 1080`.
 
-## Seyir Defteri modu (`deepspace/defter.py`; 10 Kasım 2026, A yönü, sahibinin son onayı bekleniyor)
-Sahibinin isteği: "jazzy cafe" kanallarını kopyalamadan, markaya ait, müzikle uyumlu, kolay üretilen bir arka plan.
-Referans yalnızca histir, klonlanmaz.
-- Görüntü hiç bükülmez. Hareket yalnız üstüne eklenen katmanlardır (`gorsel/NN_hareket.json` → `"katmanlar"`):
-  `isik` (LED yanıp söner, hale nefes alır, müzikle parlar), `toz` (ışıkta süzülen toz), `goktasi` (seyrek),
-  `yildiz` (karanlık gökte).
-- Marka kaydı (HUD), font Space Mono (OFL, `deepspace/font/`):
-  - sol üst: DEEP SPACE LOG ve görev;
-  - sağ üst: görev saati ve `NN/20 RECEIVING`;
-  - sol alt: harf harf yazılan kayıt (gerçek bilgi `gorev.toml`'dan; uydurma rakam yok);
-  - sağ alt: müziğin spektrumundan "sinyal" çizgisi.
-- Alt ve üst kenar hafifçe kararır, yazı parlak zeminde de okunur. Gök cismi adları büyük harfe çevrilmez
-  (TRAPPIST-1e).
-- Görsel istemi kuralı (onaydan sonra `marka.toml`'a): her sahnede doğal bir ışık kaynağı olsun (sondanın işaret
-  lambası, istasyon ışığı, giysi LED'i, uzak şehir ışıkları, kutup ışığı).
-- Komut: `python -m deepspace.gorev ornek <klasör> --parca N --ses <dosya> --mod defter`. Kareler doğrudan sesle
-  kodlanır (ara dosya yok). 1080p'de kare başına ~0,1 sn.
+## Seyir Defteri modu (`deepspace/defter.py`; uzun video ve Shorts'un varsayılanı, `[video] mod = "defter"`)
+- Görüntü hiç bükülmez (G14). Hareket yalnız üstüne eklenen ışık ve parlaklık katmanlarıdır
+  (`gorsel/NN_hareket.json` → `"katmanlar"`; koordinatlar 16:9 karede, 0–1):
+  `isik`, `isaret_lambasi` (kırmızı, 2 sn), `pencereler` (istasyon ışıkları, ~20 sn'de bir yanar/söner),
+  `kutup_isigi` (resmin kendi parlaklığıyla), `halka_piriltisi` (parlak piksellerde), `bulutsu_tulu` (yavaş
+  parlaklık dalgası), `uydu` (seyrek geçiş), `toz`, `goktasi`, `yildiz`. Her katman `"muzik": true` alabilir.
+  Kutulu katman kutu dışındaki piksele dokunmaz. Hareket kapısı: en az 3 bilinen katman, biri müzikle bağlı.
+- Marka kaydı (HUD), Space Mono: sol üst kanal ve görev; sağ üst görev saati (`T+` videonun gerçek saatini sayar) ve
+  `NN/20 RECEIVING`; sol alt harf harf kayıt (gerçek bilgi `gorev.toml`'dan); sağ alt müziğin spektrumundan sinyal.
+- Uzun video: parça başına bir bölüm (paralel süreçler, `cikti/ara/` altında sessiz), kesim çapraz geçişin
+  ortasında; sonra birleştirme ve master ses. Sessiz dosya yalnız `ara/` içinde olabilir (G14).
+- Tarifi göndermeden önce kendin bak: iki farklı anın karesini ve farkını al, hareket yalnız istenen yerde mi.
+- Örnek: `python -m deepspace.gorev ornek <klasör> --parca N --ses <dosya>` (sesli, ölçülmüş).
+
+## Shorts departmanı (G12)
+1. `py -m deepspace.gorev shorts-analiz <klasör>` → `cikti/shorts_analiz.json` (saniyelik enerji, önerilen an).
+2. shorts-kurgucusu analize ve görsellere bakıp `<görev>/shorts_plan.json` yazar:
+   `[{"parca", "basla_sn" (mutlak), "sure_sn" (20–58), "kirp_x" (0–1, dikey kadraj odağı), "kanca" (≤3 kelime)}]`.
+   3 Short 3 ayrı parçadan; aralık çapraz geçişin dışında; kullanılmış an (`kayit.json`) tekrar etmez.
+3. `py -m deepspace.gorev shorts <klasör>`: plan kapısı yeşilse 1080x1920 dikey Seyir Defteri (üstte marka, y≈0.28H
+   kanca, altta "Full N-hour mission" ve sinyal), master sesin aynı aralığı; `cikti/shorts.json` metinleri.
+   Kapılar: dikey ve ≤60 sn, ses duyuluyor, ilk 2 sn ses, siyah kare yok, metin G5/G9.
+4. Yükleme uzun videoyla: her Short gizli, uzun videonun yayınından +1, +3, +5 gün sonra planlı, açıklamada uzun
+   videonun bağlantısı. `kaydet` kullanılan anları `kayit.json`'a yazar.
 
 ## Görsel denetimi (G13: saçmalık motoru)
 Her yeni ya da değişen görsel videoya girmeden:
@@ -138,5 +169,7 @@ Her yeni ya da değişen görsel videoya girmeden:
 - Yayından sonra `kaydet --youtube-id ...` ve kayit.json'u commit et.
 - Sahibi bir şeyi beğenmezse tarihiyle `deepspace/begenmeme.md`'ye yaz; tekrar eden madde kurala ya da koda dönüşür.
 
-## Maliyet (G11)
-Ücretli tek kalem Suno. vidIQ (5 kredi/çağrı), görsel/video üretim kredisi gibi şeyleri sahibine sormadan kullanma.
+## Maliyet (G11, G17)
+Ücretli kalemler: Suno (sahibinde), ElevenLabs görsel kredisi (sahibine sormadan harcanmaz), vidIQ (yalnız
+youtube-uzmani, aylık 100 kredi tavanı; proje kancası `deepspace/vidiq_butce.py` aşımı ve izin dışı aracı reddeder,
+harcama `deepspace/buyume/vidiq_harcama.jsonl`'da).

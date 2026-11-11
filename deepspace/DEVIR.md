@@ -3,6 +3,26 @@
 Bu dosya yeni bir Claude Code oturumunun (yerel terminal) kaldığımız yerden devam etmesi için. Önce bunu, sonra
 `SOZLESME.md` G bölümünü ve `.claude/skills/deep-space-log/SKILL.md`'yi oku. Sahibiyle Türkçe konuş.
 
+## Güncel durum (11 Kasım 2026): iş bölümü, Shorts departmanı, YouTube uzmanı
+Bu bölüm aşağıdaki eski notların üstündedir; çelişirse bu geçerlidir.
+- **İş bölümü (G15):** 002'den itibaren her istasyonu bir ajan yapar (`.claude/agents/`, 11 ajan), kararı sıfır
+  bağlamlı `denetci` verir (`gorev denetim`), komutlar kilitlidir (`gorev durum`, `gorev kilit`). `hepsi` yalnız 001.
+  Akış ve şefin döngüsü: deep-space-log skill'i. Tasarım `docs/superpowers/specs/2026-11-11-is-bolumu-design.md`,
+  plan `docs/superpowers/plans/2026-11-11-is-bolumu.md`.
+- **Marka kiti (G16):** sahibi 11 Kasım'da onayladı. Renk A (film tonu yok, `[filtre] secim = ""`; eski bal_kehribar
+  notu geçersiz), yazı Space Mono, kaynak `deepspace/marka/kaynak/A2.png`, kit `deepspace/marka/` (`gorev kanal`).
+  Görsel dili: karanlık ufuk + tek dev gök cismi (`stil_eki`); 001 eski Dünya benzeri dilde kalır (`stil_eki_001`).
+- **Hareket:** varsayılan Seyir Defteri (`[video] mod = "defter"`): görüntü bükülmez, yalnız fiziksel ışık katmanları
+  (işaret lambası, pencereler, kutup ışığı, halka pırıltısı, bulutsu tülü, uydu ...), en az 3 katman, biri müzikle.
+  4K 2 saatlik video ≈ 5 saat kare (3 süreç).
+- **Shorts (G12):** `shorts-analiz` → shorts-kurgucusu `shorts_plan.json` → `shorts` (dikey Seyir Defteri);
+  uzun videodan +1/+3/+5 gün sonra planlı.
+- **YouTube uzmanı (G17):** araştırma istasyonu ve haftalık analiz, vidIQ aylık 100 kredi tavanı (kanca
+  `deepspace/vidiq_butce.py`). Araştırmanın başlığı G5'ten geçerse pakete girer (`baslik_kaynagi`).
+- **Açık:** marka istasyonunun denetçi kararı ve sahibin onay kaydı (`gorev marka --onay --kim sahip`); 001 kapağı
+  için sahibinin seçtiği B3 (`marka/taslak/kapak_001.jpg`) ile `kapaklar`ın ürettiği arasında fark; Suno dosyaları
+  (şu an yalnız `Small Signal.wav`); kanal adı/handle (`@deepspacelogmusic`) ve Google OAuth sahibinde.
+
 ## Kurulum (Windows, bir kez): masaüstü klasörü
 Sahibine `DeepSpaceLog_kur.ps1` gönderildi (10 Kasım). Ne yapar: `Masaüstü\DeepSpaceLog\` açar, depoyu
 `depo\` altına klonlar (`claude/deep-space-log` dalı), paketleri kurar, görev klasörlerine kısayol (junction)
@@ -104,7 +124,7 @@ Sahibi ElevenLabs Creator aldı; 20 görsel FLUX 3 2K (2736x1536) üretildi, bul
 02 (ikiz balıkçı) ve 13 (8 tekerlekli gezici) istem düzeltilip birer kez yeniden üretildi, ikisi de geçti. Ayrıntı
 `deepspace/gorevler/001-trappist/GORSEL_DENETIM.md`.
 
-## Sıradaki işler (sırayla)
+## Sıradaki işler (10 Kasım listesi; 001 için geçerli, 002'den itibaren skill'deki istasyon döngüsü)
 1. Görseller tamam (yukarı bak). Her görsel için sinemagraf tarifi `gorsel/NN_hareket.json` (örnekler
    `deepspace/ornek_hareket/`); yeni görsel gelirse önce G13 denetimi (`py -m deepspace.gorev denetle`).
 2. İsteğe bağlı ön plan: `NN_on.png` (şeffaf; ElevenLabs "Image Background Removal" ile pencere/oda ayrılırsa

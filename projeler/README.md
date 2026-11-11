@@ -14,7 +14,7 @@ güncelle.
 | Flow Event (DJ hizmeti ve kursu) | [flow-event.md](flow-event.md) | beklemede | alan adı, pilot öğrenci |
 | E-ticaret (Shopify) | [e-ticaret.md](e-ticaret.md) | başlamadı | ilk ürün kararı |
 | Suno müzik | [suno.md](suno.md) | Deep Space Log'a bağlandı | 001 müzikleri |
-| Deep Space Log (YouTube, eski Köz) | [deep-space-log.md](deep-space-log.md) | hat kuruldu, görsel yeniden | görsel yön kararı |
+| Deep Space Log (YouTube, eski Köz) | [deep-space-log.md](deep-space-log.md) | iş bölümü + marka kiti hazır | 001 müzikleri, marka onay kaydı |
 | Fikir rafı | [fikir-rafi.md](fikir-rafi.md) | karar bekliyor | "Sezon hazır" (1 Kasım öncesi) |
 | Genel: Claude kullanımı ve maliyet | [genel.md](genel.md) | not | — |
 
@@ -35,7 +35,7 @@ Bot `claude/twitter-football-predictions-ywwfxw` dalından çalışır. Aşağı
 | `claude/x-page-automation-monetization-7mjcki` | 8 Ekim | `marka/B2B_TEKLIF.md` (fikir, bot dışı) |
 | `claude/three-agent-brainstorm-automation-sdb84b` | 1 Ekim | `beyin/firsat-botu.md` (İsveççe fırsat botu devir notu, fikir) |
 | `claude/chrome-music-generation-9cyq2h` | 1 Ekim | `suno/` (Suno müzik skill'i, bot dışı) |
-| `claude/deep-space-log` | 9 Kasım | `deepspace/` video hattı, SOZLESME G, testler (bot dışı) |
+| `claude/deep-space-log` | 11 Kasım | `deepspace/` video hattı, iş bölümü ajanları, Shorts, marka kiti, SOZLESME G, testler (bot dışı) |
 | `claude/x-viral-content-system-97j6jh` | 15 Ekim | "Prompt Proof" ilk sürümü; yerini Tiny Fixes (PR #71) aldı, birleştirilmeyecek |
 | `ccr-a04ad725-brbtyt` | 16 Ekim | reverse-engineer-anything skill'i (morluto/rea), bot dışı |
 

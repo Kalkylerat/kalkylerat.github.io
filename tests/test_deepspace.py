@@ -1328,7 +1328,7 @@ def _on_bolum(yol):
 def test_G15_ajan_dosyalari():
     klasor = KOK / ".claude" / "agents"
     beklenen = {"marka-tasarimcisi": "opus", "konsept-yazari": "sonnet", "bilgi-dogrulayici": "sonnet",
-                "gorsel-yonetmeni": "sonnet", "gorsel-denetcisi": "opus", "hareket-tarifcisi": "sonnet",
+                "gorsel-yonetmeni": "fable", "gorsel-denetcisi": "opus", "hareket-tarifcisi": "sonnet",
                 "operator": "haiku", "kod-ustasi": "sonnet", "denetci": "opus", "youtube-uzmani": "opus",
                 "shorts-kurgucusu": "sonnet"}
     for ad, model in beklenen.items():
@@ -1342,6 +1342,13 @@ def test_G15_ajan_dosyalari():
     araclar = {t.strip() for t in uzman["tools"].split(",")}
     assert {f"mcp__claude_ai_vidIQ__{a}" for a in vidiq_butce.IZINLI} <= araclar
     assert not any("generate" in t or "reply" in t or "upload" in t or "update" in t for t in araclar)
+
+
+def test_G16_gorsel_dili_rehberi_tek_kaynak():
+    rehber = KOK / ".claude" / "skills" / "gorsel-dili" / "SKILL.md"
+    assert _on_bolum(rehber)["name"] == "gorsel-dili"
+    for ad in ("gorsel-yonetmeni", "gorsel-denetcisi"):
+        assert ".claude/skills/gorsel-dili/SKILL.md" in (KOK / ".claude" / "agents" / f"{ad}.md").read_text(encoding="utf-8")
 
 
 def test_G17_vidiq_izin_listesi_ve_tavan(tmp_path):

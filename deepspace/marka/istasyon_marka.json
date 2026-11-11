@@ -1,0 +1,51 @@
+{
+  "istasyon": "marka",
+  "karar": "GECTI",
+  "tur": 2,
+  "denetci": "denetci",
+  "ozetler": {
+    "marka.toml": "d7b1d017f6dc91896108369aa5bfb174c4a187b5f23b3625a91a0af6b3392ce0",
+    "marka/banner.jpg": "071ee0a2d66fd38e3b2feebfad3495dc6aca8f143d3ae4516aef35e38a4b4a6f",
+    "marka/filigran.png": "4c12e8b5300d4b8e79bbc9a624881b92d47b98004a6c44e9f7e9242453f3e316",
+    "marka/kaynak/A2.png": "b4d4cb0e919778faacf21aa59355ce0721c00a10321fe94bf2748e367dc6aad9",
+    "marka/marka_kitabi.jpg": "c261c02d85442e59df16f12d61e675c7fbb2ea75231cec4416bcd20cc805c92d",
+    "marka/profil.png": "6bfc9ec3dc95a562ac4fd956901503e2e883ffc2cb01d5fb184caf7a9d53d5ef",
+    "marka/README.md": "f844bd57167097e77b13605327881d3ead62a8bf4923ef27640b01d6c72003d1"
+  },
+  "zincir": {},
+  "marka_ozeti": "07ae355329cc0026b7511a43ec357c627623042ef5db5d9e58c53087dbb91e55",
+  "kirmizi": [],
+  "bulgular": [
+    {
+      "kod": "kirpma",
+      "not": "duzeldi - filigran.png kenar alfa 0 (4 kenar), PROBE-7 paneller x19-131, halka ic kenari ~9/141; maskot tam ve halka icinde",
+      "kanit": "C:/Users/atici/AppData/Local/Temp/claude/25b8ec89a847067b/d41b3f1d-19d2-4ace-b728-5658f5af04a4/scratchpad/marka_denetim2/"
+    },
+    {
+      "kod": "marka",
+      "not": "duzeldi - banner.jpg PROBE-7 x1221-1337 y808-829, ufuk x507/2053'te y917 (bant y508-931 icinde, ~14 px pay), baslik x567-1994 y561-644, alt yazi x581-1977 y720-741; hepsi 1546x423 guvenli alanda",
+      "kanit": "C:/Users/atici/AppData/Local/Temp/claude/25b8ec89a847067b/d41b3f1d-19d2-4ace-b728-5658f5af04a4/scratchpad/marka_denetim2/"
+    },
+    {
+      "kod": "marka",
+      "not": "duzeldi - marka.toml durum='denetimde', README 'Durum: denetimde'; kesin kayit denetci GECTI sonrasi 'gorev marka --onay' ile, sahibin onayi yenilenmeli (G16)",
+      "kanit": "C:/Users/atici/AppData/Local/Temp/claude/25b8ec89a847067b/d41b3f1d-19d2-4ace-b728-5658f5af04a4/scratchpad/marka_denetim2/"
+    },
+    {
+      "kod": "fizik",
+      "not": "(engel degil) banner zemin esnetmesi (kaynak satir 640+, x1.64) y~1054'te: satir farkinda sicrama yok (dikis 0.49, medyan 0.38, en buyuk 1.12 baska yerde), gozle dikis/bozulma yok; esnemis bolgede tane dikeyde hafif yumusak, yalniz kontrast acilinca seziliyor, bolge cok karanlik (ort. ~16/255) ve yalniz TV'de gorunur",
+      "kanit": "C:/Users/atici/AppData/Local/Temp/claude/25b8ec89a847067b/d41b3f1d-19d2-4ace-b728-5658f5af04a4/scratchpad/marka_denetim2/"
+    },
+    {
+      "kod": "yazi",
+      "not": "(engel degil) banner alt yazisi font 34 px >= %2*1440=28.8 (kural gecer) ama buyuk harf yuksekligi 22 px; telefonda kucuk ama okunuyor. Kapak '2H' etiketi 168x94'te okunmuyor (README'de bilinen sinirlama)",
+      "kanit": "C:/Users/atici/AppData/Local/Temp/claude/25b8ec89a847067b/d41b3f1d-19d2-4ace-b728-5658f5af04a4/scratchpad/marka_denetim2/"
+    },
+    {
+      "kod": "marka",
+      "not": "renkler olculdu - baslik ~#f1f0f5 (yazi #f0f0f5), alt yazi ~#e4c490 (vurgu #e8c48a); Space Mono; PROBE-7 banner, profil (98 ve 40 px'te secilir), filigran, kitapta ayni cizim",
+      "kanit": "C:/Users/atici/AppData/Local/Temp/claude/25b8ec89a847067b/d41b3f1d-19d2-4ace-b728-5658f5af04a4/scratchpad/marka_denetim2/"
+    }
+  ],
+  "zaman": "2026-11-11T01:17:38+00:00"
+}

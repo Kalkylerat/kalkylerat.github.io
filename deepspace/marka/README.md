@@ -1,6 +1,7 @@
 # Deep Space Log marka kiti (G16)
 
-Sahibi 11 Kasım 2026'da onayladı. Renk seçimi bize bırakıldı: **A, film tonu yok** (`marka.toml [filtre] secim = ""`).
+Durum: denetimde. Sahibi 11 Kasım 2026'da taslağı onayladı; kesin kayıt denetçi GEÇTİ'den sonra `gorev marka --onay`
+ile yapılır. Renk seçimi bize bırakıldı: **A, film tonu yok** (`marka.toml [filtre] secim = ""`).
 Kehribar (`#e8c48a`) yalnız vurgu: başlık altı çizgi ve etiket.
 
 | Dosya | Ne | Kullanım |
@@ -15,5 +16,9 @@ Kehribar (`#e8c48a`) yalnız vurgu: başlık altı çizgi ve etiket.
 - Kapak şablonu (`yazi.kapak_katmani`, `marka.toml [sablon]`): ortada harf aralıklı ince başlık (Space Mono), kehribar
   çizgi ve kalın kehribar etiket, gökte küçük PROBE-7. 3 düzen: başlık üstte, başlık altta, etiket önde. En fazla 3
   kelime (G7): başlık seri adı (`DEEP FOCUS`), etiket süre (`2H`). Hedef adı ve görev numarası video başlığındadır.
+- Bilinen sınırlama: kapaktaki etiket (`2H`, 22 px) 168x94 önizlemede ~2 px kalır, orada okunmaz; şablon
+  değişikliği ayrı bir iş.
+- Banner: ufuk kemeri ve PROBE-7 her cihazda görünen bantta (y 508–931); bunun için kaynak yukarı kaydırılır,
+  ufkun altındaki zemin esnetilir (`marka_kiti._banner_kaynak`). Filigranda PROBE-7 halkanın içinde, kenarlar şeffaf.
 - Bu klasördeki her dosya (ve `marka.toml`) marka özetine girer; biri değişirse marka istasyonu yeniden denetlenir,
   sahibinin onayı yenilenir ve sonraki istasyonların kararları geçersiz olur. `taslak/` özete girmez.

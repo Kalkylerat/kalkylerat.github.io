@@ -4,7 +4,7 @@
 # Renkler: arka -> en koyu zemin, gölge -> ikinci koyu, ana -> markanın ana rengi, vurgu -> az kullanılan ışık,
 # yazi -> başlık rengi, yazi_ikincil -> alt satırlar.
 
-durum = "onaylandi"   # 11 Kasım 2026, sahibi: kit onaylandı; renk seçimi bize bırakıldı (A: film tonu yok)
+durum = "denetimde"   # 11 Kasım 2026: sahibi taslağı onayladı (renk A bize bırakıldı); kesin kayıt denetçi GEÇTİ'den sonra `gorev marka --onay` ile
 
 [palet]
 arka = "#05070f"

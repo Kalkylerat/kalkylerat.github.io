@@ -19,6 +19,11 @@ from .sahne import probe_sprite
 KAYNAK = KOK / "marka" / "kaynak" / "A2.png"
 ALT_YAZI = "SPACE AMBIENT FOR FOCUS & SLEEP  ·  NEW MISSION WEEKLY"
 GUVENLI_ALAN = (1546, 423)  # YouTube banner'ında her cihazda görünen orta alan (2560x1440 içinde)
+# Banner kaynağı: ufuk kemeri güvenli banda girsin diye görsel yukarı kaydırılır (kaynağın 765 satırında 80 satır);
+# alttaki boşluk ufkun altındaki karanlık zeminin (640. satırdan sonrası) dikey esnetilmesiyle dolar.
+BANNER_KAYDIR, BANNER_ZEMIN = 80 / 765, 640 / 765
+BANNER_BASLIK_Y, BANNER_PROBE_Y, BANNER_PROBE_BOY = 510, 812, 70
+FILIGRAN_HALKA, FILIGRAN_PROBE = (6, 144), 68  # PROBE-7'nin panel uçları halkanın iç kenarından ~6 px içeride
 
 
 def _filtrele(img: Image.Image) -> Image.Image:
@@ -52,10 +57,21 @@ def _kirp_169(img: Image.Image) -> Image.Image:
     return img.crop((0, 0, W, min(H, h)))
 
 
+def _banner_kaynak(ana: Image.Image) -> Image.Image:
+    """16:9 kaynak, ufuk yukarıda: üstten BANNER_KAYDIR kırpılır, ufkun altındaki zemin esnetilerek boy korunur."""
+    k = _kirp_169(ana)
+    W, H = k.size
+    ust, kes = round(H * BANNER_KAYDIR), round(H * BANNER_ZEMIN)
+    yeni = Image.new("RGB", (W, H))
+    yeni.paste(k.crop((0, ust, W, kes)), (0, 0))
+    yeni.paste(k.crop((0, kes, W, H)).resize((W, H - (kes - ust)), Image.LANCZOS), (0, kes - ust))
+    return yeni
+
+
 def banner(ana: Image.Image) -> Image.Image:
-    b = _filtrele(_kirp_169(ana).resize((2560, 1440), Image.LANCZOS)).convert("RGBA")
-    _baslik(b, "DEEP SPACE LOG", ALT_YAZI, 540, 120, 34, 560)
-    probe_ekle(b, 2560 * 0.5, 1440 * 0.715, 70)
+    b = _filtrele(_banner_kaynak(ana).resize((2560, 1440), Image.LANCZOS)).convert("RGBA")
+    _baslik(b, "DEEP SPACE LOG", ALT_YAZI, BANNER_BASLIK_Y, 120, 34, 560)
+    probe_ekle(b, 2560 * 0.5, BANNER_PROBE_Y, BANNER_PROBE_BOY)
     return b
 
 
@@ -74,9 +90,10 @@ def filigran() -> Image.Image:
     """150x150 şeffaf video filigranı: PROBE-7 ve ince kehribar halka."""
     m = marka_yukle()["palet"]
     f = Image.new("RGBA", (150, 150), (0, 0, 0, 0))
-    ImageDraw.Draw(f).ellipse([6, 6, 144, 144], fill=(*rgb(m["arka"]), 150), outline=(*rgb(m["vurgu"]), 230),
+    a, z = FILIGRAN_HALKA
+    ImageDraw.Draw(f).ellipse([a, a, z, z], fill=(*rgb(m["arka"]), 150), outline=(*rgb(m["vurgu"]), 230),
                               width=3)
-    probe_ekle(f, 75, 75, 96)
+    probe_ekle(f, 75, 75, FILIGRAN_PROBE)
     return f
 
 

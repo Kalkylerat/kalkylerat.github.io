@@ -1129,6 +1129,36 @@ def test_G16_kanal_kiti_kaynak_gorselden(tmp_path):
     assert (tmp_path / "banner.jpg").stat().st_size < 6 * 1024 * 1024  # YouTube banner sınırı
 
 
+def test_G16_filigran_probe_halkada_kenarlar_seffaf():
+    from PIL import Image
+    from deepspace import marka_kiti
+    a = np.asarray(marka_kiti.filigran())[..., 3]
+    assert max(a[0].max(), a[-1].max(), a[:, 0].max(), a[:, -1].max()) == 0  # kenarda kesilme yok
+    p = Image.new("RGBA", (150, 150), (0, 0, 0, 0))
+    marka_kiti.probe_ekle(p, 75, 75, marka_kiti.FILIGRAN_PROBE)
+    ys, xs = np.nonzero(np.asarray(p)[..., 3] > 0)
+    ic_r = (marka_kiti.FILIGRAN_HALKA[1] - marka_kiti.FILIGRAN_HALKA[0]) / 2 - 3
+    assert np.hypot(xs + 0.5 - 75, ys + 0.5 - 75).max() <= ic_r - 3  # panel uçları halkanın içinde
+
+
+def test_G16_banner_yazi_probe_ve_ufuk_gorunen_bantta():
+    from PIL import Image
+    from deepspace import marka_kiti
+    gx, gy = marka_kiti.GUVENLI_ALAN
+    x0, y0, x1, y1 = (2560 - gx) / 2, (1440 - gy) / 2, (2560 + gx) / 2, (1440 + gy) / 2
+    for ciz in (lambda k: marka_kiti._baslik(k, "DEEP SPACE LOG", marka_kiti.ALT_YAZI, marka_kiti.BANNER_BASLIK_Y,
+                                             120, 34, 560),
+                lambda k: marka_kiti.probe_ekle(k, 1280, marka_kiti.BANNER_PROBE_Y, marka_kiti.BANNER_PROBE_BOY)):
+        k = Image.new("RGBA", (2560, 1440), (0, 0, 0, 0))
+        ciz(k)
+        ys, xs = np.nonzero(np.asarray(k)[..., 3] > 0)
+        assert xs.min() >= x0 and xs.max() <= x1 and ys.min() >= y0 and ys.max() <= y1
+    ana = Image.open(KOK / "deepspace" / "marka" / "kaynak" / "A2.png").convert("RGB")
+    L = np.asarray(marka_kiti._banner_kaynak(ana).resize((2560, 1440)).convert("L"), float)
+    ufuk = 700 + int(L[700:1200, 1280].argmax())  # ufuk kemerinin parlak kenarı, ortada
+    assert marka_kiti.BANNER_PROBE_Y < ufuk <= y1
+
+
 def test_G15_komut_kilidi_cikis_3(tmp_path, monkeypatch, capsys):
     from deepspace import gorev as cli, is_kaydi
     monkeypatch.setattr(cli, "gorev_yukle", lambda k: (_gorev(tmp_path, no=2), AYAR))

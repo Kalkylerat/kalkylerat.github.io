@@ -67,10 +67,14 @@ def _renk(h: str) -> np.ndarray:
 
 
 # ---------- müzik ----------
-def ses_ozeti(ses: Path, fps: int, bant: int = 40, sr: int = 24000) -> dict:
-    """Kare başına müzik zarfı (0..1, yumuşak) ve spektrum bantları (kare x bant, 0..1)."""
-    ham = subprocess.run(["ffmpeg", "-v", "error", "-i", str(ses), "-ac", "1", "-ar", str(sr), "-f", "f32le", "-"],
-                         capture_output=True, check=True).stdout
+def ses_ozeti(ses: Path, fps: int, bant: int = 40, sr: int = 24000, basla: float = 0.0,
+              sure: float | None = None) -> dict:
+    """Kare başına müzik zarfı (0..1, yumuşak) ve spektrum bantları (kare x bant, 0..1).
+
+    basla/sure: sesin yalnız bu aralığı okunur (uzun videoda her parça kendi aralığını okur)."""
+    aralik = (["-ss", f"{basla:.3f}"] if basla else []) + (["-t", f"{sure:.3f}"] if sure else [])
+    ham = subprocess.run(["ffmpeg", "-v", "error", *aralik, "-i", str(ses), "-ac", "1", "-ar", str(sr), "-f", "f32le",
+                          "-"], capture_output=True, check=True).stdout
     x = np.frombuffer(ham, np.float32)
     adim = sr / fps
     n = int(len(x) / adim) + 1
@@ -125,8 +129,8 @@ def _ekle(kare: np.ndarray, sprite: np.ndarray, x: float, y: float, renk: np.nda
 
 class SeyirDefteri:
     def __init__(self, gorsel: Path, katmanlar: list[dict], W: int, H: int, fps: int, sure: float, muzik: dict,
-                 bilgi: dict, tohum: int = 1, ton: dict | None = None):
-        self.W, self.H, self.fps, self.sure = W, H, fps, sure
+                 bilgi: dict, tohum: int = 1, ton: dict | None = None, t0: float = 0.0):
+        self.W, self.H, self.fps, self.sure, self.t0 = W, H, fps, sure, t0  # t0: görev saatinin başladığı an
         self.o = H / 1080
         taban = np.asarray(_kapla(Image.open(gorsel).convert("RGB"), W, H), np.float32) / 255
         if ton:
@@ -185,9 +189,14 @@ class SeyirDefteri:
             k["sprite"] = _hale(r, int(r * 6) + 2)
             k["rgb"] = _renk(k.get("renk", "#fff6e8"))
         elif e == "bulutsu_tulu":
-            k["xx"] = (np.arange(X0, X1, dtype=np.float32) / self.W)[None, :]
-            k["yy"] = (np.arange(Y0, Y1, dtype=np.float32) / self.H)[:, None]
-            k["dalgalar"] = [(rng.uniform(1, 3), rng.uniform(-1.5, 1.5), rng.uniform(0, TAU)) for _ in range(3)]
+            # gürültü = ortalama sin(TAU·(fx·(x − kayma) + fy·y) + faz); sin(A+B) = sinA·cosB + cosA·sinB ayrışır,
+            # böylece her karede tam boy sin yerine küçük bir matris çarpımı yeter (aynı görüntü, 4K'da hızlı).
+            dalga = np.array([(rng.uniform(1, 3), rng.uniform(-1.5, 1.5), rng.uniform(0, TAU)) for _ in range(3)])
+            yy = np.arange(Y0, Y1, dtype=np.float64) / self.H
+            B = TAU * np.outer(yy, dalga[:, 1]) + dalga[:, 2]
+            k["cosB"], k["sinB"] = np.cos(B).astype(np.float32) / 3, np.sin(B).astype(np.float32) / 3
+            k["fx"] = dalga[:, 0]
+            k["xx"] = np.arange(X0, X1, dtype=np.float64) / self.W
         elif e == "uydu":
             (ax, ay), (bx, by) = k.get("yol", [[0.1, 0.2], [0.9, 0.3]])
             k["a"], k["b"] = np.array([ax * self.W, ay * self.H]), np.array([bx * self.W, by * self.H])
@@ -297,7 +306,7 @@ class SeyirDefteri:
         # sağ üst: görev saati ve alım ışığı
         gw = int(620 * o)
         img, d = self._parca(gw, 90 * o)
-        s = int(t)
+        s = int(self.t0 + t)
         self._yazi(d, (0, 0), f"T+{s // 3600:02d}:{s % 3600 // 60:02d}:{s % 60:02d}", YAZI["baslik"], True, 0.95,
                    hiza="sag", genislik=gw)
         alt = f"{b['parca_no']:02d}/{b['parca_say']:02d}  RECEIVING"
@@ -401,7 +410,7 @@ class SeyirDefteri:
             elif e == "kutup_isigi":
                 X0, Y0, X1, Y1 = k["sinir"]
                 dalga = 0.5 + 0.5 * np.sin(TAU * t / k.get("periyot", 9.0) + k["xf"])
-                kare[Y0:Y1, X0:X1] += (k["maske"] * dalga)[..., None] * k["rgb"] * (k.get("guc", 0.25) * carp)
+                kare[Y0:Y1, X0:X1] += (k["maske"] * dalga)[..., None] * (k["rgb"] * (k.get("guc", 0.25) * carp))
             elif e == "halka_piriltisi":
                 parlak = k.get("guc", 0.5) * carp * np.clip(np.sin(k["w"] * 3 * t + k["faz"]), 0, 1) ** 3
                 for x, y, p in zip(k["px"], k["py"], parlak):
@@ -409,9 +418,12 @@ class SeyirDefteri:
                         _ekle(kare, k["sprite"], x, y, k["rgb"], float(p), k["sinir"])
             elif e == "bulutsu_tulu":
                 X0, Y0, X1, Y1 = k["sinir"]
-                kay = k.get("hiz", 0.01) * t
-                n = sum(np.sin(TAU * (fx * (k["xx"] - kay) + fy * k["yy"]) + f) for fx, fy, f in k["dalgalar"]) / 3
-                kare[Y0:Y1, X0:X1] *= (1 + k.get("guc", 0.12) * carp * n * k["kenar"])[..., None]
+                A = TAU * np.outer(k["fx"], k["xx"] - k.get("hiz", 0.01) * t)
+                n = k["cosB"] @ np.sin(A).astype(np.float32) + k["sinB"] @ np.cos(A).astype(np.float32)
+                n *= k["kenar"]
+                n *= k.get("guc", 0.12) * carp
+                n += 1
+                kare[Y0:Y1, X0:X1] *= n[..., None]
             elif e == "uydu":
                 ar, su = k.get("aralik", 240), k.get("sure", 90)
                 if t >= k["faz"] and (t - k["faz"]) % ar < su:
@@ -426,7 +438,9 @@ class SeyirDefteri:
             a = p[:h, :w, 3:4]
             bolge = kare[y:y + h, x:x + w]
             kare[y:y + h, x:x + w] = bolge * (1 - a) + p[:h, :w, :3] * a
-        return (kare * 255 + 0.5).astype(np.uint8)
+        kare *= 255
+        kare += 0.5
+        return kare.astype(np.uint8)
 
 
 def katmanlari_oku(gorsel: Path) -> list[dict]:
@@ -434,14 +448,25 @@ def katmanlari_oku(gorsel: Path) -> list[dict]:
     return json.loads(yol.read_text(encoding="utf-8")).get("katmanlar", []) if yol.exists() else []
 
 
-def kodla(sahne: SeyirDefteri, ses: Path, hedef: Path, ses_filtresi: str, crf: int = 18) -> Path:
-    """Kareleri doğrudan ffmpeg'e akıtır; ses aynı geçişte eklenir (sessiz ara dosya yok, G14)."""
+def kodla(sahne: SeyirDefteri, ses: Path | None, hedef: Path, ses_filtresi: str | None, crf: int = 18,
+          preset: str = "medium") -> Path:
+    """Kareleri doğrudan ffmpeg'e akıtır; ses aynı geçişte eklenir.
+
+    ses=None sessiz ara çıktıdır (uzun videonun parça bölümleri) ve yalnız bir `ara/` klasörüne yazılabilir;
+    teslim edilen hiçbir dosya sessiz olamaz (G14)."""
+    hedef = Path(hedef)
+    if ses is None and hedef.parent.name != "ara":
+        raise ValueError(f"sessiz video yalnız ara/ klasörüne yazılır (G14): {hedef}")
     W, H, fps = sahne.W, sahne.H, sahne.fps
-    n = int(math.ceil(sahne.sure * fps))
+    n = int(math.ceil(sahne.sure * fps - 1e-6))
     komut = ["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}",
-             "-r", str(fps), "-i", "-", "-i", str(ses), "-map", "0:v", "-map", "1:a", "-af", ses_filtresi,
-             "-c:v", "libx264", "-preset", "medium", "-crf", str(crf), "-pix_fmt", "yuv420p", "-c:a", "aac",
-             "-b:a", "320k", "-t", f"{sahne.sure:.3f}", "-movflags", "+faststart", str(hedef)]
+             "-r", str(fps), "-i", "-"]
+    if ses is None:
+        komut += ["-an"]
+    else:
+        komut += ["-i", str(ses), "-map", "0:v", "-map", "1:a", "-af", ses_filtresi, "-c:a", "aac", "-b:a", "320k"]
+    komut += ["-c:v", "libx264", "-preset", preset, "-crf", str(crf), "-pix_fmt", "yuv420p", "-g", str(fps * 2),
+              "-t", f"{sahne.sure:.3f}", "-movflags", "+faststart", str(hedef)]
     surec = subprocess.Popen(komut, stdin=subprocess.PIPE)
     try:
         for i in range(n):

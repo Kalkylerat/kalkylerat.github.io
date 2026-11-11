@@ -57,6 +57,7 @@ dongu_sn = 60              # her sahne bu kadar sürer ve kusursuz döner
 crf = 20
 preset = "superfast"
 is_parcacigi = 3           # aynı anda kaç parça kodlanır
+mod = "defter"             # defter: durağan görsel + fiziksel katmanlar + kayıt (G14); sinemagraf: eski yol
 
 [shorts]
 adet = 3

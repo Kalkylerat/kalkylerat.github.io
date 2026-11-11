@@ -501,6 +501,55 @@ def test_G14_hareket_kapisi_en_az_3_katman_biri_muzikle(tmp_path):
     assert _kirmizi(kapilar.hareket(bos))                      # görsel yoksa hareket istasyonu geçemez
 
 
+def test_G2_bolum_kesimleri_capraz_gecisin_ortasinda():
+    b = _bolumler([300.0, 240.0, 360.0], capraz=8.0)
+    k = video.bolum_kesimleri(b)
+    assert k[0][0] == 0 and k[-1][1] == pytest.approx(b["toplam_sn"])
+    assert k[0][1] == pytest.approx(b["parcalar"][1]["basla"] + 4.0)
+    assert all(a[1] == pytest.approx(c[0]) for a, c in zip(k, k[1:]))
+
+
+def test_G14_sessiz_ara_cikti_yalniz_ara_klasorunde(tmp_path):
+    from deepspace import defter
+    with pytest.raises(ValueError):
+        defter.kodla(object(), None, tmp_path / "cikti" / "video.mp4", None)
+
+
+def _defter_gorevi(tmp_path, sureler=(3.0, 3.0), capraz=1.0):
+    import copy
+    g = _gorev(tmp_path, n=len(sureler), no=2)
+    (tmp_path / "gorsel").mkdir()
+    for i in range(len(sureler)):
+        _resim(tmp_path / "gorsel" / f"{i + 1:02d}.png", 320, 180, tohum=i)
+    out = ortak.cikti(g)
+    b = _bolumler(list(sureler), capraz=capraz)
+    _yaz_bolumler(g, b)
+    ortak.calistir(["ffmpeg", "-y", "-loglevel", "error", "-f", "lavfi", "-i",
+                    f"sine=frequency=220:duration={b['toplam_sn']}", "-c:a", "aac", str(out / "ses.m4a")])
+    ayar = copy.deepcopy(AYAR)
+    ayar["video"].update({"genislik": 320, "yukseklik": 180, "fps": 8, "crf": 32, "preset": "ultrafast",
+                          "is_parcacigi": 2, "mod": "defter"})
+    return g, ayar, b
+
+
+def test_G14_uzun_video_defter_modunda(tmp_path):
+    g, ayar, b = _defter_gorevi(tmp_path)
+    yol = video.uzun_video(g, ayar)
+    assert yol == ortak.cikti(g) / "video.mp4"
+    assert ortak.ffprobe_sure(yol) == pytest.approx(b["toplam_sn"], abs=0.3)
+    assert kapilar.ses_duyuluyor(yol)[0]
+    assert not (ortak.cikti(g) / "ara").exists() or not any((ortak.cikti(g) / "ara").iterdir())
+    assert not (ortak.cikti(g) / "bolum").exists()             # eski sinemagraf yolu çalışmadı
+
+
+def test_G14_defter_modu_gorselsiz_parcada_durur(tmp_path):
+    g, ayar, _ = _defter_gorevi(tmp_path)
+    (tmp_path / "gorsel" / "02.png").unlink()
+    with pytest.raises(ValueError, match="02"):
+        video.uzun_video(g, ayar)
+    assert not (ortak.cikti(g) / "video.mp4").exists()
+
+
 def test_G14_seyir_defteri_goruntuyu_bukmez(tmp_path):
     from PIL import Image
     from deepspace.defter import SeyirDefteri

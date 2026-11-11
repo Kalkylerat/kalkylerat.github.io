@@ -32,10 +32,7 @@ def _defter(gorev: dict, ayar: dict, parca: int, ses: Path, W: int, H: int) -> P
         raise FileNotFoundError(f"parça {parca:02d}: görsel yok")
     fps = int(ayar["video"]["fps"])
     sure = ffprobe_sure(ses)
-    p = gorev["parca"][parca - 1]
-    bilgi = {"ad": p["ad"], "kisa": p.get("kisa", ""), "bilgi": p.get("bilgi", ""), "gorev_no": gorev["no"],
-             "hedef": gorev["hedef"], "parca_no": parca, "parca_say": len(gorev["parca"]),
-             "sonraki": gorev["parca"][parca]["ad"] if parca < len(gorev["parca"]) else ""}
+    bilgi = video.parca_bilgisi(gorev, parca - 1)
     sahne = defter.SeyirDefteri(ana, defter.katmanlari_oku(ana), W, H, fps, sure, defter.ses_ozeti(ses, fps), bilgi,
                                 tohum=int(gorev["tohum"]) * 100 + parca, ton=marka_filtresi())
     klasor = cikti(gorev) / "ornek"

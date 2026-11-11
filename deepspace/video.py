@@ -148,7 +148,68 @@ def _bolum_kodla(args) -> str:
     return hedef
 
 
+def parca_bilgisi(gorev: dict, i: int) -> dict:
+    """Seyir Defteri kaydı için parça bilgisi (gerçek bilgi gorev.toml'dan). i: 0'dan."""
+    p, n = gorev["parca"][i], len(gorev["parca"])
+    return {"ad": p["ad"], "kisa": p.get("kisa", ""), "bilgi": p.get("bilgi", ""), "gorev_no": gorev["no"],
+            "hedef": gorev["hedef"], "parca_no": i + 1, "parca_say": n,
+            "sonraki": gorev["parca"][i + 1]["ad"] if i + 1 < n else ""}
+
+
+def bolum_kesimleri(bolumler: dict) -> list[tuple[float, float]]:
+    """Parça i'nin görüntü aralığı (sn). Kesim çapraz geçişin ortasındadır; ilk 0'dan, son toplam süreye kadar."""
+    yarim = bolumler["capraz_gecis_sn"] / 2
+    basla = [p["basla"] for p in bolumler["parcalar"]]
+    kes = [0.0] + [b + yarim for b in basla[1:]] + [float(bolumler["toplam_sn"])]
+    return list(zip(kes[:-1], kes[1:]))
+
+
+def _defter_bolumu(args) -> str:
+    """Bir parçanın Seyir Defteri bölümü (ayrı süreçte): görsel + katmanlar + o aralığın müziği, sessiz ara çıktı."""
+    from . import defter
+    from .renk import marka_filtresi
+    gorev, i, ilk, son, v, ses, hedef = args
+    fps = v["fps"]
+    gorsel = parca_gorseli(gorev, i)[0]
+    bas, sure = ilk / fps, (son - ilk) / fps
+    muzik = defter.ses_ozeti(ses, fps, basla=bas, sure=sure)
+    sahne = defter.SeyirDefteri(gorsel, defter.katmanlari_oku(gorsel), v["genislik"], v["yukseklik"], fps, sure,
+                                muzik, parca_bilgisi(gorev, i), tohum=_tohum(gorev, i), ton=marka_filtresi(), t0=bas)
+    return str(defter.kodla(sahne, None, Path(hedef), None, crf=v["crf"], preset=v["preset"]))
+
+
+def uzun_video_defter(gorev: dict, ayar: dict) -> Path:
+    """Uzun video Seyir Defteri modunda: parça başına bir bölüm (paralel süreçler), concat, master ses eklenir."""
+    v = ayar["video"]
+    out = cikti(gorev)
+    bolumler = json.loads((out / "bolumler.json").read_text(encoding="utf-8"))
+    eksik = [f"{i + 1:02d}" for i in range(len(bolumler["parcalar"])) if not parca_gorseli(gorev, i)[0]]
+    if eksik:
+        raise ValueError(f"defter modu her parçaya görsel ister; eksik: {', '.join(eksik)}")
+    fps = v["fps"]
+    ara = out / "ara"
+    ara.mkdir(exist_ok=True)
+    ses = out / "ses.m4a"
+    isler = []
+    for i, (bas, son) in enumerate(bolum_kesimleri(bolumler)):  # kare ızgarasına oturur: toplam kayma olmaz
+        isler.append((gorev, i, round(bas * fps), round(son * fps), v, ses, str(ara / f"bolum_{i + 1:02d}.mp4")))
+    with ProcessPoolExecutor(max_workers=v["is_parcacigi"]) as ex:
+        parcalar = list(ex.map(_defter_bolumu, isler))
+    liste = ara / "liste.txt"
+    liste.write_text("".join(f"file '{Path(p).name}'\n" for p in parcalar), encoding="utf-8")
+    hedef = out / "video.mp4"
+    try:
+        calistir(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", str(liste),
+                  "-i", str(ses), "-map", "0:v", "-map", "1:a", "-c", "copy", "-movflags", "+faststart", str(hedef)])
+    finally:
+        for p in [*parcalar, liste]:
+            Path(p).unlink(missing_ok=True)
+    return hedef
+
+
 def uzun_video(gorev: dict, ayar: dict) -> Path:
+    if ayar["video"].get("mod") == "defter":
+        return uzun_video_defter(gorev, ayar)
     v, ks = ayar["video"], ayar["kanal"]
     out = cikti(gorev)
     bolumler = json.loads((out / "bolumler.json").read_text(encoding="utf-8"))

@@ -166,17 +166,36 @@ def _defter_bolumu(args) -> str:
     """Bir parçanın Seyir Defteri bölümü (ayrı süreçte): görsel + katmanlar + o aralığın müziği, sessiz ara çıktı."""
     from . import defter
     from .renk import marka_filtresi
-    gorev, i, ilk, son, v, ses, hedef = args
+    gorev, i, ilk, son, v, ses, hedef, gecis_sn = args
     fps = v["fps"]
     gorsel = parca_gorseli(gorev, i)[0]
     bas, sure = ilk / fps, (son - ilk) / fps
-    if gorsel is None:  # G13: iki denemede de kalan görsel çıkarılır, parça kod sahnesine düşer
-        kod = Sahne(gorev["parca"][i], _tohum(gorev, i), v["genislik"], v["yukseklik"], float(v["dongu_sn"]))
-        return str(dongu_kodla(kod, Path(hedef), fps=fps, crf=v["crf"], sure=sure))
+    if gorsel is None:  # G6/G13: görseli olmayan parça kod sahnesine düşmez; video çıkmaz, sahibine sorulur
+        raise FileNotFoundError(f"parça {i + 1} için onaylı görsel yok (gorsel/{i + 1:02d}.png); video üretilmedi")
+    n = len(gorev["parca"])
+    onceki = parca_gorseli(gorev, i - 1)[0] if i > 0 else None
+    sonraki = parca_gorseli(gorev, i + 1)[0] if i + 1 < n else None
+    imza = _bolum_imzasi(gorsel, onceki, sonraki, ilk, son, v, parca_bilgisi(gorev, i), ses)
+    imza_yolu = Path(hedef).with_suffix(".imza")
+    if Path(hedef).exists() and imza_yolu.exists() and imza_yolu.read_text(encoding="utf-8") == imza:
+        return hedef  # kaldığı yerden devam: aynı girdilerle kodlanmış bölüm yeniden kodlanmaz
     muzik = defter.ses_ozeti(ses, fps, basla=bas, sure=sure)
     sahne = defter.SeyirDefteri(gorsel, defter.katmanlari_oku(gorsel), v["genislik"], v["yukseklik"], fps, sure,
-                                muzik, parca_bilgisi(gorev, i), tohum=_tohum(gorev, i), ton=marka_filtresi(), t0=bas)
-    return str(defter.kodla(sahne, None, Path(hedef), None, crf=v["crf"], preset=v["preset"]))
+                                muzik, parca_bilgisi(gorev, i), tohum=_tohum(gorev, i), ton=marka_filtresi(), t0=bas,
+                                onceki=onceki, sonraki=sonraki, gecis_sn=gecis_sn)
+    yol = str(defter.kodla(sahne, None, Path(hedef), None, crf=v["crf"], preset=v["preset"]))
+    imza_yolu.write_text(imza, encoding="utf-8")
+    return yol
+
+
+def _bolum_imzasi(gorsel, onceki, sonraki, ilk, son, v, bilgi, ses) -> str:
+    import hashlib
+    h = hashlib.sha256()
+    for yol in (gorsel, onceki, sonraki, ses):
+        h.update(Path(yol).read_bytes() if yol and Path(yol).exists() else b"-")
+    h.update(json.dumps([ilk, son, v["genislik"], v["yukseklik"], v["fps"], v["crf"], bilgi],
+                        sort_keys=True, ensure_ascii=False).encode())
+    return h.hexdigest()
 
 
 def uzun_video_defter(gorev: dict, ayar: dict) -> Path:
@@ -190,18 +209,20 @@ def uzun_video_defter(gorev: dict, ayar: dict) -> Path:
     ses = out / "ses.m4a"
     isler = []
     for i, (bas, son) in enumerate(bolum_kesimleri(bolumler)):  # kare ızgarasına oturur: toplam kayma olmaz
-        isler.append((gorev, i, round(bas * fps), round(son * fps), v, ses, str(ara / f"bolum_{i + 1:02d}.mp4")))
+        isler.append((gorev, i, round(bas * fps), round(son * fps), v, ses, str(ara / f"bolum_{i + 1:02d}.mp4"),
+                      float(bolumler["capraz_gecis_sn"])))
     with ProcessPoolExecutor(max_workers=v["is_parcacigi"]) as ex:
         parcalar = list(ex.map(_defter_bolumu, isler))
     liste = ara / "liste.txt"
     liste.write_text("".join(f"file '{Path(p).name}'\n" for p in parcalar), encoding="utf-8")
     hedef = out / "video.mp4"
-    try:
-        calistir(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", str(liste),
-                  "-i", str(ses), "-map", "0:v", "-map", "1:a", "-c", "copy", "-movflags", "+faststart", str(hedef)])
-    finally:
-        for p in [*parcalar, liste]:
-            Path(p).unlink(missing_ok=True)
+    # Bölümler yalnız birleştirme başarılı olunca silinir; hata olursa saatlerce kodlanmış bölümler kalır ve
+    # bir sonraki çalıştırma kaldığı yerden devam eder (imzası tutan bölüm yeniden kodlanmaz).
+    calistir(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", str(liste),
+              "-i", str(ses), "-map", "0:v", "-map", "1:a", "-c", "copy", "-movflags", "+faststart", str(hedef)])
+    for p in [*parcalar, liste]:
+        Path(p).unlink(missing_ok=True)
+        Path(p).with_suffix(".imza").unlink(missing_ok=True)
     return hedef
 
 

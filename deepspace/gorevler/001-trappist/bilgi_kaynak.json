@@ -1,0 +1,154 @@
+{
+  "ozet": {
+    "ad": "gorev.toml ozet",
+    "olgu": "twenty real worlds; nearest exoplanet; brightest star in our sky; young suns wrapped in dust; TRAPPIST-1 is a cool red star 40 light-years away with seven Earth-size planets; two-hour route (20 x 6:00).",
+    "kaynak": "https://science.nasa.gov/mission/webb/science-overview/science-explainers/what-is-webb-revealing-about-the-trappist-1-system/",
+    "durum": "duzeltilmeli",
+    "not": "Olgular dogru (40 ly, yedi Dunya boyutlu gezegen, soguk kirmizi cuce, 20x6 dk = 2 saat). Tek sorun soz: 13 durak yildiz ya da yildiz sistemi, dunya degil; 'twenty real worlds' gevsek. Oneri: 'twenty real worlds' yerine 'twenty real destinations'. Rakam/olgu degismez.",
+    "duzeltme": "twenty real destinations"
+  },
+  "01": {
+    "ad": "Proxima b",
+    "olgu": "closest known exoplanet; 4.2 light-years (Proxima Centauri 4.25 ly); orbital period 11 days (11.2 d).",
+    "kaynak": "https://science.nasa.gov/exoplanet-catalog/proxima-centauri-b/",
+    "durum": "dogru",
+    "not": "NASA Archive: period 11.2 gun, kesif 2016. Anglada-Escude 2016 (https://arxiv.org/abs/1609.03449): P~11.2 d, Proxima 1.295 pc = 4.22 ly (Gaia 4.25 ly), Gunes'in en yakin yildizi. 'Closest known exoplanet' dogru (2026 itibariyla)."
+  },
+  "02": {
+    "ad": "Alpha Centauri",
+    "olgu": "two Sun-like stars; orbit each other every 80 years; nearest Sun-like stars; 4.4 light-years.",
+    "kaynak": "https://science.nasa.gov/missions/hubble/hubbles-best-image-of-alpha-centauri-a-and-b/",
+    "durum": "dogru",
+    "not": "NASA/Hubble: A (G2) ve B (K1) ortak kutle merkezi etrafinda ~80 yilda doner (Beech/Akeson 2016: 79.91 yil). Sistem 4.37 ly (NASA genelde 4.3-4.4). B 'Gunes benzeri' sayilir (K1, biraz kucuk); 'nearest Sun-like stars' kabul edilebilir cunku Proxima M cuce."
+  },
+  "03": {
+    "ad": "Barnard b",
+    "olgu": "found in 2024; closer to its star than Mercury is to the Sun; year lasts three days (3.15 d); 6 light-years (5.96 ly); small planet.",
+    "kaynak": "https://www.eso.org/public/news/eso2414/",
+    "durum": "dogru",
+    "not": "Gonzalez Hernandez ve ark., A&A 690, A79 (2024), doi 10.1051/0004-6361/202451311: P=3.15 gun, a~0.023 AU (Merkur 0.387 AU), min kutle ~0.3 Dunya. Basant ve ark. 2025 (ApJL) uc gezegen daha ekledi (toplam dort); b hala gecerli. Yuzey ~125 C, 'hot' dogru."
+  },
+  "04": {
+    "ad": "Wolf 359",
+    "olgu": "faint red dwarf, too dim to see without a telescope; often erupts in flares; 7.9 light-years.",
+    "kaynak": "https://arxiv.org/pdf/2202.03006",
+    "durum": "dogru",
+    "not": "Gaia: 2.4086 pc = 7.86 ly (7.9 dogru). Aktif M6V flare yildizi (Lin 2021: >1e31 erg flare gunde ~1; Guinan&Engle 2018 donme 2.7 gun). Gorunur kadir ~13.5 (SIMBAD'den bilinen deger; bu oturumda dogrudan teyit edilmedi), cplak gozle gorunmez kesin; ESA/NASA kaynaginda kadir sayisi ayrica dogrulanmadi."
+  },
+  "05": {
+    "ad": "Sirius",
+    "olgu": "brightest star in Earth's night sky; white dwarf companion circles it every 50 years; 8.6 light-years.",
+    "kaynak": "https://arxiv.org/abs/1703.10625",
+    "durum": "dogru",
+    "not": "Bond ve ark. 2017 (HST): Sirius B yorunge periyodu 50.13 yil, sistem ~8.6 ly. Sirius gece gokyuzunun en parlak yildizi (Gunes haric)."
+  },
+  "06": {
+    "ad": "Epsilon Eridani",
+    "olgu": "young star under a billion years old (~850 Myr or less); wide belts of dust and ice; giant planet circles it every seven years (7.3-7.4 yr); 10.5 light-years.",
+    "kaynak": "https://arxiv.org/abs/2108.02305",
+    "durum": "dogru",
+    "not": "Llop-Sayson ve ark. 2021 (AJ 162, 181): eps Eri b P=7.3-7.4 yil (2025 yeniden analiz 7.32 yil, ~1 Jupiter kutlesi). Yas: Di Folco 2004 ~850 Myr, Greaves 2014 (https://ui.adsabs.harvard.edu/abs/2014ApJ...791L..11G) Herschel ile iki kusak (12-16 AU, 54-68 AU) cozdu; 'under a billion years' dogru. 10.5 ly dogru."
+  },
+  "07": {
+    "ad": "Tau Ceti",
+    "olgu": "calm star a little smaller than the Sun; disk of dust about ten times richer than ours; 12 light-years (11.9 ly).",
+    "kaynak": "https://arxiv.org/abs/1408.2791",
+    "durum": "dogru",
+    "not": "Lawler ve ark. 2014 (MNRAS) Herschel: toz diski kutlesi Kuiper kusaginin ~10 kati (Greaves 2004: en az 10 kat). Yildiz ~0.78 Gunes kutlesi, ~0.79 yaricap: 'a little smaller' dogru. Dikkat: 'ten times richer' Kuiper kusagina gore, tum Gunes Sistemi tozune degil; metin 'than ours' diyor, kabul edilebilir. Istege bagli sikilastirma: 'about ten times more dust than our Kuiper Belt'."
+  },
+  "08": {
+    "ad": "Luyten b",
+    "olgu": "'rocky' world; about three times Earth's mass; in its red star's habitable zone; slightly more starlight than Earth; 12 light-years.",
+    "kaynak": "https://science.nasa.gov/exoplanet-catalog/gj-273-b/",
+    "durum": "duzeltilmeli",
+    "not": "Kutle 2.89 Dunya (Astudillo-Defru 2017, A&A 602, A88, https://arxiv.org/abs/1703.05386) bir ASGARI kutle (M sin i); NASA Archive 'super Earth' diyor, yaricap 1.51 sadece tahmin. Kayalik oldugu olculmedi (yaricap yok). Yildizdan alinan isik Dunya'nin ~%6 fazlasi (ikincil kaynak, A&A makalesi tablosundan teyit onerilir); HZ icinde, iç kenara yakin. 12 ly dogru (3.8 pc). Oneri: 'rocky' kelimesini cikar, 'at least' ekle.",
+    "duzeltme": "A super-Earth of at least three Earth masses, in the habitable zone of its red star."
+  },
+  "09": {
+    "ad": "Teegarden's Star b",
+    "olgu": "one of the most Earth-like planets known by mass, close to one Earth; year under five days (4.9 d); 12.5 light-years; discovered 2019.",
+    "kaynak": "https://science.nasa.gov/exoplanet-catalog/teegardens-star-b/",
+    "durum": "dogru",
+    "not": "NASA Archive: P=4.9 gun, kutle 1.05 (Zechmeister 2019) / 1.16 Dunya (Dreizler 2024). Asgari kutle (M sin i); 'close to one Earth' dogru. 12.5 ly: yildiz ~3.83 pc (NASA sayfasi mesafe vermiyor; Gaia degeri yaygin)."
+  },
+  "10": {
+    "ad": "Wolf 1061c",
+    "olgu": "'rocky' super-Earth about three times Earth's mass; near the warm inner edge of the habitable zone; 14 light-years (13.8 ly).",
+    "kaynak": "https://science.nasa.gov/exoplanet-catalog/wolf-1061-c/",
+    "durum": "duzeltilmeli",
+    "not": "NASA Archive: kutle 3.41 Dunya (Wright 2016; sonraki analizlerde ~4.25), P=17.9 gun, a=0.089 AU. 'About three' dusuk yuvarlama; ASGARI kutle (M sin i), yaricap bilinmiyor, 'rocky' kanitli degil. HZ ic kenarina yakin: Kane ve ark. 2017 (ApJ 835, 9) 'ic kenara yakin' diyor; NASA sayfasi HZ ifadesi icermiyor. 14 ly dogru. Oneri: 'at least 3.4 Earth masses', 'rocky' cikar.",
+    "duzeltme": "A super-Earth of at least 3.4 Earth masses, near the inner edge of its star's habitable zone."
+  },
+  "11": {
+    "ad": "Gliese 667 Cc",
+    "olgu": "circles the smallest star of a triple system; two more suns in its sky; 24 light-years.",
+    "kaynak": "https://eso.org/public/news/eso1328/",
+    "durum": "dogru",
+    "not": "ESO eso1328 (2013): Gliese 667C uclunun en dusuk kutleli uyesi (~0.3 Gunes), A ve B gezegenden gunduz gorunen parlak yildizlar, gece dolunay kadar isik verir. Mesafe: ESO 22 ly (Hipparcos), NASA Archive ~23.6 ly (7.24 pc, Gaia donemi); '24' Gaia/NASA'ya uyuyor, 22 ile 24 arasi kaynaga gore degisir. Rota sirasi (Wolf 1061c 13.8 < Cc 23.6 < Vega 25.0) her iki degerde bozulmaz. Gezegen sayisi tartismali ama Cc'nin varligi genelde kabul gorur."
+  },
+  "12": {
+    "ad": "Vega",
+    "olgu": "bright young star; spins so fast it bulges at the equator; was the North Star about 14,000 years ago; 25 light-years.",
+    "kaynak": "https://www.nature.com/articles/440873a",
+    "durum": "dogru",
+    "not": "Peterson ve ark. 2006 (Nature 440, 896) ve Aufdenberg ve ark. 2006 (ApJ 645, 664; https://orbi.uliege.be/bitstream/2268/19318/1/0603327v1.pdf): hizli donucu, ekvator ~%19-23 genis, ekvator hizi ~270 km/s, kutuptan bakilir (egim ~4.7 derece). Kutup yildizi ~MO 12.000 (=yaklasik 14.000 yil once) ve ~MS 13.700'de yine olacak. Gorsel notu (gorsel_istem 'flattened at its poles'): yildiz kutuptan bakildigi icin gercekte yuvarlak gorunur; konsept yazari gorseli gozden gecirebilir."
+  },
+  "13": {
+    "ad": "Fomalhaut",
+    "olgu": "young star circled by a vast belt of icy dust; telescopes photographed the ring directly; 25 light-years.",
+    "kaynak": "https://esahubble.org/images/opo0510a/",
+    "durum": "dogru",
+    "not": "Hubble ACS koronagraf 2004, Kalas ve ark. 2005: gorunur isikta dogrudan goruntu, 25 ly. Webb MIRI (2023) uc ic ice kusak gosterdi: https://science.nasa.gov/asset/webb/fomalhaut-dusty-debris-disk-miri-image/. Yildiz ~440 Myr 'genc' (sayi bu oturumda ayrica dogrulanmadi, metin sayi vermiyor)."
+  },
+  "14": {
+    "ad": "TRAPPIST-1b",
+    "olgu": "innermost of seven Earth-size planets around a cool red star; year lasts a day and a half (1.51 d); Webb suggests bare rock without a thick atmosphere; 40 light-years.",
+    "kaynak": "https://science.nasa.gov/mission/webb/science-overview/science-explainers/what-is-webb-revealing-about-the-trappist-1-system/",
+    "durum": "dogru",
+    "not": "NASA: b icin 'current data suggests it may be a bare rock with no atmosphere'; sistem ~40 ly. Gillon 2017 (Nature 542, 456): b-h yedi Dunya boyutlu gezegen, periyotlar 1.5-19 gun; Greene 2023 (Nature 618, 39) Webb MIRI: kalin atmosfer yok. Hedge ('suggest') yerinde."
+  },
+  "15": {
+    "ad": "TRAPPIST-1c",
+    "olgu": "second of the seven; year lasts 2.4 days (2.42 d); Webb found no thick, Venus-like atmosphere.",
+    "kaynak": "https://science.nasa.gov/mission/webb/science-overview/science-explainers/what-is-webb-revealing-about-the-trappist-1-system/",
+    "durum": "dogru",
+    "not": "NASA: 'If c does have an atmosphere, it's very thin.' Zieba ve ark. 2023 (Nature 620, 746): gunduz sicakligi ~380 K, kalin CO2 atmosferi (Venus benzeri) disarida. Periyot 2.42 gun."
+  },
+  "16": {
+    "ad": "TRAPPIST-1d",
+    "olgu": "lies at the warm inner edge of the habitable zone; year lasts four days (4.05 d).",
+    "kaynak": "https://science.nasa.gov/mission/webb/science-overview/science-explainers/what-is-webb-revealing-about-the-trappist-1-system/",
+    "durum": "duzeltilmeli",
+    "not": "Yil suresi dogru (4.05 gun). Ancak NASA'nin Webb sayfasi b, c, d'yi 'too close' sayiyor: yasanabilir bolgenin DISINDA, ic tarafta; yalnizca e, f, g icinde. Gillon 2017 d'yi sinirda goruyordu ama NASA resmi anlatimi 'disinda'. 'Lies at the inner edge' kesin degil. Oneri: 'icinde' iddiasi yerine 'hemen disinda, kenara yakin'.",
+    "duzeltme": "Just too close to its star for the habitable zone, but only barely. A year lasts four days."
+  },
+  "17": {
+    "ad": "TRAPPIST-1e",
+    "olgu": "among the most promising worlds for liquid water; year lasts about six days (6.10 d).",
+    "kaynak": "https://science.nasa.gov/mission/webb/science-overview/science-explainers/what-is-webb-revealing-about-the-trappist-1-system/",
+    "durum": "dogru",
+    "not": "NASA: e yasanabilir bolgede, kalin hidrojen atmosferi Webb ile elendi, calisma suruyor. 'Among the most promising' modellere dayali (Wolf 2017, Turbet 2018) ve temkinli ifade; kesin 'sivi su var' degil, metin de oyle demiyor. Periyot 6.10 gun."
+  },
+  "18": {
+    "ad": "TRAPPIST-1f",
+    "olgu": "cool world on the outer side of the habitable zone; likely rich in water ice; year lasts nine days (9.21 d).",
+    "kaynak": "https://arxiv.org/abs/2010.01074",
+    "durum": "duzeltilmeli",
+    "not": "Periyot dogru (9.21 gun). NASA: f yasanabilir bolgenin ICINDE; 'dis tarafi' sayisal olarak tartisilir (isinma bu oturumda dogrulanmadi). 'Likely rich in water ice' kanitli degil: Agol 2021 (PSJ 2, 1) yogunluklar Dunya benzeri kayalik bilesimle (demir bakimindan yoksul) aciklanabilir, ya da hafif element/su katmaniyla; kesin degil. NASA: f icin Webb verisi hala analiz ediliyor. Oneri: 'possibly' ve 'habitable zone'.",
+    "duzeltme": "A cool world in the habitable zone, possibly rich in water. A year there lasts nine days."
+  },
+  "19": {
+    "ad": "TRAPPIST-1g",
+    "olgu": "largest of the seven, slightly bigger than Earth (1.129 Earth radii); year lasts twelve days (12.4 d).",
+    "kaynak": "https://science.nasa.gov/exoplanet-catalog/trappist-1-g/",
+    "durum": "dogru",
+    "not": "NASA Archive: P=12.4 gun, yaricap 1.129, kutle 1.321 Dunya; yedi gezegen icinde en buyuk yaricap ve kutle (Agol 2021: b 1.116, c 1.097, d 0.788, e 0.920, f 1.045, h 0.775 Dunya yaricapi)."
+  },
+  "20": {
+    "ad": "TRAPPIST-1h",
+    "olgu": "outermost and coldest of the seven; all seven orbits would fit inside Mercury's orbit around the Sun.",
+    "kaynak": "https://science.nasa.gov/mission/webb/science-overview/science-explainers/what-is-webb-revealing-about-the-trappist-1-system/",
+    "durum": "dogru",
+    "not": "h: P=18.77 gun, a=0.0619 AU, T_denge ~169 K (en soguk); Merkur a=0.387 AU (gunberi 0.307). NASA: 'All seven planets orbit closer to their star than Mercury does to the Sun.' JPL: https://www.jpl.nasa.gov/news/astronomers-confirm-orbital-details-of-trappist-1h/"
+  }
+}

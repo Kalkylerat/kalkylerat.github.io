@@ -1,479 +1,440 @@
-# Deep Space Log · Mission 001 · TRAPPIST-1e
-# 20 parça, ~122 dk (sahibinin kararı, 9 Kasım 2026: 20 şarkı, 2 saat). Anahtar ailesi: Re minör, Fa majör, Do majör, La minör (komşu tonlar, yumuşak geçiş).
-# Saatin yayı: sakin kalkış -> ferahlık -> karanlık derinlik -> tek doruk (12) -> dalış -> 1. parçanın motifiyle kapanış.
+# Deep Space Log · Mission 001 · Seven Worlds
+# 20 parça × 6:00 (sahibinin kararı: 20 şarkı, 2 saat). Rota (11 Kasım 2026, bağımsız inceleme önerisi): Güneş'ten
+# TRAPPIST-1'e uzaklık sırasıyla 13 durak, sonra TRAPPIST-1'in yedi gezegeni (b→h). Ses paleti A (sahibinin seçimi):
+# elektronik derin uzay ambient, sıcak analog pad, drone, sub-bass, radyo paraziti, uzak sinüs çan motifi, uzak çello.
+# Anahtar ailesi: Re minör → Fa majör → Do majör → La dorian (yedi dünya teması A-C-D-E-F#-E-C).
 
 no = 1
 seri = "focus"
-hedef = "TRAPPIST-1e"
+ad = "Seven Worlds"
+hedef = "TRAPPIST-1"
 uzaklik = "40 light-years"
+koordinat = "RA 23h 06m 29s  DEC -05° 02' 29\""
+kapak_parcalari = [17, 14, 20]   # Test & Compare: üç ayrı sahne (1'den)
 tohum = 1001
-ozet = """PROBE-7 leaves the Solar System on a two-hour route through sixteen real worlds: the nearest exoplanet,
-the first planets ever found around a dead star, ice moons hiding oceans, a planet that rains glass, and
-TRAPPIST-1e, one of seven Earth-size planets circling a cool red star. The journey ends at 3C 273, the
-brightest quasar in our sky, whose light left it billions of years ago."""
-# Görseller: ElevenLabs akışı (FLUX 3, 2K, 10 Kasım 2026). İndirme: creative_get_flow_run_status(akış, oturumlar) -> content_url
-# Bölüm ses paleti (11 Kasım 2026, sahibinin isteği): 20 parça tek palet, "Yalnız Gezegen".
-ses_paleti = ["soft pipe organ flute stop", "long cello harmonics", "bowed glass tones", "deep planetary hum", "wind field recording", "distant thunder"]
+ozet = """PROBE-7 leaves the Solar System on a two-hour route through twenty real destinations, star by star: the nearest
+exoplanet, the brightest star in our sky, young suns wrapped in dust, and finally TRAPPIST-1, a cool red star
+40 light-years away with seven Earth-size planets."""
+ses_paleti = ["warm analog synth pads", "tape-saturated drones", "deep sub-bass hum", "faint radio static and telemetry blips", "far-away sine bell", "distant cello harmonics"]
 gorsel_akisi = "wXHon9u5lPX0oECJcwqN"
-sonraki_adaylar = ["Vega", "Kepler-1649c", "Sagittarius A*"]
+sonraki_adaylar = ["Kepler-186f", "Betelgeuse", "Europa"]
 
 [[parca]]
 ad = "Proxima b"
 kisa = "the nearest known exoplanet · 4.2 light-years"
 dosya = "01-proxima-b.mp3"
 tur = "kayalik"
-palet = ["#0a0b1c", "#4a1f2e", "#a4563a", "#e9a273"]
-bilgi = "The closest known exoplanet, orbiting Proxima Centauri 4.2 light-years away, inside its star's habitable zone."
-hedef_sure = "6:15"
+palet = ["#07080f", "#3a1712", "#a4452c", "#f0a070"]
+bilgi = "The closest known exoplanet, 4.2 light-years from the Sun. It circles its small red star every 11 days."
+hedef_sure = "6:00"
 anahtar = "D minor"
 bpm = 58
-motif = "Beacon: D–A–F, kök, beşli yukarı, minör üçlüye iniş; org flüt registerinde. Bölümün ana teması (20'de geri döner)."
-gorsel_istem = "A windswept heather moor with an old stone cottage and one lit window; a colossal rust-red cratered rocky planet fills the sky beside a tiny dim red sun; a figure with a lantern walks the path to the door."
-gorsel_oturum = "1BzdKgRHULaBxLY84U0a"
-gorsel_uretim = "3uer6cJRqNOVwVwF7gly"
-style = """ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, beacon motif D-A-F on soft pipe organ flute stop, long cello harmonics, faint bowed glass tones, deep planetary hum drone, D minor, 58 bpm, sus2 harmony, sparse, long silences, slow fade in, calm, lonely, huge natural reverb, instrumental, 6 minutes 15 seconds"""
-exclude = """drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies"""
-lyrics = """[Intro | 0:00-0:40 | wind field recording and distant thunder only, near silence]
-[Hum | 0:40-1:40 | deep planetary hum drone fades in under the wind]
-[Beacon Motif | 1:40-2:40 | soft pipe organ flute plays D-A-F slowly, long echo, repeats twice]
-[Space | 2:40-3:50 | motif rests, long cello harmonic holds, wind breathes]
-[Beacon Returns | 3:50-5:00 | D-A-F an octave higher, faint bowed glass answers]
-[Outro | 5:00-6:15 | last D-A-F far away, hum holds, slow fade to wind]"""
+motif = "Departure: D-A-F, uzak sinüs çanında çok yavaş."
+gorsel_istem = "A dark rocky plain on a tidally locked world at the permanent twilight line. A small dim red dwarf star sits low on the left horizon; the only light is its faint red glow, rocks rim-lit red on their left sides, long shadows stretching right."
+style = """deep space ambient, electronic, warm analog synth pads and tape-saturated drones, deep sub-bass hum, faint radio static and soft distant telemetry blips, departure motif D-A-F played very slowly on a soft far-away sine bell, soft dusty pad textures, distant cello harmonics, D minor, 58 bpm, no pulse, weightless, vast, quiet, leaving home, long sustained chords, huge reverb, wide stereo, instrumental, 6 minutes"""
+exclude = """drums, percussion, beat, vocals, choir, piano, guitar, brass, pipe organ, flute, orchestra, epic, medieval, folk, fantasy, trailer, wind, thunder, synth lead, arpeggio, EDM, upbeat, busy melodies"""
+lyrics = """[Intro | 0:00-0:40 | warm pad and deep sub-bass hum from the first second, faint radio static]
+[Approach | 0:40-1:40 | drone widens, soft telemetry blips far away, soft dusty pad textures]
+[Departure | 1:40-3:00 | far-away sine bell plays D-A-F very slowly over warm pads]
+[Drift | 3:00-4:20 | motif rests, pads breathe, distant cello harmonic holds]
+[Return | 4:20-5:20 | D-A-F once more, softer, an octave lower]
+[Outro | 5:20-6:00 | pads and hum fade slowly, static clears]"""
+
+[[parca]]
+ad = "Alpha Centauri"
+kisa = "two Sun-like stars · 4.4 light-years"
+dosya = "02-alpha-centauri.mp3"
+tur = "yildiz"
+palet = ["#06070d", "#2a2418", "#c9a46a", "#fff1d6"]
+bilgi = "Two Sun-like stars that circle each other every 80 years. They are the nearest Sun-like stars to us."
+hedef_sure = "6:00"
+anahtar = "D minor"
+bpm = 60
+motif = "Twin Suns: A-F-D-E, uzak sinüs çanında çok yavaş."
+gorsel_istem = "View from deep space: two bright yellow-white suns close together, one slightly larger and whiter, the other warmer orange, surrounded by a soft glow; a faint red dot far away; deep black sky with countless sharp stars. No planet in view."
+style = """deep space ambient, electronic, warm analog synth pads and tape-saturated drones, deep sub-bass hum, faint radio static and soft distant telemetry blips, twin suns motif A-F-D-E played very slowly on a soft far-away sine bell, warm golden pad shimmer, distant cello harmonics, D minor, 60 bpm, no pulse, weightless, vast, warm, gently bright, long sustained chords, huge reverb, wide stereo, instrumental, 6 minutes"""
+exclude = """drums, percussion, beat, vocals, choir, piano, guitar, brass, pipe organ, flute, orchestra, epic, medieval, folk, fantasy, trailer, wind, thunder, synth lead, arpeggio, EDM, upbeat, busy melodies"""
+lyrics = """[Intro | 0:00-0:40 | warm pad and deep sub-bass hum from the first second, faint radio static]
+[Approach | 0:40-1:40 | drone widens, soft telemetry blips far away, warm golden pad shimmer]
+[Twin Suns | 1:40-3:00 | far-away sine bell plays A-F-D-E very slowly over warm pads]
+[Drift | 3:00-4:20 | motif rests, pads breathe, distant cello harmonic holds]
+[Return | 4:20-5:20 | A-F-D-E once more, softer, an octave lower]
+[Outro | 5:20-6:00 | pads and hum fade slowly, static clears]"""
 
 [[parca]]
 ad = "Barnard b"
-kisa = "a small world around a nearby red dwarf · 6 light-years"
-dosya = "02-barnard-b.mp3"
+kisa = "a hot little world · 6 light-years"
+dosya = "03-barnard-b.mp3"
 tur = "kayalik"
-palet = ["#0c0606", "#4a1a14", "#b0482c", "#f0a070"]
-bilgi = "A small planet found in 2024 around Barnard's Star, one of the closest stars to the Sun, about 6 light-years away."
-hedef_sure = "6:15"
+palet = ["#0b0606", "#401812", "#a8452a", "#e89060"]
+bilgi = "A small planet found in 2024, closer to its star than Mercury is to the Sun. A year there lasts three days."
+hedef_sure = "6:00"
 anahtar = "D minor"
-bpm = 60
-motif = "Ember: F–E–D, sonra alçak A; uzun çello armoniğinde, kızıl cüce ışığı gibi sıcak iniş."
-gorsel_istem = "A quiet fishing village pier at dusk with small wooden boats; a huge dark rocky world with frozen seas rises over the bay in faint red starlight; a single old fisherman sits alone mending nets on the pier, no other people."
-gorsel_oturum = "J2v43vFOm5qtfOapa9pe"
-gorsel_uretim = "TzqHmykpMFTzK2MLZaOi"
-style = """ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, ember motif F-E-D then low A on long cello harmonics, soft pipe organ flute pad underneath, bowed glass tones, deep planetary hum drone, D minor, 60 bpm, minor 9 harmony, warm, close, sparse, long silences, slow, huge natural reverb, instrumental, 6 minutes 15 seconds"""
-exclude = """drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies"""
-lyrics = """[Intro | 0:00-0:40 | soft wind, distant thunder, warm hum]
-[Ember Motif | 0:40-1:40 | cello harmonics play F-E-D, then a low A, slow and warm]
-[Glow | 1:40-2:40 | pipe organ flute pad breathes underneath, motif rests]
-[Close Star | 2:40-3:50 | motif repeats lower, bowed glass glints once]
-[Embers | 3:50-5:00 | cello alone, long held harmonic, wind]
-[Outro | 5:00-6:15 | last F-E-D-A, hum fades into wind]"""
+bpm = 58
+motif = "Ember: F-E-D-A, uzak sinüs çanında çok yavaş."
+gorsel_istem = "Orbital view of a small dark scorched rocky planet, its dayside glowing dull red, lit from the left by a large dim red dwarf star at the left edge; terminator sharp, nightside black on the right; deep black starfield."
+style = """deep space ambient, electronic, warm analog synth pads and tape-saturated drones, deep sub-bass hum, faint radio static and soft distant telemetry blips, ember motif F-E-D-A played very slowly on a soft far-away sine bell, low warm tape drones, distant cello harmonics, D minor, 58 bpm, no pulse, weightless, vast, close, glowing, calm, long sustained chords, huge reverb, wide stereo, instrumental, 6 minutes"""
+exclude = """drums, percussion, beat, vocals, choir, piano, guitar, brass, pipe organ, flute, orchestra, epic, medieval, folk, fantasy, trailer, wind, thunder, synth lead, arpeggio, EDM, upbeat, busy melodies"""
+lyrics = """[Intro | 0:00-0:40 | warm pad and deep sub-bass hum from the first second, faint radio static]
+[Approach | 0:40-1:40 | drone widens, soft telemetry blips far away, low warm tape drones]
+[Ember | 1:40-3:00 | far-away sine bell plays F-E-D-A very slowly over warm pads]
+[Drift | 3:00-4:20 | motif rests, pads breathe, distant cello harmonic holds]
+[Return | 4:20-5:20 | F-E-D-A once more, softer, an octave lower]
+[Outro | 5:20-6:00 | pads and hum fade slowly, static clears]"""
 
 [[parca]]
-ad = "PSR B1257+12"
-kisa = "the first planets ever found · around a dead star"
-dosya = "03-psr-b1257-12.mp3"
-tur = "pulsar"
-palet = ["#03040c", "#1a1440", "#6aa8ff", "#e8f2ff"]
-bilgi = "A pulsar about 2,300 light-years away. In 1992 its planets became the first ever confirmed outside the Solar System."
-hedef_sure = "6:30"
+ad = "Wolf 359"
+kisa = "a faint flaring red dwarf · 7.9 light-years"
+dosya = "04-wolf-359.mp3"
+tur = "yildiz"
+palet = ["#070507", "#2d0f10", "#92301f", "#ff8a5c"]
+bilgi = "One of the faintest stars near the Sun, far too dim to see without a telescope. It often erupts in sudden flares."
+hedef_sure = "6:00"
 anahtar = "D minor"
-bpm = 66
-motif = "Pulse: üç yumuşak A, sonra F–D inişi; cam tınıda, pulsar sinyali gibi düzenli (davul yok)."
-gorsel_istem = "A desert observatory dome on a high plateau with its slit open; above it a giant cratered planet and a tiny brilliant pulsar sweeping two faint beams of light across the stars; an astronomer stands at the open door."
-gorsel_oturum = "VY7dAtWfEV94S0i2BWgk"
-gorsel_uretim = "wn9fIAjjJnacRk2ZONsY"
-style = """ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, slow pulsar signal motif, three soft repeated A notes then falling F-D on bowed glass tones, steady breathing pipe organ flute pulse, cello harmonics, deep planetary hum drone, D minor, 66 bpm, hypnotic, steady, sparse, no drums, huge natural reverb, instrumental, 6 minutes 30 seconds"""
-exclude = """drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies"""
-lyrics = """[Intro | 0:00-0:45 | wind and distant thunder, faint hum]
-[Signal | 0:45-1:45 | bowed glass plays three soft A notes, then F-D, slow and regular]
-[Pulse | 1:45-2:50 | pipe organ flute breathes in a steady slow pulse, signal repeats]
-[Drift | 2:50-4:00 | signal rests, cello harmonic holds, pulse continues softly]
-[Signal Returns | 4:00-5:15 | three A notes higher, F-D answered by cello harmonics]
-[Outro | 5:15-6:30 | pulse slows, last signal far away, fade to wind]"""
+bpm = 56
+motif = "Flare: D-C-A, uzak sinüs çanında çok yavaş."
+gorsel_istem = "Close view from space of a small deep red dwarf star, its surface mottled with dark spots and one bright magnetic flare arcing from the limb; nothing else but a deep black starfield."
+style = """deep space ambient, electronic, warm analog synth pads and tape-saturated drones, deep sub-bass hum, faint radio static and soft distant telemetry blips, flare motif D-C-A played very slowly on a soft far-away sine bell, crackling faint static bursts, deep hum, distant cello harmonics, D minor, 56 bpm, no pulse, weightless, vast, dark, still, distant, long sustained chords, huge reverb, wide stereo, instrumental, 6 minutes"""
+exclude = """drums, percussion, beat, vocals, choir, piano, guitar, brass, pipe organ, flute, orchestra, epic, medieval, folk, fantasy, trailer, wind, thunder, synth lead, arpeggio, EDM, upbeat, busy melodies"""
+lyrics = """[Intro | 0:00-0:40 | warm pad and deep sub-bass hum from the first second, faint radio static]
+[Approach | 0:40-1:40 | drone widens, soft telemetry blips far away, crackling faint static bursts, deep hum]
+[Flare | 1:40-3:00 | far-away sine bell plays D-C-A very slowly over warm pads]
+[Drift | 3:00-4:20 | motif rests, pads breathe, distant cello harmonic holds]
+[Return | 4:20-5:20 | D-C-A once more, softer, an octave lower]
+[Outro | 5:20-6:00 | pads and hum fade slowly, static clears]"""
 
 [[parca]]
-ad = "Europa"
-kisa = "an ocean under the ice · moon of Jupiter"
-dosya = "04-europa.mp3"
-tur = "buz"
-palet = ["#060a16", "#1d2a44", "#a9c4dc", "#f2f6fa"]
-bilgi = "Jupiter's moon Europa hides a global saltwater ocean beneath an ice shell many kilometres thick."
-hedef_sure = "6:15"
-anahtar = "D minor"
-bpm = 60
-motif = "Under Ice: A–D–E–F yavaşça yükselir; boğuk org flütünde, buz çatlağı gibi cam parıltı."
-gorsel_istem = "A frozen lake with a small ice-fishing hut glowing warm; an enormous banded gas giant and its cracked icy moon hang huge in the sky; a line of footprints leads across the ice to the hut."
-gorsel_oturum = "Sgp9pjZ295cp7BZxk6X6"
-gorsel_uretim = "3MifbpPALTGapF0fYJpP"
-style = """ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, under-ice motif A-D-E-F rising slowly on muffled pipe organ flute stop, bowed glass shimmer like cracking ice, low cello harmonics, deep sub-ice planetary hum, D minor, 60 bpm, sus2 harmony, cold, still, spacious, long silences, huge natural reverb, instrumental, 6 minutes 15 seconds"""
-exclude = """drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies"""
-lyrics = """[Intro | 0:00-0:40 | cold wind, muffled distant thunder, deep hum]
-[Under Ice | 0:40-1:40 | muffled pipe organ flute plays A-D-E-F rising slowly]
-[Ice Shimmer | 1:40-2:40 | bowed glass shimmers like cracking ice, motif rests]
-[Deep Water | 2:40-3:50 | low cello harmonics hold, hum swells softly]
-[Rising | 3:50-5:00 | A-D-E-F again, a little clearer, glass above]
-[Outro | 5:00-6:15 | motif sinks away, hum and wind fade]"""
-
-[[parca]]
-ad = "HD 189733b"
-kisa = "a blue world where glass rains sideways"
-dosya = "05-hd-189733b.mp3"
-tur = "gaz"
-palet = ["#05101f", "#1b3a6b", "#3d7fd9", "#a9d4ff"]
-bilgi = "A deep-blue hot Jupiter 64 light-years away, where winds of thousands of km/h may drive rain made of glass."
-hedef_sure = "6:15"
-anahtar = "F major"
-bpm = 62
-motif = "Glass Rain: C–A–F–G düşen damlalar gibi; cam tınılarda."
-gorsel_istem = "A winding coastal cliff road with a parked vintage car; an immense deep-blue gas giant with glowing storm bands fills half the sky; fine glittering rain streaks catch the light."
-gorsel_oturum = "X2QQzzlBKmLQf1oJPtrz"
-gorsel_uretim = "oq9tOrlkJin1XTY4LUsO"
-style = """ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, falling glass rain motif C-A-F-G on bowed glass tones like slow droplets, soft pipe organ flute chords, airy cello harmonics, faint planetary hum, F major, 62 bpm, add9 harmony, fragile, weightless, wide stereo, sparse, huge natural reverb, instrumental, 6 minutes 15 seconds"""
-exclude = """drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies"""
-lyrics = """[Intro | 0:00-0:40 | light wind, very distant thunder]
-[Glass Rain | 0:40-1:40 | bowed glass plays C-A-F-G falling like slow droplets]
-[Haze | 1:40-2:40 | soft pipe organ flute chords bloom, rain rests]
-[Shimmer | 2:40-3:50 | glass rain returns wider, cello harmonics float above]
-[Calm Air | 3:50-5:00 | organ and cello only, long silence between notes]
-[Outro | 5:00-6:15 | last drops C-A-F-G, fade to wind]"""
-
-[[parca]]
-ad = "Kepler-16b"
-kisa = "a world with two suns"
-dosya = "06-kepler-16b.mp3"
-tur = "kayalik"
-palet = ["#0c0a14", "#5a3a22", "#c08a4e", "#f3d6a0"]
-bilgi = "The first planet confirmed to orbit two stars at once, about 245 light-years away: every day has two sunsets."
-hedef_sure = "6:15"
+ad = "Sirius"
+kisa = "the brightest star in our night sky · 8.6 light-years"
+dosya = "05-sirius.mp3"
+tur = "yildiz"
+palet = ["#05070f", "#16243f", "#9fc2ff", "#ffffff"]
+bilgi = "The brightest star in Earth's night sky. A small white dwarf companion circles it every 50 years."
+hedef_sure = "6:00"
 anahtar = "F major"
 bpm = 60
-motif = "Two Suns: org flütünde F–C, çello armoniği A–F ile cevap verir; iki güneşin karşılıklı çağrısı."
-gorsel_istem = "A desert canyon with an adobe homestead and a creaking windmill; two suns set side by side over the rim while a giant planet sits low on the horizon; a child watches from the flat rooftop."
-gorsel_oturum = "yn5lcllvkfE4401PU3iX"
-gorsel_uretim = "0aNftZQDUX79UeLtXD1z"
-style = """ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, two-sun call and answer motif, F-C on pipe organ flute answered by A-F on cello harmonics, bowed glass halo, deep planetary hum drone, F major, 60 bpm, open fifths, golden, calm, sparse, long silences, huge natural reverb, instrumental, 6 minutes 15 seconds"""
-exclude = """drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies"""
-lyrics = """[Intro | 0:00-0:40 | warm wind, distant thunder, hum]
-[First Sun | 0:40-1:40 | pipe organ flute calls F-C slowly]
-[Second Sun | 1:40-2:40 | cello harmonics answer A-F, long and soft]
-[Twin Light | 2:40-3:50 | both voices together, bowed glass halo above]
-[Dusk | 3:50-5:00 | call and answer slow down, open fifths hold]
-[Outro | 5:00-6:15 | last F-C and A-F far apart, fade to wind]"""
+motif = "Blue Light: C-F-A-G, uzak sinüs çanında çok yavaş."
+gorsel_istem = "Deep space view: a brilliant blue-white star dominates the left of the frame with a soft halo; a tiny faint white dwarf dot glows to its right; deep black sky with sharp stars. No planet in view."
+style = """deep space ambient, electronic, warm analog synth pads and tape-saturated drones, deep sub-bass hum, faint radio static and soft distant telemetry blips, blue light motif C-F-A-G played very slowly on a soft far-away sine bell, clear glassy pads, cool shimmer, distant cello harmonics, F major, 60 bpm, no pulse, weightless, vast, clear, luminous, calm, long sustained chords, huge reverb, wide stereo, instrumental, 6 minutes"""
+exclude = """drums, percussion, beat, vocals, choir, piano, guitar, brass, pipe organ, flute, orchestra, epic, medieval, folk, fantasy, trailer, wind, thunder, synth lead, arpeggio, EDM, upbeat, busy melodies"""
+lyrics = """[Intro | 0:00-0:40 | warm pad and deep sub-bass hum from the first second, faint radio static]
+[Approach | 0:40-1:40 | drone widens, soft telemetry blips far away, clear glassy pads, cool shimmer]
+[Blue Light | 1:40-3:00 | far-away sine bell plays C-F-A-G very slowly over warm pads]
+[Drift | 3:00-4:20 | motif rests, pads breathe, distant cello harmonic holds]
+[Return | 4:20-5:20 | C-F-A-G once more, softer, an octave lower]
+[Outro | 5:20-6:00 | pads and hum fade slowly, static clears]"""
 
 [[parca]]
-ad = "Kepler-186f"
-kisa = "the first Earth-size planet in a habitable zone"
-dosya = "07-kepler-186f.mp3"
+ad = "Epsilon Eridani"
+kisa = "a young star in rings of dust · 10.5 light-years"
+dosya = "06-epsilon-eridani.mp3"
+tur = "yildiz"
+palet = ["#06070c", "#2b2216", "#b7874e", "#ffd9a0"]
+bilgi = "A young star, under a billion years old, wrapped in wide belts of dust and ice. A giant planet circles it every seven years."
+hedef_sure = "6:00"
+anahtar = "F major"
+bpm = 58
+motif = "Young Star: F-G-A-C, uzak sinüs çanında çok yavaş."
+gorsel_istem = "Wide view from the outer edge of a young orange star system: broad faint rings of dust and ice circle a small warm orange star at the centre; the rings glow softly where starlight hits them; deep black space around."
+style = """deep space ambient, electronic, warm analog synth pads and tape-saturated drones, deep sub-bass hum, faint radio static and soft distant telemetry blips, young star motif F-G-A-C played very slowly on a soft far-away sine bell, soft granular dust textures, distant cello harmonics, F major, 58 bpm, no pulse, weightless, vast, young, gentle, open, long sustained chords, huge reverb, wide stereo, instrumental, 6 minutes"""
+exclude = """drums, percussion, beat, vocals, choir, piano, guitar, brass, pipe organ, flute, orchestra, epic, medieval, folk, fantasy, trailer, wind, thunder, synth lead, arpeggio, EDM, upbeat, busy melodies"""
+lyrics = """[Intro | 0:00-0:40 | warm pad and deep sub-bass hum from the first second, faint radio static]
+[Approach | 0:40-1:40 | drone widens, soft telemetry blips far away, soft granular dust textures]
+[Young Star | 1:40-3:00 | far-away sine bell plays F-G-A-C very slowly over warm pads]
+[Drift | 3:00-4:20 | motif rests, pads breathe, distant cello harmonic holds]
+[Return | 4:20-5:20 | F-G-A-C once more, softer, an octave lower]
+[Outro | 5:20-6:00 | pads and hum fade slowly, static clears]"""
+
+[[parca]]
+ad = "Tau Ceti"
+kisa = "a quiet Sun-like star · 12 light-years"
+dosya = "07-tau-ceti.mp3"
+tur = "yildiz"
+palet = ["#06070d", "#24201a", "#c7a56e", "#fff0cf"]
+bilgi = "A calm star a little smaller than the Sun. It is wrapped in a disk of dust about ten times richer than ours."
+hedef_sure = "6:00"
+anahtar = "F major"
+bpm = 56
+motif = "Quiet Sun: A-G-F-C, uzak sinüs çanında çok yavaş."
+gorsel_istem = "View from deep space: a calm yellow star with a soft glow, seen through a thin wide disk of faint golden dust edge-on across the frame; deep black starfield; minimal and vast."
+style = """deep space ambient, electronic, warm analog synth pads and tape-saturated drones, deep sub-bass hum, faint radio static and soft distant telemetry blips, quiet sun motif A-G-F-C played very slowly on a soft far-away sine bell, slow breathing pads, distant cello harmonics, F major, 56 bpm, no pulse, weightless, vast, peaceful, steady, long sustained chords, huge reverb, wide stereo, instrumental, 6 minutes"""
+exclude = """drums, percussion, beat, vocals, choir, piano, guitar, brass, pipe organ, flute, orchestra, epic, medieval, folk, fantasy, trailer, wind, thunder, synth lead, arpeggio, EDM, upbeat, busy melodies"""
+lyrics = """[Intro | 0:00-0:40 | warm pad and deep sub-bass hum from the first second, faint radio static]
+[Approach | 0:40-1:40 | drone widens, soft telemetry blips far away, slow breathing pads]
+[Quiet Sun | 1:40-3:00 | far-away sine bell plays A-G-F-C very slowly over warm pads]
+[Drift | 3:00-4:20 | motif rests, pads breathe, distant cello harmonic holds]
+[Return | 4:20-5:20 | A-G-F-C once more, softer, an octave lower]
+[Outro | 5:20-6:00 | pads and hum fade slowly, static clears]"""
+
+[[parca]]
+ad = "Luyten b"
+kisa = "a super-Earth in the habitable zone · 12 light-years"
+dosya = "08-luyten-b.mp3"
+tur = "kayalik"
+palet = ["#07080e", "#3a1d16", "#9a5a3c", "#e7b089"]
+bilgi = "A super-Earth of at least three Earth masses, in the habitable zone of its red star. It gets slightly more starlight than Earth."
+hedef_sure = "6:00"
+anahtar = "F major"
+bpm = 58
+motif = "Haven: F-A-C-B, uzak sinüs çanında çok yavaş."
+gorsel_istem = "Orbital view of a large rocky planet, thin hazy atmosphere glowing on the limb, lit from the lower left by a dim red dwarf star; reddish-brown surface, dark nightside to the upper right; deep black starfield."
+style = """deep space ambient, electronic, warm analog synth pads and tape-saturated drones, deep sub-bass hum, faint radio static and soft distant telemetry blips, haven motif F-A-C-B played very slowly on a soft far-away sine bell, warm pads with soft low cello, distant cello harmonics, F major, 58 bpm, no pulse, weightless, vast, hopeful, sheltered, long sustained chords, huge reverb, wide stereo, instrumental, 6 minutes"""
+exclude = """drums, percussion, beat, vocals, choir, piano, guitar, brass, pipe organ, flute, orchestra, epic, medieval, folk, fantasy, trailer, wind, thunder, synth lead, arpeggio, EDM, upbeat, busy melodies"""
+lyrics = """[Intro | 0:00-0:40 | warm pad and deep sub-bass hum from the first second, faint radio static]
+[Approach | 0:40-1:40 | drone widens, soft telemetry blips far away, warm pads with soft low cello]
+[Haven | 1:40-3:00 | far-away sine bell plays F-A-C-B very slowly over warm pads]
+[Drift | 3:00-4:20 | motif rests, pads breathe, distant cello harmonic holds]
+[Return | 4:20-5:20 | F-A-C-B once more, softer, an octave lower]
+[Outro | 5:20-6:00 | pads and hum fade slowly, static clears]"""
+
+[[parca]]
+ad = "Teegarden's Star b"
+kisa = "an Earth-mass world · 12.5 light-years"
+dosya = "09-teegarden-s-star-b.mp3"
 tur = "okyanus"
-palet = ["#040d1a", "#0f3c6e", "#1e6fb0", "#7f9a5a"]
-bilgi = "Found in 2014 about 500 light-years away: the first Earth-size planet discovered in its star's habitable zone."
-hedef_sure = "6:30"
-anahtar = "F major"
+palet = ["#06080e", "#1d2433", "#6f7f9a", "#e2c2a0"]
+bilgi = "One of the most Earth-like planets known by mass, close to one Earth. Its year lasts under five days."
+hedef_sure = "6:00"
+anahtar = "C major"
 bpm = 60
-motif = "Meadow: F–G–A–C nazikçe yükselir; sıcak org flütünde."
-gorsel_istem = "A small wooden cabin with one warmly lit window on the shore of a still mountain lake; a gigantic rocky-ocean planet rises behind the snowy ridge, mirrored in the lake; a person sits on the dock with a lantern."
-gorsel_oturum = "2mfyOtu6pd93FyEFUW3f"
-gorsel_uretim = "dULR3d7Z4GskSs6MAcz2"
-style = """ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, meadow motif F-G-A-C rising gently on warm pipe organ flute stop, soft cello harmonics, light bowed glass tones, gentle wind, faint planetary hum, F major, 60 bpm, major 7 harmony, hopeful, peaceful, sparse, huge natural reverb, instrumental, 6 minutes 30 seconds"""
-exclude = """drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies"""
-lyrics = """[Intro | 0:00-0:45 | gentle wind over open land, distant thunder]
-[Meadow Motif | 0:45-1:45 | warm pipe organ flute plays F-G-A-C rising gently]
-[Open Field | 1:45-2:50 | cello harmonics hold, motif rests]
-[Warm Light | 2:50-4:00 | motif again with light bowed glass above]
-[Stillness | 4:00-5:15 | only organ chord and wind, long silence]
-[Outro | 5:15-6:30 | last F-G-A-C softly, fade to wind]"""
+motif = "Kinship: C-E-G-D, uzak sinüs çanında çok yavaş."
+gorsel_istem = "Orbital view of an Earth-size planet with thin clouds and a dark ocean surface, lit from the left by a small faint red dwarf star in the far left of the frame; the lit crescent faces the star; deep black starfield."
+style = """deep space ambient, electronic, warm analog synth pads and tape-saturated drones, deep sub-bass hum, faint radio static and soft distant telemetry blips, kinship motif C-E-G-D played very slowly on a soft far-away sine bell, soft warm shimmer, distant cello harmonics, C major, 60 bpm, no pulse, weightless, vast, tender, familiar, calm, long sustained chords, huge reverb, wide stereo, instrumental, 6 minutes"""
+exclude = """drums, percussion, beat, vocals, choir, piano, guitar, brass, pipe organ, flute, orchestra, epic, medieval, folk, fantasy, trailer, wind, thunder, synth lead, arpeggio, EDM, upbeat, busy melodies"""
+lyrics = """[Intro | 0:00-0:40 | warm pad and deep sub-bass hum from the first second, faint radio static]
+[Approach | 0:40-1:40 | drone widens, soft telemetry blips far away, soft warm shimmer]
+[Kinship | 1:40-3:00 | far-away sine bell plays C-E-G-D very slowly over warm pads]
+[Drift | 3:00-4:20 | motif rests, pads breathe, distant cello harmonic holds]
+[Return | 4:20-5:20 | C-E-G-D once more, softer, an octave lower]
+[Outro | 5:20-6:00 | pads and hum fade slowly, static clears]"""
 
 [[parca]]
-ad = "Io"
-kisa = "the most volcanic world in the Solar System · moon of Jupiter"
-dosya = "08-io.mp3"
-tur = "lav"
-palet = ["#140a04", "#5a3010", "#e8902c", "#ffd36a"]
-bilgi = "Jupiter's moon Io is the most volcanically active body in the Solar System, with hundreds of active volcanoes."
+ad = "Wolf 1061c"
+kisa = "a super-Earth · 14 light-years"
+dosya = "10-wolf-1061c.mp3"
+tur = "kayalik"
+palet = ["#07070c", "#33201a", "#8f6448", "#e3b48a"]
+bilgi = "A super-Earth of at least 3.4 Earth masses. It sits near the inner edge of its star's habitable zone."
 hedef_sure = "6:00"
-anahtar = "F major"
-bpm = 62
-motif = "Ember Vent: alçak C–F–E; derin org flütünde, gök gürültüsü yakında, gezegen uğultusu güçlü."
-gorsel_istem = "A black-sand volcanic beach with a distant glowing volcano and a plume of smoke; colossal banded Jupiter fills the sky with its yellow-orange volcanic moon in front of it; a geologist with a backpack walks the shoreline."
-gorsel_oturum = "Vo4m0sQNcRm7FCsYjBw2"
-gorsel_uretim = "gilgi8RBOOsuOSxH7L5q"
-style = """ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, volcanic ember motif low C-F-E on deep pipe organ flute, rumbling planetary hum, closer distant thunder, low cello harmonics, dark bowed glass, F major, 62 bpm, sus4 harmony, smoldering, heavy but calm, sparse, huge natural reverb, instrumental, 6 minutes"""
-exclude = """drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies"""
-lyrics = """[Intro | 0:00-0:40 | rumbling hum, thunder closer than before, wind]
-[Vent Motif | 0:40-1:35 | deep pipe organ flute plays low C-F-E slowly]
-[Rumble | 1:35-2:35 | hum swells, motif rests, low cello harmonic]
-[Glow | 2:35-3:40 | motif returns, dark bowed glass above]
-[Cooling | 3:40-4:50 | thunder recedes, organ holds sus4 chord]
-[Outro | 4:50-6:00 | last C-F-E low, rumble fades to wind]"""
-
-[[parca]]
-ad = "Enceladus"
-kisa = "ice geysers · moon of Saturn"
-dosya = "09-enceladus.mp3"
-tur = "buz"
-palet = ["#070b16", "#22324a", "#cfe0ee", "#ffffff"]
-bilgi = "Saturn's small moon Enceladus sprays jets of water ice into space from an ocean beneath its south pole."
-hedef_sure = "6:15"
-anahtar = "C major"
-bpm = 62
-motif = "Plume: G–C–D–E yükselir; cam tınılarda, gayzer bulutu gibi."
-gorsel_istem = "A snowy alpine meadow with a small mountain hut; enormous ringed Saturn dominates the sky while its tiny icy moon sprays bright geysers; a skier rests on a bench outside the hut."
-gorsel_oturum = "pJBHLPZoeLzkfYKEXjBQ"
-gorsel_uretim = "e0a2t4rW763uiRM5rcOH"
-style = """ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, rising plume motif G-C-D-E on bowed glass tones, soft pipe organ flute, airy cello harmonics, icy wind, faint planetary hum, C major, 62 bpm, add9 harmony, bright cold air, spacious, sparse, long silences, huge natural reverb, instrumental, 6 minutes 15 seconds"""
-exclude = """drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies"""
-lyrics = """[Intro | 0:00-0:40 | icy wind, faint distant thunder]
-[Plume | 0:40-1:40 | bowed glass plays G-C-D-E rising like a geyser plume]
-[Cold Air | 1:40-2:40 | soft pipe organ flute chord, motif rests]
-[Spray | 2:40-3:50 | plume rises again, cello harmonics float higher]
-[Frost | 3:50-5:00 | only glass and wind, long silence]
-[Outro | 5:00-6:15 | last G-C-D-E fading upward, wind]"""
-
-[[parca]]
-ad = "J1407b"
-kisa = "rings about 200 times larger than Saturn's"
-dosya = "10-j1407b.mp3"
-tur = "gaz"
-halka = true
-palet = ["#06070f", "#4a3420", "#b88a52", "#ead8b4"]
-bilgi = "A giant planet or brown dwarf about 450 light-years away with a ring system roughly 200 times larger than Saturn's."
-hedef_sure = "6:30"
 anahtar = "C major"
 bpm = 58
-motif = "Rings: C–G–E–G daire çizer; yavaş org flütünde, halkalar gibi dönen çello armonikleri."
-gorsel_istem = "An old stone lighthouse on a grassy sea cliff above a calm misty ocean, its lamp glowing; a gas giant with a gigantic ring system rises from the horizon, rings sweeping the whole sky; a small figure on a bench."
-gorsel_oturum = "xvGyVwCJhG8cgXTTOQzf"
-gorsel_uretim = "UIrrU7gmMKhtXTCVqyiW"
-style = """ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, circling ring motif C-G-E-G on slow pipe organ flute stop, cello harmonics drifting in circles, bowed glass shimmer, deep planetary hum drone, C major, 58 bpm, suspended harmony, vast, slow orbit, sparse, huge natural reverb, instrumental, 6 minutes 30 seconds"""
-exclude = """drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies"""
-lyrics = """[Intro | 0:00-0:45 | wind, distant thunder, deep hum]
-[Rings | 0:45-1:45 | slow pipe organ flute circles C-G-E-G]
-[Orbit | 1:45-2:50 | cello harmonics drift around the motif]
-[Shimmer | 2:50-4:00 | bowed glass shimmer like ring dust, motif rests]
-[Wide Orbit | 4:00-5:15 | C-G-E-G returns slower and wider]
-[Outro | 5:15-6:30 | circling slows, hum and wind fade]"""
+motif = "Threshold: G-E-C-D, uzak sinüs çanında çok yavaş."
+gorsel_istem = "A dark rocky highland at night on a large rocky world; a dim red dwarf star rests on the left horizon; the ground is rim-lit red on the left, long shadows to the right; sky deep black with sharp stars."
+style = """deep space ambient, electronic, warm analog synth pads and tape-saturated drones, deep sub-bass hum, faint radio static and soft distant telemetry blips, threshold motif G-E-C-D played very slowly on a soft far-away sine bell, slow evolving drones, distant cello harmonics, C major, 58 bpm, no pulse, weightless, vast, warm, patient, long sustained chords, huge reverb, wide stereo, instrumental, 6 minutes"""
+exclude = """drums, percussion, beat, vocals, choir, piano, guitar, brass, pipe organ, flute, orchestra, epic, medieval, folk, fantasy, trailer, wind, thunder, synth lead, arpeggio, EDM, upbeat, busy melodies"""
+lyrics = """[Intro | 0:00-0:40 | warm pad and deep sub-bass hum from the first second, faint radio static]
+[Approach | 0:40-1:40 | drone widens, soft telemetry blips far away, slow evolving drones]
+[Threshold | 1:40-3:00 | far-away sine bell plays G-E-C-D very slowly over warm pads]
+[Drift | 3:00-4:20 | motif rests, pads breathe, distant cello harmonic holds]
+[Return | 4:20-5:20 | G-E-C-D once more, softer, an octave lower]
+[Outro | 5:20-6:00 | pads and hum fade slowly, static clears]"""
 
 [[parca]]
-ad = "Mira"
-kisa = "a red giant with a tail 13 light-years long"
-dosya = "11-mira.mp3"
-tur = "yildiz"
-palet = ["#0a0405", "#5a1414", "#d24a26", "#ffb07a"]
-bilgi = "A pulsating red giant about 300 light-years away, racing through space and trailing a glowing tail 13 light-years long."
-hedef_sure = "6:15"
+ad = "Gliese 667 Cc"
+kisa = "a world with three suns · 24 light-years"
+dosya = "11-gliese-667-cc.mp3"
+tur = "kayalik"
+palet = ["#07070d", "#2f1c18", "#a8613f", "#f5c38a"]
+bilgi = "It circles the smallest star of a triple system. From its surface, two more suns would shine in the sky."
+hedef_sure = "6:00"
 anahtar = "C major"
 bpm = 56
-motif = "Tail: E–D–C–G uzun düşüş; çello armoniğinde, ölen yıldızın kuyruğu gibi."
-gorsel_istem = "A long empty highway through tall grassland with one glowing gas station sign; a red giant star trails an enormous glowing comet-like tail across the sky; a motorcyclist has stopped at the roadside to look up."
-gorsel_oturum = "PekP6X9tH2osVQP8a3AA"
-gorsel_uretim = "xZe1zaLBXds8CivAIAvU"
-style = """ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, long falling tail motif E-D-C-G on cello harmonics, fading pipe organ flute chords, bowed glass trail, distant thunder, deep planetary hum, C major, 56 bpm, add9 harmony, bittersweet, slow, sparse, long silences, huge natural reverb, instrumental, 6 minutes 15 seconds"""
-exclude = """drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies"""
-lyrics = """[Intro | 0:00-0:40 | wind, distant thunder, hum]
-[Tail Motif | 0:40-1:40 | cello harmonics play E-D-C-G, a long slow fall]
-[Trail | 1:40-2:40 | bowed glass trail follows, motif rests]
-[Fading Star | 2:40-3:50 | pipe organ flute chords fade in and out]
-[Tail Returns | 3:50-5:00 | E-D-C-G lower, longer notes]
-[Outro | 5:00-6:15 | last G held, fade to wind]"""
+motif = "Three Suns: C-G-A-E, uzak sinüs çanında çok yavaş."
+gorsel_istem = "A dark rocky plain under a deep black sky; a dim red dwarf sun low on the right horizon lights the ground red from the right; high in the sky to the left, two small bright orange stars close together; shadows point left."
+style = """deep space ambient, electronic, warm analog synth pads and tape-saturated drones, deep sub-bass hum, faint radio static and soft distant telemetry blips, three suns motif C-G-A-E played very slowly on a soft far-away sine bell, layered slow drones, distant cello harmonics, C major, 56 bpm, no pulse, weightless, vast, wide, quiet wonder, long sustained chords, huge reverb, wide stereo, instrumental, 6 minutes"""
+exclude = """drums, percussion, beat, vocals, choir, piano, guitar, brass, pipe organ, flute, orchestra, epic, medieval, folk, fantasy, trailer, wind, thunder, synth lead, arpeggio, EDM, upbeat, busy melodies"""
+lyrics = """[Intro | 0:00-0:40 | warm pad and deep sub-bass hum from the first second, faint radio static]
+[Approach | 0:40-1:40 | drone widens, soft telemetry blips far away, layered slow drones]
+[Three Suns | 1:40-3:00 | far-away sine bell plays C-G-A-E very slowly over warm pads]
+[Drift | 3:00-4:20 | motif rests, pads breathe, distant cello harmonic holds]
+[Return | 4:20-5:20 | C-G-A-E once more, softer, an octave lower]
+[Outro | 5:20-6:00 | pads and hum fade slowly, static clears]"""
 
 [[parca]]
-ad = "Titan"
-kisa = "orange haze and methane seas · moon of Saturn"
-dosya = "12-titan.mp3"
-tur = "gaz"
-palet = ["#0d0805", "#5c3412", "#c47a2c", "#e9b36a"]
-bilgi = "Saturn's largest moon has a thick orange atmosphere and is the only world besides Earth with surface lakes and seas, filled with liquid methane."
-hedef_sure = "6:15"
-anahtar = "A minor"
-bpm = 56
-motif = "Lake: A–C–B–E; alçak çello armoniğinde, metan gölü gibi karanlık ve durgun."
-gorsel_istem = "An amber marshland with a wooden boardwalk through reeds under a thick orange haze; huge ringed Saturn glows faintly behind the haze over a dark methane lake; a person with a lantern stands on the boardwalk."
-gorsel_oturum = "KyQtGI8TmcRZuOzfOlA9"
-gorsel_uretim = "lJ8wfMrVWtiKk9bdu0o0"
-style = """ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, dark lake motif A-C-B-E on low cello harmonics, muffled pipe organ flute, still bowed glass, thick heavy wind, deep planetary hum drone, A minor, 56 bpm, minor add9 harmony, dark, misty, still, sparse, huge natural reverb, instrumental, 6 minutes 15 seconds"""
-exclude = """drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies"""
-lyrics = """[Intro | 0:00-0:40 | thick heavy wind, distant thunder, deep hum]
-[Lake Motif | 0:40-1:40 | low cello harmonics play A-C-B-E, slow and dark]
-[Mist | 1:40-2:40 | muffled pipe organ flute haze, motif rests]
-[Still Water | 2:40-3:50 | bowed glass touches once, hum deepens]
-[Lake Returns | 3:50-5:00 | A-C-B-E again with organ underneath]
-[Outro | 5:00-6:15 | motif dissolves, heavy wind fades]"""
-
-[[parca]]
-ad = "55 Cancri e"
-kisa = "a lava world · 41 light-years"
-dosya = "13-55-cancri-e.mp3"
-tur = "lav"
-palet = ["#120606", "#3a1010", "#ff6a2b", "#ffb347"]
-bilgi = "A super-Earth 41 light-years away, so close to its star that its surface may be an ocean of lava."
-hedef_sure = "6:15"
-anahtar = "A minor"
-bpm = 56
-motif = "Diamond: E–A–B–C; cam tınılarda. Yolculuğun tek doruğu: org akorları kabarır, gök gürültüsü yaklaşır, yine sakin."
-gorsel_istem = "A black volcanic plateau with a small research rover with exactly six wheels, three per side, headlights on; a colossal glowing lava world fills the sky, rivers of fire visible across its surface; heat haze and drifting embers."
-gorsel_oturum = "BuJ1Pa1abmJ8sJDGY9p7"
-gorsel_uretim = "EQ7KOp4Ca0KXrmfIgMOn"
-style = """ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, diamond motif E-A-B-C on bowed glass tones, full pipe organ flute chords swelling, cello harmonics in octaves, closer rolling thunder, deep planetary hum, A minor, 56 bpm, wide minor harmony, the single emotional peak of the journey, majestic but calm, huge natural reverb, instrumental, 6 minutes 15 seconds"""
-exclude = """drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies"""
-lyrics = """[Intro | 0:00-0:40 | rolling thunder closer, wind, hum]
-[Diamond Motif | 0:40-1:40 | bowed glass plays E-A-B-C, clear and bright]
-[Swell | 1:40-2:40 | full pipe organ flute chords swell slowly]
-[Peak | 2:40-3:50 | all voices together, cello harmonics in octaves, motif at its fullest, still calm]
-[After Light | 3:50-5:00 | organ recedes, glass motif once more, softer]
-[Outro | 5:00-6:15 | thunder rolls away, hum and wind remain, fade]"""
-
-[[parca]]
-ad = "WASP-76b"
-kisa = "where iron rains at night"
-dosya = "14-wasp-76b.mp3"
-tur = "gaz"
-palet = ["#100506", "#5a1410", "#d2482a", "#f6b07a"]
-bilgi = "An ultra-hot giant about 640 light-years away: iron vaporises on its day side and may fall as iron rain on its night side."
-hedef_sure = "6:00"
-anahtar = "A minor"
-bpm = 58
-motif = "Iron Rain: C–B–A–E düşer; org flütünde, doruktan sonra durulma."
-gorsel_istem = "A lonely desert railway station platform at night with one hanging lamp; an immense red-orange glowing gas giant with a dark night side fills the sky; a single traveler with a suitcase waits on the platform."
-gorsel_oturum = "asOD4jMGTGp7RxmJtkdZ"
-gorsel_uretim = "5V9BQzYvNFYVxGXp496t"
-style = """ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, falling iron rain motif C-B-A-E on pipe organ flute, slow cello harmonics, metallic bowed glass, distant thunder fading, deep planetary hum, A minor, 58 bpm, minor harmony, after the storm, settling, sparse, huge natural reverb, instrumental, 6 minutes"""
-exclude = """drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies"""
-lyrics = """[Intro | 0:00-0:40 | thunder fading in the distance, wind]
-[Iron Rain | 0:40-1:35 | pipe organ flute plays C-B-A-E falling slowly]
-[Metal Air | 1:35-2:35 | metallic bowed glass, motif rests]
-[Settling | 2:35-3:40 | cello harmonics hold, thunder farther away]
-[Rain Returns | 3:40-4:50 | C-B-A-E softer, slower]
-[Outro | 4:50-6:00 | last E held, fade to wind]"""
-
-[[parca]]
-ad = "Betelgeuse"
-kisa = "a red supergiant in Orion"
-dosya = "15-betelgeuse.mp3"
+ad = "Vega"
+kisa = "a fast-spinning young star · 25 light-years"
+dosya = "12-vega.mp3"
 tur = "yildiz"
-palet = ["#0c0304", "#4a0c0c", "#c2361c", "#ff9a52"]
-bilgi = "A red supergiant in Orion, roughly 550 to 700 light-years away; placed where the Sun is, it would extend beyond the orbit of Mars."
-hedef_sure = "6:30"
-anahtar = "A minor"
-bpm = 54
-motif = "Giant: A–E–F çok yavaş; alçak org flüt registerinde, kızıl dev gibi büyük nefes."
-gorsel_istem = "A lone vintage station wagon with headlights on is parked on an empty desert highway between golden dunes; an immense red supergiant star rises on the horizon, covering a third of the sky; a traveler leans on the car."
-gorsel_oturum = "XwjAyM9Ha2cKchCc0kas"
-gorsel_uretim = "LAl3uzIaFtnkIttK1837"
-style = """ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, giant star motif A-E-F very slow on low pipe organ flute register, huge cello harmonic swells, deep red planetary hum, soft bowed glass, A minor, 54 bpm, dark open fifths, immense, slow breathing, long silences, huge natural reverb, instrumental, 6 minutes 30 seconds"""
-exclude = """drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies"""
-lyrics = """[Intro | 0:00-0:45 | deep hum, wind, very distant thunder]
-[Giant Motif | 0:45-1:45 | low pipe organ flute plays A-E-F, very slow]
-[Breath | 1:45-2:50 | huge cello harmonic swell rises and falls]
-[Red Light | 2:50-4:00 | soft bowed glass above, motif rests]
-[Giant Returns | 4:00-5:15 | A-E-F again, longer, open fifths]
-[Outro | 5:15-6:30 | swell fades, hum holds, wind]"""
+palet = ["#05070f", "#1a2340", "#a9c4ff", "#ffffff"]
+bilgi = "A bright young star spinning so fast that it bulges at its equator. It was the North Star about 14,000 years ago."
+hedef_sure = "6:00"
+anahtar = "C major"
+bpm = 60
+motif = "Spin: E-G-C-B, uzak sinüs çanında çok yavaş."
+gorsel_istem = "Deep space view of a brilliant blue-white star with a soft halo, surrounded by a very faint wide disk of dust; deep black starfield; minimal."
+style = """deep space ambient, electronic, warm analog synth pads and tape-saturated drones, deep sub-bass hum, faint radio static and soft distant telemetry blips, spin motif E-G-C-B played very slowly on a soft far-away sine bell, airy glassy pads, distant cello harmonics, C major, 60 bpm, no pulse, weightless, vast, bright, serene, long sustained chords, huge reverb, wide stereo, instrumental, 6 minutes"""
+exclude = """drums, percussion, beat, vocals, choir, piano, guitar, brass, pipe organ, flute, orchestra, epic, medieval, folk, fantasy, trailer, wind, thunder, synth lead, arpeggio, EDM, upbeat, busy melodies"""
+lyrics = """[Intro | 0:00-0:40 | warm pad and deep sub-bass hum from the first second, faint radio static]
+[Approach | 0:40-1:40 | drone widens, soft telemetry blips far away, airy glassy pads]
+[Spin | 1:40-3:00 | far-away sine bell plays E-G-C-B very slowly over warm pads]
+[Drift | 3:00-4:20 | motif rests, pads breathe, distant cello harmonic holds]
+[Return | 4:20-5:20 | E-G-C-B once more, softer, an octave lower]
+[Outro | 5:20-6:00 | pads and hum fade slowly, static clears]"""
+
+[[parca]]
+ad = "Fomalhaut"
+kisa = "a star with a giant ring of dust · 25 light-years"
+dosya = "13-fomalhaut.mp3"
+tur = "yildiz"
+palet = ["#06070d", "#2a2117", "#b8925a", "#fff1d0"]
+bilgi = "A young star circled by a vast belt of icy dust. Telescopes have photographed the ring directly."
+hedef_sure = "6:00"
+anahtar = "C major"
+bpm = 56
+motif = "Ring: C-D-E-G, uzak sinüs çanında çok yavaş."
+gorsel_istem = "View from deep space: a bright white star at the centre of a vast thin elliptical ring of icy dust seen at an angle, the ring softly lit; everything else deep black with sharp stars."
+style = """deep space ambient, electronic, warm analog synth pads and tape-saturated drones, deep sub-bass hum, faint radio static and soft distant telemetry blips, ring motif C-D-E-G played very slowly on a soft far-away sine bell, soft granular shimmer, distant cello harmonics, C major, 56 bpm, no pulse, weightless, vast, spacious, reflective, long sustained chords, huge reverb, wide stereo, instrumental, 6 minutes"""
+exclude = """drums, percussion, beat, vocals, choir, piano, guitar, brass, pipe organ, flute, orchestra, epic, medieval, folk, fantasy, trailer, wind, thunder, synth lead, arpeggio, EDM, upbeat, busy melodies"""
+lyrics = """[Intro | 0:00-0:40 | warm pad and deep sub-bass hum from the first second, faint radio static]
+[Approach | 0:40-1:40 | drone widens, soft telemetry blips far away, soft granular shimmer]
+[Ring | 1:40-3:00 | far-away sine bell plays C-D-E-G very slowly over warm pads]
+[Drift | 3:00-4:20 | motif rests, pads breathe, distant cello harmonic holds]
+[Return | 4:20-5:20 | C-D-E-G once more, softer, an octave lower]
+[Outro | 5:20-6:00 | pads and hum fade slowly, static clears]"""
+
+[[parca]]
+ad = "TRAPPIST-1b"
+kisa = "the first of the seven worlds · 40 light-years"
+dosya = "14-trappist-1b.mp3"
+tur = "kayalik"
+palet = ["#080608", "#3b1410", "#a0402a", "#ff9a6a"]
+bilgi = "The innermost of seven Earth-size planets around a cool red star. A year there lasts a day and a half. Webb's measurements suggest bare rock without a thick atmosphere."
+hedef_sure = "6:00"
+anahtar = "A dorian"
+bpm = 58
+motif = "Seven Worlds: A-C-D-E, uzak sinüs çanında çok yavaş."
+gorsel_istem = "A bare dark rocky surface close to a huge dim red star that fills the left of the sky; the ground glows dull red, sharp black shadows to the right; no atmosphere, sky black with sharp stars."
+style = """deep space ambient, electronic, warm analog synth pads and tape-saturated drones, deep sub-bass hum, faint radio static and soft distant telemetry blips, seven worlds motif A-C-D-E played very slowly on a soft far-away sine bell, warm analog pads, granular shimmer, distant cello harmonics, A dorian, 58 bpm, no pulse, weightless, vast, arrival, awe, calm, long sustained chords, huge reverb, wide stereo, instrumental, 6 minutes"""
+exclude = """drums, percussion, beat, vocals, choir, piano, guitar, brass, pipe organ, flute, orchestra, epic, medieval, folk, fantasy, trailer, wind, thunder, synth lead, arpeggio, EDM, upbeat, busy melodies"""
+lyrics = """[Intro | 0:00-0:40 | warm pad and deep sub-bass hum from the first second, faint radio static]
+[Approach | 0:40-1:40 | drone widens, soft telemetry blips far away, warm analog pads, granular shimmer]
+[Seven Worlds | 1:40-3:00 | far-away sine bell plays A-C-D-E very slowly over warm pads]
+[Drift | 3:00-4:20 | motif rests, pads breathe, distant cello harmonic holds]
+[Return | 4:20-5:20 | A-C-D-E once more, softer, an octave lower]
+[Outro | 5:20-6:00 | pads and hum fade slowly, static clears]"""
+
+[[parca]]
+ad = "TRAPPIST-1c"
+kisa = "the second of the seven · 40 light-years"
+dosya = "15-trappist-1c.mp3"
+tur = "kayalik"
+palet = ["#080608", "#38160f", "#94482c", "#f0a070"]
+bilgi = "The second of the seven worlds. Its year lasts 2.4 days. Webb found no thick, Venus-like atmosphere."
+hedef_sure = "6:00"
+anahtar = "A dorian"
+bpm = 58
+motif = "Seven Worlds II: C-D-E-A, uzak sinüs çanında çok yavaş."
+gorsel_istem = "Orbital view of a dark rocky planet lit from the left by a large dim red dwarf star at the left edge; a thin red crescent of daylight faces the star; in the black sky beyond, two tiny crescents of neighbouring planets."
+style = """deep space ambient, electronic, warm analog synth pads and tape-saturated drones, deep sub-bass hum, faint radio static and soft distant telemetry blips, seven worlds ii motif C-D-E-A played very slowly on a soft far-away sine bell, low warm drones, distant cello harmonics, A dorian, 58 bpm, no pulse, weightless, vast, steady, curious, long sustained chords, huge reverb, wide stereo, instrumental, 6 minutes"""
+exclude = """drums, percussion, beat, vocals, choir, piano, guitar, brass, pipe organ, flute, orchestra, epic, medieval, folk, fantasy, trailer, wind, thunder, synth lead, arpeggio, EDM, upbeat, busy melodies"""
+lyrics = """[Intro | 0:00-0:40 | warm pad and deep sub-bass hum from the first second, faint radio static]
+[Approach | 0:40-1:40 | drone widens, soft telemetry blips far away, low warm drones]
+[Seven Worlds II | 1:40-3:00 | far-away sine bell plays C-D-E-A very slowly over warm pads]
+[Drift | 3:00-4:20 | motif rests, pads breathe, distant cello harmonic holds]
+[Return | 4:20-5:20 | C-D-E-A once more, softer, an octave lower]
+[Outro | 5:20-6:00 | pads and hum fade slowly, static clears]"""
+
+[[parca]]
+ad = "TRAPPIST-1d"
+kisa = "the third of the seven · 40 light-years"
+dosya = "16-trappist-1d.mp3"
+tur = "okyanus"
+palet = ["#07070c", "#2f1a1a", "#8f5848", "#e8a888"]
+bilgi = "Just too close to its star for the habitable zone, but only barely. A year there lasts four days."
+hedef_sure = "6:00"
+anahtar = "A dorian"
+bpm = 60
+motif = "Seven Worlds III: D-E-F#-A, uzak sinüs çanında çok yavaş."
+gorsel_istem = "A dark barren rocky plain at twilight; a large dim red star sits on the left horizon; rocks rim-lit red on their left sides, long shadows to the right; one neighbouring planet crescent in the upper right, lit on its left side."
+style = """deep space ambient, electronic, warm analog synth pads and tape-saturated drones, deep sub-bass hum, faint radio static and soft distant telemetry blips, seven worlds iii motif D-E-F#-A played very slowly on a soft far-away sine bell, soft cello harmonics over pads, distant cello harmonics, A dorian, 60 bpm, no pulse, weightless, vast, warm, hopeful, long sustained chords, huge reverb, wide stereo, instrumental, 6 minutes"""
+exclude = """drums, percussion, beat, vocals, choir, piano, guitar, brass, pipe organ, flute, orchestra, epic, medieval, folk, fantasy, trailer, wind, thunder, synth lead, arpeggio, EDM, upbeat, busy melodies"""
+lyrics = """[Intro | 0:00-0:40 | warm pad and deep sub-bass hum from the first second, faint radio static]
+[Approach | 0:40-1:40 | drone widens, soft telemetry blips far away, soft cello harmonics over pads]
+[Seven Worlds III | 1:40-3:00 | far-away sine bell plays D-E-F#-A very slowly over warm pads]
+[Drift | 3:00-4:20 | motif rests, pads breathe, distant cello harmonic holds]
+[Return | 4:20-5:20 | D-E-F#-A once more, softer, an octave lower]
+[Outro | 5:20-6:00 | pads and hum fade slowly, static clears]"""
 
 [[parca]]
 ad = "TRAPPIST-1e"
 kisa = "one of seven Earth-size worlds · 40 light-years"
-dosya = "16-trappist-1e.mp3"
-tur = "okyanus"
-palet = ["#06081a", "#123a5c", "#2f7fa6", "#b7a46a"]
-bilgi = "One of seven Earth-size planets around the cool red star TRAPPIST-1, about 40 light-years away, and among the most promising for liquid water."
-hedef_sure = "7:00"
+dosya = "17-trappist-1e.mp3"
+tur = "buz"
+palet = ["#07070c", "#2e1414", "#9a4a36", "#f2b090"]
+bilgi = "Among the most promising worlds for liquid water. Its year lasts about six days."
+hedef_sure = "6:00"
 anahtar = "A dorian"
 bpm = 60
-motif = "Seven Worlds: A–C–D–E–F#–E–C; org flütünde, dorian F# ile umutlu. Bölümün adı olan hedef."
-gorsel_istem = "A lone astronaut walks a narrow dirt road through a golden wheat field toward a single old oak tree; a colossal ocean world with swirling clouds fills the upper sky with two smaller sister planets beside it; a dim red sun low on the horizon."
-gorsel_oturum = "VVrBtPr5brUWCtkd8PnM"
-gorsel_uretim = "IkvNFD4t09oX8RpNDjkX"
-style = """ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, seven worlds motif A-C-D-E-F#-E-C on soft pipe organ flute stop, warm cello harmonics, bowed glass tones like distant planets, gentle wind, faint planetary hum, A dorian, 60 bpm, dorian major sixth color, hopeful, homecoming feeling, sparse, huge natural reverb, instrumental, 7 minutes"""
-exclude = """drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies"""
-lyrics = """[Intro | 0:00-0:45 | gentle wind, distant thunder, faint hum]
-[Seven Worlds | 0:45-1:50 | pipe organ flute plays A-C-D-E-F#-E-C slowly]
-[Planets | 1:50-3:00 | bowed glass tones like seven distant planets, motif rests]
-[Warm Orbit | 3:00-4:15 | cello harmonics carry the motif, organ underneath]
-[Home Light | 4:15-5:35 | motif again, fuller, hopeful dorian color]
-[Outro | 5:35-7:00 | last A-C-D-E far away, fade to wind]"""
+motif = "Seven Worlds IV: A-C-D-E-F#-E-C, uzak sinüs çanında çok yavaş."
+gorsel_istem = "A vast frozen ice plain at the permanent twilight line; a small dim red star rests on the far left horizon; a large neighbouring planet hangs high in the right as a thin crescent lit on its lower-left; ice ridges rim-lit red on their left sides, long shadows to the right."
+style = """deep space ambient, electronic, warm analog synth pads and tape-saturated drones, deep sub-bass hum, faint radio static and soft distant telemetry blips, seven worlds iv motif A-C-D-E-F#-E-C played very slowly on a soft far-away sine bell, granular shimmer, deep hum, distant cello harmonics, A dorian, 60 bpm, no pulse, weightless, vast, hopeful, weightless, long sustained chords, huge reverb, wide stereo, instrumental, 6 minutes"""
+exclude = """drums, percussion, beat, vocals, choir, piano, guitar, brass, pipe organ, flute, orchestra, epic, medieval, folk, fantasy, trailer, wind, thunder, synth lead, arpeggio, EDM, upbeat, busy melodies"""
+lyrics = """[Intro | 0:00-0:40 | warm pad and deep sub-bass hum from the first second, faint radio static]
+[Approach | 0:40-1:40 | drone widens, soft telemetry blips far away, granular shimmer, deep hum]
+[Seven Worlds IV | 1:40-3:00 | far-away sine bell plays A-C-D-E-F#-E-C very slowly over warm pads]
+[Drift | 3:00-4:20 | motif rests, pads breathe, distant cello harmonic holds]
+[Return | 4:20-5:20 | A-C-D-E-F#-E-C once more, softer, an octave lower]
+[Outro | 5:20-6:00 | pads and hum fade slowly, static clears]"""
 
 [[parca]]
-ad = "Kepler-22b"
-kisa = "a possible ocean world · 600 light-years"
-dosya = "17-kepler-22b.mp3"
-tur = "okyanus"
-palet = ["#040c14", "#0c4a5a", "#2a8f9a", "#d9e6d2"]
-bilgi = "In 2011 the first planet Kepler found in the habitable zone of a Sun-like star, about 600 light-years away; it may be covered by ocean."
-hedef_sure = "6:15"
-anahtar = "D minor"
+ad = "TRAPPIST-1f"
+kisa = "the fifth of the seven · 40 light-years"
+dosya = "18-trappist-1f.mp3"
+tur = "buz"
+palet = ["#06080e", "#1e2232", "#6a7896", "#d8c0b0"]
+bilgi = "A cool world in the habitable zone, possibly rich in water. A year there lasts nine days."
+hedef_sure = "6:00"
+anahtar = "A dorian"
 bpm = 58
-motif = "Tide: D–F–E–C–D dalga gibi iner çıkar; çello armoniğinde."
-gorsel_istem = "A calm ocean at dawn seen from the deck of a small sailboat; a colossal ocean planet with white cloud spirals rises from the sea horizon; a sailor holds a steaming mug at the bow."
-gorsel_oturum = "bdIQGepv9xYxoCYoltpK"
-gorsel_uretim = "Qhx3YKLuP5bOlHdtQKkq"
-style = """ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, tide motif D-F-E-C-D rising and falling like slow waves on cello harmonics, soft pipe organ flute swells, bowed glass spray, wind over water, deep planetary hum, D minor, 58 bpm, sus2 harmony, rolling, calm, sparse, huge natural reverb, instrumental, 6 minutes 15 seconds"""
-exclude = """drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies"""
-lyrics = """[Intro | 0:00-0:40 | wind over water, distant thunder]
-[Tide Motif | 0:40-1:40 | cello harmonics play D-F-E-C-D like a slow wave]
-[Swell | 1:40-2:40 | pipe organ flute swells and recedes]
-[Spray | 2:40-3:50 | bowed glass spray, motif rests]
-[Tide Returns | 3:50-5:00 | D-F-E-C-D lower, slower waves]
-[Outro | 5:00-6:15 | waves fade, wind remains]"""
+motif = "Seven Worlds V: E-D-C-A, uzak sinüs çanında çok yavaş."
+gorsel_istem = "Orbital view of a pale icy planet, smooth white-blue ice with faint cracks, lit from the left by a distant dim red star; the lit crescent on the left is tinted faint salmon by red light; the rest in shadow; deep black starfield."
+style = """deep space ambient, electronic, warm analog synth pads and tape-saturated drones, deep sub-bass hum, faint radio static and soft distant telemetry blips, seven worlds v motif E-D-C-A played very slowly on a soft far-away sine bell, cold glassy pads, distant cello harmonics, A dorian, 58 bpm, no pulse, weightless, vast, cool, still, gentle, long sustained chords, huge reverb, wide stereo, instrumental, 6 minutes"""
+exclude = """drums, percussion, beat, vocals, choir, piano, guitar, brass, pipe organ, flute, orchestra, epic, medieval, folk, fantasy, trailer, wind, thunder, synth lead, arpeggio, EDM, upbeat, busy melodies"""
+lyrics = """[Intro | 0:00-0:40 | warm pad and deep sub-bass hum from the first second, faint radio static]
+[Approach | 0:40-1:40 | drone widens, soft telemetry blips far away, cold glassy pads]
+[Seven Worlds V | 1:40-3:00 | far-away sine bell plays E-D-C-A very slowly over warm pads]
+[Drift | 3:00-4:20 | motif rests, pads breathe, distant cello harmonic holds]
+[Return | 4:20-5:20 | E-D-C-A once more, softer, an octave lower]
+[Outro | 5:20-6:00 | pads and hum fade slowly, static clears]"""
 
 [[parca]]
-ad = "Gliese 1214b"
-kisa = "a steamy, hazy sub-Neptune · 48 light-years"
-dosya = "18-gliese-1214b.mp3"
-tur = "okyanus"
-palet = ["#040a14", "#163a4e", "#3a7088", "#c8d8de"]
-bilgi = "A sub-Neptune 48 light-years away, long studied as a possible water world and wrapped in thick, hazy clouds."
-hedef_sure = "6:15"
-anahtar = "D minor"
+ad = "TRAPPIST-1g"
+kisa = "the largest of the seven · 40 light-years"
+dosya = "19-trappist-1g.mp3"
+tur = "buz"
+palet = ["#06070d", "#1c2030", "#62708e", "#d0b8aa"]
+bilgi = "The largest of the seven worlds, slightly bigger than Earth. A year there lasts twelve days."
+hedef_sure = "6:00"
+anahtar = "A dorian"
 bpm = 56
-motif = "Mist: A–G–F–D; nefesli org flütünde, sisli su dünyası."
-gorsel_istem = "A misty pine coast with a wooden stilt house over the water; a huge hazy blue-white planet is half hidden in thick clouds above the sea; a figure rows a small boat through the mist."
-gorsel_oturum = "uZhQAPkbcC9vn2gUCqXw"
-gorsel_uretim = "GrbvzrYvGFZ1sfnR6PJU"
-style = """ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, mist motif A-G-F-D on breathy pipe organ flute, cello harmonics barely audible, hazy bowed glass, soft wind, deep planetary hum, D minor, 56 bpm, minor 9 harmony, hazy, quiet, drifting, long silences, huge natural reverb, instrumental, 6 minutes 15 seconds"""
-exclude = """drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies"""
-lyrics = """[Intro | 0:00-0:40 | soft wind, hum, thunder very far]
-[Mist Motif | 0:40-1:40 | breathy pipe organ flute plays A-G-F-D]
-[Haze | 1:40-2:40 | hazy bowed glass, cello harmonics barely audible]
-[Drift | 2:40-3:50 | near silence, only wind and hum]
-[Mist Returns | 3:50-5:00 | A-G-F-D again, softer]
-[Outro | 5:00-6:15 | motif dissolves into wind]"""
+motif = "Seven Worlds VI: F#-E-D-A, uzak sinüs çanında çok yavaş."
+gorsel_istem = "A dark frozen landscape with low ice hills under a black sky; the small dim red star low on the left horizon; above, several neighbouring planets as small crescents in a line, each lit on the side facing the star; long shadows to the right."
+style = """deep space ambient, electronic, warm analog synth pads and tape-saturated drones, deep sub-bass hum, faint radio static and soft distant telemetry blips, seven worlds vi motif F#-E-D-A played very slowly on a soft far-away sine bell, deep slow drones, distant cello, distant cello harmonics, A dorian, 56 bpm, no pulse, weightless, vast, deep, calm, large, long sustained chords, huge reverb, wide stereo, instrumental, 6 minutes"""
+exclude = """drums, percussion, beat, vocals, choir, piano, guitar, brass, pipe organ, flute, orchestra, epic, medieval, folk, fantasy, trailer, wind, thunder, synth lead, arpeggio, EDM, upbeat, busy melodies"""
+lyrics = """[Intro | 0:00-0:40 | warm pad and deep sub-bass hum from the first second, faint radio static]
+[Approach | 0:40-1:40 | drone widens, soft telemetry blips far away, deep slow drones, distant cello]
+[Seven Worlds VI | 1:40-3:00 | far-away sine bell plays F#-E-D-A very slowly over warm pads]
+[Drift | 3:00-4:20 | motif rests, pads breathe, distant cello harmonic holds]
+[Return | 4:20-5:20 | F#-E-D-A once more, softer, an octave lower]
+[Outro | 5:20-6:00 | pads and hum fade slowly, static clears]"""
 
 [[parca]]
-ad = "Kepler-452b"
-kisa = "Earth's older cousin · 1,400 light-years"
-dosya = "19-kepler-452b.mp3"
-tur = "kayalik"
-palet = ["#0a0a12", "#3a3a2a", "#8a7a52", "#d8c89a"]
-bilgi = "Orbits a Sun-like star every 385 days, about 1,400 light-years away; often called Earth's older cousin."
-hedef_sure = "6:15"
-anahtar = "D minor"
+ad = "TRAPPIST-1h"
+kisa = "the outermost of the seven · 40 light-years"
+dosya = "20-trappist-1h.mp3"
+tur = "buz"
+palet = ["#05060c", "#161a28", "#56607a", "#c8b0a4"]
+bilgi = "The outermost and coldest of the seven. All seven orbits would fit inside Mercury's orbit around the Sun."
+hedef_sure = "6:00"
+anahtar = "A dorian"
 bpm = 54
-motif = "Homesick: F–A–D–C; çello armoniğinde, Dünya'nın kuzeni için özlem."
-gorsel_istem = "An old farmhouse with a glowing porch light among golden wheat; an immense Earth-like but older, drier planet rises behind the hills; an elderly couple sits together on the porch."
-gorsel_oturum = "j9mCs5zbDaM3FbOf0L59"
-gorsel_uretim = "0CSJFXHKgocemsh2qr62"
-style = """ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, homesick motif F-A-D-C on cello harmonics, warm pipe organ flute chords, soft bowed glass, gentle wind, faint planetary hum, D minor, 54 bpm, minor add9 harmony, nostalgic, tender, slow, sparse, huge natural reverb, instrumental, 6 minutes 15 seconds"""
-exclude = """drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies"""
-lyrics = """[Intro | 0:00-0:40 | gentle wind, distant thunder, faint hum]
-[Homesick Motif | 0:40-1:40 | cello harmonics play F-A-D-C, tender and slow]
-[Memory | 1:40-2:40 | warm pipe organ flute chords, motif rests]
-[Far Home | 2:40-3:50 | soft bowed glass, motif returns higher]
-[Quiet | 3:50-5:00 | organ and wind only, long silence]
-[Outro | 5:00-6:15 | last F-A-D-C, fade to wind]"""
-
-[[parca]]
-ad = "3C 273"
-kisa = "the brightest quasar in our sky · 2.4 billion light-years"
-dosya = "20-3c-273.mp3"
-tur = "kuasar"
-palet = ["#02030a", "#2a0f3a", "#ff9a4a", "#fff1d6"]
-bilgi = "The first quasar ever identified (1963) and the brightest in our sky: a feeding black hole whose light left it about 2.4 billion years ago."
-hedef_sure = "7:00"
-anahtar = "D minor"
-bpm = 52
-motif = "Return Beacon: 1. parçanın D–A–F'si daha yavaş ve bir oktav aşağıda; çello D–A–F–G–A ile çözer. Veda."
-gorsel_istem = "A lonely mountain summit with a small tent and a campfire; in the sky a distant galaxy core blazes, a brilliant quasar jet stretching across the stars; a hiker sits by the fire looking up."
-gorsel_oturum = "7coHVqPKC1PnmiuUuu2U"
-gorsel_uretim = "eyCsnq1I5VEXFYZuTSFO"
-style = """ambient soundscape, wind and distant thunder field recording, lonely planet space ambient, final return of the beacon motif D-A-F, slower and an octave lower on pipe organ flute, answered by cello harmonics resolving D-A-F-G-A, soft bowed glass light, distant thunder fading away, deep planetary hum, D minor, 52 bpm, sus2 to open fifth, farewell, peaceful ending, long silences, slow fade to silence, huge natural reverb, instrumental, 7 minutes"""
-exclude = """drums, percussion, beat, vocals, choir, piano, synth lead, arpeggio, guitar, brass, EDM, upbeat, busy melodies"""
-lyrics = """[Intro | 0:00-0:45 | wind and distant thunder, deep hum, like the beginning]
-[Beacon Remembered | 0:45-1:50 | pipe organ flute plays D-A-F, slower, an octave lower]
-[Answer | 1:50-3:00 | cello harmonics answer D-A-F-G-A, resolving]
-[Light | 3:00-4:15 | soft bowed glass light, motif rests]
-[Last Beacon | 4:15-5:35 | D-A-F once more, very far away]
-[Outro | 5:35-7:00 | thunder fades away, hum holds, slow fade to silence]"""
+motif = "Seven Worlds Home: A-C-D-E-F#-E-C, uzak sinüs çanında çok yavaş."
+gorsel_istem = "View from the far cold edge of the system: a dark icy horizon in the foreground, and above it the small dim red star with its six inner planets as tiny crescents and dots scattered near it; vast black sky with sharp stars."
+style = """deep space ambient, electronic, warm analog synth pads and tape-saturated drones, deep sub-bass hum, faint radio static and soft distant telemetry blips, seven worlds home motif A-C-D-E-F#-E-C played very slowly on a soft far-away sine bell, warm pads fading to sub-bass, distant cello harmonics, A dorian, 54 bpm, no pulse, weightless, vast, resolved, quiet farewell, long sustained chords, huge reverb, wide stereo, instrumental, 6 minutes"""
+exclude = """drums, percussion, beat, vocals, choir, piano, guitar, brass, pipe organ, flute, orchestra, epic, medieval, folk, fantasy, trailer, wind, thunder, synth lead, arpeggio, EDM, upbeat, busy melodies"""
+lyrics = """[Intro | 0:00-0:40 | warm pad and deep sub-bass hum from the first second, faint radio static]
+[Approach | 0:40-1:40 | drone widens, soft telemetry blips far away, warm pads fading to sub-bass]
+[Seven Worlds Home | 1:40-3:00 | far-away sine bell plays A-C-D-E-F#-E-C very slowly over warm pads]
+[Drift | 3:00-4:20 | motif rests, pads breathe, distant cello harmonic holds]
+[Return | 4:20-5:20 | A-C-D-E-F#-E-C once more, softer, an octave lower]
+[Outro | 5:20-6:00 | pads and hum fade slowly, static clears]"""

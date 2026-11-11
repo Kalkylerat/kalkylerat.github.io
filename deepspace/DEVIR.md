@@ -3,8 +3,32 @@
 Bu dosya yeni bir Claude Code oturumunun (yerel terminal) kaldığımız yerden devam etmesi için. Önce bunu, sonra
 `SOZLESME.md` G bölümünü ve `.claude/skills/deep-space-log/SKILL.md`'yi oku. Sahibiyle Türkçe konuş.
 
-## Güncel durum (11 Kasım 2026): iş bölümü, Shorts departmanı, YouTube uzmanı
-Bu bölüm aşağıdaki eski notların üstündedir; çelişirse bu geçerlidir.
+## Güncel durum (11 Kasım 2026 gece): konsept sabit, bağımsız inceleme uygulandı
+Bu bölüm aşağıdaki bütün eski notların üstündedir; çelişirse bu geçerlidir.
+- **Konsept (G1, sahibinin onayıyla sabit):** her görev PROBE-7'nin 20 gerçek durağı; görsel PROBE-7'nin kamerası
+  (karanlık yabancı ufuk ya da yörünge, tek büyük gerçek gök cismi, insan/araç/sonda yok, ışık fiziği doğru); ses
+  palet A (elektronik derin uzay ambient, uzak sinüs çan motifi, uzak çello). Ayrıntı ve gerekçe:
+  `deepspace/inceleme/2026-11-11-bagimsiz-inceleme.md` (bağımsız inceleme; sahibi "hepsini uygula" dedi).
+- **001 Seven Worlds:** yeni rota (Proxima b → ... → Fomalhaut, sonra TRAPPIST-1 b–h, uzaklık sırasıyla),
+  `gorev.toml` + `SUNO.md` palet A ile yeniden yazıldı; bilgiler doğrulandı (`bilgi_kaynak.json`, 4 düzeltme
+  uygulandı). Başlık `buyume/oneriler.json`. Görseller: yalnız `gorsel/17.png` (TRAPPIST-1e, durağan) hazır; eski
+  20 görsel `gorsel/eski_dunya/`. Sıradaki: 20 Suno şarkısı (2 versiyon), sahibi seçer; 3 görsel deneme, sonra 17.
+- **Video (G6, G14):** görsel durağan, yalnız arayüz hareket eder; parça geçişinde görüntü sesle birlikte yumuşakça
+  karışır; ilk dakikadan sonra arayüz %60'a söner; sol üstte o anki durağın adı ve "ARTIST'S IMPRESSION". Kayıt
+  kartı cümleyi iki karta bölmez. Çıkış 1440p. Görseli olmayan parça kod sahnesine düşmez, video çıkmaz.
+  Birleştirme hata verirse bölümler silinmez, yeniden çalıştırma kaldığı yerden devam eder.
+- **Kapak (G7):** kayıt defteri dili: `001 SEVEN WORLDS`, gerçek koordinat satırı, nişan köşeleri; 3 varyant 3 ayrı
+  parçanın görselinden (`kapak_parcalari`).
+- **Karar (G8):** ilk 5 görevde son söz sahibinin (`gorev onay --kim sahip`, sahibinin `ok`undan sonra).
+- **Shorts (G12):** duraklatıldı (`[shorts] acik = false`), ilk 5 uzun videodan sonra.
+- **Metinler (G9):** Studio'daki AI beyanı açık; metinler AI'yi anmaz, yalan da söylemez. Açıklama notu:
+  "Visuals are artist's impressions. The worlds are real." Sıklık sözü ("weekly") yok.
+- **Marka:** yeni banner ve profil taslağı (kayıt defteri dili, bağımsız incelemeyi yapan model çizdi):
+  `deepspace/marka/taslak/banner_defter.jpg`, `profil_defter.png`, önizleme `onizleme_defter.jpg`; sahibinin
+  onayından sonra Studio'ya yüklenir. Kanal ülkesi İsveç (11 Kasım).
+- **Hareket istasyonu ve hareket-tarifcisi ajanı** artık kullanılmaz (görsel durağan).
+
+## Eski durum (11 Kasım 2026 öğleden sonra; yukarıdaki bölüm geçerlidir)
 - **İş bölümü (G15):** 002'den itibaren her istasyonu bir ajan yapar (`.claude/agents/`, 11 ajan), kararı sıfır
   bağlamlı `denetci` verir (`gorev denetim`), komutlar kilitlidir (`gorev durum`, `gorev kilit`). `hepsi` yalnız 001.
   Akış ve şefin döngüsü: deep-space-log skill'i. Tasarım `docs/superpowers/specs/2026-11-11-is-bolumu-design.md`,

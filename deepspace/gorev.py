@@ -73,7 +73,7 @@ def gorsel_istemleri(gorev: dict) -> Path:
     """Görsel üretim listesi (GORSEL.md): her parça için sahne + marka stil eki; hazır olanlar işaretli."""
     from .ortak import marka_yukle
     g = marka_yukle()["gorsel"]
-    ek = g["stil_eki_001"] if gorev.get("no") == 1 else g["stil_eki"]  # 001 onaylı eski görsel diliyle kalır
+    ek = g["stil_eki"]  # bütün görevler tek görsel dili (11 Kasım 2026: 001'in Dünya manzarası dili bırakıldı)
     satir = [f"# Mission {gorev['no']:03d} · {gorev['hedef']}: görsel istemleri", "",
              f"Model: `{g['model']}` (16:9). Her görsel `gorsel/NN.png` olarak kaydedilir (NN = parça no).",
              "Renk tonu marka filtresinden gelir (marka.toml [filtre]); istemdeki ışık tarifi yeterli.", ""]
@@ -373,6 +373,9 @@ def main(argv: list[str] | None = None) -> int:
         "metin": lambda: metin.uret(gorev, ayar),
         "shorts": lambda: video.shorts(gorev, ayar),
     }
+    if a.komut == "shorts" and not ayar["shorts"].get("acik", True):
+        print("Shorts kapalı (G12: ilk 5 uzun videodan sonra açılır, ayar.toml [shorts] acik)")
+        return 0
     if a.komut in adimlar:
         _adim(a.komut, adimlar[a.komut])
     elif a.komut == "hepsi":
@@ -383,6 +386,8 @@ def main(argv: list[str] | None = None) -> int:
                 print(f"KAPI KAPALI (ses): {k['ad']} {k['ayrinti']}")
             return 2
         for ad in ("sahneler", "video", "kapak", "metin", "shorts"):
+            if ad == "shorts" and not ayar["shorts"].get("acik", True):
+                continue
             _adim(ad, adimlar[ad])
 
     r = kapilar.rapor(gorev, ayar, siyah_kontrol=not a.siyah_kontrolu_yok)

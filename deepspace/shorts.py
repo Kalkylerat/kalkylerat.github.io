@@ -78,7 +78,7 @@ def _parca_no(p):
         return p
     return int(f) if f.is_integer() else p
 SHORTS_NOTU = ("From a full two-hour mission on this channel. "
-               "Visuals are artistic impressions based on real scientific data.")
+               "Visuals are artist's impressions. The worlds are real.")
 
 
 def plan_kontrol(plan: list, gorev: dict, bolumler: dict, kayit: dict, ayar: dict) -> list[dict]:

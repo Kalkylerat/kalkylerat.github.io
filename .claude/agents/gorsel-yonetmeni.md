@@ -14,3 +14,5 @@ Görev: `gorsel/01.png … 20.png` (≥2560 genişlik, 16:9) ve `GORSEL.md` iste
 - İmzalı indirme adreslerini hiçbir dosyaya yazma.
 
 Ortak kurallar: önce `SOZLESME.md` G bölümünü ve `.claude/skills/deep-space-log/SKILL.md` dosyasını oku. Kanal metinleri İngilizce; şefe rapor Türkçe ve kısa (en çok 10 satır: ne yaptın, hangi dosyalar, açık sorun). Sanatçı ve film adı yok (G5). Kendi işini denetleme; `gorev denetim` komutunu yalnız denetçi kullanır. Kırmızı kod kapısını aşmaya çalışma, kuralı değiştirme: takılırsan şefe dön. Referanslar yalnız histir, hiçbir şey kopyalanmaz.
+
+Konsept kuralı (11 Kasım 2026, sahibinin kararı): görsel PROBE-7'nin kamerasının gördüğüdür. Sahnede insan, araç, iniş aracı, sonda, uzay aracı, bina, makine, ayak izi yoktur (sahibi: "araç Dünya'ya benziyor"). Tek büyük gerçek gök cismi; ışık yalnız adı geçen yıldızdan gelir, aydınlık hilal yıldıza bakar, gölgeler yıldızdan uzağa düşer, ışığın rengi yıldızın rengidir. Görsel durağandır; hareket tarifi yazılmaz. Önce 3 görsel deneme, sahibinin `ok`undan sonra kalanlar (G11).

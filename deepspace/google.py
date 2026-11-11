@@ -135,9 +135,26 @@ def _zaman_oku(metin: str) -> datetime:
     return datetime.fromisoformat(metin.replace("Z", "+00:00"))
 
 
+# İlk görevlerde son söz sahibinindir (G8, 11 Kasım 2026, sahibinin onayıyla; bağımsız inceleme önerisi).
+SAHIP_ONAYI_ILK_GOREV = 5
+
+
+def _gorev_no(cikti: Path) -> int | None:
+    import tomllib
+    yol = Path(cikti).parent / "gorev.toml"
+    try:
+        return int(tomllib.loads(yol.read_text(encoding="utf-8"))["no"])
+    except (OSError, ValueError, KeyError):
+        return None
+
+
 def onay_yaz(cikti: Path, kim: str, yayin_zamani: str, simdi: datetime | None = None) -> Path:
-    """Denetçinin kararı (G8): rapor yeşil, yayın saati karardan en az BILDIRIM_SAATI saat sonra."""
+    """Karar (G8): rapor yeşil, yayın saati karardan en az BILDIRIM_SAATI saat sonra. İlk SAHIP_ONAYI_ILK_GOREV
+    görevde kararı yalnız sahibi verir (`kim="sahip"`, sahibinin sohbette yazdığı `ok`tan sonra)."""
     simdi = simdi or datetime.now(timezone.utc)
+    no = _gorev_no(cikti)
+    if no is not None and no <= SAHIP_ONAYI_ILK_GOREV and kim != "sahip":
+        raise GoogleHatasi(f"görev {no:03d}: ilk {SAHIP_ONAYI_ILK_GOREV} görevde sahibinin ok'u olmadan yayın yok (G8)")
     rapor = json.loads((cikti / "rapor.json").read_text(encoding="utf-8"))
     if not rapor.get("gecti"):
         raise GoogleHatasi("rapor.json kırmızı: video yayına planlanamaz (G8)")

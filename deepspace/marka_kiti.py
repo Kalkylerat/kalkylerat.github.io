@@ -17,7 +17,7 @@ from .renk import uygula as renk_uygula
 from .sahne import probe_sprite
 
 KAYNAK = KOK / "marka" / "kaynak" / "A2.png"
-ALT_YAZI = "SPACE AMBIENT FOR FOCUS & SLEEP  ·  NEW MISSION WEEKLY"
+ALT_YAZI = "SPACE AMBIENT MUSIC FOR SLEEP & DEEP FOCUS"  # sıklık sözü yok (11 Kasım 2026)
 GUVENLI_ALAN = (1546, 423)  # YouTube banner'ında her cihazda görünen orta alan (2560x1440 içinde)
 # Banner kaynağı: ufuk kemeri güvenli banda girsin diye görsel yukarı kaydırılır (kaynağın 765 satırında 80 satır);
 # alttaki boşluk ufkun altındaki karanlık zeminin (640. satırdan sonrası) dikey esnetilmesiyle dolar.

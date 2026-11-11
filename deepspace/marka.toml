@@ -37,10 +37,8 @@ short_etiket = 40
 # Görsel dili (11 Kasım 2026, marka kiti): karanlık, durgun bir ufuk (buzlu ya da kayalık bir dünyanın yüzeyi,
 # yörüngeden bir gezegen kenarı) ve gökyüzünü kaplayan TEK büyük gök cismi (galaksi, bulutsu, halkalı dev).
 # Bol boşluk, insan figürü yok ya da çok küçük. Her sahne uzayda; ışık fiziği doğru (G13).
-# stil_eki_001: 001'in onaylı istemleri için eski dil (Dünya'ya benzeyen manzara); yeni görevler stil_eki kullanır.
 model = "flux-3-image"
-stil_eki = "Photorealistic cinematic space scene, minimal and vast. A dark, quiet horizon of an alien world or a planet limb seen from orbit, under a sky dominated by one colossal galaxy or nebula. Deep blacks, cool blue and soft starlight, a single warm amber accent at most. Physically plausible lighting: every lit crescent faces its star. Generous negative space in the upper third for a title. Calm, still, meditative. Ultra detailed, realistic scale, wide 16:9. No people, no text, no logo, no watermark."
-stil_eki_001 = "Surreal yet photorealistic cinematic matte painting. A calm, familiar Earth-like landscape under an impossible sky dominated by a colossal celestial body that fills a large part of the frame. One small human element in the foreground tells a quiet story. Golden hour light, soft atmospheric haze, muted teal sky and warm ochre ground, gentle film grain, ultra detailed, realistic textures and scale, wide 16:9 composition. No text, no logo, no watermark."
+stil_eki = "Photorealistic cinematic space scene, minimal and vast: what a distant probe camera sees, a dark quiet alien horizon or a view from orbit with one huge real celestial body as the subject. Deep blacks, sharp unblinking stars. Physically correct lighting: the only light comes from the named star, every lit crescent faces it, shadows fall away from it, and the light colour matches the star. Generous empty dark sky in the upper third for a title. Calm, still, meditative. Ultra detailed, realistic scale, wide 16:9. No people, no vehicles, no probes, no spacecraft, no landers, no buildings, no machines, no footprints, no text, no logo, no watermark."
 yasaklar = ["neon pink", "purple gradient", "lens flare overload", "emoji", "text in image", "watermark"]
 
 [hareket]

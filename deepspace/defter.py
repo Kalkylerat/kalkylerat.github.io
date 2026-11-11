@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import json
 import math
+import re
 import subprocess
 import textwrap
 from functools import lru_cache
@@ -43,10 +44,15 @@ KENAR = 64
 KART_KENAR = 40          # kayıt kartı köşeye daha yakın
 KART_GENISLIK = 660      # 1080p'de ~%34 genişlik: videoya yayılmaz
 KART_SUTUN = 34          # kart içinde satır başına en çok karakter
+KART_SATIR = 3
 # Oynatıcı güvenli alanı (G14-4): YouTube'un oynatma çubuğu karenin alt kısmını kaplar; yatay videoda hiçbir yazı
 # ya da sinyal çizgisi alt ALT_GUVENLI oranına girmez. Kayıt kartı (G14-5): bilgi cümlesi bir kez, en çok 3 satırlık
 # sayfalarla, kaymadan yazılır; her sayfa yazıldıktan sonra OKUMA_SN kalır; kart bütün olarak SOLMA_SN'de söner.
 ALT_GUVENLI = 0.16
+# Arayüz sönmesi (bağımsız inceleme önerisi, 11 Kasım 2026): parçanın ilk ACIK_SN'sinden sonra saat, başlık ve sinyal
+# SONUK opaklığa iner (uyku dinleyicisi için); kart etkilenmez.
+ACIK_SN = 60
+SONUK = 0.6
 YAZMA_HIZI = 22      # harf/sn
 OKUMA_SN = 10
 SOLMA_SN = 3
@@ -165,30 +171,68 @@ def _ekle(kare: np.ndarray, sprite: np.ndarray, x: float, y: float, renk: np.nda
     kare[y0:y1, x0:x1] += s[..., None] * renk * guc
 
 
+def cumleler(metin: str) -> list[str]:
+    return [c for c in re.split(r"(?<=[.!?])\s+", metin.strip()) if c]
+
+
+def kart_sayfalari(metin: str) -> list[list[str]]:
+    """Kart sayfaları (G14-5): her sayfa en çok KART_SATIR satır ve yalnız tam cümleler; cümle iki sayfaya bölünmez.
+    Tek başına KART_SATIR'ı aşan cümle kendi sayfasında kalır (kapı bunu önceden reddeder)."""
+    sayfalar, simdi = [], []
+    for c in cumleler(metin):
+        aday = simdi + [c]
+        if simdi and len(textwrap.wrap(" ".join(aday), KART_SUTUN, break_on_hyphens=False)) > KART_SATIR:
+            sayfalar.append(textwrap.wrap(" ".join(simdi), KART_SUTUN, break_on_hyphens=False))
+            aday = [c]
+        simdi = aday
+    if simdi:
+        sayfalar.append(textwrap.wrap(" ".join(simdi), KART_SUTUN, break_on_hyphens=False))
+    return sayfalar
+
+
 class SeyirDefteri:
     def __init__(self, gorsel: Path, katmanlar: list[dict], W: int, H: int, fps: int, sure: float, muzik: dict,
                  bilgi: dict, tohum: int = 1, ton: dict | None = None, t0: float = 0.0, kirp_x: float = 0.5,
-                 kanca: str = ""):
+                 kanca: str = "", onceki: Path | None = None, sonraki: Path | None = None, gecis_sn: float = 0.0):
         self.W, self.H, self.fps, self.sure, self.t0 = W, H, fps, sure, t0  # t0: görev saatinin başladığı an
         self.o = H / 1080
         self.dikey, self.kanca = H > W, kanca.strip()
         resim = Image.open(gorsel).convert("RGB")
         self._kadraj_kur(resim.width, resim.height, kirp_x)
-        taban = np.asarray(_kapla(resim, W, H, kirp_x), np.float32) / 255
-        if ton:
-            from .renk import uygula
-            taban = uygula(taban, ton)
-        self.lum = taban @ np.array([0.2126, 0.7152, 0.0722], np.float32)
-        # Sinema kararması: alt ve üst kenar hafifçe koyulur, kayıt yazısı parlak zeminde de okunur.
-        yy = np.linspace(0, 1, H, dtype=np.float32)[:, None]
-        koyu = np.clip((yy - 0.78) / 0.22, 0, 1) ** 1.5 * 0.5 + np.clip((0.15 - yy) / 0.15, 0, 1) ** 1.5 * 0.3
-        self.taban = (taban * (1 - koyu)[..., None]).astype(np.float32)
+        self.taban = self._taban_hazirla(resim, kirp_x, ton)
+        self.lum = self._lum
+        # Parça geçişi: kesim çapraz geçişin ortasındadır; bu bölümün ilk ve son gecis_sn/2'sinde komşu görsel
+        # yarıya kadar karışır, böylece görüntü sesle birlikte yumuşakça döner (sert kesim yok).
+        self.gecis = gecis_sn
+        self.onceki = self._taban_hazirla(Image.open(onceki).convert("RGB"), kirp_x, ton) if onceki and gecis_sn else None
+        self.sonraki = self._taban_hazirla(Image.open(sonraki).convert("RGB"), kirp_x, ton) if sonraki and gecis_sn else None
         self.muzik, self.bilgi = muzik, bilgi
         rng = np.random.default_rng(tohum)
         self.palet = marka_yukle()["palet"]
         self.katmanlar = [self._hazirla(k, rng) for k in (self._cerceveye(k) for k in katmanlar) if k]
         self._kayit = self._kayit_sayfalari()
         self._sabit = self._dikey_ust() if self.dikey else self._ust_sol()
+
+    def _taban_hazirla(self, resim: Image.Image, kirp_x: float, ton: dict | None) -> np.ndarray:
+        W, H = self.W, self.H
+        taban = np.asarray(_kapla(resim, W, H, kirp_x), np.float32) / 255
+        if ton:
+            from .renk import uygula
+            taban = uygula(taban, ton)
+        self._lum = taban @ np.array([0.2126, 0.7152, 0.0722], np.float32)
+        # Sinema kararması: alt ve üst kenar hafifçe koyulur, kayıt yazısı parlak zeminde de okunur.
+        yy = np.linspace(0, 1, H, dtype=np.float32)[:, None]
+        koyu = np.clip((yy - 0.78) / 0.22, 0, 1) ** 1.5 * 0.5 + np.clip((0.15 - yy) / 0.15, 0, 1) ** 1.5 * 0.3
+        return (taban * (1 - koyu)[..., None]).astype(np.float32)
+
+    def gecis_agirligi(self, t: float) -> tuple[float, float]:
+        """(önceki görselin payı, sonraki görselin payı) t anında; kesimde ikisi de 0.5'tir."""
+        if not self.gecis:
+            return 0.0, 0.0
+        y = self.gecis / 2
+        once = max(0.0, 0.5 * (1 - t / y)) if self.onceki is not None else 0.0
+        sonra = max(0.0, 0.5 * (1 - (self.sure - t) / y)) if self.sonraki is not None else 0.0
+        return once, sonra
 
     # ---------- kadraj: katmanlar 16:9 karede yazılır ----------
     def _kadraj_kur(self, iw: int, ih: int, kirp_x: float):
@@ -307,10 +351,8 @@ class SeyirDefteri:
         """(başlangıç, bitiş, etiket, satırlar). Bilgi cümlesi bir kez, 3 satırlık sayfalarla; ad ve kısa özet
         kartta tekrar edilmez (G14-5). Parça sonuna yakın tek satırlık NEXT kartı."""
         b = self.bilgi
-        satirlar = textwrap.wrap(b.get("bilgi") or b.get("kisa", ""), KART_SUTUN)
         sayfalar, t = [], 3.0
-        for k in range(0, len(satirlar), 3):
-            sayfa = satirlar[k:k + 3]
+        for sayfa in kart_sayfalari(b.get("bilgi") or b.get("kisa", "")):
             son = t + sum(map(len, sayfa)) / YAZMA_HIZI + OKUMA_SN
             sayfalar.append((t, son, "ARRIVAL", sayfa))
             t = son
@@ -358,10 +400,12 @@ class SeyirDefteri:
 
     def _ust_sol(self) -> tuple[int, int, np.ndarray]:
         o, b, m = self.o, self.bilgi, int(KENAR * self.o)
-        img, d = self._parca(1100 * o, 90 * o)
+        img, d = self._parca(1100 * o, 128 * o)
         self._yazi(d, (0, 0), "DEEP SPACE LOG", YAZI["baslik"], True, 0.95)
-        self._yazi(d, (0, 48 * o), f"MISSION {b['gorev_no']:03d}  ·  {b['hedef']}", YAZI["alt"], False, 0.85,
+        self._yazi(d, (0, 48 * o), f"MISSION {b['gorev_no']:03d}  ·  {b['ad']}", YAZI["alt"], False, 0.85,
                    self.palet["yazi_ikincil"])
+        # bilim iletişimindeki geleneksel not: görsel bir çizimdir, dünya gerçektir (G9)
+        self._yazi(d, (0, 88 * o), "ARTIST'S IMPRESSION", YAZI["etiket"], False, 0.7, self.palet["yazi_ikincil"])
         return m, m, np.asarray(img, np.float32) / 255
 
     # ---------- dikey (Shorts) ----------
@@ -446,6 +490,7 @@ class SeyirDefteri:
             return [self._sabit, self._dikey_alt(i)]
         o, W, H, b = self.o, self.W, self.H, self.bilgi
         m = int(KENAR * o)
+        sonuk = 1.0 if t < ACIK_SN else max(SONUK, 1 - (t - ACIK_SN) / 5 * (1 - SONUK))
         parcalar = [self._sabit]
         # sağ üst: görev saati ve alım ışığı
         gw = int(620 * o)
@@ -464,8 +509,8 @@ class SeyirDefteri:
         kart = self._kart(t)
         if kart:
             etiket, yazili, sol = kart
-            # cümle bir kez ">" ile başlar; devam satırları ve sonraki sayfa girintili (ayrı kayıt gibi görünmez)
-            ilk = yazili[0] if any(x[2] == etiket and x[3][0].startswith(yazili[0]) for x in self._kayit[:1])                 or etiket == "NEXT" else None
+            # her sayfa bir cümleyle başlar: ilk satır ">", devam satırları girintili (ayrı kayıt gibi görünmez)
+            ilk = True
             satirlar = [("> " if k == 0 and ilk else "  ") + x for k, x in enumerate(yazili)]
             if i % 12 < 6:
                 satirlar[-1] += "_"
@@ -489,12 +534,26 @@ class SeyirDefteri:
                 stroke_width=max(1, int(2 * k * o)), stroke_fill=(8, 10, 18, 140))
         s_img = s_img.resize((gw, gh), Image.LANCZOS)
         parcalar.append((W - m - gw, int(H * (1 - ALT_GUVENLI)) - gh, np.asarray(s_img, np.float32) / 255))
+        if sonuk < 1:  # kart dışındaki arayüz söner
+            kart_var = 1 if kart else 0
+            for k in range(len(parcalar)):
+                if kart_var and k == len(parcalar) - 2:
+                    continue
+                x, y, a = parcalar[k]
+                a = a.copy()
+                a[..., 3] *= sonuk
+                parcalar[k] = (x, y, a)
         return parcalar
 
     # ---------- kare ----------
     def kare(self, i: int) -> np.ndarray:
         t = i / self.fps
         kare = self.taban.copy()
+        once, sonra = self.gecis_agirligi(t)
+        if once > 0:
+            kare += (self.onceki - kare) * once
+        if sonra > 0:
+            kare += (self.sonraki - kare) * sonra
         zarf = float(self.muzik["zarf"][min(i, len(self.muzik["zarf"]) - 1)])
         for k in self.katmanlar:
             e = k["etki"]

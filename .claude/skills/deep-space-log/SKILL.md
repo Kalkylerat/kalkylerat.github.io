@@ -107,11 +107,11 @@ kararı okur, kapaklardan ve videodan birkaç kareyi kendi de görür.
 - Marka kiti onaylı (11 Kasım 2026): `deepspace/marka/` (banner, profil, filigran, marka kitabı, `kaynak/A2.png`) ve
   `marka.toml`. Renk A: film tonu yok, kehribar yalnız vurgu. Yazı Space Mono. Kit yeniden üretimi: `gorev kanal`.
 - Görsel dili (`marka.toml [gorsel] stil_eki`): karanlık durgun ufuk, gökyüzünü kaplayan tek büyük gök cismi, bol
-  boşluk, insan yok ya da çok küçük; ışık fiziği doğru (G13). 001 eski dilde kalır (`stil_eki_001`).
-- Kapak şablonu: ince harf aralıklı başlık, kehribar çizgi ve etiket, gökte küçük PROBE-7; 3 düzen; en fazla 3
-  kelime (G7: seri adı + süre, ör. `DEEP FOCUS` + `2H`).
+  boşluk; insan, araç, sonda, bina yok (görsel PROBE-7'nin kamerasıdır); ışık fiziği doğru (G13). Görsel durağandır (G14).
+- Kapak (G7, kayıt defteri dili): görev numarası + görev adı (`001 SEVEN WORLDS`), gerçek koordinat satırı, nişan
+  köşeleri; 3 varyant 3 ayrı parçanın görselinden (`kapak_parcalari`).
 - Parça görseli `gorsel/NN.png` (16:9). Defter modunda her parçanın görseli zorunludur.
-- 4K Seyir Defteri render'ı 2 saatlik videoda yaklaşık 5 saat kare + kodlama (3 süreç): `video`'yu arka planda
+- 1440p Seyir Defteri render'ı (eski not: 4K) 2 saatlik videoda yaklaşık 5 saat kare + kodlama (3 süreç): `video`'yu arka planda
   çalıştır. Hızlı deneme için görevde `[ayar.video] genislik = 1920, yukseklik = 1080`.
 
 ## Seyir Defteri modu (`deepspace/defter.py`; uzun video ve Shorts'un varsayılanı, `[video] mod = "defter"`)

@@ -50,8 +50,8 @@ sessizlik_db = -60
 sessizlik_max_sn = 4       # parça ortasında bundan uzun sessizlik = bozuk dosya
 
 [video]
-genislik = 3840            # 4K (sahibinin isteği: ultra HD). Hızlı deneme için görevde [ayar.video] ile 1920x1080
-yukseklik = 2160
+genislik = 2560            # 1440p (11 Kasım 2026, inceleme: görseller 2736 px; 4K büyütme ayrıntı eklemez, süreyi ikiye katlar)
+yukseklik = 1440
 fps = 24
 dongu_sn = 60              # her sahne bu kadar sürer ve kusursuz döner
 crf = 20
@@ -60,6 +60,7 @@ is_parcacigi = 3           # aynı anda kaç parça kodlanır
 mod = "defter"             # defter: durağan görsel + fiziksel katmanlar + kayıt (G14); sinemagraf: eski yol
 
 [shorts]
+acik = false             # G12 (11 Kasım 2026): ilk 5 uzun video yayında olunca açılır
 adet = 3
 sure_sn = 45
 min_sn = 20                # kurgucu planında bir Short'un en kısa ve en uzun süresi (G12)

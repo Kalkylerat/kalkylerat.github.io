@@ -16,7 +16,7 @@ SUREC_NOTU = (
     "Every mission is built around one route through real worlds. Each piece is designed around its own motif, key "
     "and sound palette, then selected, sequenced and mastered for long, distraction-free listening. Every fact in "
     "the mission log is checked against published sources.\n"
-    "Visuals are artistic impressions based on real scientific data."
+    "Visuals are artist's impressions. The worlds are real."
 )
 
 
@@ -48,11 +48,12 @@ def uret(gorev: dict, ayar: dict) -> dict:
 
     notlar = [f"{p['ad']}: {p['bilgi']}" for p in gorev["parca"] if p.get("bilgi")]
     aciklama = "\n".join([
-        f"{kanal} · Mission {gorev['no']:03d} · {gorev['hedef']} ({gorev['uzaklik']})",
+        f"{kanal} · Mission {gorev['no']:03d}"
+        + (f" · {gorev['ad']}" if gorev.get("ad") else "") + f" · {gorev['hedef']} ({gorev['uzaklik']})",
         "",
         gorev["ozet"].strip(),
         "",
-        f"{saat} hours of {sr['ad'].lower()} space ambient music for studying, coding, reading and deep work. "
+        f"{saat} hours of deep space ambient music for sleep, study and deep focus. "
         "No vocals, no drums, no sudden changes. Ad breaks only fall between pieces.",
         "",
         "Chapters",
@@ -63,7 +64,7 @@ def uret(gorev: dict, ayar: dict) -> dict:
         "",
         SUREC_NOTU,
         "",
-        f"A new mission every week. Where should {ayar['kanal']['maskot']} go next? Tell us in the comments.",
+        f"Where should {ayar['kanal']['maskot']} go next? Tell us in the comments.",
         "",
         " ".join(sr["hashtagler"]),
     ])

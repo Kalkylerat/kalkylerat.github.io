@@ -4,17 +4,14 @@
 **Handle:** @deepspacelogmusic (sahibinin seçimi; @deepspacelog başka bir kanalda)
 
 **Description:**
-Sci-fi space ambient music for deep focus, work and sleep, sent from deep space.
+Deep-space ambient music for sleep and deep focus.
 
-Every week PROBE-7 sets out on a new mission: a two-hour route through real planets, moons and stars. Each
-destination has its own piece of music, its own melody and its own sound. No vocals, no drums, no sudden changes:
-just a calm, steady place to study, code, read or think.
+Each video is one mission of PROBE-7: a two-hour route through twenty real destinations, with one piece of music for
+every stop and a log entry about the place itself. No vocals, no drums, no sudden changes.
 
-Every mission comes with chapters and short notes on the real worlds you pass. Each piece is designed around its
-own motif and sound palette, then selected, sequenced and mastered for long listening. Visuals are artistic
-impressions based on real scientific data.
+Visuals are artist's impressions. The worlds are real.
 
-Tell us where PROBE-7 should go next.
+Where should PROBE-7 go next?
 
 **Links:** (boş; ileride Spotify)
 **Keywords:** space ambient music, sci fi ambient music, deep focus music for work, ambient music for studying, space sleep music, cinematic ambient music, sci fi ambience, space music

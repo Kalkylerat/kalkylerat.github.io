@@ -6,6 +6,7 @@ rapor kırmızıysa ajanın "bitti" demesi geçersizdir.
 from __future__ import annotations
 
 import json
+import textwrap
 import re
 from pathlib import Path
 
@@ -29,6 +30,9 @@ def ozgunluk(gorev: dict, kayit: dict, ses_ozetleri: list[str] | None = None) ->
     adlar = [p["ad"] for p in gorev["parca"]]
     sonuc.append(_k("görev içinde parça adı tekrarı yok", len(adlar) == len(set(adlar)),
                     ", ".join(a for a in set(adlar) if adlar.count(a) > 1)))
+    if gorev.get("derleme"):  # G4 istisnası: kanalın kendi görevlerinden derleme, en erken 4 görevden sonra
+        sonuc.append(_k("derleme en az 4 yayımlanmış görevden", len(eski) >= 4, f"{len(eski)} görev"))
+        return sonuc
     if ses_ozetleri is not None:
         eski_ses = {h for g in eski for h in g.get("ses_ozetleri", [])}
         tekrar = [h[:10] for h in ses_ozetleri if h in eski_ses]
@@ -62,6 +66,12 @@ def gorev_dosyasi(gorev: dict, ayar: dict) -> list[dict]:
     sonuc.append(_k("hedef toplam süre", abs(toplam - hedef) <= hedef * a["sure_tolerans"], f"{toplam / 60:.1f} dk"))
     dosyalar = [p.get("dosya") for p in gorev["parca"]]
     sonuc.append(_k("dosya adları benzersiz", len(dosyalar) == len(set(dosyalar))))
+    from .defter import KART_SATIR, KART_SUTUN, cumleler
+    uzun = [f"{p.get('ad')}: {c[:40]}…" for p in gorev["parca"] for c in cumleler(str(p.get("bilgi", "")))
+            if len(textwrap.wrap(c, KART_SUTUN, break_on_hyphens=False)) > KART_SATIR]
+    sonuc.append(_k(f"bilgi cümleleri karta sığar (≤{KART_SATIR} satır, G14-5)", not uzun, "; ".join(uzun)))
+    adli = [p.get("ad") for p in gorev["parca"] if p.get("ad") and p["ad"] in str(p.get("bilgi", ""))]
+    sonuc.append(_k("bilgi cümlesi gök cisminin adını tekrar etmez (G14-5)", not adli, ", ".join(adli)))
     istem = " ".join(" ".join(str(p.get(k, "")) for k in ("style", "exclude", "lyrics", "ad", "kisa", "bilgi"))
                      for p in gorev["parca"]).lower() + " " + gorev.get("ozet", "").lower()
     yasak = [k for k in ayar["metin"]["yasak_kelimeler"] if re.search(rf"\b{re.escape(k)}\b", istem)]
@@ -212,35 +222,15 @@ def gorseller(gorev: dict) -> list[dict]:
             for g in gorev_gorselleri(gorev) if g["yol"]]
 
 
-HAREKET_EN_AZ_KATMAN = 3
-
-
 def hareket(gorev: dict) -> list[dict]:
-    """G14: her `gorsel/NN.png` için `NN_hareket.json` var; en az 3 katman, biri müzikle bağlı, hepsi bilinen
-    (görüntüyü bükmeyen) etkiler."""
-    from .defter import ETKILER, muzikle_bagli
+    """G14 (11 Kasım 2026, sahibinin onayı): görsel durağandır; yalnız arayüz hareket eder. Görsel için hareket
+    tarifi (`NN_hareket.json`) bulunmaz; bulunursa sahte ışık katmanı videoya girer, kapı kırmızıdır."""
     klasor = Path(gorev["klasor"]) / "gorsel"
     gorseller = sorted(klasor.glob("[0-9][0-9].png")) if klasor.exists() else []
     if not gorseller:
-        return [_k("hareket: görsel var", False, "gorsel/NN.png yok")]
-    sonuc = []
-    for g in gorseller:
-        tarif = g.with_name(f"{g.stem}_hareket.json")
-        try:
-            katmanlar = json.loads(tarif.read_text(encoding="utf-8")).get("katmanlar")
-        except (OSError, ValueError, AttributeError):
-            katmanlar = None
-        if not isinstance(katmanlar, list) or not all(isinstance(k, dict) for k in katmanlar):
-            sonuc.append(_k(f"hareket {g.stem}: tarif okunur", False, f"{tarif.name} yok ya da bozuk"))
-            continue
-        bilinmeyen = sorted({str(k.get("etki")) for k in katmanlar if k.get("etki") not in ETKILER})
-        sonuc += [
-            _k(f"hareket {g.stem}: bilinen etkiler", not bilinmeyen, ", ".join(bilinmeyen)),
-            _k(f"hareket {g.stem}: en az {HAREKET_EN_AZ_KATMAN} katman", len(katmanlar) >= HAREKET_EN_AZ_KATMAN,
-               f"{len(katmanlar)} katman"),
-            _k(f"hareket {g.stem}: müzikle bağlı katman", any(muzikle_bagli(k) for k in katmanlar)),
-        ]
-    return sonuc
+        return [_k("durağan görsel: görsel var", False, "gorsel/NN.png yok")]
+    tarifli = [g.stem for g in gorseller if g.with_name(f"{g.stem}_hareket.json").exists()]
+    return [_k("durağan görsel: hareket katmanı yok", not tarifli, ", ".join(tarifli))]
 
 
 def rapor(gorev: dict, ayar: dict, siyah_kontrol: bool = True) -> dict:
@@ -260,7 +250,8 @@ def rapor(gorev: dict, ayar: dict, siyah_kontrol: bool = True) -> dict:
         saat = round(bolumler["toplam_sn"] / 3600)
         kontroller += kapak(kapaklar, kapak_yazilari(gorev, ayar, saat), ayar)
         kontroller += video(out / "video.mp4", bolumler, ayar, siyah_kontrol)
-        kontroller += shorts(sorted(out.glob("short_?.mp4")), ayar)
+        if ayar["shorts"].get("acik", True):  # G12: Shorts ilk 5 uzun videodan sonra açılır
+            kontroller += shorts(sorted(out.glob("short_?.mp4")), ayar)
     else:
         kontroller.append(_k("bolumler.json var (ses istasyonu çalıştı)", False))
     sonuc = {"gorev": gorev["no"], "gecti": all(k["gecti"] for k in kontroller), "kontroller": kontroller}

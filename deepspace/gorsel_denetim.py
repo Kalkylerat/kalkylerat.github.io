@@ -44,6 +44,11 @@ KONTROL_LISTESI = [
 ]
 
 
+# Simsiyah alan sınırı (G13, 11 Kasım 2026): konsept karanlık uzay manzarasıdır; derin siyah gökyüzü doğaldır.
+# Yalnız neredeyse tamamen boş (siyah) kare kalır.
+EZIK_SINIR = 0.75
+
+
 def teknik_olcum(yol: Path) -> dict:
     with Image.open(yol) as im:
         w, h = im.size
@@ -76,7 +81,7 @@ def teknik_sorunlar(o: dict) -> list[str]:
         s.append(f"pozlama aşırı ({o['ort_parlaklik']})")
     if o["yanik"] > 0.08:
         s.append(f"yanık alan fazla (%{o['yanik'] * 100:.0f})")
-    if o["ezik"] > 0.40:
+    if o["ezik"] > EZIK_SINIR:
         s.append(f"simsiyah alan fazla (%{o['ezik'] * 100:.0f})")
     if o["netlik"] < 1.0:
         s.append(f"görsel bulanık (netlik {o['netlik']})")

@@ -108,6 +108,10 @@ def test_G4_tohum_hedef_ve_ses_tekrari_yakalanir(tmp_path):
     g3 = _gorev(tmp_path, hedef="Vega", tohum=5)
     assert "ses daha önce yüklenmemiş" in _kirmizi(kapilar.ozgunluk(g3, kayit, ["abc", "def"]))
     assert not _kirmizi(kapilar.ozgunluk(g3, kayit, ["xyz", "def"]))
+    g3["derleme"] = True       # derleme: kendi seslerimiz tekrar edebilir, ama en az 4 görevden sonra
+    assert "derleme en az 4 yayımlanmış görevden" in _kirmizi(kapilar.ozgunluk(g3, kayit, ["abc"]))
+    kayit4 = {"gorevler": [{"no": n, "hedef": f"H{n}", "tohum": n, "ses_ozetleri": ["abc"]} for n in range(10, 14)]}
+    assert not _kirmizi(kapilar.ozgunluk(g3, kayit4, ["abc"]))
 
 
 def test_G4_her_parcanin_kendi_sahnesi(tmp_path):
@@ -158,7 +162,7 @@ def test_G5_istemde_yasak_kelime_ve_vokal(tmp_path):
 def test_G5_gorev_001_kapidan_gecer():
     g, a = ortak.gorev_yukle(GOREV_001)
     assert not _kirmizi(kapilar.gorev_dosyasi(g, a))
-    assert g["hedef"] in [p["ad"] for p in g["parca"]]
+    assert any(p["ad"].startswith(g["hedef"]) for p in g["parca"])   # görevin hedefi rotanın sonundadır
 
 
 # ---------- G6 ----------
@@ -172,7 +176,7 @@ def test_G6_sahne_kusursuz_doner(tur):
 
 
 def test_G6_video_boyutu_ve_ucretli_servis_yok():
-    assert (AYAR["video"]["genislik"], AYAR["video"]["yukseklik"]) == (3840, 2160)
+    assert (AYAR["video"]["genislik"], AYAR["video"]["yukseklik"]) == (2560, 1440)   # 1440p (G6)
     for dosya in (KOK / "deepspace").glob("*.py"):
         metin_ = dosya.read_text(encoding="utf-8")
         assert not re.search(r"^\s*(import|from)\s+(anthropic|openai|elevenlabs)", metin_, re.M), dosya.name
@@ -286,6 +290,22 @@ def test_G7_kapak_en_fazla_3_kelime_ve_3_varyant(tmp_path):
         yazilar = kapak.kapak_yazilari({"seri": ad}, AYAR, 2)
         assert sum(len(y.split()) for y in yazilar) <= AYAR["metin"]["kapak_max_kelime"]
     assert len(kapak.VARYANTLAR) == 3
+    g, a = ortak.gorev_yukle(GOREV_001)
+    assert kapak.kapak_yazilari(g, a, 2) == ["001", "SEVEN WORLDS"]          # seri adı ve süre kapakta yok
+    assert len(set(kapak.kapak_parcalari(g))) == 3                           # üç ayrı sahne
+    assert "TRAPPIST-1" in kapak.veri_satiri(g) and "RA " in kapak.veri_satiri(g)
+
+
+def test_G7_kapak_gorselden_ve_ust_yazilar(tmp_path):
+    from PIL import Image
+    g = _gorev(tmp_path, n=3, no=2)
+    g["ad"], g["koordinat"] = "Test Run", "RA 1h  DEC 2"
+    yol = tmp_path / "g.png"
+    Image.fromarray(np.full((720, 1280, 3), 40, np.uint8)).save(yol)
+    img = kapak.kapak_ciz(yol, g, AYAR, "sol_ust", 2)
+    assert img.size == (1280, 720)
+    a = np.asarray(img).astype(int)
+    assert a[100:300, 80:600].max() > 200 and a[690:720, 0:1280].mean() < 60   # başlık yazılı, alt sakin
 
 
 # ---------- G8 ----------
@@ -325,6 +345,24 @@ def test_G8_denetci_karari_24_saat_ve_iptal(tmp_path):
         google.onay_yaz(kirmizi, "denetci", "2026-11-12T13:00:00Z", simdi=simdi)
 
 
+def test_G8_ilk_bes_gorevde_karar_sahibinin(tmp_path):
+    from datetime import datetime, timezone
+    from deepspace import google
+    out = _hazir_cikti(tmp_path)
+    (tmp_path / "gorev.toml").write_text("no = 1\n", encoding="utf-8")
+    simdi = datetime(2026, 11, 10, 12, 0, tzinfo=timezone.utc)
+    with pytest.raises(google.GoogleHatasi, match="sahibinin ok"):
+        google.onay_yaz(out, "denetci", "2026-11-11T13:00:00Z", simdi=simdi)
+    google.onay_yaz(out, "sahip", "2026-11-11T13:00:00Z", simdi=simdi)
+    assert google.onay_kontrol(out)["karar_veren"] == "sahip"
+    (tmp_path / "gorev.toml").write_text("no = 6\n", encoding="utf-8")
+    google.onay_yaz(out, "denetci", "2026-11-11T13:00:00Z", simdi=simdi)   # 6. görevden sonra denetçi
+
+
+def test_G12_shorts_ilk_bes_videoya_kadar_kapali():
+    assert AYAR["shorts"]["acik"] is False
+
+
 def test_G8_yukleme_gizli_ve_planli():
     from deepspace import google
     g = google.youtube_govdesi({"baslik": "T", "aciklama": "A", "etiketler": []}, None)
@@ -360,13 +398,15 @@ def test_G8_devam_ettirilebilir_yukleme_parcalari(tmp_path, monkeypatch):
 
 
 # ---------- G9 ----------
+YENI_NOT = "Visuals are artist's impressions. The worlds are real."
+
 def test_G9_sentetik_icerik_etiketi_ve_aciklama(tmp_path):
     g = _gorev(tmp_path)
     _yaz_bolumler(g, _bolumler([450] * 16))
     yt = metin.uret(g, AYAR)
     assert yt["sentetik_icerik"] is True                       # Studio beyanı kalır
     assert not re.search(r"\bAI\b|artificial", yt["aciklama"])  # metin yapay zekâyı ayrıca anmaz (sahibinin kararı)
-    assert "Visuals are artistic impressions based on real scientific data." in yt["aciklama"]
+    assert YENI_NOT in yt["aciklama"] and "every week" not in yt["aciklama"] and "sleep" in yt["aciklama"]
 
 
 def test_G9_metinler_ai_anmaz_ama_yalan_da_soylemez():
@@ -507,8 +547,8 @@ def test_G14_kart_tekrar_etmez_kaymaz_birlikte_kaybolur(tmp_path):
     n = int(fps * sure)
     muzik = {"zarf": np.full(n, 0.5, np.float32), "spektrum": np.full((n, 40), 0.3, np.float32)}
     kisa = "one of seven Earth-size worlds · 40 light-years"
-    uzun = ("One of seven Earth-size planets around the cool red star TRAPPIST-1, about 40 light-years away, "
-            "and among the most promising for liquid water.")
+    uzun = ("One of seven Earth-size planets around a cool red star, 40 light-years away. Among the most "
+            "promising worlds for liquid water. Its year lasts about six days.")
     bilgi = {"ad": "TRAPPIST-1e", "kisa": kisa, "bilgi": uzun, "gorev_no": 1, "hedef": "TRAPPIST-1",
              "parca_no": 16, "parca_say": 20, "sonraki": "Y"}
     s = SeyirDefteri(g, [], W, H, fps, sure, muzik, bilgi)
@@ -525,8 +565,40 @@ def test_G14_kart_tekrar_etmez_kaymaz_birlikte_kaybolur(tmp_path):
         else:
             sayfalar.append(satirlar)
         onceki = (etiket, satirlar)
-    assert sum(sayfalar, []) == textwrap.wrap(uzun, KART_SUTUN)   # bilgi bir kez, sırayla, kaymadan
+    assert " ".join(" ".join(x) for x in sayfalar) == uzun        # bilgi bir kez, sırayla, kaymadan
+    assert all(x[-1].endswith(".") for x in sayfalar)            # cümle iki karta bölünmez (sahibinin isteği)
+    assert all(len(x) <= 3 and all(len(y) <= KART_SUTUN for y in x) for x in sayfalar)
     assert s._kart(119.0) is None
+
+
+def test_G14_kart_sayfasi_cumleyi_bolmez():
+    from deepspace.defter import kart_sayfalari
+    metin = ("The innermost of seven Earth-size planets around a cool red star. A year there lasts a day and a "
+             "half. Webb's measurements suggest bare rock without a thick atmosphere.")
+    sayfalar = kart_sayfalari(metin)
+    assert len(sayfalar) >= 2 and all(x[-1].endswith(".") for x in sayfalar)
+    assert " ".join(" ".join(x) for x in sayfalar) == metin
+
+
+def test_G6_parca_gecisi_yumusak_ve_arayuz_soner(tmp_path):
+    from PIL import Image
+    from deepspace.defter import ACIK_SN, SONUK, SeyirDefteri
+    W, H, fps, sure = 320, 180, 4, 90.0
+    a, b, c = (tmp_path / f"{x}.png" for x in "abc")
+    for yol, v in ((a, 0), (b, 120), (c, 240)):
+        Image.fromarray(np.full((H, W, 3), v, np.uint8)).save(yol)
+    n = int(fps * sure)
+    muzik = {"zarf": np.full(n, 0.5, np.float32), "spektrum": np.full((n, 40), 0.3, np.float32)}
+    bilgi = {"ad": "X", "kisa": "x", "bilgi": "A fact.", "gorev_no": 1, "hedef": "X", "parca_no": 2,
+             "parca_say": 20, "sonraki": "Y"}
+    s = SeyirDefteri(b, [], W, H, fps, sure, muzik, bilgi, onceki=a, sonraki=c, gecis_sn=8.0)
+    assert s.gecis_agirligi(0.0) == (0.5, 0.0) and s.gecis_agirligi(sure) == (0.0, 0.5)
+    assert s.gecis_agirligi(sure / 2) == (0.0, 0.0)
+    orta = (slice(80, 100), slice(140, 180))
+    assert s.kare(0)[orta].mean() == pytest.approx(60, abs=3)          # kesimde iki görselin yarısı
+    assert s.kare(int(sure / 2 * fps))[orta].mean() == pytest.approx(120, abs=3)
+    parlak = lambda t: sum(p[..., 3].sum() for _, _, p in s._hud(t, int(t * fps)))  # noqa: E731
+    assert parlak(ACIK_SN + 30) < parlak(ACIK_SN - 20) and SONUK >= 0.5
 
 
 def test_G14_katman_muzik_bagi(tmp_path):
@@ -539,27 +611,25 @@ def test_G14_katman_muzik_bagi(tmp_path):
     assert fark(gur) > fark(sessiz) * 1.5   # 0.7 + 0.6·zarf
 
 
-def test_G14_hareket_kapisi_en_az_3_katman_biri_muzikle(tmp_path):
+def test_G14_gorsel_durağan_hareket_tarifi_yok(tmp_path):
     g = _gorev(tmp_path, n=1, no=2)
     (tmp_path / "gorsel").mkdir()
     _resim(tmp_path / "gorsel" / "01.png", 64, 36)
-    assert _kirmizi(kapilar.hareket(g))                        # tarif yok
-    tarif = tmp_path / "gorsel" / "01_hareket.json"
-    tarif.write_text(json.dumps({"katmanlar": [{"etki": "toz"}, {"etki": "yildiz"}]}), encoding="utf-8")
-    assert _kirmizi(kapilar.hareket(g))
-    tarif.write_text(json.dumps({"katmanlar": [{"etki": "toz"}, {"etki": "yildiz"}, {"etki": "uydu"}]}),
-                     encoding="utf-8")
-    assert _kirmizi(kapilar.hareket(g))                        # müzikle bağlı katman yok
-    tarif.write_text(json.dumps({"katmanlar": [{"etki": "toz"}, {"etki": "yildiz"},
-                                               {"etki": "isik", "nabiz": "muzik"}]}), encoding="utf-8")
-    assert not _kirmizi(kapilar.hareket(g))
-    tarif.write_text("{bozuk", encoding="utf-8")
-    assert _kirmizi(kapilar.hareket(g))
-    tarif.write_text(json.dumps({"katmanlar": [{"etki": "toz"}, {"etki": "yildiz"}, {"etki": "bukme", "muzik": True}]}),
-                     encoding="utf-8")
-    assert _kirmizi(kapilar.hareket(g))                        # bilinmeyen etki (G14: bükme yok)
+    assert not _kirmizi(kapilar.hareket(g))                    # durağan görsel: tarif gerekmez
+    (tmp_path / "gorsel" / "01_hareket.json").write_text(json.dumps({"katmanlar": [{"etki": "toz"}]}),
+                                                         encoding="utf-8")
+    assert _kirmizi(kapilar.hareket(g))                        # sahte ışık katmanı videoya girmez
     bos = _gorev(tmp_path / "bos", n=1, no=2)
-    assert _kirmizi(kapilar.hareket(bos))                      # görsel yoksa hareket istasyonu geçemez
+    assert _kirmizi(kapilar.hareket(bos))                      # görsel yoksa istasyon geçemez
+
+
+def test_G14_bilgi_cumlesi_karta_sigar_ve_adi_tekrar_etmez(tmp_path):
+    g = _gorev(tmp_path, n=1, no=2)
+    ad = g["parca"][0]["ad"]
+    g["parca"][0]["bilgi"] = "A short fact. " + "This one sentence is far too long to fit on three lines of the card " * 2
+    assert any(not k["gecti"] and "karta sığar" in k["ad"] for k in kapilar.gorev_dosyasi(g, AYAR))
+    g["parca"][0]["bilgi"] = f"{ad} is a world. A year there lasts six days."
+    assert any(not k["gecti"] and "adını tekrar" in k["ad"] for k in kapilar.gorev_dosyasi(g, AYAR))
 
 
 def test_G2_bolum_kesimleri_capraz_gecisin_ortasinda():
@@ -603,13 +673,12 @@ def test_G14_uzun_video_defter_modunda(tmp_path):
     assert not (ortak.cikti(g) / "bolum").exists()             # eski sinemagraf yolu çalışmadı
 
 
-def test_G13_defter_modunda_gorselsiz_parca_kod_sahnesine_duser(tmp_path):
+def test_G13_defter_modunda_gorselsiz_parca_video_uretmez(tmp_path):
     g, ayar, b = _defter_gorevi(tmp_path)
     (tmp_path / "gorsel" / "02.png").unlink()      # iki denemede de kalan görsel çıkarıldı
-    yol = video.uzun_video(g, ayar)
-    assert ortak.ffprobe_sure(yol) == pytest.approx(b["toplam_sn"], abs=0.3)
-    assert kapilar.ses_duyuluyor(yol)[0]
-    assert not any((ortak.cikti(g) / "ara").iterdir())
+    with pytest.raises(FileNotFoundError):         # kod sahnesine düşmez, video çıkmaz (G6)
+        video.uzun_video(g, ayar)
+    assert not (ortak.cikti(g) / "video.mp4").exists()
 
 
 def test_G12_en_iyi_aralik_kenarlari_ve_sessizligi_atlar():
@@ -802,7 +871,7 @@ def test_G12_short_uretimi_plan_ve_kapilar(tmp_path):
     assert ortak.ffprobe_sure(yollar[0]) == pytest.approx(6.0, abs=0.3)
     m = json.loads((ortak.cikti(g) / "shorts.json").read_text(encoding="utf-8"))
     assert m[0]["baslik"].startswith("Red sun · World 2") and "#Shorts" in m[0]["baslik"]
-    assert len(m[0]["baslik"]) <= 100 and "{UZUN_VIDEO}" in m[0]["aciklama"] and "artistic impressions" in m[0]["aciklama"]
+    assert len(m[0]["baslik"]) <= 100 and "{UZUN_VIDEO}" in m[0]["aciklama"] and "artist's impressions" in m[0]["aciklama"]
     assert not _kirmizi(kapilar.metin_temel(m[0], ayar))
     assert not _kirmizi(shorts.istasyon_kapilari(g, ayar))
     plan[0]["sure_sn"] = 30                                     # kırmızı plan: üretim durur
@@ -929,7 +998,7 @@ def test_G17_arastirma_basligi_pakete_girer_yasakliysa_sablon(tmp_path):
 
 
 def test_G9_surec_notu_gorsellerin_kaynagini_dogru_soyler():
-    assert "artistic impressions" in metin.SUREC_NOTU and "generated with code" not in metin.SUREC_NOTU
+    assert "artist's impressions" in metin.SUREC_NOTU and "generated with code" not in metin.SUREC_NOTU
     skill = (KOK / ".claude" / "skills" / "youtube" / "SKILL.md").read_text(encoding="utf-8")
     assert "## 8. YouTube uzmanı ajanı" in skill and "oneriler.json" in skill and "kararlar.json" in skill
     assert (KOK / "deepspace" / "buyume" / "README.md").exists()
@@ -1153,7 +1222,8 @@ def test_G16_sablon_yazilari_telefon_kuralini_saglar():
     assert m["sablon"]["kapak_etiket"] >= 0.02 * 720
     assert m["sablon"]["short_etiket"] >= 0.02 * 1920
     assert "Earth-like" not in m["gorsel"]["stil_eki"]
-    assert "Earth-like" in m["gorsel"]["stil_eki_001"]  # 001'in istemleri geriye dönük okunur
+    assert "stil_eki_001" not in m["gorsel"]                  # 11 Kasım 2026: tek görsel dili
+    assert "no vehicles" in m["gorsel"]["stil_eki"] and "no probes" in m["gorsel"]["stil_eki"]
     assert m["yazi"]["baslik_font"].startswith("SpaceMono")
 
 

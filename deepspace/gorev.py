@@ -18,6 +18,13 @@ Google (deepspace/KURULUM.md):
     python -m deepspace.gorev yukle   <klasör>                           # YouTube'a gizli/planlı yükleme
 
 Tek tek istasyonlar: ses, sahneler, video, kapak, metin, shorts.
+
+İş bölümü ve denetim kilidi (G15, G16; görev 002'den itibaren):
+    python -m deepspace.gorev durum   <klasör>                           # istasyonlar, kararlar, sıradaki iş
+    python -m deepspace.gorev kilit   <klasör> --istasyon video          # çıkış 0 açık, 3 kilitli
+    python -m deepspace.gorev denetim <klasör> --istasyon X --karar GECTI|KALDI [--bulgu "kod:not"] [--kanit yol]
+    python -m deepspace.gorev denetim --istasyon marka --karar GECTI     # kanal düzeyinde marka kiti
+    python -m deepspace.gorev marka --onay --kim sahip                   # sahibinin bir kerelik kit onayı
 """
 from __future__ import annotations
 
@@ -29,7 +36,7 @@ import time
 from datetime import date
 from pathlib import Path
 
-from . import kapak, kapilar, metin, ses, video
+from . import is_kaydi, kapak, kapilar, metin, ses, video
 from .ortak import KAYIT_DOSYASI, ayar_yukle, cikti, gorev_yukle, kayit_yukle, sure_oku
 
 
@@ -89,6 +96,38 @@ def kaydet(gorev: dict, youtube_id: str | None) -> dict:
     kayit["gorevler"].sort(key=lambda g: g["no"])
     KAYIT_DOSYASI.write_text(json.dumps(kayit, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     return kayit
+
+
+# Komut -> çalışması için kendinden önceki her istasyonun GEÇTİ olması gereken istasyon (G15).
+KOMUT_ISTASYONU = {"istemler": "konsept", "ses": "ses", "sahneler": "video", "video": "video", "shorts": "shorts",
+                   "shorts-analiz": "shorts", "kapak": "paket", "metin": "paket", "onay": "karar", "yukle": "karar"}
+
+
+def durum_yaz(klasor: Path) -> None:
+    d = is_kaydi.durum(klasor)
+    for s in d["istasyonlar"]:
+        isaret = "+" if s["gecerli"] else "-"
+        sef = "  << ŞEFTE (3 tur)" if s["sefte"] else ""
+        print(f"{isaret} {s['ad']:<10} {s['karar'] or '-':<6} tur {s['tur']}  {s['neden']}{sef}")
+    print(f"sıradaki: {d['siradaki'] or 'yok (hepsi geçerli)'}")
+
+
+def denetim(gorev: dict | None, ayar: dict | None, a) -> int:
+    """Denetçinin kararı. Önce kod kapıları çalışır; kırmızı varken GEÇTİ yazılamaz (G15)."""
+    bulgular = [{"kod": k.strip(), "not": n.strip(), "kanit": a.kanit or ""}
+                for k, _, n in (b.partition(":") for b in a.bulgu)]
+    kirmizi = [] if gorev is None else [f"{k['ad']} {k['ayrinti']}".strip()
+                                        for k in is_kaydi.kapi_kontrolleri(gorev, ayar, a.istasyon) if not k["gecti"]]
+    klasor = None if gorev is None else Path(gorev["klasor"])
+    try:
+        yol = is_kaydi.kayit_yaz(klasor, a.istasyon, a.karar, a.kim or "denetci", bulgular, kirmizi)
+    except is_kaydi.KilitHatasi as e:
+        print(f"KİLİTLİ: {e}")
+        return 3
+    for k in kirmizi:
+        print(f"  kırmızı kapı: {k}")
+    print(yol)
+    return 0
 
 
 def _adim(ad: str, is_):
@@ -180,10 +219,13 @@ def denetle(gorev: dict, a) -> int:
 
 
 def main(argv: list[str] | None = None) -> int:
+    for akis in (sys.stdout, sys.stderr):  # Windows konsolu cp1252: Türkçe çıktı çökmesin
+        if hasattr(akis, "reconfigure"):
+            akis.reconfigure(encoding="utf-8", errors="replace")
     ap = argparse.ArgumentParser(prog="deepspace.gorev")
     ap.add_argument("komut", choices=["istemler", "ses", "sahneler", "video", "kapak", "metin", "shorts", "kontrol",
                                       "hepsi", "kaydet", "kanal", "al", "teslim", "onay", "iptal", "yukle",
-                                      "gorseller", "denetle", "ornek"])
+                                      "gorseller", "denetle", "ornek", "durum", "kilit", "denetim", "marka"])
     ap.add_argument("--drive", help="Drive klasör yolu, ör. DeepSpaceLog/001")
     ap.add_argument("--kim", help="karar veren (varsayılan: denetci)")
     ap.add_argument("--neden", help="iptal nedeni")
@@ -196,6 +238,11 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--ses", help="ornek: ses dosyası (wav/mp3)")
     ap.add_argument("--boyut", default="1920x1080", help="ornek: GENxYUK (varsayılan 1920x1080)")
     ap.add_argument("--mod", default="defter", choices=["defter", "sinemagraf"], help="ornek: sahne modu")
+    ap.add_argument("--istasyon", choices=is_kaydi.ISTASYONLAR, help="kilit/denetim: istasyon adı")
+    ap.add_argument("--karar", choices=["GECTI", "KALDI"], help="denetim: denetçinin kararı")
+    ap.add_argument("--bulgu", action="append", default=[], help="denetim: kod:not (tekrarlanabilir)")
+    ap.add_argument("--kanit", help="denetim: kanıt dosyası yolu")
+    ap.add_argument("--onay", action="store_true", help="marka: sahibinin bir kerelik kit onayı (G16)")
     ap.add_argument("--siyah-kontrolu-yok", action="store_true", help="hızlı deneme için siyah ekran taramasını atla")
     a = ap.parse_args(argv)
 
@@ -203,9 +250,47 @@ def main(argv: list[str] | None = None) -> int:
         for y in kapak.kanal_gorselleri(ayar_yukle()):
             print(y)
         return 0
+    if a.komut == "marka":
+        if not a.onay:
+            ap.error("marka: --onay gerekli")
+        try:
+            print(is_kaydi.sahip_onayi_yaz(a.kim or "sahip"))
+        except is_kaydi.KilitHatasi as e:
+            print(f"KİLİTLİ: {e}")
+            return 3
+        return 0
+    if a.komut in ("kilit", "denetim") and not a.istasyon:
+        ap.error(f"{a.komut}: --istasyon gerekli")
+    if a.komut == "denetim" and not a.karar:
+        ap.error("denetim: --karar gerekli")
+    if a.komut == "denetim" and a.istasyon == "marka":
+        return denetim(None, None, a)
     if not a.klasor:
         ap.error("görev klasörü gerekli")
     gorev, ayar = gorev_yukle(Path(a.klasor))
+    klasor = Path(gorev["klasor"])
+
+    if a.komut == "durum":
+        durum_yaz(klasor)
+        return 0
+    if a.komut == "kilit":
+        ok, neden = is_kaydi.kilit(klasor, a.istasyon, gorev["no"])
+        print(f"{a.istasyon}: {'AÇIK' if ok else 'KİLİTLİ'} ({neden})")
+        return 0 if ok else 3
+    if a.komut == "denetim":
+        return denetim(gorev, ayar, a)
+    if a.komut in KOMUT_ISTASYONU:
+        ist = KOMUT_ISTASYONU[a.komut]
+        ok, neden = is_kaydi.kilit(klasor, ist, gorev["no"])
+        if ok and a.komut == "yukle" and gorev["no"] >= ayar["is_bolumu"]["kilit_baslangic"]:
+            ok, neden = is_kaydi.gecerli_mi(klasor, "karar")
+            neden = f"karar: {neden}"
+        if not ok:
+            print(f"KİLİTLİ ({ist}): {neden}")
+            return 3
+    if a.komut == "hepsi" and gorev["no"] >= ayar["is_bolumu"]["kilit_baslangic"]:
+        print("KİLİTLİ: görev 002'den itibaren istasyonlar sırayla, denetimle çalıştırılır (G15). `gorev durum` bak.")
+        return 3
 
     if a.komut == "istemler":
         print(istemler(gorev, ayar))

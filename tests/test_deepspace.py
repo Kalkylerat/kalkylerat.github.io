@@ -598,3 +598,33 @@ def test_G16_marka_sahip_onayi_olmadan_gecersiz(tmp_path, monkeypatch):
     assert is_kaydi.gecerli_mi(None, "marka")[0]
     (tmp_path / "marka" / "banner.jpg").write_bytes(b"2")     # kit değişti
     assert not is_kaydi.gecerli_mi(None, "marka")[0]
+
+
+def test_G15_komut_kilidi_cikis_3(tmp_path, monkeypatch, capsys):
+    from deepspace import gorev as cli, is_kaydi
+    monkeypatch.setattr(cli, "gorev_yukle", lambda k: (_gorev(tmp_path, no=2), AYAR))
+    monkeypatch.setattr(is_kaydi, "gecerli_mi", lambda k, i: (False, "denetim yok"))
+    assert cli.main(["video", str(tmp_path)]) == 3
+    assert cli.main(["hepsi", str(tmp_path)]) == 3
+    assert "marka" in capsys.readouterr().out
+
+
+def test_G16_onaysiz_marka_kitiyle_kapak_ve_video_calismaz(tmp_path, monkeypatch):
+    from deepspace import gorev as cli, is_kaydi
+    monkeypatch.setattr(cli, "gorev_yukle", lambda k: (_gorev(tmp_path, no=2), AYAR))
+    monkeypatch.setattr(is_kaydi, "gecerli_mi", lambda k, i: (i != "marka", "sahip onayı yok"))
+    assert cli.main(["kapak", str(tmp_path)]) == 3
+    assert cli.main(["video", str(tmp_path)]) == 3
+
+
+def test_G15_001_kilit_disi_ve_denetim_komutu(tmp_path, monkeypatch):
+    from deepspace import gorev as cli, is_kaydi
+    monkeypatch.setattr(cli, "gorev_yukle", lambda k: (_gorev(tmp_path, no=1), AYAR))
+    assert cli.main(["durum", str(tmp_path)]) == 0
+    assert cli.main(["kilit", str(tmp_path), "--istasyon", "video"]) == 0
+    _istasyon_gorevi(tmp_path, no=1)
+    assert cli.main(["denetim", str(tmp_path), "--istasyon", "arastirma", "--karar", "KALDI",
+                     "--bulgu", "kaynak:rakam kaynaksız"]) == 0
+    k = is_kaydi.kayit_oku(tmp_path, "arastirma")
+    assert k["karar"] == "KALDI" and k["bulgular"][0] == {"kod": "kaynak", "not": "rakam kaynaksız", "kanit": ""}
+    assert cli.main(["denetim", str(tmp_path), "--istasyon", "video", "--karar", "GECTI"]) == 3

@@ -3,6 +3,23 @@
 Bu dosya yeni bir Claude Code oturumunun (yerel terminal) kaldığımız yerden devam etmesi için. Önce bunu, sonra
 `SOZLESME.md` G bölümünü ve `.claude/skills/deep-space-log/SKILL.md`'yi oku. Sahibiyle Türkçe konuş.
 
+## Yarım iş (12 Kasım 2026): görsel dili rehberi + görsel ajanı Fable + 3 deneme görseli
+Sahibi onayladı ("önerilerini uygula"). Durum:
+1. **Commit edilmemiş, testler şu an KIRMIZI (beklenen):** `SOZLESME.md` G16'ya rehber cümlesi eklendi;
+   `tests/test_deepspace.py`'de `test_G15_ajan_dosyalari` gorsel-yonetmeni modelini `"fable"` bekliyor ve yeni
+   `test_G16_gorsel_dili_rehberi_tek_kaynak` var.
+2. Fable bir alt ajanda (model fable) şunları yazıyordu: `.claude/skills/gorsel-dili/SKILL.md`, ayrıca
+   `.claude/agents/gorsel-yonetmeni.md` ve `gorsel-denetcisi.md` gövdelerini (ön bölüme dokunmadan). Dosyalar yoksa ya da
+   yarımsa Fable'a (Agent, model fable) yeniden yazdır; girdi listesi: SOZLESME G bölümü, marka.toml, gorsel_denetim.py,
+   kapak.py, defter.py, inceleme raporu, arastirma.md §6, 001/002 gorev.toml, gorsel/17.png, hafıza notları
+   konsept-sabit / gorsel-stil-sade-ufuk / ozgunluk-referans-klonlama.
+3. Sonra şef: `gorsel-yonetmeni.md` ön bölümünde `model: fable` yap → `py -m pytest -q` yeşil → commit + push.
+4. 3 deneme görseli (001): parça 14 TRAPPIST-1b, 20 TRAPPIST-1h, 05 Sirius. gorsel-yonetmeni ajanı rehberle üretir
+   (FLUX 3, 2K, `generations_count=1`, görsel başı ~1.454 ElevenLabs kredisi, toplam ~4.400), gorsel-denetcisi
+   bağımsız denetler, sonuç sahibine gönderilir. Beğenirse kalan 16.
+5. Sahibinin bekleyen işi: Suno "DSL 001 Seven Worlds"te parça başına beğendiği versiyonu işaretlemek; sonra yalnız
+   seçilenler indirilir (`ses/NN-ad.mp3`).
+
 ## Güncel durum (11 Kasım 2026 gece): konsept sabit, bağımsız inceleme uygulandı
 Bu bölüm aşağıdaki bütün eski notların üstündedir; çelişirse bu geçerlidir.
 - **Konsept (G1, sahibinin onayıyla sabit):** her görev PROBE-7'nin 20 gerçek durağı; görsel PROBE-7'nin kamerası

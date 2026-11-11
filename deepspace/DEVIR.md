@@ -57,8 +57,10 @@ claude -c --model claude-opus-5-5 --effort high                                 
 ```
 
 ## Nerede kaldık
-- **Kanal**: Köz (`@kozruh`, UCtJHvFs1UuIKwTUhcWVyWIg, 7 abone, video yok) → "Deep Space Log". Sahibi adı/handle'ı
-  Studio'da değiştirecek; metinler `deepspace/kanal.md`.
+- **Kanal**: "Deep Space Log" (`@deepspacelogmusic`, UCtJHvFs1UuIKwTUhcWVyWIg, 7 abone, video yok; eski Köz/@kozruh).
+  11 Kasım 2026'da Claude, sahibin "yap" onayıyla Chrome'dan Studio'da değiştirdi: ad, handle, profil, banner,
+  filigran (videonun sonunda), açıklama ve anahtar kelimeler (`deepspace/kanal.md`). Sahibin Chrome'u bağlı ve
+  YouTube oturumu açık; Drive'dan dosya indirme de aynı Chrome'dan yapılabilir.
 - **Hat** (`deepspace/`): ses → sahne/canlı tablo → 4K video → 3 kapak → metin → 3 Shorts → kapılar (`rapor.json`).
   Bulutta uçtan uca denendi (34/34 kapı yeşil). Komutlar: `py -m deepspace.gorev hepsi deepspace/gorevler/001-trappist`.
 - **Görev 001 TRAPPIST-1e**: 20 parça, ~124 dk (sahibi: "20 şarkı, 2 saat"). İstemler `gorevler/001-trappist/SUNO.md`;

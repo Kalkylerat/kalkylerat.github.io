@@ -6,6 +6,13 @@ Görüntü hiç bükülmez (SOZLESME G14). Hareket yalnızca resmin ÜSTÜNE ekl
   toz      ışıkta süzülen ince toz: yavaş yatay sürüklenme, derinliğe göre boy/parlaklık. {kutu, adet, renk, hiz}
   goktasi  seyrek, soluk göktaşı çizgisi. {kutu, aralik: [min, max] sn, parlaklik}
   yildiz   karanlık gökte pırıltı (yalnız parlaklığı düşük piksellerde). {kutu, adet, esik}
+  isaret_lambasi  istasyon/uydu işaret lambası: isik + yanip_son (varsayılan kırmızı, 2 sn). {merkez, renk, periyot}
+  pencereler      istasyon pencereleri: her ışık ortalama 20 sn'de bir yanar/söner, 1 sn'de yumuşak geçer. {kutu, adet}
+  kutup_isigi     kutup ışığı: görüntünün kendi parlaklığıyla çarpılan, yatay dalgalı ekleyici nabız. {kutu, periyot}
+  halka_piriltisi halkadaki buz parçacıkları: yalnız parlak piksellerde (lum > 0.35) yanıp sönen noktalar. {kutu, adet}
+  bulutsu_tulu    bulutsunun tülü: düşük frekanslı parlaklık dalgası, yavaşça kayar (piksel taşımaz). {kutu, guc, hiz}
+  uydu            yolda süzülen soluk nokta, seyrek geçiş. {yol: [[x0, y0], [x1, y1]], sure, aralik, parlaklik}
+Her katman `muzik: true` alabilir: gücü 0.7 + 0.6·zarf ile çarpılır. Kutulu katmanlar kutu dışındaki piksele dokunmaz.
 Marka kaydı (HUD): sol üst kanal ve görev, sağ üst görev saati, sol alt satır satır yazılan kayıt (gerçek bilgi
 `gorev.toml`'dan), sağ alt müziğin spektrumundan "sinyal" çizgisi. Tarif: `gorsel/NN_hareket.json` içinde "katmanlar".
 """
@@ -45,6 +52,14 @@ def _kapla(img: Image.Image, w: int, h: int) -> Image.Image:
     yeni = img.resize((math.ceil(img.width * oran), math.ceil(img.height * oran)), Image.LANCZOS)
     x, y = (yeni.width - w) // 2, (yeni.height - h) // 2
     return yeni.crop((x, y, x + w, y + h))
+
+
+ETKILER = ("isik", "toz", "goktasi", "yildiz", "isaret_lambasi", "pencereler", "kutup_isigi", "halka_piriltisi",
+           "bulutsu_tulu", "uydu")
+
+
+def muzikle_bagli(k: dict) -> bool:
+    return k.get("nabiz") == "muzik" or bool(k.get("muzik"))
 
 
 def _renk(h: str) -> np.ndarray:
@@ -94,12 +109,14 @@ def _hale(r: float, boy: int) -> np.ndarray:
     return (np.exp(-d2 * 2.0) + 0.35 * np.exp(-d2 * 0.25)).astype(np.float32)  # çekirdek + yumuşak hale
 
 
-def _ekle(kare: np.ndarray, sprite: np.ndarray, x: float, y: float, renk: np.ndarray, guc: float):
-    """sprite'ı (x, y) merkezine toplayarak ekler (ışık toplanır, görüntü bükülmez)."""
+def _ekle(kare: np.ndarray, sprite: np.ndarray, x: float, y: float, renk: np.ndarray, guc: float,
+          sinir: tuple[int, int, int, int] | None = None):
+    """sprite'ı (x, y) merkezine toplayarak ekler (ışık toplanır, görüntü bükülmez). sinir: piksel kutusu."""
     b = sprite.shape[0] // 2
     xi, yi = int(round(x)), int(round(y))
     H, W = kare.shape[:2]
-    x0, y0, x1, y1 = max(0, xi - b), max(0, yi - b), min(W, xi + b + 1), min(H, yi + b + 1)
+    X0, Y0, X1, Y1 = sinir or (0, 0, W, H)
+    x0, y0, x1, y1 = max(X0, xi - b), max(Y0, yi - b), min(X1, xi + b + 1), min(Y1, yi + b + 1)
     if x0 >= x1 or y0 >= y1 or guc <= 0:
         return
     s = sprite[y0 - (yi - b):y1 - (yi - b), x0 - (xi - b):x1 - (xi - b)]
@@ -127,9 +144,58 @@ class SeyirDefteri:
         self._kayit = self._kayit_satirlari()
         self._sabit = self._ust_sol()
 
+    def _kutu_px(self, kutu) -> tuple[int, int, int, int]:
+        x0, y0, x1, y1 = kutu
+        X0, Y0 = min(self.W - 1, max(0, int(x0 * self.W))), min(self.H - 1, max(0, int(y0 * self.H)))
+        return (X0, Y0, max(X0 + 1, min(self.W, math.ceil(x1 * self.W))),
+                max(Y0 + 1, min(self.H, math.ceil(y1 * self.H))))
+
     def _hazirla(self, k: dict, rng) -> dict:
         e = k["etki"]
-        if e == "isik":
+        if e == "isaret_lambasi":
+            k = {"yaricap": 0.004, "renk": "#ff5a3c", "periyot": 2.0, "guc": 0.8, **k, "etki": "isik",
+                 "nabiz": "yanip_son"}
+            e = "isik"
+        if e in ("pencereler", "kutup_isigi", "halka_piriltisi", "bulutsu_tulu"):
+            k["sinir"] = self._kutu_px(k.get("kutu", [0, 0, 1, 1]))
+            X0, Y0, X1, Y1 = k["sinir"]
+            yy = np.linspace(0, 1, Y1 - Y0, dtype=np.float32)[:, None]
+            xx = np.linspace(0, 1, X1 - X0, dtype=np.float32)[None, :]
+            k["kenar"] = np.sqrt(np.clip(np.sin(np.pi * yy) * np.sin(np.pi * xx), 0, 1)).astype(np.float32)  # kutu kenarında 0
+        if e == "pencereler":
+            n = int(k.get("adet", 12))
+            k["px"], k["py"] = rng.uniform(X0, X1, n), rng.uniform(Y0, Y1, n)
+            ort = float(k.get("ortalama_sn", 20.0))
+            k["acik0"] = rng.random(n) < 0.6
+            k["degisim"] = [np.cumsum(rng.exponential(ort, int(self.sure / ort * 3) + 8)) for _ in range(n)]
+            r = max(1.0, 0.0025 * self.W)
+            k["sprite"] = _hale(r, int(r * 6) + 2)
+            k["rgb"] = _renk(k.get("renk", "#ffd9a0"))
+        elif e == "kutup_isigi":
+            k["maske"] = (self.lum[Y0:Y1, X0:X1] * k["kenar"]).astype(np.float32)
+            k["xf"] = np.linspace(0, 1, X1 - X0, dtype=np.float32)[None, :] * TAU * 1.5  # perde dalgası
+            k["rgb"] = _renk(k.get("renk", "#5cffb0"))
+        elif e == "halka_piriltisi":
+            yy, xx = np.nonzero(self.lum[Y0:Y1, X0:X1] > k.get("esik", 0.35))
+            n = min(int(k.get("adet", 40)), len(yy))
+            sec = rng.choice(len(yy), n, replace=False) if n else np.array([], int)
+            k["px"], k["py"] = xx[sec] + X0 + 0.0, yy[sec] + Y0 + 0.0
+            k["faz"], k["w"] = rng.uniform(0, TAU, n), rng.uniform(0.15, 0.5, n)
+            r = max(0.8, 0.0018 * self.W)
+            k["sprite"] = _hale(r, int(r * 6) + 2)
+            k["rgb"] = _renk(k.get("renk", "#fff6e8"))
+        elif e == "bulutsu_tulu":
+            k["xx"] = (np.arange(X0, X1, dtype=np.float32) / self.W)[None, :]
+            k["yy"] = (np.arange(Y0, Y1, dtype=np.float32) / self.H)[:, None]
+            k["dalgalar"] = [(rng.uniform(1, 3), rng.uniform(-1.5, 1.5), rng.uniform(0, TAU)) for _ in range(3)]
+        elif e == "uydu":
+            (ax, ay), (bx, by) = k.get("yol", [[0.1, 0.2], [0.9, 0.3]])
+            k["a"], k["b"] = np.array([ax * self.W, ay * self.H]), np.array([bx * self.W, by * self.H])
+            k["faz"] = rng.uniform(0, k.get("aralik", 240))
+            r = max(0.9, 0.002 * self.W)
+            k["sprite"] = _hale(r, int(r * 6) + 2)
+            k["rgb"] = _renk(k.get("renk", "#f4f1ff"))
+        elif e == "isik":
             r = k.get("yaricap", 0.004) * self.W
             k["sprite"] = _hale(r, int(r * 6) + 2)
             k["rgb"] = _renk(k.get("renk", "#ffd9a0"))
@@ -280,6 +346,7 @@ class SeyirDefteri:
         zarf = float(self.muzik["zarf"][min(i, len(self.muzik["zarf"]) - 1)])
         for k in self.katmanlar:
             e = k["etki"]
+            carp = 0.7 + 0.6 * min(zarf, 1.0) if k.get("muzik") else 1.0
             if e == "isik":
                 x, y = k["merkez"][0] * self.W, k["merkez"][1] * self.H
                 p = k.get("periyot", 4.0)
@@ -290,7 +357,7 @@ class SeyirDefteri:
                     g = 0.75 + 0.25 * min(zarf, 1.0) + 0.05 * math.sin(TAU * t / p)
                 else:
                     g = 0.5 + 0.5 * math.sin(TAU * t / p)
-                _ekle(kare, k["sprite"], x, y, k["rgb"], k.get("guc", 0.5) * g)
+                _ekle(kare, k["sprite"], x, y, k["rgb"], k.get("guc", 0.5) * g * carp)
             elif e in ("toz", "yildiz"):
                 x0, y0, x1, y1 = (np.array(k.get("kutu", [0, 0, 1, 1])) * [self.W, self.H, self.W, self.H])
                 if e == "toz":
@@ -303,6 +370,7 @@ class SeyirDefteri:
                     px, py = k["px"], k["py"]
                     parlak = k.get("parlaklik", 0.6) * np.clip(np.sin(k["w"] * 3 * t + k["faz"]), 0, 1) ** 3
                     boy = 0.7 + 0.6 * k["z"]
+                parlak = parlak * carp
                 for x, y, p, b in zip(px, py, parlak, np.broadcast_to(boy, px.shape)):
                     if p > 0.01:
                         anah = min(k["sprite"], key=lambda q: abs(q - b * self.o))
@@ -316,11 +384,41 @@ class SeyirDefteri:
                         sx, sy = (x0 + ax * (x1 - x0)) * self.W, (y0 + ay * (y1 - y0)) * self.H
                         dx, dy = 260 * self.o, (90 + 80 * egim) * self.o
                         bas_x, bas_y = sx + dx * f, sy + dy * f
-                        isik = k.get("parlaklik", 0.5) * math.sin(math.pi * f)
+                        isik = k.get("parlaklik", 0.5) * math.sin(math.pi * f) * carp
                         for j in range(28):  # kuyruk
                             q = j / 28
                             _ekle(kare, k["sprite"], bas_x - dx * 0.35 * q, bas_y - dy * 0.35 * q, k["rgb"],
                                   isik * (1 - q) ** 2)
+            elif e == "pencereler":
+                for x, y, a0, dg in zip(k["px"], k["py"], k["acik0"], k["degisim"]):
+                    j = int(np.searchsorted(dg, t, side="right"))
+                    acik = bool(a0) ^ (j % 2 == 1)
+                    gecis = min(1.0, (t - dg[j - 1]) / 1.0) if j else 1.0  # 1 sn yumuşak geçiş
+                    oran = gecis if acik else 1 - gecis
+                    oran = oran * oran * (3 - 2 * oran)
+                    if oran > 0.005:
+                        _ekle(kare, k["sprite"], x, y, k["rgb"], k.get("guc", 0.6) * oran * carp, k["sinir"])
+            elif e == "kutup_isigi":
+                X0, Y0, X1, Y1 = k["sinir"]
+                dalga = 0.5 + 0.5 * np.sin(TAU * t / k.get("periyot", 9.0) + k["xf"])
+                kare[Y0:Y1, X0:X1] += (k["maske"] * dalga)[..., None] * k["rgb"] * (k.get("guc", 0.25) * carp)
+            elif e == "halka_piriltisi":
+                parlak = k.get("guc", 0.5) * carp * np.clip(np.sin(k["w"] * 3 * t + k["faz"]), 0, 1) ** 3
+                for x, y, p in zip(k["px"], k["py"], parlak):
+                    if p > 0.01:
+                        _ekle(kare, k["sprite"], x, y, k["rgb"], float(p), k["sinir"])
+            elif e == "bulutsu_tulu":
+                X0, Y0, X1, Y1 = k["sinir"]
+                kay = k.get("hiz", 0.01) * t
+                n = sum(np.sin(TAU * (fx * (k["xx"] - kay) + fy * k["yy"]) + f) for fx, fy, f in k["dalgalar"]) / 3
+                kare[Y0:Y1, X0:X1] *= (1 + k.get("guc", 0.12) * carp * n * k["kenar"])[..., None]
+            elif e == "uydu":
+                ar, su = k.get("aralik", 240), k.get("sure", 90)
+                if t >= k["faz"] and (t - k["faz"]) % ar < su:
+                    f = ((t - k["faz"]) % ar) / su
+                    x, y = k["a"] + (k["b"] - k["a"]) * f
+                    _ekle(kare, k["sprite"], x, y, k["rgb"],
+                          k.get("parlaklik", 0.8) * carp * math.sqrt(max(0.0, math.sin(math.pi * f))))
         np.clip(kare, 0, 1, out=kare)
         for x, y, p in self._hud(t, i):
             h, w = p.shape[:2]

@@ -191,6 +191,37 @@ def gorseller(gorev: dict) -> list[dict]:
             for g in gorev_gorselleri(gorev) if g["yol"]]
 
 
+HAREKET_EN_AZ_KATMAN = 3
+
+
+def hareket(gorev: dict) -> list[dict]:
+    """G14: her `gorsel/NN.png` için `NN_hareket.json` var; en az 3 katman, biri müzikle bağlı, hepsi bilinen
+    (görüntüyü bükmeyen) etkiler."""
+    from .defter import ETKILER, muzikle_bagli
+    klasor = Path(gorev["klasor"]) / "gorsel"
+    gorseller = sorted(klasor.glob("[0-9][0-9].png")) if klasor.exists() else []
+    if not gorseller:
+        return [_k("hareket: görsel var", False, "gorsel/NN.png yok")]
+    sonuc = []
+    for g in gorseller:
+        tarif = g.with_name(f"{g.stem}_hareket.json")
+        try:
+            katmanlar = json.loads(tarif.read_text(encoding="utf-8")).get("katmanlar")
+        except (OSError, ValueError, AttributeError):
+            katmanlar = None
+        if not isinstance(katmanlar, list) or not all(isinstance(k, dict) for k in katmanlar):
+            sonuc.append(_k(f"hareket {g.stem}: tarif okunur", False, f"{tarif.name} yok ya da bozuk"))
+            continue
+        bilinmeyen = sorted({str(k.get("etki")) for k in katmanlar if k.get("etki") not in ETKILER})
+        sonuc += [
+            _k(f"hareket {g.stem}: bilinen etkiler", not bilinmeyen, ", ".join(bilinmeyen)),
+            _k(f"hareket {g.stem}: en az {HAREKET_EN_AZ_KATMAN} katman", len(katmanlar) >= HAREKET_EN_AZ_KATMAN,
+               f"{len(katmanlar)} katman"),
+            _k(f"hareket {g.stem}: müzikle bağlı katman", any(muzikle_bagli(k) for k in katmanlar)),
+        ]
+    return sonuc
+
+
 def rapor(gorev: dict, ayar: dict, siyah_kontrol: bool = True) -> dict:
     from .kapak import kapak_yazilari
     out = cikti(gorev)

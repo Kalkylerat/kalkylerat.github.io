@@ -439,6 +439,68 @@ def test_G13_gorsel_denetimi(tmp_path):
 
 
 # ---------- G14 ----------
+def _defter(tmp_path, katmanlar, zarf=0.5):
+    from PIL import Image
+    from deepspace.defter import SeyirDefteri
+    W, H, fps = 640, 360, 24
+    g = tmp_path / "g.png"
+    Image.fromarray((np.random.default_rng(1).random((H, W, 3)) * 255).astype(np.uint8)).save(g)
+    n = fps * 30
+    muzik = {"zarf": np.full(n, zarf, np.float32), "spektrum": np.full((n, 40), 0.3, np.float32)}
+    bilgi = {"ad": "X", "kisa": "x", "bilgi": "x", "gorev_no": 2, "hedef": "X", "parca_no": 1,
+             "parca_say": 20, "sonraki": "Y"}
+    return SeyirDefteri(g, katmanlar, W, H, fps, 30.0, muzik, bilgi), W, H, fps
+
+
+@pytest.mark.parametrize("katman", [
+    {"etki": "pencereler", "kutu": [0.6, 0.6, 0.9, 0.9]},
+    {"etki": "kutup_isigi", "kutu": [0.6, 0.6, 0.9, 0.9]},
+    {"etki": "halka_piriltisi", "kutu": [0.6, 0.6, 0.9, 0.9]},
+    {"etki": "bulutsu_tulu", "kutu": [0.6, 0.6, 0.9, 0.9]},
+    {"etki": "uydu", "yol": [[0.6, 0.65], [0.9, 0.85]], "sure": 4, "aralik": 4},
+    {"etki": "isaret_lambasi", "merkez": [0.75, 0.75]}])
+def test_G14_uzay_katmanlari_kutu_disina_tasmaz(tmp_path, katman):
+    s, W, H, fps = _defter(tmp_path, [katman])
+    kareler = [s.kare(fps * t).astype(int) for t in (2, 9, 25)]
+    orta = (slice(80, 150), slice(100, 260))          # kutunun ve HUD'un dışı
+    assert all(np.abs(kareler[0][orta] - k[orta]).max() == 0 for k in kareler[1:])
+    kutu = (slice(int(0.62 * H), int(0.88 * H)), slice(int(0.62 * W), int(0.88 * W)))
+    assert max(np.abs(kareler[0][kutu] - k[kutu]).max() for k in kareler[1:]) > 0
+
+
+def test_G14_katman_muzik_bagi(tmp_path):
+    k = [{"etki": "kutup_isigi", "kutu": [0.6, 0.6, 0.9, 0.9], "muzik": True}]
+    sessiz, *_ = _defter(tmp_path, k, zarf=0.0)
+    gur, *_ = _defter(tmp_path, k, zarf=1.0)
+    taban = sessiz.taban
+    kutu = (slice(220, 320), slice(390, 570))
+    fark = lambda s: np.abs(s.kare(48).astype(float)[kutu] / 255 - taban[kutu]).sum()  # noqa: E731
+    assert fark(gur) > fark(sessiz) * 1.5   # 0.7 + 0.6·zarf
+
+
+def test_G14_hareket_kapisi_en_az_3_katman_biri_muzikle(tmp_path):
+    g = _gorev(tmp_path, n=1, no=2)
+    (tmp_path / "gorsel").mkdir()
+    _resim(tmp_path / "gorsel" / "01.png", 64, 36)
+    assert _kirmizi(kapilar.hareket(g))                        # tarif yok
+    tarif = tmp_path / "gorsel" / "01_hareket.json"
+    tarif.write_text(json.dumps({"katmanlar": [{"etki": "toz"}, {"etki": "yildiz"}]}), encoding="utf-8")
+    assert _kirmizi(kapilar.hareket(g))
+    tarif.write_text(json.dumps({"katmanlar": [{"etki": "toz"}, {"etki": "yildiz"}, {"etki": "uydu"}]}),
+                     encoding="utf-8")
+    assert _kirmizi(kapilar.hareket(g))                        # müzikle bağlı katman yok
+    tarif.write_text(json.dumps({"katmanlar": [{"etki": "toz"}, {"etki": "yildiz"},
+                                               {"etki": "isik", "nabiz": "muzik"}]}), encoding="utf-8")
+    assert not _kirmizi(kapilar.hareket(g))
+    tarif.write_text("{bozuk", encoding="utf-8")
+    assert _kirmizi(kapilar.hareket(g))
+    tarif.write_text(json.dumps({"katmanlar": [{"etki": "toz"}, {"etki": "yildiz"}, {"etki": "bukme", "muzik": True}]}),
+                     encoding="utf-8")
+    assert _kirmizi(kapilar.hareket(g))                        # bilinmeyen etki (G14: bükme yok)
+    bos = _gorev(tmp_path / "bos", n=1, no=2)
+    assert _kirmizi(kapilar.hareket(bos))                      # görsel yoksa hareket istasyonu geçemez
+
+
 def test_G14_seyir_defteri_goruntuyu_bukmez(tmp_path):
     from PIL import Image
     from deepspace.defter import SeyirDefteri

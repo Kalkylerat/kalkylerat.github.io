@@ -226,7 +226,8 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="deepspace.gorev")
     ap.add_argument("komut", choices=["istemler", "ses", "sahneler", "video", "kapak", "metin", "shorts", "kontrol",
                                       "hepsi", "kaydet", "kanal", "al", "teslim", "onay", "iptal", "yukle",
-                                      "gorseller", "denetle", "ornek", "durum", "kilit", "denetim", "marka"])
+                                      "gorseller", "denetle", "ornek", "durum", "kilit", "denetim", "marka",
+                                      "shorts-analiz"])
     ap.add_argument("--drive", help="Drive klasör yolu, ör. DeepSpaceLog/001")
     ap.add_argument("--kim", help="karar veren (varsayılan: denetci)")
     ap.add_argument("--neden", help="iptal nedeni")
@@ -310,6 +311,10 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if a.komut in ("al", "teslim", "onay", "iptal", "yukle"):
         return _google(a, gorev)
+    if a.komut == "shorts-analiz":  # G12: kurgucu ajanın okuyacağı enerji eğrileri ve önerilen anlar
+        from . import shorts
+        print(shorts.analiz(gorev, ayar))
+        return 0
     if a.komut == "kaydet":
         kaydet(gorev, a.youtube_id)
         print(f"kayit.json güncellendi: görev {gorev['no']}")

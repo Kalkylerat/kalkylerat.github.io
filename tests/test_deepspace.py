@@ -550,6 +550,59 @@ def test_G14_defter_modu_gorselsiz_parcada_durur(tmp_path):
     assert not (ortak.cikti(g) / "video.mp4").exists()
 
 
+def test_G12_en_iyi_aralik_kenarlari_ve_sessizligi_atlar():
+    from deepspace import shorts
+    e = np.full(300, -30.0)
+    e[:12] = -10.0                 # giriş (çapraz geçiş) hariç tutulur
+    e[100:145] = -14.0             # en canlı bölüm
+    e[120] = -60.0                 # içinde sessiz saniye olan pencere seçilmez
+    bas = shorts.en_iyi_aralik(e, 45)
+    assert 12 <= bas and not (bas <= 120 < bas + 45)
+    assert bas + 45 <= 300 - 12    # çıkış (fade) da hariç
+    assert shorts.en_iyi_aralik(np.full(40, -30.0), 45) == -1
+    tum_sessiz = np.full(300, -70.0)
+    assert shorts.en_iyi_aralik(tum_sessiz, 45) == -1
+
+
+def _analiz_gorevi(tmp_path):
+    import copy
+    g = _gorev(tmp_path, n=2, no=2)
+    b = _bolumler([40.0, 40.0], capraz=4.0)
+    _yaz_bolumler(g, b)
+    # 0-36 sn ton, sonra 4 sn sessizlik (çapraz geçiş), 40-76 sn ton
+    ortak.calistir(["ffmpeg", "-y", "-loglevel", "error", "-f", "lavfi", "-i",
+                    f"sine=frequency=330:duration={b['toplam_sn']}", "-af",
+                    "volume=enable='between(t,26,30)':volume=0", "-c:a", "aac", str(ortak.cikti(g) / "ses.m4a")])
+    ayar = copy.deepcopy(AYAR)
+    ayar["shorts"]["sure_sn"] = 10
+    return g, ayar, b
+
+
+def test_G12_enerji_egrisi_ve_analiz(tmp_path):
+    from deepspace import shorts
+    g, ayar, b = _analiz_gorevi(tmp_path)
+    e = shorts.enerji_egrisi(ortak.cikti(g) / "ses.m4a", 0.0, 40.0)
+    assert len(e) == 40 and e[5] > -30 and e[27] < -45
+    yol = shorts.analiz(g, ayar)
+    assert yol == ortak.cikti(g) / "shorts_analiz.json"
+    d = json.loads(yol.read_text(encoding="utf-8"))
+    assert [x["parca"] for x in d] == [1, 2] and d[0]["ad"] == "World 1"
+    p1 = d[0]
+    assert p1["oneri_basla"] is not None
+    goreli = p1["oneri_basla"] - p1["basla"]
+    assert goreli >= 12 and not (goreli <= 27 < goreli + 10)  # sessiz saniyeleri içermez
+    assert d[1]["oneri_basla"] >= b["parcalar"][1]["basla"] + 12
+
+
+def test_G12_shorts_analiz_komutu(tmp_path, monkeypatch):
+    from deepspace import gorev as cli
+    g, ayar, _ = _analiz_gorevi(tmp_path)
+    g["no"] = 1
+    monkeypatch.setattr(cli, "gorev_yukle", lambda k: (g, ayar))
+    assert cli.main(["shorts-analiz", str(tmp_path)]) == 0
+    assert (ortak.cikti(g) / "shorts_analiz.json").exists()
+
+
 def test_G14_seyir_defteri_goruntuyu_bukmez(tmp_path):
     from PIL import Image
     from deepspace.defter import SeyirDefteri

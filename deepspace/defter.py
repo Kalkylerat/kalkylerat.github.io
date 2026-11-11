@@ -43,6 +43,10 @@ KENAR = 64
 KART_KENAR = 40          # kayıt kartı köşeye daha yakın
 KART_GENISLIK = 660      # 1080p'de ~%34 genişlik: videoya yayılmaz
 KART_SUTUN = 34          # kart içinde satır başına en çok karakter
+# Oynatıcı güvenli alanı (G14-4): YouTube'un oynatma çubuğu karenin alt kısmını kaplar; yatay videoda hiçbir yazı
+# ya da sinyal çizgisi alt ALT_GUVENLI oranına girmez. Kayıt kartının her satırı KAYIT_SN kadar görünür.
+ALT_GUVENLI = 0.16
+KAYIT_SN = 25
 
 
 @lru_cache(maxsize=64)
@@ -302,7 +306,6 @@ class SeyirDefteri:
         for parca in textwrap.wrap(b.get("kisa", ""), KART_SUTUN) + textwrap.wrap(b.get("bilgi", ""), KART_SUTUN):
             satir.append((t, parca))
             t += len(parca) / 20 + 1.2
-        satir.append((self.sure * 0.5, "SIGNAL STEADY · COURSE HELD"))
         if b.get("sonraki"):
             satir.append((max(t + 30, self.sure - 45), f"NEXT  {b['sonraki']}"))
         return satir
@@ -410,7 +413,7 @@ class SeyirDefteri:
         for metin, s in satirlar:
             self._yazi(d, (x, y), metin, YAZI["kayit"], False, 0.96 * s)
             y += sat
-        return m, H - m - kh, np.asarray(img, np.float32) / 255
+        return m, int(H * (1 - ALT_GUVENLI)) - kh, np.asarray(img, np.float32) / 255
 
     def _hud(self, t: float, i: int) -> list[tuple[int, int, np.ndarray]]:
         if self.dikey:
@@ -431,13 +434,13 @@ class SeyirDefteri:
         r, cy = 7 * o, 48 * o + YAZI["alt"] * 0.62 * o
         d.ellipse([gx - r, cy - r, gx + r, cy + r], fill=(*rgb(self.palet["vurgu"]), int(255 * nabiz)))
         parcalar.append((W - m - gw, m, np.asarray(img, np.float32) / 255))
-        # sol alt: kayıt, son 3 satır, harf harf yazılır, 40 sn sonra solar
+        # sol alt: kayıt, son 3 satır, harf harf yazılır, KAYIT_SN sonra solar (yalnız parça başında ve sonunda)
         gorunen = []
         for bas, metin in self._kayit:
             if t < bas:
                 continue
             n = int((t - bas) * 22)
-            sol = 1.0 if t - bas < 40 else max(0.0, 1 - (t - bas - 40) / 3)
+            sol = 1.0 if t - bas < KAYIT_SN else max(0.0, 1 - (t - bas - KAYIT_SN) / 3)
             if sol > 0:
                 gorunen.append(("> " + metin[:n] + ("_" if n < len(metin) and i % 12 < 6 else ""), sol))
         if gorunen:
@@ -460,7 +463,7 @@ class SeyirDefteri:
         sd.text((0, 0), "SIGNAL", font=f, fill=(*rgb(self.palet["yazi_ikincil"]), 210),
                 stroke_width=max(1, int(2 * k * o)), stroke_fill=(8, 10, 18, 140))
         s_img = s_img.resize((gw, gh), Image.LANCZOS)
-        parcalar.append((W - m - gw, H - m - gh, np.asarray(s_img, np.float32) / 255))
+        parcalar.append((W - m - gw, int(H * (1 - ALT_GUVENLI)) - gh, np.asarray(s_img, np.float32) / 255))
         return parcalar
 
     # ---------- kare ----------

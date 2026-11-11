@@ -468,6 +468,26 @@ def test_G14_uzay_katmanlari_kutu_disina_tasmaz(tmp_path, katman):
     assert max(np.abs(kareler[0][kutu] - k[kutu]).max() for k in kareler[1:]) > 0
 
 
+def test_G14_hud_oynatici_alanina_girmez_kart_yalniz_basta(tmp_path):
+    from PIL import Image
+    from deepspace.defter import ALT_GUVENLI, SeyirDefteri
+    W, H, fps, sure = 640, 360, 4, 400.0
+    g = tmp_path / "g.png"
+    Image.fromarray(np.zeros((H, W, 3), np.uint8)).save(g)
+    n = int(fps * sure)
+    muzik = {"zarf": np.full(n, 0.5, np.float32), "spektrum": np.full((n, 40), 0.3, np.float32)}
+    bilgi = {"ad": "X", "kisa": "one of seven Earth-size worlds", "bilgi": "a long fact " * 8, "gorev_no": 1,
+             "hedef": "X", "parca_no": 1, "parca_say": 20, "sonraki": "Y"}
+    s = SeyirDefteri(g, [], W, H, fps, sure, muzik, bilgi)
+    assert ALT_GUVENLI >= 0.16
+    for t in (10.0, 200.0, sure - 10):
+        for x, y, p in s._hud(t, int(t * fps)):
+            assert y + p.shape[0] <= H * (1 - ALT_GUVENLI) + 1, f"t={t}: öğe oynatıcı alanında"
+    kart_sayisi = lambda t: len(s._hud(t, int(t * fps)))
+    assert kart_sayisi(10.0) == kart_sayisi(200.0) + 1   # baştaki kart görünür, ortada yok
+    assert kart_sayisi(120.0) == kart_sayisi(200.0)       # 25 sn'lik satırlar parça başında biter
+
+
 def test_G14_katman_muzik_bagi(tmp_path):
     k = [{"etki": "kutup_isigi", "kutu": [0.6, 0.6, 0.9, 0.9], "muzik": True}]
     sessiz, *_ = _defter(tmp_path, k, zarf=0.0)

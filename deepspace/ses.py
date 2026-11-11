@@ -47,9 +47,19 @@ def toplam_sure(sureler: list[float], capraz: float) -> float:
     return sum(sureler) - capraz * (len(sureler) - 1)
 
 
+SES_UZANTI = (".mp3", ".wav", ".m4a", ".flac")
+
+
 def ses_dosyalari(gorev: dict) -> list[Path]:
+    """Parça dosyaları. SUNO.md'deki ad birebir yoksa aynı adın başka ses uzantısı da kabul edilir
+    (Suno'dan WAV indirilirse yeniden adlandırma gerekmez). Hiçbiri yoksa beklenen ad döner (eksik raporu için)."""
     klasor = Path(gorev["klasor"]) / "ses"
-    return [klasor / p["dosya"] for p in gorev["parca"]]
+    sonuc = []
+    for p in gorev["parca"]:
+        tam = klasor / p["dosya"]
+        diger = (tam.with_suffix(u) for u in SES_UZANTI if u != tam.suffix.lower())
+        sonuc.append(tam if tam.exists() else next((d for d in diger if d.exists()), tam))
+    return sonuc
 
 
 def ozetler(gorev: dict) -> list[str]:

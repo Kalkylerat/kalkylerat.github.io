@@ -1268,3 +1268,11 @@ def test_G17_kanca_proje_ayarinda():
     assert re.fullmatch(kanca["matcher"], "mcp__claude_ai_vidIQ__vidiq_outliers")
     assert re.fullmatch(kanca["matcher"], "mcp__vidIQ__vidiq_outliers")
     assert "deepspace.vidiq_butce" in kanca["hooks"][0]["command"]
+
+
+def test_G2_ses_dosyasi_wav_uzantisiyla_da_bulunur(tmp_path):
+    g = _gorev(tmp_path, n=2)
+    (tmp_path / "ses").mkdir()
+    (tmp_path / "ses" / "01.wav").write_bytes(b"x")
+    yollar = ses.ses_dosyalari(g)
+    assert yollar[0].name == "01.wav" and yollar[1].name == "02.mp3" and not yollar[1].exists()

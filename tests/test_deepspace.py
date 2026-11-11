@@ -134,7 +134,7 @@ def test_G5_metin_kurallari(tmp_path):
     assert yt["aciklama"].count("\n0:00 World 1") == 1
     for i in range(16):
         assert f"World {i + 1}: Fact {i + 1}." in yt["aciklama"]
-    assert "How this music is made" in yt["aciklama"]
+    assert "How this mission is made" in yt["aciklama"]
     bozuk = dict(yt, baslik=yt["baslik"] + " | Hans Zimmer style")
     assert "yasak kelime yok (sanatçı/film adı)" in _kirmizi(kapilar.metin(bozuk, AYAR, b))
 
@@ -364,8 +364,17 @@ def test_G9_sentetik_icerik_etiketi_ve_aciklama(tmp_path):
     g = _gorev(tmp_path)
     _yaz_bolumler(g, _bolumler([450] * 16))
     yt = metin.uret(g, AYAR)
-    assert yt["sentetik_icerik"] is True
-    assert "AI music tools" in yt["aciklama"]
+    assert yt["sentetik_icerik"] is True                       # Studio beyanı kalır
+    assert not re.search(r"\bAI\b|artificial", yt["aciklama"])  # metin yapay zekâyı ayrıca anmaz (sahibinin kararı)
+    assert "Visuals are artistic impressions based on real scientific data." in yt["aciklama"]
+
+
+def test_G9_metinler_ai_anmaz_ama_yalan_da_soylemez():
+    from deepspace import shorts
+    yasak = re.compile(r"\bAI\b|artificial|hand-made|handmade|hand-played|human-composed|no AI", re.I)
+    kanal = (KOK / "deepspace" / "kanal.md").read_text(encoding="utf-8").split("**Description:**")[1].split("**Links")[0]
+    for t in (metin.SUREC_NOTU, shorts.SHORTS_NOTU, kanal):
+        assert not yasak.search(t), t
 
 
 # ---------- G10 ----------
@@ -486,6 +495,38 @@ def test_G14_hud_oynatici_alanina_girmez_kart_yalniz_basta(tmp_path):
     kart_sayisi = lambda t: len(s._hud(t, int(t * fps)))
     assert kart_sayisi(10.0) == kart_sayisi(200.0) + 1   # baştaki kart görünür, ortada yok
     assert kart_sayisi(120.0) == kart_sayisi(200.0)       # 25 sn'lik satırlar parça başında biter
+
+
+def test_G14_kart_tekrar_etmez_kaymaz_birlikte_kaybolur(tmp_path):
+    import textwrap
+    from PIL import Image
+    from deepspace.defter import KART_SUTUN, SeyirDefteri
+    W, H, fps, sure = 640, 360, 4, 400.0
+    g = tmp_path / "g.png"
+    Image.fromarray(np.zeros((H, W, 3), np.uint8)).save(g)
+    n = int(fps * sure)
+    muzik = {"zarf": np.full(n, 0.5, np.float32), "spektrum": np.full((n, 40), 0.3, np.float32)}
+    kisa = "one of seven Earth-size worlds · 40 light-years"
+    uzun = ("One of seven Earth-size planets around the cool red star TRAPPIST-1, about 40 light-years away, "
+            "and among the most promising for liquid water.")
+    bilgi = {"ad": "TRAPPIST-1e", "kisa": kisa, "bilgi": uzun, "gorev_no": 1, "hedef": "TRAPPIST-1",
+             "parca_no": 16, "parca_say": 20, "sonraki": "Y"}
+    s = SeyirDefteri(g, [], W, H, fps, sure, muzik, bilgi)
+    sayfalar, onceki = [], None
+    for k in range(0, 120 * 4):
+        kart = s._kart(k / 4)
+        if kart is None:
+            continue
+        etiket, satirlar, sol = kart
+        assert len(satirlar) <= 3 and 0 < sol <= 1
+        assert all("TRAPPIST-1e" not in x and kisa not in x for x in satirlar)
+        if onceki and onceki[0] == etiket and len(onceki[1]) <= len(satirlar) and                 all(satirlar[i].startswith(onceki[1][i]) for i in range(len(onceki[1]) - 1)):
+            sayfalar[-1] = satirlar           # aynı sayfa yazılmaya devam ediyor: satırlar yerinde kalır
+        else:
+            sayfalar.append(satirlar)
+        onceki = (etiket, satirlar)
+    assert sum(sayfalar, []) == textwrap.wrap(uzun, KART_SUTUN)   # bilgi bir kez, sırayla, kaymadan
+    assert s._kart(119.0) is None
 
 
 def test_G14_katman_muzik_bagi(tmp_path):
@@ -761,7 +802,7 @@ def test_G12_short_uretimi_plan_ve_kapilar(tmp_path):
     assert ortak.ffprobe_sure(yollar[0]) == pytest.approx(6.0, abs=0.3)
     m = json.loads((ortak.cikti(g) / "shorts.json").read_text(encoding="utf-8"))
     assert m[0]["baslik"].startswith("Red sun · World 2") and "#Shorts" in m[0]["baslik"]
-    assert len(m[0]["baslik"]) <= 100 and "{UZUN_VIDEO}" in m[0]["aciklama"] and "AI" in m[0]["aciklama"]
+    assert len(m[0]["baslik"]) <= 100 and "{UZUN_VIDEO}" in m[0]["aciklama"] and "artistic impressions" in m[0]["aciklama"]
     assert not _kirmizi(kapilar.metin_temel(m[0], ayar))
     assert not _kirmizi(shorts.istasyon_kapilari(g, ayar))
     plan[0]["sure_sn"] = 30                                     # kırmızı plan: üretim durur
@@ -888,7 +929,7 @@ def test_G17_arastirma_basligi_pakete_girer_yasakliysa_sablon(tmp_path):
 
 
 def test_G9_surec_notu_gorsellerin_kaynagini_dogru_soyler():
-    assert "AI-generated images" in metin.SUREC_NOTU and "generated with code" not in metin.SUREC_NOTU
+    assert "artistic impressions" in metin.SUREC_NOTU and "generated with code" not in metin.SUREC_NOTU
     skill = (KOK / ".claude" / "skills" / "youtube" / "SKILL.md").read_text(encoding="utf-8")
     assert "## 8. YouTube uzmanı ajanı" in skill and "oneriler.json" in skill and "kararlar.json" in skill
     assert (KOK / "deepspace" / "buyume" / "README.md").exists()

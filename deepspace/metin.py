@@ -12,11 +12,11 @@ from .kapilar import yasak_kelimeler
 from .ortak import cikti, seri, zaman
 
 SUREC_NOTU = (
-    "How this music is made\n"
-    "Every mission is composed around one destination. Each piece has its own melodic motif, key and sound "
-    "palette, written as composition prompts and generated with AI music tools (Suno), then selected, "
-    "sequenced and mastered for long, distraction-free focus. The scenes are AI-generated images of real "
-    "destinations with imagined surfaces; the light motion and the mission log are rendered with code."
+    "How this mission is made\n"
+    "Every mission is built around one route through real worlds. Each piece is designed around its own motif, key "
+    "and sound palette, then selected, sequenced and mastered for long, distraction-free listening. Every fact in "
+    "the mission log is checked against published sources.\n"
+    "Visuals are artistic impressions based on real scientific data."
 )
 
 

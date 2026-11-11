@@ -77,8 +77,8 @@ def _parca_no(p):
     except (TypeError, ValueError):
         return p
     return int(f) if f.is_integer() else p
-SHORTS_NOTU = ("Music generated with AI music tools (Suno), then selected and mastered. "
-               "Scenes are AI-generated images; the light motion and mission log are rendered with code.")
+SHORTS_NOTU = ("From a full two-hour mission on this channel. "
+               "Visuals are artistic impressions based on real scientific data.")
 
 
 def plan_kontrol(plan: list, gorev: dict, bolumler: dict, kayit: dict, ayar: dict) -> list[dict]:

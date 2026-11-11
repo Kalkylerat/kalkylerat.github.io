@@ -10,8 +10,9 @@ Every week PROBE-7 sets out on a new mission: a two-hour route through real plan
 destination has its own piece of music, its own melody and its own sound. No vocals, no drums, no sudden changes:
 just a calm, steady place to study, code, read or think.
 
-Every mission comes with chapters and short notes on the real worlds you pass. Music is composed with AI music
-tools from our own composition prompts, then selected, sequenced and mastered for long listening.
+Every mission comes with chapters and short notes on the real worlds you pass. Each piece is designed around its
+own motif and sound palette, then selected, sequenced and mastered for long listening. Visuals are artistic
+impressions based on real scientific data.
 
 Tell us where PROBE-7 should go next.
 

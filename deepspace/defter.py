@@ -44,9 +44,13 @@ KART_KENAR = 40          # kayıt kartı köşeye daha yakın
 KART_GENISLIK = 660      # 1080p'de ~%34 genişlik: videoya yayılmaz
 KART_SUTUN = 34          # kart içinde satır başına en çok karakter
 # Oynatıcı güvenli alanı (G14-4): YouTube'un oynatma çubuğu karenin alt kısmını kaplar; yatay videoda hiçbir yazı
-# ya da sinyal çizgisi alt ALT_GUVENLI oranına girmez. Kayıt kartının her satırı KAYIT_SN kadar görünür.
+# ya da sinyal çizgisi alt ALT_GUVENLI oranına girmez. Kayıt kartı (G14-5): bilgi cümlesi bir kez, en çok 3 satırlık
+# sayfalarla, kaymadan yazılır; her sayfa yazıldıktan sonra OKUMA_SN kalır; kart bütün olarak SOLMA_SN'de söner.
 ALT_GUVENLI = 0.16
-KAYIT_SN = 25
+YAZMA_HIZI = 22      # harf/sn
+OKUMA_SN = 10
+SOLMA_SN = 3
+SONRAKI_SN = 25
 
 
 @lru_cache(maxsize=64)
@@ -183,7 +187,7 @@ class SeyirDefteri:
         rng = np.random.default_rng(tohum)
         self.palet = marka_yukle()["palet"]
         self.katmanlar = [self._hazirla(k, rng) for k in (self._cerceveye(k) for k in katmanlar) if k]
-        self._kayit = self._kayit_satirlari()
+        self._kayit = self._kayit_sayfalari()
         self._sabit = self._dikey_ust() if self.dikey else self._ust_sol()
 
     # ---------- kadraj: katmanlar 16:9 karede yazılır ----------
@@ -299,16 +303,39 @@ class SeyirDefteri:
         return k
 
     # ---------- kayıt (HUD) ----------
-    def _kayit_satirlari(self) -> list[tuple[float, str]]:
+    def _kayit_sayfalari(self) -> list[tuple[float, float, str, list[str]]]:
+        """(başlangıç, bitiş, etiket, satırlar). Bilgi cümlesi bir kez, 3 satırlık sayfalarla; ad ve kısa özet
+        kartta tekrar edilmez (G14-5). Parça sonuna yakın tek satırlık NEXT kartı."""
         b = self.bilgi
-        satir = [(3.0, f"ARRIVAL  {b['ad']}")]
-        t = 6.0
-        for parca in textwrap.wrap(b.get("kisa", ""), KART_SUTUN) + textwrap.wrap(b.get("bilgi", ""), KART_SUTUN):
-            satir.append((t, parca))
-            t += len(parca) / 20 + 1.2
+        satirlar = textwrap.wrap(b.get("bilgi") or b.get("kisa", ""), KART_SUTUN)
+        sayfalar, t = [], 3.0
+        for k in range(0, len(satirlar), 3):
+            sayfa = satirlar[k:k + 3]
+            son = t + sum(map(len, sayfa)) / YAZMA_HIZI + OKUMA_SN
+            sayfalar.append((t, son, "ARRIVAL", sayfa))
+            t = son
         if b.get("sonraki"):
-            satir.append((max(t + 30, self.sure - 45), f"NEXT  {b['sonraki']}"))
-        return satir
+            bas = max(t + 30, self.sure - 45)
+            sayfalar.append((bas, bas + SONRAKI_SN, "NEXT", [f"course set for {b['sonraki']}"]))
+        return sayfalar
+
+    def _kart(self, t: float) -> tuple[str, list[str], float] | None:
+        """t anında kartta görünen (etiket, yazılmış satırlar, opaklık); kart yoksa None. Satırlar yerinde
+        harf harf yazılır, yukarı kaymaz; sayfa bitince bir sonraki aynı yere gelir, son sayfadan sonra söner."""
+        etkin = [s for s in self._kayit if s[0] <= t]
+        if not etkin:
+            return None
+        bas, son, etiket, sayfa = etkin[-1]
+        sol = 1.0 if t < son else 1 - (t - son) / SOLMA_SN
+        if sol <= 0:
+            return None
+        n, yazili = int((t - bas) * YAZMA_HIZI), []
+        for satir in sayfa:
+            if n <= 0:
+                break
+            yazili.append(satir[:n])
+            n -= len(satir)
+        return (etiket, yazili, sol) if yazili else None
 
     # Yazılar küçük şeffaf parçalara çizilir ve yalnız o bölgeye bindirilir (tam kare RGBA her karede pahalı).
     def _parca(self, w: int, h: int) -> tuple[Image.Image, ImageDraw.ImageDraw]:
@@ -388,16 +415,15 @@ class SeyirDefteri:
         img = img.resize((W, ph), Image.LANCZOS)
         return 0, int(0.8 * H), np.asarray(img, np.float32) / 255
 
-    def _kayit_karti(self, satirlar: list[tuple[str, float]]) -> tuple[int, int, np.ndarray]:
+    def _kayit_karti(self, etiket: str, satirlar: list[str], sol: float) -> tuple[int, int, np.ndarray]:
         """Sol alt köşede dar kayıt kartı (sahibinin isteği, 11 Kasım 2026: "şık arka plan, köşede, videoya
-        yayılmadan"). Koyu cam zemin, ince çerçeve, solda vurgu çizgisi, üstte PROBE-7 · LOG etiketi."""
+        yayılmadan"). Koyu cam zemin, ince çerçeve, solda vurgu çizgisi, üstte PROBE-7 · ARRIVAL ya da NEXT etiketi."""
         o, H = self.o, self.H
         m = int(KART_KENAR * o)
         sat = YAZI["kayit"] * 1.42 * o
         ic = 22 * o
         bas_h = YAZI["etiket"] * 1.6 * o
         kw, kh = int(KART_GENISLIK * o), int(ic * 2 + bas_h + sat * 3)
-        sol = max(s for _, s in satirlar)
         img = Image.new("RGBA", (kw, kh), (0, 0, 0, 0))
         zemin = Image.new("RGBA", (kw, kh), (0, 0, 0, 0))
         zd = ImageDraw.Draw(zemin)
@@ -408,10 +434,10 @@ class SeyirDefteri:
         img.alpha_composite(zemin)
         d = ImageDraw.Draw(img)
         x = int(ic + 6 * o)
-        self._yazi(d, (x, ic - 4 * o), "PROBE-7  ·  LOG", YAZI["etiket"], True, 0.9 * sol, self.palet["vurgu"])
+        self._yazi(d, (x, ic - 4 * o), f"PROBE-7  ·  {etiket}", YAZI["etiket"], True, 0.9 * sol, self.palet["vurgu"])
         y = ic + bas_h
-        for metin, s in satirlar:
-            self._yazi(d, (x, y), metin, YAZI["kayit"], False, 0.96 * s)
+        for metin in satirlar:
+            self._yazi(d, (x, y), metin, YAZI["kayit"], False, 0.96 * sol)
             y += sat
         return m, int(H * (1 - ALT_GUVENLI)) - kh, np.asarray(img, np.float32) / 255
 
@@ -434,17 +460,16 @@ class SeyirDefteri:
         r, cy = 7 * o, 48 * o + YAZI["alt"] * 0.62 * o
         d.ellipse([gx - r, cy - r, gx + r, cy + r], fill=(*rgb(self.palet["vurgu"]), int(255 * nabiz)))
         parcalar.append((W - m - gw, m, np.asarray(img, np.float32) / 255))
-        # sol alt: kayıt, son 3 satır, harf harf yazılır, KAYIT_SN sonra solar (yalnız parça başında ve sonunda)
-        gorunen = []
-        for bas, metin in self._kayit:
-            if t < bas:
-                continue
-            n = int((t - bas) * 22)
-            sol = 1.0 if t - bas < KAYIT_SN else max(0.0, 1 - (t - bas - KAYIT_SN) / 3)
-            if sol > 0:
-                gorunen.append(("> " + metin[:n] + ("_" if n < len(metin) and i % 12 < 6 else ""), sol))
-        if gorunen:
-            parcalar.append(self._kayit_karti(gorunen[-3:]))
+        # sol alt: kayıt kartı, yalnız parça başında (bilgi) ve sonuna yakın (NEXT), G14-4/5
+        kart = self._kart(t)
+        if kart:
+            etiket, yazili, sol = kart
+            # cümle bir kez ">" ile başlar; devam satırları ve sonraki sayfa girintili (ayrı kayıt gibi görünmez)
+            ilk = yazili[0] if any(x[2] == etiket and x[3][0].startswith(yazili[0]) for x in self._kayit[:1])                 or etiket == "NEXT" else None
+            satirlar = [("> " if k == 0 and ilk else "  ") + x for k, x in enumerate(yazili)]
+            if i % 12 < 6:
+                satirlar[-1] += "_"
+            parcalar.append(self._kayit_karti(etiket, satirlar, sol))
         # sağ alt: sinyal, müziğin spektrumu (3x çizilip küçültülür: kenarlar yumuşak)
         sp = self.muzik["spektrum"][min(i, len(self.muzik["spektrum"]) - 1)]
         gw, gh, k = int(560 * o), int(120 * o), 3

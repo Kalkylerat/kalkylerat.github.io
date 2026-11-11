@@ -28,7 +28,7 @@ CIKTILAR: dict[str, list[str]] = {
     "gorsel": ["gorsel/[0-9][0-9].png", "denetim/[0-9][0-9].json"],
     "hareket": ["gorsel/*_hareket.json"],
     "video": ["cikti/video.mp4"],
-    "shorts": ["shorts_plan.json", "cikti/short_?.mp4"],
+    "shorts": ["shorts_plan.json", "cikti/short_?.mp4", "cikti/shorts.json"],
     "paket": ["cikti/kapak_?.jpg", "cikti/youtube.json", "cikti/aciklama.txt"],
     "karar": ["cikti/onay.json"],
 }

@@ -223,3 +223,37 @@ def youtube_yukle(cikti: Path, oturum=requests) -> dict:
     (cikti / "yukleme.json").write_text(json.dumps({"video_id": vid, "durum": govde["status"]}, indent=2),
                                         encoding="utf-8")
     return sonuc
+
+
+def shorts_yukle(cikti: Path, oturum=requests, gunler: list[int] | None = None) -> list[dict]:
+    """G12: her Short gizli ve planlı; uzun videonun yayınından yayin_gunleri[k] gün sonra. Açıklamadaki {UZUN_VIDEO}
+    uzun videonun bağlantısıyla değişir. Denetçi kararı (onay) ve yüklenmiş uzun video gerekir."""
+    from .ortak import ayar_yukle
+    onay = onay_kontrol(cikti)
+    yuk = cikti / "yukleme.json"
+    if not yuk.exists():
+        raise GoogleHatasi("uzun video yüklenmemiş (yukleme.json yok): Shorts ona bağlanır (G12)")
+    uzun = json.loads(yuk.read_text(encoding="utf-8"))["video_id"]
+    metinler = json.loads((cikti / "shorts.json").read_text(encoding="utf-8"))
+    gunler = gunler or ayar_yukle()["shorts"]["yayin_gunleri"]
+    if len(gunler) < len(metinler):
+        raise GoogleHatasi(f"yayin_gunleri {len(gunler)} gün, Short {len(metinler)}")
+    yayin = _zaman_oku(onay["yayin_zamani"])
+    tok = erisim_belirteci(oturum)
+    sonuc = []
+    for k, m in enumerate(metinler):
+        if not m.get("sentetik_icerik"):
+            raise GoogleHatasi("sentetik içerik etiketi kapalı (G9)")
+        dosya = cikti / f"short_{k + 1}.mp4"
+        zaman = (yayin + timedelta(days=gunler[k])).astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        govde = youtube_govdesi(dict(m, aciklama=m["aciklama"].replace("{UZUN_VIDEO}", f"https://youtu.be/{uzun}")),
+                                zaman)
+        r = oturum.post(YT_UPLOAD, params={"uploadType": "resumable", "part": "snippet,status"}, json=govde,
+                        timeout=30, headers={**_baslik(tok), "X-Upload-Content-Type": "video/mp4",
+                                             "X-Upload-Content-Length": str(dosya.stat().st_size)})
+        if r.status_code != 200:
+            raise GoogleHatasi(f"Short yükleme başlatılamadı ({r.status_code}): {r.text[:300]}")
+        sonuc.append({"id": _devam_ettir(r.headers["Location"], dosya, "video/mp4", oturum)["id"],
+                      "publishAt": zaman, "dosya": dosya.name})
+        (cikti / "shorts_yukleme.json").write_text(json.dumps(sonuc, indent=2), encoding="utf-8")  # yarıda kalırsa iz
+    return sonuc

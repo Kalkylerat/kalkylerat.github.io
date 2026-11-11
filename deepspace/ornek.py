@@ -14,13 +14,16 @@ from .ortak import calistir, cikti, ffprobe_sure
 from .sahne import dongu_kodla
 
 
-def _loudnorm(ses: Path, sure: float) -> str:
-    olc = calistir(["ffmpeg", "-hide_banner", "-nostats", "-i", str(ses), "-af",
+def _loudnorm(ses: Path, sure: float, basla: float = 0.0, giris: float = 3.0, cikis: float = 5.0) -> str:
+    """İki geçişli loudnorm filtresi; ölçüm sesin [basla, basla + sure] dilimindendir. giris/cikis: fade süreleri."""
+    aralik = (["-ss", f"{basla:.3f}"] if basla else []) + ["-t", f"{sure:.3f}"]
+    olc = calistir(["ffmpeg", "-hide_banner", "-nostats", *aralik, "-i", str(ses), "-af",
                     "loudnorm=I=-16:TP=-1.5:LRA=11:print_format=json", "-f", "null", "-"]).stderr
     m = json.loads(re.search(r"\{[^{}]*\"input_i\"[^{}]*\}", olc).group(0))
     return (f"loudnorm=I=-16:TP=-1.5:LRA=11:measured_I={m['input_i']}:measured_TP={m['input_tp']}:"
             f"measured_LRA={m['input_lra']}:measured_thresh={m['input_thresh']}:offset={m['target_offset']}:"
-            f"linear=true,aresample=48000,afade=t=in:d=3,afade=t=out:st={max(0.0, sure - 5):.2f}:d=5")
+            f"linear=true,aresample=48000,afade=t=in:d={giris:g},"
+            f"afade=t=out:st={max(0.0, sure - cikis):.2f}:d={cikis:g}")
 
 
 def _defter(gorev: dict, ayar: dict, parca: int, ses: Path, W: int, H: int) -> Path:

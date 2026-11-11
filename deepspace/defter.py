@@ -15,6 +15,9 @@ Görüntü hiç bükülmez (SOZLESME G14). Hareket yalnızca resmin ÜSTÜNE ekl
 Her katman `muzik: true` alabilir: gücü 0.7 + 0.6·zarf ile çarpılır. Kutulu katmanlar kutu dışındaki piksele dokunmaz.
 Marka kaydı (HUD): sol üst kanal ve görev, sağ üst görev saati, sol alt satır satır yazılan kayıt (gerçek bilgi
 `gorev.toml`'dan), sağ alt müziğin spektrumundan "sinyal" çizgisi. Tarif: `gorsel/NN_hareket.json` içinde "katmanlar".
+Dikey (Shorts, H > W): görsel `kirp_x` odağında kırpılır; üstte marka + görev, y ≈ 0.28·H'de kanca, altta (y > 0.8·H)
+"Full N-hour mission" ve tam genişlikte sinyal; kayıt kartı yok. Katman koordinatları 16:9 karede yazılır ve dikey
+kadraja resimle birlikte taşınır.
 """
 from __future__ import annotations
 
@@ -47,11 +50,18 @@ def _font(boy: int, kalin: bool = False) -> ImageFont.FreeTypeFont:
     return ImageFont.truetype(str(FONT / ("SpaceMono-Bold.ttf" if kalin else "SpaceMono-Regular.ttf")), boy)
 
 
-def _kapla(img: Image.Image, w: int, h: int) -> Image.Image:
+def _kapla(img: Image.Image, w: int, h: int, kirp_x: float = 0.5) -> Image.Image:
     oran = max(w / img.width, h / img.height)
     yeni = img.resize((math.ceil(img.width * oran), math.ceil(img.height * oran)), Image.LANCZOS)
-    x, y = (yeni.width - w) // 2, (yeni.height - h) // 2
+    x, y = int((yeni.width - w) * kirp_x), (yeni.height - h) // 2
     return yeni.crop((x, y, x + w, y + h))
+
+
+def _kadraj(iw: int, ih: int, w: float, h: float, kirp_x: float = 0.5) -> tuple[float, float, float, float]:
+    """Resmi w x h kareye kaplayan ölçek: (büyütülmüş genişlik, yükseklik, x kırpma, y kırpma), piksel."""
+    oran = max(w / iw, h / ih)
+    nw, nh = iw * oran, ih * oran
+    return nw, nh, (nw - w) * kirp_x, (nh - h) / 2
 
 
 ETKILER = ("isik", "toz", "goktasi", "yildiz", "isaret_lambasi", "pencereler", "kutup_isigi", "halka_piriltisi",
@@ -129,10 +139,14 @@ def _ekle(kare: np.ndarray, sprite: np.ndarray, x: float, y: float, renk: np.nda
 
 class SeyirDefteri:
     def __init__(self, gorsel: Path, katmanlar: list[dict], W: int, H: int, fps: int, sure: float, muzik: dict,
-                 bilgi: dict, tohum: int = 1, ton: dict | None = None, t0: float = 0.0):
+                 bilgi: dict, tohum: int = 1, ton: dict | None = None, t0: float = 0.0, kirp_x: float = 0.5,
+                 kanca: str = ""):
         self.W, self.H, self.fps, self.sure, self.t0 = W, H, fps, sure, t0  # t0: görev saatinin başladığı an
         self.o = H / 1080
-        taban = np.asarray(_kapla(Image.open(gorsel).convert("RGB"), W, H), np.float32) / 255
+        self.dikey, self.kanca = H > W, kanca.strip()
+        resim = Image.open(gorsel).convert("RGB")
+        self._kadraj_kur(resim.width, resim.height, kirp_x)
+        taban = np.asarray(_kapla(resim, W, H, kirp_x), np.float32) / 255
         if ton:
             from .renk import uygula
             taban = uygula(taban, ton)
@@ -143,10 +157,36 @@ class SeyirDefteri:
         self.taban = (taban * (1 - koyu)[..., None]).astype(np.float32)
         self.muzik, self.bilgi = muzik, bilgi
         rng = np.random.default_rng(tohum)
-        self.katmanlar = [self._hazirla(dict(k), rng) for k in katmanlar]
         self.palet = marka_yukle()["palet"]
+        self.katmanlar = [self._hazirla(k, rng) for k in (self._cerceveye(k) for k in katmanlar) if k]
         self._kayit = self._kayit_satirlari()
-        self._sabit = self._ust_sol()
+        self._sabit = self._dikey_ust() if self.dikey else self._ust_sol()
+
+    # ---------- kadraj: katmanlar 16:9 karede yazılır ----------
+    def _kadraj_kur(self, iw: int, ih: int, kirp_x: float):
+        self._yatay = _kadraj(iw, ih, 16, 9)                 # tarifin yazıldığı kare (oran yeter)
+        self._bu = _kadraj(iw, ih, self.W, self.H, kirp_x)   # bu kare
+        self.Wk = self._bu[0] * 16 / self._yatay[0]          # 16:9 karenin bu karedeki genişliği (boyut ölçeği)
+
+    def _nokta(self, u: float, v: float) -> tuple[float, float]:
+        nwl, nhl, oxl, oyl = self._yatay
+        a, b = (u * 16 + oxl) / nwl, (v * 9 + oyl) / nhl    # resimde (0..1)
+        nw, nh, ox, oy = self._bu
+        return (a * nw - ox) / self.W, (b * nh - oy) / self.H
+
+    def _cerceveye(self, k: dict) -> dict | None:
+        k = dict(k)
+        if "merkez" in k:
+            k["merkez"] = list(self._nokta(*k["merkez"]))
+        if "yol" in k:
+            k["yol"] = [list(self._nokta(*q)) for q in k["yol"]]
+        if "kutu" in k:
+            (x0, y0), (x1, y1) = self._nokta(*k["kutu"][:2]), self._nokta(*k["kutu"][2:])
+            x0, y0, x1, y1 = max(0.0, x0), max(0.0, y0), min(1.0, x1), min(1.0, y1)
+            if x1 <= x0 or y1 <= y0:
+                return None  # bu kadrajda görünmüyor
+            k["kutu"] = [x0, y0, x1, y1]
+        return k
 
     def _kutu_px(self, kutu) -> tuple[int, int, int, int]:
         x0, y0, x1, y1 = kutu
@@ -172,7 +212,7 @@ class SeyirDefteri:
             ort = float(k.get("ortalama_sn", 20.0))
             k["acik0"] = rng.random(n) < 0.6
             k["degisim"] = [np.cumsum(rng.exponential(ort, int(self.sure / ort * 3) + 8)) for _ in range(n)]
-            r = max(1.0, 0.0025 * self.W)
+            r = max(1.0, 0.0025 * self.Wk)
             k["sprite"] = _hale(r, int(r * 6) + 2)
             k["rgb"] = _renk(k.get("renk", "#ffd9a0"))
         elif e == "kutup_isigi":
@@ -185,7 +225,7 @@ class SeyirDefteri:
             sec = rng.choice(len(yy), n, replace=False) if n else np.array([], int)
             k["px"], k["py"] = xx[sec] + X0 + 0.0, yy[sec] + Y0 + 0.0
             k["faz"], k["w"] = rng.uniform(0, TAU, n), rng.uniform(0.15, 0.5, n)
-            r = max(0.8, 0.0018 * self.W)
+            r = max(0.8, 0.0018 * self.Wk)
             k["sprite"] = _hale(r, int(r * 6) + 2)
             k["rgb"] = _renk(k.get("renk", "#fff6e8"))
         elif e == "bulutsu_tulu":
@@ -201,11 +241,11 @@ class SeyirDefteri:
             (ax, ay), (bx, by) = k.get("yol", [[0.1, 0.2], [0.9, 0.3]])
             k["a"], k["b"] = np.array([ax * self.W, ay * self.H]), np.array([bx * self.W, by * self.H])
             k["faz"] = rng.uniform(0, k.get("aralik", 240))
-            r = max(0.9, 0.002 * self.W)
+            r = max(0.9, 0.002 * self.Wk)
             k["sprite"] = _hale(r, int(r * 6) + 2)
             k["rgb"] = _renk(k.get("renk", "#f4f1ff"))
         elif e == "isik":
-            r = k.get("yaricap", 0.004) * self.W
+            r = k.get("yaricap", 0.004) * self.Wk
             k["sprite"] = _hale(r, int(r * 6) + 2)
             k["rgb"] = _renk(k.get("renk", "#ffd9a0"))
         elif e in ("toz", "yildiz"):
@@ -258,6 +298,8 @@ class SeyirDefteri:
         x, y = xy
         if hiza == "sag":
             x = genislik - d.textlength(metin, font=f) - x
+        elif hiza == "orta":
+            x = (genislik - d.textlength(metin, font=f)) / 2 + x
         r = rgb(renk or self.palet["yazi"])
         kontur = max(1, int(2 * self.o))
         d.text((x + 1, y + 3 * self.o), metin, font=f, fill=(0, 0, 0, int(120 * opak)))
@@ -271,6 +313,61 @@ class SeyirDefteri:
         self._yazi(d, (0, 48 * o), f"MISSION {b['gorev_no']:03d}  ·  {b['hedef']}", YAZI["alt"], False, 0.85,
                    self.palet["yazi_ikincil"])
         return m, m, np.asarray(img, np.float32) / 255
+
+    # ---------- dikey (Shorts) ----------
+    def _dikey_ust(self) -> tuple[int, int, np.ndarray]:
+        """Üstte marka ve görev, y ≈ 0.28·H'de harf aralıklı kanca ve kehribar çizgi (marka.toml [sablon])."""
+        b, W, H = self.bilgi, self.W, self.H
+        sb = marka_yukle()["sablon"]
+        olc = H / 1920
+        img, d = self._parca(W, int(0.36 * H))
+        etiket = sb["short_etiket"] / self.o * olc  # _yazi boyu 1080p birimindedir
+        self._yazi(d, (0, 0.05 * H), "DEEP SPACE LOG", etiket * 1.2, True, 0.95, hiza="orta", genislik=W)
+        self._yazi(d, (0, 0.05 * H + etiket * 1.75 * self.o), f"MISSION {b['gorev_no']:03d}  ·  {b['hedef']}",
+                   etiket, False, 0.9, self.palet["yazi_ikincil"], hiza="orta", genislik=W)
+        if self.kanca:
+            metin = self.kanca.upper()
+            boy = int(sb["short_kanca"] * olc)
+            f = _font(boy)
+            iz = boy * 0.22
+            while sum(f.getlength(c) for c in metin) + iz * (len(metin) - 1) > W * 0.9 and boy > 12:
+                boy = int(boy * 0.92)
+                f, iz = _font(boy), boy * 0.22
+            gen = sum(f.getlength(c) for c in metin) + iz * (len(metin) - 1)
+            x, y = (W - gen) / 2, 0.28 * H - boy * 0.6
+            kontur = max(1, int(2 * self.o))
+            for c in metin:
+                d.text((x + 1, y + 3 * self.o), c, font=f, fill=(0, 0, 0, 130))
+                d.text((x, y), c, font=f, fill=(*rgb(self.palet["yazi"]), 255), stroke_width=kontur,
+                       stroke_fill=(8, 10, 18, 150))
+                x += f.getlength(c) + iz
+            cy, cw = y + boy * 1.45, boy * 3.2
+            d.line([(W / 2 - cw / 2, cy), (W / 2 + cw / 2, cy)], fill=(*rgb(self.palet["vurgu"]), 235),
+                   width=max(2, boy // 24))
+        return 0, 0, np.asarray(img, np.float32) / 255
+
+    def _dikey_alt(self, i: int) -> tuple[int, int, np.ndarray]:
+        """y > 0.8·H: "Full N-hour mission on the channel" ve tam genişlikte sinyal çizgisi."""
+        W, H, o = self.W, self.H, self.o
+        sb = marka_yukle()["sablon"]
+        m = int(KENAR * o * 0.6)
+        ph, k = int(0.16 * H), 2
+        img = Image.new("RGBA", (W * k, ph * k), (0, 0, 0, 0))
+        d = ImageDraw.Draw(img)
+        boy = sb["short_etiket"] * H / 1920
+        f = _font(int(boy * k))
+        metin = f"Full {self.bilgi.get('saat', 2)}-hour mission on the channel"
+        d.text(((W * k - d.textlength(metin, font=f)) / 2, 0), metin, font=f,
+               fill=(*rgb(self.palet["yazi"]), 235), stroke_width=max(1, int(2 * k * o)), stroke_fill=(8, 10, 18, 150))
+        sp = self.muzik["spektrum"][min(i, len(self.muzik["spektrum"]) - 1)]
+        xs = np.linspace(m * k, (W - m) * k, 200)
+        ince = np.convolve(np.interp(xs, np.linspace(m * k, (W - m) * k, len(sp)), sp), np.ones(5) / 5, mode="same")
+        taban_y, tepe = ph * k * 0.92, ph * k * 0.42
+        d.line([(m * k, taban_y), ((W - m) * k, taban_y)], fill=(*rgb(self.palet["yazi_ikincil"]), 90), width=k)
+        d.line([(float(x), float(taban_y - v * tepe)) for x, v in zip(xs, ince)],
+               fill=(*rgb(self.palet["vurgu"]), 235), width=max(1, int(2.6 * k * o)), joint="curve")
+        img = img.resize((W, ph), Image.LANCZOS)
+        return 0, int(0.8 * H), np.asarray(img, np.float32) / 255
 
     def _kayit_karti(self, satirlar: list[tuple[str, float]]) -> tuple[int, int, np.ndarray]:
         """Sol alt köşede dar kayıt kartı (sahibinin isteği, 11 Kasım 2026: "şık arka plan, köşede, videoya
@@ -300,6 +397,8 @@ class SeyirDefteri:
         return m, H - m - kh, np.asarray(img, np.float32) / 255
 
     def _hud(self, t: float, i: int) -> list[tuple[int, int, np.ndarray]]:
+        if self.dikey:
+            return [self._sabit, self._dikey_alt(i)]
         o, W, H, b = self.o, self.W, self.H, self.bilgi
         m = int(KENAR * o)
         parcalar = [self._sabit]
@@ -449,7 +548,7 @@ def katmanlari_oku(gorsel: Path) -> list[dict]:
 
 
 def kodla(sahne: SeyirDefteri, ses: Path | None, hedef: Path, ses_filtresi: str | None, crf: int = 18,
-          preset: str = "medium") -> Path:
+          preset: str = "medium", ses_basla: float = 0.0) -> Path:
     """Kareleri doğrudan ffmpeg'e akıtır; ses aynı geçişte eklenir.
 
     ses=None sessiz ara çıktıdır (uzun videonun parça bölümleri) ve yalnız bir `ara/` klasörüne yazılabilir;
@@ -464,6 +563,8 @@ def kodla(sahne: SeyirDefteri, ses: Path | None, hedef: Path, ses_filtresi: str 
     if ses is None:
         komut += ["-an"]
     else:
+        if ses_basla:  # sesin bu andan başlayan dilimi (Shorts: master'dan aynı aralık)
+            komut += ["-ss", f"{ses_basla:.3f}", "-t", f"{sahne.sure:.3f}"]
         komut += ["-i", str(ses), "-map", "0:v", "-map", "1:a", "-af", ses_filtresi, "-c:a", "aac", "-b:a", "320k"]
     komut += ["-c:v", "libx264", "-preset", preset, "-crf", str(crf), "-pix_fmt", "yuv420p", "-g", str(fps * 2),
               "-t", f"{sahne.sure:.3f}", "-movflags", "+faststart", str(hedef)]

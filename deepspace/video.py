@@ -10,8 +10,6 @@ import json
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 from pathlib import Path
 
-import numpy as np
-
 from . import klip, yazi
 from .ortak import calistir, cikti, ffprobe_sure
 from .sahne import Sahne, dongu_kodla
@@ -260,41 +258,6 @@ def shorts_secimi(n_parca: int, adet: int) -> list[int]:
 
 
 def shorts(gorev: dict, ayar: dict) -> list[Path]:
-    v, sh, ks = ayar["video"], ayar["shorts"], ayar["kanal"]
-    out = cikti(gorev)
-    bolumler = json.loads((out / "bolumler.json").read_text(encoding="utf-8"))
-    W, H, fps, sure = 1080, 1920, v["fps"], float(sh["sure_sn"])
-    saat = round(bolumler["toplam_sn"] / 3600)
-    yollar = []
-    for k, i in enumerate(shorts_secimi(len(gorev["parca"]), sh["adet"])):
-        p, bp = gorev["parca"][i], bolumler["parcalar"][i]
-        ust = yazi.katman(W, H, [(ks["ad"].upper(), 40, "kalin", 0.95),
-                                 (f"Mission {gorev['no']:03d}  ·  {gorev['hedef']}", 30, "normal", 0.8)],
-                          W // 2, 170, hiza="orta")
-        alt = yazi.katman(W, H, [(p["ad"], 52, "kalin", 0.95),
-                                 (f"Full {saat}-hour mission on the channel", 30, "normal", 0.8)],
-                          W // 2, H - 420, hiza="orta")
-        ust.alpha_composite(alt)
-        sessiz = out / f"short_{k + 1}_v.mp4"
-        if parca_klibi(gorev, i):  # klipten dikey kesit: uzun videonun döngüsünden ortası kırpılır
-            yazi_png = out / f"short_{k + 1}_yazi.png"
-            ust.save(yazi_png)
-            calistir(["ffmpeg", "-y", "-loglevel", "error", "-stream_loop", "-1",
-                      "-i", str(cikti(gorev) / "sahne" / f"sahne_{i + 1:02d}.mp4"), "-i", str(yazi_png),
-                      "-filter_complex", f"[0:v]crop=ih*9/16:ih,scale={W}:{H}:flags=lanczos[a];[a][1:v]overlay[v]",
-                      "-map", "[v]", "-t", f"{sure:.3f}", "-c:v", "libx264", "-preset", "medium",
-                      "-crf", str(v["crf"]), "-pix_fmt", "yuv420p", "-r", str(fps), str(sessiz)])
-            yazi_png.unlink()
-        else:
-            katman = np.asarray(ust, np.float32) / 255
-            dongu_kodla(sahne_nesnesi(gorev, i, W, H, float(v["dongu_sn"]), yerlesim="ust"), sessiz, fps=fps,
-                        crf=v["crf"], sure=sure, ust_katman=katman, lut=marka_lut(gorev))
-        bas = max(0.0, bp["basla"] + bp["sure"] / 2 - sure / 2)
-        hedef = out / f"short_{k + 1}.mp4"
-        calistir(["ffmpeg", "-y", "-loglevel", "error", "-i", str(sessiz), "-ss", f"{bas:.3f}", "-t", f"{sure:.3f}",
-                  "-i", str(out / "ses.m4a"), "-map", "0:v", "-map", "1:a", "-c:v", "copy",
-                  "-af", f"afade=t=in:d=1.5,afade=t=out:st={sure - 2.5:.2f}:d=2.5", "-c:a", "aac", "-b:a", "192k",
-                  "-shortest", "-movflags", "+faststart", str(hedef)])
-        sessiz.unlink()
-        yollar.append(hedef)
-    return yollar
+    """Shorts departmanına devreder (G12): plan, dikey Seyir Defteri, kapılar."""
+    from . import shorts as sh
+    return sh.uret(gorev, ayar)

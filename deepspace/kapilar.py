@@ -96,7 +96,8 @@ def ses(bolumler: dict, ayar: dict, hedef_dakika: float) -> list[dict]:
 
 
 # ---------- G5: metin ----------
-def metin(yt: dict, ayar: dict, bolumler: dict) -> list[dict]:
+def metin_temel(yt: dict, ayar: dict) -> list[dict]:
+    """G5/G9: uzunluklar, yasak kelimeler (sanatçı/film adı), sentetik içerik etiketi. Shorts metinleri de buna uyar."""
     mt = ayar["metin"]
     sonuc = [_k("başlık uzunluğu", 0 < len(yt["baslik"]) <= mt["baslik_max"], f"{len(yt['baslik'])} karakter"),
              _k("açıklama uzunluğu", len(yt["aciklama"]) <= mt["aciklama_max"], f"{len(yt['aciklama'])} karakter"),
@@ -105,6 +106,11 @@ def metin(yt: dict, ayar: dict, bolumler: dict) -> list[dict]:
     yasak = [k for k in mt["yasak_kelimeler"] if re.search(rf"\b{re.escape(k)}\b", tum)]
     sonuc.append(_k("yasak kelime yok (sanatçı/film adı)", not yasak, ", ".join(yasak)))
     sonuc.append(_k("sentetik içerik etiketi açık", yt.get("sentetik_icerik") is True))
+    return sonuc
+
+
+def metin(yt: dict, ayar: dict, bolumler: dict) -> list[dict]:
+    sonuc = metin_temel(yt, ayar)
     satirlar = [s for s in yt["aciklama"].splitlines() if re.match(r"^\d+:\d{2}(:\d{2})? ", s)]
     zamanlar = []
     for s in satirlar:
@@ -139,12 +145,12 @@ def _akislar(dosya: Path) -> dict:
 SES_ESIGI_DB = -45.0  # ortalama seviye bunun altındaysa ses "duyulmuyor" (G14)
 
 
-def ses_duyuluyor(dosya: Path) -> tuple[bool, str]:
-    """G14: video dosyasında ses akışı var ve gerçekten duyuluyor mu (ortadan 30 sn ölçülür)."""
+def ses_duyuluyor(dosya: Path, basla: float | None = None, sure: float = 30.0) -> tuple[bool, str]:
+    """G14: video dosyasında ses akışı var ve gerçekten duyuluyor mu. basla yoksa ortadan `sure` sn ölçülür."""
     if not any(s["codec_type"] == "audio" for s in _akislar(dosya)["streams"]):
         return False, "ses akışı yok"
-    bas = max(0.0, ffprobe_sure(dosya) / 2 - 15)
-    s = calistir(["ffmpeg", "-hide_banner", "-nostats", "-ss", f"{bas:.2f}", "-t", "30", "-i", str(dosya),
+    bas = max(0.0, ffprobe_sure(dosya) / 2 - sure / 2) if basla is None else basla
+    s = calistir(["ffmpeg", "-hide_banner", "-nostats", "-ss", f"{bas:.2f}", "-t", f"{sure:g}", "-i", str(dosya),
                   "-map", "0:a:0", "-af", "volumedetect", "-f", "null", "-"])
     m = re.search(r"mean_volume:\s*(-?[\d.]+|-inf)", s.stderr)
     db = float(m.group(1)) if m and m.group(1) != "-inf" else -999.0
@@ -165,11 +171,16 @@ def video(dosya: Path, bolumler: dict, ayar: dict, siyah_kontrol: bool = True) -
                     f"{vid[0]['width']}x{vid[0]['height']}" if vid else "video akışı yok"))
     sonuc.append(_k("ses duyuluyor", *ses_duyuluyor(dosya)))
     if siyah_kontrol:
-        s = calistir(["ffmpeg", "-hide_banner", "-nostats", "-i", str(dosya), "-vf",
-                      "fps=2,scale=320:-2,blackdetect=d=2:pix_th=0.02", "-an", "-f", "null", "-"])
-        siyah = re.findall(r"black_start:([\d.]+)", s.stderr)
+        siyah = siyah_anlar(dosya)
         sonuc.append(_k("siyah ekran yok", not siyah, ", ".join(siyah[:5])))
     return sonuc
+
+
+def siyah_anlar(dosya: Path, en_az_sn: float = 2.0) -> list[str]:
+    """En az `en_az_sn` süren siyah bölümlerin başlangıçları (sn)."""
+    s = calistir(["ffmpeg", "-hide_banner", "-nostats", "-i", str(dosya), "-vf",
+                  f"fps=2,scale=320:-2,blackdetect=d={en_az_sn}:pix_th=0.02", "-an", "-f", "null", "-"])
+    return re.findall(r"black_start:([\d.]+)", s.stderr)
 
 
 def shorts(yollar: list[Path], ayar: dict) -> list[dict]:
@@ -178,8 +189,12 @@ def shorts(yollar: list[Path], ayar: dict) -> list[dict]:
         ak = _akislar(y)["streams"]
         vid = [s for s in ak if s["codec_type"] == "video"]
         ok = bool(vid) and (vid[0]["width"], vid[0]["height"]) == (1080, 1920) and ffprobe_sure(y) <= 60
-        sonuc.append(_k(f"{Path(y).name} dikey ve ≤60 sn", ok))
-        sonuc.append(_k(f"{Path(y).name} ses duyuluyor", *ses_duyuluyor(y)))
+        ad = Path(y).name
+        sonuc.append(_k(f"{ad} dikey ve ≤60 sn", ok))
+        sonuc.append(_k(f"{ad} ses duyuluyor", *ses_duyuluyor(y)))
+        sonuc.append(_k(f"{ad} ilk 2 sn ses duyuluyor", *ses_duyuluyor(y, 0.0, 2.0)))  # kaydırırken ilk an
+        siyah = siyah_anlar(y, 0.5)
+        sonuc.append(_k(f"{ad} siyah kare yok", not siyah, ", ".join(siyah[:5])))
     return sonuc
 
 

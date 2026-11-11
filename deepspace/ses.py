@@ -4,6 +4,7 @@
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 from pathlib import Path
@@ -49,6 +50,11 @@ def toplam_sure(sureler: list[float], capraz: float) -> float:
 def ses_dosyalari(gorev: dict) -> list[Path]:
     klasor = Path(gorev["klasor"]) / "ses"
     return [klasor / p["dosya"] for p in gorev["parca"]]
+
+
+def ozetler(gorev: dict) -> list[str]:
+    """Var olan parça dosyalarının sha256 özetleri (özgünlük ve Shorts kaydı için). Eksik dosya listede yer almaz."""
+    return [hashlib.sha256(d.read_bytes()).hexdigest() for d in ses_dosyalari(gorev) if d.exists()]
 
 
 def birlestir(gorev: dict, ayar: dict) -> dict:

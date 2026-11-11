@@ -29,7 +29,6 @@ Tek tek istasyonlar: ses, sahneler, video, kapak, metin, shorts.
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import sys
 import time
@@ -83,17 +82,41 @@ def gorsel_istemleri(gorev: dict) -> Path:
 
 
 def ses_ozetleri(gorev: dict) -> list[str]:
-    return [hashlib.sha256(d.read_bytes()).hexdigest() for d in ses.ses_dosyalari(gorev) if d.exists()]
+    return ses.ozetler(gorev)
+
+
+def _shorts_anlari(gorev: dict, ozetler: list[str]) -> list[dict]:
+    """Kullanılan Shorts anları (G12: başka görevde tekrar etmez). Parça içi göreli saniye ve ses özetiyle."""
+    from . import shorts
+    yol = cikti(gorev) / "bolumler.json"
+    if not yol.exists():
+        return []
+    bolumler = json.loads(yol.read_text(encoding="utf-8"))
+    try:
+        plan, _ = shorts.plan_yukle(gorev, ayar_yukle(), bolumler)
+    except SystemExit:
+        return []
+    if len(ozetler) != len(gorev["parca"]):
+        print("UYARI: ses dosyaları eksik; Shorts anları kayda yazılamadı")
+        return []
+    return [{"ses_ozeti": ozetler[int(x["parca"]) - 1],
+             "parca_ici_sn": round(float(x["basla_sn"]) - bolumler["parcalar"][int(x["parca"]) - 1]["basla"], 2),
+             "sure_sn": float(x["sure_sn"])} for x in plan]
 
 
 def kaydet(gorev: dict, youtube_id: str | None) -> dict:
     kayit = kayit_yukle()
     kayit["gorevler"] = [g for g in kayit["gorevler"] if g.get("no") != gorev["no"]]
-    kayit["gorevler"].append({
+    ozetler = ses_ozetleri(gorev)
+    giris = {
         "no": gorev["no"], "seri": gorev["seri"], "hedef": gorev["hedef"], "tohum": gorev["tohum"],
         "tarih": date.today().isoformat(), "youtube_id": youtube_id,
-        "parcalar": [p["ad"] for p in gorev["parca"]], "ses_ozetleri": ses_ozetleri(gorev),
-    })
+        "parcalar": [p["ad"] for p in gorev["parca"]], "ses_ozetleri": ozetler,
+    }
+    anlar = _shorts_anlari(gorev, ozetler)
+    if anlar:
+        giris["shorts"] = anlar
+    kayit["gorevler"].append(giris)
     kayit["gorevler"].sort(key=lambda g: g["no"])
     KAYIT_DOSYASI.write_text(json.dumps(kayit, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     return kayit
@@ -159,8 +182,14 @@ def _google(a, gorev: dict) -> int:
             print("YouTube'daki planlı yayın geri alındı (video gizli kaldı)")
         return 0
     if a.komut == "yukle":
-        sonuc = google.youtube_yukle(out)
-        print(f"yüklendi (gizli): https://youtu.be/{sonuc['id']}  {sonuc.get('kapak_hatasi', '')}")
+        if (out / "yukleme.json").exists():  # yeniden çalıştırmada uzun video ikinci kez yüklenmez
+            print("uzun video zaten yüklü (yukleme.json); yalnız Shorts denenir")
+        else:
+            sonuc = google.youtube_yukle(out)
+            print(f"yüklendi (gizli): https://youtu.be/{sonuc['id']}  {sonuc.get('kapak_hatasi', '')}")
+        if (out / "shorts.json").exists() and not (out / "shorts_yukleme.json").exists():
+            for s in google.shorts_yukle(out):
+                print(f"Short yüklendi (gizli, {s['publishAt']}): https://youtu.be/{s['id']}")
         return 0
     if not a.drive:
         raise SystemExit("--drive klasör yolu gerekli")

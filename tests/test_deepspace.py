@@ -603,6 +603,185 @@ def test_G12_shorts_analiz_komutu(tmp_path, monkeypatch):
     assert (ortak.cikti(g) / "shorts_analiz.json").exists()
 
 
+def _plan(b, **ek):
+    p = [{"parca": 2, "sure_sn": 45, "kirp_x": 0.5, "kanca": "Ice world"},
+         {"parca": 5, "sure_sn": 45, "kirp_x": 0.3, "kanca": "Red sun"},
+         {"parca": 9, "sure_sn": 45, "kirp_x": 0.7, "kanca": "Deep signal"}]
+    for x in p:
+        x["basla_sn"] = b["parcalar"][x["parca"] - 1]["basla"] + 60
+        x.update(ek)
+    return p
+
+
+def _shorts_gorevi(tmp_path, no):
+    g = _gorev(tmp_path, no=no)
+    g["_ses_ozetleri"] = [f"oz{i}" for i in range(20)]
+    return g, _bolumler([300.0] * 20)
+
+
+def test_G12_plan_kurallari(tmp_path):
+    from deepspace import shorts
+    g, b = _shorts_gorevi(tmp_path, 2)
+    kayit = {"gorevler": []}
+    assert not _kirmizi(shorts.plan_kontrol(_plan(b), g, b, kayit, AYAR))
+    p = _plan(b)
+    p[1]["parca"], p[1]["basla_sn"] = 2, p[0]["basla_sn"]                  # aynı parça iki kez
+    assert _kirmizi(shorts.plan_kontrol(p, g, b, kayit, AYAR))
+    p = _plan(b)
+    p[0]["basla_sn"] = b["parcalar"][1]["basla"] + 280                    # parça sonunu aşar
+    assert _kirmizi(shorts.plan_kontrol(p, g, b, kayit, AYAR))
+    p = _plan(b)
+    p[0]["basla_sn"] = b["parcalar"][1]["basla"] + 2                      # çapraz geçişin içinde başlar
+    assert _kirmizi(shorts.plan_kontrol(p, g, b, kayit, AYAR))
+    assert _kirmizi(shorts.plan_kontrol(_plan(b, kanca="Four words are here"), g, b, kayit, AYAR))
+    assert _kirmizi(shorts.plan_kontrol(_plan(b, kanca="Interstellar drift"), g, b, kayit, AYAR))  # G5
+    assert _kirmizi(shorts.plan_kontrol(_plan(b, sure_sn=15), g, b, kayit, AYAR))
+    assert _kirmizi(shorts.plan_kontrol(_plan(b, kirp_x=1.4), g, b, kayit, AYAR))
+    assert _kirmizi(shorts.plan_kontrol(_plan(b)[:2], g, b, kayit, AYAR))   # adet
+    bozuk = _plan(b)
+    del bozuk[0]["basla_sn"]
+    bozuk[1]["parca"] = 99
+    assert _kirmizi(shorts.plan_kontrol(bozuk, g, b, kayit, AYAR))          # çökmez, kırmızı
+    eksik = dict(g, _ses_ozetleri=["oz0"])                                   # ses özetleri hizasız
+    assert _kirmizi(shorts.plan_kontrol(_plan(b), eksik, b, kayit, AYAR))
+
+
+def test_G12_dikey_karede_goruntu_bukulmez_ve_yazilar_okunur(tmp_path):
+    from PIL import Image
+    from deepspace import defter
+    W, H, fps = 540, 960, 24
+    g = tmp_path / "g.png"
+    Image.fromarray((np.random.default_rng(2).random((1080, 1920, 3)) * 255).astype(np.uint8)).save(g)
+    n = fps * 10
+    muzik = {"zarf": np.full(n, 0.5, np.float32), "spektrum": np.full((n, 40), 0.3, np.float32)}
+    bilgi = {"ad": "X", "kisa": "x", "bilgi": "x", "gorev_no": 2, "hedef": "X", "parca_no": 1,
+             "parca_say": 20, "sonraki": "Y"}
+    s = defter.SeyirDefteri(g, [], W, H, fps, 10.0, muzik, bilgi, kirp_x=0.2, kanca="Red sun")
+    a, b = s.kare(10).astype(int), s.kare(200).astype(int)
+    orta = (slice(int(0.55 * H), int(0.7 * H)), slice(0, W))
+    assert np.abs(a[orta] - b[orta]).max() == 0
+    assert a.shape == (H, W, 3)
+    assert ortak.marka_yukle()["sablon"]["short_etiket"] >= defter.EN_KUCUK_YAZI_ORANI * 1920
+    kanca_bandi = (slice(int(0.22 * H), int(0.34 * H)), slice(0, W))
+    bos = defter.SeyirDefteri(g, [], W, H, fps, 10.0, muzik, bilgi, kirp_x=0.2, kanca="")
+    assert np.abs(a[kanca_bandi] - bos.kare(10).astype(int)[kanca_bandi]).max() > 0   # kanca y≈0.28H'de
+    sag = defter.SeyirDefteri(g, [], W, H, fps, 10.0, muzik, bilgi, kirp_x=0.8, kanca="Red sun")
+    assert np.abs(a[orta] - sag.kare(10).astype(int)[orta]).max() > 0                 # kirp_x kadrajı kaydırır
+
+
+def test_G12_dikey_karede_katmanlar_resimle_birlikte_kayar(tmp_path):
+    from PIL import Image
+    from deepspace import defter
+    g = tmp_path / "g.png"
+    Image.fromarray(np.zeros((180, 320, 3), np.uint8)).save(g)
+    muzik = {"zarf": np.full(48, 0.5, np.float32), "spektrum": np.full((48, 40), 0.3, np.float32)}
+    bilgi = {"ad": "X", "kisa": "", "bilgi": "", "gorev_no": 2, "hedef": "X", "parca_no": 1, "parca_say": 2,
+             "sonraki": ""}
+    lamba = [{"etki": "isik", "merkez": [0.6, 0.5], "yaricap": 0.01, "guc": 1.0, "nabiz": "yavas", "periyot": 4}]
+    s = defter.SeyirDefteri(g, lamba, 540, 960, 24, 2.0, muzik, bilgi, kirp_x=0.5)
+    k = s.kare(24).astype(int).sum(axis=2)[int(0.4 * 960):int(0.6 * 960)]
+    x = int(np.argmax(k.max(axis=0)))
+    # resim 960 yükseklikte 1707 genişliğe büyür, ortadan 540 kırpılır: 0.6·1707 − 583.5 ≈ 440
+    assert abs(x - 440) <= 6
+
+
+def test_G12_kullanilan_an_baska_gorevde_tekrar_etmez(tmp_path):
+    from deepspace import shorts
+    g, b = _shorts_gorevi(tmp_path, 3)
+    kayit = {"gorevler": [{"no": 2, "shorts": [{"ses_ozeti": "oz1", "parca_ici_sn": 70.0, "sure_sn": 45}]}]}
+    assert _kirmizi(shorts.plan_kontrol(_plan(b), g, b, kayit, AYAR))   # parça 2: göreli 60–105, örtüşür
+    kayit["gorevler"][0]["shorts"][0]["parca_ici_sn"] = 120.0
+    assert not _kirmizi(shorts.plan_kontrol(_plan(b), g, b, kayit, AYAR))
+
+
+def _short_gorevi(tmp_path):
+    import copy
+    g = _gorev(tmp_path, n=2, no=2)
+    (tmp_path / "gorsel").mkdir()
+    for i in range(2):
+        _resim(tmp_path / "gorsel" / f"{i + 1:02d}.png", 320, 180, tohum=i)
+    b = _bolumler([30.0, 30.0], capraz=2.0)
+    _yaz_bolumler(g, b)
+    ortak.calistir(["ffmpeg", "-y", "-loglevel", "error", "-f", "lavfi", "-i",
+                    f"sine=frequency=220:duration={b['toplam_sn']}", "-c:a", "aac", str(ortak.cikti(g) / "ses.m4a")])
+    ayar = copy.deepcopy(AYAR)
+    ayar["video"].update({"fps": 8, "crf": 32, "preset": "ultrafast"})
+    ayar["shorts"].update({"adet": 1, "min_sn": 5, "max_sn": 20})
+    g["_ses_ozetleri"] = ["a", "b"]
+    plan = [{"parca": 2, "basla_sn": b["parcalar"][1]["basla"] + 5, "sure_sn": 6, "kirp_x": 0.3, "kanca": "Red sun"}]
+    return g, ayar, b, plan
+
+
+def test_G12_short_uretimi_plan_ve_kapilar(tmp_path):
+    from deepspace import shorts
+    g, ayar, b, plan = _short_gorevi(tmp_path)
+    with pytest.raises(SystemExit, match="shorts_plan.json"):
+        shorts.uret(g, ayar)                                   # görev 2: plan olmadan Short yok
+    (tmp_path / "shorts_plan.json").write_text(json.dumps(plan), encoding="utf-8")
+    yollar = shorts.uret(g, ayar)
+    assert [y.name for y in yollar] == ["short_1.mp4"]
+    k = kapilar.shorts(yollar, ayar)
+    assert not _kirmizi(k) and any("ilk 2 sn" in x["ad"] for x in k)
+    assert ortak.ffprobe_sure(yollar[0]) == pytest.approx(6.0, abs=0.3)
+    m = json.loads((ortak.cikti(g) / "shorts.json").read_text(encoding="utf-8"))
+    assert m[0]["baslik"].startswith("Red sun · World 2") and "#Shorts" in m[0]["baslik"]
+    assert len(m[0]["baslik"]) <= 100 and "{UZUN_VIDEO}" in m[0]["aciklama"] and "AI" in m[0]["aciklama"]
+    assert not _kirmizi(kapilar.metin_temel(m[0], ayar))
+    assert not _kirmizi(shorts.istasyon_kapilari(g, ayar))
+    plan[0]["sure_sn"] = 30                                     # kırmızı plan: üretim durur
+    (tmp_path / "shorts_plan.json").write_text(json.dumps(plan), encoding="utf-8")
+    with pytest.raises(SystemExit, match="plan"):
+        shorts.uret(g, ayar)
+
+
+def test_G12_shorts_yukleme_takvimi(tmp_path, monkeypatch):
+    from deepspace import google
+    out = tmp_path
+    (out / "yukleme.json").write_text(json.dumps({"video_id": "UZUN1"}), encoding="utf-8")
+    (out / "shorts.json").write_text(json.dumps([
+        {"baslik": f"S{k} | Deep Space Log #Shorts", "aciklama": "Full mission: {UZUN_VIDEO}", "etiketler": ["a"],
+         "sentetik_icerik": True} for k in range(3)]), encoding="utf-8")
+    for k in range(3):
+        (out / f"short_{k + 1}.mp4").write_bytes(b"v" * 10)
+    monkeypatch.setattr(google, "onay_kontrol", lambda c: {"yayin_zamani": "2026-11-20T17:00:00Z"})
+    monkeypatch.setattr(google, "erisim_belirteci", lambda oturum=None: "tok")
+    govdeler = []
+
+    class Oturum:
+        def post(self, url, params, json, timeout, headers):
+            govdeler.append(json)
+            return _Yanit(200, baslik={"Location": "u"})
+
+        def put(self, url, data, headers, timeout):
+            return _Yanit(200, {"id": f"S{len(govdeler)}"})
+
+    sonuc = google.shorts_yukle(out, Oturum())
+    assert [s["id"] for s in sonuc] == ["S1", "S2", "S3"]
+    assert [g["status"]["publishAt"] for g in govdeler] == ["2026-11-21T17:00:00Z", "2026-11-23T17:00:00Z",
+                                                            "2026-11-25T17:00:00Z"]
+    assert all(g["status"]["privacyStatus"] == "private" and g["status"]["containsSyntheticMedia"] for g in govdeler)
+    assert "https://youtu.be/UZUN1" in govdeler[0]["snippet"]["description"]
+    (out / "yukleme.json").unlink()
+    with pytest.raises(google.GoogleHatasi, match="uzun video"):
+        google.shorts_yukle(out, Oturum())
+
+
+def test_G12_kaydet_shorts_anlarini_yazar(tmp_path, monkeypatch):
+    from deepspace import gorev as cli
+    monkeypatch.setattr(cli, "KAYIT_DOSYASI", tmp_path / "kayit.json")
+    monkeypatch.setattr(ortak, "KAYIT_DOSYASI", tmp_path / "kayit.json")
+    g, b = _shorts_gorevi(tmp_path, 2)
+    (tmp_path / "ses").mkdir()
+    for i, p in enumerate(g["parca"]):
+        (tmp_path / "ses" / p["dosya"]).write_bytes(bytes([i]) * 10)
+    _yaz_bolumler(g, b)
+    (tmp_path / "shorts_plan.json").write_text(json.dumps(_plan(b)), encoding="utf-8")
+    kayit = cli.kaydet(g, "VID")
+    sh = kayit["gorevler"][0]["shorts"]
+    assert [round(x["parca_ici_sn"]) for x in sh] == [60, 60, 60] and sh[0]["sure_sn"] == 45
+    assert sh[0]["ses_ozeti"] == kayit["gorevler"][0]["ses_ozetleri"][1]
+
+
 def test_G14_seyir_defteri_goruntuyu_bukmez(tmp_path):
     from PIL import Image
     from deepspace.defter import SeyirDefteri

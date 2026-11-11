@@ -11,6 +11,7 @@ from pathlib import Path
 
 import numpy as np
 
+from .defter import EN_KUCUK_YAZI_ORANI, kanca_sigar_mi
 from .kapilar import SES_ESIGI_DB, _k, yasak_kelimeler
 from .ortak import cikti, kayit_yukle, seri
 
@@ -65,7 +66,18 @@ def analiz(gorev: dict, ayar: dict) -> Path:
 
 # ---------- plan (kurgucu ajan yazar, kod denetler) ----------
 PLAN_DOSYASI = "shorts_plan.json"
-SHORTS_NOTU = ("Music generated with AI music tools (Suno), then hand-selected and mastered. "
+
+
+def _parca_no(p):
+    """1, "01", 1.0 -> 1 (aynı parça iki kez seçilmesin); tam sayı olmayan değer olduğu gibi döner."""
+    if isinstance(p, bool):
+        return p
+    try:
+        f = float(p)
+    except (TypeError, ValueError):
+        return p
+    return int(f) if f.is_integer() else p
+SHORTS_NOTU = ("Music generated with AI music tools (Suno), then selected and mastered. "
                "Scenes are AI-generated images; the light motion and mission log are rendered with code.")
 
 
@@ -78,7 +90,7 @@ def plan_kontrol(plan: list, gorev: dict, bolumler: dict, kayit: dict, ayar: dic
     satirlar = [x if isinstance(x, dict) else {} for x in plan]
     parcalar = [x.get("parca") for x in satirlar]
     sonuc = [_k(f"Short adedi {sh['adet']}", len(plan) == sh["adet"], f"{len(plan)} adet"),
-             _k("her Short ayrı parçadan", len(set(map(str, parcalar))) == len(parcalar), str(parcalar))]
+             _k("her Short ayrı parçadan", len(set(map(_parca_no, parcalar))) == len(parcalar), str(parcalar))]
     n = len(bolumler["parcalar"])
     ozetler = gorev.get("_ses_ozetleri") or []
     hizali = len(ozetler) == n
@@ -89,8 +101,12 @@ def plan_kontrol(plan: list, gorev: dict, bolumler: dict, kayit: dict, ayar: dic
     for k, x in enumerate(satirlar, 1):
         ad = f"Short {k}"
         try:
-            parca, bas, sure = int(x["parca"]), float(x["basla_sn"]), float(x["sure_sn"])
-            kirp, kanca = float(x["kirp_x"]), str(x["kanca"]).strip()
+            parca, bas, sure = _parca_no(x["parca"]), float(x["basla_sn"]), float(x["sure_sn"])
+            if not isinstance(parca, int):
+                raise ValueError(f"parça numarası tam sayı olmalı: {x['parca']!r}")
+            if not isinstance(x["kanca"], str) or not x["kanca"].strip():
+                raise ValueError("kanca boş olmayan bir metin olmalı")
+            kirp, kanca = float(x["kirp_x"]), x["kanca"].strip()
             if not 1 <= parca <= n:
                 raise ValueError(f"parça {parca} yok (1–{n})")
         except (KeyError, TypeError, ValueError) as e:
@@ -107,6 +123,8 @@ def plan_kontrol(plan: list, gorev: dict, bolumler: dict, kayit: dict, ayar: dic
             _k(f"{ad}: kirp_x 0–1", 0 <= kirp <= 1, f"{kirp:g}"),
             _k(f"{ad}: kanca 1–{sh['kanca_max_kelime']} kelime", 1 <= kelime <= sh["kanca_max_kelime"], kanca),
             _k(f"{ad}: kancada yasak kelime yok (G5)", not yasak, ", ".join(yasak)),
+            _k(f"{ad}: kanca telefonda okunur (en az %{EN_KUCUK_YAZI_ORANI * 100:g} yükseklik, G16)",
+               kanca_sigar_mi(kanca, 1080, 1920), kanca),
         ]
         if hizali:
             goreli = bas - bp["basla"]

@@ -170,6 +170,9 @@ def _defter_bolumu(args) -> str:
     fps = v["fps"]
     gorsel = parca_gorseli(gorev, i)[0]
     bas, sure = ilk / fps, (son - ilk) / fps
+    if gorsel is None:  # G13: iki denemede de kalan görsel çıkarılır, parça kod sahnesine düşer
+        kod = Sahne(gorev["parca"][i], _tohum(gorev, i), v["genislik"], v["yukseklik"], float(v["dongu_sn"]))
+        return str(dongu_kodla(kod, Path(hedef), fps=fps, crf=v["crf"], sure=sure))
     muzik = defter.ses_ozeti(ses, fps, basla=bas, sure=sure)
     sahne = defter.SeyirDefteri(gorsel, defter.katmanlari_oku(gorsel), v["genislik"], v["yukseklik"], fps, sure,
                                 muzik, parca_bilgisi(gorev, i), tohum=_tohum(gorev, i), ton=marka_filtresi(), t0=bas)
@@ -181,9 +184,6 @@ def uzun_video_defter(gorev: dict, ayar: dict) -> Path:
     v = ayar["video"]
     out = cikti(gorev)
     bolumler = json.loads((out / "bolumler.json").read_text(encoding="utf-8"))
-    eksik = [f"{i + 1:02d}" for i in range(len(bolumler["parcalar"])) if not parca_gorseli(gorev, i)[0]]
-    if eksik:
-        raise ValueError(f"defter modu her parçaya görsel ister; eksik: {', '.join(eksik)}")
     fps = v["fps"]
     ara = out / "ara"
     ara.mkdir(exist_ok=True)

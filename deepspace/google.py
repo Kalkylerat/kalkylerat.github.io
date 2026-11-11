@@ -239,12 +239,18 @@ def shorts_yukle(cikti: Path, oturum=requests, gunler: list[int] | None = None) 
     if len(gunler) < len(metinler):
         raise GoogleHatasi(f"yayin_gunleri {len(gunler)} gün, Short {len(metinler)}")
     yayin = _zaman_oku(onay["yayin_zamani"])
+    iz = cikti / "shorts_yukleme.json"
+    sonuc = json.loads(iz.read_text(encoding="utf-8")) if iz.exists() else []  # yarıda kaldıysa kaldığı yerden
+    yuklu = {s["dosya"] for s in sonuc}
+    if all(f"short_{k + 1}.mp4" in yuklu for k in range(len(metinler))):
+        return sonuc
     tok = erisim_belirteci(oturum)
-    sonuc = []
     for k, m in enumerate(metinler):
         if not m.get("sentetik_icerik"):
             raise GoogleHatasi("sentetik içerik etiketi kapalı (G9)")
         dosya = cikti / f"short_{k + 1}.mp4"
+        if dosya.name in yuklu:
+            continue
         zaman = (yayin + timedelta(days=gunler[k])).astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
         govde = youtube_govdesi(dict(m, aciklama=m["aciklama"].replace("{UZUN_VIDEO}", f"https://youtu.be/{uzun}")),
                                 zaman)
@@ -255,5 +261,5 @@ def shorts_yukle(cikti: Path, oturum=requests, gunler: list[int] | None = None) 
             raise GoogleHatasi(f"Short yükleme başlatılamadı ({r.status_code}): {r.text[:300]}")
         sonuc.append({"id": _devam_ettir(r.headers["Location"], dosya, "video/mp4", oturum)["id"],
                       "publishAt": zaman, "dosya": dosya.name})
-        (cikti / "shorts_yukleme.json").write_text(json.dumps(sonuc, indent=2), encoding="utf-8")  # yarıda kalırsa iz
+        iz.write_text(json.dumps(sonuc, indent=2), encoding="utf-8")  # yarıda kalırsa iz
     return sonuc

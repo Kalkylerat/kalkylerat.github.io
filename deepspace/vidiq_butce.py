@@ -5,6 +5,8 @@
 - İzin verilen her çağrı `deepspace/buyume/vidiq_harcama.jsonl` defterine yazılır.
 
 Kanca girdisi stdin'den JSON'dur (`tool_name`). Red: stderr'e neden, çıkış 2 (Claude Code çağrıyı engeller).
+Kapalı başarısızlık: kancanın içindeki her beklenmedik hata da çıkış 2'dir (Claude Code çıkış 1'de çağrıyı geçirir).
+Elle yazılmış negatif kredi satırı sıfır sayılır (bütçeyi yeniden açamaz).
 """
 from __future__ import annotations
 
@@ -50,11 +52,11 @@ def harcanan(defter: Path, bas: date) -> int:
     if not defter.exists():
         return 0
     toplam = 0
-    for satir in defter.read_text(encoding="utf-8").splitlines():
+    for satir in defter.read_text(encoding="utf-8").splitlines():  # bozuk kodlama: hata -> main çıkış 2
         try:
             k = json.loads(satir)
             if datetime.fromisoformat(k["zaman"]).date() >= bas:
-                toplam += int(k["kredi"])
+                toplam += max(0, int(k["kredi"]))
         except (ValueError, KeyError, TypeError):
             continue
     return toplam
@@ -87,7 +89,11 @@ def main() -> int:
     except (ValueError, KeyError, TypeError):
         print("vidIQ kancası: girdi okunamadı, çağrı reddedildi (G17)", file=sys.stderr)
         return 2
-    ok, neden = karar(arac, DEFTER, ayar_yukle(), datetime.now(timezone.utc))
+    try:
+        ok, neden = karar(arac, DEFTER, ayar_yukle(), datetime.now(timezone.utc))
+    except Exception as e:  # kapalı başarısızlık: defter ya da ayar okunamazsa çağrı geçmez
+        print(f"vidIQ kancası hata verdi, çağrı reddedildi (G17): {type(e).__name__}: {e}", file=sys.stderr)
+        return 2
     if not ok:
         print(neden, file=sys.stderr)
         return 2

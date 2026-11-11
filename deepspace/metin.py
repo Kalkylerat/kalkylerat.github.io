@@ -14,7 +14,7 @@ from .ortak import cikti, seri, zaman
 SUREC_NOTU = (
     "How this music is made\n"
     "Every mission is composed around one destination. Each piece has its own melodic motif, key and sound "
-    "palette, written as composition prompts and generated with AI music tools (Suno), then hand-selected, "
+    "palette, written as composition prompts and generated with AI music tools (Suno), then selected, "
     "sequenced and mastered for long, distraction-free focus. The scenes are AI-generated images of real "
     "destinations with imagined surfaces; the light motion and the mission log are rendered with code."
 )

@@ -11,7 +11,7 @@ destination has its own piece of music, its own melody and its own sound. No voc
 just a calm, steady place to study, code, read or think.
 
 Every mission comes with chapters and short notes on the real worlds you pass. Music is composed with AI music
-tools from our own composition prompts, then hand-selected, sequenced and mastered for long listening.
+tools from our own composition prompts, then selected, sequenced and mastered for long listening.
 
 Tell us where PROBE-7 should go next.
 

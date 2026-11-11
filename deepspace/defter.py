@@ -46,6 +46,26 @@ KART_SUTUN = 34          # kart içinde satır başına en çok karakter
 
 
 @lru_cache(maxsize=64)
+def kanca_boyu(metin: str, W: int, H: int, taban: int) -> tuple[int, bool]:
+    """Short kancasının yazı boyu: tabandan küçülerek W·0.9'a sığana kadar, ama en az EN_KUCUK_YAZI_ORANI·H
+    (G16 telefon kuralı). İkinci değer: o boyda sığıyor mu."""
+    metin = metin.upper()
+    en_kucuk = math.ceil(EN_KUCUK_YAZI_ORANI * H)
+
+    def gen(b):
+        f = _font(b)
+        return sum(f.getlength(c) for c in metin) + b * 0.22 * (len(metin) - 1)
+
+    boy = max(taban, en_kucuk)
+    while gen(boy) > W * 0.9 and boy > en_kucuk:
+        boy = max(en_kucuk, int(boy * 0.92))
+    return boy, gen(boy) <= W * 0.9
+
+
+def kanca_sigar_mi(metin: str, W: int, H: int) -> bool:
+    return kanca_boyu(metin, W, H, math.ceil(EN_KUCUK_YAZI_ORANI * H))[1]
+
+
 def _font(boy: int, kalin: bool = False) -> ImageFont.FreeTypeFont:
     return ImageFont.truetype(str(FONT / ("SpaceMono-Bold.ttf" if kalin else "SpaceMono-Regular.ttf")), boy)
 
@@ -327,12 +347,8 @@ class SeyirDefteri:
                    etiket, False, 0.9, self.palet["yazi_ikincil"], hiza="orta", genislik=W)
         if self.kanca:
             metin = self.kanca.upper()
-            boy = int(sb["short_kanca"] * olc)
-            f = _font(boy)
-            iz = boy * 0.22
-            while sum(f.getlength(c) for c in metin) + iz * (len(metin) - 1) > W * 0.9 and boy > 12:
-                boy = int(boy * 0.92)
-                f, iz = _font(boy), boy * 0.22
+            boy = kanca_boyu(metin, W, H, int(sb["short_kanca"] * olc))[0]  # plan kapısı sığmayanı reddeder
+            f, iz = _font(boy), boy * 0.22
             gen = sum(f.getlength(c) for c in metin) + iz * (len(metin) - 1)
             x, y = (W - gen) / 2, 0.28 * H - boy * 0.6
             kontur = max(1, int(2 * self.o))

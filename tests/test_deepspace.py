@@ -542,12 +542,13 @@ def test_G14_uzun_video_defter_modunda(tmp_path):
     assert not (ortak.cikti(g) / "bolum").exists()             # eski sinemagraf yolu çalışmadı
 
 
-def test_G14_defter_modu_gorselsiz_parcada_durur(tmp_path):
-    g, ayar, _ = _defter_gorevi(tmp_path)
-    (tmp_path / "gorsel" / "02.png").unlink()
-    with pytest.raises(ValueError, match="02"):
-        video.uzun_video(g, ayar)
-    assert not (ortak.cikti(g) / "video.mp4").exists()
+def test_G13_defter_modunda_gorselsiz_parca_kod_sahnesine_duser(tmp_path):
+    g, ayar, b = _defter_gorevi(tmp_path)
+    (tmp_path / "gorsel" / "02.png").unlink()      # iki denemede de kalan görsel çıkarıldı
+    yol = video.uzun_video(g, ayar)
+    assert ortak.ffprobe_sure(yol) == pytest.approx(b["toplam_sn"], abs=0.3)
+    assert kapilar.ses_duyuluyor(yol)[0]
+    assert not any((ortak.cikti(g) / "ara").iterdir())
 
 
 def test_G12_en_iyi_aralik_kenarlari_ve_sessizligi_atlar():
@@ -644,6 +645,21 @@ def test_G12_plan_kurallari(tmp_path):
     assert _kirmizi(shorts.plan_kontrol(bozuk, g, b, kayit, AYAR))          # çökmez, kırmızı
     eksik = dict(g, _ses_ozetleri=["oz0"])                                   # ses özetleri hizasız
     assert _kirmizi(shorts.plan_kontrol(_plan(b), eksik, b, kayit, AYAR))
+    p = _plan(b)
+    p[1]["parca"], p[1]["basla_sn"] = "02", p[0]["basla_sn"]               # 2 ile "02" aynı parça
+    assert any("ayrı parça" in k for k in _kirmizi(shorts.plan_kontrol(p, g, b, kayit, AYAR)))
+    assert _kirmizi(shorts.plan_kontrol(_plan(b, kanca=None), g, b, kayit, AYAR))   # çökmez, kırmızı
+    assert _kirmizi(shorts.plan_kontrol(_plan(b, kanca="   "), g, b, kayit, AYAR))
+    uzun = shorts.plan_kontrol(_plan(b, kanca="Extraordinarily Unfathomable Hyperluminosity"), g, b, kayit, AYAR)
+    assert any("telefonda" in k for k in _kirmizi(uzun))              # G16: en küçük boyda sığmaz
+
+
+def test_G16_short_kancasi_en_kucuk_yazi_boyunun_altina_inmez():
+    from deepspace import defter
+    boy, sigar = defter.kanca_boyu("Extraordinarily Unfathomable Hyperluminosity", 1080, 1920, 64)
+    assert boy >= 0.02 * 1920 and not sigar
+    boy, sigar = defter.kanca_boyu("Ice world", 1080, 1920, 64)
+    assert boy == 64 and sigar
 
 
 def test_G12_dikey_karede_goruntu_bukulmez_ve_yazilar_okunur(tmp_path):
@@ -764,6 +780,54 @@ def test_G12_shorts_yukleme_takvimi(tmp_path, monkeypatch):
     (out / "yukleme.json").unlink()
     with pytest.raises(google.GoogleHatasi, match="uzun video"):
         google.shorts_yukle(out, Oturum())
+
+
+def test_G12_shorts_yuklemesi_yarida_kalirsa_kaldigi_yerden_surer(tmp_path, monkeypatch):
+    from deepspace import google
+    out = tmp_path
+    (out / "yukleme.json").write_text(json.dumps({"video_id": "UZUN1"}), encoding="utf-8")
+    (out / "shorts.json").write_text(json.dumps([
+        {"baslik": f"S{k}", "aciklama": "{UZUN_VIDEO}", "etiketler": ["a"], "sentetik_icerik": True}
+        for k in range(3)]), encoding="utf-8")
+    for k in range(3):
+        (out / f"short_{k + 1}.mp4").write_bytes(b"v" * 10)
+    (out / "shorts_yukleme.json").write_text(json.dumps(
+        [{"id": "S1", "publishAt": "2026-11-21T17:00:00Z", "dosya": "short_1.mp4"}]), encoding="utf-8")
+    monkeypatch.setattr(google, "onay_kontrol", lambda c: {"yayin_zamani": "2026-11-20T17:00:00Z"})
+    monkeypatch.setattr(google, "erisim_belirteci", lambda oturum=None: "tok")
+    basliklar = []
+
+    class Oturum:
+        def post(self, url, params, json, timeout, headers):
+            basliklar.append(json["snippet"]["title"])
+            return _Yanit(200, baslik={"Location": "u"})
+
+        def put(self, url, data, headers, timeout):
+            return _Yanit(200, {"id": f"N{len(basliklar)}"})
+
+    sonuc = google.shorts_yukle(out, Oturum())
+    assert basliklar == ["S1", "S2"]                       # Short 1 ikinci kez yüklenmedi
+    assert [s["dosya"] for s in sonuc] == ["short_1.mp4", "short_2.mp4", "short_3.mp4"]
+    assert google.shorts_yukle(out, Oturum()) == sonuc and len(basliklar) == 2   # hepsi yüklüyse dokunmaz
+
+
+def test_G8_iptal_shortslarin_planli_yayinini_da_geri_alir(tmp_path, monkeypatch):
+    from deepspace import google
+    from deepspace import gorev as cli
+    g = _gorev(tmp_path)
+    out = ortak.cikti(g)
+    (out / "yukleme.json").write_text(json.dumps({"video_id": "UZUN1"}), encoding="utf-8")
+    (out / "shorts_yukleme.json").write_text(json.dumps(
+        [{"id": f"S{k}", "publishAt": "x", "dosya": f"short_{k}.mp4"} for k in (1, 2, 3)]), encoding="utf-8")
+    geri = []
+    monkeypatch.setattr(google, "youtube_planli_yayini_geri_al", lambda vid, oturum=None: geri.append(vid))
+    monkeypatch.setattr(google, "iptal_yaz", lambda c, n: "iptal")
+
+    class A:
+        komut, neden = "iptal", "sahibi istemedi"
+
+    assert cli._google(A(), g) == 0
+    assert geri == ["UZUN1", "S1", "S2", "S3"]
 
 
 def test_G12_kaydet_shorts_anlarini_yazar(tmp_path, monkeypatch):
@@ -944,6 +1008,58 @@ def test_G15_ucuncu_turdan_sonra_sefte_ve_bozuk_kayit(tmp_path):
     assert not is_kaydi.gecerli_mi(tmp_path, "arastirma")[0]
 
 
+def test_G15_ozet_satir_sonundan_bagimsiz_ve_cop_dosya_sayilmaz(tmp_path):
+    from deepspace import is_kaydi
+    _istasyon_gorevi(tmp_path)
+    is_kaydi.kayit_yaz(tmp_path, "arastirma", "GECTI", "denetci", [], [])
+    (tmp_path / "buyume" / "arastirma.md").write_bytes(b"satir\r\nikinci\r\n")
+    is_kaydi.kayit_yaz(tmp_path, "arastirma", "GECTI", "denetci", [], [])
+    (tmp_path / "buyume" / "arastirma.md").write_bytes(b"satir\nikinci\n")      # Linux klonu: LF
+    assert is_kaydi.gecerli_mi(tmp_path, "arastirma")[0]
+    (tmp_path / "buyume" / "Thumbs.db").write_bytes(b"x")
+    assert is_kaydi.gecerli_mi(tmp_path, "arastirma")[0]
+
+
+def test_G15_gorsel_yeniden_uretimi_konsept_kararini_bozmaz(tmp_path):
+    from deepspace import is_kaydi
+    g = _istasyon_gorevi(tmp_path)
+    toml = tmp_path / "gorev.toml"
+    toml.write_text('no = 2\nhedef = "X"\n\n[[parca]]\nad = "A"\ngorsel_istem = "eski"\ngorsel_uretim = "1"\n',
+                    encoding="utf-8")
+    (tmp_path / "SUNO.md").write_text("s", encoding="utf-8")
+    is_kaydi.kayit_yaz(tmp_path, "konsept", "GECTI", "denetci", [], [])
+    (tmp_path / "gorsel").mkdir()
+    _resim(tmp_path / "gorsel" / "01.png", 64, 36)
+    is_kaydi.kayit_yaz(tmp_path, "gorsel", "GECTI", "denetci", [], [])
+    toml.write_text(toml.read_text(encoding="utf-8").replace('"eski"', '"yeni, no extra people"')
+                    .replace('"1"', '"2"'), encoding="utf-8")
+    assert is_kaydi.gecerli_mi(tmp_path, "konsept")[0]            # istem değişti, konsept geçerli
+    assert not is_kaydi.gecerli_mi(tmp_path, "gorsel")[0]         # görsel istasyonu yeniden denetlenir
+    toml.write_text(toml.read_text(encoding="utf-8").replace('ad = "A"', 'ad = "B"'), encoding="utf-8")
+    assert not is_kaydi.gecerli_mi(tmp_path, "konsept")[0]
+
+
+def test_G15_onceki_istasyon_degisirse_sonraki_karar_gecersiz(tmp_path):
+    from deepspace import is_kaydi
+    _istasyon_gorevi(tmp_path)
+    (tmp_path / "SUNO.md").write_text("s", encoding="utf-8")
+    is_kaydi.kayit_yaz(tmp_path, "arastirma", "GECTI", "denetci", [], [])
+    is_kaydi.kayit_yaz(tmp_path, "konsept", "GECTI", "denetci", [], [])
+    assert is_kaydi.gecerli_mi(tmp_path, "konsept")[0]
+    (tmp_path / "buyume" / "oneriler.json").write_text('{"secilen": 1}', encoding="utf-8")
+    is_kaydi.kayit_yaz(tmp_path, "arastirma", "GECTI", "denetci", [], [])   # yeniden onaylandı
+    ok, neden = is_kaydi.gecerli_mi(tmp_path, "konsept")
+    assert not ok and "arastirma" in neden
+
+
+def test_G15_tur_gecti_sonrasi_yeniden_baslar(tmp_path):
+    from deepspace import is_kaydi
+    _istasyon_gorevi(tmp_path)
+    for karar in ("KALDI", "KALDI", "GECTI", "KALDI"):
+        is_kaydi.kayit_yaz(tmp_path, "arastirma", karar, "denetci", [], [])
+    assert is_kaydi.kayit_oku(tmp_path, "arastirma")["tur"] == 1
+
+
 def test_G16_marka_degisince_eski_kararlar_gecersiz(tmp_path, monkeypatch):
     from deepspace import is_kaydi
     _istasyon_gorevi(tmp_path)
@@ -1092,6 +1208,28 @@ def test_G17_kanca_bozuk_girdiyi_reddeder(monkeypatch):
     assert vb.main() == 2
     monkeypatch.setattr("sys.stdin", io.StringIO('{"tool_name": "mcp__claude_ai_vidIQ__vidiq_update_video"}'))
     assert vb.main() == 2
+
+
+def test_G17_kanca_hata_verirse_cagriyi_reddeder(tmp_path, monkeypatch):
+    import io
+    from datetime import datetime, timezone
+    from deepspace import vidiq_butce as vb
+    d = tmp_path / "h.jsonl"
+    d.write_bytes(b'{"zaman": "2026-11-28T00:00:00+00:00", "arac": "x", "kredi": 5}\n\xff\xfe\n')
+    monkeypatch.setattr(vb, "DEFTER", d)
+    monkeypatch.setattr("sys.stdin", io.StringIO('{"tool_name": "mcp__claude_ai_vidIQ__vidiq_outliers"}'))
+    assert vb.main() == 2                                          # bozuk defter: kapalı başarısızlık
+    ayar = {"vidiq": {"aylik_kredi": 10, "yenileme_gunu": 27, "cagri_kredi": 5}}
+    d.write_text('{"zaman": "2026-11-28T00:00:00+00:00", "arac": "elle", "kredi": -500}\n'
+                 '{"zaman": "2026-11-28T00:00:00+00:00", "arac": "x", "kredi": 10}\n', encoding="utf-8")
+    t = datetime(2026, 11, 28, 5, tzinfo=timezone.utc)
+    assert vb.harcanan(d, vb.donem_basi(t, 27)) == 10              # negatif satır bütçeyi açmaz
+    assert not vb.karar("mcp__claude_ai_vidIQ__vidiq_outliers", d, ayar, t)[0]
+
+
+def test_G9_beyan_secimi_sistemin_yaptigini_dogru_soyler():
+    from deepspace import shorts
+    assert "hand-selected" not in metin.SUREC_NOTU and "hand-selected" not in shorts.SHORTS_NOTU
 
 
 def test_G17_kanca_proje_ayarinda():

@@ -180,6 +180,11 @@ def _google(a, gorev: dict) -> int:
         if yuk.exists():
             google.youtube_planli_yayini_geri_al(json.loads(yuk.read_text(encoding="utf-8"))["video_id"])
             print("YouTube'daki planlı yayın geri alındı (video gizli kaldı)")
+        syuk = out / "shorts_yukleme.json"
+        if syuk.exists():  # G8: iptal Shorts'un planlı yayınını da geri alır
+            for s in json.loads(syuk.read_text(encoding="utf-8")):
+                google.youtube_planli_yayini_geri_al(s["id"])
+                print(f"Short planlı yayını geri alındı (gizli): {s['id']}")
         return 0
     if a.komut == "yukle":
         if (out / "yukleme.json").exists():  # yeniden çalıştırmada uzun video ikinci kez yüklenmez
@@ -187,9 +192,9 @@ def _google(a, gorev: dict) -> int:
         else:
             sonuc = google.youtube_yukle(out)
             print(f"yüklendi (gizli): https://youtu.be/{sonuc['id']}  {sonuc.get('kapak_hatasi', '')}")
-        if (out / "shorts.json").exists() and not (out / "shorts_yukleme.json").exists():
+        if (out / "shorts.json").exists():  # yarıda kalan Shorts yüklemesi kaldığı yerden sürer
             for s in google.shorts_yukle(out):
-                print(f"Short yüklendi (gizli, {s['publishAt']}): https://youtu.be/{s['id']}")
+                print(f"Short (gizli, {s['publishAt']}): https://youtu.be/{s['id']}")
         return 0
     if not a.drive:
         raise SystemExit("--drive klasör yolu gerekli")

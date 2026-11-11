@@ -4,6 +4,13 @@ Görevin işleri sıralı istasyonlardır. Her istasyonun denetçi kararı `<gö
 çıktı dosyalarının sha256 özetleriyle yazılır. Bir istasyonun komutu, kendinden önceki her istasyon GEÇTİ olmadan
 ve çıktıları karardan sonra değişmeden çalışmaz (gorev.py çıkış 3). Marka istasyonu kanal düzeyindedir: kaydı
 `deepspace/marka/istasyon_marka.json`'dadır ve ayrıca sahibinin bir kerelik onayını ister (G16).
+
+- Metin dosyalarının özeti satır sonundan bağımsızdır (Windows CRLF ile Linux LF aynı özeti verir).
+- `gorev.toml`'daki görsel üretim alanları (`GORSEL_ALANLARI`) konsept özetine girmez, görsel istasyonuna aittir:
+  görsel yeniden üretimi konsept kararını bozmaz.
+- Her kayıt kendinden önceki istasyonların o anki özetlerini (`zincir`) taşır: önceki bir istasyonun çıktısı
+  değişirse (yeniden onaylansa bile) sonraki kararlar geçersizdir.
+- `tur` aynı denetim döngüsündeki sıradır: GEÇTİ'den sonraki ilk karar yeniden 1'den başlar.
 """
 from __future__ import annotations
 
@@ -33,6 +40,10 @@ CIKTILAR: dict[str, list[str]] = {
     "karar": ["cikti/onay.json"],
 }
 KARARLAR = ("GECTI", "KALDI")
+METIN_UZANTI = {".toml", ".json", ".jsonl", ".md", ".txt", ".cube"}
+COP_DOSYALAR = {"thumbs.db", "desktop.ini", ".ds_store"}
+GORSEL_ALANLARI = ("gorsel_akisi", "gorsel_istem", "gorsel_oturum", "gorsel_uretim")
+_SHA_ONBELLEK: dict[tuple, str] = {}
 
 
 class KilitHatasi(Exception):
@@ -40,18 +51,43 @@ class KilitHatasi(Exception):
 
 
 def _sha(yol: Path) -> str:
+    """Dosya özeti; metin dosyalarında CRLF -> LF. (yol, boyut, mtime) önbellekli: büyük video bir kez okunur."""
+    st = yol.stat()
+    anahtar = (str(Path(yol).resolve()), st.st_size, st.st_mtime_ns)
+    if anahtar in _SHA_ONBELLEK:
+        return _SHA_ONBELLEK[anahtar]
     h = hashlib.sha256()
-    with open(yol, "rb") as f:
-        for blok in iter(lambda: f.read(1 << 20), b""):
-            h.update(blok)
-    return h.hexdigest()
+    if yol.suffix.lower() in METIN_UZANTI:
+        h.update(yol.read_bytes().replace(b"\r\n", b"\n"))
+    else:
+        with open(yol, "rb") as f:
+            for blok in iter(lambda: f.read(1 << 20), b""):
+                h.update(blok)
+    _SHA_ONBELLEK[anahtar] = h.hexdigest()
+    return _SHA_ONBELLEK[anahtar]
+
+
+def _gorsel_satiri(satir: str) -> bool:
+    return satir.split("=", 1)[0].strip() in GORSEL_ALANLARI if "=" in satir else False
+
+
+def _gorev_toml_ozeti(yol: Path, gorsel: bool) -> str:
+    """gorsel=False: görsel üretim alanları çıkarılmış konsept özeti; True: yalnız o alanların özeti."""
+    satirlar = yol.read_text(encoding="utf-8").replace("\r\n", "\n").split("\n")
+    secilen = [s for s in satirlar if _gorsel_satiri(s) == gorsel]
+    return hashlib.sha256("\n".join(secilen).encode("utf-8")).hexdigest()
+
+
+def _cop_mu(p: Path) -> bool:
+    return p.name.lower() in COP_DOSYALAR
 
 
 def _marka_dosyalari() -> list[Path]:
     dosyalar = [MARKA_DOSYASI] if MARKA_DOSYASI.exists() else []
     if MARKA_KLASORU.exists():
         dosyalar += sorted(p for p in MARKA_KLASORU.rglob("*")
-                           if p.is_file() and p.name != MARKA_KAYDI and "taslak" not in p.relative_to(MARKA_KLASORU).parts)
+                           if p.is_file() and p.name != MARKA_KAYDI and not _cop_mu(p)
+                           and "taslak" not in p.relative_to(MARKA_KLASORU).parts)
     return dosyalar
 
 
@@ -72,9 +108,20 @@ def ozetler(klasor: Path | None, istasyon: str) -> dict[str, str]:
     sonuc = {}
     for kalip in CIKTILAR.get(istasyon, []):
         for p in sorted(klasor.glob(kalip)):
-            if p.is_file():
-                sonuc[p.relative_to(klasor).as_posix()] = _sha(p)
+            if not p.is_file() or _cop_mu(p):
+                continue
+            ad = p.relative_to(klasor).as_posix()
+            sonuc[ad] = _gorev_toml_ozeti(p, gorsel=False) if ad == "gorev.toml" else _sha(p)
+    if istasyon == "gorsel" and sonuc and (klasor / "gorev.toml").exists():
+        sonuc["gorev.toml#gorsel"] = _gorev_toml_ozeti(klasor / "gorev.toml", gorsel=True)
     return sonuc
+
+
+def zincir(klasor: Path | None, istasyon: str) -> dict[str, dict[str, str]]:
+    """Kendinden önceki görev istasyonlarının şu anki çıktı özetleri (marka ayrıca marka_ozeti ile izlenir)."""
+    if istasyon == "marka":
+        return {}
+    return {o: ozetler(klasor, o) for o in ISTASYONLAR[1:ISTASYONLAR.index(istasyon)]}
 
 
 def kayit_yolu(klasor: Path | None, istasyon: str) -> Path:
@@ -114,8 +161,9 @@ def kayit_yaz(klasor: Path | None, istasyon: str, karar: str, denetci: str, bulg
     if karar == "GECTI" and not oz:
         raise KilitHatasi(f"{istasyon}: çıktı dosyası yok, GEÇTİ yazılamaz")
     onceki = kayit_oku(klasor, istasyon)
-    d = {"istasyon": istasyon, "karar": karar, "tur": (onceki or {}).get("tur", 0) + 1, "denetci": denetci,
-         "ozetler": oz, "marka_ozeti": marka_ozeti(), "kirmizi": list(kirmizi),
+    tur = onceki["tur"] + 1 if onceki and onceki["karar"] == "KALDI" and isinstance(onceki.get("tur"), int) else 1
+    d = {"istasyon": istasyon, "karar": karar, "tur": tur, "denetci": denetci,
+         "ozetler": oz, "zincir": zincir(klasor, istasyon), "marka_ozeti": marka_ozeti(), "kirmizi": list(kirmizi),
          "bulgular": [{"kod": b.get("kod", ""), "not": b.get("not", ""), "kanit": b.get("kanit", "")}
                       for b in bulgular], "zaman": _simdi()}
     return _yaz(kayit_yolu(klasor, istasyon), d)
@@ -139,6 +187,13 @@ def gecerli_mi(klasor: Path | None, istasyon: str) -> tuple[bool, str]:
         return False, f"karar {k['karar']} (tur {k.get('tur')})"
     if k.get("ozetler") != ozetler(klasor, istasyon):
         return False, "çıktılar karardan sonra değişti"
+    if istasyon != "marka":
+        eski, simdi = k.get("zincir"), zincir(klasor, istasyon)
+        if not isinstance(eski, dict):
+            return False, "kayıtta zincir yok; yeniden denetlenmeli"
+        degisen = [o for o in simdi if eski.get(o) != simdi[o]]
+        if degisen:
+            return False, f"önceki istasyon karardan sonra değişti: {', '.join(degisen)}"
     if istasyon == "marka":
         so = k.get("sahip_onayi") or {}
         if so.get("marka_ozeti") != marka_ozeti():

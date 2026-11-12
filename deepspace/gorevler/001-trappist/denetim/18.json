@@ -1,13 +1,8 @@
 {
   "kontrol_listesi_surumu": 1,
   "denetleyen": "denetci",
-  "ozet": "79c7b13ea73ec182a8889198b1a79225b23e579a4e6b743812913725b9b877e7",
-  "puan": 5,
-  "sorunlar": [
-    {
-      "kod": "fizik",
-      "not": "gece yuzu siyah degil; alt-sag yarim kure kaynagi olmayan gri-mavi dolgu isikla aydinlik, catlaklar okunuyor (madde 1); 17'deki hilalin gece yuzu gibi tam siyah olmali. Isik ustten, hilal disi yukari, boynuzlar asagi: bu kisim dogru"
-    }
-  ],
-  "gecti": false
+  "ozet": "483ad66fc32e0cfa9d0ab4cc0ebfa9b08cbb26d43e53875fb3a98955c5239212",
+  "puan": 7,
+  "sorunlar": [],
+  "gecti": true
 }

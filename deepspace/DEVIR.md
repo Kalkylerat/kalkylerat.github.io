@@ -3,7 +3,20 @@
 Bu dosya yeni bir Claude Code oturumunun (yerel terminal) kaldığımız yerden devam etmesi için. Önce bunu, sonra
 `SOZLESME.md` G bölümünü ve `.claude/skills/deep-space-log/SKILL.md`'yi oku. Sahibiyle Türkçe konuş.
 
-## Son durum (12 Kasım 2026, ~11:35; 6. tur bitti)
+## Son durum (12 Kasım 2026, ~12:20; 7. tur bitti)
+- Sahibi 1.100 kredi verdi; 1.068 harcandı. **Yeni yol: gpt-image-2 2K orta = 267 kredi, 2048x1152**, Topaz'sız
+  (eski yol 185 + 485 = 670). Kimlikler scratchpad `tur7_oturum.json`; 18'in ikinci denemesi oturum
+  njXoKhS8dVsCjSnxMeKA / üretim TwjJUq5c201UsQpHRI5Y. `gorev.toml` 04/18/19 güncel, GORSEL.md yeniden üretildi (19'un
+  kadraj eki elle kısaltılmış haliyle).
+- **18 geçti (7)**: taslak `gorsel/taslak/18.png` 2048 px. Son dosya için 2560'a Lanczos yeniden boyutlandırma + `pozla`
+  gerekiyor (ölçüm: 0.212, ezik %43). **G6/G13 metni "2x büyütme" diyor ve `gorev pozla` türetmeyi "2x büyütme" diye
+  yazıyor; 1,25x Lanczos için sözleşme + kod değişikliği sahibinin onayını bekliyor.** Onay gelmeden son dosyayı yapma.
+- **04 kaldı (6, marka+tekrar):** disk neon doygun kırmızı, granüller buruşuk folyo gibi; yerleşim 05'le aynı
+  (boş yıldız alanı, sağdan üçte bir). **19 kaldı (4, fizik+istem+tekrar):** buz yüzleri nötr gri-mavi (kaynaksız soğuk
+  dolgu), tuz gölü gibi, kompozisyon 17'nin ikizi. Her ikisi G13 yeniden üretim sınırını çoktan aştı: sahibine soruldu.
+- 6. tur notları aşağıda.
+
+## Önceki durum (12 Kasım 2026, ~11:35; 6. tur bitti)
 - **17/20 hazır.** 6. turda (sahibinin onayıyla, 4 kare × 2 seçenek, orta kalite, 1.477 kredi) 11-A geçti (8);
   Topaz (485) + `pozla` yapıldı. 17'nin son dosyası yeniden denetlendi, geçti (7, `marka`: sağ ufukta beyaz sırtlar).
   Bu turun toplamı ≈1.960 kredi. Kimlikler: scratchpad `tur6_oturum.json`, istemler `istem6.json`; `gorev.toml`

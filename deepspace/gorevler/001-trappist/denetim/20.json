@@ -1,8 +1,37 @@
 {
   "kontrol_listesi_surumu": 1,
   "denetleyen": "denetci",
-  "ozet": "822b3a6e6f2f3ed430dd37fa65acd3a4e1a03a9e80ee09048b5f6c2ce974969f",
-  "puan": 9,
-  "sorunlar": [],
-  "gecti": true
+  "ozet": "6ddc03f4ba24d99495f67e61c5d5d256a0ee90be91d0c19497f5f41e4692a446",
+  "puan": 4,
+  "sorunlar": [
+    {
+      "kod": "fizik",
+      "not": "Zemin (alt %52) soğuk gri-mavi gün ışığıyla eşit aydınlık (zemin ort. RGB 0.28/0.29/0.32, 17.png'nin 2 katı parlak ve mavi); kaynağı olmayan dolgu ışığı. Tek kaynak x%26 y%40'taki küçük soluk turuncu-kırmızı cüce; ışık rengi yıldız rengi değil, sırtlardaki turuncu kenar dışında her yer nötr-beyaz. Hilal (x%67-70 y%18-26) doğru yönde (aydınlık kenar sola, uçlar sağa) ama beyaz, yıldızın rengini almamış."
+    },
+    {
+      "kod": "fizik",
+      "not": "Sağ ufuktaki beyaz buz basamakları (x%77-100 y%45-50) sağdan aydınlanmış: koyu üçgen gölgeler her bloğun SOLUNDA; sol kenarda (x%0-5 y%55-57) yıldıza rağmen bembeyaz parlayan yama."
+    },
+    {
+      "kod": "istem",
+      "not": "İstem 'dark grey-blue ice' diyor; yüzey açık gri, kraterli Ay regolitine benziyor (gündüz Ay fotoğrafı hissi), koyu buz ovası okunmuyor."
+    },
+    {
+      "kod": "olcek",
+      "not": "Ufuk y%48'de, karenin ortasından geçiyor (kural %58-70; istem 'horizon low'). Ufkun üstünde gri parıltı bandı var, havasız cisimde olmamalı."
+    },
+    {
+      "kod": "tekrar",
+      "not": "17.png ile aynı kompozisyon: yıldız solda alçakta, ince hilal sağ üstte (x%67-84), çapraz sırtlı ova; 17 önce geldiği için 20 kalır."
+    },
+    {
+      "kod": "marka",
+      "not": "Alt %16 sakin bölgede parlak gri zemin üstünde yüksek kontrastlı siyah çatlaklar (ort. parlaklık 0.29); oynatma çubuğu altı koyu doku olmalı."
+    },
+    {
+      "kod": "bozulma",
+      "not": "Ova yüzeyine serpilmiş siyah delik/leke kümeleri (x%55-95 y%60-80 ve sırt dipleri); yıldız diski içi soluk, kenarı parlak halka gibi (tutulma halkası görünümü)."
+    }
+  ],
+  "gecti": false
 }

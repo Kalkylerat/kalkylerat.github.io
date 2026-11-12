@@ -1,124 +1,124 @@
-# Mission 001 · TRAPPIST-1e: görsel istemleri
+# Mission 001 · TRAPPIST-1: görsel istemleri
 
 Model: `flux-3-image` (16:9). Her görsel `gorsel/NN.png` olarak kaydedilir (NN = parça no).
-Renk tonu sonradan marka filtresiyle verilir; istemdeki ışık tarifi yeterli.
+Renk tonu marka filtresinden gelir (marka.toml [filtre]); istemdeki ışık tarifi yeterli.
 
-## 01. Proxima b · üretildi: `3uer6cJRqNOVwVwF7gly`
-
-```
-A windswept heather moor with an old stone cottage and one lit window; a colossal rust-red cratered rocky planet fills the sky beside a tiny dim red sun; a figure with a lantern walks the path to the door. Surreal yet photorealistic cinematic matte painting. A calm, familiar Earth-like landscape under an impossible sky dominated by a colossal celestial body that fills a large part of the frame. One small human element in the foreground tells a quiet story. Golden hour light, soft atmospheric haze, muted teal sky and warm ochre ground, gentle film grain, ultra detailed, realistic textures and scale, wide 16:9 composition. No text, no logo, no watermark.
-```
-
-## 02. Barnard b · üretildi: `TzqHmykpMFTzK2MLZaOi`
+## 01. Proxima b · üretilecek
 
 ```
-A quiet fishing village pier at dusk with small wooden boats; a huge dark rocky world with frozen seas rises over the bay in faint red starlight; a single old fisherman sits alone mending nets on the pier, no other people. Surreal yet photorealistic cinematic matte painting. A calm, familiar Earth-like landscape under an impossible sky dominated by a colossal celestial body that fills a large part of the frame. One small human element in the foreground tells a quiet story. Golden hour light, soft atmospheric haze, muted teal sky and warm ochre ground, gentle film grain, ultra detailed, realistic textures and scale, wide 16:9 composition. No text, no logo, no watermark.
+A dark rocky plain on a tidally locked world at the permanent twilight line. A small dim red dwarf star sits low on the left horizon; the only light is its faint red glow, rocks rim-lit red on their left sides, long shadows stretching right. Photorealistic cinematic space scene, minimal and vast: what a distant probe camera sees, a dark quiet alien horizon or a view from orbit with one huge real celestial body as the subject. Deep blacks, sharp stars wherever the sky is clear. Physically correct lighting: the only light comes from the named star, every lit crescent faces it, shadows fall away from it, and the light colour matches the star. At least half of the frame is calm darkness. Calm, still, meditative. Ultra detailed, realistic scale, wide 16:9. No people, no vehicles, no probes, no spacecraft, no landers, no buildings, no machines, no footprints, no text, no logo, no watermark.
 ```
 
-## 03. PSR B1257+12 · üretildi: `wn9fIAjjJnacRk2ZONsY`
+## 02. Alpha Centauri · üretilecek
 
 ```
-A desert observatory dome on a high plateau with its slit open; above it a giant cratered planet and a tiny brilliant pulsar sweeping two faint beams of light across the stars; an astronomer stands at the open door. Surreal yet photorealistic cinematic matte painting. A calm, familiar Earth-like landscape under an impossible sky dominated by a colossal celestial body that fills a large part of the frame. One small human element in the foreground tells a quiet story. Golden hour light, soft atmospheric haze, muted teal sky and warm ochre ground, gentle film grain, ultra detailed, realistic textures and scale, wide 16:9 composition. No text, no logo, no watermark.
+View from deep space: two bright yellow-white suns close together, one slightly larger and whiter, the other warmer orange, surrounded by a soft glow; a faint red dot far away; deep black sky with countless sharp stars. No planet in view. Photorealistic cinematic space scene, minimal and vast: what a distant probe camera sees, a dark quiet alien horizon or a view from orbit with one huge real celestial body as the subject. Deep blacks, sharp stars wherever the sky is clear. Physically correct lighting: the only light comes from the named star, every lit crescent faces it, shadows fall away from it, and the light colour matches the star. At least half of the frame is calm darkness. Calm, still, meditative. Ultra detailed, realistic scale, wide 16:9. No people, no vehicles, no probes, no spacecraft, no landers, no buildings, no machines, no footprints, no text, no logo, no watermark.
 ```
 
-## 04. Europa · üretildi: `3MifbpPALTGapF0fYJpP`
+## 03. Barnard b · üretilecek
 
 ```
-A frozen lake with a small ice-fishing hut glowing warm; an enormous banded gas giant and its cracked icy moon hang huge in the sky; a line of footprints leads across the ice to the hut. Surreal yet photorealistic cinematic matte painting. A calm, familiar Earth-like landscape under an impossible sky dominated by a colossal celestial body that fills a large part of the frame. One small human element in the foreground tells a quiet story. Golden hour light, soft atmospheric haze, muted teal sky and warm ochre ground, gentle film grain, ultra detailed, realistic textures and scale, wide 16:9 composition. No text, no logo, no watermark.
+Orbital view of a small dark scorched rocky planet, its dayside glowing dull red, lit from the left by a large dim red dwarf star at the left edge; terminator sharp, nightside black on the right; deep black starfield. Photorealistic cinematic space scene, minimal and vast: what a distant probe camera sees, a dark quiet alien horizon or a view from orbit with one huge real celestial body as the subject. Deep blacks, sharp stars wherever the sky is clear. Physically correct lighting: the only light comes from the named star, every lit crescent faces it, shadows fall away from it, and the light colour matches the star. At least half of the frame is calm darkness. Calm, still, meditative. Ultra detailed, realistic scale, wide 16:9. No people, no vehicles, no probes, no spacecraft, no landers, no buildings, no machines, no footprints, no text, no logo, no watermark.
 ```
 
-## 05. HD 189733b · üretildi: `oq9tOrlkJin1XTY4LUsO`
+## 04. Wolf 359 · üretilecek
 
 ```
-A winding coastal cliff road with a parked vintage car; an immense deep-blue gas giant with glowing storm bands fills half the sky; fine glittering rain streaks catch the light. Surreal yet photorealistic cinematic matte painting. A calm, familiar Earth-like landscape under an impossible sky dominated by a colossal celestial body that fills a large part of the frame. One small human element in the foreground tells a quiet story. Golden hour light, soft atmospheric haze, muted teal sky and warm ochre ground, gentle film grain, ultra detailed, realistic textures and scale, wide 16:9 composition. No text, no logo, no watermark.
+Close view from space of a small deep red dwarf star, its surface mottled with dark spots and one bright magnetic flare arcing from the limb; nothing else but a deep black starfield. Photorealistic cinematic space scene, minimal and vast: what a distant probe camera sees, a dark quiet alien horizon or a view from orbit with one huge real celestial body as the subject. Deep blacks, sharp stars wherever the sky is clear. Physically correct lighting: the only light comes from the named star, every lit crescent faces it, shadows fall away from it, and the light colour matches the star. At least half of the frame is calm darkness. Calm, still, meditative. Ultra detailed, realistic scale, wide 16:9. No people, no vehicles, no probes, no spacecraft, no landers, no buildings, no machines, no footprints, no text, no logo, no watermark.
 ```
 
-## 06. Kepler-16b · üretildi: `0aNftZQDUX79UeLtXD1z`
+## 05. Sirius · üretilecek
 
 ```
-A desert canyon with an adobe homestead and a creaking windmill; two suns set side by side over the rim while a giant planet sits low on the horizon; a child watches from the flat rooftop. Surreal yet photorealistic cinematic matte painting. A calm, familiar Earth-like landscape under an impossible sky dominated by a colossal celestial body that fills a large part of the frame. One small human element in the foreground tells a quiet story. Golden hour light, soft atmospheric haze, muted teal sky and warm ochre ground, gentle film grain, ultra detailed, realistic textures and scale, wide 16:9 composition. No text, no logo, no watermark.
+View from deep space: Sirius, a brilliant blue-white star, a perfectly round small disc with a soft even glow, placed at one third from the left and one third from the top, small in a vast frame. Far to its lower right a tiny faint white dwarf point. Everything else is deep black space with countless pin-sharp stars. Photorealistic cinematic space scene, minimal and vast: what a distant probe camera sees, a dark quiet alien horizon or a view from orbit with one huge real celestial body as the subject. Deep blacks, sharp stars wherever the sky is clear. Physically correct lighting: the only light comes from the named star, every lit crescent faces it, shadows fall away from it, and the light colour matches the star. At least half of the frame is calm darkness. Calm, still, meditative. Ultra detailed, realistic scale, wide 16:9. No people, no vehicles, no probes, no spacecraft, no landers, no buildings, no machines, no footprints, no text, no logo, no watermark.
 ```
 
-## 07. Kepler-186f · üretildi: `dULR3d7Z4GskSs6MAcz2`
+## 06. Epsilon Eridani · üretilecek
 
 ```
-A small wooden cabin with one warmly lit window on the shore of a still mountain lake; a gigantic rocky-ocean planet rises behind the snowy ridge, mirrored in the lake; a person sits on the dock with a lantern. Surreal yet photorealistic cinematic matte painting. A calm, familiar Earth-like landscape under an impossible sky dominated by a colossal celestial body that fills a large part of the frame. One small human element in the foreground tells a quiet story. Golden hour light, soft atmospheric haze, muted teal sky and warm ochre ground, gentle film grain, ultra detailed, realistic textures and scale, wide 16:9 composition. No text, no logo, no watermark.
+Wide view from the outer edge of a young orange star system: broad faint rings of dust and ice circle a small warm orange star at the centre; the rings glow softly where starlight hits them; deep black space around. Photorealistic cinematic space scene, minimal and vast: what a distant probe camera sees, a dark quiet alien horizon or a view from orbit with one huge real celestial body as the subject. Deep blacks, sharp stars wherever the sky is clear. Physically correct lighting: the only light comes from the named star, every lit crescent faces it, shadows fall away from it, and the light colour matches the star. At least half of the frame is calm darkness. Calm, still, meditative. Ultra detailed, realistic scale, wide 16:9. No people, no vehicles, no probes, no spacecraft, no landers, no buildings, no machines, no footprints, no text, no logo, no watermark.
 ```
 
-## 08. Io · üretildi: `gilgi8RBOOsuOSxH7L5q`
+## 07. Tau Ceti · üretilecek
 
 ```
-A black-sand volcanic beach with a distant glowing volcano and a plume of smoke; colossal banded Jupiter fills the sky with its yellow-orange volcanic moon in front of it; a geologist with a backpack walks the shoreline. Surreal yet photorealistic cinematic matte painting. A calm, familiar Earth-like landscape under an impossible sky dominated by a colossal celestial body that fills a large part of the frame. One small human element in the foreground tells a quiet story. Golden hour light, soft atmospheric haze, muted teal sky and warm ochre ground, gentle film grain, ultra detailed, realistic textures and scale, wide 16:9 composition. No text, no logo, no watermark.
+View from deep space: a calm yellow star with a soft glow, seen through a thin wide disk of faint golden dust edge-on across the frame; deep black starfield; minimal and vast. Photorealistic cinematic space scene, minimal and vast: what a distant probe camera sees, a dark quiet alien horizon or a view from orbit with one huge real celestial body as the subject. Deep blacks, sharp stars wherever the sky is clear. Physically correct lighting: the only light comes from the named star, every lit crescent faces it, shadows fall away from it, and the light colour matches the star. At least half of the frame is calm darkness. Calm, still, meditative. Ultra detailed, realistic scale, wide 16:9. No people, no vehicles, no probes, no spacecraft, no landers, no buildings, no machines, no footprints, no text, no logo, no watermark.
 ```
 
-## 09. Enceladus · üretildi: `e0a2t4rW763uiRM5rcOH`
+## 08. Luyten b · üretilecek
 
 ```
-A snowy alpine meadow with a small mountain hut; enormous ringed Saturn dominates the sky while its tiny icy moon sprays bright geysers; a skier rests on a bench outside the hut. Surreal yet photorealistic cinematic matte painting. A calm, familiar Earth-like landscape under an impossible sky dominated by a colossal celestial body that fills a large part of the frame. One small human element in the foreground tells a quiet story. Golden hour light, soft atmospheric haze, muted teal sky and warm ochre ground, gentle film grain, ultra detailed, realistic textures and scale, wide 16:9 composition. No text, no logo, no watermark.
+Orbital view of a large rocky planet, thin hazy atmosphere glowing on the limb, lit from the lower left by a dim red dwarf star; reddish-brown surface, dark nightside to the upper right; deep black starfield. Photorealistic cinematic space scene, minimal and vast: what a distant probe camera sees, a dark quiet alien horizon or a view from orbit with one huge real celestial body as the subject. Deep blacks, sharp stars wherever the sky is clear. Physically correct lighting: the only light comes from the named star, every lit crescent faces it, shadows fall away from it, and the light colour matches the star. At least half of the frame is calm darkness. Calm, still, meditative. Ultra detailed, realistic scale, wide 16:9. No people, no vehicles, no probes, no spacecraft, no landers, no buildings, no machines, no footprints, no text, no logo, no watermark.
 ```
 
-## 10. J1407b · üretildi: `UIrrU7gmMKhtXTCVqyiW`
+## 09. Teegarden's Star b · üretilecek
 
 ```
-An old stone lighthouse on a grassy sea cliff above a calm misty ocean, its lamp glowing; a gas giant with a gigantic ring system rises from the horizon, rings sweeping the whole sky; a small figure on a bench. Surreal yet photorealistic cinematic matte painting. A calm, familiar Earth-like landscape under an impossible sky dominated by a colossal celestial body that fills a large part of the frame. One small human element in the foreground tells a quiet story. Golden hour light, soft atmospheric haze, muted teal sky and warm ochre ground, gentle film grain, ultra detailed, realistic textures and scale, wide 16:9 composition. No text, no logo, no watermark.
+Orbital view of an Earth-size planet with thin clouds and a dark ocean surface, lit from the left by a small faint red dwarf star in the far left of the frame; the lit crescent faces the star; deep black starfield. Photorealistic cinematic space scene, minimal and vast: what a distant probe camera sees, a dark quiet alien horizon or a view from orbit with one huge real celestial body as the subject. Deep blacks, sharp stars wherever the sky is clear. Physically correct lighting: the only light comes from the named star, every lit crescent faces it, shadows fall away from it, and the light colour matches the star. At least half of the frame is calm darkness. Calm, still, meditative. Ultra detailed, realistic scale, wide 16:9. No people, no vehicles, no probes, no spacecraft, no landers, no buildings, no machines, no footprints, no text, no logo, no watermark.
 ```
 
-## 11. Mira · üretildi: `xZe1zaLBXds8CivAIAvU`
+## 10. Wolf 1061c · üretilecek
 
 ```
-A long empty highway through tall grassland with one glowing gas station sign; a red giant star trails an enormous glowing comet-like tail across the sky; a motorcyclist has stopped at the roadside to look up. Surreal yet photorealistic cinematic matte painting. A calm, familiar Earth-like landscape under an impossible sky dominated by a colossal celestial body that fills a large part of the frame. One small human element in the foreground tells a quiet story. Golden hour light, soft atmospheric haze, muted teal sky and warm ochre ground, gentle film grain, ultra detailed, realistic textures and scale, wide 16:9 composition. No text, no logo, no watermark.
+A dark rocky highland at night on a large rocky world; a dim red dwarf star rests on the left horizon; the ground is rim-lit red on the left, long shadows to the right; sky deep black with sharp stars. Photorealistic cinematic space scene, minimal and vast: what a distant probe camera sees, a dark quiet alien horizon or a view from orbit with one huge real celestial body as the subject. Deep blacks, sharp stars wherever the sky is clear. Physically correct lighting: the only light comes from the named star, every lit crescent faces it, shadows fall away from it, and the light colour matches the star. At least half of the frame is calm darkness. Calm, still, meditative. Ultra detailed, realistic scale, wide 16:9. No people, no vehicles, no probes, no spacecraft, no landers, no buildings, no machines, no footprints, no text, no logo, no watermark.
 ```
 
-## 12. Titan · üretildi: `lJ8wfMrVWtiKk9bdu0o0`
+## 11. Gliese 667 Cc · üretilecek
 
 ```
-An amber marshland with a wooden boardwalk through reeds under a thick orange haze; huge ringed Saturn glows faintly behind the haze over a dark methane lake; a person with a lantern stands on the boardwalk. Surreal yet photorealistic cinematic matte painting. A calm, familiar Earth-like landscape under an impossible sky dominated by a colossal celestial body that fills a large part of the frame. One small human element in the foreground tells a quiet story. Golden hour light, soft atmospheric haze, muted teal sky and warm ochre ground, gentle film grain, ultra detailed, realistic textures and scale, wide 16:9 composition. No text, no logo, no watermark.
+A dark rocky plain under a deep black sky; a dim red dwarf sun low on the right horizon lights the ground red from the right; high in the sky to the left, two small bright orange stars close together; shadows point left. Photorealistic cinematic space scene, minimal and vast: what a distant probe camera sees, a dark quiet alien horizon or a view from orbit with one huge real celestial body as the subject. Deep blacks, sharp stars wherever the sky is clear. Physically correct lighting: the only light comes from the named star, every lit crescent faces it, shadows fall away from it, and the light colour matches the star. At least half of the frame is calm darkness. Calm, still, meditative. Ultra detailed, realistic scale, wide 16:9. No people, no vehicles, no probes, no spacecraft, no landers, no buildings, no machines, no footprints, no text, no logo, no watermark.
 ```
 
-## 13. 55 Cancri e · üretildi: `EQ7KOp4Ca0KXrmfIgMOn`
+## 12. Vega · üretilecek
 
 ```
-A black volcanic plateau with a small research rover with exactly six wheels, three per side, headlights on; a colossal glowing lava world fills the sky, rivers of fire visible across its surface; heat haze and drifting embers. Surreal yet photorealistic cinematic matte painting. A calm, familiar Earth-like landscape under an impossible sky dominated by a colossal celestial body that fills a large part of the frame. One small human element in the foreground tells a quiet story. Golden hour light, soft atmospheric haze, muted teal sky and warm ochre ground, gentle film grain, ultra detailed, realistic textures and scale, wide 16:9 composition. No text, no logo, no watermark.
+Deep space view of a brilliant blue-white star with a soft halo, surrounded by a very faint wide disk of dust; deep black starfield; minimal. Photorealistic cinematic space scene, minimal and vast: what a distant probe camera sees, a dark quiet alien horizon or a view from orbit with one huge real celestial body as the subject. Deep blacks, sharp stars wherever the sky is clear. Physically correct lighting: the only light comes from the named star, every lit crescent faces it, shadows fall away from it, and the light colour matches the star. At least half of the frame is calm darkness. Calm, still, meditative. Ultra detailed, realistic scale, wide 16:9. No people, no vehicles, no probes, no spacecraft, no landers, no buildings, no machines, no footprints, no text, no logo, no watermark.
 ```
 
-## 14. WASP-76b · üretildi: `5V9BQzYvNFYVxGXp496t`
+## 13. Fomalhaut · üretilecek
 
 ```
-A lonely desert railway station platform at night with one hanging lamp; an immense red-orange glowing gas giant with a dark night side fills the sky; a single traveler with a suitcase waits on the platform. Surreal yet photorealistic cinematic matte painting. A calm, familiar Earth-like landscape under an impossible sky dominated by a colossal celestial body that fills a large part of the frame. One small human element in the foreground tells a quiet story. Golden hour light, soft atmospheric haze, muted teal sky and warm ochre ground, gentle film grain, ultra detailed, realistic textures and scale, wide 16:9 composition. No text, no logo, no watermark.
+View from deep space: a bright white star at the centre of a vast thin elliptical ring of icy dust seen at an angle, the ring softly lit; everything else deep black with sharp stars. Photorealistic cinematic space scene, minimal and vast: what a distant probe camera sees, a dark quiet alien horizon or a view from orbit with one huge real celestial body as the subject. Deep blacks, sharp stars wherever the sky is clear. Physically correct lighting: the only light comes from the named star, every lit crescent faces it, shadows fall away from it, and the light colour matches the star. At least half of the frame is calm darkness. Calm, still, meditative. Ultra detailed, realistic scale, wide 16:9. No people, no vehicles, no probes, no spacecraft, no landers, no buildings, no machines, no footprints, no text, no logo, no watermark.
 ```
 
-## 15. Betelgeuse · üretildi: `LAl3uzIaFtnkIttK1837`
+## 14. TRAPPIST-1b · üretilecek
 
 ```
-A lone vintage station wagon with headlights on is parked on an empty desert highway between golden dunes; an immense red supergiant star rises on the horizon, covering a third of the sky; a traveler leans on the car. Surreal yet photorealistic cinematic matte painting. A calm, familiar Earth-like landscape under an impossible sky dominated by a colossal celestial body that fills a large part of the frame. One small human element in the foreground tells a quiet story. Golden hour light, soft atmospheric haze, muted teal sky and warm ochre ground, gentle film grain, ultra detailed, realistic textures and scale, wide 16:9 composition. No text, no logo, no watermark.
+A vast dark bare rock plain, completely empty to the horizon in the lower third. A huge dim orange-red dwarf star, large in the sky, half sunk below the left horizon; boulders are rim-lit on their left sides, long hard shadows stretch right. High on the right, a small thin crescent planet lit on its left edge. Airless black sky. Photorealistic cinematic space scene, minimal and vast: what a distant probe camera sees, a dark quiet alien horizon or a view from orbit with one huge real celestial body as the subject. Deep blacks, sharp stars wherever the sky is clear. Physically correct lighting: the only light comes from the named star, every lit crescent faces it, shadows fall away from it, and the light colour matches the star. At least half of the frame is calm darkness. Calm, still, meditative. Ultra detailed, realistic scale, wide 16:9. No people, no vehicles, no probes, no spacecraft, no landers, no buildings, no machines, no footprints, no text, no logo, no watermark.
 ```
 
-## 16. TRAPPIST-1e · üretildi: `IkvNFD4t09oX8RpNDjkX`
+## 15. TRAPPIST-1c · üretilecek
 
 ```
-A lone astronaut walks a narrow dirt road through a golden wheat field toward a single old oak tree; a colossal ocean world with swirling clouds fills the upper sky with two smaller sister planets beside it; a dim red sun low on the horizon. Surreal yet photorealistic cinematic matte painting. A calm, familiar Earth-like landscape under an impossible sky dominated by a colossal celestial body that fills a large part of the frame. One small human element in the foreground tells a quiet story. Golden hour light, soft atmospheric haze, muted teal sky and warm ochre ground, gentle film grain, ultra detailed, realistic textures and scale, wide 16:9 composition. No text, no logo, no watermark.
+Orbital view of a dark rocky planet lit from the left by a large dim red dwarf star at the left edge; a thin red crescent of daylight faces the star; in the black sky beyond, two tiny crescents of neighbouring planets. Photorealistic cinematic space scene, minimal and vast: what a distant probe camera sees, a dark quiet alien horizon or a view from orbit with one huge real celestial body as the subject. Deep blacks, sharp stars wherever the sky is clear. Physically correct lighting: the only light comes from the named star, every lit crescent faces it, shadows fall away from it, and the light colour matches the star. At least half of the frame is calm darkness. Calm, still, meditative. Ultra detailed, realistic scale, wide 16:9. No people, no vehicles, no probes, no spacecraft, no landers, no buildings, no machines, no footprints, no text, no logo, no watermark.
 ```
 
-## 17. Kepler-22b · üretildi: `Qhx3YKLuP5bOlHdtQKkq`
+## 16. TRAPPIST-1d · üretilecek
 
 ```
-A calm ocean at dawn seen from the deck of a small sailboat; a colossal ocean planet with white cloud spirals rises from the sea horizon; a sailor holds a steaming mug at the bow. Surreal yet photorealistic cinematic matte painting. A calm, familiar Earth-like landscape under an impossible sky dominated by a colossal celestial body that fills a large part of the frame. One small human element in the foreground tells a quiet story. Golden hour light, soft atmospheric haze, muted teal sky and warm ochre ground, gentle film grain, ultra detailed, realistic textures and scale, wide 16:9 composition. No text, no logo, no watermark.
+A dark barren rocky plain at twilight; a large dim red star sits on the left horizon; rocks rim-lit red on their left sides, long shadows to the right; one neighbouring planet crescent in the upper right, lit on its left side. Photorealistic cinematic space scene, minimal and vast: what a distant probe camera sees, a dark quiet alien horizon or a view from orbit with one huge real celestial body as the subject. Deep blacks, sharp stars wherever the sky is clear. Physically correct lighting: the only light comes from the named star, every lit crescent faces it, shadows fall away from it, and the light colour matches the star. At least half of the frame is calm darkness. Calm, still, meditative. Ultra detailed, realistic scale, wide 16:9. No people, no vehicles, no probes, no spacecraft, no landers, no buildings, no machines, no footprints, no text, no logo, no watermark.
 ```
 
-## 18. Gliese 1214b · üretildi: `GrbvzrYvGFZ1sfnR6PJU`
+## 17. TRAPPIST-1e · üretilecek
 
 ```
-A misty pine coast with a wooden stilt house over the water; a huge hazy blue-white planet is half hidden in thick clouds above the sea; a figure rows a small boat through the mist. Surreal yet photorealistic cinematic matte painting. A calm, familiar Earth-like landscape under an impossible sky dominated by a colossal celestial body that fills a large part of the frame. One small human element in the foreground tells a quiet story. Golden hour light, soft atmospheric haze, muted teal sky and warm ochre ground, gentle film grain, ultra detailed, realistic textures and scale, wide 16:9 composition. No text, no logo, no watermark.
+A vast frozen ice plain at the permanent twilight line; a small dim red star rests on the far left horizon; a large neighbouring planet hangs high in the right as a thin crescent lit on its lower-left; ice ridges rim-lit red on their left sides, long shadows to the right. Photorealistic cinematic space scene, minimal and vast: what a distant probe camera sees, a dark quiet alien horizon or a view from orbit with one huge real celestial body as the subject. Deep blacks, sharp stars wherever the sky is clear. Physically correct lighting: the only light comes from the named star, every lit crescent faces it, shadows fall away from it, and the light colour matches the star. At least half of the frame is calm darkness. Calm, still, meditative. Ultra detailed, realistic scale, wide 16:9. No people, no vehicles, no probes, no spacecraft, no landers, no buildings, no machines, no footprints, no text, no logo, no watermark.
 ```
 
-## 19. Kepler-452b · üretildi: `0CSJFXHKgocemsh2qr62`
+## 18. TRAPPIST-1f · üretilecek
 
 ```
-An old farmhouse with a glowing porch light among golden wheat; an immense Earth-like but older, drier planet rises behind the hills; an elderly couple sits together on the porch. Surreal yet photorealistic cinematic matte painting. A calm, familiar Earth-like landscape under an impossible sky dominated by a colossal celestial body that fills a large part of the frame. One small human element in the foreground tells a quiet story. Golden hour light, soft atmospheric haze, muted teal sky and warm ochre ground, gentle film grain, ultra detailed, realistic textures and scale, wide 16:9 composition. No text, no logo, no watermark.
+Orbital view of a pale icy planet, smooth white-blue ice with faint cracks, lit from the left by a distant dim red star; the lit crescent on the left is tinted faint salmon by red light; the rest in shadow; deep black starfield. Photorealistic cinematic space scene, minimal and vast: what a distant probe camera sees, a dark quiet alien horizon or a view from orbit with one huge real celestial body as the subject. Deep blacks, sharp stars wherever the sky is clear. Physically correct lighting: the only light comes from the named star, every lit crescent faces it, shadows fall away from it, and the light colour matches the star. At least half of the frame is calm darkness. Calm, still, meditative. Ultra detailed, realistic scale, wide 16:9. No people, no vehicles, no probes, no spacecraft, no landers, no buildings, no machines, no footprints, no text, no logo, no watermark.
 ```
 
-## 20. 3C 273 · üretildi: `eyCsnq1I5VEXFYZuTSFO`
+## 19. TRAPPIST-1g · üretilecek
 
 ```
-A lonely mountain summit with a small tent and a campfire; in the sky a distant galaxy core blazes, a brilliant quasar jet stretching across the stars; a hiker sits by the fire looking up. Surreal yet photorealistic cinematic matte painting. A calm, familiar Earth-like landscape under an impossible sky dominated by a colossal celestial body that fills a large part of the frame. One small human element in the foreground tells a quiet story. Golden hour light, soft atmospheric haze, muted teal sky and warm ochre ground, gentle film grain, ultra detailed, realistic textures and scale, wide 16:9 composition. No text, no logo, no watermark.
+A dark frozen landscape with low ice hills under a black sky; the small dim red star low on the left horizon; above, several neighbouring planets as small crescents in a line, each lit on the side facing the star; long shadows to the right. Photorealistic cinematic space scene, minimal and vast: what a distant probe camera sees, a dark quiet alien horizon or a view from orbit with one huge real celestial body as the subject. Deep blacks, sharp stars wherever the sky is clear. Physically correct lighting: the only light comes from the named star, every lit crescent faces it, shadows fall away from it, and the light colour matches the star. At least half of the frame is calm darkness. Calm, still, meditative. Ultra detailed, realistic scale, wide 16:9. No people, no vehicles, no probes, no spacecraft, no landers, no buildings, no machines, no footprints, no text, no logo, no watermark.
+```
+
+## 20. TRAPPIST-1h · üretilecek
+
+```
+A vast frozen plain of dark grey-blue ice with low ridges, bone-dry, horizon low. A small dim orange-red dwarf star hangs well above the left horizon; ridge crests catch faint light on their left sides, shadows fall right. High on the right a small thin crescent planet lit on its left edge. Black sky. Photorealistic cinematic space scene, minimal and vast: what a distant probe camera sees, a dark quiet alien horizon or a view from orbit with one huge real celestial body as the subject. Deep blacks, sharp stars wherever the sky is clear. Physically correct lighting: the only light comes from the named star, every lit crescent faces it, shadows fall away from it, and the light colour matches the star. At least half of the frame is calm darkness. Calm, still, meditative. Ultra detailed, realistic scale, wide 16:9. No people, no vehicles, no probes, no spacecraft, no landers, no buildings, no machines, no footprints, no text, no logo, no watermark.
 ```

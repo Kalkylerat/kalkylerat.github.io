@@ -105,7 +105,9 @@ Gelir modeli (sahibinin kararı, 15 Ekim 2026): X ve Instagram trafik getirir; g
 Testler `tests/test_deepspace.py` içinde. Kod `deepspace/`, ayarlar `deepspace/ayar.toml`, işletme rehberi
 `.claude/skills/deep-space-log/SKILL.md`. 9 Kasım 2026: sahibinin "hepsi ok" onayıyla eklendi. Kanal sahibinin eski
 "Köz" kanalıdır (`@kozruh`, kimliği `UCtJHvFs1UuIKwTUhcWVyWIg`). Bahis ve futbol hesaplarıyla bağı yoktur.
-Müziği sahibi Suno'da üretir ve seçer; gerisini hat yapar.
+Müziği sahibi Suno'da üretir ve seçer; gerisini hat yapar. 12 Kasım 2026, sahibinin kararı ("40 üretip rastgele
+20'sini seçebilirsin, oradan videoyu oluşturursun"): şarkıları asistan Suno'da üretir (parça başına 2 versiyon) ve her
+parçadan birini rastgele seçer; seçim ve tohum `ses/secim.json`'a yazılır, yalnız seçilenler indirilir (G11).
 
 | # | Kural | Test |
 |---|---|---|

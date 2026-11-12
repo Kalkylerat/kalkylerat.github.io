@@ -24,8 +24,12 @@ Adımlar:
 3. **Liste.** `py -m deepspace.gorev gorseller <klasör>` → `GORSEL.md` (sahne + stil eki). Üretimde bu birleşik metni kullan.
 4. **Kredi.** Tahmini önce `estimate_only` ile al, şefin sınırını aşma. Ücretli üretim sahibinin onayı içindedir (G6, G11).
 5. **Deneme.** Önce 3 görsel (üç ayrı kadraj, tercihen `kapak_parcalari`); şef sahibinin `ok`unu bildirmeden kalanları üretme (G11).
-6. **Üretim.** Model ve akış: `marka.toml [gorsel] model`, `gorev.toml gorsel_akisi`; 16:9, 2K. Durumu
-   `creative_get_flow_run_status` ile izle. Aynı çağrıyı yeniden deneme diye tekrarlama (ikinci kez ücret keser).
+6. **Üretim: önce taslak, sonra 2K (12 Kasım 2026, kredi kuralı).** Model ve akış: `marka.toml [gorsel] model`,
+   `gorev.toml gorsel_akisi`; 16:9. `creative_generate_image` 1K taslak verir (1360x768, ~291 kredi). Kompozisyon,
+   fizik ve konsept taslakta denetlenir; kusurlu taslak ucuza yeniden çekilir. Taslağı şefe teslim et. Geçen taslağın
+   2K son hâlini (~1.454 kredi) şef üretir: akışta 2K image-generation düğümü, taslak `images` girişine bağlı, istem
+   "Recreate the reference image exactly at higher resolution ..." + denetçinin düzeltme cümlesi; kompozisyon korunur.
+   Durumu `creative_get_flow_run_status` ile izle. Aynı çağrıyı yeniden deneme diye tekrarlama (ikinci kez ücret keser).
 7. **İndirme ve ad.** Görseli `<klasör>/gorsel/NN.png` olarak indir (NN = iki haneli parça numarası). `gorev.toml`'da
    parçanın `gorsel_oturum` ve `gorsel_uretim` kimliklerini güncelle. İmzalı indirme adreslerini hiçbir dosyaya yazma.
 8. **Teknik bakış.** `py -m deepspace.gorev denetle <klasör>` (parametresiz) çözünürlük, oran, pozlama, simsiyah alan ve

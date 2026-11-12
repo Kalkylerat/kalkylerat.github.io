@@ -3,21 +3,48 @@
 Bu dosya yeni bir Claude Code oturumunun (yerel terminal) kaldığımız yerden devam etmesi için. Önce bunu, sonra
 `SOZLESME.md` G bölümünü ve `.claude/skills/deep-space-log/SKILL.md`'yi oku. Sahibiyle Türkçe konuş.
 
-## Yarım iş (12 Kasım 2026): görsel dili rehberi + görsel ajanı Fable + 3 deneme görseli
+## Gece planı (12 Kasım 2026, 00:45; sahibi uyuyor, sabah bakacak)
+Sahibinin kararları (12 Kasım gece):
+- Şarkılar: "hepsinin modu güzel; 40 üretip rastgele 20'sini seç, videoyu sen oluştur" (SOZLESME giriş paragrafı,
+  hafıza sarki-secimi-rastgele). 001 seçimi `ses/secim.json` (tohum 1001), 20 mp3 `001-trappist/ses/` içinde.
+- "Videoyu tamamla" (görsellerin kalanı için onay sayıldı, G11).
+- "Kalan Suno kotasıyla 002'nin şarkılarının bir kısmını indir" (kota 18 Kasım'da sıfırlanır; 6 indirme kaldı).
+- Fable projenin SON denetçisi: Fable'ın kalite onayından geçmeyen iş bitmiş sayılmaz; Fable düzeltmeleri ilgili
+  departmana iletir; Fable onay verirse yükleme. (Sözleşme + test + ajan dosyası henüz yazılmadı.)
+- Sistemi (alt ajanlar, modeller, görevler, maliyet) tek görselde göster (Artifact sayfası).
+- Arşiv: her bölüm kendi klasöründe şarkı ve görselleriyle; "o bölüm dışında başka veri varsa ..." cümlesi YARIM
+  geldi, sabah sahibine sor; o zamana kadar hiçbir şeyi silme/taşıma.
+Sıra (her madde bitince [x] yap):
+1. [ ] `gorev ses 001` arka planda çalışıyordu (bitti mi bak: `001-trappist/cikti/ses.m4a`, `bolumler.json`).
+2. [ ] 002 için rastgele seçim (tohum 1002) → `002-frost-line/ses/secim.json`, kalan 6 indirmeyle parça 01–06'yı indir
+   (Suno sayfasında ⋯ → Download → MP3 → "Unlock & Download", tıkladıktan sonra sayfada 20 sn bekle, yoksa iner gibi
+   görünür ama dosya gelmez; kilidi açılan şarkı tekrar ücretsiz iner).
+3. [ ] 001 görselleri: 17 ve 20 2K'da var (20 denetçiden kaldı, puan 4: zemin kaynağı olmayan gri-mavi ışıkla aydınlık).
+   Yöntem: gorsel-yonetmeni 1K taslak (~291 kredi) → gorsel-denetcisi → geçen taslağa şef 2K son hâl (~1.454 kredi,
+   akışta 2K düğüm + taslak `images` girişine bağlı). Görsel başına en çok 2 yeniden deneme (G13). Denetçinin düzeltme
+   cümleleri: 05 "perfectly round, smooth-edged disc, no granular rim, denser faint star field"; 14 "smooth featureless
+   stellar disc, plain almost dark, grazing red light, horizon at ~62%". Genel ders: zemini "almost dark, lit only by
+   grazing light from the low star" diye yaz, aksi hâlde FLUX gri gün ışığı veriyor. `kapak_parcalari` üçü ayrı kadraj olsun.
+4. [ ] Fable son denetçi kuralı: SOZLESME → test → ajan (denetci ya da yeni `son-denetci`, model fable) → kod (`karar`
+   istasyonu ve yükleme Fable onayı ister).
+5. [ ] Sistem görseli (Artifact): 11+ ajan, model, istasyon, çıktı, maliyet (Suno Pro, ElevenLabs Creator, vidIQ 100/ay,
+   görsel 291/1.454 kredi).
+6. [ ] Görseller tamamsa: `gorev video` → `kapak` → `metin` → `kontrol`; Fable son denetim. Yükleme YOK (OAuth yok,
+   sahibi sabah karar verir).
+
+## Yarım iş (12 Kasım 2026): 3 deneme görseli
 Sahibi onayladı ("önerilerini uygula"). Durum:
-1. **Commit edilmemiş, testler şu an KIRMIZI (beklenen):** `SOZLESME.md` G16'ya rehber cümlesi eklendi;
-   `tests/test_deepspace.py`'de `test_G15_ajan_dosyalari` gorsel-yonetmeni modelini `"fable"` bekliyor ve yeni
-   `test_G16_gorsel_dili_rehberi_tek_kaynak` var.
-2. Fable bir alt ajanda (model fable) şunları yazıyordu: `.claude/skills/gorsel-dili/SKILL.md`, ayrıca
-   `.claude/agents/gorsel-yonetmeni.md` ve `gorsel-denetcisi.md` gövdelerini (ön bölüme dokunmadan). Dosyalar yoksa ya da
-   yarımsa Fable'a (Agent, model fable) yeniden yazdır; girdi listesi: SOZLESME G bölümü, marka.toml, gorsel_denetim.py,
-   kapak.py, defter.py, inceleme raporu, arastirma.md §6, 001/002 gorev.toml, gorsel/17.png, hafıza notları
-   konsept-sabit / gorsel-stil-sade-ufuk / ozgunluk-referans-klonlama.
-3. Sonra şef: `gorsel-yonetmeni.md` ön bölümünde `model: fable` yap → `py -m pytest -q` yeşil → commit + push.
-4. 3 deneme görseli (001): parça 14 TRAPPIST-1b, 20 TRAPPIST-1h, 05 Sirius. gorsel-yonetmeni ajanı rehberle üretir
-   (FLUX 3, 2K, `generations_count=1`, görsel başı ~1.454 ElevenLabs kredisi, toplam ~4.400), gorsel-denetcisi
-   bağımsız denetler, sonuç sahibine gönderilir. Beğenirse kalan 16.
-5. Sahibinin bekleyen işi: Suno "DSL 001 Seven Worlds"te parça başına beğendiği versiyonu işaretlemek; sonra yalnız
+1. Bitti, commit edildi (718fe03, e059403): görsel dili rehberi `.claude/skills/gorsel-dili/SKILL.md` (Fable yazdı),
+   gorsel-yonetmeni `model: fable`, gorsel-denetcisi rehbere bağlı, SOZLESME G16 + testler; KONTROL_LISTESI yeni
+   konsepte uyduruldu; marka.toml `stil_eki` temizlendi (marka istasyonu zaten "karardan sonra değişti", yeniden
+   denetlenmeli); 001 TRAPPIST-1d `kayalik`; 002 Europa/Plüton/Enceladus istemleri düzeltildi.
+2. Sürüyor: 3 deneme görseli (001): 05 Sirius, 14 TRAPPIST-1b, 20 TRAPPIST-1h. gorsel-yonetmeni üretir (FLUX 3, 2K,
+   `generations_count=1`, ~1.454 kredi/görsel), sonra gorsel-denetcisi bağımsız denetler, sonuç sahibine gider.
+   Beğenirse kalan 16.
+3. Açık çelişkiler (dokunulmadı): `hareket` istasyonu ve `NN_hareket.json` hâlâ hatta (durağan görsel kararıyla
+   çelişiyor, yapısal); `deepspace/marka/README.md` ve `arastirma.md` §4–5 eski kapak/pencere anlatımı; kapak.py başlık
+   rengi (244,241,234) ≠ marka `yazi` #f0f0f5; `sol_alt` düzeninde imza YouTube süre rozetine yakın.
+4. Sahibinin bekleyen işi: Suno "DSL 001 Seven Worlds"te parça başına beğendiği versiyonu işaretlemek; sonra yalnız
    seçilenler indirilir (`ses/NN-ad.mp3`).
 
 ## Güncel durum (11 Kasım 2026 gece): konsept sabit, bağımsız inceleme uygulandı

@@ -148,6 +148,46 @@ def _gorev_no(cikti: Path) -> int | None:
         return None
 
 
+SON_DENETIM_GECME = 7
+SON_DENETCI = "son-denetci (fable)"
+
+
+def son_denetim_yaz(cikti: Path, karar: str, puan: int | None, bulgular: list[str]) -> Path:
+    """G18: Fable'ın son kalite kararı. KALDI'da her bulgu `istasyon:not` biçimindedir (düzeltme o departmana gider)."""
+    from .is_kaydi import ISTASYONLAR
+    if karar not in ("GECTI", "KALDI"):
+        raise GoogleHatasi("son denetim kararı GECTI ya da KALDI olmalı (G18)")
+    ayrik = []
+    for b in bulgular:
+        ist, _, notu = b.partition(":")
+        if ist.strip() not in ISTASYONLAR or not notu.strip():
+            raise GoogleHatasi(f"son denetim bulgusu bir istasyona bağlanmalı (istasyon:not): {b!r} (G18)")
+        ayrik.append({"istasyon": ist.strip(), "not": notu.strip()})
+    if karar == "GECTI" and (puan is None or puan < SON_DENETIM_GECME):
+        raise GoogleHatasi(f"son denetim GEÇTİ için puan en az {SON_DENETIM_GECME} (G18)")
+    if karar == "KALDI" and not ayrik:
+        raise GoogleHatasi("son denetim KALDI: düzeltilecek iş istasyonuyla yazılmalı (G18)")
+    veri = {"denetleyen": SON_DENETCI, "karar": karar, "puan": puan, "bulgular": ayrik,
+            "video": video_imzasi(cikti / "video.mp4"),
+            "zaman": datetime.now(timezone.utc).isoformat(timespec="seconds")}
+    yol = cikti / "son_denetim.json"
+    yol.write_text(json.dumps(veri, indent=2, ensure_ascii=False), encoding="utf-8")
+    return yol
+
+
+def son_denetim_kontrol(cikti: Path) -> dict:
+    """G18: Fable GEÇTİ demeden iş bitmiş sayılmaz; video sonradan değişirse karar geçersizdir."""
+    yol = cikti / "son_denetim.json"
+    if not yol.exists():
+        raise GoogleHatasi("son denetim (Fable) kararı yok: iş bitmiş sayılmaz, onay ve yükleme yok (G18)")
+    veri = json.loads(yol.read_text(encoding="utf-8"))
+    if veri.get("karar") != "GECTI":
+        raise GoogleHatasi("son denetim (Fable) KALDI: düzeltmeler ilgili istasyonlarda bitmeli (G18)")
+    if veri.get("video") != video_imzasi(cikti / "video.mp4"):
+        raise GoogleHatasi("video son denetimden sonra değişmiş: yeniden son denetim gerekli (G18)")
+    return veri
+
+
 def onay_yaz(cikti: Path, kim: str, yayin_zamani: str, simdi: datetime | None = None) -> Path:
     """Karar (G8): rapor yeşil, yayın saati karardan en az BILDIRIM_SAATI saat sonra. İlk SAHIP_ONAYI_ILK_GOREV
     görevde kararı yalnız sahibi verir (`kim="sahip"`, sahibinin sohbette yazdığı `ok`tan sonra)."""
@@ -160,6 +200,7 @@ def onay_yaz(cikti: Path, kim: str, yayin_zamani: str, simdi: datetime | None = 
         raise GoogleHatasi("rapor.json kırmızı: video yayına planlanamaz (G8)")
     if (cikti / "iptal.json").exists():
         raise GoogleHatasi("sahibi iptal etmiş (iptal.json): yayın planlanmaz (G8)")
+    son_denetim_kontrol(cikti)
     if not yayin_zamani or _zaman_oku(yayin_zamani) < simdi + timedelta(hours=BILDIRIM_SAATI):
         raise GoogleHatasi(f"yayın saati karardan en az {BILDIRIM_SAATI} saat sonra olmalı (G8)")
     onay = {"karar_veren": kim, "zaman": simdi.isoformat(timespec="seconds"),
@@ -191,6 +232,7 @@ def onay_kontrol(cikti: Path) -> dict:
         raise GoogleHatasi("video karardan sonra değişmiş: yeniden karar gerekli (G8)")
     if not onay.get("yayin_zamani"):
         raise GoogleHatasi("planlı yayın saati yok (G8)")
+    son_denetim_kontrol(cikti)
     return onay
 
 

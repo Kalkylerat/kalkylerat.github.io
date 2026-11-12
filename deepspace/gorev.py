@@ -173,6 +173,11 @@ def _kirmizi_mi(kontroller: list[dict]) -> list[dict]:
 def _google(a, gorev: dict) -> int:
     from . import google
     out = cikti(gorev)
+    if a.komut == "son-denetim":  # G18: yalnız son-denetci (Fable) yazar
+        if not a.karar:
+            raise SystemExit("--karar GECTI|KALDI gerekli")
+        print(google.son_denetim_yaz(out, a.karar, a.puan, a.bulgu))
+        return 0
     if a.komut == "onay":
         if not a.yayin:
             raise SystemExit("--yayin gerekli (planlı yayın saati, en az 24 saat sonra)")
@@ -265,7 +270,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("komut", choices=["istemler", "ses", "sahneler", "video", "kapak", "metin", "shorts", "kontrol",
                                       "hepsi", "kaydet", "kanal", "al", "teslim", "onay", "iptal", "yukle",
                                       "gorseller", "denetle", "ornek", "durum", "kilit", "denetim", "marka",
-                                      "shorts-analiz"])
+                                      "shorts-analiz", "son-denetim"])
     ap.add_argument("--drive", help="Drive klasör yolu, ör. DeepSpaceLog/001")
     ap.add_argument("--kim", help="karar veren (varsayılan: denetci)")
     ap.add_argument("--neden", help="iptal nedeni")
@@ -347,7 +352,7 @@ def main(argv: list[str] | None = None) -> int:
         W, H = (int(x) for x in a.boyut.lower().split("x"))
         print(ornek(gorev, ayar, a.parca, Path(a.ses), W, H, mod=a.mod))
         return 0
-    if a.komut in ("al", "teslim", "onay", "iptal", "yukle"):
+    if a.komut in ("al", "teslim", "onay", "iptal", "yukle", "son-denetim"):
         return _google(a, gorev)
     if a.komut == "shorts-analiz":  # G12: kurgucu ajanın okuyacağı enerji eğrileri ve önerilen anlar
         from . import shorts

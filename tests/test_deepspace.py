@@ -316,6 +316,9 @@ def _hazir_cikti(tmp_path, gecti=True):
     (out / "video.mp4").write_bytes(b"x" * 1000)
     (out / "youtube.json").write_text(json.dumps({"baslik": "T", "aciklama": "A", "etiketler": ["e"],
                                                   "sentetik_icerik": True}), encoding="utf-8")
+    if gecti:
+        from deepspace import google
+        google.son_denetim_yaz(out, "GECTI", 8, [])   # G18: Fable'ın son onayı
     return out
 
 
@@ -334,6 +337,7 @@ def test_G8_denetci_karari_24_saat_ve_iptal(tmp_path):
     (out / "video.mp4").write_bytes(b"y" * 1001)  # karardan sonra değişen video yeniden karar ister
     with pytest.raises(google.GoogleHatasi, match="değişmiş"):
         google.onay_kontrol(out)
+    google.son_denetim_yaz(out, "GECTI", 8, [])
     google.onay_yaz(out, "denetci", "2026-11-11T13:00:00Z", simdi=simdi)
     google.iptal_yaz(out, "sahibi istemedi")  # iptal her zaman önceliklidir
     with pytest.raises(google.GoogleHatasi, match="iptal"):
@@ -357,6 +361,40 @@ def test_G8_ilk_bes_gorevde_karar_sahibinin(tmp_path):
     assert google.onay_kontrol(out)["karar_veren"] == "sahip"
     (tmp_path / "gorev.toml").write_text("no = 6\n", encoding="utf-8")
     google.onay_yaz(out, "denetci", "2026-11-11T13:00:00Z", simdi=simdi)   # 6. görevden sonra denetçi
+
+
+def test_G18_fable_son_denetim_olmadan_onay_ve_yukleme_yok(tmp_path):
+    from datetime import datetime, timezone
+    from deepspace import google
+    out = tmp_path / "cikti"
+    out.mkdir()
+    (out / "rapor.json").write_text(json.dumps({"gecti": True}), encoding="utf-8")
+    (out / "video.mp4").write_bytes(b"x" * 1000)
+    simdi = datetime(2026, 11, 10, 12, 0, tzinfo=timezone.utc)
+    with pytest.raises(google.GoogleHatasi, match="son denetim"):
+        google.onay_yaz(out, "denetci", "2026-11-11T13:00:00Z", simdi=simdi)   # Fable kararı yok
+    google.son_denetim_yaz(out, "KALDI", 5, ["gorsel:20 zemin ışığı kaynaksız", "paket:kapak 2 okunmuyor"])
+    karar = json.loads((out / "son_denetim.json").read_text(encoding="utf-8"))
+    assert karar["denetleyen"].startswith("son-denetci") and [b["istasyon"] for b in karar["bulgular"]] == [
+        "gorsel", "paket"]
+    with pytest.raises(google.GoogleHatasi, match="son denetim"):
+        google.onay_yaz(out, "denetci", "2026-11-11T13:00:00Z", simdi=simdi)   # KALDI: bitmiş sayılmaz
+    with pytest.raises(google.GoogleHatasi):
+        google.son_denetim_yaz(out, "KALDI", 5, [])                 # bulgusuz KALDI: departmana iletilecek iş yok
+    with pytest.raises(google.GoogleHatasi):
+        google.son_denetim_yaz(out, "KALDI", 5, ["muhasebe:yok"])   # bulgu bir istasyona bağlanmalı
+    with pytest.raises(google.GoogleHatasi):
+        google.son_denetim_yaz(out, "GECTI", 6, [])                 # geçme puanı 7
+    google.son_denetim_yaz(out, "GECTI", 8, [])
+    google.onay_yaz(out, "denetci", "2026-11-11T13:00:00Z", simdi=simdi)
+    assert google.onay_kontrol(out)["karar_veren"] == "denetci"
+    (out / "video.mp4").write_bytes(b"y" * 1001)   # Fable'dan sonra değişen video yeniden son denetim ister
+    with pytest.raises(google.GoogleHatasi, match="son denetim"):
+        google.son_denetim_kontrol(out)
+    on = _on_bolum(KOK / ".claude" / "agents" / "son-denetci.md")
+    assert on["name"] == "son-denetci" and on["model"] == "fable" and on["effort"]
+    assert not {"Write", "Edit", "NotebookEdit"} & {t.strip() for t in on["tools"].split(",")}
+    assert "son-denetim" in (KOK / "deepspace" / "gorev.py").read_text(encoding="utf-8")
 
 
 def test_G12_shorts_ilk_bes_videoya_kadar_kapali():

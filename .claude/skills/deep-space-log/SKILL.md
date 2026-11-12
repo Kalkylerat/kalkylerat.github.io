@@ -25,7 +25,8 @@ kendi işini denetlemez. Alt ajan başka ajan çağıramaz.
 | 8 | `video` | operator (`gorev video`, Seyir Defteri modu) | `cikti/video.mp4` |
 | 9 | `shorts` | shorts-kurgucusu (`shorts-analiz` → plan) → operator (`gorev shorts`) | `shorts_plan.json`, `short_?.mp4`, `shorts.json` |
 | 10 | `paket` | operator (`gorev kapak`, `gorev metin`) | `kapak_?.jpg`, `youtube.json`, `aciklama.txt` |
-| 11 | `karar` | şef + denetci | `cikti/onay.json` |
+| 11 | `son-denetim` (G18) | **son-denetci (Fable)**: KALDI ise bulgular istasyonlara geri gider | `cikti/son_denetim.json` |
+| 12 | `karar` | şef + denetci (Fable GEÇTİ olmadan çalışmaz) | `cikti/onay.json` |
 
 **Şefin döngüsü:**
 1. `py -m deepspace.gorev durum <klasör>` → `sıradaki` istasyon.

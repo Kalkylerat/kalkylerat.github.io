@@ -63,6 +63,37 @@ def teknik_olcum(yol: Path) -> dict:
             "netlik": round(float(lap.var() * 1e4), 2)}
 
 
+def pozla(kaynak: Path, hedef: Path, hedef_parlaklik: float = 0.06, en_dusuk_gama: float = 0.6) -> float:
+    """G6 son dosya: yalnız ton eğrisi (gama) ile ortalama parlaklığı hedefe açar; yeni öğe eklemez, siyah siyah kalır.
+    Kullanılan gamayı döndürür (1.0 = dokunulmadı; en düşük en_dusuk_gama)."""
+    with Image.open(kaynak) as im:
+        rgb = im.convert("RGB")
+    w, h = rgb.size
+    boy = (min(w, 1024), int(min(w, 1024) * h / w))
+    tam = np.asarray(rgb, np.uint8)
+
+    def lut(g: float) -> np.ndarray:
+        return np.round(255 * (np.arange(256) / 255) ** g).astype(np.uint8)
+
+    def parlaklik(g: float) -> float:  # teknik_olcum ile aynı sıra: eğri, gri, küçültme
+        L = Image.fromarray(lut(g)[tam]).convert("L").resize(boy)
+        return float(np.asarray(L, np.float32).mean() / 255)
+
+    gama = 1.0
+    if parlaklik(1.0) < hedef_parlaklik:
+        alt, ust = en_dusuk_gama, 1.0
+        if parlaklik(alt) < hedef_parlaklik:
+            gama = alt
+        else:
+            for _ in range(14):
+                orta = (alt + ust) / 2
+                alt, ust = (orta, ust) if parlaklik(orta) >= hedef_parlaklik else (alt, orta)
+            gama = round(alt, 3)
+    hedef.parent.mkdir(parents=True, exist_ok=True)
+    Image.fromarray(lut(gama)[tam]).save(hedef)
+    return gama
+
+
 def parmak_izi(yol: Path) -> int:
     """Algısal özet (dHash 64 bit): neredeyse aynı görselleri yakalar."""
     with Image.open(yol) as im:

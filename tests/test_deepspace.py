@@ -538,6 +538,34 @@ def _resim(yol, w=2736, h=1536, tohum=0):
     return yol
 
 
+def test_G6_pozla_yalniz_ton_egrisini_acar(tmp_path):
+    from PIL import Image
+    from deepspace import gorsel_denetim as gd
+    rng = np.random.default_rng(3)
+    x = (rng.random((1440, 2560, 3)) ** 6 * 0.25 * 255).astype("uint8")  # koyu kare: çoğu piksel siyaha yakın
+    x[600:800, 1200:1400] = (200, 90, 40)                                # aydınlık özne
+    kaynak = tmp_path / "koyu.png"
+    Image.fromarray(x).save(kaynak)
+    once = gd.teknik_olcum(kaynak)["ort_parlaklik"]
+    assert once < 0.05
+    hedef = tmp_path / "gorsel" / "01.png"
+    gama = gd.pozla(kaynak, hedef)
+    assert 0.6 <= gama < 1.0
+    o = gd.teknik_olcum(hedef)
+    assert 0.055 <= o["ort_parlaklik"] <= 0.07 and o["genislik"] == 2560
+    y = np.asarray(Image.open(hedef).convert("RGB"))
+    assert (y[x == 0] == 0).all()                       # siyah siyah kalır, yeni öğe yok
+    assert (np.diff(y[700, 1100:1500].astype(int), axis=0) != 0).sum() <= \
+        (np.diff(x[700, 1100:1500].astype(int), axis=0) != 0).sum()  # kenar sayısı artmaz
+    # Yeterince aydınlık kareye dokunmaz; gama tabanı 0,6'nın altına inmez.
+    acik = tmp_path / "acik.png"
+    Image.fromarray(np.full((1440, 2560, 3), 60, "uint8")).save(acik)
+    assert gd.pozla(acik, tmp_path / "acik_out.png") == 1.0
+    siyah = tmp_path / "siyah.png"
+    Image.new("RGB", (2560, 1440), (1, 1, 1)).save(siyah)
+    assert gd.pozla(siyah, tmp_path / "siyah_out.png") == 0.6
+
+
 def test_G13_gorsel_denetimi(tmp_path):
     from deepspace import gorsel_denetim as gd
     (tmp_path / "gorsel").mkdir()

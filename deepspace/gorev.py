@@ -285,7 +285,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("komut", choices=["istemler", "ses", "sahneler", "video", "kapak", "metin", "shorts", "kontrol",
                                       "hepsi", "kaydet", "kanal", "al", "teslim", "onay", "iptal", "yukle",
                                       "gorseller", "denetle", "ornek", "durum", "kilit", "denetim", "marka",
-                                      "shorts-analiz", "son-denetim", "arsiv"])
+                                      "shorts-analiz", "son-denetim", "arsiv", "pozla"])
     ap.add_argument("--drive", help="Drive klasör yolu, ör. DeepSpaceLog/001")
     ap.add_argument("--kim", help="karar veren (varsayılan: denetci)")
     ap.add_argument("--neden", help="iptal nedeni")
@@ -295,6 +295,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--parca", type=int, help="denetle: parça numarası (1'den)")
     ap.add_argument("--puan", type=int, help="denetle: göz denetimi puanı 0-10")
     ap.add_argument("--sorun", action="append", default=[], help="denetle: kod:not (tekrarlanabilir)")
+    ap.add_argument("--kaynak", help="pozla: büyütülmüş taslak (gorsel/NN.png buraya yazılır)")
     ap.add_argument("--ses", help="ornek: ses dosyası (wav/mp3)")
     ap.add_argument("--boyut", default="1920x1080", help="ornek: GENxYUK (varsayılan 1920x1080)")
     ap.add_argument("--mod", default="defter", choices=["defter", "sinemagraf"], help="ornek: sahne modu")
@@ -365,6 +366,15 @@ def main(argv: list[str] | None = None) -> int:
         except arsiv.ArsivHatasi as e:
             print(f"HATA: {e}")
             return 2
+        return 0
+    if a.komut == "pozla":  # G6 son dosya: yalnız ton eğrisi
+        from . import gorsel_denetim as gd
+        if a.parca is None or not a.kaynak:
+            ap.error("pozla: --parca N ve --kaynak DOSYA gerekli")
+        hedef = Path(gorev["klasor"]) / "gorsel" / f"{a.parca:02d}.png"
+        gama = gd.pozla(Path(a.kaynak), hedef)
+        o = gd.teknik_olcum(hedef)
+        print(f"{hedef.name}: gama {gama}, parlaklık {o['ort_parlaklik']}, teknik: {gd.teknik_sorunlar(o) or 'sorun yok'}")
         return 0
     if a.komut == "denetle":
         return denetle(gorev, a)

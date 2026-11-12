@@ -3,7 +3,27 @@
 Bu dosya yeni bir Claude Code oturumunun (yerel terminal) kaldığımız yerden devam etmesi için. Önce bunu, sonra
 `SOZLESME.md` G bölümünü ve `.claude/skills/deep-space-log/SKILL.md`'yi oku. Sahibiyle Türkçe konuş.
 
-## Son durum (12 Kasım 2026, ~10:00; 5. tur bitti)
+## Son durum (12 Kasım 2026, ~11:35; 6. tur bitti)
+- **17/20 hazır.** 6. turda (sahibinin onayıyla, 4 kare × 2 seçenek, orta kalite, 1.477 kredi) 11-A geçti (8);
+  Topaz (485) + `pozla` yapıldı. 17'nin son dosyası yeniden denetlendi, geçti (7, `marka`: sağ ufukta beyaz sırtlar).
+  Bu turun toplamı ≈1.960 kredi. Kimlikler: scratchpad `tur6_oturum.json`, istemler `istem6.json`; `gorev.toml`
+  `gorsel_istem` 04/11/18/19 için 6. tur sahnesine güncellendi.
+- **Kalan 3:**
+  - 04: iki seçenek de teknik ret (pozla sonrası parlaklık 0.024/0.035, sınır 0.05). Model "küçük sönük kızıl cüce"
+    deyince diski yine ~1/18 boyunda çiziyor; sadece yıldızlı boş gök kadrajı bu sınırı geçemiyor. Denetçiye gitmedi.
+    Önerim: diski kadrajın büyük bir kısmını kaplayan yakın görünüm ya da yıldızın yanında soluk bir bulutsu/pus alanı.
+  - 18-A: 5 (`fizik`): gece yüzü kaynağı olmayan gri-mavi ışıkla dolu; sebebi istemdeki "dim slate-grey night side".
+    18-B (krem buz, sağ altta gece yüzü siyaha iniyor) denetlenmedi; teknik geçiyor (0.118). Önce B'ye ücretsiz bakılabilir.
+  - 19-B: 3 (`istem`): cilalı dalgalı buz + yıldızın yansıma yolu = gece denizi. "glossy, polished" ve "swells" çıkmalı;
+    mat, düz, çatlaklı buz. Not: `kayalik` kadraj eki ("ground is matte and nearly black") buz kareleriyle çelişiyor;
+    6. turda 19 ve 04'te eki elle kısalttım (GORSEL.md elle düzeltildi; `gorev gorseller` yeniden üretirse ek geri gelir).
+    Kadraj ekini değiştirmek marka kiti değişikliği, sahibine sorulmalı.
+- **Ücretsiz büyütme:** sahibi onayladı. Real-ESRGAN ncnn-vulkan (resmi GitHub sürümü v0.2.5.0, 45 MB)
+  `C:\Users\atici\araclar\realesrgan\` klasörüne indirildi ve açıldı. Çalıştırma, Claude'un otomatik izin denetimi
+  tarafından engellendi (dışarıdan gelen program); sahibinin izin vermesi ya da bir kez kendisinin çalıştırması gerekiyor.
+- **7. tur sahibinin onayını bekliyor (G13).**
+
+## Önceki durum (12 Kasım 2026, ~10:00; 5. tur bitti)
 - **15/20 son dosya + karar hazır.** 5. turda 06 (8), 09 (7), 14 (7) geçti; Topaz + `pozla` yapıldı.
 - **Kalan 5:**
   - 17: yalnız yeniden bakış gerekiyor (görsel 11 Kasım'da değişmiş, karar 10 Kasım'dan); kredi gerekmez.

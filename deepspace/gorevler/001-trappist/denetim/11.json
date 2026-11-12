@@ -1,17 +1,10 @@
 {
   "kontrol_listesi_surumu": 1,
   "denetleyen": "denetci",
-  "ozet": "3a293802ab876b99280ca808c91731b92b8246f5f74899ad72e33e1efcf788df",
-  "puan": 5,
-  "sorunlar": [
-    {
-      "kod": "tekrar",
-      "not": "01 ile ayni kadraj: ufuk ~%52, alt yari pas rengi tasli duzluk, tek tek taslardan uzun gölgeler, ust yari yildizli gok; yildiz kadraj disinda olsa da 01in yakin kopyasi"
-    },
-    {
-      "kod": "marka",
-      "not": "parlak odak yok (en parlak oge ufuktaki dag sirti); sag ufukta turuncu alacakaranlik pusu Dunya colu aksami gibi okunuyor; sol ust sakin bolgede (x%17-19 y%6-10) iki parlak sari nokta"
-    }
-  ],
-  "gecti": false
+  "ozet": "ec93a0a6e01092f8640d08a18b3744df1038aebe30bf3c20d8c50b46a3d90429",
+  "puan": 8,
+  "sorunlar": [],
+  "gecti": true,
+  "taslak_ozeti": "cd688648482327d1c5566f18580aaf390f6078dc9ede26c567504c85ba83a960",
+  "turetme": "2x büyütme + pozla gama 0.661"
 }

@@ -1,8 +1,13 @@
 {
   "kontrol_listesi_surumu": 1,
   "denetleyen": "denetci",
-  "ozet": "bd8460dde35b860721317e4fa32a4c42ae6153928951b8c9eece90f55244de5b",
-  "puan": 9,
-  "sorunlar": [],
+  "ozet": "ae61d904fcfca43032125fa6d3b8f07c12ccb3b0c23778522dc8273dc63b055c",
+  "puan": 7,
+  "sorunlar": [
+    {
+      "kod": "marka",
+      "not": "sag ufukta (x %70-100) beyaz, kirmizi tonsuz parlak tepe sirtlari; yildiz solda, isik kirmizi olmali, karli sira daga yakin duruyor. Kucuk, tam ekranda dikkat cekmiyor"
+    }
+  ],
   "gecti": true
 }

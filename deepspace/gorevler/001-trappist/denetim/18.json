@@ -1,12 +1,12 @@
 {
   "kontrol_listesi_surumu": 1,
   "denetleyen": "denetci",
-  "ozet": "b67248848d22ae35f27226a2f066ebab6eead5ec4d49a25f145653ce95993c09",
-  "puan": 6,
+  "ozet": "79c7b13ea73ec182a8889198b1a79225b23e579a4e6b743812913725b9b877e7",
+  "puan": 5,
   "sorunlar": [
     {
-      "kod": "tekrar",
-      "not": "onaylı 15 (ve 03) ile aynı kompozisyon: hilal sağda (x %70), aydınlık kenar sola, sol kenarda kırmızı ışık sisi; yalnız rengi soluk. Buz çatlakları artık okunuyor, karanlık disk yıldızları örtüyor"
+      "kod": "fizik",
+      "not": "gece yuzu siyah degil; alt-sag yarim kure kaynagi olmayan gri-mavi dolgu isikla aydinlik, catlaklar okunuyor (madde 1); 17'deki hilalin gece yuzu gibi tam siyah olmali. Isik ustten, hilal disi yukari, boynuzlar asagi: bu kisim dogru"
     }
   ],
   "gecti": false

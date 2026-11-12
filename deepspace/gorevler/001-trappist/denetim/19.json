@@ -1,12 +1,12 @@
 {
   "kontrol_listesi_surumu": 1,
   "denetleyen": "denetci",
-  "ozet": "5464eb076cb3b5230c4518cb84a610baff392b7cdc21311a33b82d346f30fd19",
-  "puan": 6,
+  "ozet": "ba6b5ae1cd311775981a97a9dfc2ff626bdb60b579a60c7c8d18633f787a2023",
+  "puan": 3,
   "sorunlar": [
     {
-      "kod": "marka",
-      "not": "parlak odak yok, kare tum ekranda bulanik koyu; tumsek kenarlarindaki tugla kirmizi isik cok soluk, 168x94te ozne secilmiyor; tumsekler istenen gri-mavi buz degil kahverengi-gri delikli kaya gibi okunuyor (isik yonu dogru: sag kenar aydinlik, sol oyuk karanlik)"
+      "kod": "istem",
+      "not": "yuzey gece acik deniz gibi okunuyor; parlak cilali kabarmalar dalga gibi, soldaki yildizdan ufuktan alt-sola uzanan isiltili yansima yolu (islak yansima, madde 11/12). Sahibi deniz der"
     }
   ],
   "gecti": false

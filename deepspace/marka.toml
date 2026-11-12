@@ -37,7 +37,7 @@ short_etiket = 40
 # Görsel dili: kurallar .claude/skills/gorsel-dili/SKILL.md (12 Kasım 2026). Karanlık, durgun bir yabancı ufuk ya da
 # yörüngeden görünüm ve TEK büyük gerçek gök cismi. Sahnede insan, araç, sonda, bina, iz yok; PROBE-7 yalnız
 # arayüzde. Her sahne uzayda; ışık fiziği doğru (G13).
-model = "flux-3-image"
+model = "gpt-image-2"  # 12 Kasım 2026 pilotu: FLUX zemini gri, ışığı soğuk bırakıyordu; son hâl Topaz 2x (topaz-image-upscale-v2)
 stil_eki = "Raw spacecraft photograph, low-key exposure, restrained natural colour, deep black sky with pin-sharp stars, calm and still, wide 16:9. No people, no vehicles, no probes, no buildings, no text."
 yasaklar = ["neon pink", "purple gradient", "lens flare overload", "emoji", "text in image", "watermark"]
 

@@ -186,6 +186,12 @@ def _google(a, gorev: dict) -> int:
         if not a.karar:
             raise SystemExit("--karar GECTI|KALDI gerekli")
         print(google.son_denetim_yaz(out, a.karar, a.puan, a.bulgu))
+        if a.karar == "GECTI":  # G19: Fable onayından sonra bölüm arşivi
+            from . import arsiv
+            try:
+                print(f"arşiv: {arsiv.arsivle(gorev)}")
+            except arsiv.ArsivHatasi as e:
+                print(f"UYARI: {e}")
         return 0
     if a.komut == "onay":
         if not a.yayin:
@@ -279,7 +285,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("komut", choices=["istemler", "ses", "sahneler", "video", "kapak", "metin", "shorts", "kontrol",
                                       "hepsi", "kaydet", "kanal", "al", "teslim", "onay", "iptal", "yukle",
                                       "gorseller", "denetle", "ornek", "durum", "kilit", "denetim", "marka",
-                                      "shorts-analiz", "son-denetim"])
+                                      "shorts-analiz", "son-denetim", "arsiv"])
     ap.add_argument("--drive", help="Drive klasör yolu, ör. DeepSpaceLog/001")
     ap.add_argument("--kim", help="karar veren (varsayılan: denetci)")
     ap.add_argument("--neden", help="iptal nedeni")
@@ -351,6 +357,14 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if a.komut == "gorseller":
         print(gorsel_istemleri(gorev))
+        return 0
+    if a.komut == "arsiv":  # G19
+        from . import arsiv
+        try:
+            print(arsiv.arsivle(gorev))
+        except arsiv.ArsivHatasi as e:
+            print(f"HATA: {e}")
+            return 2
         return 0
     if a.komut == "denetle":
         return denetle(gorev, a)

@@ -24,12 +24,16 @@ Adımlar:
 3. **Liste.** `py -m deepspace.gorev gorseller <klasör>` → `GORSEL.md` (sahne + stil eki). Üretimde bu birleşik metni kullan.
 4. **Kredi.** Tahmini önce `estimate_only` ile al, şefin sınırını aşma. Ücretli üretim sahibinin onayı içindedir (G6, G11).
 5. **Deneme.** Önce 3 görsel (üç ayrı kadraj, tercihen `kapak_parcalari`); şef sahibinin `ok`unu bildirmeden kalanları üretme (G11).
-6. **Üretim: önce taslak, sonra 2K (12 Kasım 2026, kredi kuralı).** Model ve akış: `marka.toml [gorsel] model`,
-   `gorev.toml gorsel_akisi`; 16:9. `creative_generate_image` 1K taslak verir (1360x768, ~291 kredi). Kompozisyon,
-   fizik ve konsept taslakta denetlenir; kusurlu taslak ucuza yeniden çekilir. Taslağı şefe teslim et. Geçen taslağın
-   2K son hâlini (~1.454 kredi) şef üretir: akışta 2K image-generation düğümü, taslak `images` girişine bağlı, istem
-   "Recreate the reference image exactly at higher resolution ..." + denetçinin düzeltme cümlesi; kompozisyon korunur.
-   Durumu `creative_get_flow_run_status` ile izle. Aynı çağrıyı yeniden deneme diye tekrarlama (ikinci kez ücret keser).
+6. **Üretim: taslak, sonra büyütme (12 Kasım 2026 pilotu).** Model `marka.toml [gorsel] model` (gpt-image-2; FLUX
+   iki turda zemini gri, ışığı soğuk bıraktı). 1K taslak 1280x720, ~701 kredi; 16:9 ve `quality: high` akış
+   düğümünde verilir. Şef, istemleri `gorev.toml`'dan alıp akışta üretir (üretim aracında oran seçilemiyor); sen istemi
+   yazar ve taslağa bakarsın. Geçen taslak Topaz ile 2x büyütülür (2560x1440, ~485 kredi): içerik değişmez, düzeltme
+   istemi yoktur. Düzeltme gerekiyorsa yeni taslak çekilir. Aynı çağrıyı yeniden deneme diye tekrarlama (ikinci kez
+   ücret keser).
+   İstem kalıbı (pilotta tuttu): rengi ışığa değil malzemeye yaz ("dark rust-brown basalt, nearly black"); kadraj
+   dışındaki yıldızın adını yazma, ışığı anlat ("all light comes from beyond the left edge"); yerleşimi kesirle değil
+   olumlu cümleyle ver ("the ground fills only the bottom third"); sayı en çok 2; "nothing is white or blue-grey" gibi
+   tam renk cümlesi.
 7. **İndirme ve ad.** Görseli `<klasör>/gorsel/NN.png` olarak indir (NN = iki haneli parça numarası). `gorev.toml`'da
    parçanın `gorsel_oturum` ve `gorsel_uretim` kimliklerini güncelle. İmzalı indirme adreslerini hiçbir dosyaya yazma.
 8. **Teknik bakış.** `py -m deepspace.gorev denetle <klasör>` (parametresiz) çözünürlük, oran, pozlama, simsiyah alan ve

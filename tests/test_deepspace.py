@@ -417,6 +417,39 @@ def test_G18_fable_son_denetim_olmadan_onay_ve_yukleme_yok(tmp_path):
     assert "son-denetim" in (KOK / "deepspace" / "gorev.py").read_text(encoding="utf-8")
 
 
+def test_G19_bolum_arsivi_yalniz_kullanilanlari_kopyalar(tmp_path):
+    from deepspace import arsiv
+    kl = tmp_path / "001-test"
+    (kl / "ses").mkdir(parents=True)
+    (kl / "gorsel" / "taslak").mkdir(parents=True)
+    (kl / "denetim").mkdir()
+    parca = [{"ad": "A", "dosya": "01-a.mp3", "gorsel_uretim": "g1"},
+             {"ad": "B", "dosya": "02-b.mp3", "gorsel_uretim": "g2"}]
+    gorev = {"no": 1, "klasor": str(kl), "parca": parca}
+    (kl / "gorev.toml").write_text("no = 1\n", encoding="utf-8")
+    (kl / "SUNO.md").write_text("s", encoding="utf-8")
+    (kl / "ses" / "secim.json").write_text("{}", encoding="utf-8")
+    (kl / "ses" / "01-a.mp3").write_bytes(b"a")
+    (kl / "ses" / "fazla.wav").write_bytes(b"x")          # kullanılmayan: arşive girmez
+    (kl / "gorsel" / "01.png").write_bytes(b"p1")
+    (kl / "gorsel" / "taslak" / "01.png").write_bytes(b"t")
+    with pytest.raises(arsiv.ArsivHatasi, match="02"):
+        arsiv.arsivle(gorev)                                 # eksik şarkı ve görsel: arşiv kurulmaz
+    assert not (kl / "arsiv").exists()
+    (kl / "ses" / "02-b.mp3").write_bytes(b"b")
+    (kl / "gorsel" / "02.png").write_bytes(b"p2")
+    (kl / "denetim" / "01.json").write_text(json.dumps({"puan": 8}), encoding="utf-8")
+    yol = arsiv.arsivle(gorev)
+    assert sorted(p.name for p in (yol / "sarkilar").iterdir()) == ["01-a.mp3", "02-b.mp3"]
+    assert sorted(p.name for p in (yol / "gorseller").iterdir()) == ["01.png", "02.png"]
+    assert {p.name for p in (yol / "istemler").iterdir()} == {"gorev.toml", "SUNO.md", "secim.json"}
+    liste = json.loads((yol / "liste.json").read_text(encoding="utf-8"))
+    assert liste["parcalar"][0]["gorsel_uretim"] == "g1" and liste["parcalar"][0]["denetim_puani"] == 8
+    assert len(liste["parcalar"][1]["sarki_sha256"]) == 64
+    assert (kl / "ses" / "fazla.wav").exists() and (kl / "gorsel" / "taslak" / "01.png").exists()  # silinmez
+    assert "deepspace/gorevler/*/arsiv/" in (KOK / ".gitignore").read_text(encoding="utf-8")
+
+
 def test_G12_shorts_ilk_bes_videoya_kadar_kapali():
     assert AYAR["shorts"]["acik"] is False
 

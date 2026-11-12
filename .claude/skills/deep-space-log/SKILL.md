@@ -25,7 +25,7 @@ kendi işini denetlemez. Alt ajan başka ajan çağıramaz.
 | 8 | `video` | operator (`gorev video`, Seyir Defteri modu) | `cikti/video.mp4` |
 | 9 | `shorts` | shorts-kurgucusu (`shorts-analiz` → plan) → operator (`gorev shorts`) | `shorts_plan.json`, `short_?.mp4`, `shorts.json` |
 | 10 | `paket` | operator (`gorev kapak`, `gorev metin`) | `kapak_?.jpg`, `youtube.json`, `aciklama.txt` |
-| 11 | `son-denetim` (G18) | **son-denetci (Fable)**: KALDI ise bulgular istasyonlara geri gider | `cikti/son_denetim.json` |
+| 11 | `son-denetim` (G18) | **son-denetci (Fable)**: KALDI ise bulgular istasyonlara geri gider; GEÇTİ ise bölüm arşivi kurulur (G19) | `cikti/son_denetim.json`, `arsiv/` |
 | 12 | `karar` | şef + denetci (Fable GEÇTİ olmadan çalışmaz) | `cikti/onay.json` |
 
 **Şefin döngüsü:**
@@ -149,7 +149,7 @@ Her yeni ya da değişen görsel videoya girmeden:
 3. `... denetle <klasör> --parca N --puan P [--sorun "kod:not"]`. Kritik kod (anatomi, yazi, fizik, istem) ya da
    puan <7 = kaldı. Kalan görselde `gorev.toml`'daki `gorsel_istem`e kusurun tersini açıkça ekle ("a single
    fisherman, no other people", "exactly six wheels"), ElevenLabs düğümünün istemini güncelle, **tek varyasyonla**
-   yeniden üret (`generations_count=1`; önce 1K taslak ≈ 291 kredi, geçerse taslaktan 2K ≈ 1.454 kredi, bkz. gorsel-yonetmeni 6. adım), indir, yeniden denetle; `gorsel_oturum/gorsel_uretim`
+   yeniden üret (`generations_count=1`; önce gpt-image-2 1K taslak ≈ 701 kredi, geçerse Topaz 2x ≈ 485 kredi, bkz. gorsel-yonetmeni 6. adım), indir, yeniden denetle; `gorsel_oturum/gorsel_uretim`
    kimliklerini güncelle. Görsel başına en fazla 2 deneme; yine kalırsa video çıkmaz, sahibine sorulur (kod sahnesi yok, G6).
 `kontrol` raporu da bu kapıyı içerir: denetimsiz görsel = kırmızı rapor.
 

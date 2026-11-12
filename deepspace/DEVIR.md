@@ -3,6 +3,18 @@
 Bu dosya yeni bir Claude Code oturumunun (yerel terminal) kaldığımız yerden devam etmesi için. Önce bunu, sonra
 `SOZLESME.md` G bölümünü ve `.claude/skills/deep-space-log/SKILL.md`'yi oku. Sahibiyle Türkçe konuş.
 
+## Güncel durum (12 Kasım 2026, ~08:00): 3. görsel turu gpt-image-2 ile
+Sahibinin cevapları: (1) stil ekini böl, kredi harca, gelişme istiyorum → yapıldı (2964687), 05/14/20'ye ek hak verildi
+sayıldı. (2) Arşiv: bölümdeki şarkılar, görseller, istemler; bilgisayar yeterli → G19 (94bbfad). (3) Sahibi videoyu Fable'dan
+sonra görmek istiyor → G8 aynı kalır.
+- Pilot (01/05/18, FLUX ve gpt-image-2 yan yana): gpt-image-2 01 ve 18'de koyu zemin, kırmızı kenar, uzun gölgeyi verdi;
+  FLUX yine gri. 05'te ikisi de gezegen çizmedi. Topaz 2x (2560x1440) içeriği değiştirmeden büyüttü.
+- Karar: taslak gpt-image-2 1K 16:9 (701 kredi), geçen taslağa Topaz 2x (485 kredi). marka.toml ve yönetmen tarifi güncel.
+- 3. tur: 16 taslak (02–11, 13–16, 19, 20) flow wXHon9u5lPX0oECJcwqN'de üretiliyor (11.214 kredi). 01 ve 18 pilot taslakları.
+  Sıradaki: bağımsız denetçi 18 taslak → geçenlere Topaz → `gorsel/NN.png` + `denetim/NN.json` → kalanlar yeniden →
+  video → kapak → metin → kontrol → Fable → GEÇTİ'de arşiv → sahibi izler.
+- Krediler: gece 12.800 + pilot ≈2.975 + Topaz denemesi 485 + 3. tur 11.214.
+
 ## Gece sonucu (12 Kasım 2026, ~04:30): görseller durdu, sahibinin kararı gerekiyor
 Video çıkmadı: 20 görselden yalnız 17 ve 12 geçti (G6: hepsi geçmeden video yok).
 - Bu gece görsel harcaması: 5.238 (1. tur 18 taslak) + 4.654 (2. tur 16 taslak) + 2.908 (12 ve 16 2K) = 12.800 kredi.

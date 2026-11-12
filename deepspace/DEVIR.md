@@ -3,6 +3,31 @@
 Bu dosya yeni bir Claude Code oturumunun (yerel terminal) kaldığımız yerden devam etmesi için. Önce bunu, sonra
 `SOZLESME.md` G bölümünü ve `.claude/skills/deep-space-log/SKILL.md`'yi oku. Sahibiyle Türkçe konuş.
 
+## Gece sonucu (12 Kasım 2026, ~04:30): görseller durdu, sahibinin kararı gerekiyor
+Video çıkmadı: 20 görselden yalnız 17 ve 12 geçti (G6: hepsi geçmeden video yok).
+- Bu gece görsel harcaması: 5.238 (1. tur 18 taslak) + 4.654 (2. tur 16 taslak) + 2.908 (12 ve 16 2K) = 12.800 kredi.
+  001 toplamı ≈ 15.700.
+- Denetim (gorsel-denetcisi, bağımsız): 1. turda 12 ve 16 geçti (7). 2K: **12 = 8 GEÇTİ** (`denetim/12.json`), **16 = 4 KALDI**
+  (`denetim/16.json`: 2K adımı zemini gündüz gibi parlattı, gezegeni Mars'a çevirdi). 2. turdaki 16 taslağın hiçbiri geçmedi;
+  02 (7) yalnız teknik parlaklıktan kalıyor, 2K adımında "dense faint stars + faint glow" ile geçebilir.
+- G13 hak durumu: 2. tur kare başına 1. yeniden üretimdi; bir hak kaldı. 05, 14, 20 sınırda (hak yok, sahibine sorulur).
+- **Kök neden (denetçi):** `marka.toml [gorsel] stil_eki` 125 kelime, sahne istemini bastırıyor. "alien horizon / view from
+  orbit with one huge celestial body" derin uzay karesine gezegen çağırıyor (02, 05). "named star / every lit crescent faces
+  it" yıldızı kadraja sokuyor (03, 09, 18). "ultra detailed / photorealistic cinematic" zemini aydınlatıyor. Sondaki "no ..."
+  listesi FLUX'ta tutmuyor. Öneri: stil ekini kadraja göre üçe böl (ufuk / yörünge / derin uzay, her biri ≤40 kelime, ör.
+  "raw spacecraft photograph, low-key exposure, restrained natural colour, deep black sky, pin-sharp stars"); istemde kadraj
+  dışı yıldızı ışık olarak anlat ("light grazes in from beyond the left edge; no sun visible"); sayı ≤2; kesir yerine
+  "the ground fills only the bottom third"; 2K adımı yeni içerik üretmesin (yalnız büyütme, kod ustası).
+- Neden durdum: son G13 hakkını kök neden düzelmeden harcamak boşa gider; stil eki kit değişikliği, sahibinin onayı ister.
+- Şefin gece kararları (sabah sahibine bildir): 06 Epsilon Eridani `tur` = `gaz` (yörünge kadrajı; 04–07 dört derin uzay
+  karesi art arda olmasın). `kapak_parcalari = [17, 12, 18]` (üç ayrı kadraj; 18 henüz geçmedi, yedek 09). Vega görselde
+  yuvarlak kaldı (rehber madde 10; olgu "ekvatorda şişkin" diyor).
+- Dosyalar: taslaklar `gorsel/taslak/NN.png` (2. tur), `gorsel/taslak/t1/` (1. tur), 2K'lar `gorsel/taslak/2k/`; eski 12/16
+  `gorsel/eski_12kasim/`. Denetçi kontakt sayfaları scratchpad `denetim2/`, `denetim3/` (kalıcı değil).
+- Sistem haritası: https://claude.ai/artifact/VusDqGPPom6csRJ2jZojde
+Sabah sahibine sorulacaklar (en çok 3): (1) stil ekini kadraja göre bölüp son hakla yeniden deneyelim mi; 05/14/20 için ek hak?
+(2) Arşiv cümlesinin devamı. (3) İlk 5 görevde sahibinin `ok`u sürsün mü, yoksa Fable onayı yeter mi (G8)?
+
 ## Gece planı (12 Kasım 2026, 00:45; sahibi uyuyor, sabah bakacak)
 Sahibinin kararları (12 Kasım gece):
 - Şarkılar: "hepsinin modu güzel; 40 üretip rastgele 20'sini seç, videoyu sen oluştur" (SOZLESME giriş paragrafı,
@@ -15,8 +40,8 @@ Sahibinin kararları (12 Kasım gece):
 - Arşiv: her bölüm kendi klasöründe şarkı ve görselleriyle; "o bölüm dışında başka veri varsa ..." cümlesi YARIM
   geldi, sabah sahibine sor; o zamana kadar hiçbir şeyi silme/taşıma.
 Sıra (her madde bitince [x] yap):
-1. [ ] `gorev ses 001` arka planda çalışıyordu (bitti mi bak: `001-trappist/cikti/ses.m4a`, `bolumler.json`).
-2. [ ] 002 için rastgele seçim (tohum 1002) → `002-frost-line/ses/secim.json`, kalan 6 indirmeyle parça 01–06'yı indir
+1. [x] `gorev ses 001` arka planda çalışıyordu (bitti mi bak: `001-trappist/cikti/ses.m4a`, `bolumler.json`).
+2. [x] (01–05 indi; 06 Io kota bitti, 18 Kasım) 002 için rastgele seçim (tohum 1002) → `002-frost-line/ses/secim.json`, kalan 6 indirmeyle parça 01–06'yı indir
    (Suno sayfasında ⋯ → Download → MP3 → "Unlock & Download", tıkladıktan sonra sayfada 20 sn bekle, yoksa iner gibi
    görünür ama dosya gelmez; kilidi açılan şarkı tekrar ücretsiz iner).
 3. [ ] 001 görselleri: 17 ve 20 2K'da var (20 denetçiden kaldı, puan 4: zemin kaynağı olmayan gri-mavi ışıkla aydınlık).
@@ -25,11 +50,12 @@ Sıra (her madde bitince [x] yap):
    cümleleri: 05 "perfectly round, smooth-edged disc, no granular rim, denser faint star field"; 14 "smooth featureless
    stellar disc, plain almost dark, grazing red light, horizon at ~62%". Genel ders: zemini "almost dark, lit only by
    grazing light from the low star" diye yaz, aksi hâlde FLUX gri gün ışığı veriyor. `kapak_parcalari` üçü ayrı kadraj olsun.
-4. [ ] Fable son denetçi kuralı: SOZLESME → test → ajan (denetci ya da yeni `son-denetci`, model fable) → kod (`karar`
+4. [x] (95a1b3a) Fable son denetçi kuralı: SOZLESME → test → ajan (denetci ya da yeni `son-denetci`, model fable) → kod (`karar`
    istasyonu ve yükleme Fable onayı ister).
-5. [ ] Sistem görseli (Artifact): 11+ ajan, model, istasyon, çıktı, maliyet (Suno Pro, ElevenLabs Creator, vidIQ 100/ay,
+5. [x] (https://claude.ai/artifact/VusDqGPPom6csRJ2jZojde) Sistem görseli (Artifact): 11+ ajan, model, istasyon, çıktı, maliyet (Suno Pro, ElevenLabs Creator, vidIQ 100/ay,
    görsel 291/1.454 kredi).
-6. [ ] Görseller tamamsa: `gorev video` → `kapak` → `metin` → `kontrol`; Fable son denetim. Yükleme YOK (OAuth yok,
+3. → yukarıdaki "Gece sonucu": 2 tur taslak bitti, 12 ve 17 geçti, kalanlar stil eki kararını bekliyor.
+6. [ ] (görseller tamam değil, çalışmadı) Görseller tamamsa: `gorev video` → `kapak` → `metin` → `kontrol`; Fable son denetim. Yükleme YOK (OAuth yok,
    sahibi sabah karar verir).
 
 ## Yarım iş (12 Kasım 2026): 3 deneme görseli

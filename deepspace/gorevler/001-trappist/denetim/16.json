@@ -1,8 +1,25 @@
 {
   "kontrol_listesi_surumu": 1,
   "denetleyen": "denetci",
-  "ozet": "b60b0aef34c8daf515deaba7f89b959a34119516ae394b33a2b9e9b30837044a",
-  "puan": 9,
-  "sorunlar": [],
-  "gecti": true
+  "ozet": "076f5f77edac172e93e24c3171fb6c66b31e4a2119ea97fda91ea44da47a1210",
+  "puan": 4,
+  "sorunlar": [
+    {
+      "kod": "istem",
+      "not": "Zemin istemdeki 'almost dark, grazing salmon-red light' değil; alt %40 bütünüyle parlak, eşit aydınlık turuncu-ten (alt %16 ort. RGB 0.44/0.28/0.21, 17.png'nin ~4 katı), gündüz Mars gezgini fotoğrafı hissi. Taslakta zemin koyuydu; 2K adımında parladı."
+    },
+    {
+      "kod": "istem",
+      "not": "Gökteki gezegen (x%52-76, y%7-48) tanınır biçimde Mars: Valles Marineris benzeri koyu kanyon bandı ve Tharsis benzeri volkanlar; parlak turuncu, istemdeki 'dull orange' değil. TRAPPIST komşusu yerine Mars okunuyor."
+    },
+    {
+      "kod": "marka",
+      "not": "Alt %16 (oynatma çubuğu bölgesi) parlak ve yüksek kontrastlı taş-gölge ayrıntısıyla dolu (piksellerin %9'u >0.7)."
+    },
+    {
+      "kod": "tekrar",
+      "not": "Zemindeki yüzlerce küçük taş aynı piramit biçiminde, aynı gölge uzunluğunda, kopyala-yapıştır doku; sağ altta (x%85-100 y%75-95) ince paralel çizgiler tekerlek izi gibi okunabiliyor."
+    }
+  ],
+  "gecti": false
 }

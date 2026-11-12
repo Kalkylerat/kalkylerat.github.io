@@ -1,8 +1,13 @@
 {
   "kontrol_listesi_surumu": 1,
   "denetleyen": "denetci",
-  "ozet": "33f8da229317564baee898791a376b756424a2914ed3abd10912a572388ddefd",
+  "ozet": "7831d170a5245c1cdeb36ef7ab61ba63c7fe056f53e566177f8fda1eca3922a2",
   "puan": 8,
-  "sorunlar": [],
+  "sorunlar": [
+    {
+      "kod": "olcek",
+      "not": "Disk kare yüksekliğinin ~%9'u (istem 'a fifth', ~%20); x%63 y%50, kural sınırı (≤%25) içinde, tam ekranda dikkat çekmiyor. Işık, yıldız alanı, sakin bölgeler temiz; ışın haçı ya da iz yok."
+    }
+  ],
   "gecti": true
 }

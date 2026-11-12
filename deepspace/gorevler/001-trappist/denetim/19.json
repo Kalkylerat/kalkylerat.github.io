@@ -1,20 +1,12 @@
 {
   "kontrol_listesi_surumu": 1,
   "denetleyen": "denetci",
-  "ozet": "f11c70c9d4d968dc5fb00346c4f3b03d6fc254b92f562956f6c6523a7002596d",
+  "ozet": "a17c7fdd25d89bb842746d2c7b04f19dce67e3906f3a8b7839304f8c9e6978d2",
   "puan": 4,
   "sorunlar": [
     {
-      "kod": "fizik",
-      "not": "yildiz solda turuncu-kirmizi ama ova ve sirtlarin aydinlik yuzleri notr gri-beyaz/mavimsi; turuncu yalniz sol on plakalarda; kaynaksiz soguk dolgu isigi"
-    },
-    {
       "kod": "istem",
-      "not": "altigen catlakli kabuk ve tuz kristali gibi yigintilar Dunya tuz golu (salar) gibi okunuyor; ufukta yildizin altinda islak gibi turuncu parilti"
-    },
-    {
-      "kod": "tekrar",
-      "not": "17 ile ayni kompozisyon: solda ufka yakin kizil yildiz, alt 2/5 duz ova, ortadan sag on plana uzanan sirt dizisi, golgeler saga"
+      "not": "zemin buz olarak okunmuyor; bloklar kahverengi-ten rengi, granit gibi pürüzlü-kumlu dokulu kaya, kare kayalık çöl gibi okunuyor (buz parlaklığı/kırık buz yüzeyi yok). Işık doğru: yıldız sol yarıda orta yükseklikte, aydınlık yüzler sola-yukarı, gölgeler sağ alta. 17 ile ikiz değil ama kaya zemini ve sağda iri kaya ile 11'e yaklaşıyor"
     }
   ],
   "gecti": false

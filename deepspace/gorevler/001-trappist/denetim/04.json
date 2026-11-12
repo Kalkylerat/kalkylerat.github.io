@@ -1,16 +1,12 @@
 {
   "kontrol_listesi_surumu": 1,
   "denetleyen": "denetci",
-  "ozet": "d1f5f29caee7dc43cdc7367cebc649f7215cb2b983cdec3d616b173385a93f23",
+  "ozet": "cb7bd2ea368fceef446e7f06a9329f52b5ed1cf6fb9feaf717ff0aca1b20274d",
   "puan": 6,
   "sorunlar": [
     {
       "kod": "marka",
-      "not": "disk doygun parlak al-kizil (neon gibi), istemdeki koyu tugla kirmizisi ve 14'teki somon-turuncu yildizla kopuk; granuller burusuk folyo gibi duz tekrar ediyor"
-    },
-    {
-      "kod": "tekrar",
-      "not": "05 ile ayni yerlesim: yildiz bos yildiz alaninda sagdan ucte bir, ortanin biraz ustunde; 04-05 art arda ayni kadraj"
+      "not": "sağ altta (x~1600,y~905 / 2048 px) ve sol üstte (x~158,y~350) parlak yıldızlarda 8 kollu ışın haçı tam ekranda görülüyor; soldakinin solunda kısa yatay iz var. Disk (sol üçte bir, ortanın altı, koyu tuğla kırmızısı, düşük kontrast) istemle uyumlu, 05/08 ile ikiz değil"
     }
   ],
   "gecti": false

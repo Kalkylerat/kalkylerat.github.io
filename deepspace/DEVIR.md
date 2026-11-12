@@ -3,7 +3,18 @@
 Bu dosya yeni bir Claude Code oturumunun (yerel terminal) kaldığımız yerden devam etmesi için. Önce bunu, sonra
 `SOZLESME.md` G bölümünü ve `.claude/skills/deep-space-log/SKILL.md`'yi oku. Sahibiyle Türkçe konuş.
 
-## Son durum (12 Kasım 2026, ~12:20; 7. tur bitti)
+## Son durum (12 Kasım 2026, ~13:00; 8. tur bitti)
+- Sahibi "yap bitirelim" dedi: (1) 2K taslak Lanczos ile 2560'a kurala eklendi (G6/G13, `gorsel_denetim.lanczos_buyut`,
+  `turetme_metni`; 2d8d3bf). **18 son dosya oldu, 18/20 hazır.** (2) 04 ve 19 için 8. tur (2K orta x1, 534 kredi).
+  Kimlikler scratchpad `tur8_oturum.json`; eski taslaklar `gorsel/taslak/t7/`.
+- **04 kaldı (6, marka):** disk artık doğru (solda, sönük tuğla kırmızısı, 05/08'le ikiz değil); tek kusur iki parlak
+  yıldızda 8 kollu ışın haçı + soldakinde kısa yatay iz. Sonraki deneme: aynı istem + "all stars are round points
+  without spikes or streaks".
+- **19 kaldı (4, istem):** ışık doğru ama zemin kahverengi granit/kayalık çöl gibi, buz değil; 11'e yaklaşıyor. Sonraki
+  deneme: soluk mavimsi-beyaz buz, yıldıza bakan yüzlerde bakır ışık, iri ön plan kayası yok.
+- Krediler bitti (onaylı ~550'nin 534'ü). Sahibine soruldu: bir deneme daha (~534) ya da beklet.
+
+## Önceki durum (12 Kasım 2026, ~12:20; 7. tur bitti)
 - Sahibi 1.100 kredi verdi; 1.068 harcandı. **Yeni yol: gpt-image-2 2K orta = 267 kredi, 2048x1152**, Topaz'sız
   (eski yol 185 + 485 = 670). Kimlikler scratchpad `tur7_oturum.json`; 18'in ikinci denemesi oturum
   njXoKhS8dVsCjSnxMeKA / üretim TwjJUq5c201UsQpHRI5Y. `gorev.toml` 04/18/19 güncel, GORSEL.md yeniden üretildi (19'un

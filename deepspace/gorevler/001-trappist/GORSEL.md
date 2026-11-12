@@ -21,10 +21,10 @@ Alpha Centauri: two stars close side by side, left of centre, a little above the
 Barnard b, a scorched bare world, hangs as a complete globe half the frame height, well right of centre. All light is deep orange-red and comes from beyond the left edge of the frame. Its left side is dark rust-red cratered rock; a smooth curved shadow line crosses the globe; the right side is pure black night. Seen from orbit: a single world off-centre, part lit by its star and part in pure black night, surrounded by empty black space. Raw spacecraft photograph, low-key exposure, restrained natural colour, deep black sky with pin-sharp stars, calm and still, wide 16:9. No people, no vehicles, no probes, no buildings, no text.
 ```
 
-## 04. Wolf 359 · derin · üretildi: `Q3M5MjOapsWhi3KV6JZQ`
+## 04. Wolf 359 · derin · üretildi: `opsYeWxprixMm81dG2rk`
 
 ```
-Wolf 359, a red dwarf star seen from close range: one large, perfectly round, sharp-edged disc of deep brick red, a third of the frame height, at one third from the right, slightly above the middle, its surface softly mottled with darker granules, a faint dim red glow spreading softly around it into the black. The rest of the sky is calm and quiet. Pure deep space, the whole frame is open sky: a dense field of faint stars, a faint glow of starlight around the star. Raw spacecraft photograph, low-key exposure, restrained natural colour, deep black sky with pin-sharp stars, calm and still, wide 16:9. No people, no vehicles, no probes, no buildings, no text.
+Wolf 359, a red dwarf star seen from close range: one large round disc, a third of the frame height, at one third from the left, slightly below the middle. Its colour is a dark, muted brick red, deepest at the rim and only slightly warmer toward the centre, like a dim ember; the surface is smooth with very faint, soft, low-contrast mottling. A thin faint dark-red haze hugs its edge. The rest of the sky is calm and quiet, a sparse scatter of faint stars. Pure deep space, the whole frame is open sky: a dense field of faint stars, a faint glow of starlight around the star. Raw spacecraft photograph, low-key exposure, restrained natural colour, deep black sky with pin-sharp stars, calm and still, wide 16:9. No people, no vehicles, no probes, no buildings, no text.
 ```
 
 ## 05. Sirius · derin · üretildi: `YlqFfh2rSh1JP3BdwoJ6`
@@ -111,10 +111,10 @@ A vast frozen ice plain at the permanent twilight line; a small dim red star res
 A huge globe fills the bottom half of the frame, its upper limb arching wide across the frame. Deep salmon-red light arrives from beyond the top left edge. Most of the visible globe is lit: a broad gibbous face of smooth glassy pale salmon ice crossed by fine straight fractures, softly shaded toward its edges; only a narrow curved band along the lower right is in pure black night, behind a thin soft terminator. The sky above is clean black with faint stars. Seen from orbit: a single world off-centre, part lit by its star and part in pure black night, surrounded by empty black space. Raw spacecraft photograph, low-key exposure, restrained natural colour, deep black sky with pin-sharp stars, calm and still, wide 16:9. No people, no vehicles, no probes, no buildings, no text.
 ```
 
-## 19. TRAPPIST-1g · ufuk · üretildi: `GXhdxSf79jTy94ZMsSxq`
+## 19. TRAPPIST-1g · ufuk · üretildi: `mcbWDNDzX0YjdrKkrjni`
 
 ```
-A flat, frozen plain of matte pale grey-blue frost and broken ice plates fills the lower two fifths of the frame below a level horizon, crossed by fine dark cracks and low jagged pressure ridges. On the far left, a bright orange-red dwarf star hangs just above the horizon, a sharp round disc with a small soft glow. The ridges catch thin orange-red rims on their left edges, with long blue-grey shadows stretching to the right; the frost is dry and powdery, with no reflections. The sky is empty starry black. Seen from just above a bare surface, the frost catching light only on the faces turned toward the star. Raw spacecraft photograph, low-key exposure, restrained natural colour, deep black sky with pin-sharp stars, calm and still, wide 16:9. No people, no vehicles, no probes, no buildings, no text.
+A frozen world of rough, broken ice: jagged ice blocks and low pressure ridges fill the lower third of the frame below an uneven horizon, with larger blocks in the near right foreground. Left of centre, about halfway up the sky, hangs a dim orange-red dwarf star, a sharp round disc with a small soft glow. Its warm light falls from the upper left: the tops and left faces of the ice blocks glow a dull copper-orange, and their right sides drop into deep black-brown shadow that stretches down to the lower right. The ice is dry, rough and frosted, without any shine. The sky is empty starry black. Seen from just above a bare surface, the ice catching light only on the faces turned toward the star. Raw spacecraft photograph, low-key exposure, restrained natural colour, deep black sky with pin-sharp stars, calm and still, wide 16:9. No people, no vehicles, no probes, no buildings, no text.
 ```
 
 ## 20. TRAPPIST-1h · ufuk · üretildi: `jCpv8e0jFbB27ufwat9M`

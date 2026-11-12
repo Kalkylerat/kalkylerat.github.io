@@ -215,6 +215,26 @@ def test_G6_marka_filtresi_tek_kaynaktan(tmp_path):
     assert satir[0] == "LUT_3D_SIZE 5" and len(satir) == 1 + 5 ** 3
 
 
+def test_G6_stil_eki_kadraja_gore(tmp_path):
+    """12 Kasım 2026: kısa ortak taban + kadraj eki; derin uzay karesine ufuk/gezegen çağrılmaz."""
+    from deepspace import gorev as gorev_mod
+    g = ortak.marka_yukle()["gorsel"]
+    assert set(g["kadraj_eki"]) == {"ufuk", "yorunge", "derin"}
+    for ad, ek in g["kadraj_eki"].items():
+        assert len((g["stil_eki"] + " " + ek).split()) <= 70, ad   # sahne istemini bastırmasın
+    assert "horizon or a view from orbit" not in g["stil_eki"]
+    assert gorev_mod.kadraj({"tur": "yildiz"}) == "derin"
+    assert gorev_mod.kadraj({"tur": "gaz"}) == "yorunge"
+    assert gorev_mod.kadraj({"tur": "kayalik"}) == "ufuk"
+    assert gorev_mod.kadraj({"tur": "kayalik", "kadraj": "yorunge"}) == "yorunge"
+    parca = [{"ad": "A", "tur": "yildiz", "gorsel_istem": "A star."},
+             {"ad": "B", "tur": "buz", "gorsel_istem": "An ice plain."}]
+    yol = gorev_mod.gorsel_istemleri({"no": 1, "hedef": "T", "klasor": str(tmp_path), "parca": parca})
+    metin = yol.read_text(encoding="utf-8")
+    assert g["kadraj_eki"]["derin"] in metin and g["kadraj_eki"]["ufuk"] in metin
+    assert metin.count(g["stil_eki"]) == 2
+
+
 @pytest.mark.skipif(__import__("importlib").util.find_spec("cv2") is None, reason="opencv yok")
 def test_G6_3d_fotograf_kusursuz_doner(tmp_path):
     from PIL import Image

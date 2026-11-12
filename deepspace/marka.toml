@@ -38,8 +38,13 @@ short_etiket = 40
 # yörüngeden görünüm ve TEK büyük gerçek gök cismi. Sahnede insan, araç, sonda, bina, iz yok; PROBE-7 yalnız
 # arayüzde. Her sahne uzayda; ışık fiziği doğru (G13).
 model = "flux-3-image"
-stil_eki = "Photorealistic cinematic space scene, minimal and vast: what a distant probe camera sees, a dark quiet alien horizon or a view from orbit with one huge real celestial body as the subject. Deep blacks, sharp stars wherever the sky is clear. Physically correct lighting: the only light comes from the named star, every lit crescent faces it, shadows fall away from it, and the light colour matches the star. At least half of the frame is calm darkness. Calm, still, meditative. Ultra detailed, realistic scale, wide 16:9. No people, no vehicles, no probes, no spacecraft, no landers, no buildings, no machines, no footprints, no text, no logo, no watermark."
+stil_eki = "Raw spacecraft photograph, low-key exposure, restrained natural colour, deep black sky with pin-sharp stars, calm and still, wide 16:9. No people, no vehicles, no probes, no buildings, no text."
 yasaklar = ["neon pink", "purple gradient", "lens flare overload", "emoji", "text in image", "watermark"]
+
+[gorsel.kadraj_eki]  # 12 Kasım 2026 (G6): kadraja göre kısa ek; sahne istemi + kadraj eki + stil_eki
+ufuk = "Seen from just above a bare surface: the ground is matte and nearly black, catching thin rims of starlight only on the edges that face the light."
+yorunge = "Seen from orbit: a single world off-centre, part lit by its star and part in pure black night, surrounded by empty black space."
+derin = "Pure deep space, the whole frame is open sky: a dense field of faint stars, a faint glow of starlight around the star."
 
 [hareket]
 # Görseli videoya çeviren yapay zekâ klibi (image-to-video). Klip gorsel/NN.mp4 olarak konur; hat onu dikişsiz döngüye

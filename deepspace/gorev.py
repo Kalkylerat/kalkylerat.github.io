@@ -69,17 +69,26 @@ def istemler(gorev: dict, ayar: dict) -> Path:
     return yol
 
 
+def kadraj(parca: dict) -> str:
+    """Parçanın sahne kadrajı (G6): `kadraj` alanı, yoksa `tur`dan (yildiz → derin, gaz → yorunge, diğer → ufuk)."""
+    if parca.get("kadraj"):
+        return parca["kadraj"]
+    return {"yildiz": "derin", "gaz": "yorunge"}.get(parca.get("tur", ""), "ufuk")
+
+
 def gorsel_istemleri(gorev: dict) -> Path:
-    """Görsel üretim listesi (GORSEL.md): her parça için sahne + marka stil eki; hazır olanlar işaretli."""
+    """Görsel üretim listesi (GORSEL.md): her parça için sahne + kadraj eki + ortak stil tabanı; hazır olanlar işaretli."""
     from .ortak import marka_yukle
     g = marka_yukle()["gorsel"]
-    ek = g["stil_eki"]  # bütün görevler tek görsel dili (11 Kasım 2026: 001'in Dünya manzarası dili bırakıldı)
+    # 12 Kasım 2026: tek uzun ek derin uzay karesine gezegen çağırıyordu; kısa taban + kadraja göre ek.
     satir = [f"# Mission {gorev['no']:03d} · {gorev['hedef']}: görsel istemleri", "",
              f"Model: `{g['model']}` (16:9). Her görsel `gorsel/NN.png` olarak kaydedilir (NN = parça no).",
              "Renk tonu marka filtresinden gelir (marka.toml [filtre]); istemdeki ışık tarifi yeterli.", ""]
     for i, p in enumerate(gorev["parca"], 1):
         durum = f"üretildi: `{p['gorsel_uretim']}`" if p.get("gorsel_uretim") else "üretilecek"
-        satir += [f"## {i:02d}. {p['ad']} · {durum}", "", "```", f"{p['gorsel_istem']} {ek}", "```", ""]
+        k = kadraj(p)
+        tam = f"{p['gorsel_istem']} {g['kadraj_eki'][k]} {g['stil_eki']}"
+        satir += [f"## {i:02d}. {p['ad']} · {k} · {durum}", "", "```", tam, "```", ""]
     yol = Path(gorev["klasor"]) / "GORSEL.md"
     yol.write_text("\n".join(satir), encoding="utf-8")
     return yol

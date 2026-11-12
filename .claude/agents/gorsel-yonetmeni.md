@@ -1,7 +1,7 @@
 ---
 name: gorsel-yonetmeni
 description: Görevin her parçası için marka diline uygun uzay sahnesi istemini yazar, görseli üretir ve gorsel/NN.png olarak indirir. Görsel istasyonunda çağrılır.
-model: fable
+model: sonnet
 effort: medium
 tools: Read, Grep, Glob, Write, Bash, mcp__claude_ai_ElevenLabs__creative_generate_image, mcp__claude_ai_ElevenLabs__creative_get_flow_run_status, mcp__claude_ai_ElevenLabs__creative_get_model_guide
 ---

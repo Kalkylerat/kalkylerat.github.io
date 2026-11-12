@@ -256,7 +256,13 @@ def denetle(gorev: dict, a) -> int:
         for g in durum:
             print(f"{g['no']:02d} {'GEÇTİ' if not g['sorunlar'] else 'KALDI'}  {'; '.join(g['sorunlar'])}")
         return 0 if all(not g["sorunlar"] for g in durum if g["yol"]) else 2
-    ana, _ = video.parca_gorseli(gorev, a.parca - 1)
+    kayit = None
+    if a.taslak:  # G13 taslak kararı: büyütme + pozla sonrası son dosyaya taşınır
+        ana = Path(gorev["klasor"]) / "gorsel" / "taslak" / f"{a.parca:02d}.png"
+        ana = ana if ana.exists() else None
+        kayit = Path(gorev["klasor"]) / "denetim" / f"{a.parca:02d}.json"
+    else:
+        ana, _ = video.parca_gorseli(gorev, a.parca - 1)
     if not ana:
         print(f"parça {a.parca:02d}: görsel yok")
         return 2
@@ -271,8 +277,9 @@ def denetle(gorev: dict, a) -> int:
         return 0
     sorunlar = [{"kod": s.split(":", 1)[0].strip(), "not": s.split(":", 1)[1].strip() if ":" in s else ""}
                 for s in a.sorun]
-    hedef = gd.goz_denetimi_yaz(ana, a.puan, sorunlar, a.kim or "denetci")
-    gecti, neden = gd.goz_denetimi_gecti(gd.goz_denetimi_oku(ana), ana)
+    hedef = gd.goz_denetimi_yaz(ana, a.puan, sorunlar, a.kim or "denetci", kayit=kayit)
+    import json as _json
+    gecti, neden = gd.goz_denetimi_gecti(_json.loads(hedef.read_text(encoding="utf-8")), ana)
     print(f"{hedef}: {'GEÇTİ' if gecti else 'KALDI'} ({neden})")
     return 0 if gecti else 2
 
@@ -295,6 +302,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--parca", type=int, help="denetle: parça numarası (1'den)")
     ap.add_argument("--puan", type=int, help="denetle: göz denetimi puanı 0-10")
     ap.add_argument("--sorun", action="append", default=[], help="denetle: kod:not (tekrarlanabilir)")
+    ap.add_argument("--taslak", action="store_true", help="denetle: gorsel/taslak/NN.png denetlenir (G13)")
     ap.add_argument("--kaynak", help="pozla: büyütülmüş taslak (gorsel/NN.png buraya yazılır)")
     ap.add_argument("--ses", help="ornek: ses dosyası (wav/mp3)")
     ap.add_argument("--boyut", default="1920x1080", help="ornek: GENxYUK (varsayılan 1920x1080)")
@@ -374,6 +382,10 @@ def main(argv: list[str] | None = None) -> int:
         hedef = Path(gorev["klasor"]) / "gorsel" / f"{a.parca:02d}.png"
         gama = gd.pozla(Path(a.kaynak), hedef)
         o = gd.teknik_olcum(hedef)
+        k = Path(gorev["klasor"])
+        tasindi = gd.karari_tasi(k / "denetim" / f"{a.parca:02d}.json", k / "gorsel" / "taslak" / f"{a.parca:02d}.png",
+                                 hedef, f"2x büyütme + pozla gama {gama}")
+        print("taslak kararı taşındı" if tasindi else "taslak kararı yok ya da geçmedi: denetle gerekli")
         print(f"{hedef.name}: gama {gama}, parlaklık {o['ort_parlaklik']}, teknik: {gd.teknik_sorunlar(o) or 'sorun yok'}")
         return 0
     if a.komut == "denetle":

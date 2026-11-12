@@ -566,6 +566,33 @@ def test_G6_pozla_yalniz_ton_egrisini_acar(tmp_path):
     assert gd.pozla(siyah, tmp_path / "siyah_out.png") == 0.6
 
 
+def test_G13_taslak_karari_son_dosyaya_tasinir(tmp_path):
+    from PIL import Image
+    from deepspace import gorsel_denetim as gd
+    kayit = tmp_path / "denetim" / "01.json"
+    taslak = tmp_path / "gorsel" / "taslak" / "01.png"
+    taslak.parent.mkdir(parents=True)
+    rng = np.random.default_rng(5)
+    Image.fromarray((rng.random((720, 1280, 3)) ** 5 * 120).astype("uint8")).save(taslak)
+    gd.goz_denetimi_yaz(taslak, 8, [], kayit=kayit)
+    son = tmp_path / "gorsel" / "01.png"
+    gd.pozla(taslak, son)
+    # Geçen taslağın kararı son dosyaya taşınır; iki özet de kayıtta.
+    assert gd.karari_tasi(kayit, taslak, son, "2x büyütme + pozla")
+    d = gd.goz_denetimi_oku(son)
+    assert gd.goz_denetimi_gecti(d, son)[0] and d["taslak_ozeti"] == gd.dosya_ozeti(taslak)
+    # Son dosya sonradan değişirse karar geçersiz.
+    Image.new("RGB", (2560, 1440), (40, 40, 40)).save(son)
+    assert not gd.goz_denetimi_gecti(gd.goz_denetimi_oku(son), son)[0]
+    # Kalan taslağın kararı taşınmaz; karar başka taslağa aitse taşınmaz.
+    gd.goz_denetimi_yaz(taslak, 6, [], kayit=kayit)
+    assert not gd.karari_tasi(kayit, taslak, son, "x")
+    gd.goz_denetimi_yaz(taslak, 8, [], kayit=kayit)
+    baska = tmp_path / "baska.png"
+    Image.new("RGB", (1280, 720), (9, 9, 9)).save(baska)
+    assert not gd.karari_tasi(kayit, baska, son, "x")
+
+
 def test_G13_gorsel_denetimi(tmp_path):
     from deepspace import gorsel_denetim as gd
     (tmp_path / "gorsel").mkdir()
@@ -1447,7 +1474,7 @@ def _on_bolum(yol):
 def test_G15_ajan_dosyalari():
     klasor = KOK / ".claude" / "agents"
     beklenen = {"marka-tasarimcisi": "opus", "konsept-yazari": "sonnet", "bilgi-dogrulayici": "sonnet",
-                "gorsel-yonetmeni": "fable", "gorsel-denetcisi": "opus", "hareket-tarifcisi": "sonnet",
+                "gorsel-yonetmeni": "sonnet", "gorsel-denetcisi": "opus", "hareket-tarifcisi": "sonnet",
                 "operator": "haiku", "kod-ustasi": "sonnet", "denetci": "opus", "youtube-uzmani": "opus",
                 "shorts-kurgucusu": "sonnet"}
     for ad, model in beklenen.items():

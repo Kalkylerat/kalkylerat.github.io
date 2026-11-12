@@ -21,7 +21,9 @@ Adımlar:
    sonra ışık fiziği (ışığın yanı, hilalin yönü, gölgeler, ikinci kaynak, karanlık diskten görünen yıldız, kayan
    yıldız), sonra bozulmalar, sonra sakin bölgeler (alt %16, sol üst) ve küçültülmüş hâlde okunurluk.
 4. Hepsi bitince kareleri yan yana düşün: aynı kompozisyonu tekrarlayan ikiz var mı (`tekrar`)? Sonraki kare kalır.
-5. Kararı yaz: `py -m deepspace.gorev denetle <klasör> --parca N --puan P [--sorun "kod:not"]` (`--sorun`
+5. Kararı yaz: `py -m deepspace.gorev denetle <klasör> --parca N --puan P [--sorun "kod:not"]`. 1K taslağı denetliyorsan
+   `--taslak` ekle (gorsel/taslak/NN.png); geçen taslağın kararı büyütme + `pozla` sonrası son dosyaya kendiliğinden
+   taşınır, son dosyaya ikinci kez bakma (G13, 12 Kasım). Teknik kapı (parlaklık) son dosyada ölçülür, taslakta değil. (`--sorun`
    tekrarlanabilir). Kodlar yalnız `deepspace/gorsel_denetim.py` `KONTROL_LISTESI` kodlarıdır: `anatomi`, `yazi`,
    `fizik`, `istem` (kritik); `tekrar`, `olcek`, `bozulma`, `marka`. Kodların bu kanaldaki anlamı ve puan cetveli
    rehberin 8. bölümündedir. Kritik kusur ya da puan <7 → kalır. Kritik olmayan kusur tam ekranda görülüyorsa puan en çok 6.

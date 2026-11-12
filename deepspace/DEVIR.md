@@ -3,7 +3,22 @@
 Bu dosya yeni bir Claude Code oturumunun (yerel terminal) kaldığımız yerden devam etmesi için. Önce bunu, sonra
 `SOZLESME.md` G bölümünü ve `.claude/skills/deep-space-log/SKILL.md`'yi oku. Sahibiyle Türkçe konuş.
 
-## Güncel durum (12 Kasım 2026, ~08:00): 3. görsel turu gpt-image-2 ile
+## Güncel durum (12 Kasım 2026, ~09:30): Claude haftalık limiti doldu, denetim 16 Kasım'a kaldı
+- **Geçen ve son dosyası hazır (10/20):** 12, 17 (eski karar) + 01, 02, 03, 05, 08, 10, 15, 20 (3. tur taslak denetimi GEÇTİ,
+  Topaz 2x + `gorev pozla`, teknik kapı temiz). Bu 8'in `denetim/NN.json`u YOK: son dosya denetçisi limit hatasıyla durdu.
+  Yeni kuralla (G13 taslak kararı) yapılacak: denetçi bu 8 taslağa `denetle --parca N --puan P --taslak` yazar (puanlar:
+  01:7 02:7 03:8 05:8 08:8 10:7 15:8 20:7), sonra şef `gorev pozla --parca N --kaynak gorsel/taslak/up/NN.png` yeniden
+  çalıştırır, karar son dosyaya taşınır. (01'in büyütmesi `taslak/pilot/01_gpt_2560.png` = `taslak/up/01.png`.)
+- **4. tur (sahibinin onayı, 7.009 kredi):** 04, 06, 07, 09, 11, 13, 14, 16, 18, 19 yeni istemlerle `gorsel/taslak/NN.png`
+  (3. tur yedeği `taslak/t3/`). Kimlikler gorev.toml'da. Denetçi `--taslak` ile denetler; geçenlere Topaz (flow
+  wXHon9u5lPX0oECJcwqN'de taslak düğümüne bağlı topaz-image-upscale-v2) + `pozla`. Şefin ilk bakışı: 06 toz yayı güçlü,
+  13 halka hâlâ çizgi gibi, 09 bantları çizik gibi.
+- **Sahibinin kararları (12 Kasım):** 4. tur onayı; çift denetim kalktı (SOZLESME G13 taslak kararı); yönetmen sonnet'e
+  alındı (operatör zaten haiku). Limit tasarrufu: her iş yeni oturumda, görsel durum sorgusu bekleyip tek sefer.
+- **Krediler:** ElevenLabs 130.127'nin 73.915'i kullanılmıştı (4. tur ve 7 Topaz öncesi); şimdi ≈84.300 (%65).
+- Sıradaki (16 Kasım sonrası, yeni oturum): yukarıdaki iki denetim → 20/20 olunca video → kapak → metin → kontrol → Fable.
+
+## Önceki durum (12 Kasım 2026, ~08:00): 3. görsel turu gpt-image-2 ile
 Sahibinin cevapları: (1) stil ekini böl, kredi harca, gelişme istiyorum → yapıldı (2964687), 05/14/20'ye ek hak verildi
 sayıldı. (2) Arşiv: bölümdeki şarkılar, görseller, istemler; bilgisayar yeterli → G19 (94bbfad). (3) Sahibi videoyu Fable'dan
 sonra görmek istiyor → G8 aynı kalır.

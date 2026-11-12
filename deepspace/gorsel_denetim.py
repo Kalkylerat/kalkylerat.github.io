@@ -153,8 +153,23 @@ def goz_denetimi_gecti(d: dict | None, yol: Path | None = None) -> tuple[bool, s
     return True, f"puan {d.get('puan')}"
 
 
-def goz_denetimi_yaz(yol: Path, puan: int, sorunlar: list[dict], denetleyen: str = "denetci") -> Path:
-    """Denetçi ajanın kararı. sorunlar: [{"kod": KONTROL_LISTESI kodu, "not": "..."}]."""
+def karari_tasi(kayit: Path, taslak: Path, son: Path, turetme: str) -> bool:
+    """G13 taslak kararı: geçen taslağın kararı, yalnız büyütme + pozla ile türetilen son dosyaya taşınır."""
+    if not Path(kayit).exists():
+        return False
+    d = json.loads(Path(kayit).read_text(encoding="utf-8"))
+    taslak_ozeti = dosya_ozeti(taslak)
+    if d.get("ozet") != taslak_ozeti or not goz_denetimi_gecti(d)[0]:
+        return False
+    d.update(ozet=dosya_ozeti(son), taslak_ozeti=taslak_ozeti, turetme=turetme)
+    Path(kayit).write_text(json.dumps(d, indent=2, ensure_ascii=False), encoding="utf-8")
+    return True
+
+
+def goz_denetimi_yaz(yol: Path, puan: int, sorunlar: list[dict], denetleyen: str = "denetci",
+                     kayit: Path | None = None) -> Path:
+    """Denetçi ajanın kararı. sorunlar: [{"kod": KONTROL_LISTESI kodu, "not": "..."}].
+    kayit: taslak denetiminde karar dosyası (varsayılan: görselin yanındaki denetim/NN.json)."""
     kodlar = {k["kod"] for k in KONTROL_LISTESI}
     for s in sorunlar:
         if s.get("kod") not in kodlar:
@@ -164,7 +179,7 @@ def goz_denetimi_yaz(yol: Path, puan: int, sorunlar: list[dict], denetleyen: str
     d = {"kontrol_listesi_surumu": SURUM, "denetleyen": denetleyen, "ozet": dosya_ozeti(yol), "puan": int(puan),
          "sorunlar": sorunlar}
     d["gecti"] = goz_denetimi_gecti(d)[0]
-    hedef = denetim_yolu(yol)
+    hedef = Path(kayit) if kayit else denetim_yolu(yol)
     hedef.parent.mkdir(parents=True, exist_ok=True)
     hedef.write_text(json.dumps(d, indent=2, ensure_ascii=False), encoding="utf-8")
     return hedef

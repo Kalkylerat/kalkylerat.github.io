@@ -1,8 +1,10 @@
 {
   "kontrol_listesi_surumu": 1,
   "denetleyen": "denetci",
-  "ozet": "483ad66fc32e0cfa9d0ab4cc0ebfa9b08cbb26d43e53875fb3a98955c5239212",
+  "ozet": "ddd9dd87c7d66610948b01472f8f32be455d46cac2d48374a22a1ce10413a91e",
   "puan": 7,
   "sorunlar": [],
-  "gecti": true
+  "gecti": true,
+  "taslak_ozeti": "483ad66fc32e0cfa9d0ab4cc0ebfa9b08cbb26d43e53875fb3a98955c5239212",
+  "turetme": "1.25x Lanczos büyütme + pozla gama 1.0"
 }

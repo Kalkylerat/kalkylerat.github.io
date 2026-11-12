@@ -63,6 +63,23 @@ def teknik_olcum(yol: Path) -> dict:
             "netlik": round(float(lap.var() * 1e4), 2)}
 
 
+def lanczos_buyut(kaynak: Path, hedef: Path, genislik: int = 2560) -> Path:
+    """G6: 2K taslağı içerik eklemeden (yalnız Lanczos örnekleme) hedef genişliğe getirir, oran korunur."""
+    with Image.open(kaynak) as im:
+        rgb = im.convert("RGB")
+    w, h = rgb.size
+    hedef.parent.mkdir(parents=True, exist_ok=True)
+    rgb.resize((genislik, round(h * genislik / w)), Image.LANCZOS).save(hedef)
+    return hedef
+
+
+def turetme_metni(taslak_genislik: int, son_genislik: int, gama: float) -> str:
+    """G13 kaydı: son dosyanın taslaktan nasıl türetildiği."""
+    oran = son_genislik / taslak_genislik
+    yol = "2x büyütme" if abs(oran - 2) < 0.01 else f"{oran:g}x Lanczos büyütme"
+    return f"{yol} + pozla gama {gama}"
+
+
 def pozla(kaynak: Path, hedef: Path, hedef_parlaklik: float = 0.06, en_dusuk_gama: float = 0.6) -> float:
     """G6 son dosya: yalnız ton eğrisi (gama) ile ortalama parlaklığı hedefe açar; yeni öğe eklemez, siyah siyah kalır.
     Kullanılan gamayı döndürür (1.0 = dokunulmadı; en düşük en_dusuk_gama)."""

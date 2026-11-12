@@ -566,6 +566,22 @@ def test_G6_pozla_yalniz_ton_egrisini_acar(tmp_path):
     assert gd.pozla(siyah, tmp_path / "siyah_out.png") == 0.6
 
 
+def test_G6_lanczos_buyut_2k_taslagi_icerik_eklemeden_2560_yapar(tmp_path):
+    from PIL import Image
+    from deepspace import gorsel_denetim as gd
+    x = np.zeros((1152, 2048, 3), "uint8")
+    x[500:600, 900:1000] = (180, 80, 30)
+    kaynak = tmp_path / "t.png"
+    Image.fromarray(x).save(kaynak)
+    hedef = tmp_path / "up.png"
+    gd.lanczos_buyut(kaynak, hedef)
+    y = np.asarray(Image.open(hedef).convert("RGB"))
+    assert y.shape == (1440, 2560, 3)
+    assert (y[:300] == 0).all() and (y[:, :900] == 0).all()   # siyah gök siyah kalır, yeni öğe yok
+    assert gd.turetme_metni(2048, 2560, 0.7) == "1.25x Lanczos büyütme + pozla gama 0.7"
+    assert gd.turetme_metni(1280, 2560, 0.7) == "2x büyütme + pozla gama 0.7"
+
+
 def test_G13_taslak_karari_son_dosyaya_tasinir(tmp_path):
     from PIL import Image
     from deepspace import gorsel_denetim as gd

@@ -383,8 +383,10 @@ def main(argv: list[str] | None = None) -> int:
         gama = gd.pozla(Path(a.kaynak), hedef)
         o = gd.teknik_olcum(hedef)
         k = Path(gorev["klasor"])
-        tasindi = gd.karari_tasi(k / "denetim" / f"{a.parca:02d}.json", k / "gorsel" / "taslak" / f"{a.parca:02d}.png",
-                                 hedef, f"2x büyütme + pozla gama {gama}")
+        taslak = k / "gorsel" / "taslak" / f"{a.parca:02d}.png"
+        tw = gd.teknik_olcum(taslak)["genislik"] if taslak.exists() else o["genislik"] // 2
+        tasindi = gd.karari_tasi(k / "denetim" / f"{a.parca:02d}.json", taslak,
+                                 hedef, gd.turetme_metni(tw, o["genislik"], gama))
         print("taslak kararı taşındı" if tasindi else "taslak kararı yok ya da geçmedi: denetle gerekli")
         print(f"{hedef.name}: gama {gama}, parlaklık {o['ort_parlaklik']}, teknik: {gd.teknik_sorunlar(o) or 'sorun yok'}")
         return 0

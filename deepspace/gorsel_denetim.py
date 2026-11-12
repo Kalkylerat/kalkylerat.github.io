@@ -94,11 +94,18 @@ def pozla(kaynak: Path, hedef: Path, hedef_parlaklik: float = 0.06, en_dusuk_gam
     return gama
 
 
+IKIZ_SINIR = 8  # 128 bitte en çok bu kadar fark: neredeyse aynı
+
+
 def parmak_izi(yol: Path) -> int:
-    """Algısal özet (dHash 64 bit): neredeyse aynı görselleri yakalar."""
+    """Algısal özet (yatay + dikey dHash, 128 bit): neredeyse aynı görselleri yakalar.
+
+    Yalnız yatay fark koyu gökte aynı sütundaki iki farklı parlak odağı ikiz sanıyordu (12 Kasım, 02/07)."""
     with Image.open(yol) as im:
-        x = np.asarray(im.convert("L").resize((9, 8), Image.BILINEAR), np.int16)
-    bitler = (x[:, 1:] > x[:, :-1]).flatten()
+        g = im.convert("L")
+        y = np.asarray(g.resize((9, 8), Image.BILINEAR), np.int16)
+        d = np.asarray(g.resize((8, 9), Image.BILINEAR), np.int16)
+    bitler = np.concatenate([(y[:, 1:] > y[:, :-1]).flatten(), (d[1:, :] > d[:-1, :]).flatten()])
     return int("".join("1" if b else "0" for b in bitler), 2)
 
 
@@ -198,7 +205,7 @@ def gorev_gorselleri(gorev: dict) -> list[dict]:
         sor = teknik_sorunlar(o)
         iz = parmak_izi(ana)
         for no, onceki in izler:
-            if benzerlik_farki(iz, onceki) <= 4:
+            if benzerlik_farki(iz, onceki) <= IKIZ_SINIR:
                 sor.append(f"parça {no:02d} görseliyle neredeyse aynı")
         izler.append((i + 1, iz))
         gecti, neden = goz_denetimi_gecti(goz_denetimi_oku(ana), ana)

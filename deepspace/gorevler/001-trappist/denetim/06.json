@@ -1,13 +1,10 @@
 {
   "kontrol_listesi_surumu": 1,
   "denetleyen": "denetci",
-  "ozet": "afe48f959e1aaea79ec30a3bab65b09e5afa458a2432af89180966b7d4ac69c2",
-  "puan": 6,
-  "sorunlar": [
-    {
-      "kod": "marka",
-      "not": "sol üst sakin bölgede (x %0-30, y %0-20) toz bandının en parlak kısmı duruyor, bölge ortalaması 0.25 (karenin 2.5 katı); arayüz yazısının altı koyu doku değil"
-    }
-  ],
-  "gecti": false
+  "ozet": "bbaaf18e91a91b036f4f2e6ed24557ddc63703b5dc6c5430c24c42fcc5a3bbf0",
+  "puan": 8,
+  "sorunlar": [],
+  "gecti": true,
+  "taslak_ozeti": "094dfe5495f4a2b77ae4f9852b587b19e29d27176ed5b2349c4d37de3a18edbe",
+  "turetme": "2x büyütme + pozla gama 0.726"
 }

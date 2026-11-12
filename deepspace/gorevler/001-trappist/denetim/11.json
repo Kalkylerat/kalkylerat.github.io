@@ -1,12 +1,16 @@
 {
   "kontrol_listesi_surumu": 1,
   "denetleyen": "denetci",
-  "ozet": "d1e6e8496807170753bf9c377ae34f1a9e8618b2c0571a811d35fffc7d1a807e",
-  "puan": 6,
+  "ozet": "3a293802ab876b99280ca808c91731b92b8246f5f74899ad72e33e1efcf788df",
+  "puan": 5,
   "sorunlar": [
     {
       "kod": "tekrar",
-      "not": "onaylı 01 ile aynı kompozisyon: küçük kırmızı yıldız solda ufkun hemen üstünde (x %7), pas rengi taşlı düz ova, gölgeler sağa uzun; küçültülünce 01'den ayırt edilmiyor"
+      "not": "01 ile ayni kadraj: ufuk ~%52, alt yari pas rengi tasli duzluk, tek tek taslardan uzun gölgeler, ust yari yildizli gok; yildiz kadraj disinda olsa da 01in yakin kopyasi"
+    },
+    {
+      "kod": "marka",
+      "not": "parlak odak yok (en parlak oge ufuktaki dag sirti); sag ufukta turuncu alacakaranlik pusu Dunya colu aksami gibi okunuyor; sol ust sakin bolgede (x%17-19 y%6-10) iki parlak sari nokta"
     }
   ],
   "gecti": false

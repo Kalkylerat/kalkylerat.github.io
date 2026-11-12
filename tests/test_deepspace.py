@@ -593,6 +593,21 @@ def test_G13_taslak_karari_son_dosyaya_tasinir(tmp_path):
     assert not gd.karari_tasi(kayit, baska, son, "x")
 
 
+def test_G13_ikiz_olcumu_dikey_konumu_ayirir(tmp_path):
+    # Koyu gökte aynı sütunda ama farklı yükseklikte parlayan iki kare ikiz sayılmaz; aynı kare sayılır.
+    from PIL import Image, ImageDraw, ImageFilter
+    from deepspace import gorsel_denetim as gd
+    def kare(ad, y):
+        im = Image.new("L", (2560, 1440), 3)
+        ImageDraw.Draw(im).ellipse((700, y - 250, 1200, y + 250), fill=90)
+        im = im.filter(ImageFilter.GaussianBlur(120))
+        im.save(tmp_path / ad)
+        return gd.parmak_izi(tmp_path / ad)
+    ust, alt = kare("ust.png", 420), kare("alt.png", 900)
+    assert gd.benzerlik_farki(ust, alt) > gd.IKIZ_SINIR
+    assert gd.benzerlik_farki(ust, kare("ust2.png", 420)) <= gd.IKIZ_SINIR
+
+
 def test_G13_gorsel_denetimi(tmp_path):
     from deepspace import gorsel_denetim as gd
     (tmp_path / "gorsel").mkdir()

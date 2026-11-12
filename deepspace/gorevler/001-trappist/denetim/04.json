@@ -1,10 +1,13 @@
 {
   "kontrol_listesi_surumu": 1,
   "denetleyen": "denetci",
-  "ozet": "072069cad17ce0e9ddb3d1d19df4264d10927d65ba92f8bcb8ed0a765af0a144",
-  "puan": 7,
-  "sorunlar": [],
-  "gecti": true,
-  "taslak_ozeti": "aaae8a74e218a785e1cdab3feb175967bf6576ad86c84b870931f4171feeb619",
-  "turetme": "2x büyütme + pozla gama 0.6"
+  "ozet": "1604fb87433353b6db445e575920e5c92d0be1adb85934188461451b9365d125",
+  "puan": 6,
+  "sorunlar": [
+    {
+      "kod": "marka",
+      "not": "Samanyolu bandi sol alttan sag uste kareyi kesiyor ve yogun yildiz alani her yeri dolduruyor; ozne Wolf 359 diski x%66 y%63te istenen kare yuksekliginin 1/8i yerine ~1/24, kenari yumusak haleli, odak banda kayiyor, 168x94te disk secilmiyor"
+    }
+  ],
+  "gecti": false
 }

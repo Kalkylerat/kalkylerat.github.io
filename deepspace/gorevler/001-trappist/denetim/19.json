@@ -1,12 +1,12 @@
 {
   "kontrol_listesi_surumu": 1,
   "denetleyen": "denetci",
-  "ozet": "f743d369da0ab5c3d14db742520261379218c10ea51bf966d690d5f76cb3dfe4",
+  "ozet": "5464eb076cb3b5230c4518cb84a610baff392b7cdc21311a33b82d346f30fd19",
   "puan": 6,
   "sorunlar": [
     {
-      "kod": "tekrar",
-      "not": "onaylı 17 ile aynı kompozisyon: kırmızı yıldız solda ufkun üstünde (x %9), sağ üstte hilal(ler), buzlu zemin, ufuk ~%65. Hilallerin yönü doğru (sola bakıyor), zemin mat, ıslak görünüm yok"
+      "kod": "marka",
+      "not": "parlak odak yok, kare tum ekranda bulanik koyu; tumsek kenarlarindaki tugla kirmizi isik cok soluk, 168x94te ozne secilmiyor; tumsekler istenen gri-mavi buz degil kahverengi-gri delikli kaya gibi okunuyor (isik yonu dogru: sag kenar aydinlik, sol oyuk karanlik)"
     }
   ],
   "gecti": false

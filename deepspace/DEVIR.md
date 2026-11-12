@@ -19,8 +19,13 @@ Bu dosya yeni bir Claude Code oturumunun (yerel terminal) kaldığımız yerden 
     6. turda 19 ve 04'te eki elle kısalttım (GORSEL.md elle düzeltildi; `gorev gorseller` yeniden üretirse ek geri gelir).
     Kadraj ekini değiştirmek marka kiti değişikliği, sahibine sorulmalı.
 - **Ücretsiz büyütme:** sahibi onayladı. Real-ESRGAN ncnn-vulkan (resmi GitHub sürümü v0.2.5.0, 45 MB)
-  `C:\Users\atici\araclar\realesrgan\` klasörüne indirildi ve açıldı. Çalıştırma, Claude'un otomatik izin denetimi
-  tarafından engellendi (dışarıdan gelen program); sahibinin izin vermesi ya da bir kez kendisinin çalıştırması gerekiyor.
+  `C:\Users\atici\araclar\realesrgan\` klasörüne indirildi; sahibinin "sen yap" demesiyle denendi. **Sonuç: bu
+  bilgisayarda kullanılamaz.** Fotoğraf modeli (x4plus) 1 GB'lık Vega 10 grafik belleğine sığmıyor (`vkAllocateMemory
+  failed`, karo 32'de bile); işlemci seçeneği bu sürümde yok. Sığan hafif model (animevideov3) 06'da soluk yıldızları
+  sildi, bulut bantlarını boya gibi düzleştirdi; Topaz'ın yanında belirgin kötü. Topaz'da kalıyoruz. (Kalan yol:
+  PyTorch ile işlemcide çalıştırmak; ~1 GB kurulum, kare başına dakikalar; denenmedi.)
+- **Kredi:** sahibi 7. tur için yalnız 100 kredi verdi (12 Kasım ~11:50). Orta kalite tek taslak 185, Topaz 485;
+  100 kredi tek kareye bile yetmiyor, harcanmadı.
 - **7. tur sahibinin onayını bekliyor (G13).**
 
 ## Önceki durum (12 Kasım 2026, ~10:00; 5. tur bitti)

@@ -1,8 +1,13 @@
 {
   "kontrol_listesi_surumu": 1,
   "denetleyen": "denetci",
-  "ozet": "f304d466431c10858031bd7dc20587ae48ab71746f51c5945ca434a92d9ae9ec",
-  "puan": 9,
-  "sorunlar": [],
-  "gecti": true
+  "ozet": "f743d369da0ab5c3d14db742520261379218c10ea51bf966d690d5f76cb3dfe4",
+  "puan": 6,
+  "sorunlar": [
+    {
+      "kod": "tekrar",
+      "not": "onaylı 17 ile aynı kompozisyon: kırmızı yıldız solda ufkun üstünde (x %9), sağ üstte hilal(ler), buzlu zemin, ufuk ~%65. Hilallerin yönü doğru (sola bakıyor), zemin mat, ıslak görünüm yok"
+    }
+  ],
+  "gecti": false
 }

@@ -1,8 +1,13 @@
 {
   "kontrol_listesi_surumu": 1,
   "denetleyen": "denetci",
-  "ozet": "33de46ab55e03604e9645f9f39bce757e65574f189728cb6db0ff5fc3c702786",
-  "puan": 8,
-  "sorunlar": [],
-  "gecti": true
+  "ozet": "b67248848d22ae35f27226a2f066ebab6eead5ec4d49a25f145653ce95993c09",
+  "puan": 6,
+  "sorunlar": [
+    {
+      "kod": "tekrar",
+      "not": "onaylı 15 (ve 03) ile aynı kompozisyon: hilal sağda (x %70), aydınlık kenar sola, sol kenarda kırmızı ışık sisi; yalnız rengi soluk. Buz çatlakları artık okunuyor, karanlık disk yıldızları örtüyor"
+    }
+  ],
+  "gecti": false
 }

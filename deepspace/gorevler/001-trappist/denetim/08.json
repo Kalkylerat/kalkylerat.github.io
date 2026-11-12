@@ -1,8 +1,10 @@
 {
   "kontrol_listesi_surumu": 1,
   "denetleyen": "denetci",
-  "ozet": "1b6ecde44f88605ae6556f152104838d90d10dc96a379204377452f4c6c6b923",
-  "puan": 9,
+  "ozet": "72dde7d7496b64de3fca7374464cfa6b8e15e5cd4987943258d7371987f1126b",
+  "puan": 8,
   "sorunlar": [],
-  "gecti": true
+  "gecti": true,
+  "taslak_ozeti": "c5dea1da611dbb135dcd197f4a35fba8aa6652ae3b0fd75174ab1362de09a172",
+  "turetme": "2x büyütme + pozla gama 0.622"
 }

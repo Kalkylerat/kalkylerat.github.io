@@ -3,7 +3,15 @@
 Bu dosya yeni bir Claude Code oturumunun (yerel terminal) kaldığımız yerden devam etmesi için. Önce bunu, sonra
 `SOZLESME.md` G bölümünü ve `.claude/skills/deep-space-log/SKILL.md`'yi oku. Sahibiyle Türkçe konuş.
 
-## Güncel durum (12 Kasım 2026, ~09:30): Claude haftalık limiti doldu, denetim 16 Kasım'a kaldı
+## Son durum (12 Kasım 2026, ~10:00; sahibi limiti sıfırladı)
+- **13/20 son dosya + karar hazır** (`denetle` GEÇTİ): 01, 02, 03, 05, 07, 08, 10, 12, 13, 15, 16, 17, 20.
+- 04 (7) ve 09 (7) göz denetiminden geçti ama pozla tabanında (gama 0,6) bile parlaklık 0,045/0,041 < 0,05; gama 0,5 gökyüzünü griye
+  çeviriyor, taban düşürülmedi. İstemlerine gökyüzünü dolduran yoğun yıldız alanı / soluk Samanyolu pusu eklenip yeniden üretilecek.
+- 4. turda kalan: 06 (toz sol üst sakin bölgede), 11 (01 tekrarı), 14 (bulanık disk), 18 (15 tekrarı), 19 (17 tekrarı).
+  Denetçi: dizide "solda alçak kırmızı yıldız + ufuk" ve "sağda hilal" kalıpları fazla; kompozisyonlar baştan dağıtılmalı.
+- 5. tur (7 kare) sahibinin onayını bekliyor (G13 hakları doldu).
+
+## Önceki durum (12 Kasım 2026, ~09:30): Claude haftalık limiti doldu, denetim 16 Kasım'a kaldı
 - **Geçen ve son dosyası hazır (10/20):** 12, 17 (eski karar) + 01, 02, 03, 05, 08, 10, 15, 20 (3. tur taslak denetimi GEÇTİ,
   Topaz 2x + `gorev pozla`, teknik kapı temiz). Bu 8'in `denetim/NN.json`u YOK: son dosya denetçisi limit hatasıyla durdu.
   Yeni kuralla (G13 taslak kararı) yapılacak: denetçi bu 8 taslağa `denetle --parca N --puan P --taslak` yazar (puanlar:

@@ -3,7 +3,15 @@
 Bu dosya yeni bir Claude Code oturumunun (yerel terminal) kaldığımız yerden devam etmesi için. Önce bunu, sonra
 `SOZLESME.md` G bölümünü ve `.claude/skills/deep-space-log/SKILL.md`'yi oku. Sahibiyle Türkçe konuş.
 
-## Son durum (13 Kasım 2026; 9. tur bitti)
+## Son durum (13 Kasım 2026; 20/20 görsel, video render ediliyor)
+- Sahibi 9. tur önizlemesine bakıp "a" dedi: G13'e sahibinin gözle onayı istisnası eklendi (`sahibi_onayi` kaydı,
+  `gorsel_denetim.sahibi_onayi_yaz`; 411bc0e). 04 ve 19 bu onayla geçti, Lanczos + pozla ile son dosya oldu.
+- 20 görselin hepsi görsel kapısından geçti (teknik + ikiz + göz). `gorev kapak` ve `gorev metin` bitti; rapor
+  89 kontrol, tek kırmızı "video dosyası var".
+- `gorev video` arka planda başladı (~5 saat, günlük scratchpad `video_log.txt`). Sonra: `gorev kontrol` →
+  son-denetci (G18) → arşiv (G19) → sahibine önizleme (G8). Yükleme yok (OAuth kurulmadı). `projeler/README.md` güncellenecek.
+
+## Önceki durum (13 Kasım 2026; 9. tur bitti)
 - Sahibi "1 defa daha dene" dedi; 9. tur 534 kredi (kimlikler scratchpad `tur9_oturum.json`, eski taslaklar
   `gorsel/taslak/t8/`). İkisi yine kaldı:
   - **04 (6, marka+bozulma):** disk doğru; sağ alttaki iki parlak yıldızda soluk ışın kolları, gökte 1-3 px tire yıldızlar.

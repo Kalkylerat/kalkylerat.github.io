@@ -3,7 +3,17 @@
 Bu dosya yeni bir Claude Code oturumunun (yerel terminal) kaldığımız yerden devam etmesi için. Önce bunu, sonra
 `SOZLESME.md` G bölümünü ve `.claude/skills/deep-space-log/SKILL.md`'yi oku. Sahibiyle Türkçe konuş.
 
-## Son durum (12 Kasım 2026, ~13:00; 8. tur bitti)
+## Son durum (13 Kasım 2026; 9. tur bitti)
+- Sahibi "1 defa daha dene" dedi; 9. tur 534 kredi (kimlikler scratchpad `tur9_oturum.json`, eski taslaklar
+  `gorsel/taslak/t8/`). İkisi yine kaldı:
+  - **04 (6, marka+bozulma):** disk doğru; sağ alttaki iki parlak yıldızda soluk ışın kolları, gökte 1-3 px tire yıldızlar.
+  - **19 (5, fizik+istem):** buz olarak okunuyor, kompozisyon ve bakır üst yüzler doğru; ama bize bakan gölge yüzler çelik
+    mavisi aydınlık (kaynaksız dolgu) ve ufukta ıslak yansıma şeridi.
+- Sahibine önizleme gönderildi ve soruldu: bu iki kareyi kendisi gözle onaylasın mı (G13 istisnası, sahibinin kararı),
+  yoksa beklesin mi. 18/20 hazır. Onay gelirse: G13'e istisna maddesi (SOZLESME → test → kod), Lanczos + pozla, sonra
+  `gorev video` (arka planda ~5 saat) → kapak → metin → kontrol → son-denetci.
+
+## Önceki durum (12 Kasım 2026, ~13:00; 8. tur bitti)
 - Sahibi "yap bitirelim" dedi: (1) 2K taslak Lanczos ile 2560'a kurala eklendi (G6/G13, `gorsel_denetim.lanczos_buyut`,
   `turetme_metni`; 2d8d3bf). **18 son dosya oldu, 18/20 hazır.** (2) 04 ve 19 için 8. tur (2K orta x1, 534 kredi).
   Kimlikler scratchpad `tur8_oturum.json`; eski taslaklar `gorsel/taslak/t7/`.

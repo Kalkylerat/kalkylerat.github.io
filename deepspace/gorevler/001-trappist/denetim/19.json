@@ -1,12 +1,16 @@
 {
   "kontrol_listesi_surumu": 1,
   "denetleyen": "denetci",
-  "ozet": "a17c7fdd25d89bb842746d2c7b04f19dce67e3906f3a8b7839304f8c9e6978d2",
-  "puan": 4,
+  "ozet": "f433c71e1fd7429e68eaa3293db17dc7c390a27b56a01b906c7f32f45cc499fa",
+  "puan": 5,
   "sorunlar": [
     {
+      "kod": "fizik",
+      "not": "yildiza sirt donen on yuzler (bize bakan buz kenarlari) mavi-celik tonda aydinlik (orn. B>R 2-3 kat); tek kaynak turuncu-kirmizi cuce ve gok siyah, golge yuzler koyu ve sicak-notr olmali; mavi dolgu kaynaksiz ikinci isik gibi ve sahneyi Dunya'da gun batiminda kirik gol buzu fotografina ceviriyor"
+    },
+    {
       "kod": "istem",
-      "not": "zemin buz olarak okunmuyor; bloklar kahverengi-ten rengi, granit gibi pürüzlü-kumlu dokulu kaya, kare kayalık çöl gibi okunuyor (buz parlaklığı/kırık buz yüzeyi yok). Işık doğru: yıldız sol yarıda orta yükseklikte, aydınlık yüzler sola-yukarı, gölgeler sağ alta. 17 ile ikiz değil ama kaya zemini ve sağda iri kaya ile 11'e yaklaşıyor"
+      "not": "yildizin altinda ufka yakin (sol orta, ~x500 y665) parlak islak gibi yansima seridi; istemde kuru, parlamasiz buz istendi"
     }
   ],
   "gecti": false

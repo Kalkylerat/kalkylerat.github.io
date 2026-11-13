@@ -481,3 +481,6 @@ lyrics = """[Intro | 0:00-0:40 | warm pad and deep sub-bass hum from the first s
 [Drift | 3:00-4:20 | motif rests, pads breathe, distant cello harmonic holds]
 [Return | 4:20-5:20 | A-C-D-E-F#-E-C once more, softer, an octave lower]
 [Outro | 5:20-6:00 | pads and hum fade slowly, static clears]"""
+
+[ayar.video]
+is_parcacigi = 2   # 13 Kasım 2026: 7 GB bellekte 3 süreç bellek yetersizliğinden durdu

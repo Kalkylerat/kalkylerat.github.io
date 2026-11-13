@@ -1,7 +1,7 @@
 {
   "kontrol_listesi_surumu": 1,
   "denetleyen": "denetci",
-  "ozet": "f433c71e1fd7429e68eaa3293db17dc7c390a27b56a01b906c7f32f45cc499fa",
+  "ozet": "9b0aa5326c05ef7e2e3cdba35439226f2a659481e5cb50d6e6cc2a0d16248e6d",
   "puan": 5,
   "sorunlar": [
     {
@@ -13,5 +13,12 @@
       "not": "yildizin altinda ufka yakin (sol orta, ~x500 y665) parlak islak gibi yansima seridi; istemde kuru, parlamasiz buz istendi"
     }
   ],
-  "gecti": false
+  "gecti": false,
+  "sahibi_onayi": {
+    "tarih": "2026-11-13",
+    "not": "Sahibi 9. tur önizlemesine bakıp \"a\" (onaylıyorum) dedi, 13 Kasım 2026",
+    "ozet": "f433c71e1fd7429e68eaa3293db17dc7c390a27b56a01b906c7f32f45cc499fa"
+  },
+  "taslak_ozeti": "f433c71e1fd7429e68eaa3293db17dc7c390a27b56a01b906c7f32f45cc499fa",
+  "turetme": "1.25x Lanczos büyütme + pozla gama 1.0"
 }

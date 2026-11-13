@@ -609,6 +609,32 @@ def test_G13_taslak_karari_son_dosyaya_tasinir(tmp_path):
     assert not gd.karari_tasi(kayit, baska, son, "x")
 
 
+def test_G13_sahibinin_gozle_onayi_yalniz_o_taslak_icin_gecerli(tmp_path):
+    from PIL import Image
+    from deepspace import gorsel_denetim as gd
+    kayit = tmp_path / "denetim" / "04.json"
+    taslak = tmp_path / "gorsel" / "taslak" / "04.png"
+    taslak.parent.mkdir(parents=True)
+    Image.new("RGB", (2048, 1152), (30, 10, 5)).save(taslak)
+    gd.goz_denetimi_yaz(taslak, 5, [{"kod": "istem", "not": "x"}], kayit=kayit)
+    assert not gd.goz_denetimi_gecti(gd.goz_denetimi_oku_kayit(kayit))[0]
+    gd.sahibi_onayi_yaz(kayit, taslak, "sahibi önizlemeye bakıp onayladı")
+    d = gd.goz_denetimi_oku_kayit(kayit)
+    assert gd.goz_denetimi_gecti(d)[0] and d["puan"] == 5 and d["sorunlar"]   # denetçinin notları kayıtta kalır
+    son = tmp_path / "gorsel" / "04.png"
+    gd.pozla(gd.lanczos_buyut(taslak, tmp_path / "up.png"), son)
+    assert gd.karari_tasi(kayit, taslak, son, "x")                            # onay son dosyaya taşınır
+    assert gd.goz_denetimi_gecti(gd.goz_denetimi_oku(son), son)[0]
+    # Başka bir taslak için onay geçmez.
+    baska = tmp_path / "gorsel" / "taslak" / "19.png"
+    Image.new("RGB", (2048, 1152), (9, 9, 9)).save(baska)
+    k2 = tmp_path / "denetim" / "19.json"
+    gd.goz_denetimi_yaz(baska, 5, [{"kod": "istem", "not": "x"}], kayit=k2)
+    d2 = gd.goz_denetimi_oku_kayit(k2)
+    d2["sahibi_onayi"] = {"tarih": "2026-11-13", "not": "x", "ozet": gd.dosya_ozeti(taslak)}
+    assert not gd.goz_denetimi_gecti(d2)[0]
+
+
 def test_G13_ikiz_olcumu_dikey_konumu_ayirir(tmp_path):
     # Koyu gökte aynı sütunda ama farklı yükseklikte parlayan iki kare ikiz sayılmaz; aynı kare sayılır.
     from PIL import Image, ImageDraw, ImageFilter

@@ -1,7 +1,7 @@
 {
   "kontrol_listesi_surumu": 1,
   "denetleyen": "denetci",
-  "ozet": "91b64dbf48d9a0b07b5071ed42151d366703cea75113cf6d2fe252808aa60704",
+  "ozet": "aeb700a9b39d6e20a82c8767694dec47857297313e33625437946b33435e9a3b",
   "puan": 6,
   "sorunlar": [
     {
@@ -13,5 +13,12 @@
       "not": "arka plan gokte sol alttan saga her yerde 1-3 px kisa kil gibi cizgi/tire seklinde soluk yildizlar (pafta 5'te gorunur), pozla sonrasi kirmizimsi sac teli dokusu gibi okunuyor"
     }
   ],
-  "gecti": false
+  "gecti": false,
+  "sahibi_onayi": {
+    "tarih": "2026-11-13",
+    "not": "Sahibi 9. tur önizlemesine bakıp \"a\" (onaylıyorum) dedi, 13 Kasım 2026",
+    "ozet": "91b64dbf48d9a0b07b5071ed42151d366703cea75113cf6d2fe252808aa60704"
+  },
+  "taslak_ozeti": "91b64dbf48d9a0b07b5071ed42151d366703cea75113cf6d2fe252808aa60704",
+  "turetme": "1.25x Lanczos büyütme + pozla gama 0.614"
 }

@@ -168,6 +168,9 @@ def goz_denetimi_gecti(d: dict | None, yol: Path | None = None) -> tuple[bool, s
         return False, "eski kontrol listesiyle denetlenmiş"
     if yol is not None and d.get("ozet") != dosya_ozeti(yol):
         return False, "görsel denetimden sonra değişmiş (yeniden denetle)"
+    onay = d.get("sahibi_onayi")
+    if onay and onay.get("ozet") and onay["ozet"] in (d.get("ozet"), d.get("taslak_ozeti")):
+        return True, f"sahibinin gözle onayı ({onay.get('tarih')}); denetçi puanı {d.get('puan')}"
     kritik = {k["kod"] for k in KONTROL_LISTESI if k["kritik"]}
     bulunan = [s for s in d.get("sorunlar", []) if s.get("kod") in kritik]
     if bulunan:
@@ -175,6 +178,20 @@ def goz_denetimi_gecti(d: dict | None, yol: Path | None = None) -> tuple[bool, s
     if d.get("puan", 0) < GECME_PUANI:
         return False, f"puan {d.get('puan')} < {GECME_PUANI}"
     return True, f"puan {d.get('puan')}"
+
+
+def goz_denetimi_oku_kayit(kayit: Path) -> dict | None:
+    return json.loads(Path(kayit).read_text(encoding="utf-8")) if Path(kayit).exists() else None
+
+
+def sahibi_onayi_yaz(kayit: Path, taslak: Path, not_: str) -> None:
+    """G13 istisnası: sahibinin bu taslağa gözle onayı (yalnız sahibi verir). Denetçinin puanı ve notları kalır."""
+    import datetime
+    d = goz_denetimi_oku_kayit(kayit)
+    if d is None or d.get("ozet") != dosya_ozeti(taslak):
+        raise ValueError("onay yalnız denetlenmiş taslağın kendisine yazılır")
+    d["sahibi_onayi"] = {"tarih": datetime.date.today().isoformat(), "not": not_, "ozet": dosya_ozeti(taslak)}
+    Path(kayit).write_text(json.dumps(d, indent=2, ensure_ascii=False), encoding="utf-8")
 
 
 def karari_tasi(kayit: Path, taslak: Path, son: Path, turetme: str) -> bool:

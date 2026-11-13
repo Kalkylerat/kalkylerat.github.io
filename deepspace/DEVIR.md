@@ -3,7 +3,20 @@
 Bu dosya yeni bir Claude Code oturumunun (yerel terminal) kaldığımız yerden devam etmesi için. Önce bunu, sonra
 `SOZLESME.md` G bölümünü ve `.claude/skills/deep-space-log/SKILL.md`'yi oku. Sahibiyle Türkçe konuş.
 
-## Son durum (13 Kasım 2026; 20/20 görsel, video render ediliyor)
+## Son durum (13 Kasım 2026 akşam; video durduruldu, sesi sahibi yapacak)
+
+- Sahibi örnek sesi dinledi: "Geçişler çok kötü... geçişleri kendim yapacağım." Video render'ı durduruldu
+  (yarım parçalar `cikti/ara/` içinde, kullanılmayacak).
+- **Yeni iş bölümü (sahibinin kararı):** sahibi 20 şarkıyı Suno'dan kendisi indirir, geçişleri ve mastering'i kendisi
+  yapar, tek bir ses dosyası verir. Biz yalnız görüntüyü o sesin üstüne kurarız (görseller, arayüz, kart, kapak, metin).
+  Bu G3'ü (8 sn çapraz geçiş, -16 LUFS bizim işimiz) değiştirir; SOZLESME/test/kod değişikliği ses gelince yapılacak.
+- Açık tasarım sorusu: her görselin başlayacağı an. Plan: sahibinin master'ında parça başlangıçlarını bulmak
+  (elimizdeki `ses/` parçalarıyla karşılaştırma; sahibi başka sürüm indirirse sahibinden zaman listesi). Görsel
+  geçişi G6 gereği yumuşak kalır; sert kesim yok.
+- Sahibinden beklenen: master ses dosyasını Drive'daki "DeepSpaceLog 001" klasörüne koyması, parça sırası listedeki
+  sırayla aynı.
+
+## Önceki durum (13 Kasım 2026; 20/20 görsel, video render ediliyor)
 - Sahibi 9. tur önizlemesine bakıp "a" dedi: G13'e sahibinin gözle onayı istisnası eklendi (`sahibi_onayi` kaydı,
   `gorsel_denetim.sahibi_onayi_yaz`; 411bc0e). 04 ve 19 bu onayla geçti, Lanczos + pozla ile son dosya oldu.
 - 20 görselin hepsi görsel kapısından geçti (teknik + ikiz + göz). `gorev kapak` ve `gorev metin` bitti; rapor

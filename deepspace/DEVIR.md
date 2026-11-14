@@ -3,7 +3,16 @@
 Bu dosya yeni bir Claude Code oturumunun (yerel terminal) kaldığımız yerden devam etmesi için. Önce bunu, sonra
 `SOZLESME.md` G bölümünü ve `.claude/skills/deep-space-log/SKILL.md`'yi oku. Sahibiyle Türkçe konuş.
 
-## Son durum (13 Kasım 2026 akşam; video durduruldu, sesi sahibi yapacak)
+## Son durum (14 Kasım 2026; ses 5 sn ham geçişle yeniden yapıldı, video render ediliyor)
+
+- Sahibi kendi geçişlerini yapmaktan vazgeçti (çok uzun sürer, otomasyon istiyor). 5 sn ham çapraz geçiş örnekleri
+  (1→2, 7→8, 14→15) "harika" bulundu. G3 buna göre değişti (9230fb7): kesme yok, eşitleme yok, loudnorm yok, 5 sn
+  qsin çapraz geçiş; tepe ≤ -1.5 dBTP aşılırsa sahibine sorulur; LUFS yalnız bilgi.
+- 001 sesi yeniden yapıldı: 7115 sn, -15.7 LUFS, tepe -2.9 dBTP, boşluk yok.
+- Video arka planda render ediliyor (2 süreç, log scratchpad `video_log.txt`). Sonra: kontrol → son-denetci →
+  arsiv → sahibine önizleme; tam sesi Drive'a yükleme isteği de var (render bitince, Chrome ile).
+
+## Önceki durum (13 Kasım 2026 akşam; video durduruldu, sesi sahibi yapacak)
 
 - Sahibi örnek sesi dinledi: "Geçişler çok kötü... geçişleri kendim yapacağım." Video render'ı durduruldu
   (yarım parçalar `cikti/ara/` içinde, kullanılmayacak).

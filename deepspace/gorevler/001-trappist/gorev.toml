@@ -483,4 +483,4 @@ lyrics = """[Intro | 0:00-0:40 | warm pad and deep sub-bass hum from the first s
 [Outro | 5:20-6:00 | pads and hum fade slowly, static clears]"""
 
 [ayar.video]
-is_parcacigi = 2   # 13 Kasım 2026: 7 GB bellekte 3 süreç bellek yetersizliğinden durdu
+is_parcacigi = 1   # 14 Kasım 2026: 2 süreç de bellek yetersizliğinden durdu (13 Kasım: 3 süreç)

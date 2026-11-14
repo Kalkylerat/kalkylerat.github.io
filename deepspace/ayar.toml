@@ -39,9 +39,7 @@ etiketler = ["sci fi ambient music", "dark ambient space music", "deep space mus
 hashtagler = ["#scifiambient", "#darkambient", "#deepwork"]
 
 [ses]
-capraz_gecis_sn = 8
-hedef_lufs = -16.0
-lufs_tolerans = 1.0
+capraz_gecis_sn = 5        # G3 (14 Kasım 2026): ham 5 sn çapraz geçiş, eşitleme ve master işlemi yok
 tepe_dbtp = -1.5
 parca_min_sn = 180
 parca_max_sn = 600

@@ -98,8 +98,7 @@ def ses(bolumler: dict, ayar: dict, hedef_dakika: float) -> list[dict]:
     sonuc.append(_k("toplam süre hedefte", abs(toplam - hedef) <= hedef * a["sure_tolerans"],
                     f"{toplam / 60:.1f} dk (hedef {hedef_dakika} dk)"))
     m = bolumler["master"]
-    sonuc.append(_k("master ses yüksekliği", m["lufs"] is not None and abs(m["lufs"] - a["hedef_lufs"]) <=
-                    a["lufs_tolerans"], f"{m['lufs']} LUFS (hedef {a['hedef_lufs']})"))
+    sonuc.append(_k("master ses yüksekliği (bilgi)", True, f"{m['lufs']} LUFS (G3: eşitleme yok)"))
     sonuc.append(_k("master tepe", m["tepe_dbtp"] is not None and m["tepe_dbtp"] <= a["tepe_dbtp"] + 0.5,
                     f"{m['tepe_dbtp']} dBTP (sınır {a['tepe_dbtp']})"))
     return sonuc

@@ -87,9 +87,14 @@ def test_G2_dongu_ile_sisirme_yok_video_sesten_uzun_olamaz(tmp_path):
 # ---------- G3 ----------
 def test_G3_ses_seviyesi_tepe_ve_bosluk():
     a = AYAR["ses"]
-    assert (a["hedef_lufs"], a["lufs_tolerans"], a["tepe_dbtp"], a["capraz_gecis_sn"], a["sessizlik_max_sn"]) == \
-        (-16.0, 1.0, -1.5, 8, 4)
-    assert "master ses yüksekliği" in _kirmizi(kapilar.ses(_bolumler([450] * 16, lufs=-12.5), AYAR, 120))
+    assert (a["tepe_dbtp"], a["capraz_gecis_sn"], a["sessizlik_max_sn"]) == (-1.5, 5, 4)
+    assert "hedef_lufs" not in a          # eşitleme yok (14 Kasım 2026): ses yüksekliği yalnız bilgi
+    assert not _kirmizi(kapilar.ses(_bolumler([450] * 16, lufs=-12.5), AYAR, 120))
+    assert not _kirmizi(kapilar.ses(_bolumler([450] * 16, lufs=-21.0), AYAR, 120))
+    arg = " ".join(ses.ham_birlesim_argumanlari([Path("a.mp3"), Path("b.mp3"), Path("c.mp3")], 5.0))
+    assert arg.count("acrossfade=d=5:c1=qsin:c2=qsin") == 2
+    for yasak in ("volume", "loudnorm", "compand", "atrim", "silenceremove", "afade"):
+        assert yasak not in arg
     assert "master tepe" in _kirmizi(kapilar.ses(_bolumler([450] * 16, tepe=-0.2), AYAR, 120))
     bosluklu = _bolumler([450] * 16, sessiz={4: [(200.0, 207.0)]})
     assert "parça 05 ortasında boşluk yok" in _kirmizi(kapilar.ses(bosluklu, AYAR, 120))

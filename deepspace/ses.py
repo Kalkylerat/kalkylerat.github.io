@@ -67,9 +67,23 @@ def ozetler(gorev: dict) -> list[str]:
     return [hashlib.sha256(d.read_bytes()).hexdigest() for d in ses_dosyalari(gorev) if d.exists()]
 
 
+def ham_birlesim_argumanlari(dosyalar: list[Path], capraz: float) -> list[str]:
+    """G3: ffmpeg girdi ve filtre argümanları. Yalnız biçim birleştirme (48 kHz stereo) ve eşit güç (qsin) çapraz
+    geçiş; ses kazancı, loudnorm, sıkıştırma ya da kırpma yoktur."""
+    girdi, filtre = [], []
+    for i, d in enumerate(dosyalar):
+        girdi += ["-i", str(d)]
+        filtre.append(f"[{i}:a]aresample=48000,aformat=sample_fmts=fltp:channel_layouts=stereo[g{i}]")
+    son = "g0"
+    for i in range(1, len(dosyalar)):
+        filtre.append(f"[{son}][g{i}]acrossfade=d={capraz:g}:c1=qsin:c2=qsin[x{i}]")
+        son = f"x{i}"
+    return [*girdi, "-filter_complex", ";".join(filtre), "-map", f"[{son}]"]
+
+
 def birlestir(gorev: dict, ayar: dict) -> dict:
-    """Parçaları ölçer, -16 LUFS'a eşitleyip çapraz geçişle birleştirir, iki geçişli loudnorm uygular.
-    Çıktı: cikti/ses.m4a ve cikti/bolumler.json."""
+    """G3 (14 Kasım 2026): parçaları Suno'dan geldiği gibi, kesmeden ve eşitlemeden, eşit güç eğrili çapraz geçişle
+    birleştirir; loudnorm ya da başka master işlemi yoktur. Çıktı: cikti/ses.m4a ve cikti/bolumler.json."""
     a = ayar["ses"]
     dosyalar = ses_dosyalari(gorev)
     eksik = [d.name for d in dosyalar if not d.exists()]
@@ -77,33 +91,9 @@ def birlestir(gorev: dict, ayar: dict) -> dict:
         raise FileNotFoundError(f"ses klasöründe eksik dosya: {', '.join(eksik)}")
     olcumler = [olc(d, a["sessizlik_db"], a["sessizlik_max_sn"]) for d in dosyalar]
     capraz = float(a["capraz_gecis_sn"])
-    hedef = float(a["hedef_lufs"])
-
-    girdi, filtre = [], []
-    for i, (d, o) in enumerate(zip(dosyalar, olcumler)):
-        girdi += ["-i", str(d)]
-        kazanc = hedef - (o["lufs"] if o["lufs"] is not None else hedef)
-        filtre.append(f"[{i}:a]aresample=48000,aformat=sample_fmts=fltp:channel_layouts=stereo,"
-                      f"volume={kazanc:.2f}dB[g{i}]")
-    son = "g0"
-    for i in range(1, len(dosyalar)):
-        filtre.append(f"[{son}][g{i}]acrossfade=d={capraz}:c1=qsin:c2=qsin[x{i}]")
-        son = f"x{i}"
-    zincir = ";".join(filtre)
-    ln = f"loudnorm=I={hedef}:TP={a['tepe_dbtp']}:LRA=11"
-
-    # 1. geçiş: ölç
-    s = calistir(["ffmpeg", "-hide_banner", "-nostats", *girdi, "-filter_complex",
-                  f"{zincir};[{son}]{ln}:print_format=json[o]", "-map", "[o]", "-f", "null", "-"])
-    blok = s.stderr[s.stderr.rfind("{"):s.stderr.rfind("}") + 1]
-    m = json.loads(blok)
-    ln2 = (f"{ln}:measured_I={m['input_i']}:measured_TP={m['input_tp']}:measured_LRA={m['input_lra']}:"
-           f"measured_thresh={m['input_thresh']}:offset={m['target_offset']}:linear=true")
-    # 2. geçiş: uygula
     hedef_dosya = cikti(gorev) / "ses.m4a"
-    calistir(["ffmpeg", "-y", "-hide_banner", "-nostats", *girdi, "-filter_complex",
-              f"{zincir};[{son}]{ln2},aresample=48000[o]", "-map", "[o]", "-c:a", "aac", "-b:a", "320k",
-              str(hedef_dosya)])
+    calistir(["ffmpeg", "-y", "-hide_banner", "-nostats", "-threads", "1",
+              *ham_birlesim_argumanlari(dosyalar, capraz), "-c:a", "aac", "-b:a", "320k", str(hedef_dosya)])
 
     sureler = [o["sure"] for o in olcumler]
     basla = zaman_cizelgesi(sureler, capraz)

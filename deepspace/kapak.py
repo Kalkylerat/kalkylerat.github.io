@@ -61,7 +61,9 @@ def kapak_ciz(gorsel: Path, gorev: dict, ayar: dict, duzen: str, saat: int) -> I
     cy = 0.24 * H if duzen != "sol_alt" else 0.74 * H
     cx = 0.5 * W if duzen == "orta_ust" else 0.3 * W
     golge = np.exp(-(((xx - cx) / (0.42 * W)) ** 2 + ((yy - cy) / (0.26 * H)) ** 2)) * 0.45
-    a *= (1 - golge)[..., None]
+    # veri satırının kenarı da yumuşakça koyulur (15 Kasım 2026, son denetim: açık yüzeyde 168 px'te okunmuyordu)
+    kenar = (np.clip((yy - (H - 160)) / 120, 0, 1) if duzen != "sol_alt" else np.clip((160 - yy) / 120, 0, 1)) * 0.6
+    a *= (1 - np.maximum(golge, kenar))[..., None]
     img = Image.fromarray((np.clip(a, 0, 1) * 255).astype(np.uint8)).convert("RGBA")
     kat = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     d = ImageDraw.Draw(kat)
@@ -79,7 +81,7 @@ def kapak_ciz(gorsel: Path, gorev: dict, ayar: dict, duzen: str, saat: int) -> I
             x += d.textlength(c, font=font) + ara
         return gen
 
-    y0 = 84 if duzen != "sol_alt" else H - 300
+    y0 = {"sol_alt": H - 300, "orta_ust": 52}.get(duzen, 84)  # orta: başlık ufkun üstündeki karanlık göğe çıkar
     if duzen == "orta_ust":
         aralikli((W / 2, y0), no, f_no, (*vurgu, 255), "orta")
         aralikli((W / 2, y0 + 108), ad, f_ad, (*yazi, 255), "orta")

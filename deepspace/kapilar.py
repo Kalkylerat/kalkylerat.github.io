@@ -135,6 +135,11 @@ def metin(yt: dict, ayar: dict, bolumler: dict) -> list[dict]:
                 all(b - a >= 10 for a, b in zip(zamanlar, zamanlar[1:])) and
                 len(zamanlar) == len(bolumler["parcalar"]))
     sonuc.append(_k("bölümler YouTube kuralına uygun", bolum_ok, f"{len(zamanlar)} bölüm"))
+    # G10: bölüm ve reklam zamanı gerçek parça başlangıcı olmalı (ses yeniden yapılınca eski açıklama kalmasın)
+    beklenen = [int(p["basla"]) for p in bolumler["parcalar"]]
+    kayan = [f"{z}/{b}" for z, b in zip(zamanlar, beklenen) if abs(z - b) > 1]
+    sonuc.append(_k("bölüm zamanları sesle aynı", len(zamanlar) == len(beklenen) and not kayan,
+                    "; ".join(kayan[:3]) or "uyumlu"))
     return sonuc
 
 

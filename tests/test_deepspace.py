@@ -520,6 +520,18 @@ def test_G10_reklam_yalnizca_parca_gecislerinde(tmp_path):
     _yaz_bolumler(g, b)
     yt = metin.uret(g, AYAR)
     assert yt["reklam_noktalari"] == [ortak.zaman(p["basla"]) for p in b["parcalar"][1:]]
+    assert not _kirmizi(kapilar.metin(yt, AYAR, b))
+    # ses yeniden yapılınca eski açıklama kalırsa (15 Kasım 2026: 8 sn -> 5 sn, 57 sn kayma) kapı yakalar
+    yeni = _bolumler([450] * 16, capraz=5.0)
+    assert "bölüm zamanları sesle aynı" in _kirmizi(kapilar.metin(yt, AYAR, yeni))
+
+
+def test_G9_surec_notu_master_islemi_iddia_etmez_ve_ozet_tek_paragraf(tmp_path):
+    assert "master" not in metin.SUREC_NOTU.lower()      # G3 (14 Kasım 2026): master işlemi yok
+    g = _gorev(tmp_path)
+    g["ozet"] = "The nearest\nexoplanet orbits a cool red star\n40 light-years away."
+    _yaz_bolumler(g, _bolumler([450] * 16))
+    assert "The nearest exoplanet orbits a cool red star 40 light-years away." in metin.uret(g, AYAR)["aciklama"]
 
 
 # ---------- G11 ----------

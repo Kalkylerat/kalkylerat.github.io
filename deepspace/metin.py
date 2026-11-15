@@ -14,7 +14,7 @@ from .ortak import cikti, seri, zaman
 SUREC_NOTU = (
     "How this mission is made\n"
     "Every mission is built around one route through real worlds. Each piece is designed around its own motif, key "
-    "and sound palette, then selected, sequenced and mastered for long, distraction-free listening. Every fact in "
+    "and sound palette, then selected and sequenced for long, distraction-free listening. Every fact in "
     "the mission log is checked against published sources.\n"
     "Visuals are artist's impressions. The worlds are real."
 )
@@ -51,7 +51,7 @@ def uret(gorev: dict, ayar: dict) -> dict:
         f"{kanal} · Mission {gorev['no']:03d}"
         + (f" · {gorev['ad']}" if gorev.get("ad") else "") + f" · {gorev['hedef']} ({gorev['uzaklik']})",
         "",
-        gorev["ozet"].strip(),
+        " ".join(gorev["ozet"].split()),
         "",
         f"{saat} hours of deep space ambient music for sleep, study and deep focus. "
         "No vocals, no drums, no sudden changes. Ad breaks only fall between pieces.",

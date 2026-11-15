@@ -224,7 +224,7 @@ def test_G6_stil_eki_kadraja_gore(tmp_path):
     """12 Kasım 2026: kısa ortak taban + kadraj eki; derin uzay karesine ufuk/gezegen çağrılmaz."""
     from deepspace import gorev as gorev_mod
     g = ortak.marka_yukle()["gorsel"]
-    assert set(g["kadraj_eki"]) == {"ufuk", "yorunge", "derin"}
+    assert set(g["kadraj_eki"]) == {"ufuk", "ufuk_buz", "ufuk_pus", "yorunge", "derin"}
     for ad, ek in g["kadraj_eki"].items():
         assert len((g["stil_eki"] + " " + ek).split()) <= 70, ad   # sahne istemini bastırmasın
     assert "horizon or a view from orbit" not in g["stil_eki"]
@@ -232,11 +232,24 @@ def test_G6_stil_eki_kadraja_gore(tmp_path):
     assert gorev_mod.kadraj({"tur": "gaz"}) == "yorunge"
     assert gorev_mod.kadraj({"tur": "kayalik"}) == "ufuk"
     assert gorev_mod.kadraj({"tur": "kayalik", "kadraj": "yorunge"}) == "yorunge"
+    # 15 Kasım 2026 önerisi: ufuk eki yüzey türüne göre (buz parlak, puslu Titan yumuşak ışık, yıldızsız)
+    ek = g["kadraj_eki"]
+    assert gorev_mod.kadraj_eki({"tur": "kayalik"}, ek) == ek["ufuk"]
+    assert gorev_mod.kadraj_eki({"tur": "buz"}, ek) == ek["ufuk_buz"]
+    assert gorev_mod.kadraj_eki({"tur": "okyanus"}, ek) == ek["ufuk_pus"]
+    assert gorev_mod.kadraj_eki({"tur": "okyanus", "kadraj": "yorunge"}, ek) == ek["yorunge"]
+    assert gorev_mod.kadraj_eki({"tur": "buz"}, {"ufuk": "U"}) == "U"   # alt ek yoksa ufuk
+    assert "nearly black" not in ek["ufuk_buz"] and "no hard shadows" in ek["ufuk_pus"]
+    # puslu dünyada stil tabanı yıldız istemez (ufuk_pus ile çelişmesin); diğerlerinde aynen kalır
+    assert gorev_mod.YILDIZ_IBARESI in g["stil_eki"]
+    assert "stars" not in gorev_mod.stil_eki({"tur": "okyanus"}, g)
+    assert gorev_mod.stil_eki({"tur": "buz"}, g) == g["stil_eki"]
+    assert gorev_mod.stil_eki({"tur": "okyanus", "kadraj": "yorunge"}, g) == g["stil_eki"]
     parca = [{"ad": "A", "tur": "yildiz", "gorsel_istem": "A star."},
              {"ad": "B", "tur": "buz", "gorsel_istem": "An ice plain."}]
     yol = gorev_mod.gorsel_istemleri({"no": 1, "hedef": "T", "klasor": str(tmp_path), "parca": parca})
     metin = yol.read_text(encoding="utf-8")
-    assert g["kadraj_eki"]["derin"] in metin and g["kadraj_eki"]["ufuk"] in metin
+    assert g["kadraj_eki"]["derin"] in metin and g["kadraj_eki"]["ufuk_buz"] in metin
     assert metin.count(g["stil_eki"]) == 2
 
 
@@ -1447,76 +1460,44 @@ def test_G16_sablon_yazilari_telefon_kuralini_saglar():
     assert m["yazi"]["baslik_font"].startswith("SpaceMono")
 
 
-def _yazi_satirlari(katman):
-    a = np.asarray(katman)[..., 3]
-    return np.nonzero(a.max(axis=1) > 0)[0]
-
-
-def test_G16_kapak_sablonu_uc_duzen():
-    from deepspace import yazi
-    m = ortak.marka_yukle()["sablon"]
-    ust = _yazi_satirlari(yazi.kapak_katmani(1280, 720, "DEEP FOCUS", "2H", "ust"))
-    alt = _yazi_satirlari(yazi.kapak_katmani(1280, 720, "DEEP FOCUS", "2H", "alt"))
-    assert ust.max() < 720 * 0.35 and alt.min() > 720 * 0.6  # başlık üstte / altta
-    k = np.asarray(yazi.kapak_katmani(1280, 720, "DEEP FOCUS", "2H", "etiket"))
-    vurgu = np.array(ortak.rgb(ortak.marka_yukle()["palet"]["vurgu"]))
-    renkli = np.nonzero((np.abs(k[..., :3].astype(int) - vurgu).sum(axis=2) < 30) & (k[..., 3] > 200))[0]
-    beyaz = np.nonzero((k[..., :3].min(axis=2) > 225) & (k[..., 3] > 200))[0]
-    assert renkli.min() < beyaz.min()  # seri etiketi (kehribar) başlığın önünde
-    with pytest.raises(ValueError):
-        yazi.kapak_katmani(1280, 720, "DEEP FOCUS", "2H", "yan")
-    assert m["kapak_baslik"] > m["kapak_etiket"]
-
-
-def test_G16_kanal_kiti_kaynak_gorselden(tmp_path):
+def test_G16_kanal_kiti_defter_tasarimindan(tmp_path):
+    """15 Kasım 2026: kit, kanaldaki onaylı defter banner ve profiliyle aynıdır; fotoğraf zemini yok."""
     from PIL import Image
     from deepspace import marka_kiti
-    kaynak = KOK / "deepspace" / "marka" / "kaynak" / "A2.png"
-    yollar = marka_kiti.uret(kaynak, tmp_path)
+    yollar = marka_kiti.uret(tmp_path)
     boyut = {p.name: Image.open(p).size for p in yollar}
     assert boyut == {"banner.jpg": (2560, 1440), "profil.png": (800, 800), "filigran.png": (150, 150),
-                     "marka_kitabi.jpg": (1600, 1500)}
+                     "marka_kitabi.jpg": marka_kiti.KITAP_BOY}
+    assert (tmp_path / "banner.jpg").read_bytes() == marka_kiti.KAYNAK_BANNER.read_bytes()
+    assert (tmp_path / "profil.png").read_bytes() == marka_kiti.KAYNAK_PROFIL.read_bytes()
     assert Image.open(tmp_path / "filigran.png").mode == "RGBA"
     assert (tmp_path / "banner.jpg").stat().st_size < 6 * 1024 * 1024  # YouTube banner sınırı
+    for ad in ("banner.jpg", "profil.png", "filigran.png", "marka_kitabi.jpg"):  # depodaki kit de eşit
+        assert (KOK / "deepspace" / "marka" / ad).read_bytes() == (tmp_path / ad).read_bytes(), ad
+    assert not (KOK / "deepspace" / "marka" / "kaynak" / "A2.png").exists()  # eski fotoğraf zemini kitte yok
 
 
-def test_G16_filigran_probe_halkada_kenarlar_seffaf():
-    from PIL import Image
+def test_G16_filigran_halka_yedi_kenarlar_seffaf():
     from deepspace import marka_kiti
-    a = np.asarray(marka_kiti.filigran())[..., 3]
+    f = np.asarray(marka_kiti.filigran())
+    a = f[..., 3]
     assert max(a[0].max(), a[-1].max(), a[:, 0].max(), a[:, -1].max()) == 0  # kenarda kesilme yok
-    p = Image.new("RGBA", (150, 150), (0, 0, 0, 0))
-    marka_kiti.probe_ekle(p, 75, 75, marka_kiti.FILIGRAN_PROBE)
-    ys, xs = np.nonzero(np.asarray(p)[..., 3] > 0)
-    ic_r = (marka_kiti.FILIGRAN_HALKA[1] - marka_kiti.FILIGRAN_HALKA[0]) / 2 - 3
-    assert np.hypot(xs + 0.5 - 75, ys + 0.5 - 75).max() <= ic_r - 3  # panel uçları halkanın içinde
+    vurgu = np.array(ortak.rgb(ortak.marka_yukle()["palet"]["vurgu"]))
+    kehribar = (np.abs(f[..., :3].astype(int) - vurgu).sum(axis=2) < 60) & (a > 200)
+    assert kehribar.sum() > 0.08 * 150 * 150  # halka ve 7 kehribar, 150 px'te seçilir
 
 
-def test_G16_banner_yazi_probe_ve_ufuk_gorunen_bantta():
-    from PIL import Image
-    from deepspace import marka_kiti
-    gx, gy = marka_kiti.GUVENLI_ALAN
-    x0, y0, x1, y1 = (2560 - gx) / 2, (1440 - gy) / 2, (2560 + gx) / 2, (1440 + gy) / 2
-    for ciz in (lambda k: marka_kiti._baslik(k, "DEEP SPACE LOG", marka_kiti.ALT_YAZI, marka_kiti.BANNER_BASLIK_Y,
-                                             120, 34, 560),
-                lambda k: marka_kiti.probe_ekle(k, 1280, marka_kiti.BANNER_PROBE_Y, marka_kiti.BANNER_PROBE_BOY)):
-        k = Image.new("RGBA", (2560, 1440), (0, 0, 0, 0))
-        ciz(k)
-        ys, xs = np.nonzero(np.asarray(k)[..., 3] > 0)
-        assert xs.min() >= x0 and xs.max() <= x1 and ys.min() >= y0 and ys.max() <= y1
-    ana = Image.open(KOK / "deepspace" / "marka" / "kaynak" / "A2.png").convert("RGB")
-    L = np.asarray(marka_kiti._banner_kaynak(ana).resize((2560, 1440)).convert("L"), float)
-    ufuk = 700 + int(L[700:1200, 1280].argmax())  # ufuk kemerinin parlak kenarı, ortada
-    assert marka_kiti.BANNER_PROBE_Y < ufuk <= y1
-
-
-def test_G15_komut_kilidi_cikis_3(tmp_path, monkeypatch, capsys):
-    from deepspace import gorev as cli, is_kaydi
-    monkeypatch.setattr(cli, "gorev_yukle", lambda k: (_gorev(tmp_path, no=2), AYAR))
-    monkeypatch.setattr(is_kaydi, "gecerli_mi", lambda k, i: (False, "denetim yok"))
-    assert cli.main(["video", str(tmp_path)]) == 3
-    assert cli.main(["hepsi", str(tmp_path)]) == 3
-    assert "marka" in capsys.readouterr().out
+def test_G16_kit_kapak_ornegi_G7_uyar():
+    """Kit sayfasındaki kapak örneği G7 düzenidir: gerçek görev no + görev adı (en çok 3 kelime), seri adı/süre yok."""
+    from deepspace import kapak, marka_kiti
+    g = marka_kiti._ornek_gorev()
+    no, ad = kapak.kapak_yazilari(g, {}, 2)
+    assert len(f"{no} {ad}".split()) <= 3
+    assert "DEEP FOCUS" not in ad and "2H" not in ad
+    k = marka_kiti.ornek_kapak()
+    assert k.size == (1280, 720)
+    from deepspace import yazi
+    assert not hasattr(yazi, "kapak_katmani")  # eski DEEP FOCUS / 2H şablonu kaldırıldı
 
 
 def test_G16_onaysiz_marka_kitiyle_kapak_ve_video_calismaz(tmp_path, monkeypatch):

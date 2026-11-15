@@ -105,7 +105,8 @@ bu video yayına hazır mı? Kanıtla." Denetçi rapor.json'u okumadan ya da rap
 kararı okur, kapaklardan ve videodan birkaç kareyi kendi de görür.
 
 ## Görseller ve marka (G16)
-- Marka kiti onaylı (11 Kasım 2026): `deepspace/marka/` (banner, profil, filigran, marka kitabı, `kaynak/A2.png`) ve
+- Marka kiti (11 Kasım 2026 onayı; 15 Kasım'da kanaldaki defter banner ve halka-7 profile eşitlendi, yeniden
+  denetimde): `deepspace/marka/` (banner, profil, filigran, marka kitabı) ve
   `marka.toml`. Renk A: film tonu yok, kehribar yalnız vurgu. Yazı Space Mono. Kit yeniden üretimi: `gorev kanal`.
 - Görsel dili (`marka.toml [gorsel] stil_eki`): karanlık durgun ufuk, gökyüzünü kaplayan tek büyük gök cismi, bol
   boşluk; insan, araç, sonda, bina yok (görsel PROBE-7'nin kamerasıdır); ışık fiziği doğru (G13). Görsel durağandır (G14).

@@ -1,10 +1,18 @@
-"""Kanal marka kiti (G16): banner, profil, filigran ve tek sayfalık marka kitabı, kitin kaynak görselinden.
+"""Kanal marka kiti (G16): banner, profil, filigran ve tek sayfalık marka kitabı, kayıt defteri dilinde.
 
-Kaynak `deepspace/marka/kaynak/A2.png` (sahibinin seçtiği ana görsel, 11 Kasım 2026). Renk tonu `marka.toml [filtre]`,
-yazılar `[sablon]` ve Space Mono. Kit değişirse marka istasyonu yeniden denetlenir ve sahibinin onayı yenilenir.
+Kaynak, kanalda 12 Kasım 2026'dan beri duran ve sahibinin onayladığı defter tasarımıdır
+(`deepspace/marka/taslak/banner_defter.jpg`, `profil_defter.png`; çizen kod `taslak/defter_kiti.py`). Banner ve
+profil bu dosyaların bayt bayt kopyasıdır (kanaldakiyle aynı kalsın diye yeniden çizilmez). Filigran profildeki işaretin
+(kehribar yörünge halkası içinde "7") şeffaf küçültmesidir. Kit sayfası bunları, G7 kapak düzenini (`kapak.kapak_ciz`)
+ve paleti gösterir. Fotoğraf zemini ve sahneye çizilmiş sonda yoktur (gorsel-dili 7). Kit değişirse marka istasyonu
+yeniden denetlenir ve sahibinin onayı yenilenir.
 """
 from __future__ import annotations
 
+import io
+import random
+import shutil
+import tomllib
 from pathlib import Path
 
 import numpy as np
@@ -12,142 +20,134 @@ from PIL import Image, ImageDraw
 
 from . import yazi
 from .ortak import KOK, marka_yukle, rgb
-from .renk import marka_filtresi
-from .renk import uygula as renk_uygula
-from .sahne import probe_sprite
 
-KAYNAK = KOK / "marka" / "kaynak" / "A2.png"
-ALT_YAZI = "SPACE AMBIENT MUSIC FOR SLEEP & DEEP FOCUS"  # sıklık sözü yok (11 Kasım 2026)
+TASLAK = KOK / "marka" / "taslak"
+KAYNAK_BANNER = TASLAK / "banner_defter.jpg"   # sahibinin onayı, kanalda 12 Kasım 2026'dan beri
+KAYNAK_PROFIL = TASLAK / "profil_defter.png"
+ORNEK_GOREV = KOK / "gorevler" / "001-trappist" / "gorev.toml"  # kapak örneğinin gerçek verisi
 GUVENLI_ALAN = (1546, 423)  # YouTube banner'ında her cihazda görünen orta alan (2560x1440 içinde)
-# Banner kaynağı: ufuk kemeri güvenli banda girsin diye görsel yukarı kaydırılır (kaynağın 765 satırında 80 satır);
-# alttaki boşluk ufkun altındaki karanlık zeminin (640. satırdan sonrası) dikey esnetilmesiyle dolar.
-BANNER_KAYDIR, BANNER_ZEMIN = 80 / 765, 640 / 765
-BANNER_BASLIK_Y, BANNER_PROBE_Y, BANNER_PROBE_BOY = 510, 812, 70
-FILIGRAN_HALKA, FILIGRAN_PROBE = (6, 144), 68  # PROBE-7'nin panel uçları halkanın iç kenarından ~6 px içeride
+FILIGRAN_BOY = 150
+FILIGRAN_DISK = 0.94  # mürekkep diskin çapı / filigran kenarı: kenarlar şeffaf kalır
+KITAP_BOY = (1600, 1500)
 
 
-def _filtrele(img: Image.Image) -> Image.Image:
-    t = marka_filtresi()
-    rgb_img = img.convert("RGB")
-    return Image.fromarray(renk_uygula(np.asarray(rgb_img), t)) if t else rgb_img
-
-
-def probe_ekle(img: Image.Image, x: float, y: float, boy: int) -> None:
-    rgb_, alfa = probe_sprite(boy)
-    s = Image.fromarray((np.concatenate([rgb_, alfa], axis=2) * 255).astype(np.uint8), "RGBA")
-    img.alpha_composite(s, (int(x - s.width / 2), int(y - s.height / 2)))
-
-
-def _baslik(img: Image.Image, ust: str, alt: str, y: float, boy: int, alt_boy: int, cizgi: int) -> None:
+def _vurgu_maskesi(profil: Image.Image) -> np.ndarray:
+    """Profildeki kehribar işaretin örtüsü (0..1): mürekkep zeminden vurgu rengine olan uzaklık."""
     m = marka_yukle()["palet"]
-    katman = Image.new("RGBA", img.size, (0, 0, 0, 0))
-    d = ImageDraw.Draw(katman)
-    W = img.width
-    yazi._aralikli(d, ust, yazi.font(boy, "normal"), boy * 0.27, W / 2, y, (*rgb(m["yazi"]), 255), 2)
-    cy = y + boy * 1.45
-    d.line([(W / 2 - cizgi / 2, cy), (W / 2 + cizgi / 2, cy)], fill=(*rgb(m["vurgu"]), 255), width=max(2, boy // 30))
-    yazi._aralikli(d, alt, yazi.font(alt_boy, "kalin"), alt_boy * 0.15, W / 2, cy + alt_boy * 0.6,
-                   (*rgb(m["vurgu"]), 255), 2)
-    img.alpha_composite(katman)
+    arka, vurgu = np.array(rgb(m["arka"]), float), np.array(rgb(m["vurgu"]), float)
+    a = np.asarray(profil.convert("RGB"), float)
+    yon = vurgu - arka
+    return np.clip(((a - arka) @ yon) / (yon @ yon), 0, 1)
 
 
-def _kirp_169(img: Image.Image) -> Image.Image:
-    W, H = img.size
-    h = round(W * 9 / 16)
-    return img.crop((0, 0, W, min(H, h)))
-
-
-def _banner_kaynak(ana: Image.Image) -> Image.Image:
-    """16:9 kaynak, ufuk yukarıda: üstten BANNER_KAYDIR kırpılır, ufkun altındaki zemin esnetilerek boy korunur."""
-    k = _kirp_169(ana)
-    W, H = k.size
-    ust, kes = round(H * BANNER_KAYDIR), round(H * BANNER_ZEMIN)
-    yeni = Image.new("RGB", (W, H))
-    yeni.paste(k.crop((0, ust, W, kes)), (0, 0))
-    yeni.paste(k.crop((0, kes, W, H)).resize((W, H - (kes - ust)), Image.LANCZOS), (0, kes - ust))
-    return yeni
-
-
-def banner(ana: Image.Image) -> Image.Image:
-    b = _filtrele(_banner_kaynak(ana).resize((2560, 1440), Image.LANCZOS)).convert("RGBA")
-    _baslik(b, "DEEP SPACE LOG", ALT_YAZI, BANNER_BASLIK_Y, 120, 34, 560)
-    probe_ekle(b, 2560 * 0.5, BANNER_PROBE_Y, BANNER_PROBE_BOY)
-    return b
-
-
-def profil(ana: Image.Image) -> Image.Image:
-    """800x800: ufuk kemerinin ortası, ortada PROBE-7 (98 px dairede de seçilir)."""
-    t = _filtrele(ana)
-    W, H = t.size
-    k = min(W, H) * 600 // 768
-    kare = t.crop((W // 2 - k // 2, 0, W // 2 + k // 2, k)).resize((800, 800), Image.LANCZOS).convert("RGBA")
-    kare.alpha_composite(Image.new("RGBA", (800, 800), (*rgb(marka_yukle()["palet"]["arka"]), 90)))
-    probe_ekle(kare, 400, 330, 360)
-    return kare
-
-
-def filigran() -> Image.Image:
-    """150x150 şeffaf video filigranı: PROBE-7 ve ince kehribar halka."""
+def filigran(profil: Image.Image | None = None) -> Image.Image:
+    """150x150 şeffaf video filigranı: profildeki halka-7 işareti, yarı saydam mürekkep disk üstünde kehribar."""
+    profil = profil or Image.open(KAYNAK_PROFIL)
     m = marka_yukle()["palet"]
-    f = Image.new("RGBA", (150, 150), (0, 0, 0, 0))
-    a, z = FILIGRAN_HALKA
-    ImageDraw.Draw(f).ellipse([a, a, z, z], fill=(*rgb(m["arka"]), 150), outline=(*rgb(m["vurgu"]), 230),
-                              width=3)
-    probe_ekle(f, 75, 75, FILIGRAN_PROBE)
-    return f
+    B, k = FILIGRAN_BOY, 4
+    buyuk = B * k
+    isaret = Image.fromarray((_vurgu_maskesi(profil) * 255).astype(np.uint8), "L").resize((buyuk, buyuk), Image.LANCZOS)
+    disk = Image.new("L", (buyuk, buyuk), 0)
+    r = buyuk * FILIGRAN_DISK / 2
+    ImageDraw.Draw(disk).ellipse([buyuk / 2 - r, buyuk / 2 - r, buyuk / 2 + r, buyuk / 2 + r], fill=150)
+    f = Image.new("RGBA", (buyuk, buyuk), (*rgb(m["arka"]), 0))
+    f.putalpha(disk)
+    ust = Image.new("RGBA", (buyuk, buyuk), (*rgb(m["vurgu"]), 0))
+    ust.putalpha(isaret.point(lambda v: round(v * 0.92)))
+    f.alpha_composite(ust)
+    f = f.resize((B, B), Image.LANCZOS)
+    a = np.asarray(f).copy()
+    a[[0, -1], :, 3] = 0
+    a[:, [0, -1], 3] = 0
+    return Image.fromarray(a, "RGBA")
 
 
-def ornek_kapak(ana: Image.Image) -> Image.Image:
-    k = _filtrele(_kirp_169(ana).resize((1280, 720), Image.LANCZOS)).convert("RGBA")
-    k.alpha_composite(yazi.kapak_katmani(1280, 720, "DEEP FOCUS", "2H", "ust"))
-    probe_ekle(k, 1280 * 0.84, 720 * 0.40, 54)
-    return k
+def _ornek_gorev() -> dict:
+    with open(ORNEK_GOREV, "rb") as f:
+        g = tomllib.load(f)
+    return {k: g.get(k, "") for k in ("no", "ad", "hedef", "koordinat", "uzaklik")}
+
+
+def ornek_kapak() -> Image.Image:
+    """G7 kapak düzeni (`kapak.kapak_ciz`, sol üst varyant) gerçek 001 verisiyle; zemin mürekkep ve seyrek yıldız.
+
+    Gerçek kapakta zemin, görevin ayrı bir parçasının sahnesidir (`kapak_parcalari`); kit yalnız düzeni gösterir."""
+    from .kapak import H, W, kapak_ciz
+    m = marka_yukle()["palet"]
+    zemin = Image.new("RGB", (W, H), rgb(m["arka"]))
+    d = ImageDraw.Draw(zemin)
+    rs = random.Random(7)
+    ikincil = np.array(rgb(m["yazi_ikincil"]), float)
+    arka = np.array(rgb(m["arka"]), float)
+    for _ in range(260):
+        x, y, t = rs.uniform(0, W), rs.uniform(0, H), 0.15 + 0.55 * rs.random() ** 2
+        d.point((x, y), fill=tuple(int(v) for v in arka + (ikincil - arka) * t))
+    tampon = io.BytesIO()
+    zemin.save(tampon, "PNG")
+    tampon.seek(0)
+    return kapak_ciz(tampon, _ornek_gorev(), {}, "sol_ust", 2)
+
+
+def _daire(img: Image.Image, boy: int) -> tuple[Image.Image, Image.Image]:
+    kucuk = img.convert("RGB").resize((boy, boy), Image.LANCZOS)
+    maske = Image.new("L", (boy * 4, boy * 4), 0)
+    ImageDraw.Draw(maske).ellipse([0, 0, boy * 4 - 1, boy * 4 - 1], fill=255)
+    return kucuk, maske.resize((boy, boy), Image.LANCZOS)
 
 
 def kitap(b: Image.Image, p: Image.Image, fil: Image.Image, kapak: Image.Image) -> Image.Image:
+    """Tek sayfa kit özeti (sahibine ve ajanlara referans). Yalnız kitin kendi dosyaları ve gerçek veri."""
     m = marka_yukle()
-    gri, beyaz = (170, 175, 190), rgb(m["palet"]["yazi"])
-    S = Image.new("RGB", (1600, 1500), (10, 12, 20))
+    gri, beyaz, vurgu = rgb(m["palet"]["yazi_ikincil"]), rgb(m["palet"]["yazi"]), rgb(m["palet"]["vurgu"])
+    S = Image.new("RGB", KITAP_BOY, rgb(m["palet"]["arka"]))
     d = ImageDraw.Draw(S)
     yazi._aralikli(d, "DEEP SPACE LOG  ·  BRAND KIT", yazi.font(34, "kalin"), 6, 800, 40, (*beyaz, 255), 0)
-    S.paste(b.convert("RGB").resize((1000, 562)), (40, 120))
-    d.text((40, 690), "Banner 2560x1440 (yazı güvenli alanda)", font=yazi.font(18), fill=gri)
-    S.paste(p.convert("RGB").resize((240, 240)), (1100, 120))
-    av = p.convert("RGB").resize((98, 98))
-    maske = Image.new("L", (98, 98), 0)
-    ImageDraw.Draw(maske).ellipse([0, 0, 97, 97], fill=255)
-    S.paste(av, (1370, 120), maske)
-    d.text((1100, 370), "Profil 800x800 · 98 px daire", font=yazi.font(18), fill=gri)
-    S.paste(fil, (1100, 420), fil)
-    d.text((1270, 480), "Filigran 150x150", font=yazi.font(18), fill=gri)
-    S.paste(kapak.convert("RGB").resize((760, 428)), (40, 740))
-    S.paste(kapak.convert("RGB").resize((168, 94)), (820, 740))
-    d.text((40, 1178), "Kapak şablonu 1280x720 (en fazla 3 kelime) · sağda 168x94", font=yazi.font(18), fill=gri)
+    d.line([(680, 96), (920, 96)], fill=vurgu, width=2)
+    S.paste(b.convert("RGB").resize((1000, 562), Image.LANCZOS), (40, 130))
+    d.text((40, 700), "Banner 2560x1440 · yazı ortadaki 1546x423 güvenli alanda", font=yazi.font(18), fill=gri)
+    S.paste(p.convert("RGB").resize((240, 240), Image.LANCZOS), (1100, 130))
+    for boy, x in ((98, 1370), (40, 1490)):
+        av, maske = _daire(p, boy)
+        S.paste(av, (x, 130), maske)
+    d.text((1100, 380), "Profil 800x800 · 98 px ve 40 px daire", font=yazi.font(18), fill=gri)
+    yama = Image.new("RGB", (190, 190), (46, 52, 66))  # filigran video üstünde orta tonlu bir zeminde
+    yama.paste(fil, (20, 20), fil)
+    S.paste(yama, (1100, 420))
+    d.text((1310, 500), "Filigran 150x150", font=yazi.font(18), fill=gri)
+    d.text((1310, 524), "şeffaf PNG", font=yazi.font(18), fill=gri)
+    S.paste(kapak.convert("RGB").resize((760, 428), Image.LANCZOS), (40, 750))
+    S.paste(kapak.convert("RGB").resize((168, 94), Image.LANCZOS), (820, 750))
+    d.text((40, 1190), "Kapak düzeni 1280x720 (G7): görev no + görev adı, gerçek veri satırı, köşe nişanları.",
+           font=yazi.font(18), fill=gri)
+    d.text((40, 1216), "Zemin görevin ayrı bir parçasının sahnesidir · sağda 168x94", font=yazi.font(18), fill=gri)
     for i, (ad, h) in enumerate(m["palet"].items()):
-        x, y = 1100 + (i % 3) * 160, 620 + (i // 3) * 160
+        x, y = 1100 + (i % 3) * 160, 650 + (i // 3) * 160
         d.rectangle([x, y, x + 130, y + 90], fill=h, outline=(60, 64, 80))
         d.text((x, y + 96), ad, font=yazi.font(16), fill=gri)
         d.text((x, y + 116), h, font=yazi.font(16), fill=gri)
     ton = m.get("filtre", {}).get("secim") or "yok"
-    for j, (metin, boy) in enumerate([("Yazı: Space Mono (OFL)", 22), (f"Film tonu: {ton}", 18),
-                                      ("Vurgu: kehribar çizgi ve etiket", 18), ("PROBE-7 gökte, küçük", 18)]):
-        d.text((1100, 960 + j * 34), metin, font=yazi.font(boy, "kalin" if j == 0 else "normal"),
+    for j, metin in enumerate(["Yazı: Space Mono (OFL)", f"Film tonu: {ton}", "Vurgu: kehribar, yüzey başına tek çizgi",
+                               "PROBE-7: halka içinde 7, yalnız arayüzde"]):
+        d.text((1100, 990 + j * 34), metin, font=yazi.font(22 if j == 0 else 18, "kalin" if j == 0 else "normal"),
                fill=beyaz if j == 0 else gri)
-    d.text((40, 1230), "Görsel dili: karanlık durgun ufuk, gökyüzünü kaplayan tek galaksi/bulutsu, bol boşluk,",
-           font=yazi.font(20), fill=beyaz)
-    d.text((40, 1262), "üstte ince harf aralıklı başlık. Her sahne uzayda; insan figürü yok ya da çok küçük.",
-           font=yazi.font(20), fill=beyaz)
+    for j, metin in enumerate([
+            "Görsel dili: PROBE-7'nin kamerası. Karanlık, durgun bir yabancı ufuk ya da yörüngeden görünüm;",
+            "tek büyük gerçek gök cismi, bol boşluk. Sahnede insan, araç, sonda, bina yok; ışık fiziği doğru.",
+            "Grafik katman kayıt defteri: mürekkep zemin, ince çizgi, gerçek veri. Kapakta seri adı, süre ve",
+            "söz veren yazı yok."]):
+        d.text((40, 1290 + j * 34), metin, font=yazi.font(20), fill=beyaz)
     return S
 
 
-def uret(kaynak: Path = KAYNAK, hedef: Path = KOK / "marka") -> list[Path]:
+def uret(hedef: Path = KOK / "marka", banner_kaynak: Path = KAYNAK_BANNER,
+         profil_kaynak: Path = KAYNAK_PROFIL) -> list[Path]:
     hedef = Path(hedef)
     hedef.mkdir(parents=True, exist_ok=True)
-    ana = Image.open(kaynak).convert("RGB")
-    b, p, fil = banner(ana), profil(ana), filigran()
     yollar = [hedef / "banner.jpg", hedef / "profil.png", hedef / "filigran.png", hedef / "marka_kitabi.jpg"]
-    b.convert("RGB").save(yollar[0], quality=92)
-    p.convert("RGB").save(yollar[1])
+    shutil.copyfile(banner_kaynak, yollar[0])   # kanaldaki onaylı dosya, değiştirilmeden
+    shutil.copyfile(profil_kaynak, yollar[1])
+    b, p = Image.open(yollar[0]), Image.open(yollar[1])
+    fil = filigran(p)
     fil.save(yollar[2])
-    kitap(b, p, fil, ornek_kapak(ana)).save(yollar[3], quality=90)
+    kitap(b, p, fil, ornek_kapak()).save(yollar[3], quality=90)
     return yollar

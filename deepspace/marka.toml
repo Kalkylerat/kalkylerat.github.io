@@ -1,5 +1,5 @@
 # Deep Space Log marka sistemi: bütün görseller (sahne, kapak, yazı katmanları, banner) bu dosyadan beslenir.
-# Kit dosyaları deepspace/marka/ altında (banner, profil, filigran, marka kitabı, kaynak/A2.png). Kit ya da bu dosya
+# Kit dosyaları deepspace/marka/ altında (banner, profil, filigran, marka kitabı; kayıt defteri dili, 15 Kasım 2026). Kit ya da bu dosya
 # değişirse marka istasyonu yeniden denetlenir ve sahibinin onayı yenilenir (G16).
 # Renkler: arka -> en koyu zemin, gölge -> ikinci koyu, ana -> markanın ana rengi, vurgu -> az kullanılan ışık,
 # yazi -> başlık rengi, yazi_ikincil -> alt satırlar.
@@ -37,19 +37,18 @@ short_etiket = 40
 # Görsel dili: kurallar .claude/skills/gorsel-dili/SKILL.md (12 Kasım 2026). Karanlık, durgun bir yabancı ufuk ya da
 # yörüngeden görünüm ve TEK büyük gerçek gök cismi. Sahnede insan, araç, sonda, bina, iz yok; PROBE-7 yalnız
 # arayüzde. Her sahne uzayda; ışık fiziği doğru (G13).
-model = "gpt-image-2"  # 12 Kasım 2026 pilotu: FLUX zemini gri, ışığı soğuk bırakıyordu; son hâl Topaz 2x (topaz-image-upscale-v2)
+model = "gpt-image-2"  # 12 Kasım 2026 pilotu: FLUX zemini gri, ışığı soğuk bırakıyordu. Taslak 2K (2048 px), kalite orta;
+# son dosya ücretsiz Lanczos ile 2560x1440 (gorsel_denetim.lanczos_buyut), sonra `gorev pozla` (G6). Topaz yok.
 stil_eki = "Raw spacecraft photograph, low-key exposure, restrained natural colour, deep black sky with pin-sharp stars, calm and still, wide 16:9. No people, no vehicles, no probes, no buildings, no text."
 yasaklar = ["neon pink", "purple gradient", "lens flare overload", "emoji", "text in image", "watermark"]
 
 [gorsel.kadraj_eki]  # 12 Kasım 2026 (G6): kadraja göre kısa ek; sahne istemi + kadraj eki + stil_eki
-ufuk = "Seen from just above a bare surface: the ground is matte and nearly black, catching thin rims of starlight only on the edges that face the light."
+# ÖNERİ, sahibinin onayı bekliyor (15 Kasım 2026, denetçi bulgusu): ufuk eki yüzey türüne göre ayrıldı; eski tek ek
+# ("the ground is matte and nearly black") buzlu ve puslu duraklarda fiziksel olarak yanlıştı. Seçim gorev.kadraj_eki():
+# ufuk kadrajında tur = buz -> ufuk_buz, tur = okyanus (yalnız sıvısı gözlenmiş cisim, ör. Titan) -> ufuk_pus,
+# diğerleri (kayalik) -> ufuk. Onay gelmezse ufuk_buz ve ufuk_pus silinir, ufuk eski metne döner.
+ufuk = "Seen from just above a bare rocky surface: dark ground in low-key light, lit only on the faces turned to the star, every shadow side falling to hard black."
+ufuk_buz = "Seen from just above a frozen surface: the ice reflects far more light than rock, clean and bright where it faces the star, every ridge casting a crisp black shadow."
+ufuk_pus = "Seen from just above the surface under a thick uniform haze: dim, soft, even light from a faintly glowing sky, no hard shadows, no stars visible."
 yorunge = "Seen from orbit: a single world off-centre, part lit by its star and part in pure black night, surrounded by empty black space."
 derin = "Pure deep space, the whole frame is open sky: a dense field of faint stars, a faint glow of starlight around the star."
-
-[hareket]
-# Görseli videoya çeviren yapay zekâ klibi (image-to-video). Klip gorsel/NN.mp4 olarak konur; hat onu dikişsiz döngüye
-# çevirir (klip.py), 4K'ya ölçekler, marka tonunu uygular. Klip yoksa görselden canlı tablo (tablo.py) yapılır.
-# Döngü için başlangıç ve bitiş karesine AYNI görsel verilir. Kamera sabit; yalnızca ortam hareket eder.
-modeller = ["kling-4", "bytedance-seedance-v2.5", "veo-3.1-fast-generate-001"]  # ElevenLabs'te ücretli plan ister
-sure_sn = 10
-istem_eki = "Locked-off static camera, no camera movement, no cuts, no zoom. Only gentle, slow ambient motion in the scene; the giant celestial body stays perfectly still in the sky. The last frame returns exactly to the first frame for a seamless loop. Calm, meditative pacing. No text, no people appearing or disappearing, no morphing, no flickering textures."

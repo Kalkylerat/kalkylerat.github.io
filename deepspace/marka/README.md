@@ -1,24 +1,25 @@
 # Deep Space Log marka kiti (G16)
 
-Durum: denetimde. Sahibi 11 Kasım 2026'da taslağı onayladı; kesin kayıt denetçi GEÇTİ'den sonra `gorev marka --onay`
-ile yapılır. Renk seçimi bize bırakıldı: **A, film tonu yok** (`marka.toml [filtre] secim = ""`).
-Kehribar (`#e8c48a`) yalnız vurgu: başlık altı çizgi ve etiket.
+Durum: denetimde. Sahibi 11 Kasım 2026'da taslağı onayladı (renk **A, film tonu yok**, `marka.toml [filtre] secim = ""`);
+12 Kasım 2026'dan beri kanalda kayıt defteri dilindeki banner ve profil duruyor (sahibi: "koyu mod harika olmuş").
+15 Kasım 2026: kit bu tasarıma eşitlendi. Kesin kayıt denetçi GEÇTİ'den sonra `gorev marka --onay` ile yapılır.
+Görsel ve grafik dilinin kuralları: `.claude/skills/gorsel-dili/SKILL.md` (bölüm 7).
 
 | Dosya | Ne | Kullanım |
 |---|---|---|
-| `kaynak/A2.png` | Ana görsel (ElevenLabs flux-3-image, 1360x768) | Banner, profil, kit sayfası bundan üretilir |
-| `banner.jpg` | 2560x1440, yazı ortadaki 1546x423 güvenli alanda | YouTube kanal başlığı |
-| `profil.png` | 800x800, ortada PROBE-7 (98 px dairede seçilir) | Kanal profil resmi |
-| `filigran.png` | 150x150 şeffaf | Studio > Özelleştirme > Video filigranı |
-| `marka_kitabi.jpg` | Tek sayfa özet | Sahibine ve ajanlara referans |
+| `banner.jpg` | 2560x1440 uçuş kaydı sayfası, yazı ortadaki 1546x423 güvenli alanda; `taslak/banner_defter.jpg`'nin aynısı | YouTube kanal başlığı |
+| `profil.png` | 800x800, mürekkep zeminde kehribar yörünge halkası içinde "7"; `taslak/profil_defter.png`'nin aynısı (98 ve 40 px dairede seçilir) | Kanal profil resmi |
+| `filigran.png` | 150x150 şeffaf: profildeki halka-7 işareti, yarı saydam mürekkep disk üstünde | Studio > Özelleştirme > Video filigranı |
+| `marka_kitabi.jpg` | Tek sayfa özet: banner, profil, filigran, kapak düzeni, palet | Sahibine ve ajanlara referans |
 
-- Yeniden üretmek: `py -m deepspace.gorev kanal` (ya da `marka_kiti.uret()`).
-- Kapak şablonu (`yazi.kapak_katmani`, `marka.toml [sablon]`): ortada harf aralıklı ince başlık (Space Mono), kehribar
-  çizgi ve kalın kehribar etiket, gökte küçük PROBE-7. 3 düzen: başlık üstte, başlık altta, etiket önde. En fazla 3
-  kelime (G7): başlık seri adı (`DEEP FOCUS`), etiket süre (`2H`). Hedef adı ve görev numarası video başlığındadır.
-- Bilinen sınırlama: kapaktaki etiket (`2H`, 22 px) 168x94 önizlemede ~2 px kalır, orada okunmaz; şablon
-  değişikliği ayrı bir iş.
-- Banner: ufuk kemeri ve PROBE-7 her cihazda görünen bantta (y 508–931); bunun için kaynak yukarı kaydırılır,
-  ufkun altındaki zemin esnetilir (`marka_kiti._banner_kaynak`). Filigranda PROBE-7 halkanın içinde, kenarlar şeffaf.
+- Yeniden üretmek: `py -m deepspace.gorev kanal` (ya da `marka_kiti.uret()`). Banner ve profil onaylı dosyaların
+  bayt bayt kopyasıdır (kanaldakiyle aynı kalır); onları çizen kod `taslak/defter_kiti.py`.
+- Kapak düzeni (G7, `deepspace/kapak.py`): kehribar görev numarası, altında görev adı (büyük yazı en çok 3 kelime, ör.
+  `001 SEVEN WORLDS`), kehribar çizgi, küçük gerçek veri satırı (hedef, gök koordinatı, uzaklık), köşe nişanları, küçük
+  `DEEP SPACE LOG · PROBE-7` imzası. Seri adı, süre ve söz veren yazı kapağa yazılmaz. Üç varyant görevin üç ayrı
+  parçasının sahnesidir (`kapak_parcalari`). Kit sayfasındaki örnek yalnız düzeni gösterir (zemin mürekkep).
+- PROBE-7 yalnız arayüzde ve marka işaretinde görünür (halka içinde 7; banner'daki uçuş hattında küçük baklava);
+  sahneye sonda çizilmez (G1).
 - Bu klasördeki her dosya (ve `marka.toml`) marka özetine girer; biri değişirse marka istasyonu yeniden denetlenir,
-  sahibinin onayı yenilenir ve sonraki istasyonların kararları geçersiz olur. `taslak/` özete girmez.
+  sahibinin onayı yenilenir ve sonraki istasyonların kararları geçersiz olur. `taslak/` özete girmez (eski fotoğraf
+  zeminli kit ve kaynağı `A2.png` orada, tarihçe olarak).

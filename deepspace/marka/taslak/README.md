@@ -9,3 +9,7 @@
 - 11 Kasım 2026 sonrası: `A2.png` `../kaynak/A2.png`'ye taşındı; son kit `deepspace/marka_kiti.py` ile üretilir.
   Renk A (tonsuz) seçildi. Taslak kapaktaki yazı (TRAPPIST-1 + MISSION 001 · DEEP FOCUS) 5 kelimeydi ve G7'yi
   aşıyordu; son şablon en fazla 3 kelime yazar (`DEEP FOCUS` + `2H`). Bu klasör tarihçedir, marka özetine girmez.
+- 15 Kasım 2026: kit, kanaldaki onaylı defter tasarımına eşitlendi (`banner_defter.jpg`, `profil_defter.png`;
+  `defter_kiti.py`). `A2.png` kitten çıkarılıp tarihçe olarak buraya geri alındı; buradaki `banner.jpg`, `profil.png`,
+  `filigran.png`, `marka_kitabi.jpg` eski fotoğraf zeminli kittir ve kullanılmaz. `DEEP FOCUS` + `2H` şablonu
+  (`yazi.kapak_katmani`) G7'ye aykırı olduğu için kaldırıldı; kapak düzeni `deepspace/kapak.py`.

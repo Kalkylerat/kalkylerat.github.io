@@ -76,6 +76,29 @@ def kadraj(parca: dict) -> str:
     return {"yildiz": "derin", "gaz": "yorunge"}.get(parca.get("tur", ""), "ufuk")
 
 
+def kadraj_eki(parca: dict, ekler: dict) -> str:
+    """Parçanın kadraj eki (marka.toml [gorsel.kadraj_eki]). Ufuk kadrajında ek yüzey türüne göre seçilir (15 Kasım
+    2026 önerisi, sahibinin onayı bekliyor): buz -> ufuk_buz, okyanus (sıvısı gözlenmiş, ör. Titan) -> ufuk_pus;
+    marka.toml'da o ek yoksa ya da tür başkaysa ufuk."""
+    k = kadraj(parca)
+    if k == "ufuk":
+        alt = {"buz": "ufuk_buz", "okyanus": "ufuk_pus"}.get(parca.get("tur", ""))
+        if alt in ekler:
+            return ekler[alt]
+    return ekler[k]
+
+
+YILDIZ_IBARESI = "deep black sky with pin-sharp stars, "
+
+
+def stil_eki(parca: dict, g: dict) -> str:
+    """Ortak stil tabanı. Kalın puslu dünyada (ufuk_pus, ör. Titan) gökyüzü siyah ve yıldızlı olamaz: yıldız ibaresi
+    düşer (15 Kasım 2026 önerisi, sahibinin onayı bekliyor; ufuk_pus ile birlikte)."""
+    if kadraj(parca) == "ufuk" and parca.get("tur") == "okyanus" and "ufuk_pus" in g["kadraj_eki"]:
+        return g["stil_eki"].replace(YILDIZ_IBARESI, "")
+    return g["stil_eki"]
+
+
 def gorsel_istemleri(gorev: dict) -> Path:
     """Görsel üretim listesi (GORSEL.md): her parça için sahne + kadraj eki + ortak stil tabanı; hazır olanlar işaretli."""
     from .ortak import marka_yukle
@@ -87,7 +110,7 @@ def gorsel_istemleri(gorev: dict) -> Path:
     for i, p in enumerate(gorev["parca"], 1):
         durum = f"üretildi: `{p['gorsel_uretim']}`" if p.get("gorsel_uretim") else "üretilecek"
         k = kadraj(p)
-        tam = f"{p['gorsel_istem']} {g['kadraj_eki'][k]} {g['stil_eki']}"
+        tam = f"{p['gorsel_istem']} {kadraj_eki(p, g['kadraj_eki'])} {stil_eki(p, g)}"
         satir += [f"## {i:02d}. {p['ad']} · {k} · {durum}", "", "```", tam, "```", ""]
     yol = Path(gorev["klasor"]) / "GORSEL.md"
     yol.write_text("\n".join(satir), encoding="utf-8")

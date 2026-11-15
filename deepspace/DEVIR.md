@@ -3,7 +3,17 @@
 Bu dosya yeni bir Claude Code oturumunun (yerel terminal) kaldığımız yerden devam etmesi için. Önce bunu, sonra
 `SOZLESME.md` G bölümünü ve `.claude/skills/deep-space-log/SKILL.md`'yi oku. Sahibiyle Türkçe konuş.
 
-## Son durum (14 Kasım 2026; ses 5 sn ham geçişle yeniden yapıldı, video render ediliyor)
+## Son durum (15 Kasım 2026; 001 video bitti, son denetim GEÇTİ, sahibinin ok'u bekleniyor)
+
+- Video tek süreçle bitti (22330 sn render; 2560x1440, 7115 sn, 7.5 GB). Son denetim 1. tur KALDI (bayat bölüm
+  zamanları, "mastered", özet satır kırığı, kapak_3 okunurluğu, NEXT kartı), düzeltmeler b612f9c, NEXT kartı sahibinin
+  "a" cevabıyla G14-4'e yazıldı (e3280f5). 2. tur GEÇTİ 8/10; arşiv (G19) kuruldu.
+- Sahibine 2 dk 40 sn'lik 720p önizleme gönderildi. G8: sahibinin `ok`u gelmeden `onay` yazılmaz.
+- Tam sesin Drive'a yüklenmesi yapılamadı: Chrome file_upload 10 MB sınırlı, DSL_GOOGLE_* ortam değişkenleri yok.
+  Yol: sahibi Google Drive for Desktop kurup kendisi oturum açarsa dosyalar Drive klasörüne kopyalanır; ya da OAuth.
+- Açık: marka.toml `durum = "denetimde"` (G16 kit onayı, yüklemeden önce); YouTube yükleme OAuth bekliyor.
+
+## Önceki durum (14 Kasım 2026; ses 5 sn ham geçişle yeniden yapıldı, video render ediliyor)
 
 - Sahibi kendi geçişlerini yapmaktan vazgeçti (çok uzun sürer, otomasyon istiyor). 5 sn ham çapraz geçiş örnekleri
   (1→2, 7→8, 14→15) "harika" bulundu. G3 buna göre değişti (9230fb7): kesme yok, eşitleme yok, loudnorm yok, 5 sn

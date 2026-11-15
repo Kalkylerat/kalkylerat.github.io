@@ -1,1 +1,73 @@
-{"gorevler": []}
+{
+  "gorevler": [
+    {
+      "no": 1,
+      "seri": "focus",
+      "hedef": "TRAPPIST-1",
+      "tohum": 1001,
+      "tarih": "2026-11-15",
+      "youtube_id": "M52z7cqAPcU",
+      "parcalar": [
+        "Proxima b",
+        "Alpha Centauri",
+        "Barnard b",
+        "Wolf 359",
+        "Sirius",
+        "Epsilon Eridani",
+        "Tau Ceti",
+        "Luyten b",
+        "Teegarden's Star b",
+        "Wolf 1061c",
+        "Gliese 667 Cc",
+        "Vega",
+        "Fomalhaut",
+        "TRAPPIST-1b",
+        "TRAPPIST-1c",
+        "TRAPPIST-1d",
+        "TRAPPIST-1e",
+        "TRAPPIST-1f",
+        "TRAPPIST-1g",
+        "TRAPPIST-1h"
+      ],
+      "ses_ozetleri": [
+        "ae416efa58d68ba4430e3fa9e2d9c786c8102b76357916ec6786fe017882b9e1",
+        "f3e8f5056e9d329c30b46f56a1c05571eb5d135773bb34a7c9a82227b6c7d561",
+        "c5ab7e27066ba1c3de2ce2a923694ae1d4498a44a0299fc233209ddcc8ed8c42",
+        "eeddddf6ef1d0121769e171b63853f4eceb51a3bce68ad8995b591a331a71f25",
+        "d119aac73be6a84c44336a22eab1f2caca50fdfaf381a78e24cbf0d0448ccce6",
+        "0d74d87de11d0825b33d3102cd7c1241ee765c16f08d89e2f5804455003bad8c",
+        "0cd5c286d140b93c808d8d65ac5a91705bddc9853f064c077b27b099292db0da",
+        "d75d56854bc732206f18de44294be8651127223b8c772a74ab0541aa5174ceec",
+        "966c081081f38905a6692d01f978565c094b9859ab06399b5b1f7b5ac7d72f6b",
+        "de74e4becc0044ff57607d937f14943216626f09fe799a039b2bfbcee4dd3146",
+        "cb7b945371c36c02971761c2c9ac252a2479b0f6d67381e52ddd856db643f59b",
+        "504d740afc8c6a6e0990ccf03dbf657c654e4fe96d9e580c01687ae9cb1d27f1",
+        "e70fa1af3f592fc941c316cbf3574b237299a66b7850c4277ecb44b2754f15bf",
+        "58700e74f9f0fbb94f894a88ea7be7359d413264486e95ec38ecca1b5f5a620a",
+        "dbd64db7ec2164b0112df83a0809f7fb3436ac145feb33f683be52487f16210a",
+        "3a9f5c2e98554ad270c88fa63c15162f4fc41a084e6f9e0787fbcc8b9b4fbd45",
+        "724d644836543104d9f333fd6cef1a515dc368a6e85376fabdf60af261a1799e",
+        "6ed2c93b41ce746444291d28eef8243f5b7fbf42d157f7d533b35020cad760fe",
+        "02ce2cc9ca309748e358df2036174f3dc2ad2e028538d110e4fec08caa5e962d",
+        "6eca9ceee78197dd94a0c534c9f3e6aa8e95deb1fb1c2c7e287ded9455dd7481"
+      ],
+      "shorts": [
+        {
+          "ses_ozeti": "d119aac73be6a84c44336a22eab1f2caca50fdfaf381a78e24cbf0d0448ccce6",
+          "parca_ici_sn": 159.34,
+          "sure_sn": 45.0
+        },
+        {
+          "ses_ozeti": "de74e4becc0044ff57607d937f14943216626f09fe799a039b2bfbcee4dd3146",
+          "parca_ici_sn": 159.54,
+          "sure_sn": 45.0
+        },
+        {
+          "ses_ozeti": "dbd64db7ec2164b0112df83a0809f7fb3436ac145feb33f683be52487f16210a",
+          "parca_ici_sn": 157.42,
+          "sure_sn": 45.0
+        }
+      ]
+    }
+  ]
+}

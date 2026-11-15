@@ -3,7 +3,20 @@
 Bu dosya yeni bir Claude Code oturumunun (yerel terminal) kaldığımız yerden devam etmesi için. Önce bunu, sonra
 `SOZLESME.md` G bölümünü ve `.claude/skills/deep-space-log/SKILL.md`'yi oku. Sahibiyle Türkçe konuş.
 
-## Son durum (15 Kasım 2026 gece; 001 Studio'ya yükleniyor, sahibi bakınca bugün yayına girecek)
+## Son durum (15 Kasım 2026, 001 YAYINDA: https://youtu.be/M52z7cqAPcU)
+
+- Sahibi izledi, "yayınlayabilirsin" dedi; Studio'da Public yapıldı ve kaydedildi (süre 1:58:36, AI use: Yes).
+  `gorev kaydet --youtube-id M52z7cqAPcU` → kayit.json görev 1.
+- Yapılamayan: sabit yorum. İzleme sayfası bu PC'de açılmadı (sayfa çizilmiyor, ekran görüntüsü zaman aşımı;
+  7 GB RAM). Sonraki oturumda tek iş olarak dene: yorum yaz (youtube.json sabit_yorum) → üç nokta → Pin.
+  Home öne çıkan video, kapak Test & Compare, bitiş ekranı da bekliyor.
+- Sahibinin sıradaki isteği: planlanan haftalık işleri zamanlanmış otomasyona bağlamak ve ElevenLabs kredisini
+  çözmek. Hesap: yeni yol (gpt-image-2 2K orta, 267 kredi/görsel, Topaz yok) ile görev başına ~5.300 + yeniden
+  üretim ≈ 7–8 bin; haftada 1 video (youtube skill) ayda ~30 bin, 130 bin paketin içinde. 001'in ~95 bini öğrenme
+  dönemiydi (eski 1.454/görsel yol, stil eki hatası, 9 tur). Shorts G12 gereği 5. uzun videodan sonra açılır.
+  Asıl darboğaz Suno (indirme hakkı, 18 Kasım'da yenilenir; 002'nin 6–20. parçaları).
+
+## Önceki durum (15 Kasım 2026 gece; 001 Studio'ya yükleniyor, sahibi bakınca bugün yayına girecek)
 
 - Sahibi "bugün yayınlansın" dedi: G8'e 001 için tek seferlik istisna yazıldı. Video Studio'dan elle yüklendi
   (dosya seçici Win32 mesajlarıyla dolduruldu), gizli: https://youtu.be/M52z7cqAPcU. Başlık, açıklama, kapak_1,

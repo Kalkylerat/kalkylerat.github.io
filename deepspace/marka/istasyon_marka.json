@@ -1,46 +1,40 @@
 {
   "istasyon": "marka",
-  "karar": "KALDI",
-  "tur": 1,
+  "karar": "GECTI",
+  "tur": 2,
   "denetci": "denetci",
   "ozetler": {
-    "marka.toml": "8644154f34c27a9dd58b0302bc2445cb8732c3a0ce9d6ec1636ba47cd2dfb851",
-    "marka/banner.jpg": "071ee0a2d66fd38e3b2feebfad3495dc6aca8f143d3ae4516aef35e38a4b4a6f",
-    "marka/filigran.png": "4c12e8b5300d4b8e79bbc9a624881b92d47b98004a6c44e9f7e9242453f3e316",
-    "marka/kaynak/A2.png": "b4d4cb0e919778faacf21aa59355ce0721c00a10321fe94bf2748e367dc6aad9",
-    "marka/marka_kitabi.jpg": "c261c02d85442e59df16f12d61e675c7fbb2ea75231cec4416bcd20cc805c92d",
-    "marka/profil.png": "6bfc9ec3dc95a562ac4fd956901503e2e883ffc2cb01d5fb184caf7a9d53d5ef",
-    "marka/README.md": "f844bd57167097e77b13605327881d3ead62a8bf4923ef27640b01d6c72003d1"
+    "marka.toml": "c0d3dbf07fbe3115b75e4a0227e899afdb5da82b41572a5441d4e3fe76a1bed3",
+    "marka/banner.jpg": "c506db28b67b73c6b90795a49d669eb6ba94fc17b7c8516a4a171d107d1197cf",
+    "marka/filigran.png": "aa1278343e4307bcecefbf297dbf26f36eec732c2a7a53feb343958325513cbc",
+    "marka/marka_kitabi.jpg": "c66b73b05651ff87eaf2685bc5b95483329251b87b9798e01f046aee37c09d1d",
+    "marka/profil.png": "d9098105a8492b2e671cf84919d05b69f13551e50c54967546cf6de51d04331f",
+    "marka/README.md": "f9c43f8175616cd62f48ecc12ca124ec60d12ee474a4e5b50a44d818030694a0"
   },
   "zincir": {},
-  "marka_ozeti": "ed76c9836ff1f344d450b3034cb5b6f11c0ecf2453f1f3f63f57e154932e89bd",
+  "marka_ozeti": "d313454aa1df65b1b54c765ff68108453f01a7ebe7f88b98ee1a6023955c0a17",
   "kirmizi": [],
   "bulgular": [
     {
       "kod": "marka",
-      "not": "marka.toml degisiklikleri (38fd07b stil_eki_001 silindi, e059403 stil_eki gorsel-dili, 2964687 kadraj_eki, 94bbfad gpt-image-2) sahibin onayina dayaniyor (DEVIR 12 Kasim, G6, G16); README farki yalniz CRLF, banner/profil/filigran/kitap/A2 ozetleri ayni",
-      "kanit": "deepspace/marka/marka_kitabi.jpg"
-    },
-    {
-      "kod": "marka",
-      "not": "kit dosyalari canli markayla ve gorsel-dili 7 ile celisiyor: banner.jpg/profil.png/filigran.png/marka_kitabi.jpg eski A2 foto zeminli uydu PROBE-7; kanalda 12 Kasim'dan beri sahibin onayladigi defter banner ve halka-7 profil (taslak/banner_defter.jpg, profil_defter.png) var, kit'e cekilmemis; PROBE-7 her yerde ayni degil",
+      "not": "duzeldi - banner.jpg ve profil.png kanaldaki onayli taslak/banner_defter.jpg ve profil_defter.png ile bayt bayt ayni (cmp); filigran 150x150 RGBA, kenar alfa 0, halka-7 bbox 2-148; marka_kitabi defter dilinde; PROBE-7 her yerde halka icinde 7 (banner ucus hattinda kucuk baklava); palet ve Space Mono degismedi",
       "kanit": "deepspace/marka/marka_kitabi.jpg"
     },
     {
       "kod": "yazi",
-      "not": "marka_kitabi.jpg ve README kapak sablonu 'DEEP FOCUS' + '2H' (G7: seri adi ve sure kapaga yazilmaz); kitapta 'NEW MISSION WEEKLY' (gorsel-dili 7: soz veren yazi yok) ve 'galaksi/bulutsu, insan figuru cok kucuk' (G1 ve gorsel-dili 1 ile celisik)",
+      "not": "duzeldi - kit sayfasi ve README'den DEEP FOCUS/2H kapak, NEW MISSION WEEKLY, galaksi/insan figuru tarifi cikti; kapak ornegi G7 (001 SEVEN WORLDS, veri satiri, nisanlar, imza); kapak.py en kucuk yazi 18 px/720 = %2.5, short etiket 40/1920 = %2.1 (telefon kurali gecer)",
       "kanit": "deepspace/marka/marka_kitabi.jpg"
     },
     {
       "kod": "fizik",
-      "not": "marka.toml kadraj_eki.ufuk 'ground matte and nearly black' 002'nin 10 buz duragina (Europa, Enceladus parlak buz) ve Titan'a (kalin pus, yildiz gorunmez, gorsel-dili 3/7) ters; DEVIR'de 'sahibine sorulmali' diye acik",
+      "not": "duzeldi - ufuk eki ufuk/ufuk_buz/ufuk_pus; Titan'da yildiz ibaresi dusuyor (gorsel-dili 3/7). ONERI: yururluk icin sahibin G16 onayi sart. (engel degil) ufuk_buz 'clean and bright' karanlik buzda (Callisto, Iapetus karanlik yuzu) yanlis olur, renk sahne isteminde yazilmali; okyanus->ufuk_pus eslemesi ileride sivisi gozlenmemis okyanus gezegeninde yanlis pus cagirir",
       "kanit": "deepspace/marka/marka_kitabi.jpg"
     },
     {
       "kod": "marka",
-      "not": "marka.toml [hareket] (AI klip, 4K, marka tonu) G14-1 ve G6 (durgun gorsel, 1440p) ile celisiyor; durum='denetimde' sahip onayina ragmen bayat; model yorumu 'Topaz 2x' G6 Lanczos yoluyla eski",
+      "not": "duzeldi - [hareket] kalintisi ve Topaz yorumu silindi, A2 taslak/'a tasindi. (engel degil) durum='denetimde' sahip onayina kadar dogru; banner'da DUR '2H' ve 'SLEEP & DEEP FOCUS' var (G7 yalniz kapak, sahibin onayli canli banner'i); banner'in guvenli alan disindaki 22 px etiketleri %1.5, yalniz TV'de gorunur; kit sayfasi kapak orneginde '40 LIGHT-YEARS' ile banner '40.7 LY' tutarsiz",
       "kanit": "deepspace/marka/marka_kitabi.jpg"
     }
   ],
-  "zaman": "2026-11-15T14:06:56+00:00"
+  "zaman": "2026-11-15T14:20:24+00:00"
 }

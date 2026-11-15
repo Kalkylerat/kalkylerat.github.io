@@ -3,7 +3,18 @@
 Bu dosya yeni bir Claude Code oturumunun (yerel terminal) kaldığımız yerden devam etmesi için. Önce bunu, sonra
 `SOZLESME.md` G bölümünü ve `.claude/skills/deep-space-log/SKILL.md`'yi oku. Sahibiyle Türkçe konuş.
 
-## Son durum (15 Kasım 2026 akşam; sahibi "ok" dedi, onay yazıldı, Google anahtarları bu PC'de yok)
+## Son durum (15 Kasım 2026 gece; 001 Studio'ya yükleniyor, sahibi bakınca bugün yayına girecek)
+
+- Sahibi "bugün yayınlansın" dedi: G8'e 001 için tek seferlik istisna yazıldı. Video Studio'dan elle yüklendi
+  (dosya seçici Win32 mesajlarıyla dolduruldu), gizli: https://youtu.be/M52z7cqAPcU. Başlık, açıklama, kapak_1,
+  etiketler, Music, English (video + başlık dili), AI use: Yes, not for kids, "Deep Space Log · All Missions" listesi.
+- Kanal: profil/banner/açıklama/@deepspacelogmusic zaten tamamdı. Eski "Transform Your Mindset" listesi gizliye
+  alındı (silinmedi); eski 2 video zaten gizli. Yükleme varsayılanları: Music, English.
+- Kalan: yükleme + işleme bitince sahibi gizli videoyu izler, "yayınla" der → Public; sabit yorum (youtube.json
+  sabit_yorum), Home sekmesinde öne çıkan video, kapak Test & Compare (kapak_2, kapak_3), bitiş ekranı (abone ol).
+- Sonra: görsel maliyeti (ElevenLabs kredisinin ~3/4'ü bu ay gitti) ve ekran sadeleştirme (sinyal grafiği, köşeler).
+
+## Önceki durum (15 Kasım 2026 akşam; sahibi "ok" dedi, onay yazıldı, Google anahtarları bu PC'de yok)
 
 - Sahibi önizlemeye `ok` yazdı. `gorev onay --kim sahip --yayin 2026-11-17T17:00:00Z` yazıldı (cikti/onay.json).
 - Drive for Desktop bu PC'ye kurulamıyor (sahibi). Google bağlantısı daha önce **claude.ai bulut ortamına** kuruldu

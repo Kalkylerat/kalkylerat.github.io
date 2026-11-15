@@ -3,7 +3,17 @@
 Bu dosya yeni bir Claude Code oturumunun (yerel terminal) kaldığımız yerden devam etmesi için. Önce bunu, sonra
 `SOZLESME.md` G bölümünü ve `.claude/skills/deep-space-log/SKILL.md`'yi oku. Sahibiyle Türkçe konuş.
 
-## Son durum (15 Kasım 2026; 001 video bitti, son denetim GEÇTİ, sahibinin ok'u bekleniyor)
+## Son durum (15 Kasım 2026 akşam; sahibi "ok" dedi, onay yazıldı, Google anahtarları bu PC'de yok)
+
+- Sahibi önizlemeye `ok` yazdı. `gorev onay --kim sahip --yayin 2026-11-17T17:00:00Z` yazıldı (cikti/onay.json).
+- Drive for Desktop bu PC'ye kurulamıyor (sahibi). Google bağlantısı daha önce **claude.ai bulut ortamına** kuruldu
+  (KURULUM.md 6. adım); DSL_GOOGLE_* bu Windows'ta yok (kullanıcı/makine/süreç boş). Yol: sahibi aynı üç değeri
+  Windows "hesabınız için ortam değişkenleri"ne kendisi girer, Claude uygulamasını yeniden açar; sonra
+  `google.drive_yukle` (resumable) ile ses + video Drive'a gider. Değerler sohbete girmez.
+- YouTube API ile yükleme denetimsiz projede gizli kalır (KURULUM.md 5); şimdilik sahibi Studio'dan yükler.
+- Açık: marka.toml `durum = "denetimde"` (G16 kit onayı sahibinden ayrıca alınmadı).
+
+## Önceki durum (15 Kasım 2026; 001 video bitti, son denetim GEÇTİ, sahibinin ok'u bekleniyor)
 
 - Video tek süreçle bitti (22330 sn render; 2560x1440, 7115 sn, 7.5 GB). Son denetim 1. tur KALDI (bayat bölüm
   zamanları, "mastered", özet satır kırığı, kapak_3 okunurluğu, NEXT kartı), düzeltmeler b612f9c, NEXT kartı sahibinin

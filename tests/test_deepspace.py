@@ -1634,3 +1634,17 @@ def test_G2_ses_dosyasi_wav_uzantisiyla_da_bulunur(tmp_path):
     (tmp_path / "ses" / "01.wav").write_bytes(b"x")
     yollar = ses.ses_dosyalari(g)
     assert yollar[0].name == "01.wav" and yollar[1].name == "02.mp3" and not yollar[1].exists()
+
+
+def test_G14_kart_yalniz_basta_ve_sonda_tek_satir_NEXT():
+    from types import SimpleNamespace
+    from deepspace import defter
+    k = SimpleNamespace(bilgi={"bilgi": "A small rocky world. It orbits close to its star.", "sonraki": "Vega"},
+                        sure=360.0)
+    sayfalar = defter.SeyirDefteri._kayit_sayfalari(k)
+    basta = [s for s in sayfalar if s[2] == "ARRIVAL"]
+    sonda = [s for s in sayfalar if s[2] == "NEXT"]
+    assert basta and basta[-1][1] < 60                       # bilgi kartı parçanın başında biter
+    assert len(sonda) == 1 and sonda[0][3] == ["course set for Vega"]
+    assert sonda[0][0] == 360.0 - 45 and sonda[0][1] - sonda[0][0] == 25   # 45 sn kala, 25 sn
+    assert len(sayfalar) == len(basta) + 1                    # parça ortasında başka kart yok

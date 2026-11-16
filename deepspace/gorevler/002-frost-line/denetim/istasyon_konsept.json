@@ -1,0 +1,41 @@
+{
+  "istasyon": "konsept",
+  "karar": "GECTI",
+  "tur": 1,
+  "denetci": "denetci",
+  "ozetler": {
+    "gorev.toml": "e4226882c606c72f4cb09a1d108aaaf5e3751df8c61128025a213c5ad9162d7e",
+    "SUNO.md": "65cdd286db1e4cca7dd051e22d0375fedd816d5d52b24bd65c16462c3970cf8e"
+  },
+  "zincir": {
+    "arastirma": {
+      "buyume/oneriler.json": "a3a5892d0b5f146e4bb47ada833341e0a3dd3efeca32867143c32af1ab679ee2",
+      "buyume/arastirma.md": "7c9b314465d2eb434ca3d1a31037d621803a86dd9f0e0ea38b01e761c12c54ba"
+    }
+  },
+  "marka_ozeti": "d313454aa1df65b1b54c765ff68108453f01a7ebe7f88b98ee1a6023955c0a17",
+  "kirmizi": [],
+  "bulgular": [
+    {
+      "kod": "tekrar",
+      "not": "müzik alanları (sıra, ad, dosya, süre, ton, bpm, style, exclude, lyrics) HEAD ile aynı; SUNO.md 20 style/exclude/lyrics gorev.toml ile birebir",
+      "kanit": "deepspace/gorevler/002-frost-line/buyume/oneriler.json"
+    },
+    {
+      "kod": "marka",
+      "not": "kadraj 9 orbital sahnede yorunge, ufuk duraklarında tur->ek doğru (Moon ufuk, Europa/Callisto/Miranda/Triton/Pluto ufuk_buz, Titan ufuk_pus); kapak_parcalari [10,7,18] oneriler.json ile aynı",
+      "kanit": "deepspace/gorevler/002-frost-line/buyume/oneriler.json"
+    },
+    {
+      "kod": "fizik",
+      "not": "gorsel istasyonuna not: Callisto ve Miranda sahnesinde Güneş solda alçakta, dev gezegen sağda uzakta; bu açıda evre ince hilal olmaz, şişkin olur. Callisto'da ufuk_buz 'kayadan parlak' der, sahne 'kaya kadar koyu' der (G6 izin veriyor, G13'te izlenmeli). Pluto: Charon Sputnik ovasından görünmez (eşzamanlı yörünge), sanatçı izlenimi notu yeterli mi gorselde bakılsın",
+      "kanit": "deepspace/gorevler/002-frost-line/buyume/oneriler.json"
+    },
+    {
+      "kod": "marka",
+      "not": "marka.toml ve gorev.py yorumlarında ufuk_buz/ufuk_pus hâlâ 'sahibinin onayı bekliyor' yazıyor; G6'da onaylı, yorum eski (konsept dışı, bloklamaz)",
+      "kanit": "deepspace/gorevler/002-frost-line/buyume/oneriler.json"
+    }
+  ],
+  "zaman": "2026-11-16T14:30:32+00:00"
+}

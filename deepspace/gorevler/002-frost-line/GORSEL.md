@@ -30,7 +30,7 @@ Orbital view of a dark grey dwarf planet with a large crater holding small brill
 ## 05. Jupiter · yorunge · üretilecek
 
 ```
-Seen from close orbit, a huge banded gas giant fills most of the frame, cream and amber cloud belts with a large red oval storm, lit from the left by the small distant Sun; the right side falls into black night; a faint thin ring line; deep black sky. Seen from orbit: a single world off-centre, part lit by its star and part in pure black night, surrounded by empty black space. Raw spacecraft photograph, low-key exposure, restrained natural colour, deep black sky with pin-sharp stars, calm and still, wide 16:9. No people, no vehicles, no probes, no buildings, no text.
+Jupiter seen from close orbit: the huge gas giant fills most of the frame, striped with horizontal cream, white and amber cloud bands, the large red oval storm clearly visible on the lit side, lit from the left by the small distant Sun; the right side falls into black night; deep black sky. Seen from orbit: a single world off-centre, part lit by its star and part in pure black night, surrounded by empty black space. Raw spacecraft photograph, low-key exposure, restrained natural colour, deep black sky with pin-sharp stars, calm and still, wide 16:9. No people, no vehicles, no probes, no buildings, no text.
 ```
 
 ## 06. Io · yorunge · üretilecek
@@ -66,7 +66,7 @@ Saturn fills the right two thirds of the frame: a pale gold banded globe, broadl
 ## 11. Enceladus · yorunge · üretilecek
 
 ```
-A small brilliant white icy moon seen from orbit, lit from the left by the small distant Sun; from its south pole fine jets of ice spray into black space, catching the sunlight; Saturn's rings a thin bright line in the far background. Seen from orbit: a single world off-centre, part lit by its star and part in pure black night, surrounded by empty black space. Raw spacecraft photograph, low-key exposure, restrained natural colour, deep black sky with pin-sharp stars, calm and still, wide 16:9. No people, no vehicles, no probes, no buildings, no text.
+A small brilliant white icy moon seen from orbit, lit from the left by the small distant Sun; from its south pole fine jets of ice spray into black space, catching the sunlight; far in the background, Saturn as a small ringed planet, also lit from the left. Seen from orbit: a single world off-centre, part lit by its star and part in pure black night, surrounded by empty black space. Raw spacecraft photograph, low-key exposure, restrained natural colour, deep black sky with pin-sharp stars, calm and still, wide 16:9. No people, no vehicles, no probes, no buildings, no text.
 ```
 
 ## 12. Titan · ufuk · üretilecek
@@ -122,10 +122,19 @@ Orbital view of a grey icy moon with a dark reddish polar cap, lit from the left
 ```
 A small reddish snowman-shaped body of two joined lobes floats in total darkness, faintly lit from the left by the Sun, now just the brightest star in the sky; vast black space with sharp stars; nothing else. Seen from orbit: a single world off-centre, part lit by its star and part in pure black night, surrounded by empty black space. Raw spacecraft photograph, low-key exposure, restrained natural colour, deep black sky with pin-sharp stars, calm and still, wide 16:9. No people, no vehicles, no probes, no buildings, no text.
 ```
-
-
 ## Deneme harcaması (16 Kasım 2026)
 
 G11 denemesi: 10, 07, 18; gpt-image-2, 16:9, 2K, medium, 1 varyasyon; 3 × 267 = 801 kredi (flow `wXHon9u5lPX0oECJcwqN`). Taslaklar `gorsel/taslak/NN.png` (2048x1152).
 Tur 1: 10 `VfDQtl54vuynUzZy1d2U` GEÇTİ (8); 07 `kaeDktvwc5PdgHIZZfR6` KALDI (4); 18 `RH9wiJfjYU2DhKvrIdP8` KALDI (3). Tur 2 (07, 18) yukarıdaki yeni istemlerle.
 Tur 2 (534): 07 `SNx7ejWYyhTGu3KOlQ0u` KALDI (6, hilal sol üst yazı bölgesinde); 18 `N1k5Se0p7hSQHu7bAwG6` KALDI (5, tuz düzlüğü görünümü). Tur 3 yukarıdaki istemlerle.
+
+## Toplu üretim (16 Kasım 2026, sahibinin "Güzel olmuş" onayından sonra)
+
+17 görsel, gpt-image-2 16:9 2K medium, tek varyasyon, 267 kredi/görsel (4.534 kredi). Üretim kimlikleri:
+01 0l3HwZcFDh1pf3S2YOOV · 02 J6GYhVFU4cvQVcR2nbAq · 03 Mn7WuHoCgbXlhzs9z2Ez · 04 W5T4mkShmbSq2ACMvFOI ·
+05 njguXtknWBsyiaYqQ3HQ · 06 HX0Guj1Zs4PU9HWdPxhZ · 08 rMAsakRhHeNIhyE9hFbK · 09 wJjTigKuK1Jnjpce80PD ·
+11 vTrtkG6d9ofb3eUZKua9 · 12 rpGlOmfGyDHVoWBu39dL · 13 dRD2sr95TbLgGtWZZPry · 14 myFOhyD1AJb0LFyhrE67 ·
+15 e3QYYaCnSpJtCwevfoJd · 16 d7LVmvkpiMJKYjA6O6FZ · 17 4Zusl1NMhOQbFvJAkMCt · 19 ob9B5cJAbarRLttichSV ·
+20 ahzfDC8nUPIP6iItyevM.
+Denetim (yeni ölçü): 15 geçti; 05 (Jüpiter'e benzemiyor) ve 11 (halka kareyi kesen çizgi) kaldı.
+1. yeniden üretim (534 kredi): 05 182AxViqUuzgAnDiXMPJ, 11 Et1VjrQAwowRE6TzmTYn.

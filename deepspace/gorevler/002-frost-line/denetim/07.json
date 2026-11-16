@@ -1,7 +1,7 @@
 {
   "kontrol_listesi_surumu": 1,
   "denetleyen": "denetci",
-  "ozet": "0a404a0ce76961bb34978116bf865c5ff63e372d041c48dd66dd9732923998b8",
+  "ozet": "804422827ce564d5fe43d5a0031ef9a9f490e230d6365f57d91b169a46e060a1",
   "puan": 5,
   "sorunlar": [
     {
@@ -22,5 +22,7 @@
     "tarih": "2026-11-16",
     "not": "Sahibi 3 görsellik denemeye bakıp yazdı: \"Güzel olmuş\" (16 Kasım 2026); G11 denemesi onaylandı.",
     "ozet": "0a404a0ce76961bb34978116bf865c5ff63e372d041c48dd66dd9732923998b8"
-  }
+  },
+  "taslak_ozeti": "0a404a0ce76961bb34978116bf865c5ff63e372d041c48dd66dd9732923998b8",
+  "turetme": "1.25x Lanczos büyütme + pozla gama 1.0"
 }

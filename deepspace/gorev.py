@@ -78,7 +78,7 @@ def kadraj(parca: dict) -> str:
 
 def kadraj_eki(parca: dict, ekler: dict) -> str:
     """Parçanın kadraj eki (marka.toml [gorsel.kadraj_eki]). Ufuk kadrajında ek yüzey türüne göre seçilir (15 Kasım
-    2026 önerisi, sahibinin onayı bekliyor): buz -> ufuk_buz, okyanus (sıvısı gözlenmiş, ör. Titan) -> ufuk_pus;
+    2026 önerisi, 16 Kasım'da sahibinin marka onayıyla yürürlükte, G6): buz -> ufuk_buz, okyanus (sıvısı gözlenmiş, ör. Titan) -> ufuk_pus;
     marka.toml'da o ek yoksa ya da tür başkaysa ufuk."""
     k = kadraj(parca)
     if k == "ufuk":
@@ -93,7 +93,7 @@ YILDIZ_IBARESI = "deep black sky with pin-sharp stars, "
 
 def stil_eki(parca: dict, g: dict) -> str:
     """Ortak stil tabanı. Kalın puslu dünyada (ufuk_pus, ör. Titan) gökyüzü siyah ve yıldızlı olamaz: yıldız ibaresi
-    düşer (15 Kasım 2026 önerisi, sahibinin onayı bekliyor; ufuk_pus ile birlikte)."""
+    düşer (15 Kasım 2026 önerisi, 16 Kasım'da yürürlükte; ufuk_pus ile birlikte)."""
     if kadraj(parca) == "ufuk" and parca.get("tur") == "okyanus" and "ufuk_pus" in g["kadraj_eki"]:
         return g["stil_eki"].replace(YILDIZ_IBARESI, "")
     return g["stil_eki"]

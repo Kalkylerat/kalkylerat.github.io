@@ -1,0 +1,77 @@
+{
+  "istasyon": "gorsel",
+  "karar": "GECTI",
+  "tur": 1,
+  "denetci": "denetci",
+  "ozetler": {
+    "gorsel/01.png": "2cdfaaff1829183452bcc9c7dce2e580dfbf17e94f0b36feb087a148e08edde1",
+    "gorsel/02.png": "5c86926df83eecc3b57f2c310338356a1780b9aba75d98d0e1b3a6677c6ab959",
+    "gorsel/03.png": "33138382c9508098da6f9d96c9e5107cdd1afdda4398a4f31d874b8accf35c6d",
+    "gorsel/04.png": "bfa7f01d76dceddd026e1664cfe3c942cf2255dad148c8b1b4863efd282422df",
+    "gorsel/05.png": "8ae3063ba02e0bb2296d321d58c32b40d6397ad311c349494f959757de16575a",
+    "gorsel/06.png": "4d0272270c8cc04fb082dae7bb269455f854c6d71f71851b93de95ab52cf403e",
+    "gorsel/07.png": "804422827ce564d5fe43d5a0031ef9a9f490e230d6365f57d91b169a46e060a1",
+    "gorsel/08.png": "a3dfc072e083cbe6df587bbf40bd1205bd0886c1b5fc3ffab1f7130f032ba190",
+    "gorsel/09.png": "880d78fe1f9e24b684b8e5e6245cd47a7bde75431d5d3c252c17013912b8ff1b",
+    "gorsel/10.png": "c5f701ed2766b9c264c7378627f0241da4cbd3fa489f8fadae956b680109fb1e",
+    "gorsel/11.png": "2427c838a516029c880933173876a0a8127eca7882b406c95ec95461c1cfc0f6",
+    "gorsel/12.png": "1ba68c6664cb98f50c846edd49cef975d28e922d5b74cafdd713bd23e3f719a0",
+    "gorsel/13.png": "16094f6471c51c2693751bc7e42c6ebfb2214b4966664b5eb30ddbcc04e11c48",
+    "gorsel/14.png": "7154106b6721940b72976b3714259b41e717d918c1a3ef3489ada4bf268f78ae",
+    "gorsel/15.png": "83f118038f296de78fd9f67537b4e64e92bf4afda25539d387ee392d6311e18e",
+    "gorsel/16.png": "6a4da3746cfd23484905a80879293d7af5c4db02dfaed8a50c69cb2b72eee6ed",
+    "gorsel/17.png": "ada7d13e1ea2fbd7fee6e88e6c2bac3087010d1cbb5cb9a368447444423c3912",
+    "gorsel/18.png": "69c6fcec653df9f98bbdaaa1d0e475ed91afb07eee626a05f281ba07d7813eff",
+    "gorsel/19.png": "d8820b91e7b9da7e8930a7ceb415e9f0b9f0010d5947d3546f1f177a1bd68fbf",
+    "gorsel/20.png": "38e1ad4669519bc77476f4cd6419ca4859c596642b8e10f2ec0a734bec44a3ba",
+    "denetim/01.json": "a223cc49392301dc15ecbcdd66c7019e4ff1f6a31bfde3b3f85849c01e53be03",
+    "denetim/02.json": "5f0041a4e7cfbb322d077347003e35dc169cd5f6d07eb16ad476bb0af8e7ca2d",
+    "denetim/03.json": "3a5c524c6dd75ff540bb41d3c8ba43e226960068f6758dbde9879b1da5580a45",
+    "denetim/04.json": "004b6b14dfea458633c6ff1bec415223e4d02aadef3b4e32b4856f368f9582ae",
+    "denetim/05.json": "55dd8492ba77ca8aa92ff632ae34f800955e2bee570f26b1bf51f716ccac11d3",
+    "denetim/06.json": "f165d3c4e20b11dd28e40bea79bb49f23581cf01bc189b1656f7fd7664cdd29f",
+    "denetim/07.json": "0b13e75c071ad8c2b21437abb89ca2c8bf3946779947f0e68537b9beb7c77bd7",
+    "denetim/08.json": "8509f7c894d7b3817a4bcaa5d4de747944ee37c363ccdfe41a60de069ab6de68",
+    "denetim/09.json": "8abfb8b76e310337d312fa490cf16b55829931c46d4410379126705034da5f8b",
+    "denetim/10.json": "644a1bf13a4e63e06225a44ab76290e38e8af7f6deec0ff2d35ee3544d57143f",
+    "denetim/11.json": "801575c177abe13a840601836155c789e4bef5fb80941658d7488baeb5a084a0",
+    "denetim/12.json": "3ae8588e55175359886a477503382720e3b04a6797598c70b1027852d5339528",
+    "denetim/13.json": "e3bc2567c8972dd7c39a4829186143050f949056746eb38d387f131f22137601",
+    "denetim/14.json": "90e22b97ebfbfd976ff5feebc9cc1fc761d675feffd62961c663209151d61e5c",
+    "denetim/15.json": "6d96e43b6ebd49e88336fc8d9a1afbe552b371a2c72a060a259b6ec3bc558772",
+    "denetim/16.json": "db74ebdace84d9bb1555f28685494aafa60a1508f5a1df1ef097117984b1d312",
+    "denetim/17.json": "8d25ce9c9f5c91a41836e7e34fb579fb2717f0cf9ae95221c6df47171a1abc95",
+    "denetim/18.json": "7fc46fa2384c658833ebf34aa9cac218eb1853b41df336fba40e1673c85ae47d",
+    "denetim/19.json": "d68e46330977a09fb6960e92cad77ba003b32b0b3faccfee14e660695fe2c6e9",
+    "denetim/20.json": "fe19b109efed91067e9f71b586dcc088abd54d019c83c361703de14e5eda53c7",
+    "gorev.toml#gorsel": "2554cc65ea4a0c42c66ec4a1f8316152ea6971ad57045646d5a8f79f6a1019a0"
+  },
+  "zincir": {
+    "arastirma": {
+      "buyume/oneriler.json": "a3a5892d0b5f146e4bb47ada833341e0a3dd3efeca32867143c32af1ab679ee2",
+      "buyume/arastirma.md": "7c9b314465d2eb434ca3d1a31037d621803a86dd9f0e0ea38b01e761c12c54ba"
+    },
+    "konsept": {
+      "gorev.toml": "1310cc7d44d51dc419248bdf4ff3590645be5499a2f076dfc098356afa8084a8",
+      "SUNO.md": "65cdd286db1e4cca7dd051e22d0375fedd816d5d52b24bd65c16462c3970cf8e"
+    },
+    "bilgi": {
+      "bilgi_kaynak.json": "54f76a8c8b2a435e0b6065ca25e10c63ff166a616f400d0c36007f8244a3fab1"
+    }
+  },
+  "marka_ozeti": "d313454aa1df65b1b54c765ff68108453f01a7ebe7f88b98ee1a6023955c0a17",
+  "kirmizi": [],
+  "bulgular": [
+    {
+      "kod": "kayit",
+      "not": "GORSEL.md Deneme harcamasi bolumunde 07 ve 18 tur 3 (2. yeniden uretim) uretim kimlikleri ve kredisi yazili degil; tur 1-2 ve 05/11 yazili. Engelleyici degil, defter tamamlanmali",
+      "kanit": "deepspace/gorevler/002-frost-line/GORSEL_DENETIM.md"
+    },
+    {
+      "kod": "kayit",
+      "not": "GORSEL.md bolum basliklarinda durum hala 'uretilecek' (20/20 uretildi); kozmetik",
+      "kanit": "deepspace/gorevler/002-frost-line/GORSEL_DENETIM.md"
+    }
+  ],
+  "zaman": "2026-11-16T22:31:40+00:00"
+}

@@ -117,11 +117,27 @@ def ozetler(klasor: Path | None, istasyon: str) -> dict[str, str]:
     return sonuc
 
 
-def zincir(klasor: Path | None, istasyon: str) -> dict[str, dict[str, str]]:
+def _atlanan(istasyon: str, gorev_no: int | None) -> set[str]:
+    """G15 bir kerelik istisna: `gorsel_sesten_once` görevlerinde görsel ses istasyonunu beklemez."""
+    if istasyon == "gorsel" and gorev_no in ayar_yukle()["is_bolumu"].get("gorsel_sesten_once", []):
+        return {"ses"}
+    return set()
+
+
+def _gorev_no(klasor: Path | None) -> int | None:
+    import tomllib
+    try:
+        return int(tomllib.loads((Path(klasor) / "gorev.toml").read_text(encoding="utf-8"))["no"])
+    except (OSError, ValueError, KeyError, TypeError, tomllib.TOMLDecodeError):
+        return None
+
+
+def zincir(klasor: Path | None, istasyon: str, gorev_no: int | None = None) -> dict[str, dict[str, str]]:
     """Kendinden önceki görev istasyonlarının şu anki çıktı özetleri (marka ayrıca marka_ozeti ile izlenir)."""
     if istasyon == "marka":
         return {}
-    return {o: ozetler(klasor, o) for o in ISTASYONLAR[1:ISTASYONLAR.index(istasyon)]}
+    atla = _atlanan(istasyon, gorev_no if gorev_no is not None else _gorev_no(klasor))
+    return {o: ozetler(klasor, o) for o in ISTASYONLAR[1:ISTASYONLAR.index(istasyon)] if o not in atla}
 
 
 def kayit_yolu(klasor: Path | None, istasyon: str) -> Path:
@@ -210,7 +226,10 @@ def _klasor(istasyon: str, klasor: Path | None) -> Path | None:
 def kilit(klasor: Path, istasyon: str, gorev_no: int) -> tuple[bool, str]:
     if gorev_no < ayar_yukle()["is_bolumu"]["kilit_baslangic"]:
         return True, "kilit dışı"
+    atla = _atlanan(istasyon, gorev_no)
     for onceki in ISTASYONLAR[:ISTASYONLAR.index(istasyon)]:
+        if onceki in atla:
+            continue
         ok, neden = gecerli_mi(_klasor(onceki, klasor), onceki)
         if not ok:
             return False, f"{onceki}: {neden}"

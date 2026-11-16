@@ -1315,7 +1315,7 @@ def test_G15_G16_G17_sozlesmede_ve_ayarda():
     s = (KOK / "SOZLESME.md").read_text(encoding="utf-8")
     for madde in ("| G15 |", "| G16 |", "| G17 |"):
         assert madde in s
-    assert AYAR["is_bolumu"] == {"kilit_baslangic": 2, "en_cok_tur": 3}
+    assert AYAR["is_bolumu"] == {"kilit_baslangic": 2, "en_cok_tur": 3, "gorsel_sesten_once": [2]}
     assert AYAR["vidiq"]["aylik_kredi"] == 100 and AYAR["vidiq"]["yenileme_gunu"] == 27
     assert AYAR["vidiq"]["cagri_kredi"] == 5
     assert AYAR["shorts"]["min_sn"] == 20 and AYAR["shorts"]["max_sn"] == 58
@@ -1336,6 +1336,17 @@ def test_G15_denetimsiz_istasyondan_sonra_kilit(tmp_path, monkeypatch):
     ok, neden = is_kaydi.kilit(tmp_path, "konsept", 2)
     assert not ok and "arastirma" in neden
     assert is_kaydi.kilit(tmp_path, "konsept", 1) == (True, "kilit dışı")
+
+
+def test_G15_002_istisnasi_gorsel_sesi_beklemez(tmp_path, monkeypatch):
+    from deepspace import is_kaydi
+    monkeypatch.setattr(is_kaydi, "gecerli_mi", lambda k, i: (i != "ses", "test"))
+    assert is_kaydi.kilit(tmp_path, "gorsel", 2) == (True, "açık")
+    assert not is_kaydi.kilit(tmp_path, "gorsel", 3)[0]
+    assert not is_kaydi.kilit(tmp_path, "hareket", 2)[0]
+    assert "ses" not in is_kaydi.zincir(tmp_path, "gorsel", 2)
+    assert "ses" in is_kaydi.zincir(tmp_path, "gorsel", 3)
+    assert "ses" in is_kaydi.zincir(tmp_path, "hareket", 2)
 
 
 def test_G15_kaldi_kilitler_ozet_degisince_gecersiz(tmp_path):

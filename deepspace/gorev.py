@@ -294,7 +294,7 @@ def denetle(gorev: dict, a) -> int:
         for k in gd.KONTROL_LISTESI:
             print(f"  [{k['kod']}{' *kritik' if k['kritik'] else ''}] {k['soru']}")
         print("İstem:", gorev["parca"][a.parca - 1].get("gorsel_istem", ""))
-        print("Teknik:", gd.teknik_sorunlar(gd.teknik_olcum(ana)) or "sorun yok")
+        print("Teknik:", gd.teknik_sorunlar(gd.teknik_olcum(ana), kadraj(gorev["parca"][a.parca - 1])) or "sorun yok")
         for p in gd.paftalar(ana, cikti(gorev) / "pafta"):
             print(p)
         return 0
@@ -411,7 +411,7 @@ def main(argv: list[str] | None = None) -> int:
         tasindi = gd.karari_tasi(k / "denetim" / f"{a.parca:02d}.json", taslak,
                                  hedef, gd.turetme_metni(tw, o["genislik"], gama))
         print("taslak kararı taşındı" if tasindi else "taslak kararı yok ya da geçmedi: denetle gerekli")
-        print(f"{hedef.name}: gama {gama}, parlaklık {o['ort_parlaklik']}, teknik: {gd.teknik_sorunlar(o) or 'sorun yok'}")
+        print(f"{hedef.name}: gama {gama}, parlaklık {o['ort_parlaklik']}, teknik: {gd.teknik_sorunlar(o, kadraj(gorev['parca'][a.parca - 1])) or 'sorun yok'}")
         return 0
     if a.komut == "denetle":
         return denetle(gorev, a)

@@ -673,6 +673,16 @@ def test_G13_denetim_olcusu_guzel_gorunum():
     assert "Denetim ölçüsü (G13, 16 Kasım" in ajan
 
 
+def test_G13_yorunge_kadrajinda_karanlik_siniri():
+    from deepspace import gorsel_denetim as gd
+    o = {"genislik": 2560, "oran": 16 / 9, "ort_parlaklik": 0.04, "yanik": 0.0, "ezik": 0.80, "netlik": 5.0}
+    assert len(gd.teknik_sorunlar(o)) == 2 and len(gd.teknik_sorunlar(o, "ufuk")) == 2
+    assert gd.teknik_sorunlar(o, "yorunge") == []
+    assert gd.teknik_sorunlar({**o, "ezik": 0.9}, "yorunge") and gd.teknik_sorunlar({**o, "ort_parlaklik": 0.03}, "yorunge")
+    soz = (Path(__file__).resolve().parent.parent / "SOZLESME.md").read_text(encoding="utf-8")
+    assert "Yörünge kadrajında (16 Kasım 2026" in soz
+
+
 def test_G13_ikiz_olcumu_dikey_konumu_ayirir(tmp_path):
     # Koyu gökte aynı sütunda ama farklı yükseklikte parlayan iki kare ikiz sayılmaz; aynı kare sayılır.
     from PIL import Image, ImageDraw, ImageFilter

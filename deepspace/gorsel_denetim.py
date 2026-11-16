@@ -51,6 +51,8 @@ KONTROL_LISTESI = [
 # Simsiyah alan sınırı (G13, 11 Kasım 2026): konsept karanlık uzay manzarasıdır; derin siyah gökyüzü doğaldır.
 # Yalnız neredeyse tamamen boş (siyah) kare kalır.
 EZIK_SINIR = 0.75
+YORUNGE_EZIK_SINIR = 0.85      # G13: yörünge kadrajı (16 Kasım 2026, sahibinin kararı)
+YORUNGE_EN_DUSUK_PARLAKLIK = 0.035
 
 
 def teknik_olcum(yol: Path) -> dict:
@@ -130,17 +132,20 @@ def benzerlik_farki(a: int, b: int) -> int:
     return bin(a ^ b).count("1")
 
 
-def teknik_sorunlar(o: dict) -> list[str]:
+def teknik_sorunlar(o: dict, kadraj: str | None = None) -> list[str]:
+    yorunge = kadraj == "yorunge"
+    en_dusuk = YORUNGE_EN_DUSUK_PARLAKLIK if yorunge else 0.05
+    ezik_sinir = YORUNGE_EZIK_SINIR if yorunge else EZIK_SINIR
     s = []
     if o["genislik"] < 2560:
         s.append(f"çözünürlük düşük ({o['genislik']} px; en az 2560)")
     if abs(o["oran"] - 16 / 9) > 0.04:
         s.append(f"oran 16:9 değil ({o['oran']})")
-    if not 0.05 <= o["ort_parlaklik"] <= 0.8:
+    if not en_dusuk <= o["ort_parlaklik"] <= 0.8:
         s.append(f"pozlama aşırı ({o['ort_parlaklik']})")
     if o["yanik"] > 0.08:
         s.append(f"yanık alan fazla (%{o['yanik'] * 100:.0f})")
-    if o["ezik"] > EZIK_SINIR:
+    if o["ezik"] > ezik_sinir:
         s.append(f"simsiyah alan fazla (%{o['ezik'] * 100:.0f})")
     if o["netlik"] < 1.0:
         s.append(f"görsel bulanık (netlik {o['netlik']})")
@@ -229,6 +234,7 @@ def goz_denetimi_yaz(yol: Path, puan: int, sorunlar: list[dict], denetleyen: str
 def gorev_gorselleri(gorev: dict) -> list[dict]:
     """Her parçanın görseli için {no, yol, teknik, sorunlar, goz} (görsel olmayan parça 'yok' döner)."""
     from .video import parca_gorseli
+    from .gorev import kadraj
     sonuc, izler = [], []
     for i, _ in enumerate(gorev["parca"]):
         ana, _on = parca_gorseli(gorev, i)
@@ -236,7 +242,7 @@ def gorev_gorselleri(gorev: dict) -> list[dict]:
             sonuc.append({"no": i + 1, "yol": None, "sorunlar": ["görsel yok"]})
             continue
         o = teknik_olcum(ana)
-        sor = teknik_sorunlar(o)
+        sor = teknik_sorunlar(o, kadraj(gorev["parca"][i]))
         iz = parmak_izi(ana)
         for no, onceki in izler:
             if benzerlik_farki(iz, onceki) <= IKIZ_SINIR:

@@ -4,7 +4,7 @@
   "tur": 1,
   "denetci": "denetci",
   "ozetler": {
-    "gorev.toml": "e4226882c606c72f4cb09a1d108aaaf5e3751df8c61128025a213c5ad9162d7e",
+    "gorev.toml": "1310cc7d44d51dc419248bdf4ff3590645be5499a2f076dfc098356afa8084a8",
     "SUNO.md": "65cdd286db1e4cca7dd051e22d0375fedd816d5d52b24bd65c16462c3970cf8e"
   },
   "zincir": {
@@ -17,25 +17,10 @@
   "kirmizi": [],
   "bulgular": [
     {
-      "kod": "tekrar",
-      "not": "müzik alanları (sıra, ad, dosya, süre, ton, bpm, style, exclude, lyrics) HEAD ile aynı; SUNO.md 20 style/exclude/lyrics gorev.toml ile birebir",
-      "kanit": "deepspace/gorevler/002-frost-line/buyume/oneriler.json"
-    },
-    {
-      "kod": "marka",
-      "not": "kadraj 9 orbital sahnede yorunge, ufuk duraklarında tur->ek doğru (Moon ufuk, Europa/Callisto/Miranda/Triton/Pluto ufuk_buz, Titan ufuk_pus); kapak_parcalari [10,7,18] oneriler.json ile aynı",
-      "kanit": "deepspace/gorevler/002-frost-line/buyume/oneriler.json"
-    },
-    {
-      "kod": "fizik",
-      "not": "gorsel istasyonuna not: Callisto ve Miranda sahnesinde Güneş solda alçakta, dev gezegen sağda uzakta; bu açıda evre ince hilal olmaz, şişkin olur. Callisto'da ufuk_buz 'kayadan parlak' der, sahne 'kaya kadar koyu' der (G6 izin veriyor, G13'te izlenmeli). Pluto: Charon Sputnik ovasından görünmez (eşzamanlı yörünge), sanatçı izlenimi notu yeterli mi gorselde bakılsın",
-      "kanit": "deepspace/gorevler/002-frost-line/buyume/oneriler.json"
-    },
-    {
-      "kod": "marka",
-      "not": "marka.toml ve gorev.py yorumlarında ufuk_buz/ufuk_pus hâlâ 'sahibinin onayı bekliyor' yazıyor; G6'da onaylı, yorum eski (konsept dışı, bloklamaz)",
-      "kanit": "deepspace/gorevler/002-frost-line/buyume/oneriler.json"
+      "kod": "kaynak",
+      "not": "tur 3; HEAD'e gore gorev.toml'da yalniz 07/15/16 bilgi satirlari degisti, 16 ikinci cumle 'predicted by mathematics before it was found, in 1846' (Galileo 1612-13 notu karsilandi); muzik/istem/rota/kadraj/kapak alanlari ayni, G1/G2/G4/G5 tur 1 karari gecerli; yeni cumle gok cismi adini icermiyor (G14)",
+      "kanit": "deepspace/gorevler/002-frost-line/gorev.toml"
     }
   ],
-  "zaman": "2026-11-16T14:30:32+00:00"
+  "zaman": "2026-11-16T14:40:08+00:00"
 }

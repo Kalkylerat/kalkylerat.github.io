@@ -1,0 +1,34 @@
+{
+  "istasyon": "bilgi",
+  "karar": "GECTI",
+  "tur": 2,
+  "denetci": "denetci",
+  "ozetler": {
+    "bilgi_kaynak.json": "54f76a8c8b2a435e0b6065ca25e10c63ff166a616f400d0c36007f8244a3fab1"
+  },
+  "zincir": {
+    "arastirma": {
+      "buyume/oneriler.json": "a3a5892d0b5f146e4bb47ada833341e0a3dd3efeca32867143c32af1ab679ee2",
+      "buyume/arastirma.md": "7c9b314465d2eb434ca3d1a31037d621803a86dd9f0e0ea38b01e761c12c54ba"
+    },
+    "konsept": {
+      "gorev.toml": "1310cc7d44d51dc419248bdf4ff3590645be5499a2f076dfc098356afa8084a8",
+      "SUNO.md": "65cdd286db1e4cca7dd051e22d0375fedd816d5d52b24bd65c16462c3970cf8e"
+    }
+  },
+  "marka_ozeti": "d313454aa1df65b1b54c765ff68108453f01a7ebe7f88b98ee1a6023955c0a17",
+  "kirmizi": [],
+  "bulgular": [
+    {
+      "kod": "kaynak",
+      "not": "tur 2; 07, 15, 16 duzeltme alanlari gorev.toml bilgi metniyle birebir, olgu alanlari ayni icerik (ozet bicimi); 16 notunda Galileo 1612-13 gerekcesi var, yeni metin Le Verrier tahmini + Galle 1846 gozlemiyle dogru, 'in the Solar System' NASA 'windiest world' ile uyumlu",
+      "kanit": "deepspace/gorevler/002-frost-line/bilgi_kaynak.json"
+    },
+    {
+      "kod": "kaynak",
+      "not": "diger 19 olgu tur 1'de kontrol edildi, kaynakli ve dogru; 07 duzeltme yalniz ilk cumleyi tutuyor (ikinci cumle degismedi), sorun degil",
+      "kanit": "deepspace/gorevler/002-frost-line/bilgi_kaynak.json"
+    }
+  ],
+  "zaman": "2026-11-16T14:40:23+00:00"
+}

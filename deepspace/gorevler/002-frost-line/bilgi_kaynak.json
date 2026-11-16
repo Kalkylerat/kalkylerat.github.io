@@ -1,0 +1,152 @@
+{
+  "ozet": {
+    "ad": "gorev.toml ozet + hedef/uzaklik",
+    "olgu": "twenty real worlds; two-hour route (20 x 6:00); inside-out route from the Moon to Arrokoth in order of distance from the Sun; frost line crossed at Ceres; hedef Pluto, uzaklik 5.5 light-hours; farthest world any spacecraft has visited.",
+    "kaynak": "https://science.nasa.gov/dwarf-planets/pluto/facts/",
+    "durum": "dogru",
+    "not": "NASA Pluto: ortalama ~39 AU, gunes isigi ~5.5 saatte ulasir (39.5 AU x 8.317 dk = 5.47 sa). Rota sirasi (Ay 1 AU, Mars 1.5, Ceres 2.8, Jupiter 5.2, Saturn 9.5, Uranus 19.2, Neptun 30, Pluto 39.5, Arrokoth 44.6 AU) uzaklik sirasiyla tutarli. 20 x 6:00 = 2 saat. 20 durak da gercek gok cismi (Ay, gezegen, uydu, cuce gezegen, Kuiper cismi); 'twenty real worlds' 001'deki gibi sorun degil. Kar cizgisi: Ceres 2.77 AU, gunes sistemi kar cizgisi tahminleri ~2.7-3 AU civari (model bagimli, kesin sinir degil); ozetteki 'across the frost line where water stays frozen' kavramsal olarak kabul edilir, bu oturumda hakemli kaynakla sayisal teyit edilmedi. Not: ozet 'out to Pluto and the farthest world' diyor, son durak Arrokoth; hedef=Pluto, rota sonu Arrokoth (kavramsal tercih, olgu hatasi degil)."
+  },
+  "01": {
+    "ad": "The Moon",
+    "olgu": "1.3 light-seconds from Earth; only other world where people have walked; always shows the same face to Earth.",
+    "kaynak": "https://science.nasa.gov/moon/facts/",
+    "durum": "dogru",
+    "not": "Ortalama mesafe 384,400 km / 299,792 km/s = 1.28 sn (1.3 dogru). Senkron donus: ayni yuz Dunya'ya bakar (librasyonla ~%59 gorulur, 'same face' yaygin ve kabul edilir). Bu oturumda sayfa dogrudan okunmadi, deger turetmesi dogrulandi. GORSEL: Dunya 'crescent lit on its left' icin Gunes Dunya yonune yakin olmali (elongasyon kucuk); Gunes ufukta, Dunya gokte yuksekte ise elongasyon ~60-90 derece, aydinlik oran %25-50: ince hilal degil, ceyrek ya da yarim evre. Gorsel onerisi: 'a half-lit Earth' (bkz. gorsel tutarsizliklar)."
+  },
+  "02": {
+    "ad": "Mars",
+    "olgu": "12.7 light-minutes from the Sun; Olympus Mons is the tallest volcano known; a day lasts about 24 and a half hours.",
+    "kaynak": "https://science.nasa.gov/mars/facts/",
+    "durum": "dogru",
+    "not": "NASA: ortalama 1.5 AU (228 milyon km), gunes isigi 'yaklasik 13 dakika'; 1.524 AU x 8.317 = 12.7 dk dogru. Sol 24.6 saat (= 24 saat 37 dk, 'about 24 and a half' kabul). Olympus Mons: NASA 'largest volcano in the solar system', tabandan zirveye 25 milden (~40 km) yuksek. 'Tallest volcano known' dogru (Vesta/Rheasilvia volkan degil)."
+  },
+  "03": {
+    "ad": "Phobos",
+    "olgu": "lumpy moon about 22 km across; orbits so low that it rises in the west, twice a day; 12.7 light-minutes from the Sun.",
+    "kaynak": "https://science.nasa.gov/mars/moons/phobos/",
+    "durum": "dogru",
+    "not": "NASA: 27 x 22 x 18 km (ortalama capi ~22 km dogru; 'about 22 km across' en kisa-orta eksene yakin, ortalama 22.2). NASA: Mars etrafinda gunde uc kez doner. Batidan dogup doguda batma: yorunge periyodu 7.65 sa < Mars donusu 24.6 sa oldugundan dogru (ters yone gorunur hareket); gorunur doguş araligi 1/(1/7.65 - 1/24.62) = ~11.1 sa, yani sol basina ~2.2 kez: 'twice a day' kabul edilebilir yuvarlama (bu turetme, NASA sayfasi dogus yonu/ikilik vermiyor; hakemli kaynak aranmadi). Uzaklik 12.7 dk Mars ile ayni (1.52 AU)."
+  },
+  "04": {
+    "ad": "Ceres",
+    "olgu": "largest object in the asteroid belt, about 940 km across; bright salt deposits shine inside one of its craters; 23 light-minutes from the Sun.",
+    "kaynak": "https://science.nasa.gov/dwarf-planets/ceres/facts/",
+    "durum": "dogru",
+    "not": "NASA: yaricap 476 km (cap ~952 km; Dawn ortalama ~939-945 km), ortalama 2.8 AU, 'sunlight takes about 22 minutes'; 2.77 AU x 8.317 = 23.0 dk, yani 23 dogru (NASA 22 yuvarlamasi 1 dk farkli, her ikisi kabul). 'About 940 km' kabul (952 km ekvator capi; 'about 950' daha guvenli). Largest object in belt: NASA ayni ifade. Parlak tuz: NASA sayfasi 'large salt deposits' diyor ama Occator'u anmiyor; Occator parlak noktalari (sodyum karbonat) De Sanctis ve ark. 2016 Nature 536, 54 ile bilinir, bu oturumda dogrudan acilmadi."
+  },
+  "05": {
+    "ad": "Jupiter",
+    "olgu": "more massive than all the other planets combined; Great Red Spot is a storm wider than Earth; 43 light-minutes from the Sun.",
+    "kaynak": "https://science.nasa.gov/jupiter/jupiters-great-red-spot/",
+    "durum": "dogru",
+    "not": "NASA: GRS Kuzey-Guney yonunde >1 Dunya capi (13,000 km), Dogu-Bati yonunde >2 Dunya capi (1996 Galileo gorseli); 2017 Hubble olcumu ~1.3 Dunya capi, kucuk ama hala Dunya'dan genis. Kutle: Jupiter ~318 Dunya, diger gezegenler toplami ~ 0.4 Jupiter kutlesi (yaygin dogru; NASA Jupiter sayfasi bu cumleyi vermiyor, hesaplama dogru). 5.2 AU x 8.317 = 43.3 dk dogru."
+  },
+  "06": {
+    "ad": "Io",
+    "olgu": "most volcanic world known, with hundreds of active volcanoes; plumes rise hundreds of kilometres high; 43 light-minutes from the Sun.",
+    "kaynak": "https://science.nasa.gov/jupiter/moons/io/",
+    "durum": "dogru",
+    "not": "NASA: 'most volcanically active world in the solar system', 'hundreds of volcanoes'; lav cesmeleri 'dozens of km high'. Duman (plume) yuksekligi: Voyager Pele ~300 km, New Horizons 2007 Tvashtar ~330 km (Spencer ve ark. 2007 Science 318, 240; bu oturumda dogrudan acilmadi). 'Hundreds of kilometres' en buyuk duman icin dogru, tipik icin degil: guvenli soz 'up to about 300 km'. Hafif oneri, zorunlu degil."
+  },
+  "07": {
+    "ad": "Europa",
+    "olgu": "under its ice shell lies a salty ocean, may hold twice the water of Earth's oceans; a NASA spacecraft arrives in 2030.",
+    "kaynak": "https://science.nasa.gov/mission/europa-clipper/",
+    "durum": "dogru",
+    "not": "NASA Europa Clipper: Jupiter'e Nisan 2030'da ulasir (dogru). Okyanus: NASA 'may contain more than twice as much liquid water as all of Earth's oceans combined' ('may', 'likely' degil). 'Salty' okyanus: Galileo manyetometre ve tuzlu su modelleri destekler, kesinlik 'likely'. Oneri: 'likely' yerine 'may hold more than twice the water of all Earth's oceans'. | 16 Kasım: şef gorev.toml'da düzeltti (öneri metni uygulandı).",
+    "duzeltme": "Under its ice shell lies a salty ocean that may hold twice the water of Earth's oceans."
+  },
+  "08": {
+    "ad": "Ganymede",
+    "olgu": "largest moon in the Solar System, bigger than the planet Mercury; the only moon known to have its own magnetic field; 43 light-minutes from the Sun.",
+    "kaynak": "https://science.nasa.gov/jupiter/moons/ganymede/",
+    "durum": "dogru",
+    "not": "Ganymede capi 5,268 km > Merkur 4,879 km (kutlesi ise Merkur'un yaklasik yarisi; metin 'bigger', capi kastediyor, dogru). Dahili manyetik alan: Galileo (Kivelson ve ark. 1996 Nature 384, 537) 'only moon known'; Callisto/Europa'nin alani indukte. Bu oturumda sayfa dogrudan acilmadi, degerler standart referans degerleridir."
+  },
+  "09": {
+    "ad": "Callisto",
+    "olgu": "one of the most heavily cratered surfaces in the Solar System; its ancient crust has barely changed in four billion years; 43 light-minutes from the Sun.",
+    "kaynak": "https://science.nasa.gov/jupiter/moons/callisto/",
+    "durum": "dogru",
+    "not": "NASA: Callisto'nun yuzeyi Gunes Sistemi'ndeki en eski ve en cok kratere sahip yuzeylerden, yaklasik 4 milyar yil, jeolojik olarak degismemis. Sayfa dogrudan acilmadi, ifade NASA/Galileo ozetidir. GORSEL: ince Jupiter hilali Gunes ufukta solda iken ust sagda olamaz (bkz. gorsel tutarsizliklar)."
+  },
+  "10": {
+    "ad": "Saturn",
+    "olgu": "main rings span about 280,000 km yet are mostly only tens of metres thick; the planet is less dense than water; 79 light-minutes from the Sun.",
+    "kaynak": "https://science.nasa.gov/saturn/facts/",
+    "durum": "dogru",
+    "not": "NASA Saturn: halka sistemi gezegenden 282,000 km'ye kadar uzanir (bu YARICAP mesafesi, tum sistem), ana halkalar tipik ~10 m kalinlikta (NASA baska sayfada 'A, B, C <100 m cogu yerde'); 'tens of metres' kabul. Ana halka CAPI: A halkasi dis kenari ~136,800 km yaricap (cap ~273,500 km), F halkasiyla ~280,000 km (standart referans degeri, bu oturumda hakemli tablo acilmadi): 'about 280,000 km' ancak F halkasi dahil dogru; guvenli soz 'about 270,000 km' ya da 'roughly 280,000 km'. Yogunluk 0.687 g/cm3 < 1 dogru. Uzaklik 9.54 AU = 79 dk."
+  },
+  "11": {
+    "ad": "Enceladus",
+    "olgu": "geysers at its south pole spray ice from a hidden ocean into space; one of the most reflective bodies in the Solar System.",
+    "kaynak": "https://science.nasa.gov/saturn/moons/enceladus/",
+    "durum": "dogru",
+    "not": "NASA: 'the most reflective body in the solar system', 'whitest, most reflective surface'; kuzey kutbunda degil guney kutup 'tiger stripes' catlaklarindan su jetleri; yuzey altinda kuresel okyanus (Cassini kutleçekim olcumu). Metindeki 'one of the most' NASA'dan daha temkinli, dogru. GORSEL: Saturn'un kendisi (28 derece) atlanmis (bkz. gorsel tutarsizliklar)."
+  },
+  "12": {
+    "ad": "Titan",
+    "olgu": "the only moon with a thick atmosphere; lakes and seas of liquid methane on its surface.",
+    "kaynak": "https://science.nasa.gov/saturn/moons/titan/",
+    "durum": "dogru",
+    "not": "NASA: 'the only moon with a thick atmosphere', 'lakes and seas of liquid hydrocarbons like methane and ethane'. 'Liquid methane' basitlestirme (metan+etan karisimi), kabul. GORSEL: yuzeyden Gunes diski gorunmez; istemdeki 'faint pale disc' supheli (bkz. gorsel tutarsizliklar; bu oturumda Huygens DISR kaynagi dogrudan teyit edilemedi)."
+  },
+  "13": {
+    "ad": "Iapetus",
+    "olgu": "one side dark as coal, the other bright as snow; a ridge up to 20 km high runs along its equator; 79 light-minutes from the Sun.",
+    "kaynak": "https://science.nasa.gov/photojournal/details-in-the-dark",
+    "durum": "dogru",
+    "not": "NASA Photojournal PIA06646 'Details in the Dark': 'The ridge was discovered in Cassini images and reaches 20 kilometers (12 miles) high in places.' 'Up to 20 km' NASA ile birebir; olcum limb profillerine dayanir (Lopez Garcia ve ark. 2014 arXiv 1404.2337 ayni 20 km'yi anar), ridge boyunca yukseklik degisir (tipik ~10 km). Albedo kontrasti ~0.03-0.05 vs ~0.6 (kara kömür/kar benzetmesi dogru). Saturn'e uzaklik 9.5 AU sebebiyle 79 dk (Saturn ile ayni)."
+  },
+  "14": {
+    "ad": "Uranus",
+    "olgu": "spins on its side, tilted about 98 degrees; each pole gets about 42 years of daylight, then 42 years of night; 2.7 light-hours from the Sun.",
+    "kaynak": "https://science.nasa.gov/uranus/facts/",
+    "durum": "dogru",
+    "not": "NASA: egim 97.77 derece; gunes isigi 'two hours and 40 minutes' (= 2.67 sa, 2.7 dogru). 42 yil: yorunge 84 yil, her kutup yarim yil gunesli/gece (geometrik 42 yil); NASA Facts sayfasi '21-year-long dark winter' sozunu kullanir (mevsimsel tanim), ESA/NASA diger sayfalar 42 yil ifadesini destekler. 'About 42 years' kabul edilir, ancak NASA Facts'taki 21 yilla karisabilir: not olarak izlenmeli."
+  },
+  "15": {
+    "ad": "Miranda",
+    "olgu": "its cliff Verona Rupes may be the tallest in the Solar System, roughly 10 km high; its surface looks stitched together from very different terrains; 2.7 light-hours from the Sun.",
+    "kaynak": "https://spaceplace.nasa.gov/cliff-jumping/en/",
+    "durum": "dogru",
+    "not": "'Up to about 20 km' birincil kaynakta DESTEKLENMIYOR. NASA Space Place: Verona Rupes 'over six miles high' (~10 km, 33,000 ft), 'tallest cliff known'. NASA/Chloe Beddingfield roportaji: 'up to 10 km tall'. JPL PIA00044 baska bir fay yamaci icin ~5 km. Wikipedia: 5-10 km (Thomas 1988 Icarus 73, 427), 5-15 km, 20 km sadece 2016 APOD'a dayanir; yukseklik tek Voyager 2 fotografindan egik gorusle tahmin edilmis, kesin degil. 20 km NASA bilim/misyon sayfasinda bulunamadi. 'May be the tallest' ifadesi NASA ile uyumlu (kesin degil). Miranda capi ~470-500 km (NASA ~500 km), uc corona + eski kraterli arazi: 'stitched together' dogru. Verona Rupes 18.3 G, 347.8 D (USGS), yani Uranus'a bakan yuzeyde, Uranus gokte yuksek goruntulenir. Uranus uzaklik dogru. | 16 Kasım: şef gorev.toml'da düzeltti (öneri metni uygulandı).",
+    "duzeltme": "Its cliff Verona Rupes may be the tallest in the Solar System, roughly 10 km high."
+  },
+  "16": {
+    "ad": "Neptune",
+    "olgu": "its winds are the fastest measured in the Solar System, over 2,000 km/h; predicted by mathematics before it was found, in 1846; 4.2 light-hours from the Sun.",
+    "kaynak": "https://science.nasa.gov/neptune/facts/",
+    "durum": "dogru",
+    "not": "NASA: ruzgarlar 'more than 1,200 mph (2,000 km/h)', 'our solar system's windiest world'; 1846'da matematikle (Le Verrier) bulundu, Galle gozlemledi; Neptun 30 AU, gunes isigi 4 saatte (4.17 sa dogru). Sorun: 'fastest measured on any planet' gezegen turu sinirsiz; bazi gunes disi gezegenlerde (HD 189733 b, Louden ve Wheatley 2015 ApJL, ~8,700 km/h) Doppler ile daha hizli ruzgar olculdu; bu oturumda bu makale dogrudan acilmadi. Oneri: 'in the Solar System' ekle. Ayrica Galileo 1612-13'te Neptun'u gozlemledi ama gezegen oldugunu bilmeden (tarihsel not, '1846 bulus' dogru). | 16 Kasım: şef gorev.toml'da düzeltti (öneri metni uygulandı). | 16 Kasım (denetçi tur 1): Galileo 1612-13'te gördü ama gezegen sanmadı; 'before anyone saw it' yerine 'predicted by mathematics before it was found' yazıldı (Le Verrier tahmini, Galle 1846 gözlemi).",
+    "duzeltme": "Its winds are the fastest measured in the Solar System, over 2,000 km/h. It was predicted by mathematics before it was found, in 1846."
+  },
+  "17": {
+    "ad": "Triton",
+    "olgu": "the only large moon that orbits against its planet's spin; geysers of nitrogen gas were seen erupting from its surface; 4.2 light-hours from the Sun.",
+    "kaynak": "https://science.nasa.gov/neptune/moons/triton/",
+    "durum": "dogru",
+    "not": "NASA: 'the only large moon in our solar system that orbits in the opposite direction of its planet's rotation'; Voyager 2 1989'da aktif gayzerleri buldu. NASA sayfasi gayzerleri 'nitrogen' diye adlandirmiyor, ancak yuzey donmus azot, atmosfer azot, plumelar azot kaynaklidir (JPL 'Voyager 2 Discovers Eruption on Triton'; NTRS 19910027591 Soderblom ve ark. 1990 Science 250, 410: azot gazi + koyu parcaciklar). 'Geysers of nitrogen gas ... were seen' kabul, 'geyser-like plumes' daha kesin."
+  },
+  "18": {
+    "ad": "Pluto",
+    "olgu": "a heart-shaped plain of nitrogen ice stretches across its face; a year lasts 248 Earth years; 5.5 light-hours from the Sun.",
+    "kaynak": "https://science.nasa.gov/dwarf-planets/pluto/facts/",
+    "durum": "dogru",
+    "not": "NASA: ~248 Dunya yili, ortalama ~39 AU, 5.5 saat. Kalp: Sputnik Planitia (Nimmo ve ark. 2016 Nature 540, 94; Keane ve ark. 2016 Nature 540, 90), azot-karbonmonoksit-metan buzu. Kalp Pluto'nun 'yuzu' (gorunen yarikure) metin icin dogru. SAHNE HATASI (olgu degil, gorsel): Sputnik Planitia merkezi ~18 K, 178 D (anti-Charon noktasina cok yakin; ayni arastirmalar). Charon Pluto'ya kutleçekimsel kilitli, yani sabit bir noktada gorunur; Charon yalnizca sub-Charon yarikuresinden (boylam ~270..90) gorunur. SP'den Charon'a aci ~162 derece: Charon ufkun ~72 derece ALTINDA, hic gorunmez. Gorselde Charon gokte gosteriliyorsa fizik hatasi (bkz. gorsel tutarsizliklar)."
+  },
+  "19": {
+    "ad": "Charon",
+    "olgu": "half the size of its companion, the two circle a point in space between them; its north pole is stained red; 5.5 light-hours from the Sun.",
+    "kaynak": "https://science.nasa.gov/dwarf-planets/pluto/facts/",
+    "durum": "dogru",
+    "not": "NASA Pluto sayfasi: Charon Pluto'nun yaklasik yarisi boyutunda, sistemdeki en buyuk uydu/gezegen orani; Charon capi 1,212 km / Pluto 2,377 km = %51 dogru. Agirlik merkezi (barycenter) Pluto yuzeyinin disinda (Pluto merkezinden ~2,000 km; Pluto yaricapi ~1,188 km): 'circle a point in space between them' dogru (NASA Pluto sayfasi barycenter'i anmiyor, dolayisiyla bu degerler standart referans; NASA Charon sayfasi bu oturumda acilmadi). Kuzey kutup kirmizisi (Mordor Macula, Pluto atmosferinden kacan metanin tholine donusmesi, Grundy ve ark. 2016 Nature 539, 65; bu oturumda acilmadi). GORSEL: Charon'dan Pluto'nun kalbi gorunmez (bkz. gorsel tutarsizliklar). | 16 Kasım: kaynak bağlantısı şef tarafından düzeltildi."
+  },
+  "20": {
+    "ad": "Arrokoth",
+    "olgu": "the farthest world ever visited, 6.2 light-hours from the Sun; the farthest object ever visited by a spacecraft, in 2019; two gently joined lobes; formed at the birth of the Solar System.",
+    "kaynak": "https://science.nasa.gov/solar-system/kuiper-belt/arrokoth-2014-mu69/facts",
+    "durum": "dogru",
+    "not": "'6.2 light-hours' SINIRDA ama dogru: NASA ortalama yorunge uzakligi 44.6 AU (6.5 milyar km); 44.6 x 8.317 dk = 371 dk = 6.18 sa ('6.2' dogru). Ancak New Horizons gecisi (1 Ocak 2019) sirasinda Gunes'e uzaklik 43.4 AU = 6.0 sa (Wikipedia 43.4 AU; Stern ve ark. 2019 Science 364, eaaw9771 ve Grundy ve ark. 2020 Science 367 aay3705: 43.28 AU = 6.0 sa). Yani 'ortalama uzaklik' olarak 6.2, ziyaret edildigi anda 6.0. kisa metni 'from the Sun' dedigi icin ortalama okumasiyla dogru; Pluto (5.5 sa ortalama) < Arrokoth (6.2 sa ortalama) sirasi her iki okumada korunur (Pluto ziyaret anindaki 33 AU = 4.6 sa). Gerek duyulursa: '6.2 light-hours (average)' ya da '6 light-hours'. NASA: 'the most distant object ever explored by a spacecraft' (birebir). Kesif 26 Haziran 2014 (Hubble, Buie). Iki lob: NASA 'most likely formed separately and gently merged within a cloud of particles early in the history of our solar system' (McKinnon ve ark. 2020 Science 367 aay6620); 'formed at the birth of the Solar System' kabul (erken donem), 'birth' hafifce guclu. Voyager 1/2 daha uzakta ama cisim ziyaret etmedi: 'farthest world visited' dogru. Not: Arrokoth'un Gunes'ten uzakligi yorungesi nedeniyle simdi (2026) yaklasik 44-45 AU, 6.1-6.2 sa, ortalamaya yakin."
+  }
+}

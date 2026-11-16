@@ -1,0 +1,35 @@
+{
+  "kelimeler": [
+    "space ambient music",
+    "space ambient",
+    "space music",
+    "ambient space music",
+    "deep focus music",
+    "ambient music for sleep",
+    "space sleep music",
+    "sci fi ambient music"
+  ],
+  "aciklama_etiket_kelimeleri": [
+    "solar system",
+    "planets",
+    "icy moons",
+    "frost line"
+  ],
+  "basliklar": [
+    "Frost Line | Deep Space Ambient Music for Sleep & Deep Focus (2 Hours) · Mission 002",
+    "Frost Line: Icy Worlds | Deep Space Ambient Music for Sleep & Deep Focus (2 Hours) · Mission 002"
+  ],
+  "secilen": 0,
+  "seri": "focus",
+  "kapak_parcalari_onerisi": [10, 7, 18],
+  "kapak_notu": "Sıra kapak_1 = Saturn (10), kapak_2 = Europa (7), kapak_3 = Pluto (18). Taslaktaki üç parça aynı kalır, yalnız sıra değişir; gorev.toml'a konsept/paket istasyonu yazar.",
+  "yayin_gunu": "pazar",
+  "yayin_saati_utc": "17:00",
+  "yayin_tarihi_hedef": "2026-11-22",
+  "yayin_notu": "001'den bir hafta sonraki pazar. Hat yetişmezse ara gün değil, sonraki pazar (2026-11-29) 17:00 UTC. G8: karar yayından en az 24 saat önce.",
+  "kaynaklar": [
+    {"arac": "vidiq_keyword_research", "zaman": "2026-11-16T14:23:03Z", "not": "research 'solar system ambient music': tohum <750/ay, rekabet 84; space ambient 101.8K/ay, rekabet 50, +53%; space music 117.4K/ay, rekabet 30, +52.6%, US %17; ambient space music 8.6K/ay, rekabet 28; solar system 305K/ay, pazar IN %20 PK %15 BD %7; solar system song 17.1K, +96.1%; solar system for kids 9.3K"},
+    {"arac": "vidiq_outliers", "zaman": "2026-11-16T14:23:05Z", "not": "long, en, 20 sonuç: halkalı dev gezegen kapakları 3 kez (Saturn 4 sa 12.3K izlenme 2.9x; ringed giant 1 sa 7.9K 1.6x; ringed giant 1.5 sa 1.3K 2.4x); 'Distant Planets' 2:16 7.2K 1.5x; okyanus temalı 2 sa 4.1K; buzlu uydu odaklı öne çıkan video yok"},
+    {"arac": "deepspace/arastirma.md (11 Kasım 2026, vidIQ 7+3 çağrı)", "zaman": "2026-11-11T00:20:00Z", "not": "space ambient music 123K/ay rekabet 39 +33%; sci fi ambient music 25.7K rekabet 27 +65%; deep focus music 716K rekabet 35; ambient music for sleep 32K rekabet 35; space sleep music 7K rekabet 36; başlık kalıbı ad | tür + fayda; kapakta karanlık ufuk + tek dev gök cismi"}
+  ]
+}

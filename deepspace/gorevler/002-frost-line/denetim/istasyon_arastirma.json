@@ -1,0 +1,31 @@
+{
+  "istasyon": "arastirma",
+  "karar": "GECTI",
+  "tur": 1,
+  "denetci": "denetci",
+  "ozetler": {
+    "buyume/oneriler.json": "a3a5892d0b5f146e4bb47ada833341e0a3dd3efeca32867143c32af1ab679ee2",
+    "buyume/arastirma.md": "7c9b314465d2eb434ca3d1a31037d621803a86dd9f0e0ea38b01e761c12c54ba"
+  },
+  "zincir": {},
+  "marka_ozeti": "d313454aa1df65b1b54c765ff68108453f01a7ebe7f88b98ee1a6023955c0a17",
+  "kirmizi": [],
+  "bulgular": [
+    {
+      "kod": "kaynak",
+      "not": "her rakam [KR]/[OUT]/[001] etiketiyle arac+zaman bagli; [001] rakamlari deepspace/arastirma.md ile ayni; ham vidIQ ciktisi saklanmadigi icin [KR] rakamlarinin bir kismi (solar system rekabet 68/60/40, VN/BR/FR paylari, -80.1%) yalniz arastirma.md'de, oneriler.json notunda yok (bilgi)",
+      "kanit": "deepspace/buyume/vidiq_harcama.jsonl"
+    },
+    {
+      "kod": "yazi",
+      "not": "basliklar 84 ve 96 karakter, G1 kalibi birebir (secilen 0), yasak ad yok (G5), kapak notu seri adi/sure yazmiyor (G7)",
+      "kanit": "deepspace/buyume/vidiq_harcama.jsonl"
+    },
+    {
+      "kod": "butce",
+      "not": "defterde 14:22:10 balance(0), 14:23:03 keyword_research(5), 14:23:05 outliers(5); ikisi de IZINLI okuma araci; donem 2026-10-27'den 60/100 kredi, tavan asilmadi (G17)",
+      "kanit": "deepspace/buyume/vidiq_harcama.jsonl"
+    }
+  ],
+  "zaman": "2026-11-16T14:26:11+00:00"
+}

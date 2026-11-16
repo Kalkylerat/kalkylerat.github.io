@@ -1,0 +1,26 @@
+{
+  "kontrol_listesi_surumu": 1,
+  "denetleyen": "denetci",
+  "ozet": "a6bd4a93503105d36987e32fc380dc99404f97c051ad3e5f56cd40f5fc8e2fe5",
+  "puan": 5,
+  "sorunlar": [
+    {
+      "kod": "istem",
+      "not": "Dunya kurumus gol yatagi (camur catlagi playa) cagrisimi: ova (y %58-100) birkac metre genisliginde, kenarlari kalkik koyu catlaklarla ayrilmis cokgen levhalar; Sputnik'in hucreleri onlarca km, goz hizasinda ufka kadar cok az oluk gorunur olmali. Tuz kabugu gorunumu yerine kuruyup catlamis camur gorunumu geldi; tam ekranda ve kucultmede belirgin. Kuskuda birakma kurali"
+    },
+    {
+      "kod": "olcek",
+      "not": "Gunes ufukta (x %5, y %52) ama ovada hic uzun ince golge yok: cukurlar yalniz koyu delik, bloklar ve oluk kenarlari saga uzanan golge dusurmuyor, zemin onden ufka esit aydinlik. Ufuk y %57, kadraj alt siniri %58'in hafif ustunde"
+    },
+    {
+      "kod": "bozulma",
+      "not": "kucuk: zeminde ince izgara/dokuma deseni (pafta 5-6); Gunes'te kucuk hale. Duzelenler: cokgen hucre ve cukur var, sagdaki daglar koseli egik bloklar (x %44-100, y %30-58), oluk ve kar seridi yok, ince mavi pus cizgisi solda, yildizlar keskin, islak yansima yok, Charon yok"
+    }
+  ],
+  "gecti": false,
+  "sahibi_onayi": {
+    "tarih": "2026-11-16",
+    "not": "Sahibi 3 görsellik denemeye bakıp yazdı: \"Güzel olmuş\" (16 Kasım 2026); G11 denemesi onaylandı.",
+    "ozet": "a6bd4a93503105d36987e32fc380dc99404f97c051ad3e5f56cd40f5fc8e2fe5"
+  }
+}

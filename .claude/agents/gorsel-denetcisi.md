@@ -26,7 +26,7 @@ Adımlar:
    taşınır, son dosyaya ikinci kez bakma (G13, 12 Kasım). Teknik kapı (parlaklık) son dosyada ölçülür, taslakta değil. (`--sorun`
    tekrarlanabilir). Kodlar yalnız `deepspace/gorsel_denetim.py` `KONTROL_LISTESI` kodlarıdır: `anatomi`, `yazi`,
    `fizik`, `istem` (kritik); `tekrar`, `olcek`, `bozulma`, `marka`. Kodların bu kanaldaki anlamı ve puan cetveli
-   rehberin 8. bölümündedir. Kritik kusur ya da puan <7 → kalır. Kritik olmayan kusur tam ekranda görülüyorsa puan en çok 6.
+   rehberin 8. bölümündedir. Kritik kusur ya da puan <7 → kalır. Denetim ölçüsü (G13, 16 Kasım, sahibinin isteği): soru "izleyiciye güzel görünüyor mu"dur; `fizik` yalnız ilk bakışta göze batan saçmalıktır. Evre, ölçek, yüzey dokusu gibi uzman ayrıntıları kritik değildir, puanı 7'nin altına tek başına düşürmez. Kritik olmayan kusur tam ekranda görülüyorsa puan en çok 6.
 6. Notu yeniden üretene yarayacak kadar kesin yaz: ne, nerede, hangi yönde ("hilal sağ üstte, aydınlık kenarı sağa
    bakıyor; yıldız solda"). Düzeltme cümlesini sen yazmazsın; o yönetmenin işi.
 

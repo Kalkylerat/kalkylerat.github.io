@@ -665,6 +665,14 @@ def test_G13_sahibinin_gozle_onayi_yalniz_o_taslak_icin_gecerli(tmp_path):
     assert not gd.goz_denetimi_gecti(d2)[0]
 
 
+def test_G13_denetim_olcusu_guzel_gorunum():
+    kok = Path(__file__).resolve().parent.parent
+    soz = (kok / "SOZLESME.md").read_text(encoding="utf-8")
+    ajan = (kok / ".claude" / "agents" / "gorsel-denetcisi.md").read_text(encoding="utf-8")
+    assert "Denetim ölçüsü (16 Kasım 2026" in soz and "uzmanın fark edeceği" in soz
+    assert "Denetim ölçüsü (G13, 16 Kasım" in ajan
+
+
 def test_G13_ikiz_olcumu_dikey_konumu_ayirir(tmp_path):
     # Koyu gökte aynı sütunda ama farklı yükseklikte parlayan iki kare ikiz sayılmaz; aynı kare sayılır.
     from PIL import Image, ImageDraw, ImageFilter

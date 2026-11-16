@@ -1,0 +1,26 @@
+{
+  "kontrol_listesi_surumu": 1,
+  "denetleyen": "denetci",
+  "ozet": "0a404a0ce76961bb34978116bf865c5ff63e372d041c48dd66dd9732923998b8",
+  "puan": 5,
+  "sorunlar": [
+    {
+      "kod": "istem",
+      "not": "Dunya/iz cagrisimi: sol ondeki iki cift sirt (x %20-60, y %65-100) ufka kosan dar, esit aralikli, tirtil disli paralel seritler; tam ekranda ve 168x94 kucultmede kardaki arac/lastik izi gibi okunuyor (cift sirt km olcekli kabarik sirt degil, metre olcekli iz). Ayrica Gunes'in altinda zeminde dikey parlak yansima sutunu (x %0-25, y %62-75) dalgacikli dokuyla islak buz/su parlamasi gibi; istem 'matte frost-dulled' ve 'no wet reflections' diyor. Kuskuda birakma kurali"
+    },
+    {
+      "kod": "marka",
+      "not": "parlak yansima sutunu sol alt sakin bolgeye (kayit karti x %0-37, y %64-84) giriyor; Gunes'te kucuk yumusak hale (istem 'no glow'), isin haci yok"
+    },
+    {
+      "kod": "bozulma",
+      "not": "kucuk: zemin dokusunda ince izgara/dokuma deseni (pafta 4 ve 6, alt yari). Duzelenler: hilal sol ust yazi bolgesinden cikti (x %21-31, y %26-36, tamami y>=%20), ince hilal Gunes'e ~20 derece yakinliga uygun, aydinlik dis kenar sol alta Gunes'e (x %10, y %58) bakiyor, uclar saga-yukari, gece yuzu siyah ve yildiz gostermiyor; ufuk duz y %62; sirt golgeleri saga-one dusuyor (dogru)"
+    }
+  ],
+  "gecti": false,
+  "sahibi_onayi": {
+    "tarih": "2026-11-16",
+    "not": "Sahibi 3 görsellik denemeye bakıp yazdı: \"Güzel olmuş\" (16 Kasım 2026); G11 denemesi onaylandı.",
+    "ozet": "0a404a0ce76961bb34978116bf865c5ff63e372d041c48dd66dd9732923998b8"
+  }
+}

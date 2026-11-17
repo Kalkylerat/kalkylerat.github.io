@@ -1703,3 +1703,29 @@ def test_G13_yerlesim_arayuze_gore_yumusak_tercih():
     rehber = (KOK / ".claude" / "skills" / "gorsel-dili" / "SKILL.md").read_text(encoding="utf-8")
     assert "resmi şablonun özelliklerine göre konumlandırsak" in soz and "yumuşak bir tercihtir" in soz
     assert "| Sağ kenar |" in rehber and "x %22–78" in rehber and "| Üst şerit |" in rehber
+
+
+def test_G14_gostergelerin_arkasinda_belli_belirsiz_perde(tmp_path):
+    from PIL import Image
+    from deepspace import defter
+    from deepspace.defter import SeyirDefteri
+    soz = (KOK / "SOZLESME.md").read_text(encoding="utf-8")
+    assert "kesinlikle belli belirsiz" in soz and "en çok %55 koyulaşır" in soz
+    assert defter.PERDE_GUC == 0.55
+    W, H, fps = 640, 360, 24
+    g = tmp_path / "g.png"
+    Image.new("RGB", (W, H), (200, 200, 200)).save(g)
+    n = 24 * 20
+    muzik = {"zarf": np.full(n, 0.5, np.float32), "spektrum": np.full((n, 40), 0.3, np.float32)}
+    bilgi = {"ad": "SATURN", "kisa": "test", "bilgi": "A real fact.", "gorev_no": 2, "hedef": "Saturn",
+             "parca_no": 10, "parca_say": 20, "sonraki": "Enceladus", "sarki": "Rings",
+             "rota": [[f"STOP {k}", f"Song {k}"] for k in range(20)]}
+    s = SeyirDefteri(g, [], W, H, fps, 20.0, muzik, bilgi)
+    ham = s._taban_hazirla(Image.open(g).convert("RGB"), 0.5, None)
+    oran = s.taban / np.maximum(ham, 1e-6)
+    assert oran.min() >= 1 - defter.PERDE_GUC - 1e-3  # en çok %55
+    rota_x = slice(int(W * 0.80), W - 10)
+    assert oran[int(H * 0.45):int(H * 0.55), rota_x].min() < 0.8  # rotanın arkası koyulaşır
+    assert np.allclose(oran[int(H * 0.40):int(H * 0.55), int(W * 0.40):int(W * 0.55)], 1)  # orta bölgeye dokunmaz
+    dik = SeyirDefteri(g, [], 360, 640, fps, 20.0, muzik, bilgi)  # Shorts'ta perde yok
+    assert np.allclose(dik.taban, dik._taban_hazirla(Image.open(g).convert("RGB"), 0.5, None))

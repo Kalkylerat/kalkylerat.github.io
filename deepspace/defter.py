@@ -67,6 +67,9 @@ SARKI_FONT = "Lora-Italic.ttf"
 ROTA_OLCEK = {0: (48, 34, 1.0, 9), 1: (30, 24, 0.70, 6), 2: (24, 0, 0.49, 4), 3: (22, 0, 0.33, 3), 4: (22, 0, 0.20, 2)}
 ROTA_ARA = 34          # duraklar arası boşluk
 ROTA_MERKEZ = 0.49     # o anki durağın dikey merkezi
+# Perde (G14, 17 Kasım 2026, sahibinin isteği: "kesinlikle belli belirsiz"): sabit göstergelerin arkası en çok bu
+# oranda koyulaşır; kenarsız, yazının şeklini izleyen yumuşak gölge.
+PERDE_GUC = 0.55
 
 
 @lru_cache(maxsize=64)
@@ -251,6 +254,13 @@ class SeyirDefteri:
         self._sabit = self._dikey_ust() if self.dikey else self._ust_sol()
         self._rota = None if self.dikey else self._rota_kur()
         self._saat = (-1, None)
+        if not self.dikey:  # perde bir kez hesaplanır, görüntünün kendisine işlenir (komşu görseller dahil)
+            perde = (1 - self._perde())[..., None]
+            self.taban = (self.taban * perde).astype(np.float32)
+            if self.onceki is not None:
+                self.onceki = (self.onceki * perde).astype(np.float32)
+            if self.sonraki is not None:
+                self.sonraki = (self.sonraki * perde).astype(np.float32)
         self._cam = None if self.dikey else self._cam_kur()
 
     def _taban_hazirla(self, resim: Image.Image, kirp_x: float, ton: dict | None) -> np.ndarray:
@@ -612,6 +622,25 @@ class SeyirDefteri:
         o = self.o
         kw, kh = int(670 * o), int(242 * o)
         return int(48 * o), int(self.H * (1 - ALT_GUVENLI) - 12 * o) - kh, kw, kh
+
+    def _perde(self) -> np.ndarray:
+        """Göstergelerin arkasında kenarsız, belli belirsiz koyu perde (G14, 17 Kasım 2026): sabit yazıların (sol üst,
+        rota, saat) ve sinyal şeridinin şeklini izleyen yumuşak bulut; parlak zeminde okunurluk verir, koyu zeminde
+        fark edilmez. Çeyrek çözünürlükte hesaplanır, parça başına bir kez. Dönüş: 0..PERDE_GUC koyulaşma oranı."""
+        W, H, o, q = self.W, self.H, self.o, 4
+        A = np.zeros((H, W), np.float32)
+        for px, py, p in (self._sabit, self._rota, self._saat_parca(0.0)):
+            px, py = max(0, px), max(0, py)
+            h, w = min(p.shape[0], H - py), min(p.shape[1], W - px)
+            A[py:py + h, px:px + w] = np.maximum(A[py:py + h, px:px + w], p[:h, :w, 3])
+        x, y, kw, kh = self._kart_kutusu()
+        sy = y + kh - int(70 * o)  # sinyal şeridi (dalga şeridin üst ~%6'sı ile %72'si arasında gezinir)
+        A[sy + int(4 * o):sy + int(52 * o), x + int(24 * o):x + kw - int(16 * o)] = 1
+        m = Image.fromarray(((A > 0.05) * 255).astype(np.uint8)).resize((max(1, W // q), max(1, H // q)), Image.BOX)
+        m = m.point(lambda v: 255 if v else 0)
+        m = m.filter(ImageFilter.MaxFilter(max(3, int(round(21 * o / q)) | 1)))
+        m = m.filter(ImageFilter.GaussianBlur(34 * o / q)).resize((W, H), Image.BILINEAR)
+        return np.clip(np.asarray(m, np.float32) / 255 * 1.8, 0, 1) * PERDE_GUC
 
     def _cam_kur(self) -> Image.Image:
         """Buzlu cam: kartın arkasındaki görüntü bulanık ve koyu (parça boyunca aynı, bir kez hazırlanır)."""

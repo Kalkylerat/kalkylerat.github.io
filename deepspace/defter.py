@@ -13,8 +13,10 @@ Görüntü hiç bükülmez (SOZLESME G14). Hareket yalnızca resmin ÜSTÜNE ekl
   bulutsu_tulu    bulutsunun tülü: düşük frekanslı parlaklık dalgası, yavaşça kayar (piksel taşımaz). {kutu, guc, hiz}
   uydu            yolda süzülen soluk nokta, seyrek geçiş. {yol: [[x0, y0], [x1, y1]], sure, aralik, parlaklik}
 Her katman `muzik: true` alabilir: gücü 0.7 + 0.6·zarf ile çarpılır. Kutulu katmanlar kutu dışındaki piksele dokunmaz.
-Marka kaydı (HUD): sol üst kanal ve görev, sağ üst görev saati, sol alt satır satır yazılan kayıt (gerçek bilgi
-`gorev.toml`'dan), sağ alt müziğin spektrumundan "sinyal" çizgisi. Tarif: `gorsel/NN_hareket.json` içinde "katmanlar".
+Marka kaydı (HUD, G14, 17 Kasım 2026 yerleşimi): sol üst halka-7, kanal, görev ve cismin veri satırı; sağ üst görev
+saati; sağ kenarda Dock rotası (o anki durak büyük ve parlak, şarkı adıyla; uzaklar küçük ve soluk); sol altta buzlu
+cam kayıt kartı (gerçek bilgi `gorev.toml`'dan) ve hemen altında müziğin spektrumundan "sinyal" çizgisi. Üst %10 ve
+alt %16 boş kalır (oynatıcının başlığı ve oynatma çubuğu). Tarif: `gorsel/NN_hareket.json` içinde "katmanlar".
 Dikey (Shorts, H > W): görsel `kirp_x` odağında kırpılır; üstte marka + görev, y ≈ 0.28·H'de kanca, altta (y > 0.8·H)
 "Full N-hour mission" ve tam genişlikte sinyal; kayıt kartı yok. Katman koordinatları 16:9 karede yazılır ve dikey
 kadraja resimle birlikte taşınır.
@@ -57,6 +59,14 @@ YAZMA_HIZI = 22      # harf/sn
 OKUMA_SN = 10
 SOLMA_SN = 3
 SONRAKI_SN = 25
+# Yerleşim (G14, 17 Kasım 2026, sahibinin onayı): tam ekranda YouTube video başlığını üste yazar; yatay videoda hiçbir
+# arayüz öğesi üst UST_GUVENLI oranına girmez. Rota sağ kenardadır, macOS Dock gibi: uzaklık -> (durak yazı boyu,
+# şarkı adı boyu ya da 0, opaklık, nokta yarıçapı), 1080p piksel. Şarkı adları tek istisna fontla (G16, OFL).
+UST_GUVENLI = 0.10
+SARKI_FONT = "Lora-Italic.ttf"
+ROTA_OLCEK = {0: (48, 34, 1.0, 9), 1: (30, 24, 0.70, 6), 2: (24, 0, 0.49, 4), 3: (22, 0, 0.33, 3), 4: (22, 0, 0.20, 2)}
+ROTA_ARA = 34          # duraklar arası boşluk
+ROTA_MERKEZ = 0.49     # o anki durağın dikey merkezi
 
 
 @lru_cache(maxsize=64)
@@ -82,6 +92,33 @@ def kanca_sigar_mi(metin: str, W: int, H: int) -> bool:
 
 def _font(boy: int, kalin: bool = False) -> ImageFont.FreeTypeFont:
     return ImageFont.truetype(str(FONT / ("SpaceMono-Bold.ttf" if kalin else "SpaceMono-Regular.ttf")), boy)
+
+
+@lru_cache(maxsize=16)
+def _sarki_font(boy: int) -> ImageFont.FreeTypeFont:
+    return ImageFont.truetype(str(FONT / SARKI_FONT), boy)
+
+
+def sarki_adi(parca: dict) -> str:
+    """Şarkının adı: `sarki` alanı ya da motifin ':'dan önceki kısmı ("Rings: G-B-D-F#, ..." -> "Rings")."""
+    if parca.get("sarki"):
+        return str(parca["sarki"]).strip()
+    motif = str(parca.get("motif", ""))
+    return motif.split(":", 1)[0].strip() if ":" in motif else ""
+
+
+def _aralikli(d: ImageDraw.ImageDraw, xy, metin: str, f: ImageFont.FreeTypeFont, renk, opak: float = 1.0,
+              aralik: float = 0.0, sag: bool = False) -> float:
+    """Harf aralıklı yazı (kutusuz, konturusuz; okunurluğu _golgeli verir). sag=True ise x sağ kenardır."""
+    ek = f.size * aralik
+    gen = sum(f.getlength(c) for c in metin) + ek * max(0, len(metin) - 1)
+    x, y = xy
+    if sag:
+        x -= gen
+    for c in metin:
+        d.text((x, y), c, font=f, fill=(*renk, int(255 * opak)))
+        x += f.getlength(c) + ek
+    return gen
 
 
 def _kapla(img: Image.Image, w: int, h: int, kirp_x: float = 0.5) -> Image.Image:
@@ -212,6 +249,9 @@ class SeyirDefteri:
         self.katmanlar = [self._hazirla(k, rng) for k in (self._cerceveye(k) for k in katmanlar) if k]
         self._kayit = self._kayit_sayfalari()
         self._sabit = self._dikey_ust() if self.dikey else self._ust_sol()
+        self._rota = None if self.dikey else self._rota_kur()
+        self._saat = (-1, None)
+        self._cam = None if self.dikey else self._cam_kur()
 
     def _taban_hazirla(self, resim: Image.Image, kirp_x: float, ton: dict | None) -> np.ndarray:
         W, H = self.W, self.H
@@ -398,15 +438,122 @@ class SeyirDefteri:
         d.text((x, y), metin, font=f, fill=(*r, int(255 * opak)), stroke_width=kontur,
                stroke_fill=(8, 10, 18, int(150 * opak)))
 
+    def _golgeli(self, img: Image.Image) -> np.ndarray:
+        """Kutusuz okunurluk: yazının arkasına yumuşak, bulanık koyu iz (17 Kasım 2026 tasarımı)."""
+        a = img.split()[3].filter(ImageFilter.GaussianBlur(max(1.0, 4 * self.o))).point(lambda v: int(v * 0.8))
+        golge = Image.new("RGBA", img.size, (0, 0, 0, 0))
+        golge.putalpha(a)
+        return np.asarray(Image.alpha_composite(golge, img), np.float32) / 255
+
     def _ust_sol(self) -> tuple[int, int, np.ndarray]:
-        o, b, m = self.o, self.bilgi, int(KENAR * self.o)
-        img, d = self._parca(1100 * o, 128 * o)
-        self._yazi(d, (0, 0), "DEEP SPACE LOG", YAZI["baslik"], True, 0.95)
-        self._yazi(d, (0, 48 * o), f"MISSION {b['gorev_no']:03d}  ·  {b['ad']}", YAZI["alt"], False, 0.85,
-                   self.palet["yazi_ikincil"])
-        # bilim iletişimindeki geleneksel not: görsel bir çizimdir, dünya gerçektir (G9)
-        self._yazi(d, (0, 88 * o), "ARTIST'S IMPRESSION", YAZI["etiket"], False, 0.7, self.palet["yazi_ikincil"])
-        return m, m, np.asarray(img, np.float32) / 255
+        """Sol üst: halka-7 işareti (profil.png'nin dili), kanal adı, görev, cismin gerçek veri satırı, ARTIST'S
+        IMPRESSION (G9: görsel bir çizimdir, dünya gerçektir). Üst UST_GUVENLI'nin altında başlar."""
+        o, b = self.o, self.bilgi
+        x0, y0 = int(40 * o), int(math.ceil(self.H * UST_GUVENLI))
+        img, d = self._parca(1100 * o, 180 * o)
+
+        def L(x, y):  # 1080p mutlak -> parça
+            return x * o - x0, y * o - y0
+
+        vurgu, yazi, ikincil = (rgb(self.palet[k]) for k in ("vurgu", "yazi", "yazi_ikincil"))
+        cx, cy = L(98, 138)
+        r = 26 * o
+        d.ellipse([cx - r, cy - r, cx + r, cy + r], outline=(*vurgu, 255), width=max(1, int(2.2 * o)))
+        aci = math.radians(-40)
+        px, py, n = cx + r * math.cos(aci), cy + r * math.sin(aci), max(1.0, 3.7 * o)
+        d.ellipse([px - n, py - n, px + n, py + n], fill=(*vurgu, 255))
+        f7 = _font(max(1, int(30 * o)), True)
+        d.text((cx - f7.getlength("7") / 2, cy - r * 0.86), "7", font=f7, fill=(*vurgu, 255))
+        _aralikli(d, L(142, 116), "DEEP SPACE LOG", _font(int(24 * o), True), yazi, 0.97, 0.16)
+        gorev = f"MISSION {b['gorev_no']:03d}  ·  {str(b.get('gorev_ad') or b['hedef']).upper()}"
+        _aralikli(d, L(142, 148), gorev, _font(int(YAZI["etiket"] * o)), vurgu, 0.95, 0.14)
+        y = 206
+        if b.get("kisa"):
+            _aralikli(d, L(72, y), b["kisa"].upper(), _font(int(YAZI["etiket"] * o)), ikincil, 0.92, 0.06)
+            y += 34
+        _aralikli(d, L(72, y), "ARTIST'S IMPRESSION", _font(int(YAZI["etiket"] * o)), ikincil, 0.55, 0.08)
+        return x0, y0, self._golgeli(img)
+
+    def _rota_kur(self) -> tuple[int, int, np.ndarray]:
+        """Sağ kenarda Dock rotası (G14, sahibinin isteği: "mouse gelince büyüyor ya öyle"): o anki durak `NOW ·
+        NN/20`, büyük ve parlak, altında SONG TITLE ve şarkı adı; ±1 durak şarkı adıyla, sıradaki NEXT etiketiyle;
+        ±4 durağa kadar küçülür ve solar. Parça boyunca değişmez, bir kez çizilir."""
+        o, W, H, b = self.o, self.W, self.H, self.bilgi
+        rota = [list(x) for x in (b.get("rota") or [])]
+        simdi = b.get("parca_no", 1) - 1
+        if not (0 <= simdi < len(rota)):
+            rota, simdi = [[b["ad"], b.get("sarki", "")]], 0
+        vurgu, yazi, ikincil = (rgb(self.palet[k]) for k in ("vurgu", "yazi", "yazi_ikincil"))
+        f_et = _font(int(YAZI["etiket"] * o), True)
+        f_ince = _font(int(YAZI["etiket"] * o))
+
+        def yuk(f, ornek="AQ"):
+            k = f.getbbox(ornek)
+            return k[3] - k[1]
+
+        bloklar = []  # (i, uzaklık, [(tür, font, yükseklik)])
+        for i in range(max(0, simdi - 4), min(len(rota), simdi + 5)):
+            k = abs(i - simdi)
+            boy, sboy, _, _ = ROTA_OLCEK[k]
+            sarki = rota[i][1] if sboy else ""
+            satir = []
+            if k == 0:
+                satir += [("now", f_et, yuk(f_et)), ("bos", None, 8 * o)]
+            fa = _font(int(boy * o), k <= 1)
+            satir.append(("ad", fa, yuk(fa)))
+            if sarki:
+                fs = _sarki_font(max(1, int(sboy * o)))
+                if k == 0:
+                    satir += [("bos", None, 12 * o), ("etiket", f_ince, yuk(f_ince, "SONG")), ("bos", None, 9 * o)]
+                else:
+                    satir.append(("bos", None, 4 * o))
+                satir.append(("sarki", fs, yuk(fs, "Rgy")))
+            bloklar.append((i, k, satir))
+        ara = ROTA_ARA * o
+        boylar = [sum(h for _, _, h in st) for _, _, st in bloklar]
+        ust_toplam = sum(h + ara for (i, _, _), h in zip(bloklar, boylar) if i < simdi)
+        simdi_h = boylar[[i for i, _, _ in bloklar].index(simdi)]
+        y_bas = ROTA_MERKEZ * H - simdi_h / 2 - ust_toplam
+        toplam = sum(boylar) + ara * (len(bloklar) - 1)
+        alt_sinir, ust_sinir = H * (1 - ALT_GUVENLI) - 40 * o, H * UST_GUVENLI + 80 * o  # saatin altı
+        y_bas = min(max(y_bas, ust_sinir), alt_sinir - toplam)
+        x0 = int(W - 760 * o)
+        xc = W - 80 * o - x0
+        xr = xc - 34 * o
+        pad = int(40 * o)
+        y0 = int(max(H * UST_GUVENLI, y_bas - pad))
+        img, d = self._parca(W - x0, alt_sinir + pad - y0)
+        noktalar, y = [], y_bas - y0
+        for (i, k, satir), h in zip(bloklar, boylar):
+            _, _, opak, nr = ROTA_OLCEK[k]
+            ad, sarki = rota[i]
+            yy = y
+            for tur, f, sh in satir:
+                if tur == "now":
+                    _aralikli(d, (xr, yy - f.getbbox("NOW")[1]), f"NOW  ·  {i + 1:02d}/{len(rota):02d}", f, vurgu,
+                              1.0, 0.16, sag=True)
+                elif tur == "ad":
+                    ust = yy - f.getbbox("A")[1]
+                    g = _aralikli(d, (xr, ust), ad.upper(), f, yazi, opak, 0.08, sag=True)
+                    if i == simdi + 1:
+                        _aralikli(d, (xr - g - 18 * o, ust + (f.size - f_et.size) / 2 + 2 * o), "NEXT", f_et, vurgu,
+                                  1.0, 0.16, sag=True)
+                    noktalar.append((i, yy + sh / 2, nr * o, opak))
+                elif tur == "etiket":
+                    _aralikli(d, (xr, yy - f.getbbox("SONG")[1]), "SONG TITLE", f, ikincil, 0.65, 0.06, sag=True)
+                elif tur == "sarki":
+                    d.text((xr - f.getlength(sarki), yy - f.getbbox("R")[1]), sarki, font=f,
+                           fill=(*yazi, int(255 * (1.0 if k == 0 else opak))))
+                yy += sh
+            y += h + ara
+        if len(noktalar) > 1:
+            ust, alt = noktalar[0][1] - 24 * o, noktalar[-1][1] + 24 * o
+            simdi_y = [n[1] for n in noktalar if n[0] == simdi][0]
+            d.line([(xc, ust), (xc, alt)], fill=(*ikincil, 60), width=max(1, int(o)))
+            d.line([(xc, ust), (xc, simdi_y)], fill=(*vurgu, 150), width=max(1, int(2 * o)))
+        for i, ny, nr, opak in noktalar:
+            d.ellipse([xc - nr, ny - nr, xc + nr, ny + nr], fill=(*(vurgu if i <= simdi else ikincil), int(255 * opak)))
+        return x0, y0, self._golgeli(img)
 
     # ---------- dikey (Shorts) ----------
     def _dikey_ust(self) -> tuple[int, int, np.ndarray]:
@@ -459,91 +606,94 @@ class SeyirDefteri:
         img = img.resize((W, ph), Image.LANCZOS)
         return 0, int(0.8 * H), np.asarray(img, np.float32) / 255
 
+    def _kart_kutusu(self) -> tuple[int, int, int, int]:
+        """Sol alttaki cam kartın kutusu (x, y, w, h): bilgi satırları ve altında sinyal; alt kenar oynatıcı
+        alanının üstünde (G14-4)."""
+        o = self.o
+        kw, kh = int(670 * o), int(242 * o)
+        return int(48 * o), int(self.H * (1 - ALT_GUVENLI) - 12 * o) - kh, kw, kh
+
+    def _cam_kur(self) -> Image.Image:
+        """Buzlu cam: kartın arkasındaki görüntü bulanık ve koyu (parça boyunca aynı, bir kez hazırlanır)."""
+        x, y, w, h = self._kart_kutusu()
+        arka = Image.fromarray((np.clip(self.taban[y:y + h, x:x + w], 0, 1) * 255).astype(np.uint8))
+        arka = np.asarray(arka.filter(ImageFilter.GaussianBlur(max(1.0, 20 * self.o))), np.float32)
+        koyu = np.array(rgb(self.palet["arka"]), np.float32)
+        return Image.fromarray((arka * 0.41 + koyu * 0.59).astype(np.uint8)).convert("RGBA")
+
     def _kayit_karti(self, etiket: str, satirlar: list[str], sol: float) -> tuple[int, int, np.ndarray]:
-        """Sol alt köşede dar kayıt kartı (sahibinin isteği, 11 Kasım 2026: "şık arka plan, köşede, videoya
-        yayılmadan"). Koyu cam zemin, ince çerçeve, solda vurgu çizgisi, üstte PROBE-7 · ARRIVAL ya da NEXT etiketi."""
-        o, H = self.o, self.H
-        m = int(KART_KENAR * o)
-        sat = YAZI["kayit"] * 1.42 * o
-        ic = 22 * o
-        bas_h = YAZI["etiket"] * 1.6 * o
-        kw, kh = int(KART_GENISLIK * o), int(ic * 2 + bas_h + sat * 3)
-        img = Image.new("RGBA", (kw, kh), (0, 0, 0, 0))
-        zemin = Image.new("RGBA", (kw, kh), (0, 0, 0, 0))
-        zd = ImageDraw.Draw(zemin)
-        r = int(14 * o)
-        zd.rounded_rectangle([0, 0, kw - 1, kh - 1], radius=r, fill=(*rgb(self.palet["arka"]), int(178 * sol)),
-                             outline=(*rgb(self.palet["yazi_ikincil"]), int(55 * sol)), width=max(1, int(1.5 * o)))
-        zd.rounded_rectangle([0, r, int(4 * o), kh - r], radius=int(2 * o), fill=(*rgb(self.palet["vurgu"]), int(230 * sol)))
-        img.alpha_composite(zemin)
+        """Sol altta buzlu cam kayıt kartı (sahibinin isteği, 11 Kasım 2026: "şık arka plan, köşede, videoya
+        yayılmadan"; 17 Kasım 2026: sinyal kartın altında). İnce çerçeve, solda kehribar çubuk, üstte PROBE-7 ·
+        ARRIVAL ya da NEXT etiketi; satırlar yerinde harf harf yazılır."""
+        o = self.o
+        x, y, kw, kh = self._kart_kutusu()
+        img = self._cam.copy()
+        img.putalpha(int(255 * sol))
         d = ImageDraw.Draw(img)
-        x = int(ic + 6 * o)
-        self._yazi(d, (x, ic - 4 * o), f"PROBE-7  ·  {etiket}", YAZI["etiket"], True, 0.9 * sol, self.palet["vurgu"])
-        y = ic + bas_h
-        for metin in satirlar:
-            self._yazi(d, (x, y), metin, YAZI["kayit"], False, 0.96 * sol)
-            y += sat
-        return m, int(H * (1 - ALT_GUVENLI)) - kh, np.asarray(img, np.float32) / 255
+        d.rectangle([0, 0, kw - 1, kh - 1], outline=(*rgb(self.palet["yazi_ikincil"]), int(50 * sol)),
+                    width=max(1, int(o)))
+        d.line([(24 * o, 24 * o), (24 * o, 174 * o)], fill=(*rgb(self.palet["vurgu"]), int(255 * sol)),
+               width=max(1, int(3 * o)))
+        _aralikli(d, (50 * o, 24 * o), f"PROBE-7  ·  {etiket}", _font(int(YAZI["etiket"] * o), True),
+                  rgb(self.palet["vurgu"]), sol, 0.16)
+        f = _font(int(YAZI["kayit"] * o))
+        for j, metin in enumerate(satirlar):
+            _aralikli(d, (50 * o, (64 + 36 * j) * o), metin, f, rgb(self.palet["yazi"]), 0.97 * sol, 0.02)
+        return x, y, np.asarray(img, np.float32) / 255
+
+    def _sinyal(self, i: int) -> tuple[int, int, np.ndarray]:
+        """Kartın altında müziğin spektrumundan kehribar sinyal çizgisi (3x çizilip küçültülür: kenarlar yumuşak)."""
+        o = self.o
+        x, y, kw, kh = self._kart_kutusu()
+        gh, k = int(70 * o), 3
+        sp = self.muzik["spektrum"][min(i, len(self.muzik["spektrum"]) - 1)]
+        img = Image.new("RGBA", (kw * k, gh * k), (0, 0, 0, 0))
+        d = ImageDraw.Draw(img)
+        sol_x, sag_x = 24 * o * k, (kw - 16 * o) * k
+        xs = np.linspace(sol_x, sag_x, 200)
+        ince = np.convolve(np.interp(xs, np.linspace(sol_x, sag_x, len(sp)), sp), np.ones(5) / 5, mode="same")
+        taban_y, tepe = gh * k * 0.72, 46 * o * k
+        d.line([(float(a), float(taban_y - v * tepe)) for a, v in zip(xs, ince)],
+               fill=(*rgb(self.palet["vurgu"]), 215), width=max(1, int(2.2 * k * o)), joint="curve")
+        img = img.resize((kw, gh), Image.LANCZOS)
+        return x, y + kh - gh, self._golgeli(img)
+
+    def _saat_parca(self, t: float) -> tuple[int, int, np.ndarray]:
+        """Sağ üstte görev saati (saniyede bir yeniden çizilir)."""
+        s = int(self.t0 + t)
+        if self._saat[0] != s:
+            o = self.o
+            gw, gh = int(420 * o), int(56 * o)
+            img, d = self._parca(gw, gh)
+            f = _font(int(26 * o), True)
+            _aralikli(d, (gw - 8 * o, 8 * o), f"T+{s // 3600:02d}:{s % 3600 // 60:02d}:{s % 60:02d}", f,
+                      rgb(self.palet["yazi"]), 0.97, 0.06, sag=True)
+            self._saat = (s, (int(self.W - 72 * o - gw + 8 * o), int(110 * o), self._golgeli(img)))
+        return self._saat[1]
 
     def _hud(self, t: float, i: int) -> list[tuple[int, int, np.ndarray]]:
         if self.dikey:
             return [self._sabit, self._dikey_alt(i)]
-        o, W, H, b = self.o, self.W, self.H, self.bilgi
-        m = int(KENAR * o)
         sonuk = 1.0 if t < ACIK_SN else max(SONUK, 1 - (t - ACIK_SN) / 5 * (1 - SONUK))
-        parcalar = [self._sabit]
-        # sağ üst: görev saati ve alım ışığı
-        gw = int(620 * o)
-        img, d = self._parca(gw, 90 * o)
-        s = int(self.t0 + t)
-        self._yazi(d, (0, 0), f"T+{s // 3600:02d}:{s % 3600 // 60:02d}:{s % 60:02d}", YAZI["baslik"], True, 0.95,
-                   hiza="sag", genislik=gw)
-        alt = f"{b['parca_no']:02d}/{b['parca_say']:02d}  RECEIVING"
-        self._yazi(d, (0, 48 * o), alt, YAZI["alt"], False, 0.85, self.palet["yazi_ikincil"], hiza="sag", genislik=gw)
-        nabiz = 0.3 + 0.7 * (0.5 + 0.5 * math.cos(TAU * t / 2.4))
-        gx = gw - d.textlength(alt, font=_font(int(YAZI["alt"] * o))) - 22 * o
-        r, cy = 7 * o, 48 * o + YAZI["alt"] * 0.62 * o
-        d.ellipse([gx - r, cy - r, gx + r, cy + r], fill=(*rgb(self.palet["vurgu"]), int(255 * nabiz)))
-        parcalar.append((W - m - gw, m, np.asarray(img, np.float32) / 255))
-        # sol alt: kayıt kartı, yalnız parça başında (bilgi) ve sonuna yakın (NEXT), G14-4/5
+        parcalar = [self._sabit, self._rota, self._saat_parca(t)]
+        # sol alt: kayıt kartı yalnız parça başında (bilgi) ve sonuna yakın (NEXT), G14-4/5; sinyal hep, kartın altında
         kart = self._kart(t)
+        kart_parca = None
         if kart:
             etiket, yazili, sol = kart
-            # her sayfa bir cümleyle başlar: ilk satır ">", devam satırları girintili (ayrı kayıt gibi görünmez)
-            ilk = True
-            satirlar = [("> " if k == 0 and ilk else "  ") + x for k, x in enumerate(yazili)]
+            satirlar = list(yazili)
             if i % 12 < 6:
                 satirlar[-1] += "_"
-            parcalar.append(self._kayit_karti(etiket, satirlar, sol))
-        # sağ alt: sinyal, müziğin spektrumu (3x çizilip küçültülür: kenarlar yumuşak)
-        sp = self.muzik["spektrum"][min(i, len(self.muzik["spektrum"]) - 1)]
-        gw, gh, k = int(560 * o), int(120 * o), 3
-        s_img = Image.new("RGBA", (gw * k, gh * k), (0, 0, 0, 0))
-        sd = ImageDraw.Draw(s_img)
-        xs = np.linspace(0, gw * k - 1, 180)
-        ince = np.convolve(np.interp(xs, np.linspace(0, gw * k - 1, len(sp)), sp), np.ones(5) / 5, mode="same")
-        taban_y = gh * k * 0.96
-        tepe = gh * k * 0.62  # etiketin altından başlar
-        golge = [(float(x), float(taban_y - v * tepe + 3 * k * o)) for x, v in zip(xs, ince)]
-        sd.line(golge, fill=(8, 10, 18, 120), width=max(1, int(4 * k * o)), joint="curve")
-        sd.line([(0, taban_y), (gw * k, taban_y)], fill=(*rgb(self.palet["yazi_ikincil"]), 90), width=k)
-        sd.line([(float(x), float(taban_y - v * tepe)) for x, v in zip(xs, ince)],
-                fill=(*rgb(self.palet["vurgu"]), 235), width=max(1, int(2.6 * k * o)), joint="curve")
-        f = _font(int(YAZI["etiket"] * o * k))
-        sd.text((0, 0), "SIGNAL", font=f, fill=(*rgb(self.palet["yazi_ikincil"]), 210),
-                stroke_width=max(1, int(2 * k * o)), stroke_fill=(8, 10, 18, 140))
-        s_img = s_img.resize((gw, gh), Image.LANCZOS)
-        parcalar.append((W - m - gw, int(H * (1 - ALT_GUVENLI)) - gh, np.asarray(s_img, np.float32) / 255))
-        if sonuk < 1:  # kart dışındaki arayüz söner
-            kart_var = 1 if kart else 0
-            for k in range(len(parcalar)):
-                if kart_var and k == len(parcalar) - 2:
-                    continue
-                x, y, a = parcalar[k]
+            kart_parca = self._kayit_karti(etiket, satirlar, sol)
+        sinyal = self._sinyal(i)
+        if sonuk < 1:  # kart dışındaki arayüz söner (uyku dinleyicisi)
+            soluk = []
+            for x, y, a in parcalar + [sinyal]:
                 a = a.copy()
                 a[..., 3] *= sonuk
-                parcalar[k] = (x, y, a)
-        return parcalar
+                soluk.append((x, y, a))
+            parcalar, sinyal = soluk[:-1], soluk[-1]
+        return parcalar + ([kart_parca] if kart_parca else []) + [sinyal]
 
     # ---------- kare ----------
     def kare(self, i: int) -> np.ndarray:

@@ -38,13 +38,18 @@ hiçbir istemde ve metinde geçmez (G5).
 | Bölge | Kare içindeki yeri | Üstüne gelen |
 |---|---|---|
 | Alt şerit | bütün genişlik, alt %16 | YouTube oynatma çubuğu (G14-4) |
-| Sol üst | x %0–30, y %0–20 | kanal adı, görev ve cisim adı, ARTIST'S IMPRESSION |
-| Sağ üst | x %80–100, y %0–15 | görev saati |
-| Sol alt | x %0–37, y %64–84 | kayıt kartı (yalnız parça başında) |
-| Sağ alt | x %65–100, y %70–84 | sinyal çizgisi |
+| Üst şerit | bütün genişlik, üst %10 | tam ekranda YouTube'un video başlığı (G14-4) |
+| Sol üst | x %0–42, y %10–26 | halka-7, kanal adı, görev, cismin veri satırı, ARTIST'S IMPRESSION |
+| Sağ üst | x %85–100, y %10–15 | görev saati |
+| Sağ kenar | x %78–100, y %17–80 | rota (Dock: o anki durak büyük, uzaklar soluk) |
+| Sol alt | x %0–37, y %58–84 | kayıt kartı (parça başında) ve altında sinyal çizgisi |
 
-  Ana cisim ve odak orta bantta yaşar: x %20–85, y %15–65. 17.png bunu sağlar (yıldız x %17, y %58; hilal x %72–84,
-  y %17–40).
+  Yerleşim (17 Kasım 2026, sahibinin fikri, G13): arayüz her videoda aynıdır, istem resmi ona göre kurar. Ana cisim ve
+  parlak odak orta bölgede yaşar: x %22–78, y %15–75; bölge içinde yeri serbesttir, her kare ortaya dizilmez. Büyük
+  cisim kenara taşabilir, yeter ki rotanın ya da kartın altına giren kısmı karanlık ve sakin olsun (002/10 Satürn:
+  gündüz yüzü ortada, gece yüzü rotanın altında). İstemde açıkça yaz: ör. "the planet sits in the centre of the frame,
+  the right edge and lower-left corner stay dark and quiet". Bu yumuşak bir tercihtir: yalnız odak rota ya da kart
+  altında kayboluyorsa `marka` kusurudur.
 - **Kapak okunurluğu.** Kapak aynı karenin 1280x720'ye küçültülmüş hâlidir (kırpma yok). Başlık bloğu üç yerden birine
   oturur ve arkası koyulur: sol üst (x %7–55, y %12–43), sol alt (x %7–55, y %58–90), üst orta. `kapak_parcalari` için
   seçilen üç sahnede odak bu bloğun dışında kalmalı ve üçü ayrı kadraj, ayrı renk olmalı. Deneme: kareyi 168x94'e
@@ -180,7 +185,7 @@ Kod çizer; görsel modeliyle yazı ya da arayüz üretilmez.
 
 | Öğe | Kural |
 |---|---|
-| Yazı | Space Mono; başlık Bold, veri Regular. Hep büyük harf, geniş harf aralığı. Başka font yok. |
+| Yazı | Space Mono; başlık Bold, veri Regular. Hep büyük harf, geniş harf aralığı. Tek istisna rotadaki şarkı adları: Lora Italic, normal yazım (17 Kasım 2026, G16). |
 | Renk | Zemin `#05070f`, başlık `#f0f0f5`, ikincil `#b8c0d0`, vurgu `#e8c48a`. İkinci vurgu rengi yok. |
 | Kehribar çizgi | Başlığın altında tek ince çizgi (kapakta 2 px, 240 px). Yüzey başına bir tane; süs olarak çoğaltılmaz. |
 | Köşe nişanları | Dört köşede ince L işareti (kapakta 30 px kol, kenardan 34 px). Çerçeve çizilmez. |
@@ -190,11 +195,14 @@ Kod çizer; görsel modeliyle yazı ya da arayüz üretilmez.
 - **Kapak (G7, `kapak.py`):** kehribar görev numarası, altında görev adı (büyük yazı en çok 3 kelime), kehribar çizgi,
   küçük veri satırı, köşe nişanları, küçük `DEEP SPACE LOG · PROBE-7` imzası. Seri adı, süre, slogan yazılmaz. Üç
   varyant üç ayrı parçanın karesidir; aynı karenin yakınlaştırması varyant değildir.
-- **Arayüz (G14, `defter.py`):** sol üstte kanal adı, `MISSION 00N · cisim adı`, `ARTIST'S IMPRESSION`; sağ üstte görev
-  saati ve alım ışığı; sağ altta müziğe bağlı kehribar sinyal çizgisi. Hiçbiri alt %16'ya girmez (`ALT_GUVENLI`).
-  İlk dakikadan sonra %60 opaklık.
-- **Kayıt kartı:** sol altta dar koyu cam kart, ince çerçeve, solda kehribar çubuk, `PROBE-7 · ARRIVAL` etiketi; en çok
-  3 satır, tam cümle, cisim adını tekrar etmez; yalnız parça başında görünür ve bütün olarak kaybolur (G14-5).
+- **Arayüz (G14, `defter.py`, 17 Kasım 2026):** sol üstte halka-7, kanal adı, `MISSION 00N · görev adı`, cismin veri
+  satırı ve `ARTIST'S IMPRESSION`; sağ üstte görev saati; sağ kenarda Dock rotası (o anki durak `NOW · NN/20`, büyük ve
+  parlak, altında `SONG TITLE` ve şarkı adı; ±1 durak şarkı adıyla, sıradaki `NEXT` etiketiyle; ±4 durağa kadar küçülür
+  ve solar). Yazıların arkasında kutu yok, yumuşak koyu gölge var. Hiçbiri alt %16'ya ve üst %10'a girmez
+  (`ALT_GUVENLI`, `UST_GUVENLI`). İlk dakikadan sonra kart dışındaki her şey %60 opaklık.
+- **Kayıt kartı:** sol altta buzlu koyu cam kart (arkası bulanık), ince çerçeve, solda kehribar çubuk, `PROBE-7 ·
+  ARRIVAL` etiketi; en çok 3 satır, tam cümle, cisim adını tekrar etmez; yalnız parça başında görünür ve bütün olarak
+  kaybolur (G14-5). Müziğe bağlı kehribar sinyal çizgisi kartın hemen altında durur; kart açıkken camın içinde kalır.
 - **Banner ve profil (`deepspace/marka/taslak/defter_kiti.py`):** banner bir uçuş kaydı sayfasıdır (kanal adı,
   `PROBE-7 FLIGHT LOG`, görev tablosu, ölçekli yörünge şeması, uçuş hattı); her şey güvenli alanda (1546x423) okunur.
   Profil mürekkep zeminde kehribar yörünge halkası içinde "7"; 40 pikselde seçilir. Fotoğraf zemini, renkli simge yok.

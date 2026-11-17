@@ -147,10 +147,13 @@ def _bolum_kodla(args) -> str:
 
 
 def parca_bilgisi(gorev: dict, i: int) -> dict:
-    """Seyir Defteri kaydı için parça bilgisi (gerçek bilgi gorev.toml'dan). i: 0'dan."""
+    """Seyir Defteri kaydı için parça bilgisi (gerçek bilgi gorev.toml'dan). i: 0'dan. Rota: her durağın adı ve
+    şarkı adı (G14, Dock rotası)."""
+    from .defter import sarki_adi
     p, n = gorev["parca"][i], len(gorev["parca"])
     return {"ad": p["ad"], "kisa": p.get("kisa", ""), "bilgi": p.get("bilgi", ""), "gorev_no": gorev["no"],
-            "hedef": gorev["hedef"], "parca_no": i + 1, "parca_say": n,
+            "hedef": gorev["hedef"], "parca_no": i + 1, "parca_say": n, "gorev_ad": gorev.get("ad", gorev["hedef"]),
+            "sarki": sarki_adi(p), "rota": [[q["ad"], sarki_adi(q)] for q in gorev["parca"]],
             "sonraki": gorev["parca"][i + 1]["ad"] if i + 1 < n else ""}
 
 

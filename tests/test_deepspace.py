@@ -1271,7 +1271,7 @@ def test_G14_seyir_defteri_goruntuyu_bukmez(tmp_path):
     yan, son = s.kare(int(0.4 * fps)).astype(int), s.kare(int(2.0 * fps)).astype(int)  # LED yanık / sönük
     assert np.abs(yan[170:190, 310:330] - son[170:190, 310:330]).max() > 30  # ışık yanıp söner
     # Işığın ve yazıların dışında hiçbir piksel kıpırdamaz: görüntü bükülmez, yalnız üstüne katman eklenir.
-    orta = (slice(80, 150), slice(100, 260))
+    orta = (slice(100, 150), slice(100, 260))  # sol üst blok y %27'ye kadar iner (17 Kasım 2026 yerleşimi)
     assert np.abs(yan[orta] - son[orta]).max() == 0
     assert np.abs(yan[orta] - (s.taban[orta] * 255 + 0.5).astype(int)).max() == 0
     assert s.kare(0).shape == (H, W, 3)
@@ -1658,3 +1658,48 @@ def test_G14_kart_yalniz_basta_ve_sonda_tek_satir_NEXT():
     assert len(sonda) == 1 and sonda[0][3] == ["course set for Vega"]
     assert sonda[0][0] == 360.0 - 45 and sonda[0][1] - sonda[0][0] == 25   # 45 sn kala, 25 sn
     assert len(sayfalar) == len(basta) + 1                    # parça ortasında başka kart yok
+
+
+def test_G14_dock_rota_ust_serit_ve_sarki_adi(tmp_path):
+    """17 Kasım 2026, sahibinin onayı: sağ kenarda Dock rotası, üst %10 boş, şarkı adı motiften."""
+    from PIL import Image
+    from deepspace.defter import ALT_GUVENLI, ROTA_OLCEK, UST_GUVENLI, SeyirDefteri, sarki_adi
+    assert UST_GUVENLI >= 0.10
+    assert sarki_adi({"motif": "Rings: G-B-D-F#, uzak sinüs çanında çok yavaş."}) == "Rings"
+    assert sarki_adi({"motif": "uzak çan"}) == "" and sarki_adi({}) == ""
+    gorev = {"no": 2, "ad": "Frost Line", "hedef": "Pluto",
+             "parca": [{"ad": f"W{i}", "kisa": "k", "bilgi": "A fact.", "motif": f"Song {i}: x"} for i in range(20)]}
+    b = video.parca_bilgisi(gorev, 9)
+    assert b["rota"][9] == ["W9", "Song 9"] and len(b["rota"]) == 20 and b["gorev_ad"] == "Frost Line"
+    boy = [ROTA_OLCEK[k][0] for k in sorted(ROTA_OLCEK)]
+    opak = [ROTA_OLCEK[k][2] for k in sorted(ROTA_OLCEK)]
+    assert boy == sorted(boy, reverse=True) and opak == sorted(opak, reverse=True) and opak[0] == 1.0
+    assert min(boy) >= 22 and ROTA_OLCEK[0][1] >= 22 and ROTA_OLCEK[1][1] >= 22 and not ROTA_OLCEK[2][1]
+    W, H, fps, sure = 640, 360, 4, 400.0
+    g = tmp_path / "g.png"
+    Image.fromarray(np.zeros((H, W, 3), np.uint8)).save(g)
+    n = int(fps * sure)
+    muzik = {"zarf": np.full(n, 0.5, np.float32), "spektrum": np.full((n, 40), 0.3, np.float32)}
+    s = SeyirDefteri(g, [], W, H, fps, sure, muzik, b)
+    for t in (10.0, 200.0, sure - 30):
+        for x, y, p in s._hud(t, int(t * fps)):
+            assert y >= H * UST_GUVENLI - 1, f"t={t}: öğe üst şeritte (oynatıcının başlığı)"
+            assert y + p.shape[0] <= H * (1 - ALT_GUVENLI) + 1
+    rx, ry, rp = s._rota
+    assert rx >= 0.6 * W and rp[..., 3].sum() > 0          # rota sağ kenarda
+
+
+def test_G16_sarki_adi_fontu_ofl():
+    from deepspace.defter import FONT, SARKI_FONT
+    assert (FONT / SARKI_FONT).exists()
+    assert "Open Font License" in (FONT / "Lora-OFL.txt").read_text(encoding="utf-8")
+    soz = (KOK / "SOZLESME.md").read_text(encoding="utf-8")
+    rehber = (KOK / ".claude" / "skills" / "gorsel-dili" / "SKILL.md").read_text(encoding="utf-8")
+    assert "Lora Italic" in soz and "Lora Italic" in rehber
+
+
+def test_G13_yerlesim_arayuze_gore_yumusak_tercih():
+    soz = (KOK / "SOZLESME.md").read_text(encoding="utf-8")
+    rehber = (KOK / ".claude" / "skills" / "gorsel-dili" / "SKILL.md").read_text(encoding="utf-8")
+    assert "resmi şablonun özelliklerine göre konumlandırsak" in soz and "yumuşak bir tercihtir" in soz
+    assert "| Sağ kenar |" in rehber and "x %22–78" in rehber and "| Üst şerit |" in rehber

@@ -13,7 +13,7 @@ import numpy as np
 
 from .defter import EN_KUCUK_YAZI_ORANI, kanca_sigar_mi
 from .kapilar import SES_ESIGI_DB, _k, yasak_kelimeler
-from .ortak import cikti, kayit_yukle, seri
+from .ortak import cikti, kayit_yukle, seri, sure_yazisi
 
 SR = 8000  # enerji eğrisi için yeterli (yalnız seviye ölçülür)
 
@@ -178,7 +178,7 @@ def uret(gorev: dict, ayar: dict) -> list[Path]:
         if kirmizi:
             raise SystemExit("shorts planı kırmızı: " + "; ".join(kirmizi))
     ses_yol = out / "ses.m4a"
-    fps, saat = v["fps"], round(bolumler["toplam_sn"] / 3600)
+    fps, sifat = v["fps"], sure_yazisi(gorev, ayar)[1]
     eksik = [f"{int(x['parca']):02d}" for x in plan if not video.parca_gorseli(gorev, int(x["parca"]) - 1)[0]]
     if eksik:
         raise ValueError(f"Shorts görseli olmayan parça: {', '.join(eksik)}")
@@ -189,7 +189,7 @@ def uret(gorev: dict, ayar: dict) -> list[Path]:
         bas, sure = float(x["basla_sn"]), float(x["sure_sn"])
         sahne = defter.SeyirDefteri(gorsel, defter.katmanlari_oku(gorsel), 1080, 1920, fps, sure,
                                     defter.ses_ozeti(ses_yol, fps, basla=bas, sure=sure),
-                                    {**video.parca_bilgisi(gorev, i), "saat": saat}, tohum=video._tohum(gorev, i) + 7,
+                                    {**video.parca_bilgisi(gorev, i), "sure_sifat": sifat}, tohum=video._tohum(gorev, i) + 7,
                                     ton=marka_filtresi(), t0=bas, kirp_x=float(x["kirp_x"]), kanca=x.get("kanca", ""))
         hedef = out / f"short_{k}.mp4"
         defter.kodla(sahne, ses_yol, hedef, _loudnorm(ses_yol, sure, basla=bas, giris=1.5, cikis=2.5),
@@ -203,7 +203,7 @@ def metin(gorev: dict, ayar: dict, plan: list[dict]) -> list[dict]:
     """Short başına başlık ve açıklama (G5, G9). {UZUN_VIDEO} yüklemede uzun videonun bağlantısıyla değişir."""
     out = cikti(gorev)
     bolumler = json.loads((out / "bolumler.json").read_text(encoding="utf-8"))
-    saat = round(bolumler["toplam_sn"] / 3600)
+    sifat = sure_yazisi(gorev, ayar)[1]
     sr, kanal = seri(gorev, ayar), ayar["kanal"]["ad"]
     sonuc = []
     for x in plan:
@@ -216,7 +216,7 @@ def metin(gorev: dict, ayar: dict, plan: list[dict]) -> list[dict]:
             f"A moment from Mission {gorev['no']:03d} · {gorev['hedef']}: {p['ad']}.",
             *([p["bilgi"]] if p.get("bilgi") else []),
             "",
-            f"Full {saat}-hour mission: {{UZUN_VIDEO}}",
+            f"Full {sifat} mission: {{UZUN_VIDEO}}",
             "",
             SHORTS_NOTU,
             "",

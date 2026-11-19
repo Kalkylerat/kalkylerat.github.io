@@ -20,7 +20,7 @@ def _gorev(tmp_path, n=20, **ek):
     for i in range(n):
         parcalar.append({"ad": f"World {i + 1}", "kisa": "a real place", "dosya": f"{i + 1:02d}.mp3",
                          "tur": TURLER[i % len(TURLER)], "palet": ["#000000", "#223344", "#556677", "#aabbcc"],
-                         "bilgi": f"Fact {i + 1}.", "hedef_sure": "6:15", "anahtar": "D minor", "bpm": 58,
+                         "bilgi": f"Fact {i + 1}.", "hedef_sure": "4:30", "anahtar": "D minor", "bpm": 58,
                          "style": "ambient, instrumental", "exclude": "drums, vocals", "lyrics": "[Intro]"})
     g = {"no": 7, "seri": "focus", "hedef": "World 3", "uzaklik": "10 light-years", "tohum": 7007,
          "ozet": "A test route.", "parca": parcalar, "klasor": tmp_path}
@@ -53,9 +53,20 @@ def test_G1_kimlik_ve_seriler():
     assert AYAR["kanal"]["youtube_kanal_id"] == "UCtJHvFs1UuIKwTUhcWVyWIg"
     assert AYAR["kanal"]["dil"] == "en"
     s = AYAR["seri"]
-    assert (s["focus"]["hedef_dakika"], s["focus"]["parca_sayisi"]) == (120, 20)
+    assert (s["focus"]["hedef_dakika"], s["focus"]["parca_sayisi"]) == (90, 20)
     assert (s["sleep"]["hedef_dakika"], s["sleep"]["parca_sayisi"]) == (180, 20)
     assert (s["drift"]["hedef_dakika"], s["drift"]["parca_sayisi"]) == (120, 20)
+
+
+def test_G1_mureka_ve_90_dakika_suresi_seriden_gelir():
+    from deepspace.ortak import sure_yazisi
+    soz = (KOK / "SOZLESME.md").read_text(encoding="utf-8")
+    assert "müzik aracı **Mureka**'dır" in soz and "(90 Minutes) · Mission 00N" in soz
+    assert "Suno (Pro), ElevenLabs" not in soz
+    assert sure_yazisi({"seri": "focus"}, AYAR) == ("90 Minutes", "90-minute")
+    iki = {**AYAR, "seri": {**AYAR["seri"], "focus": {**AYAR["seri"]["focus"], "hedef_dakika": 120}}}
+    assert sure_yazisi({"seri": "focus"}, iki) == ("2 Hours", "2-hour")
+    assert "{sure}" in AYAR["seri"]["focus"]["baslik"] and "Hours" not in AYAR["seri"]["focus"]["baslik"]
 
 
 # ---------- G2 ----------

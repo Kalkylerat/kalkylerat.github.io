@@ -482,5 +482,8 @@ lyrics = """[Intro | 0:00-0:40 | warm pad and deep sub-bass hum from the first s
 [Return | 4:20-5:20 | A-C-D-E-F#-E-C once more, softer, an octave lower]
 [Outro | 5:20-6:00 | pads and hum fade slowly, static clears]"""
 
+[ayar.seri.focus]
+hedef_dakika = 120   # 001 Suno döneminde 2 saatlik yayımlandı (G1, 19 Kasım 2026'dan sonra yeni görevler 90 dk)
+
 [ayar.video]
 is_parcacigi = 1   # 14 Kasım 2026: 2 süreç de bellek yetersizliğinden durdu (13 Kasım: 3 süreç)

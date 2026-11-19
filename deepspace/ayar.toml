@@ -10,9 +10,9 @@ dil = "en"
 [seri.focus]
 ad = "Deep Focus"
 kapak_yazi = "DEEP FOCUS"
-hedef_dakika = 120
+hedef_dakika = 90         # G1 (19 Kasım 2026): Mureka'nın 5 dk sınırı, 2 saat yerine 90 dakika
 parca_sayisi = 20
-baslik = "Deep Focus Space Ambient for Studying | {hedef} | {saat} Hours"
+baslik = "Deep Focus Space Ambient for Studying | {hedef} | {sure}"
 etiketler = ["space ambient music", "deep focus ambient music", "ambient music for studying",
              "sci fi ambient music", "captivating space music", "space background music",
              "deep space ambient", "study music", "focus music", "deep work music"]
@@ -23,7 +23,7 @@ ad = "Deep Sleep"
 kapak_yazi = "DEEP SLEEP"
 hedef_dakika = 180
 parca_sayisi = 20
-baslik = "Deep Sleep Space Ambient | {hedef} | {saat} Hours of Calm Cosmic Music"
+baslik = "Deep Sleep Space Ambient | {hedef} | {sure} of Calm Cosmic Music"
 etiketler = ["space ambient music", "space sleep music", "deep space ambient", "space relaxing music",
              "ambient music", "sleep music", "space meditation music", "calm space music"]
 hashtagler = ["#spaceambient", "#sleepmusic", "#ambient"]
@@ -33,7 +33,7 @@ ad = "Sci-Fi Drift"
 kapak_yazi = "SCI-FI DRIFT"
 hedef_dakika = 120
 parca_sayisi = 20
-baslik = "Dark Sci-Fi Ambient for Deep Work | {hedef} | {saat} Hours"
+baslik = "Dark Sci-Fi Ambient for Deep Work | {hedef} | {sure}"
 etiketler = ["sci fi ambient music", "dark ambient space music", "deep space music", "space ambient",
              "deep work music", "cinematic ambient", "space background music"]
 hashtagler = ["#scifiambient", "#darkambient", "#deepwork"]

@@ -9,7 +9,7 @@ import json
 from pathlib import Path
 
 from .kapilar import yasak_kelimeler
-from .ortak import cikti, seri, zaman
+from .ortak import cikti, seri, sure_yazisi, zaman
 
 SUREC_NOTU = (
     "How this mission is made\n"
@@ -42,9 +42,9 @@ def uret(gorev: dict, ayar: dict) -> dict:
     bolumler = json.loads((out / "bolumler.json").read_text(encoding="utf-8"))
     sr = seri(gorev, ayar)
     kanal = ayar["kanal"]["ad"]
-    saat = round(bolumler["toplam_sn"] / 3600)
+    sure, _ = sure_yazisi(gorev, ayar)
     oneri = oneri_basligi(gorev, ayar)
-    baslik = oneri or sr["baslik"].format(hedef=gorev["hedef"], saat=saat)
+    baslik = oneri or sr["baslik"].format(hedef=gorev["hedef"], sure=sure)
 
     notlar = [f"{p['ad']}: {p['bilgi']}" for p in gorev["parca"] if p.get("bilgi")]
     aciklama = "\n".join([
@@ -53,7 +53,7 @@ def uret(gorev: dict, ayar: dict) -> dict:
         "",
         " ".join(gorev["ozet"].split()),
         "",
-        f"{saat} hours of deep space ambient music for sleep, study and deep focus. "
+        f"{sure.lower()} of deep space ambient music for sleep, study and deep focus. "
         "No vocals, no drums, no sudden changes. Ad breaks only fall between pieces.",
         "",
         "Chapters",

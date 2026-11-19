@@ -53,11 +53,11 @@ def katman(W: int, H: int, satirlar: list[tuple[str, int, str, float]], x: int, 
     return img
 
 
-def gorev_karti(W: int, H: int, gorev: dict, kanal: str, saat: int) -> Image.Image:
+def gorev_karti(W: int, H: int, gorev: dict, kanal: str, sure: str) -> Image.Image:
     o = H / 1080
     satir = [(f"{kanal.upper()}  ·  MISSION {gorev['no']:03d}", int(26 * o), "normal", 0.85),
              (gorev["hedef"], int(72 * o), "kalin", 1.0),
-             (f"{gorev['uzaklik']}  ·  {len(gorev['parca'])} destinations  ·  {saat} hours", int(26 * o), "normal",
+             (f"{gorev['uzaklik']}  ·  {len(gorev['parca'])} destinations  ·  {sure.lower()}", int(26 * o), "normal",
               0.8)]
     return katman(W, H, satir, int(96 * o), int(H - 300 * o))
 

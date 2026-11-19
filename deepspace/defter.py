@@ -603,7 +603,7 @@ class SeyirDefteri:
         d = ImageDraw.Draw(img)
         boy = sb["short_etiket"] * H / 1920
         f = _font(int(boy * k))
-        metin = f"Full {self.bilgi.get('saat', 2)}-hour mission on the channel"
+        metin = f"Full {self.bilgi.get('sure_sifat', '90-minute')} mission on the channel"
         d.text(((W * k - d.textlength(metin, font=f)) / 2, 0), metin, font=f,
                fill=(*rgb(self.palet["yazi"]), 235), stroke_width=max(1, int(2 * k * o)), stroke_fill=(8, 10, 18, 150))
         sp = self.muzik["spektrum"][min(i, len(self.muzik["spektrum"]) - 1)]

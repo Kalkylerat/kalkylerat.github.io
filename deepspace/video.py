@@ -239,12 +239,13 @@ def uzun_video(gorev: dict, ayar: dict) -> Path:
     fps, W, H = v["fps"], v["genislik"], v["yukseklik"]
     donguler = [ffprobe_sure(y) for y in sahne_yollari]
     basla = [p["basla"] for p in bolumler["parcalar"]]
-    saat = round(bolumler["toplam_sn"] / 3600)
+    from .ortak import sure_yazisi
+    sure = sure_yazisi(gorev, ayar)[0]
 
     katman_klasor = out / "katman"
     katman_klasor.mkdir(exist_ok=True)
     kart = katman_klasor / "kart.png"
-    yazi.gorev_karti(W, H, gorev, ks["ad"], saat).save(kart)
+    yazi.gorev_karti(W, H, gorev, ks["ad"], sure).save(kart)
     etiket_yollari = []
     for i, p in enumerate(gorev["parca"]):
         yol = katman_klasor / f"etiket_{i + 1:02d}.png"

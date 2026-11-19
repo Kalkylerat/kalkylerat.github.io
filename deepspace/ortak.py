@@ -48,6 +48,16 @@ def seri(gorev: dict, ayar: dict) -> dict:
     return ayar["seri"][gorev["seri"]]
 
 
+def sure_yazisi(gorev: dict, ayar: dict) -> tuple[str, str]:
+    """G1 (19 Kasım 2026): başlık/açıklama/Shorts süre yazısı serinin hedef süresinden gelir (G2 kapısı gerçek süreyi
+    hedefin ±%10'unda tutar). ("90 Minutes", "90-minute") ya da ("2 Hours", "2-hour")."""
+    dk = int(seri(gorev, ayar)["hedef_dakika"])
+    if dk % 60:
+        return f"{dk} Minutes", f"{dk}-minute"
+    s = dk // 60
+    return (f"{s} Hours" if s > 1 else "1 Hour"), f"{s}-hour"
+
+
 def cikti(gorev: dict) -> Path:
     yol = Path(gorev["klasor"]) / "cikti"
     yol.mkdir(exist_ok=True)
